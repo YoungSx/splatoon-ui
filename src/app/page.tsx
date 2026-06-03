@@ -21,16 +21,18 @@ import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 
 export default function Home() {
-  const [theme, setTheme] = React.useState<'light' | 'dark'>('dark')
-
-  React.useEffect(() => {
-    const savedTheme = localStorage.getItem('splat-theme') as 'light' | 'dark' | null
-    if (savedTheme) {
-      setTheme(savedTheme)
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark')
+  const [theme, setTheme] = React.useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') {
+      return 'dark'
     }
-  }, [])
+
+    const savedTheme = window.localStorage.getItem('splat-theme') as 'light' | 'dark' | null
+    if (savedTheme) {
+      return savedTheme
+    }
+
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
 
   React.useEffect(() => {
     const root = window.document.documentElement
@@ -149,18 +151,14 @@ export default function Home() {
                   <circle cx="55" cy="55" r="4" fill="black" />
                 </svg>
               </CardImage>
-              <CardHeader>
-                <CardTitle>Choosing Weapons</CardTitle>
-                <CardDescription>Official weapon kits guide</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm font-medium opacity-80 leading-relaxed">
-                  Learn how to control Splat Shooters, Rollers, and Chargers to claim the ultimate turf in Splatsville.
+              <div className="flex h-full flex-col items-center justify-center py-4 text-center">
+                <p className="max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]">
+                  Beginner Basics for Splatoon 3: Choosing the right weapons
                 </p>
-              </CardContent>
-              <CardFooter>
-                <Button size="sm" variant="yellow">Read Guide</Button>
-              </CardFooter>
+                <Button size="sm" variant="arrow" className="mt-2">
+                  Read
+                </Button>
+              </div>
             </Card>
 
             {/* News Card 2: Custom Text Sticker (Blue) */}
@@ -181,18 +179,14 @@ export default function Home() {
                   <circle cx="58" cy="45" r="3" fill="black" />
                 </svg>
               </CardImage>
-              <CardHeader>
-                <CardTitle>Splatfest Battles</CardTitle>
-                <CardDescription>New theme coming next weekend</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm font-medium opacity-80 leading-relaxed">
-                  Choose your favorite team—Bread, Rice, or Pasta—and fight for victory under the festival night lights!
+              <div className="flex h-full flex-col items-center justify-center py-4 text-center">
+                <p className="max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]">
+                  Beginner Basics for Splatoon 3: Choosing the right gear
                 </p>
-              </CardContent>
-              <CardFooter>
-                <Button size="sm" variant="blue">Join Team</Button>
-              </CardFooter>
+                <Button size="sm" variant="arrow" className="mt-2">
+                  Read
+                </Button>
+              </div>
             </Card>
 
             {/* News Card 3: Custom Danger Alert (Red Custom Bg) */}
@@ -203,7 +197,7 @@ export default function Home() {
               tapeColor="red"
               tapePosition="news"
               hasStaples={true}
-              cardBgColor="bg-[#ff505e] text-white shadow-solid border-2 border-chaos-black dark:border-white/40"
+              cardBgColor="bg-[#ff505e] text-white shadow-solid"
             >
               <CardImage className="bg-[#0d0d0d] p-4 h-48 flex items-center justify-center">
                 <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#ff505e] fill-current">
@@ -220,7 +214,9 @@ export default function Home() {
                 </p>
               </CardContent>
               <CardFooter className="border-white/20">
-                <Button size="sm" variant="destructive" hasChevron={false}>Defend Ground</Button>
+                <Button size="sm" variant="arrow" className="text-white hover:text-[#eaff3d]">
+                  Read
+                </Button>
               </CardFooter>
             </Card>
           </div>

@@ -65,51 +65,25 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     ref
   ) => {
     const Comp = asChild ? Slot : "div"
-    const [mounted, setMounted] = React.useState(false)
-    const [hoverRotate, setHoverRotate] = React.useState("0deg")
-
-    React.useEffect(() => {
-      setMounted(true)
-      // Random rotation angle on hover: -2.0deg ~ -1.0deg or 1.0deg ~ 2.0deg
-      const angle = (Math.random() > 0.5 ? 1 : -1) * (1.0 + Math.random() * 1.0)
-      setHoverRotate(`${angle.toFixed(2)}deg`)
-    }, [])
-
-    const inlineStyle = mounted
-      ? ({
-          "--hover-rotate": hoverRotate,
-        } as React.CSSProperties)
-      : undefined
-
-    // Exact high-quality metallic staples SVG with paper entry holes & drop shadows
+    
     const stapleLeft = (
-      <svg
-        className="absolute bottom-0 left-[20px] z-30 select-none pointer-events-none rotate-[-18deg] w-[20%]"
-        viewBox="0 0 55 22"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect x="5" y="6" width="44" height="8" rx="2" fill="#0d0d0d" opacity="0.35" />
-        <rect x="3" y="2" width="44" height="8" rx="2" fill="#a1a1aa" stroke="#18181b" strokeWidth="2" />
-        <rect x="5" y="4" width="40" height="2" fill="#f4f4f5" />
-        <rect x="4" y="4" width="3" height="4" fill="#18181b" />
-        <rect x="42" y="4" width="3" height="4" fill="#18181b" />
-      </svg>
+      <picture className="pointer-events-none absolute bottom-0 left-[20px] z-30 w-[20%] select-none">
+        <source
+          srcSet="/official/news/news-staple-left.png 1x, /official/news/news-staple-left-2x.png 2x"
+          type="image/png"
+        />
+        <img alt="" src="/official/news/news-staple-left.png" className="h-auto w-full" />
+      </picture>
     )
 
     const stapleRight = (
-      <svg
-        className="absolute bottom-0 right-[20px] z-30 select-none pointer-events-none rotate-[28deg] w-[10%]"
-        viewBox="0 0 55 22"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect x="5" y="6" width="44" height="8" rx="2" fill="#0d0d0d" opacity="0.35" />
-        <rect x="3" y="2" width="44" height="8" rx="2" fill="#a1a1aa" stroke="#18181b" strokeWidth="2" />
-        <rect x="5" y="4" width="40" height="2" fill="#f4f4f5" />
-        <rect x="4" y="4" width="3" height="4" fill="#18181b" />
-        <rect x="42" y="4" width="3" height="4" fill="#18181b" />
-      </svg>
+      <picture className="pointer-events-none absolute bottom-0 right-[20px] z-30 w-[10%] select-none">
+        <source
+          srcSet="/official/news/news-staple-right.png 1x, /official/news/news-staple-right-2x.png 2x"
+          type="image/png"
+        />
+        <img alt="" src="/official/news/news-staple-right.png" className="h-auto w-full" />
+      </picture>
     )
 
     // Tag Hanger Background SVG path
@@ -141,7 +115,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             data-variant="tag"
             style={{
               transform: `rotate(${tagRotation})`,
-              ...inlineStyle,
             } as React.CSSProperties}
             className={cn(
               "group/card relative w-full pt-[12%] px-[6%] pb-[8%] transition-transform duration-300 ease-out hover:scale-[1.025] select-none text-center flex flex-col justify-between gap-4 z-10",
@@ -173,6 +146,28 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     }
 
     const stickerColors = stickerColorMap[tapeColor] || stickerColorMap.yellow
+    const useOfficialNewsTape =
+      hasTape &&
+      tapePosition === "news" &&
+      tapeColor === "yellow" &&
+      (!tapeText || tapeText === "NEWS!" || tapeText === "8W-157")
+
+    const officialTape = (
+      <picture
+        className="pointer-events-none absolute left-0 top-0 z-30 w-[45%] max-w-[150px] origin-center select-none [transform:translate(10%,-130%)_rotate(-10deg)]"
+      >
+        <source
+          media="(min-width: 640px)"
+          srcSet="/official/tape/sticker-9-medium-up.png 1x, /official/tape/sticker-9-medium-up-2x.png 2x"
+          type="image/png"
+        />
+        <source
+          srcSet="/official/tape/sticker-9.png 1x, /official/tape/sticker-9-2x.png 2x"
+          type="image/png"
+        />
+        <img alt="" src="/official/tape/sticker-9.png" className="h-auto w-full" />
+      </picture>
+    )
 
     const adhesiveTape = (
       <div
@@ -269,7 +264,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     // Use CSS custom property on parent so SVG can inherit it
     // The actual switching is done via a CSS variable that Tailwind's dark mode toggles
     const cardStyle = {
-      ...inlineStyle,
       // These two CSS vars are used by the SVG via light-dark() — each card has its own values
       "--card-svg-fill": svgFills.light,
       "--card-svg-fill-dark": svgFills.dark,
@@ -283,7 +277,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           data-variant="news"
           style={cardStyle}
           className={cn(
-            "group/card relative flex flex-col cursor-pointer transition-[transform,box-shadow] duration-300 ease-out hover:scale-[1.025] hover:rotate-[var(--hover-rotate)] active:scale-[0.985] active:rotate-[var(--hover-rotate)]",
+            "group/card relative flex h-full flex-col cursor-pointer transition-transform duration-300 [transition-timing-function:var(--ease-in-out-quart)] hover:rotate-[2deg]",
             className
           )}
           {...props}
@@ -291,7 +285,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           {/* Top Paper Tear SVG — fill via CSS vars per card (dark mode aware) */}
           <svg
             aria-hidden="true"
-            className="w-full mb-[-4px] z-10 relative pointer-events-none select-none"
+            className="relative z-10 mb-[-2px] w-full pointer-events-none select-none"
             style={{ fill: "var(--card-svg-fill)" }}
             viewBox="0 0 448 60"
             xmlns="http://www.w3.org/2000/svg"
@@ -305,12 +299,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
           {/* Card Layout Content Area */}
           <div className={cn("flex flex-col h-full pt-0 px-8 pb-6 relative z-10", cardBgColor)}>
-            {hasTape && adhesiveTape}
+            {useOfficialNewsTape ? officialTape : hasTape ? adhesiveTape : null}
             {hasStaples && stapleLeft}
             {hasStaples && stapleRight}
             
             {/* The rest of the children */}
-            <div className="flex flex-col gap-4 w-full h-full relative">
+            <div className={cn("relative flex h-full w-full flex-col", variant === "news" ? "gap-0" : "gap-4")}>
               {children}
             </div>
           </div>
@@ -318,7 +312,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           {/* Bottom Paper Tear SVG — fill via CSS var to support dark mode */}
           <svg
             aria-hidden="true"
-            className="w-full mt-[-4px] z-10 relative pointer-events-none select-none"
+            className="relative z-10 mt-[-2px] w-full pointer-events-none select-none"
             style={{ fill: "var(--card-svg-fill)" }}
             viewBox="0 0 448 24"
             xmlns="http://www.w3.org/2000/svg"

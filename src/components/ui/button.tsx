@@ -28,6 +28,7 @@ const buttonVariants = cva(
           "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-chaos-black dark:border-white [--bg-color:#ffffff] dark:[--bg-color:#1e1e1e] [--text-color:var(--chaos-black)] dark:[--text-color:#ffffff] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)] shadow-solid active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)] dark:active:shadow-[1px_1px_0px_#ffffff]",
         ghost:
           "bg-transparent text-foreground shadow-none hover:bg-foreground/10 active:bg-foreground/20 hover:rotate-0 hover:scale-100 active:scale-95 shadow-none active:translate-x-0 active:translate-y-0 active:shadow-none",
+        arrow: "",
       },
       size: {
         default: "text-[22px]",
@@ -53,6 +54,9 @@ const sizePaddingMap = {
   "icon-sm": "p-0",
   "icon-lg": "p-0",
 }
+
+const arrowButtonClassName =
+  "group/button relative inline-flex shrink-0 items-end justify-center select-none bg-transparent p-0 font-heading text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
 
 interface DripControlPoint {
   y1: number // leave amplitude offset
@@ -147,9 +151,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return path
     }
 
-    const hasDrip = variant !== "ghost"
-    const paddingClass = size && size in sizePaddingMap
-      ? sizePaddingMap[size as keyof typeof sizePaddingMap]
+    const paddingKey = size
+    const hasDrip = variant !== "ghost" && variant !== "arrow"
+    const paddingClass = paddingKey && paddingKey in sizePaddingMap
+      ? sizePaddingMap[paddingKey as keyof typeof sizePaddingMap]
       : sizePaddingMap.default
 
     const dripStyle = mounted && dimensions.width > 0
@@ -171,7 +176,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <svg
         aria-hidden="true"
         role="img"
-        className="align-self-end shrink-0 ml-1.5 size-[13px] overflow-visible"
+        className={cn(
+          "shrink-0 overflow-visible",
+          variant === "arrow"
+            ? "ml-0 h-[16px] w-[8px]"
+            : "ml-1.5 size-[13px] self-end"
+        )}
         viewBox="0 0 7 12"
       >
         <path
@@ -190,7 +200,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={activeRef}
         data-slot="button"
         style={dripStyle}
-        className={cn(buttonVariants({ variant, size, className }), paddingClass)}
+        className={cn(
+          variant === "arrow"
+            ? arrowButtonClassName
+            : buttonVariants({ variant, size }),
+          variant === "arrow" ? undefined : paddingClass,
+          className
+        )}
         onClick={onClick}
         {...props}
       >
@@ -237,8 +253,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </>
           )
         ) : (
-          <span className="relative z-10 flex items-center justify-center">
+          <span className="relative z-10 inline-flex items-center justify-center whitespace-nowrap">
             {children}
+            {hasChevron && size !== "icon" && splatChevron}
           </span>
         )}
       </Comp>
