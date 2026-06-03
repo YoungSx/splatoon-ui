@@ -20,33 +20,15 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 
+const THEME_STORAGE_KEY = 'splat-theme'
+
 export default function Home() {
-  const [theme, setTheme] = React.useState<'light' | 'dark'>(() => {
-    if (typeof window === 'undefined') {
-      return 'dark'
-    }
-
-    const savedTheme = window.localStorage.getItem('splat-theme') as 'light' | 'dark' | null
-    if (savedTheme) {
-      return savedTheme
-    }
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-  })
-
-  React.useEffect(() => {
+  const toggleTheme = React.useCallback(() => {
     const root = window.document.documentElement
-    if (theme === 'dark') {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
-    localStorage.setItem('splat-theme', theme)
-  }, [theme])
-
-  const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'))
-  }
+    const nextTheme = root.classList.contains('dark') ? 'light' : 'dark'
+    root.classList.toggle('dark', nextTheme === 'dark')
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme)
+  }, [])
 
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white overflow-x-hidden font-sans transition-colors duration-300">
@@ -57,23 +39,20 @@ export default function Home() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={toggleTheme}
-          variant={theme === 'dark' ? 'yellow' : 'blue'}
+          variant="yellow"
           size="icon-lg"
           hasChevron={false}
-          className="rounded-full shadow-solid-lg border-[3px] border-chaos-black dark:border-white hover:scale-[1.1] active:scale-[0.95]"
+          className="rounded-full border-[3px] border-chaos-black shadow-solid-lg hover:scale-[1.1] active:scale-[0.95] dark:border-white [--bg-color:var(--ink-blue)] [--text-color:#eaff3d] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)] dark:[--bg-color:var(--neon-yellow)] dark:[--text-color:var(--chaos-black)] dark:[--hover-bg-color:var(--ink-blue)] dark:[--hover-text-color:#ffffff]"
           title="Toggle Ink Battle Theme"
         >
-          {theme === 'dark' ? (
-            <span className="flex flex-col items-center justify-center">
-              <Sun className="h-5 w-5 text-chaos-black animate-spin-slow" />
-              <span className="text-[9px] mt-0.5 font-black leading-none">LIGHT</span>
-            </span>
-          ) : (
-            <span className="flex flex-col items-center justify-center">
-              <Moon className="h-5 w-5 text-[#eaff3d]" />
-              <span className="text-[9px] mt-0.5 font-black leading-none">DARK</span>
-            </span>
-          )}
+          <span className="flex flex-col items-center justify-center dark:hidden">
+            <Moon className="h-5 w-5 text-[#eaff3d]" />
+            <span className="mt-0.5 text-[9px] font-black leading-none">DARK</span>
+          </span>
+          <span className="hidden flex-col items-center justify-center dark:flex">
+            <Sun className="h-5 w-5 animate-spin-slow text-chaos-black" />
+            <span className="mt-0.5 text-[9px] font-black leading-none">LIGHT</span>
+          </span>
         </Button>
       </div>
 
