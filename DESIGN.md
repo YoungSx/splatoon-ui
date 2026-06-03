@@ -73,33 +73,36 @@ Z-Index 0:   底层页面背景色 / 滚动视差背景
 
 ## 4. UI 组件规范 (UI Components)
 
-### 4.1 按钮 (Buttons & Tapes)
+### 4.1 墨滴按钮 (Drip Button)
 
-CTA 按钮（如 "Buy now", "Dive in", "Fit check"）摒弃了圆角矩形，全部设计为**封箱胶带**或**不规则贴纸**样式[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fsplatoon.nintendo.com%2F)]。
+《斯普拉遁 3》最具代表性的交互元素为 **Drip Button（墨滴按钮）**。它摒弃了硬编码的多边形裁剪，改用动态贝塞尔曲线、双层颜色渲染遮罩以及拟真机械按键触感来实现极致交互。
 
-**CSS 逆向实现思路**:
+#### 4.1.1 动态墨滴曲线插值 (Dynamic Wave Math)
+按钮在加载或 `resize` 时，根据其实际宽度在客户端动态生成波滴控制点并缓存在 React State 中。
+- **波段步长**: 固定的水平跨度 `stepSize = 30px`。
+- **最大振幅**: 垂直最大流动深度 `maxAmplitude = 80px`。
+- **贝塞尔控制点**: 遍历控制点 $o$，生成随机 Y 轴进入/退去波幅以及带有 $\pm 6\text{px}$ 轻微水平抖动（$xOffset$）的控制点数组。使用 **三次贝塞尔曲线 (C 指令)** 闭合路径：
+  $$\text{Curve} = C(a+6, \ r+offset) \ \ (a+24, \ r+offset) \ \ (a+30, \ r)$$
+- 确保进入（Drip Enter）和退去（Drip Leave）的 SVG 指令数和控制点结构 100% 对称，以满足现代 GPU 渲染器对 `clip-path: path(...)` 变形插值要求。
 
-codeCSS
+#### 4.1.2 极致拟真动效与透视学 (Replication Mechanics)
+- **不对称过渡延迟 (Asymmetric Transition)**: 
+  - **Hover In (移入)**: 墨水以极速淡入 (`transition: opacity 0.05s`)，伴随 quartic 曲线 `cubic-bezier(0.77, 0, 0.175, 1)` 滴落，描边内阴影颜色延迟 `0.6s`（流淌完全覆满后）才平滑发生过渡，达成完美的视觉流畅感。
+  - **Mouse Leave (移出)**: 墨水以相同的缓动向上回缩淡出，`opacity` 过渡拉长至 `0.4s` 以展示液体回弹退去动效。
+- **随机涂鸦倾角 (Random Spray Can Tilt)**: 
+  - 每个按钮在挂载时随机计算一个向左或向右的倾角 `1.5deg ~ 2.5deg` 注入 `--hover-rotate` 变量。
+  - 在 `:active`（按下）时，通过 `active:rotate-[var(--hover-rotate)]` **维持**该倾斜角度，防止回弹时发生生硬的角度偏转。
+- **3D 机械下沉与投影坍缩 (3D Press Easing)**: 
+  - 默认及 Hover 态下按钮有 `4px` 或 `6px` 的实心高对比度偏移阴影。
+  - 按下时，按钮发生向右下的物理位移：`active:translate-x-[3px] active:translate-y-[3px]`，同时实心投影等量坍缩至 `1px`。
+  - 在透视空间上，阴影的绝对渲染坐标保持不动（位移与坍缩刚好抵消），逼真地还原了物理按键被按到底部的坍缩反馈。
 
-
-
-```
-.btn-splat-tape {
-  background-color: var(--color-neon-yellow);
-  color: var(--color-chaos-black);
-  text-transform: uppercase;
-  font-weight: 900;
-  /* 使用 clip-path 切割出胶带粗糙或倾斜的边缘 */
-  clip-path: polygon(2% 0, 100% 4%, 97% 100%, 0 95%);
-  /* 悬停时的色彩反转动效 */
-  transition: all 0.2s ease-in-out;
-}
-.btn-splat-tape:hover {
-  background-color: var(--color-chaos-black);
-  color: var(--color-neon-yellow);
-  transform: scale(1.05) rotate(2deg);
-}
-```
+#### 4.1.3 通用语义与 A11y 规范 (Polymorphism & A11y)
+- **Slot 多态渲染**: 支持标准 `asChild` 模式。当 `asChild` 为 `true` 时，外层标签自动转为 Radix UI 的 `<Slot>` 组件，能无缝将 variants 和 CSS 变量向下传递到 Next.js `<Link>` 或者是自定义链接标签中，使得 HTML 标签完全符合应用语义。
+- **ARIA 无障碍屏读**: 双层重合文本层中，绝对定位的悬停遮罩层（Hover Content Layer）显式赋予 `aria-hidden="true"` 标记，防止屏幕阅读器双重宣读。
+- **React 生命周期保护 (Hybrid Drip)**:
+  - 若 `children` 为纯文本，渲染双文字层以激活 1:1 的液体覆盖字色“剪裁割裂”效果。
+  - 若 `children` 为复杂 React 节点，自动降级为单节点渲染（置于顶层 `z-30`，只被 mount 一次以保护内部生命周期和 Effect 副作用安全），遮罩层退化为纯背景层进行 clip-path 裁剪。
 
 ### 4.2 卡片容器 (Cards / News Items)
 
