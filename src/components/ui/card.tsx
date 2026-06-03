@@ -31,6 +31,18 @@ const tagThemeMap = {
   green: "text-[#6af7ce] text-[#0d0d0d]",
 }
 
+// Safelist of text color classes mapped from background colors to ensure Tailwind compile retains them
+const _tailwindCardSafelist = [
+  "text-white",
+  "dark:text-[#1e1e1e]",
+  "text-[#ff505e]",
+  "text-[#f5f0e8]",
+  "dark:text-[#111111]",
+  "text-[#603bff]",
+  "text-[#ff9750]",
+  "text-[#6af7ce]",
+]
+
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   (
     {
@@ -43,7 +55,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       tapeText = "NEWS!",
       tapeColor = "yellow",
       tapePosition = "news",
-      cardBgColor = "bg-white text-chaos-black",
+      cardBgColor = "bg-white dark:bg-[#1e1e1e] text-chaos-black dark:text-white",
       // For tag
       tagTheme = "yellow",
       tagRotation = "2deg",
@@ -229,9 +241,11 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     )
 
     // Dynamic bg mapping to fill the SVG correctly
-    const svgColorClass = cardBgColor.includes("bg-")
-      ? cardBgColor.split(" ").find(c => c.startsWith("bg-"))?.replace("bg-", "text-")
-      : "text-white"
+    const svgColorClass = cardBgColor
+      .split(" ")
+      .filter(c => c.includes("bg-"))
+      .map(c => c.replace(/bg-/, "text-"))
+      .join(" ") || "text-white"
 
     return (
       <CardContext.Provider value={{ variant }}>

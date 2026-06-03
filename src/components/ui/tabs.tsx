@@ -62,7 +62,7 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
         "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 px-6 py-2.5 text-base font-black uppercase tracking-wider whitespace-nowrap transition-all outline-none focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 select-none",
         // Default Skew Tab Styling (Parallelogram)
         "skew-x-[-12deg] border-2 border-transparent bg-transparent text-chaos-black/60 dark:text-white/60",
-        "data-active:bg-[#eaff3d] data-active:text-[#0d0d0d] data-active:border-[#0d0d0d] data-active:shadow-solid-sm",
+        "data-active:bg-[#eaff3d] data-active:text-[#0d0d0d] data-active:border-[#0d0d0d] dark:data-active:border-white data-active:shadow-solid-sm dark:data-active:shadow-[1px_1px_0px_#ffffff]",
         "data-active:active:translate-x-[2px] data-active:active:translate-y-[2px] data-active:active:shadow-none",
         "hover:text-chaos-black hover:scale-[1.02] dark:hover:text-white",
         // Override for Line Variant (No Skew, Clean Text with Underline)

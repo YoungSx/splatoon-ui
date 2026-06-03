@@ -25,7 +25,7 @@ const buttonVariants = cva(
         destructive:
           "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-red)] [--text-color:#ffffff] [--hover-bg-color:var(--chaos-black)] [--hover-text-color:var(--ink-red)]",
         outline:
-          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-foreground [--bg-color:#ffffff] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)] shadow-solid active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-chaos-black dark:border-white [--bg-color:#ffffff] dark:[--bg-color:#1e1e1e] [--text-color:var(--chaos-black)] dark:[--text-color:#ffffff] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)] shadow-solid active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)] dark:active:shadow-[1px_1px_0px_#ffffff]",
         ghost:
           "bg-transparent text-foreground shadow-none hover:bg-foreground/10 active:bg-foreground/20 hover:rotate-0 hover:scale-100 active:scale-95 shadow-none active:translate-x-0 active:translate-y-0 active:shadow-none",
       },

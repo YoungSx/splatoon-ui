@@ -1,3 +1,6 @@
+"use client"
+
+import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -15,24 +18,76 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
-import { Info, Zap, Skull, Flame } from 'lucide-react'
+import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 
 export default function Home() {
+  const [theme, setTheme] = React.useState<'light' | 'dark'>('dark')
+
+  React.useEffect(() => {
+    const savedTheme = localStorage.getItem('splat-theme') as 'light' | 'dark' | null
+    if (savedTheme) {
+      setTheme(savedTheme)
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark')
+    }
+  }, [])
+
+  React.useEffect(() => {
+    const root = window.document.documentElement
+    if (theme === 'dark') {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
+    localStorage.setItem('splat-theme', theme)
+  }, [theme])
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'))
+  }
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#0d0d0d] text-white overflow-x-hidden font-sans">
+    <div className="min-h-screen flex flex-col bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white overflow-x-hidden font-sans transition-colors duration-300">
+      
       {/* ────────────────────────────────────────────────────────
-         SECTION 1: HERO HEADER (Deep Dark Camo Theme - #0d0d0d)
+         FIXED FLOAT: SPLATOON THEMED THEME TOGGLER
          ──────────────────────────────────────────────────────── */}
-      <header className="relative flex flex-col items-center justify-center pt-16 pb-12 px-6 bg-[#0d0d0d] text-white gap-6">
+      <div className="fixed bottom-6 right-6 z-50">
+        <Button
+          onClick={toggleTheme}
+          variant={theme === 'dark' ? 'yellow' : 'blue'}
+          size="icon-lg"
+          hasChevron={false}
+          className="rounded-full shadow-solid-lg border-[3px] border-chaos-black dark:border-white hover:scale-[1.1] active:scale-[0.95]"
+          title="Toggle Ink Battle Theme"
+        >
+          {theme === 'dark' ? (
+            <span className="flex flex-col items-center justify-center">
+              <Sun className="h-5 w-5 text-chaos-black animate-spin-slow" />
+              <span className="text-[9px] mt-0.5 font-black leading-none">LIGHT</span>
+            </span>
+          ) : (
+            <span className="flex flex-col items-center justify-center">
+              <Moon className="h-5 w-5 text-[#eaff3d]" />
+              <span className="text-[9px] mt-0.5 font-black leading-none">DARK</span>
+            </span>
+          )}
+        </Button>
+      </div>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 1: HERO HEADER (Self-Adapting Theme - bg-white/bg-[#0d0d0d])
+         ──────────────────────────────────────────────────────── */}
+      <header className="relative flex flex-col items-center justify-center pt-16 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300">
         <div className="flex flex-col items-center gap-3 text-center z-10">
           <Badge variant="sticker">
             <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
             Component Library
           </Badge>
-          <h1 className="splat-skew text-5xl md:text-6xl font-black uppercase tracking-wider text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
+          <h1 className="splat-skew text-5xl md:text-6xl font-black uppercase tracking-wider text-chaos-black dark:text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)] dark:drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
             Splatoon UI
           </h1>
-          <p className="max-w-md text-white/70 font-medium text-sm md:text-base">
+          <p className="max-w-md text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base">
             1:1 Replica Component Library inspired by Splatoon 3
           </p>
         </div>
@@ -48,13 +103,13 @@ export default function Home() {
         </Marquee>
       </header>
 
-      {/* Slanted Transition Divider 1: Dark to Sand */}
+      {/* Slanted Transition Divider 1: Header to News Feed */}
       <div className="w-full h-12 relative z-10 -mt-1 bg-transparent">
         <svg
           viewBox="0 0 1440 60"
           fill="none"
           preserveAspectRatio="none"
-          className="w-full h-full text-[#f5f0e8] fill-current"
+          className="w-full h-full text-[#f5f0e8] dark:text-[#111111] fill-current transition-colors duration-300"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M0,60 L1440,0 L1440,60 Z" />
@@ -62,16 +117,16 @@ export default function Home() {
       </div>
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 2: NEWS FEED (Light Desert Sand Theme - #f5f0e8)
+         SECTION 2: NEWS FEED (Adapting Theme - bg-[#f5f0e8]/bg-[#111111])
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] text-chaos-black py-12 px-6 flex flex-col items-center relative z-10">
+      <section className="bg-[#f5f0e8] dark:bg-[#111111] text-chaos-black dark:text-white py-12 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
         <div className="w-full max-w-4xl space-y-8">
           {/* Section Header */}
-          <div className="border-b-2 border-dashed border-chaos-black/20 pb-4">
-            <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black">
+          <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
+            <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
               1. Polaroid News Card (`news` variant)
             </h2>
-            <p className="text-sm font-medium text-chaos-black/60 mt-1">
+            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
               Matches the scrapbook Polaroid style on the official Splatoon news feed. Features ripped edges, metal staples, and tilted brand stickers.
             </p>
           </div>
@@ -99,7 +154,7 @@ export default function Home() {
                 <CardDescription>Official weapon kits guide</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm font-medium text-chaos-black/70 leading-relaxed">
+                <p className="text-sm font-medium opacity-80 leading-relaxed">
                   Learn how to control Splat Shooters, Rollers, and Chargers to claim the ultimate turf in Splatsville.
                 </p>
               </CardContent>
@@ -131,7 +186,7 @@ export default function Home() {
                 <CardDescription>New theme coming next weekend</CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm font-medium text-chaos-black/70 leading-relaxed">
+                <p className="text-sm font-medium opacity-80 leading-relaxed">
                   Choose your favorite team—Bread, Rice, or Pasta—and fight for victory under the festival night lights!
                 </p>
               </CardContent>
@@ -148,7 +203,7 @@ export default function Home() {
               tapeColor="red"
               tapePosition="news"
               hasStaples={true}
-              cardBgColor="bg-[#ff505e] text-white shadow-solid border-2 border-chaos-black"
+              cardBgColor="bg-[#ff505e] text-white shadow-solid border-2 border-chaos-black dark:border-white/40"
             >
               <CardImage className="bg-[#0d0d0d] p-4 h-48 flex items-center justify-center">
                 <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#ff505e] fill-current">
@@ -172,13 +227,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Slanted Transition Divider 2: Sand to Dark */}
+      {/* Slanted Transition Divider 2: News Feed to Tags Section */}
       <div className="w-full h-12 relative z-10 -mt-1 bg-transparent">
         <svg
           viewBox="0 0 1440 60"
           fill="none"
           preserveAspectRatio="none"
-          className="w-full h-full text-[#f5f0e8] fill-current"
+          className="w-full h-full text-[#f5f0e8] dark:text-[#111111] fill-current transition-colors duration-300"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M0,0 L1440,60 L0,60 Z" />
@@ -186,17 +241,17 @@ export default function Home() {
       </div>
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 3: APPAREL TAGS & COMPONENTS (Deep Dark Theme)
+         SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#0d0d0d] text-white py-16 px-6 flex flex-col items-center relative z-10">
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
         <div className="w-full max-w-4xl space-y-16">
           {/* Sub-Section 1: Apparel Tags */}
           <div className="space-y-8">
-            <div className="border-b-2 border-dashed border-white/10 pb-4">
-              <h2 className="text-3xl font-black uppercase tracking-wider text-white">
+            <div className="border-b-2 border-dashed border-chaos-black/10 dark:border-white/10 pb-4">
+              <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
                 2. Apparel Hanging Tag Card (`tag` variant)
               </h2>
-              <p className="text-sm font-medium text-white/60 mt-1">
+              <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
                 Hanging clothing-tag style container with custom clip background paths, hanger cut-outs, tilted photo layers, and integrated scotch tape.
               </p>
             </div>
@@ -264,13 +319,13 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Sub-Section 2: Other Components Tab Selector */}
+          {/* Sub-Section 2: Other Components Tab Showcase */}
           <div className="space-y-8">
-            <div className="border-b-2 border-dashed border-white/10 pb-4">
-              <h2 className="text-3xl font-black uppercase tracking-wider text-white">
+            <div className="border-b-2 border-dashed border-chaos-black/10 dark:border-white/10 pb-4">
+              <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
                 3. Interactive Component Showcase
               </h2>
-              <p className="text-sm font-medium text-white/60 mt-1">
+              <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
                 Toggle between the official tab switcher styles below to preview other UI elements.
               </p>
             </div>
@@ -285,11 +340,11 @@ export default function Home() {
               {/* Content Panel 1: Buttons & Badges */}
               <TabsContent value="preview" className="outline-none">
                 <div className="grid gap-8 md:grid-cols-2">
-                  {/* Buttons Card (Beige Card inside Dark Theme) */}
-                  <Card cardBgColor="bg-[#f5f0e8] text-chaos-black border-2 border-chaos-black">
+                  {/* Buttons Card (Adapting Card) */}
+                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
                     <CardHeader>
                       <CardTitle>Drip Buttons</CardTitle>
-                      <CardDescription>Featuring liquid-fill math & bouncy rotational physics</CardDescription>
+                      <CardDescription className="dark:text-white/70">Featuring liquid-fill math & bouncy rotational physics</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
                       <Button variant="yellow">Yellow</Button>
@@ -304,10 +359,10 @@ export default function Home() {
                   </Card>
 
                   {/* Badges Card */}
-                  <Card cardBgColor="bg-[#f5f0e8] text-chaos-black border-2 border-chaos-black">
+                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
                     <CardHeader>
                       <CardTitle>Sticker Badges</CardTitle>
-                      <CardDescription>Double-border sticker badges with custom shapes</CardDescription>
+                      <CardDescription className="dark:text-white/70">Double-border sticker badges with custom shapes</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-3 pt-2">
                       <Badge>Default</Badge>
@@ -324,30 +379,30 @@ export default function Home() {
               <TabsContent value="forms" className="outline-none">
                 <div className="grid gap-8 md:grid-cols-2">
                   {/* Input Card */}
-                  <Card cardBgColor="bg-[#f5f0e8] text-chaos-black border-2 border-chaos-black">
+                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
                     <CardHeader>
                       <CardTitle>Input Fields</CardTitle>
-                      <CardDescription>Bold borders & uppercase placeholder hints</CardDescription>
+                      <CardDescription className="dark:text-white/70">Bold borders & uppercase placeholder hints</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4 pt-2">
                       <div className="space-y-1.5">
-                        <Label htmlFor="demo-input">Player Nickname</Label>
-                        <Input id="demo-input" placeholder="ENTER NICKNAME..." />
+                        <Label htmlFor="demo-input" className="dark:text-white">Player Nickname</Label>
+                        <Input id="demo-input" placeholder="ENTER NICKNAME..." className="dark:bg-[#121212] dark:text-white dark:border-white/30" />
                       </div>
                       <div className="space-y-1.5">
-                        <Label htmlFor="demo-input-disabled">E-shop Code</Label>
-                        <Input id="demo-input-disabled" placeholder="LOCKED..." disabled />
+                        <Label htmlFor="demo-input-disabled" className="dark:text-white">E-shop Code</Label>
+                        <Input id="demo-input-disabled" placeholder="LOCKED..." disabled className="dark:bg-[#121212] dark:text-white dark:border-white/30" />
                       </div>
                     </CardContent>
                   </Card>
 
                   {/* Alert Card */}
-                  <Card cardBgColor="bg-[#f5f0e8] text-chaos-black border-2 border-chaos-black">
+                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
                     <CardHeader>
                       <CardTitle>Ink Alerts</CardTitle>
-                      <CardDescription>High contrast alert blocks with warning icons</CardDescription>
+                      <CardDescription className="dark:text-white/70">High contrast alert blocks with warning icons</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-4 pt-2">
+                    <CardContent className="flex flex-col gap-4 pt-2 font-heading">
                       <Alert variant="warning">
                         <Flame className="h-4 w-4 text-chaos-black" />
                         <AlertTitle>Caution</AlertTitle>
@@ -372,7 +427,7 @@ export default function Home() {
       </section>
 
       {/* Warning Marquee (Bottom Decoration) */}
-      <Marquee speed={20} variant="warning" direction="right" className="w-full border-t-2 border-b-2 border-chaos-black">
+      <Marquee speed={20} variant="warning" direction="right" className="w-full border-t-2 border-b-2 border-chaos-black dark:border-white/20">
         <MarqueeItem>Woomy!</MarqueeItem>
         <MarqueeItem>Ngyes!</MarqueeItem>
         <MarqueeItem>Booyah!</MarqueeItem>
@@ -381,8 +436,8 @@ export default function Home() {
       </Marquee>
 
       {/* Footer */}
-      <footer className="bg-[#0c0c0c] border-t border-white/5 py-8 flex justify-center text-center">
-        <Card cardBgColor="bg-transparent text-white/50 border-none shadow-none max-w-md w-full">
+      <footer className="bg-white dark:bg-[#0c0c0c] border-t border-chaos-black/5 dark:border-white/5 py-8 flex justify-center text-center transition-colors duration-300">
+        <Card cardBgColor="bg-transparent text-chaos-black/50 dark:text-white/50 border-none shadow-none max-w-md w-full">
           <CardFooter className="flex justify-between text-xs uppercase tracking-wider border-none">
             <span>splatoon-ui v0.1.0</span>
             <span>Next.js + Radix + Tailwind CSS</span>
