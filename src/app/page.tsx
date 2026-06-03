@@ -69,8 +69,11 @@ export default function Home() {
                   <CardDescription>Tape, solid shadow, color inversion, rotate on hover</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-wrap gap-3">
-                  <Button>Default</Button>
-                  <Button variant="secondary">Secondary</Button>
+                  <Button variant="yellow">Yellow (Primary)</Button>
+                  <Button variant="blue">Blue</Button>
+                  <Button variant="green">Green</Button>
+                  <Button variant="orange">Orange</Button>
+                  <Button variant="purple">Purple</Button>
                   <Button variant="destructive">Destructive</Button>
                   <Button variant="outline">Outline</Button>
                   <Button variant="ghost">Ghost</Button>
