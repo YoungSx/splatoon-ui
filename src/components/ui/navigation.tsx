@@ -45,20 +45,24 @@ const DETERMINISTIC_NOISE = {
 }
 
 const menuNoise = DETERMINISTIC_NOISE
+const MENU_ANIMATION_MS = 750
+
+type MenuPhase = "closed" | "opening" | "open" | "closing"
 
 export function Navigation() {
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [isMenuRendered, setIsMenuRendered] = React.useState(false)
+  const [menuPhase, setMenuPhase] = React.useState<MenuPhase>("closed")
+  const [isMenuMounted, setIsMenuMounted] = React.useState(false)
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const [isReducedMotion, setIsReducedMotion] = React.useState(false)
   const [theme, setTheme] = React.useState<"light" | "dark">("light")
 
   // Dimension tracking for full screen viewport sizes
-  const [mounted, setMounted] = React.useState(false)
-  const [dimensions, setDimensions] = React.useState({ width: 1440, height: 900 })
-  const [animProgress, setAnimProgress] = React.useState(0)
+  const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
+  const [phaseProgress, setPhaseProgress] = React.useState(0)
 
   const numPoints = 80 // Radial resolution for drawing smooth detailed bezier segments
+  const isMenuExpanded = menuPhase === "opening" || menuPhase === "open"
+  const isMenuVisible = isMenuMounted || menuPhase === "opening" || menuPhase === "closing"
 
 
   // Scroll handler to collapse header bar
@@ -76,28 +80,31 @@ export function Navigation() {
 
   // Initialize RM, Theme and resize trackers
   React.useEffect(() => {
-    setMounted(true)
-
-    // 1. Reduced Motion init
-    const storedRM = localStorage.getItem(REDUCED_MOTION_KEY)
-    const mediaRM = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const forceRM = storedRM === "true" || (storedRM === null && mediaRM)
-    setIsReducedMotion(forceRM)
-    document.documentElement.classList.toggle("reduced-motion", forceRM)
-
-    // 2. Theme init
-    const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light"
-    setTheme(currentTheme)
-
-    // 3. Initialize dimensions
     const handleResize = () => {
       setDimensions({ width: window.innerWidth, height: window.innerHeight })
     }
 
     window.addEventListener("resize", handleResize)
-    handleResize()
+    const frameId = requestAnimationFrame(() => {
+      // 1. Reduced Motion init
+      const storedRM = localStorage.getItem(REDUCED_MOTION_KEY)
+      const mediaRM = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      const forceRM = storedRM === "true" || (storedRM === null && mediaRM)
+      setIsReducedMotion(forceRM)
+      document.documentElement.classList.toggle("reduced-motion", forceRM)
 
-    return () => window.removeEventListener("resize", handleResize)
+      // 2. Theme init
+      const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light"
+      setTheme(currentTheme)
+
+      // 3. Initialize dimensions
+      handleResize()
+    })
+
+    return () => {
+      cancelAnimationFrame(frameId)
+      window.removeEventListener("resize", handleResize)
+    }
   }, [])
 
   const toggleReducedMotion = React.useCallback(() => {
@@ -116,54 +123,74 @@ export function Navigation() {
     setTheme(nextTheme)
   }, [theme])
 
-  // Synchronize dynamic clip-path morphing progress via JS animation loop
+  // Synchronize dynamic clip-path progress via JS animation loop
   React.useEffect(() => {
-    if (isReducedMotion) {
-      setAnimProgress(isOpen ? 1 : 0)
+    if (isReducedMotion || (menuPhase !== "opening" && menuPhase !== "closing")) {
       return
     }
 
     let startTimestamp: number | null = null
-    const duration = 750
-    const startValue = animProgress
-    const endValue = isOpen ? 1 : 0
     let animationFrameId: number
 
     const step = (timestamp: number) => {
       if (!startTimestamp) startTimestamp = timestamp
       const elapsed = timestamp - startTimestamp
-      const progress = Math.min(elapsed / duration, 1)
+      const progress = Math.min(elapsed / MENU_ANIMATION_MS, 1)
 
       // Cubic Bezier easeInOut: cubic-bezier(0.77, 0, 0.175, 1) approximation
       const ease = (x: number) => {
         return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
       }
 
-      const currentProgress = startValue + (endValue - startValue) * ease(progress)
-      setAnimProgress(currentProgress)
+      setPhaseProgress(ease(progress))
 
       if (progress < 1) {
         animationFrameId = requestAnimationFrame(step)
+        return
+      }
+
+      if (menuPhase === "opening") {
+        setMenuPhase("open")
+        setPhaseProgress(1)
+        return
+      }
+
+      if (menuPhase === "closing") {
+        setIsMenuMounted(false)
+        setMenuPhase("closed")
+        setPhaseProgress(0)
       }
     }
 
     animationFrameId = requestAnimationFrame(step)
     return () => cancelAnimationFrame(animationFrameId)
-  }, [isOpen, isReducedMotion])
+  }, [menuPhase, isReducedMotion])
 
-  // Custom menu toggle with delayed rendering to let liquid exit animation play out
-  // Regenerates harmonics on every opening for fully randomized unique splatters!
+  // Split mounted cover from fading content so close can feel like a tide receding.
   const toggleMenu = React.useCallback(() => {
-    if (isOpen) {
-      setIsOpen(false)
-      setTimeout(() => {
-        setIsMenuRendered(false)
-      }, isReducedMotion ? 0 : 750)
-    } else {
-      setIsMenuRendered(true)
-      setIsOpen(true)
+    if (menuPhase === "opening" || menuPhase === "open") {
+      if (isReducedMotion) {
+        setPhaseProgress(0)
+        setIsMenuMounted(false)
+        setMenuPhase("closed")
+        return
+      }
+
+      setMenuPhase("closing")
+      return
     }
-  }, [isOpen, isReducedMotion])
+
+    if (isReducedMotion) {
+      setIsMenuMounted(true)
+      setPhaseProgress(1)
+      setMenuPhase("open")
+      return
+    }
+
+    setIsMenuMounted(true)
+    setPhaseProgress(0)
+    setMenuPhase("opening")
+  }, [isReducedMotion, menuPhase])
 
   // Harmonic waves sum function representing periodic circular Perlin-like noise
   // Smoothstep interpolation helper
@@ -293,10 +320,61 @@ export function Navigation() {
     return path
   }
 
+  const getMenuCloseWavePath = (t: number) => {
+    if (!dimensions.width || !dimensions.height) return ""
+
+    const width = dimensions.width
+    const height = dimensions.height
+    const points = 10
+    const eased = t
+    const travel = -150 + (height + 220) * eased
+    const waveEnvelope = Math.sin(Math.min(eased, 0.96) * Math.PI)
+    const amplitudePrimary = 24 + 62 * waveEnvelope
+    const amplitudeSecondary = 10 + 28 * waveEnvelope
+    const phaseShift = eased * Math.PI * 1.35
+
+    const wavePoints: Array<{ x: number; y: number }> = []
+
+    for (let i = 0; i <= points; i++) {
+      const ratio = i / points
+      const x = width * ratio
+      const angle = ratio * Math.PI * 2
+      const harmonic =
+        Math.sin(angle + phaseShift) * amplitudePrimary +
+        Math.sin(angle * 2.15 - phaseShift * 0.8) * amplitudeSecondary +
+        getPeriodicNoiseValue(angle + phaseShift * 0.35, menuNoise.grid12) * 14 * waveEnvelope
+
+      wavePoints.push({
+        x,
+        y: travel + harmonic,
+      })
+    }
+
+    let path = `M 0 ${wavePoints[0].y.toFixed(1)}`
+
+    for (let i = 0; i < wavePoints.length - 1; i++) {
+      const current = wavePoints[i]
+      const next = wavePoints[i + 1]
+      const midX = ((current.x + next.x) / 2).toFixed(1)
+      const midY = ((current.y + next.y) / 2).toFixed(1)
+      path += ` Q ${current.x.toFixed(1)} ${current.y.toFixed(1)} ${midX} ${midY}`
+    }
+
+    const last = wavePoints[wavePoints.length - 1]
+    path += ` T ${last.x.toFixed(1)} ${last.y.toFixed(1)}`
+    path += ` L ${width.toFixed(1)} ${(height + 120).toFixed(1)}`
+    path += ` L 0 ${(height + 120).toFixed(1)} Z`
+
+    return path
+  }
+
   // Inject style with calculated path literal to bypass browser CSS variable interpolation bugs
-  const currentClipPath = mounted && dimensions.width > 0
-    ? `path("${getMenuDripPath(animProgress)}")`
-    : undefined
+  const currentClipPath =
+    dimensions.width > 0
+      ? menuPhase === "closing"
+        ? `path("${getMenuCloseWavePath(phaseProgress)}")`
+        : `path("${getMenuDripPath(menuPhase === "open" ? 1 : phaseProgress)}")`
+      : undefined
 
   const dripStyle = currentClipPath
     ? {
@@ -405,31 +483,31 @@ export function Navigation() {
           <button
             onClick={toggleMenu}
             className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-white outline-none group/menu-btn select-none hover:scale-[1.05] active:scale-[0.95] transition-transform py-1 px-3 rounded-[6px]"
-            aria-expanded={isOpen}
+            aria-expanded={isMenuVisible}
             aria-controls="full-page-menu"
           >
             <div className="relative w-5 h-4 flex items-center justify-center">
               <span
                 className={cn(
                   "absolute h-[3px] w-full bg-white dark:bg-white rounded-full transition-all duration-300",
-                  isOpen ? "rotate-45 translate-y-0" : "-translate-y-1.5"
+                  isMenuVisible ? "rotate-45 translate-y-0" : "-translate-y-1.5"
                 )}
               />
               <span
                 className={cn(
                   "absolute h-[3px] bg-white dark:bg-white rounded-full transition-all duration-200",
-                  isOpen ? "w-0 opacity-0" : "w-full"
+                  isMenuVisible ? "w-0 opacity-0" : "w-full"
                 )}
               />
               <span
                 className={cn(
                   "absolute h-[3px] w-full bg-white dark:bg-white rounded-full transition-all duration-300",
-                  isOpen ? "-rotate-45 translate-y-0" : "translate-y-1.5"
+                  isMenuVisible ? "-rotate-45 translate-y-0" : "translate-y-1.5"
                 )}
               />
             </div>
             <span className="font-heading font-black text-xs md:text-sm uppercase tracking-widest leading-none drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,0.5)]">
-              {isOpen ? "Close" : "Menu"}
+              {isMenuVisible ? "Close" : "Menu"}
             </span>
           </button>
         </div>
@@ -438,88 +516,117 @@ export function Navigation() {
       {/* ────────────────────────────────────────────────────────
          Full Page Overlay Menu (Periodic low-frequency morphing)
          ──────────────────────────────────────────────────────── */}
-      {isMenuRendered && (
+      {isMenuMounted && (
         <div
           id="full-page-menu"
-          style={dripStyle}
-          className="fixed inset-0 z-[90] w-screen h-screen flex flex-col justify-center items-center bg-black text-white p-6 overflow-hidden select-none"
+          data-phase={menuPhase}
+          className={cn(
+            "fixed inset-0 z-[90] w-screen h-screen overflow-hidden select-none",
+            menuPhase === "closing" ? "pointer-events-none" : "pointer-events-auto"
+          )}
         >
-          {/* Background Ink Splatters */}
-          {inkSplats.map((splat) => (
-            <svg
-              key={splat.id}
-              className={splat.className}
-              style={{ fill: splat.color }}
-              viewBox="0 0 500 400"
-            >
-              <path d={splat.path} />
-            </svg>
-          ))}
+          <div
+            data-menu-cover=""
+            data-phase={menuPhase}
+            style={dripStyle}
+            className="absolute inset-0 bg-black"
+          />
 
-          {/* Menu Center Content Column */}
-          <nav className="relative z-10 w-full max-w-xl flex flex-col gap-6 md:gap-8 pt-10 text-center">
-            <ul className="flex flex-col gap-4 md:gap-6">
-              {navLinks.map((link, idx) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    onClick={toggleMenu}
-                    className="group/link inline-block relative px-4 py-2 font-heading font-black text-3xl md:text-5xl uppercase tracking-wider text-white transition-transform duration-200 hover:scale-[1.05] hover:text-[#eaff3d] active:scale-[0.98]"
-                  >
-                    <span className="inline-block transition-transform duration-200 group-hover/link:rotate-[-2deg] group-active/link:rotate-0">
-                      {link.label}
-                    </span>
-                    {link.description && (
-                      <span className="block text-[11px] md:text-xs font-semibold text-white/50 lowercase tracking-widest mt-0.5 md:mt-1 group-hover/link:text-white/80 transition-colors">
-                        {link.description}
-                      </span>
-                    )}
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1.5 bg-[#eaff3d] group-hover/link:w-[80%] transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]" />
-                  </a>
-                </li>
-              ))}
-
-              <li className="mt-4">
-                <Button
-                  onClick={() => {
-                    toggleMenu()
-                    window.location.hash = "#buy"
-                  }}
-                  variant="yellow"
-                  size="lg"
-                  className="w-full max-w-sm mx-auto shadow-solid-lg border-[3px] border-white text-chaos-black"
-                >
-                  Buy Now
-                </Button>
-              </li>
-            </ul>
-          </nav>
-
-          {/* Menu Overlay Footer: Options & Versions */}
-          <div className="absolute bottom-10 left-6 right-6 z-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs uppercase tracking-wider text-white/40">
-            <div className="flex items-center gap-4">
-              <Button
-                onClick={toggleTheme}
-                variant="outline"
-                size="sm"
-                hasChevron={false}
-                className="border-white/20 text-white hover:bg-white/10 hover:text-[#eaff3d] dark:[--bg-color:transparent]"
+          <div
+            data-menu-content=""
+            data-phase={menuPhase}
+            className={cn(
+              "absolute inset-0 flex flex-col justify-center items-center text-white p-6",
+              menuPhase === "closing" ? "pointer-events-none" : "pointer-events-auto"
+            )}
+          >
+            {/* Background Ink Splatters */}
+            {inkSplats.map((splat) => (
+              <svg
+                key={splat.id}
+                className={splat.className}
+                style={{ fill: splat.color }}
+                viewBox="0 0 500 400"
               >
-                {theme === "dark" ? (
-                  <>
-                    <Sun className="h-3.5 w-3.5 mr-1" />
-                    Light Battle
-                  </>
-                ) : (
-                  <>
-                    <Moon className="h-3.5 w-3.5 mr-1" />
-                    Night Battle
-                  </>
-                )}
-              </Button>
-            </div>
+                <path d={splat.path} />
+              </svg>
+            ))}
 
-            <span>splatoon-ui v0.1.0</span>
+            {/* Menu Center Content Column */}
+            <nav
+              className={cn(
+                "relative z-10 w-full max-w-xl flex flex-col gap-6 md:gap-8 pt-10 text-center transition-all duration-200 ease-[cubic-bezier(0.165,0.84,0.44,1)]",
+                isMenuExpanded ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-6 scale-95"
+              )}
+            >
+              <ul className="flex flex-col gap-4 md:gap-6">
+                {navLinks.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      onClick={toggleMenu}
+                      className="group/link inline-block relative px-4 py-2 font-heading font-black text-3xl md:text-5xl uppercase tracking-wider text-white transition-transform duration-200 hover:scale-[1.05] hover:text-[#eaff3d] active:scale-[0.98]"
+                    >
+                      <span className="inline-block transition-transform duration-200 group-hover/link:rotate-[-2deg] group-active/link:rotate-0">
+                        {link.label}
+                      </span>
+                      {link.description && (
+                        <span className="block text-[11px] md:text-xs font-semibold text-white/50 lowercase tracking-widest mt-0.5 md:mt-1 group-hover/link:text-white/80 transition-colors">
+                          {link.description}
+                        </span>
+                      )}
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1.5 bg-[#eaff3d] group-hover/link:w-[80%] transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]" />
+                    </a>
+                  </li>
+                ))}
+
+                <li className="mt-4">
+                  <Button
+                    onClick={() => {
+                      toggleMenu()
+                      window.location.hash = "#buy"
+                    }}
+                    variant="yellow"
+                    size="lg"
+                    className="w-full max-w-sm mx-auto shadow-solid-lg border-[3px] border-white text-chaos-black"
+                  >
+                    Buy Now
+                  </Button>
+                </li>
+              </ul>
+            </nav>
+
+            {/* Menu Overlay Footer: Options & Versions */}
+            <div
+              className={cn(
+                "absolute bottom-10 left-6 right-6 z-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs uppercase tracking-wider text-white/40 transition-opacity duration-200 ease-out",
+                isMenuExpanded ? "opacity-100" : "opacity-0"
+              )}
+            >
+              <div className="flex items-center gap-4">
+                <Button
+                  onClick={toggleTheme}
+                  variant="outline"
+                  size="sm"
+                  hasChevron={false}
+                  className="border-white/20 text-white hover:bg-white/10 hover:text-[#eaff3d] dark:[--bg-color:transparent]"
+                >
+                  {theme === "dark" ? (
+                    <>
+                      <Sun className="h-3.5 w-3.5 mr-1" />
+                      Light Battle
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="h-3.5 w-3.5 mr-1" />
+                      Night Battle
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              <span>splatoon-ui v0.1.0</span>
+            </div>
           </div>
         </div>
       )}

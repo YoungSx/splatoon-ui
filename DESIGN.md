@@ -173,6 +173,11 @@ Z-Index 0:   底层页面背景色 / 滚动视差背景
     - 引入 [animProgress](file:///C:/Users/shang/Project/splatoon-ui/src/components/ui/navigation.tsx#L59) state 变量。在 750ms 动效周期内使用 `easeInOutCubic` 缓动控制时间进度参数 $t$（`0.0` 至 `1.0`），于 JS 主线程完成极坐标的贝塞尔重构并以字面量形式直接赋给 `style.clipPath`，实现 100% 顺滑动画。
     - **多倍频反向旋转噪波（Octave Phase Shifting）**：叠加 $6$、$12$、$24$、$48$ 四组不同网格大小的 FBM 周期环状噪波，将每层倍频的角相与时间进度 $t$ 绑定进行反向偏移，在扩散中产生液体反向涌动、交织翻滚的逼真流体质感。
     - **触手扭动与拉丝变尖（Gaussian Splat Spikes & Drifting）**：硬编码 4 组完美偏向左下角的官方预设高斯突触，高度最高达 900px。在蔓延中，突触角度随正弦缓慢飘移（Drifting），突触宽度（Sigma）由宽变窄，模拟液体前冲拉伸的流体力学特性，终点态完美覆盖全屏。
+  - **官方 Canvas 底座与双时序退场逻辑 (Official Canvas Base & Dual-Timeline Exit)**：
+    - **技术探索发现**：通过 Playwright style-polling 探查，官方的 `nav_overlay__VhUlF` 容器实际上是通过 **HTML5 `<canvas>` 画布** 实时绘制的水墨爆开和收回，并非 `clip-path`。
+    - **双时序退出机制**：官方在退场时将内容与背景的生命周期进行了解耦：
+      - *菜单文字前置淡出 (200ms)*：点击 Close 后，顶层文字链接 [nav](file:///C:/Users/shang/Project/splatoon-ui/src/components/ui/navigation.tsx#L460) 与底部栏在 200ms 内以 `translate-y-[-6px] scale-95` 快速淡出并失效，避免黑底收拢时文字暴露在底色网页上的视觉穿帮。
+      - *背景墨滴长时收回 (750ms)*：底层的黑色背景继续利用 `750ms` 的完整周期收敛回右上角，完成后彻底卸载。本项目在 `clip-path` 的基础上完美对齐了该双时序退场逻辑。
 
 ### 4.5 装饰元素 (Decorative Elements)
 
