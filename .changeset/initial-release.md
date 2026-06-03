@@ -1,0 +1,1 @@
+---\n"splatoon-ui": minor\n---\n\nInitial release.
