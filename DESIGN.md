@@ -104,11 +104,36 @@ Z-Index 0:   底层页面背景色 / 滚动视差背景
   - 若 `children` 为纯文本，渲染双文字层以激活 1:1 的液体覆盖字色“剪裁割裂”效果。
   - 若 `children` 为复杂 React 节点，自动降级为单节点渲染（置于顶层 `z-30`，只被 mount 一次以保护内部生命周期和 Effect 副作用安全），遮罩层退化为纯背景层进行 clip-path 裁剪。
 
-### 4.2 卡片容器 (Cards / News Items)
+### 4.2 卡片容器 (Cards / Official Card Variants)
 
-- 
-- **边缘处理**: 经常使用 SVG 遮罩（Masks）实现边缘被撕裂（Ripped paper）或墨水晕染的轮廓。
-- **阴影 (Shadows)**: 不使用柔和的 box-shadow，而是使用高对比度的实心阴影。*示例*: filter: drop-shadow(8px 8px 0px var(--color-chaos-black));
+《斯普拉遁 3》官方网页的核心承载体主要分为两种完全不同的卡片容器类型，用以展示新闻、活动与装备系统：
+
+#### 4.2.1 拍立得手账新闻卡片 (Polaroid News Card / `news` variant)
+拍立得手账新闻卡片是一比一复刻自官方网站新闻版块（News Feed）的核心组件，具有极高的废土手账拼贴感：
+- **三层流式 DOM 架构**：
+  1. **顶部撕纸 SVG (`cardTop`)**：带有人性化防亚像素缝隙位移（`margin-bottom: -2.5px`）的撕纸矢量路径。
+  2. **内容区域 (`cardLayout`)**：包裹真实的背景色（支持通过 `cardBgColor` 自定义色调），具有 `0px` 圆角。内部使用 `grid-template-rows: auto 1fr` 区分图片区与正文区。
+  3. **底部撕纸 SVG (`cardBottom`)**：带有防亚像素缝隙位移（`margin-top: -2.5px`）的收尾纸边矢量路径。
+- **拟真物理挂件投影与旋转**：
+  - **边缘矢量投影**：外层容器不使用矩形 `box-shadow`，而是使用 `filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.5))`。这保证了阴影会沿着撕纸 SVG 的锯齿轮廓以及外部重叠挂件进行自然投影。
+  - **金属订书针 (Staples)**：底部左右侧绝对定位 vector-rendered 金属订书针（`stapleLeft` / `stapleRight`），带有物理暗孔和反光高光，模拟将卡片钉在看板上的效果。
+  - **封箱胶带 (Adhesive Tapes)**：顶部提供左倾 `-10deg` (`tapeNews` 胶带) 与右倾 `10deg` (`tapeEvent` 胶带) 位置选项，边缘通过 `tape-torn-edge` 裁剪实现手撕封箱胶带质感。
+- **子组件旋转偏移 (`CardImage`)**：
+  - 卡片内部的图片容器强行注入 `transform: rotate(-1deg)`，使照片在白色卡片底纸中略微歪斜，加强手账拼贴的非对称街头氛围。
+  - **Hover 交互**：当悬停在卡片上时，卡片发生 `rotate(2deg) scale(1.025)` 的平滑弹性旋转变化，配合 3D 位移反馈。
+
+#### 4.2.2 服饰吊牌挂牌卡片 (Hanging Tag Card / `tag` variant)
+服饰吊牌卡片还原了官方网站玩法与装备版块的超大吊牌悬挂式布局：
+- **矢量吊牌轮廓 (`tagBgSvg`)**：
+  - 卡片底层由一段高解析度矢量吊牌背景 SVG（带有挂绳吊环与挂孔剪切）构成。
+  - 通过 `fill="currentColor"` 绑定父级文本色类，实现 `tagTheme` 配色的自由选择（提供 Yellow, Blue, Purple, Orange, Green 五种官方主题色以及前背景自适应）。
+- **吊牌内照片框 (`CardImage`)**：
+  - 在吊牌卡片中，`CardImage` 自动重构为带有拟真“透明胶带” (`Scotch Tape`) 的拍立得纸框。
+  - **透明胶带**：使用 inline SVG 画布，通过 `stroke-dasharray` 边缘锯齿、半透明白色滤镜与下方阴影，模拟透明塑料胶带效果。
+  - **照片纸框**：包含 `2px` 黑色描边、`shadow-solid-sm` 偏置投影以及内置的偏置角度，鼠标悬停时平滑复原为 `rotate(0deg)`。
+- **参数控制**：
+  - 默认状态下支持定义 `tagRotation`（挂吊倾角，如 `-2deg`），使其在网格中呈现出不规则的悬挂状态。
+
 
 ### 4.3 装饰元素 (Decorative Elements)
 

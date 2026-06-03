@@ -8,31 +8,31 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button relative inline-flex shrink-0 items-center justify-center select-none overflow-hidden rounded-[8px] font-heading font-black text-[22px] uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50 shadow-solid hover:shadow-solid-lg hover:rotate-[var(--hover-rotate)] hover:scale-[1.03] active:rotate-[var(--hover-rotate)] active:scale-[0.97] active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]",
+  "group/button relative inline-flex shrink-0 items-center justify-center select-none overflow-hidden rounded-[8px] font-heading font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50 shadow-solid hover:shadow-solid-lg hover:rotate-[var(--hover-rotate)] hover:scale-[1.03] active:rotate-[var(--hover-rotate)] active:scale-[0.97] active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]",
   {
     variants: {
       variant: {
         yellow:
-          "[--bg-color:var(--neon-yellow)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-blue)] [--hover-text-color:#ffffff]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--neon-yellow)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-blue)] [--hover-text-color:#ffffff]",
         blue:
-          "[--bg-color:var(--ink-blue)] [--text-color:var(--neon-yellow)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-blue)] [--text-color:var(--neon-yellow)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)]",
         green:
-          "[--bg-color:var(--ink-green)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-purple)] [--hover-text-color:#ffffff]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-green)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-purple)] [--hover-text-color:#ffffff]",
         orange:
-          "[--bg-color:var(--ink-orange)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-blue)] [--hover-text-color:#ffffff]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-orange)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-blue)] [--hover-text-color:#ffffff]",
         purple:
-          "[--bg-color:var(--ink-purple)] [--text-color:#ffffff] [--hover-bg-color:var(--ink-green)] [--hover-text-color:var(--chaos-black)]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-purple)] [--text-color:#ffffff] [--hover-bg-color:var(--ink-green)] [--hover-text-color:var(--chaos-black)]",
         destructive:
-          "[--bg-color:var(--ink-red)] [--text-color:#ffffff] [--hover-bg-color:var(--chaos-black)] [--hover-text-color:var(--ink-red)]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-red)] [--text-color:#ffffff] [--hover-bg-color:var(--chaos-black)] [--hover-text-color:var(--ink-red)]",
         outline:
-          "border-[3px] border-foreground bg-white text-foreground [--bg-color:#ffffff] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)] shadow-solid active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-foreground [--bg-color:#ffffff] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)] shadow-solid active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]",
         ghost:
-          "bg-transparent text-foreground rounded-[8px] font-black text-[22px] py-3 px-11 shadow-none hover:bg-foreground/10 active:bg-foreground/20 hover:rotate-0 hover:scale-100 active:scale-95 shadow-none active:translate-x-0 active:translate-y-0 active:shadow-none",
+          "bg-transparent text-foreground shadow-none hover:bg-foreground/10 active:bg-foreground/20 hover:rotate-0 hover:scale-100 active:scale-95 shadow-none active:translate-x-0 active:translate-y-0 active:shadow-none",
       },
       size: {
-        default: "h-auto",
-        sm: "text-base py-2 px-6",
-        lg: "text-[26px] py-4 px-14",
+        default: "text-[22px]",
+        sm: "text-base",
+        lg: "text-[26px]",
         icon: "size-11 p-0",
         "icon-sm": "size-8 p-0",
         "icon-lg": "size-14 p-0",
@@ -44,6 +44,15 @@ const buttonVariants = cva(
     },
   }
 )
+
+const sizePaddingMap = {
+  default: "pt-3 pb-5 px-11",
+  sm: "pt-2 pb-3.5 px-6",
+  lg: "pt-4 pb-6.5 px-14",
+  icon: "p-0",
+  "icon-sm": "p-0",
+  "icon-lg": "p-0",
+}
 
 interface DripControlPoint {
   y1: number // leave amplitude offset
@@ -139,6 +148,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     const hasDrip = variant !== "ghost"
+    const paddingClass = size && size in sizePaddingMap
+      ? sizePaddingMap[size as keyof typeof sizePaddingMap]
+      : sizePaddingMap.default
 
     const dripStyle = mounted && dimensions.width > 0
       ? {
@@ -178,7 +190,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={activeRef}
         data-slot="button"
         style={dripStyle}
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, size, className }), paddingClass)}
         onClick={onClick}
         {...props}
       >
@@ -189,8 +201,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               <span
                 aria-hidden="true"
                 className={cn(
-                  "absolute inset-0 z-20 drip-hover-content flex items-center justify-center text-[1.5rem] h-full w-full bg-[var(--hover-bg-color)] text-[var(--hover-text-color)] rounded-[8px] shadow-[0_0_0_2px_var(--hover-bg-color)_inset] group-hover/button:shadow-[0_0_0_2px_var(--hover-text-color)_inset]",
-                  "pt-3 pb-5 px-11" // Exactly 12px top, 20px bottom, 44px sides padding
+                  "absolute inset-0 z-20 drip-hover-content flex items-center justify-center bg-[var(--hover-bg-color)] text-[var(--hover-text-color)] rounded-[8px] shadow-[0_0_0_2px_var(--hover-bg-color)_inset] group-hover/button:shadow-[0_0_0_2px_var(--hover-text-color)_inset]",
+                  paddingClass
                 )}
               >
                 <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
@@ -199,13 +211,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 </span>
               </span>
 
-              {/* Default base content layer */}
-              <span
-                className={cn(
-                  "flex items-center justify-center text-[1.5rem] h-full w-full bg-[var(--bg-color)] text-[var(--text-color)] rounded-[8px] transition-colors duration-200",
-                  "pt-3 pb-5 px-11" // Exactly 12px top, 20px bottom, 44px sides padding
-                )}
-              >
+              {/* Default base content layer (now transparent background wrapper to center content) */}
+              <span className="flex items-center justify-center w-full h-full">
                 <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
@@ -214,19 +221,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </>
           ) : (
             <>
-              {/* Pure Drip Liquid Background Mask Layer (No children inside, lifecycle safe) */}
+              {/* Pure Drip Liquid Background Mask Layer */}
               <span
                 aria-hidden="true"
                 className="absolute inset-0 z-20 drip-hover-content bg-[var(--hover-bg-color)] rounded-[8px]"
               />
 
-              {/* Unified content wrapper placed on top, transitions text & border colors */}
-              <span
-                className={cn(
-                  "relative z-30 flex items-center justify-center text-[1.5rem] h-full w-full bg-[var(--bg-color)] text-[var(--text-color)] group-hover/button:text-[var(--hover-text-color)] rounded-[8px] transition-[colors,text-color] duration-200 shadow-[0_0_0_2px_var(--bg-color)_inset] group-hover/button:shadow-[0_0_0_2px_var(--hover-text-color)_inset]",
-                  "pt-3 pb-5 px-11"
-                )}
-              >
+              {/* Unified content wrapper placed on top, transitions text colors */}
+              <span className="relative z-30 flex items-center justify-center w-full h-full text-[var(--text-color)] group-hover/button:text-[var(--hover-text-color)] transition-colors duration-200">
                 <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
