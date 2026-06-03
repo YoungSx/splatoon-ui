@@ -55,8 +55,17 @@ const sizePaddingMap = {
   "icon-lg": "p-0",
 }
 
+const sizeContentLineHeightMap = {
+  default: "leading-[24px]",
+  sm: "leading-[20px]",
+  lg: "leading-[28px]",
+  icon: "leading-none",
+  "icon-sm": "leading-none",
+  "icon-lg": "leading-none",
+}
+
 const arrowButtonClassName =
-  "group/button relative inline-flex shrink-0 items-end justify-center select-none bg-transparent p-0 font-heading text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
+  "group/button relative inline-block shrink-0 select-none bg-transparent p-0 font-heading text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
 
 interface DripControlPoint {
   y1: number // leave amplitude offset
@@ -156,6 +165,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const paddingClass = paddingKey && paddingKey in sizePaddingMap
       ? sizePaddingMap[paddingKey as keyof typeof sizePaddingMap]
       : sizePaddingMap.default
+    const contentLineHeightClass = paddingKey && paddingKey in sizeContentLineHeightMap
+      ? sizeContentLineHeightMap[paddingKey as keyof typeof sizeContentLineHeightMap]
+      : sizeContentLineHeightMap.default
 
     const dripStyle = mounted && dimensions.width > 0
       ? {
@@ -179,8 +191,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(
           "shrink-0 overflow-visible",
           variant === "arrow"
-            ? "ml-0 h-[16px] w-[8px]"
-            : "ml-1.5 size-[13px] self-end"
+            ? "ml-0 inline h-[16px] w-[8px] overflow-hidden align-baseline"
+            : "ml-1.5 h-[13px] w-[8px] self-end overflow-hidden"
         )}
         viewBox="0 0 7 12"
       >
@@ -221,7 +233,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                   paddingClass
                 )}
               >
-                <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
+                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
@@ -229,7 +241,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
               {/* Default base content layer (now transparent background wrapper to center content) */}
               <span className="flex items-center justify-center w-full h-full">
-                <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
+                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
@@ -245,7 +257,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
               {/* Unified content wrapper placed on top, transitions text colors */}
               <span className="relative z-30 flex items-center justify-center w-full h-full text-[var(--text-color)] group-hover/button:text-[var(--hover-text-color)] transition-colors duration-200">
-                <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
+                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
@@ -253,7 +265,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </>
           )
         ) : (
-          <span className="relative z-10 inline-flex items-center justify-center whitespace-nowrap">
+          <span
+            className={cn(
+              "relative z-10 whitespace-nowrap",
+              variant === "arrow"
+                ? "inline-block leading-[26px]"
+                : cn("inline-flex items-center justify-center", contentLineHeightClass)
+            )}
+          >
             {children}
             {hasChevron && size !== "icon" && splatChevron}
           </span>
