@@ -326,6 +326,58 @@
   }
 }
 
+.reduced-motion, .reduced-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ── Splatoon 3 Full Screen Menu Overlay Liquid Animations ── */
+@keyframes menu-drip-enter {
+  0% {
+    clip-path: var(--menu-drip-in-0);
+  }
+  25% {
+    clip-path: var(--menu-drip-in-25);
+  }
+  50% {
+    clip-path: var(--menu-drip-in-50);
+  }
+  75% {
+    clip-path: var(--menu-drip-in-75);
+  }
+  100% {
+    clip-path: var(--menu-drip-in-100);
+  }
+}
+
+@keyframes menu-drip-leave {
+  0% {
+    clip-path: var(--menu-drip-out-0);
+  }
+  25% {
+    clip-path: var(--menu-drip-out-25);
+  }
+  50% {
+    clip-path: var(--menu-drip-out-50);
+  }
+  75% {
+    clip-path: var(--menu-drip-out-75);
+  }
+  100% {
+    clip-path: var(--menu-drip-out-100);
+  }
+}
+
+.menu-overlay-active {
+  animation: menu-drip-enter 0.75s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+.menu-overlay-closing {
+  animation: menu-drip-leave 0.75s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
 /* ── Splatoon 3 Drip Button Animations ── */
 @keyframes splat-drip-enter {
   0% {

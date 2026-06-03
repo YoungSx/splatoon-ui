@@ -149,7 +149,32 @@ Z-Index 0:   底层页面背景色 / 滚动视差背景
   - 支持 `default`（平行斜切方块键）与 `line`（无斜切、底端紫色滑线指示器）两种变体。
   - 利用 Tailwind 级联规则 `group-data-[variant=line]/tabs-list:skew-x-0` 优雅地在子组件中关闭斜切，无需任何额外的 React JS 代码控制。
 
-### 4.4 装饰元素 (Decorative Elements)
+### 4.4 粘性导航栏与全局 Reduced Motion 开关 (Sticky Navigation Header & A11y Toggler)
+
+《斯普拉遁 3》的顶部导航栏集成了品牌的极简前卫外观与任天堂极其严苛的无障碍（A11y）标准：
+- **粘性高度收缩 (Scroll-Driven Shrinking)**：
+  - 导航栏在页面顶部常态下呈现大高度（`70px` - `80px`）。
+  - 当页面滚动距离超过 `40px` 时，导航栏高度通过 transition 平滑收紧至 `50px`，同时收窄内边距，减少在游戏体验和长篇滚动中的垂直空间占用。
+- **全局减弱动态手动控制 (Reduced Motion Override System)**：
+  - 提供全局的无障碍操控（A11y Bar），包含键盘首位 Tab 导航聚焦的 `Skip to main content` 链接。
+  - 用户可直接通过 `Reduced Motion` 覆盖按钮手动开关所有复杂的贝塞尔流体动画与 3D 转场。
+  - **CSS 动效熔断机制**：点击开关将在 `html` 根容器上动态注入/移除 `.reduced-motion` 类。在 CSS 层面通过强级联熔断所有过渡与动画周期（`transition-duration: 0.01ms !important`, `animation-duration: 0.01ms !important`）。
+  - **JS 状态分发**：全局 React 组件可监听 `isReducedMotion` 偏好，自动调整 SVG 控制点计算频率并缩减 framer-motion 过渡时长。
+- **右上角泼墨拐角与变形 Toggler (Corner Splat & Morph Toggler)**：
+  - NavBar 右上角放置了高解析度矢量泼墨拐角背景 SVG。
+  - 悬浮在拐角上的 Menu 按钮由一组完全由 CSS transform 驱动的三横线汉堡菜单图标构成。
+  - 展开菜单时，三横线图标无缝变形并旋转交叉为 "X"（关闭），同时 "Menu" 文字产生阴影变化。
+- **全屏手账 Overlay 菜单 (Full-screen Overlay Menu)**：
+  - 点击 Menu 按钮后，拉起充满个性的全屏深色盖板。
+  - 菜单背景以不同的延迟和缩放呈现出多色彩（Neon Yellow, Ink Blue）的巨幅矢量喷墨背景。
+  - 导航链接采用大号大写倾斜字体（obviously-narrow 风格），并在 Hover 时展现 `rotate(-2deg)` 的轻微偏转倾斜，以及从中间向两侧平滑延展的“黄胶带”下划线物理微交互。
+  - **JS 驱动的液态涌动与参数化插值 (Dynamic Wave Evolution via JS Thread)**：
+    - 针对现代浏览器在 `@keyframes` 中应用 CSS 自定义属性（`var(...)`）导致 `clip-path` 无法进行正常几何路径插值的底层局限，弃用纯 CSS 关键帧，改用 **JavaScript `requestAnimationFrame` 驱动的极坐标插值架构**。
+    - 引入 [animProgress](file:///C:/Users/shang/Project/splatoon-ui/src/components/ui/navigation.tsx#L59) state 变量。在 750ms 动效周期内使用 `easeInOutCubic` 缓动控制时间进度参数 $t$（`0.0` 至 `1.0`），于 JS 主线程完成极坐标的贝塞尔重构并以字面量形式直接赋给 `style.clipPath`，实现 100% 顺滑动画。
+    - **多倍频反向旋转噪波（Octave Phase Shifting）**：叠加 $6$、$12$、$24$、$48$ 四组不同网格大小的 FBM 周期环状噪波，将每层倍频的角相与时间进度 $t$ 绑定进行反向偏移，在扩散中产生液体反向涌动、交织翻滚的逼真流体质感。
+    - **触手扭动与拉丝变尖（Gaussian Splat Spikes & Drifting）**：硬编码 4 组完美偏向左下角的官方预设高斯突触，高度最高达 900px。在蔓延中，突触角度随正弦缓慢飘移（Drifting），突触宽度（Sigma）由宽变窄，模拟液体前冲拉伸的流体力学特性，终点态完美覆盖全屏。
+
+### 4.5 装饰元素 (Decorative Elements)
 
 - 
 - **警示带 / 跑马灯 (Marquee Tapes)**: 贯穿页面的横向或斜向无限滚动文本带。

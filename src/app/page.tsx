@@ -19,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
+import { Navigation } from '@/components/ui/navigation'
 
 const THEME_STORAGE_KEY = 'splat-theme'
 
@@ -33,6 +34,9 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white overflow-x-hidden font-sans transition-colors duration-300">
       
+      {/* 🦑 Navigation Header Bar */}
+      <Navigation />
+
       {/* ────────────────────────────────────────────────────────
          FIXED FLOAT: SPLATOON THEMED THEME TOGGLER
          ──────────────────────────────────────────────────────── */}
@@ -59,7 +63,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 1: HERO HEADER (Self-Adapting Theme - bg-white/bg-[#0d0d0d])
          ──────────────────────────────────────────────────────── */}
-      <header className="relative flex flex-col items-center justify-center pt-16 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300">
+      <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300">
         <div className="flex flex-col items-center gap-3 text-center z-10">
           <Badge variant="sticker">
             <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
