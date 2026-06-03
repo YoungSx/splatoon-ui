@@ -7,9 +7,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,82 +39,105 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+  --radius-3xl: 12px;
+  --radius-4xl: 16px;
+
+  /* Splatoon-specific tokens */
+  --splat-skew: -5deg;
+  --splat-rotate: -2deg;
+  --splat-shadow-offset: 6px;
+  --splat-shadow-color: var(--chaos-black);
 }
 
+/* ── Light Theme: Desert Wasteland (Splatsville) ── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(0.91 0.03 80);
+  --foreground: oklch(0.15 0.005 60);
+  --card: oklch(0.96 0.005 80);
+  --card-foreground: oklch(0.15 0.005 60);
+  --popover: oklch(0.96 0.005 80);
+  --popover-foreground: oklch(0.15 0.005 60);
+  --primary: oklch(0.92 0.22 110);
+  --primary-foreground: oklch(0.15 0.005 60);
+  --secondary: oklch(0.40 0.30 280);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.88 0.03 80);
+  --muted-foreground: oklch(0.45 0.01 60);
+  --accent: oklch(0.40 0.30 280);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.55 0.25 25);
+  --border: oklch(0.78 0.03 80);
+  --input: oklch(0.78 0.03 80);
+  --ring: oklch(0.92 0.22 110);
+  --chart-1: oklch(0.92 0.22 110);
+  --chart-2: oklch(0.40 0.30 280);
+  --chart-3: oklch(0.55 0.25 25);
+  --chart-4: oklch(0.70 0.15 60);
+  --chart-5: oklch(0.30 0.02 60);
+  --radius: 4px;
+
+  /* Splatoon brand tokens */
+  --neon-yellow: oklch(0.92 0.22 110);
+  --ink-blue: oklch(0.40 0.30 280);
+  --desert-sand: oklch(0.91 0.03 80);
+  --chaos-black: oklch(0.15 0.005 60);
+  --tape-white: oklch(0.96 0.005 80);
+
+  --sidebar: oklch(0.93 0.02 80);
+  --sidebar-foreground: oklch(0.15 0.005 60);
+  --sidebar-primary: oklch(0.92 0.22 110);
+  --sidebar-primary-foreground: oklch(0.15 0.005 60);
+  --sidebar-accent: oklch(0.88 0.03 80);
+  --sidebar-accent-foreground: oklch(0.15 0.005 60);
+  --sidebar-border: oklch(0.78 0.03 80);
+  --sidebar-ring: oklch(0.92 0.22 110);
 }
 
+/* ── Dark Theme: Night Battle (Turf War) ── */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.13 0.02 280);
+  --foreground: oklch(0.95 0.005 80);
+  --card: oklch(0.18 0.02 280);
+  --card-foreground: oklch(0.95 0.005 80);
+  --popover: oklch(0.18 0.02 280);
+  --popover-foreground: oklch(0.95 0.005 80);
+  --primary: oklch(0.92 0.22 110);
+  --primary-foreground: oklch(0.15 0.005 60);
+  --secondary: oklch(0.55 0.25 280);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.22 0.02 280);
+  --muted-foreground: oklch(0.65 0.01 80);
+  --accent: oklch(0.55 0.25 280);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.60 0.25 25);
+  --border: oklch(0.30 0.03 280);
+  --input: oklch(0.30 0.03 280);
+  --ring: oklch(0.92 0.22 110);
+  --chart-1: oklch(0.92 0.22 110);
+  --chart-2: oklch(0.55 0.25 280);
+  --chart-3: oklch(0.60 0.25 25);
+  --chart-4: oklch(0.75 0.12 60);
+  --chart-5: oklch(0.50 0.02 60);
+
+  --neon-yellow: oklch(0.92 0.22 110);
+  --ink-blue: oklch(0.55 0.25 280);
+  --desert-sand: oklch(0.20 0.02 280);
+  --chaos-black: oklch(0.10 0.005 280);
+  --tape-white: oklch(0.25 0.02 280);
+
+  --sidebar: oklch(0.15 0.02 280);
+  --sidebar-foreground: oklch(0.95 0.005 80);
+  --sidebar-primary: oklch(0.92 0.22 110);
+  --sidebar-primary-foreground: oklch(0.15 0.005 60);
+  --sidebar-accent: oklch(0.22 0.02 280);
+  --sidebar-accent-foreground: oklch(0.95 0.005 80);
+  --sidebar-border: oklch(0.30 0.03 280);
+  --sidebar-ring: oklch(0.92 0.22 110);
 }
 
 @layer base {
@@ -126,5 +149,83 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ── Splatoon Typography ── */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 900;
+  }
+}
+
+/* ── Splatoon Utilities ── */
+@layer utilities {
+  /* Solid drop shadows (no blur, offset, high contrast) */
+  .shadow-solid {
+    box-shadow: var(--splat-shadow-offset) var(--splat-shadow-offset) 0px var(--splat-shadow-color);
+  }
+  .shadow-solid-sm {
+    box-shadow: 3px 3px 0px var(--splat-shadow-color);
+  }
+  .shadow-solid-lg {
+    box-shadow: 8px 8px 0px var(--splat-shadow-color);
+  }
+  .shadow-solid-xl {
+    box-shadow: 12px 12px 0px var(--splat-shadow-color);
+  }
+
+  /* Tape/sticker clip-path */
+  .clip-tape {
+    clip-path: polygon(2% 0, 100% 3%, 98% 100%, 0 96%);
+  }
+  .clip-tape-alt {
+    clip-path: polygon(0 2%, 97% 0, 100% 97%, 3% 100%);
+  }
+
+  /* Skewed heading style */
+  .splat-skew {
+    transform: skewX(var(--splat-skew)) rotate(var(--splat-rotate));
+  }
+  .splat-skew-hover:hover {
+    transform: skewX(calc(var(--splat-skew) * 0.5)) rotate(calc(var(--splat-rotate) * 0.5));
+  }
+
+  /* Torn paper edge (top) */
+  .torn-top {
+    clip-path: polygon(0 4%, 3% 0, 7% 3%, 12% 1%, 18% 4%, 23% 0, 28% 2%, 33% 0, 38% 3%, 43% 1%, 48% 4%, 53% 0, 58% 3%, 63% 1%, 68% 4%, 73% 0, 78% 2%, 83% 0, 88% 3%, 93% 1%, 97% 3%, 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* Torn paper edge (bottom) */
+  .torn-bottom {
+    clip-path: polygon(0 0, 100% 0, 100% 96%, 97% 100%, 93% 97%, 88% 99%, 83% 96%, 78% 100%, 73% 98%, 68% 96%, 63% 99%, 58% 97%, 53% 100%, 48% 96%, 43% 99%, 38% 97%, 33% 100%, 28% 98%, 23% 96%, 18% 100%, 12% 97%, 7% 99%, 3% 96%, 0 100%);
+  }
+
+  /* Ink splatter overlay */
+  .ink-splatter {
+    position: relative;
+  }
+  .ink-splatter::after {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    background: radial-gradient(circle at 20% 80%, var(--ink-blue) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--neon-yellow) 0%, transparent 40%);
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
