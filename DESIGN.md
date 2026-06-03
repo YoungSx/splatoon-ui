@@ -135,7 +135,21 @@ Z-Index 0:   底层页面背景色 / 滚动视差背景
   - 默认状态下支持定义 `tagRotation`（挂吊倾角，如 `-2deg`），使其在网格中呈现出不规则的悬挂状态。
 
 
-### 4.3 装饰元素 (Decorative Elements)
+### 4.3 斜切式选项卡 (Skewed Tabs)
+
+《斯普拉遁 3》经典的平行四边形倾斜选项卡，常用于游戏模式（如 Turf War / Salmon Run）的切换：
+
+- **斜切双重抵消布局 (Double Skew Correction)**：
+  - **外框斜切**：选项卡触发按钮 (`TabsTrigger`) 容器注入 `skew-x-[-12deg]`。
+  - **文字反向矫正**：内部内容包裹在 `skew-x-[12deg] inline-block` 的容器中。这一对冲完全抵消了文字的倾斜扭曲，保证了文本及内部 Icon 的 100% 垂直可读性。
+- **机械实心阴影物理下沉**：
+  - 常态激活状态下具有 `border-2 border-chaos-black` 描边和 `shadow-solid-sm` 实体偏置投影。
+  - 按下 `:active` 时，发生向右下方的微小物理下沉 `translate-x-[2px] translate-y-[2px]`，同时投影坍缩，模拟真实的按键下压感。
+- **双重多态兼容 (Polymorphism)**：
+  - 支持 `default`（平行斜切方块键）与 `line`（无斜切、底端紫色滑线指示器）两种变体。
+  - 利用 Tailwind 级联规则 `group-data-[variant=line]/tabs-list:skew-x-0` 优雅地在子组件中关闭斜切，无需任何额外的 React JS 代码控制。
+
+### 4.4 装饰元素 (Decorative Elements)
 
 - 
 - **警示带 / 跑马灯 (Marquee Tapes)**: 贯穿页面的横向或斜向无限滚动文本带。
