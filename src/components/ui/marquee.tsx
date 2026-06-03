@@ -1,0 +1,60 @@
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+interface MarqueeProps extends React.ComponentProps<"div"> {
+  speed?: number
+  direction?: "left" | "right"
+  pauseOnHover?: boolean
+  variant?: "default" | "tape" | "warning"
+}
+
+function Marquee({
+  className,
+  speed = 30,
+  direction = "left",
+  pauseOnHover = true,
+  variant = "default",
+  children,
+  ...props
+}: MarqueeProps) {
+  return (
+    <div
+      data-slot="marquee"
+      data-variant={variant}
+      className={cn(
+        "group/marquee relative flex overflow-hidden select-none",
+        "data-[variant=tape]:bg-primary data-[variant=tape]:text-primary-foreground data-[variant=tape]:border-y-2 data-[variant=tape]:border-foreground data-[variant=tape]:-rotate-[2deg]",
+        "data-[variant=warning]:bg-destructive data-[variant=warning]:text-white data-[variant=warning]:border-y-2 data-[variant=warning]:border-foreground",
+        "data-[variant=default]:bg-foreground data-[variant=default]:text-background data-[variant=default]:border-y-2 data-[variant=default]:border-foreground",
+        className
+      )}
+      {...props}
+    >
+      <div
+        className={cn(
+          "flex w-max items-center gap-8 font-black uppercase tracking-widest text-sm whitespace-nowrap",
+          "[animation:marquee_linear_infinite]",
+          pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
+          direction === "right" && "[animation-direction:reverse]"
+        )}
+        style={{ "--marquee-duration": `${speed}s` } as React.CSSProperties}
+      >
+        {children}
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function MarqueeItem({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="marquee-item"
+      className={cn("inline-flex items-center gap-2 shrink-0", className)}
+      {...props}
+    />
+  )
+}
+
+export { Marquee, MarqueeItem }

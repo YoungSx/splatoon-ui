@@ -9,18 +9,18 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-solid hover:bg-foreground hover:text-background hover:shadow-solid-lg active:translate-y-[2px] active:shadow-solid-sm",
+          "bg-primary text-primary-foreground shadow-solid hover:bg-foreground hover:text-background hover:shadow-solid-lg hover:rotate-[2deg] active:translate-y-[2px] active:shadow-solid-sm",
         outline:
-          "border-2 border-foreground bg-transparent text-foreground shadow-solid hover:bg-foreground hover:text-background hover:shadow-solid-lg active:translate-y-[2px] active:shadow-solid-sm",
+          "border-2 border-foreground bg-transparent text-foreground shadow-solid hover:bg-foreground hover:text-background hover:shadow-solid-lg hover:rotate-[2deg] active:translate-y-[2px] active:shadow-solid-sm",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-solid hover:brightness-110 hover:shadow-solid-lg active:translate-y-[2px] active:shadow-solid-sm",
+          "bg-secondary text-secondary-foreground shadow-solid hover:brightness-110 hover:shadow-solid-lg hover:rotate-[2deg] active:translate-y-[2px] active:shadow-solid-sm",
         ghost:
           "text-foreground hover:bg-foreground/10 hover:text-foreground active:bg-foreground/20",
         destructive:
-          "bg-destructive text-white shadow-solid hover:brightness-110 hover:shadow-solid-lg active:translate-y-[2px] active:shadow-solid-sm",
+          "bg-destructive text-white shadow-solid hover:brightness-110 hover:shadow-solid-lg hover:rotate-[2deg] active:translate-y-[2px] active:shadow-solid-sm",
         link: "text-primary underline-offset-4 hover:underline",
         tape:
-          "bg-primary text-primary-foreground clip-tape shadow-solid hover:bg-foreground hover:text-background hover:shadow-solid-lg active:translate-y-[2px]",
+          "bg-primary text-primary-foreground clip-tape shadow-solid hover:bg-foreground hover:text-background hover:shadow-solid-lg hover:rotate-[2deg] active:translate-y-[2px]",
       },
       size: {
         default: "h-10 gap-2 px-6 text-sm",

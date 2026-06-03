@@ -194,6 +194,17 @@
     transform: skewX(calc(var(--splat-skew) * 0.5)) rotate(calc(var(--splat-rotate) * 0.5));
   }
 
+  /* Heading with skew + text-shadow (for component titles) */
+  .splat-heading {
+    font-family: var(--font-display), sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-weight: 900;
+    transform: skewX(var(--splat-skew)) rotate(var(--splat-rotate));
+    text-shadow: 2px 2px 0px var(--splat-shadow-color);
+    display: inline-block;
+  }
+
   /* Torn paper edge (top) */
   .torn-top {
     clip-path: polygon(0 4%, 3% 0, 7% 3%, 12% 1%, 18% 4%, 23% 0, 28% 2%, 33% 0, 38% 3%, 43% 1%, 48% 4%, 53% 0, 58% 3%, 63% 1%, 68% 4%, 73% 0, 78% 2%, 83% 0, 88% 3%, 93% 1%, 97% 3%, 100% 0, 100% 100%, 0 100%);
@@ -217,6 +228,16 @@
     opacity: 0.08;
     pointer-events: none;
     z-index: 0;
+  }
+}
+
+/* ── Marquee Animation ── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
