@@ -370,3 +370,21 @@
     2% 70%, 0% 50%, 3% 25%
   );
 }
+
+/* ── Polaroid News Card: Dark mode SVG torn-paper fill ── */
+/* Each card sets --card-svg-fill (light) and --card-svg-fill-dark on its root element.
+   The SVG fill defaults to --card-svg-fill. In dark mode we override it per card
+   by reading --card-svg-fill-dark, which is inherited from the card's own inline style. */
+.dark [data-variant="news"] > svg {
+  fill: var(--card-svg-fill-dark) !important;
+}
+
+/* ── News cards: light mode shadow for visibility against cream background ── */
+/* White cards on #f5f0e8 background need a shadow to float above the page */
+[data-variant="news"] {
+  filter: drop-shadow(0px 4px 12px rgba(0,0,0,0.12)) drop-shadow(0px 1px 3px rgba(0,0,0,0.08));
+}
+
+.dark [data-variant="news"] {
+  filter: drop-shadow(0px 4px 16px rgba(0,0,0,0.6)) drop-shadow(0px 1px 4px rgba(0,0,0,0.4));
+}

@@ -104,12 +104,12 @@ export default function Home() {
       </header>
 
       {/* Slanted Transition Divider 1: Header to News Feed */}
-      <div className="w-full h-12 relative z-10 -mt-1 bg-transparent">
+      <div className="w-full h-12 relative z-10 -mt-1 bg-white dark:bg-[#0d0d0d]">
         <svg
           viewBox="0 0 1440 60"
           fill="none"
           preserveAspectRatio="none"
-          className="w-full h-full text-[#f5f0e8] dark:text-[#111111] fill-current transition-colors duration-300"
+          className="w-full h-full text-[#f5f0e8] dark:text-[#151515] fill-current transition-colors duration-300"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M0,60 L1440,0 L1440,60 Z" />
@@ -119,7 +119,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 2: NEWS FEED (Adapting Theme - bg-[#f5f0e8]/bg-[#111111])
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#111111] text-chaos-black dark:text-white py-12 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
+      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-12 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
         <div className="w-full max-w-4xl space-y-8">
           {/* Section Header */}
           <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
@@ -228,12 +228,12 @@ export default function Home() {
       </section>
 
       {/* Slanted Transition Divider 2: News Feed to Tags Section */}
-      <div className="w-full h-12 relative z-10 -mt-1 bg-transparent">
+      <div className="w-full h-12 relative z-10 -mt-1 bg-[#f5f0e8] dark:bg-[#151515]">
         <svg
           viewBox="0 0 1440 60"
           fill="none"
           preserveAspectRatio="none"
-          className="w-full h-full text-[#f5f0e8] dark:text-[#111111] fill-current transition-colors duration-300"
+          className="w-full h-full text-white dark:text-[#0d0d0d] fill-current transition-colors duration-300"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path d="M0,0 L1440,60 L0,60 Z" />
@@ -341,7 +341,10 @@ export default function Home() {
               <TabsContent value="preview" className="outline-none">
                 <div className="grid gap-8 md:grid-cols-2">
                   {/* Buttons Card (Adapting Card) */}
-                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
+                  <Card
+                    variant="news"
+                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                  >
                     <CardHeader>
                       <CardTitle>Drip Buttons</CardTitle>
                       <CardDescription className="dark:text-white/70">Featuring liquid-fill math & bouncy rotational physics</CardDescription>
@@ -359,7 +362,10 @@ export default function Home() {
                   </Card>
 
                   {/* Badges Card */}
-                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
+                  <Card
+                    variant="news"
+                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                  >
                     <CardHeader>
                       <CardTitle>Sticker Badges</CardTitle>
                       <CardDescription className="dark:text-white/70">Double-border sticker badges with custom shapes</CardDescription>
@@ -379,7 +385,10 @@ export default function Home() {
               <TabsContent value="forms" className="outline-none">
                 <div className="grid gap-8 md:grid-cols-2">
                   {/* Input Card */}
-                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
+                  <Card
+                    variant="news"
+                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                  >
                     <CardHeader>
                       <CardTitle>Input Fields</CardTitle>
                       <CardDescription className="dark:text-white/70">Bold borders & uppercase placeholder hints</CardDescription>
@@ -397,7 +406,10 @@ export default function Home() {
                   </Card>
 
                   {/* Alert Card */}
-                  <Card cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white border-2 border-chaos-black dark:border-white/20">
+                  <Card
+                    variant="news"
+                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                  >
                     <CardHeader>
                       <CardTitle>Ink Alerts</CardTitle>
                       <CardDescription className="dark:text-white/70">High contrast alert blocks with warning icons</CardDescription>
@@ -436,13 +448,11 @@ export default function Home() {
       </Marquee>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-[#0c0c0c] border-t border-chaos-black/5 dark:border-white/5 py-8 flex justify-center text-center transition-colors duration-300">
-        <Card cardBgColor="bg-transparent text-chaos-black/50 dark:text-white/50 border-none shadow-none max-w-md w-full">
-          <CardFooter className="flex justify-between text-xs uppercase tracking-wider border-none">
-            <span>splatoon-ui v0.1.0</span>
-            <span>Next.js + Radix + Tailwind CSS</span>
-          </CardFooter>
-        </Card>
+      <footer className="bg-white dark:bg-[#0c0c0c] border-t border-chaos-black/10 dark:border-white/5 py-8 flex justify-center text-center transition-colors duration-300">
+        <div className="max-w-md w-full flex items-center justify-between text-xs uppercase tracking-wider text-chaos-black/40 dark:text-white/40 px-4">
+          <span>splatoon-ui v0.1.0</span>
+          <span>Next.js + Radix + Tailwind CSS</span>
+        </div>
       </footer>
     </div>
   )

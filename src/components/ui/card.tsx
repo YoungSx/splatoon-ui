@@ -240,12 +240,40 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       </div>
     )
 
-    // Dynamic bg mapping to fill the SVG correctly
-    const svgColorClass = cardBgColor
-      .split(" ")
-      .filter(c => c.includes("bg-"))
-      .map(c => c.replace(/bg-/, "text-"))
-      .join(" ") || "text-white"
+    // Determine SVG fill colors for light and dark modes by parsing cardBgColor
+    // We need actual hex values since CSS classes won't reliably propagate dark: variants to SVG fill
+    const parseSvgFill = () => {
+      // Extract light bg color (bg-xxx without dark: prefix)
+      const lightBg = cardBgColor.split(" ").find(c => c.startsWith("bg-") && !c.startsWith("bg-transparent"))
+      // Extract dark bg color (dark:bg-xxx)
+      const darkBg = cardBgColor.split(" ").find(c => c.startsWith("dark:bg-"))
+
+      const extractColor = (cls?: string) => {
+        if (!cls) return null
+        const stripped = cls.replace(/^dark:/, "").replace("bg-", "")
+        if (stripped === "white") return "#ffffff"
+        if (stripped === "black") return "#0d0d0d"
+        // Match [#hexvalue] or [color]
+        const match = stripped.match(/^\[(.+)\]$/)
+        return match ? match[1] : null
+      }
+
+      return {
+        light: extractColor(lightBg) ?? "#ffffff",
+        dark: extractColor(darkBg) ?? (extractColor(lightBg) ?? "#ffffff"),
+      }
+    }
+
+    const svgFills = parseSvgFill()
+
+    // Use CSS custom property on parent so SVG can inherit it
+    // The actual switching is done via a CSS variable that Tailwind's dark mode toggles
+    const cardStyle = {
+      ...inlineStyle,
+      // These two CSS vars are used by the SVG via light-dark() — each card has its own values
+      "--card-svg-fill": svgFills.light,
+      "--card-svg-fill-dark": svgFills.dark,
+    } as React.CSSProperties
 
     return (
       <CardContext.Provider value={{ variant }}>
@@ -253,17 +281,18 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           ref={ref}
           data-slot="card"
           data-variant="news"
-          style={inlineStyle}
+          style={cardStyle}
           className={cn(
-            "group/card relative flex flex-col cursor-pointer transition-[transform,box-shadow] duration-300 ease-out [filter:drop-shadow(2px_2px_4px_rgba(0,0,0,0.5))] hover:scale-[1.025] hover:rotate-[var(--hover-rotate)] active:scale-[0.985] active:rotate-[var(--hover-rotate)]",
+            "group/card relative flex flex-col cursor-pointer transition-[transform,box-shadow] duration-300 ease-out hover:scale-[1.025] hover:rotate-[var(--hover-rotate)] active:scale-[0.985] active:rotate-[var(--hover-rotate)]",
             className
           )}
           {...props}
         >
-          {/* Top Paper Tear SVG */}
+          {/* Top Paper Tear SVG — fill via CSS vars per card (dark mode aware) */}
           <svg
             aria-hidden="true"
-            className={cn("w-full mb-[-2.5px] fill-current z-10 relative pointer-events-none select-none", svgColorClass)}
+            className="w-full mb-[-4px] z-10 relative pointer-events-none select-none"
+            style={{ fill: "var(--card-svg-fill)" }}
             viewBox="0 0 448 60"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
@@ -286,10 +315,11 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             </div>
           </div>
 
-          {/* Bottom Paper Tear SVG */}
+          {/* Bottom Paper Tear SVG — fill via CSS var to support dark mode */}
           <svg
             aria-hidden="true"
-            className={cn("w-full mt-[-2.5px] fill-current z-10 relative pointer-events-none select-none", svgColorClass)}
+            className="w-full mt-[-4px] z-10 relative pointer-events-none select-none"
+            style={{ fill: "var(--card-svg-fill)" }}
             viewBox="0 0 448 24"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
