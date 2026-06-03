@@ -9,7 +9,7 @@ function Card({
   ...props
 }: React.ComponentProps<"div"> & {
   size?: "default" | "sm"
-  variant?: "default" | "torn" | "tape"
+  variant?: "default" | "transparent"
 }) {
   return (
     <div
@@ -17,9 +17,9 @@ function Card({
       data-size={size}
       data-variant={variant}
       className={cn(
-        "group/card relative flex flex-col gap-4 overflow-hidden border-2 border-foreground bg-card py-4 text-sm text-card-foreground shadow-solid has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0",
-        "data-[variant=torn]:torn-top data-[variant=torn]:torn-bottom",
-        "data-[variant=tape]:clip-tape data-[variant=tape]:rotate-[-1deg]",
+        "group/card relative flex flex-col gap-4 overflow-hidden border-2 border-transparent bg-card py-5 text-sm text-card-foreground has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 rounded-none shadow-solid",
+        "data-[variant=default]:border-border",
+        "data-[variant=transparent]:bg-transparent data-[variant=transparent]:border-none data-[variant=transparent]:shadow-none",
         className
       )}
       {...props}

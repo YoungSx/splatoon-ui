@@ -10,18 +10,18 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-solid-sm hover:shadow-solid hover:-translate-y-0.5",
+          "bg-primary text-primary-foreground hover:brightness-110",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-solid-sm hover:shadow-solid hover:-translate-y-0.5",
+          "bg-secondary text-secondary-foreground hover:brightness-110",
         destructive:
-          "bg-destructive text-white shadow-solid-sm hover:shadow-solid hover:-translate-y-0.5",
+          "bg-destructive text-white hover:brightness-110",
         outline:
-          "bg-transparent text-foreground shadow-solid-sm hover:shadow-solid hover:-translate-y-0.5",
+          "bg-transparent text-foreground hover:bg-foreground hover:text-background",
         ghost:
           "border-transparent text-foreground hover:bg-foreground/10",
         link: "border-transparent text-primary underline-offset-4 hover:underline",
         sticker:
-          "bg-primary text-primary-foreground clip-tape shadow-solid-sm hover:shadow-solid rotate-[-2deg] hover:rotate-0",
+          "bg-primary text-primary-foreground hover:brightness-110 rotate-[-2deg]",
       },
     },
     defaultVariants: {

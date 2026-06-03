@@ -1,26 +1,6 @@
 import type { Metadata } from 'next'
-import { Bungee, Manrope, JetBrains_Mono } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import './globals.css'
-
-const bungee = Bungee({
-  variable: '--font-display',
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-})
-
-const manrope = Manrope({
-  variable: '--font-body',
-  subsets: ['latin'],
-  display: 'swap',
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: '--font-mono',
-  subsets: ['latin'],
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: 'Splatoon UI',
@@ -35,11 +15,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bungee.variable} ${manrope.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className="h-full antialiased"
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://use.typekit.net/xyd0frw.css" />
+      </head>
       <body className="min-h-full flex flex-col font-body">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
       </body>

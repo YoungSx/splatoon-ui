@@ -4,12 +4,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ── Font Face: fooregular (Splatoon display font) ── */
+@font-face {
+  font-family: 'fooregular';
+  src: url('https://splatoon.nintendo.com/fonts/foo-webfont.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
   --font-mono: var(--font-mono);
-  --font-heading: var(--font-display);
+  --font-heading: 'obviously-narrow', 'fooregular', 'Montserrat', sans-serif;
+  --font-display: 'social-gothic-rough', 'fooregular', 'Montserrat', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -47,97 +57,104 @@
   --radius-3xl: 12px;
   --radius-4xl: 16px;
 
-  /* Splatoon-specific tokens */
-  --splat-skew: -5deg;
-  --splat-rotate: -2deg;
-  --splat-shadow-offset: 6px;
-  --splat-shadow-color: var(--chaos-black);
+  /* Splatoon site exact easing functions */
+  --ease-out: cubic-bezier(0.35, 0.91, 0.3, 0.99);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 /* ── Light Theme: Desert Wasteland (Splatsville) ── */
 :root {
-  --background: oklch(0.91 0.03 80);
-  --foreground: oklch(0.15 0.005 60);
-  --card: oklch(0.96 0.005 80);
-  --card-foreground: oklch(0.15 0.005 60);
-  --popover: oklch(0.96 0.005 80);
-  --popover-foreground: oklch(0.15 0.005 60);
-  --primary: oklch(0.92 0.22 110);
-  --primary-foreground: oklch(0.15 0.005 60);
-  --secondary: oklch(0.40 0.30 280);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.88 0.03 80);
-  --muted-foreground: oklch(0.45 0.01 60);
-  --accent: oklch(0.40 0.30 280);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.55 0.25 25);
-  --border: oklch(0.78 0.03 80);
-  --input: oklch(0.78 0.03 80);
-  --ring: oklch(0.92 0.22 110);
-  --chart-1: oklch(0.92 0.22 110);
-  --chart-2: oklch(0.40 0.30 280);
-  --chart-3: oklch(0.55 0.25 25);
-  --chart-4: oklch(0.70 0.15 60);
-  --chart-5: oklch(0.30 0.02 60);
-  --radius: 4px;
+  /* Exact Splatoon site colors */
+  --background: #ffffff;
+  --foreground: #0d0d0d;
+  --card: #ffffff;
+  --card-foreground: #0d0d0d;
+  --popover: #ffffff;
+  --popover-foreground: #0d0d0d;
+  --primary: #eaff3d;
+  --primary-foreground: #0d0d0d;
+  --secondary: #603bff;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f5f5;
+  --muted-foreground: #555555;
+  --accent: #af50ff;
+  --accent-foreground: #ffffff;
+  --destructive: #ff505e;
+  --border: #cccccc;
+  --input: #cccccc;
+  --ring: #eaff3d;
+  --chart-1: #eaff3d;
+  --chart-2: #603bff;
+  --chart-3: #ff505e;
+  --chart-4: #ff9750;
+  --chart-5: #6af7ce;
+  --radius: 8px;
 
-  /* Splatoon brand tokens */
-  --neon-yellow: oklch(0.92 0.22 110);
-  --ink-blue: oklch(0.40 0.30 280);
-  --desert-sand: oklch(0.91 0.03 80);
-  --chaos-black: oklch(0.15 0.005 60);
-  --tape-white: oklch(0.96 0.005 80);
+  /* Splatoon brand tokens (exact from site) */
+  --neon-yellow: #eaff3d;
+  --ink-blue: #603bff;
+  --ink-purple: #af50ff;
+  --ink-green: #6af7ce;
+  --ink-orange: #ff9750;
+  --ink-red: #ff505e;
+  --desert-sand: #f5f0e8;
+  --chaos-black: #0d0d0d;
+  --tape-white: #ffffff;
 
-  --sidebar: oklch(0.93 0.02 80);
-  --sidebar-foreground: oklch(0.15 0.005 60);
-  --sidebar-primary: oklch(0.92 0.22 110);
-  --sidebar-primary-foreground: oklch(0.15 0.005 60);
-  --sidebar-accent: oklch(0.88 0.03 80);
-  --sidebar-accent-foreground: oklch(0.15 0.005 60);
-  --sidebar-border: oklch(0.78 0.03 80);
-  --sidebar-ring: oklch(0.92 0.22 110);
+  --sidebar: #f5f5f5;
+  --sidebar-foreground: #0d0d0d;
+  --sidebar-primary: #eaff3d;
+  --sidebar-primary-foreground: #0d0d0d;
+  --sidebar-accent: #f0f0f0;
+  --sidebar-accent-foreground: #0d0d0d;
+  --sidebar-border: #cccccc;
+  --sidebar-ring: #eaff3d;
 }
 
 /* ── Dark Theme: Night Battle (Turf War) ── */
 .dark {
-  --background: oklch(0.13 0.02 280);
-  --foreground: oklch(0.95 0.005 80);
-  --card: oklch(0.18 0.02 280);
-  --card-foreground: oklch(0.95 0.005 80);
-  --popover: oklch(0.18 0.02 280);
-  --popover-foreground: oklch(0.95 0.005 80);
-  --primary: oklch(0.92 0.22 110);
-  --primary-foreground: oklch(0.15 0.005 60);
-  --secondary: oklch(0.55 0.25 280);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.22 0.02 280);
-  --muted-foreground: oklch(0.65 0.01 80);
-  --accent: oklch(0.55 0.25 280);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.60 0.25 25);
-  --border: oklch(0.30 0.03 280);
-  --input: oklch(0.30 0.03 280);
-  --ring: oklch(0.92 0.22 110);
-  --chart-1: oklch(0.92 0.22 110);
-  --chart-2: oklch(0.55 0.25 280);
-  --chart-3: oklch(0.60 0.25 25);
-  --chart-4: oklch(0.75 0.12 60);
-  --chart-5: oklch(0.50 0.02 60);
+  --background: #0d0d0d;
+  --foreground: #ffffff;
+  --card: #1a1a1a;
+  --card-foreground: #ffffff;
+  --popover: #1a1a1a;
+  --popover-foreground: #ffffff;
+  --primary: #eaff3d;
+  --primary-foreground: #0d0d0d;
+  --secondary: #603bff;
+  --secondary-foreground: #ffffff;
+  --muted: #222222;
+  --muted-foreground: #888888;
+  --accent: #af50ff;
+  --accent-foreground: #ffffff;
+  --destructive: #ff505e;
+  --border: #333333;
+  --input: #333333;
+  --ring: #eaff3d;
+  --chart-1: #eaff3d;
+  --chart-2: #603bff;
+  --chart-3: #ff505e;
+  --chart-4: #ff9750;
+  --chart-5: #6af7ce;
 
-  --neon-yellow: oklch(0.92 0.22 110);
-  --ink-blue: oklch(0.55 0.25 280);
-  --desert-sand: oklch(0.20 0.02 280);
-  --chaos-black: oklch(0.10 0.005 280);
-  --tape-white: oklch(0.25 0.02 280);
+  --neon-yellow: #eaff3d;
+  --ink-blue: #603bff;
+  --ink-purple: #af50ff;
+  --ink-green: #6af7ce;
+  --ink-orange: #ff9750;
+  --ink-red: #ff505e;
+  --desert-sand: #1a1a1a;
+  --chaos-black: #0d0d0d;
+  --tape-white: #222222;
 
-  --sidebar: oklch(0.15 0.02 280);
-  --sidebar-foreground: oklch(0.95 0.005 80);
-  --sidebar-primary: oklch(0.92 0.22 110);
-  --sidebar-primary-foreground: oklch(0.15 0.005 60);
-  --sidebar-accent: oklch(0.22 0.02 280);
-  --sidebar-accent-foreground: oklch(0.95 0.005 80);
-  --sidebar-border: oklch(0.30 0.03 280);
-  --sidebar-ring: oklch(0.92 0.22 110);
+  --sidebar: #111111;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #eaff3d;
+  --sidebar-primary-foreground: #0d0d0d;
+  --sidebar-accent: #222222;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #333333;
+  --sidebar-ring: #eaff3d;
 }
 
 @layer base {
@@ -152,68 +169,48 @@
   }
 }
 
-/* ── Splatoon Typography ── */
+/* ── Splatoon Typography (exact from real site) ── */
 @layer base {
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display), sans-serif;
+    font-family: 'obviously-narrow', 'fooregular', 'Montserrat', sans-serif;
     text-transform: uppercase;
-    letter-spacing: 0.02em;
-    font-weight: 900;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    line-height: 1.1;
+  }
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-family: 'social-gothic-rough', 'fooregular', 'Montserrat', sans-serif;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 3.125rem);
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
   }
 }
 
 /* ── Splatoon Utilities ── */
 @layer utilities {
-  /* Solid drop shadows (no blur, offset, high contrast) */
+  /* Solid drop shadows (no blur, offset, high contrast) — exact from site */
   .shadow-solid {
-    box-shadow: var(--splat-shadow-offset) var(--splat-shadow-offset) 0px var(--splat-shadow-color);
+    box-shadow: 4px 4px 0px var(--chaos-black);
   }
   .shadow-solid-sm {
-    box-shadow: 3px 3px 0px var(--splat-shadow-color);
+    box-shadow: 2px 2px 0px var(--chaos-black);
   }
   .shadow-solid-lg {
-    box-shadow: 8px 8px 0px var(--splat-shadow-color);
+    box-shadow: 6px 6px 0px var(--chaos-black);
   }
   .shadow-solid-xl {
-    box-shadow: 12px 12px 0px var(--splat-shadow-color);
+    box-shadow: 8px 8px 0px var(--chaos-black);
   }
 
-  /* Tape/sticker clip-path */
-  .clip-tape {
-    clip-path: polygon(2% 0, 100% 3%, 98% 100%, 0 96%);
-  }
-  .clip-tape-alt {
-    clip-path: polygon(0 2%, 97% 0, 100% 97%, 3% 100%);
-  }
-
-  /* Skewed heading style */
-  .splat-skew {
-    transform: skewX(var(--splat-skew)) rotate(var(--splat-rotate));
-  }
-  .splat-skew-hover:hover {
-    transform: skewX(calc(var(--splat-skew) * 0.5)) rotate(calc(var(--splat-rotate) * 0.5));
-  }
-
-  /* Heading with skew + text-shadow (for component titles) */
-  .splat-heading {
-    font-family: var(--font-display), sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    font-weight: 900;
-    transform: skewX(var(--splat-skew)) rotate(var(--splat-rotate));
-    text-shadow: 2px 2px 0px var(--splat-shadow-color);
-    display: inline-block;
-  }
-
-  /* Torn paper edge (top) */
-  .torn-top {
-    clip-path: polygon(0 4%, 3% 0, 7% 3%, 12% 1%, 18% 4%, 23% 0, 28% 2%, 33% 0, 38% 3%, 43% 1%, 48% 4%, 53% 0, 58% 3%, 63% 1%, 68% 4%, 73% 0, 78% 2%, 83% 0, 88% 3%, 93% 1%, 97% 3%, 100% 0, 100% 100%, 0 100%);
-  }
-
-  /* Torn paper edge (bottom) */
-  .torn-bottom {
-    clip-path: polygon(0 0, 100% 0, 100% 96%, 97% 100%, 93% 97%, 88% 99%, 83% 96%, 78% 100%, 73% 98%, 68% 96%, 63% 99%, 58% 97%, 53% 100%, 48% 96%, 43% 99%, 38% 97%, 33% 100%, 28% 98%, 23% 96%, 18% 100%, 12% 97%, 7% 99%, 3% 96%, 0 100%);
-  }
+  /* Skewed heading style — like real site h1/h2 */
 
   /* Ink splatter overlay */
   .ink-splatter {
@@ -239,6 +236,84 @@
   to {
     transform: translateX(-50%);
   }
+}
+
+/* ── Entrance Animations ── */
+@keyframes splat-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-20deg);
+  }
+  60% {
+    opacity: 0.25;
+    transform: scale(1.1) rotate(3deg);
+  }
+  100% {
+    opacity: var(--splat-opacity, 0.2);
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes slide-up-tilt {
+  from {
+    opacity: 0;
+    transform: translateY(30px) rotate(-3deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--card-rotate, 0deg));
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-splat-in {
+  animation: splat-in 0.6s var(--ease-out) both;
+}
+
+.animate-slide-up {
+  animation: slide-up-tilt 0.5s var(--ease-out) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out both;
+}
+
+/* Stagger delays for card entrance */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+/* ── Wavy Divider ── */
+.divider-wavy {
+  position: relative;
+  height: 20px;
+  overflow: hidden;
+}
+.divider-wavy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--foreground) 0px,
+    var(--foreground) 2px,
+    transparent 2px,
+    transparent 12px
+  );
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q15 0 30 10 T60 10 T90 10 T120 10' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E");
+  mask-size: 120px 20px;
+  mask-repeat: repeat-x;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q15 0 30 10 T60 10 T90 10 T120 10' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E");
+  -webkit-mask-size: 120px 20px;
+  -webkit-mask-repeat: repeat-x;
+  opacity: 0.3;
 }
 
 /* ── Reduced Motion ── */

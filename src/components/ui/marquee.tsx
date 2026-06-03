@@ -25,7 +25,7 @@ function Marquee({
       className={cn(
         "group/marquee relative flex overflow-hidden select-none",
         "data-[variant=tape]:bg-primary data-[variant=tape]:text-primary-foreground data-[variant=tape]:border-y-2 data-[variant=tape]:border-foreground data-[variant=tape]:-rotate-[2deg]",
-        "data-[variant=warning]:bg-destructive data-[variant=warning]:text-white data-[variant=warning]:border-y-2 data-[variant=warning]:border-foreground",
+        "data-[variant=warning]:bg-[repeating-linear-gradient(45deg,#E3FF00,#E3FF00_12px,#0d0d0d_12px,#0d0d0d_24px)] data-[variant=warning]:text-chaos-black data-[variant=warning]:border-y-2 data-[variant=warning]:border-foreground",
         "data-[variant=default]:bg-foreground data-[variant=default]:text-background data-[variant=default]:border-y-2 data-[variant=default]:border-foreground",
         className
       )}
@@ -33,7 +33,7 @@ function Marquee({
     >
       <div
         className={cn(
-          "flex w-max items-center gap-8 font-black uppercase tracking-widest text-sm whitespace-nowrap",
+          "flex w-max items-center gap-8 font-black uppercase tracking-widest text-sm whitespace-nowrap splat-heading text-[24px] px-8 py-2",
           "[animation:marquee_linear_infinite]",
           pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
           direction === "right" && "[animation-direction:reverse]"
