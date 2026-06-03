@@ -176,7 +176,7 @@ export default function Home() {
               tapeColor="red"
               tapePosition="news"
               hasStaples={true}
-              cardBgColor="bg-[#ff505e] text-white shadow-solid"
+              surface="danger"
             >
               <CardImage className="bg-[#0d0d0d] p-4 h-48 flex items-center justify-center">
                 <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#ff505e] fill-current">
@@ -318,11 +318,11 @@ export default function Home() {
                   {/* Buttons Card (Adapting Card) */}
                   <Card
                     variant="news"
-                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                    surface="cream"
                   >
                     <CardHeader>
                       <CardTitle>Drip Buttons</CardTitle>
-                      <CardDescription className="dark:text-white/70">Featuring liquid-fill math & bouncy rotational physics</CardDescription>
+                      <CardDescription>Featuring liquid-fill math & bouncy rotational physics</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
                       <Button variant="yellow">Yellow</Button>
@@ -339,11 +339,11 @@ export default function Home() {
                   {/* Badges Card */}
                   <Card
                     variant="news"
-                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                    surface="cream"
                   >
                     <CardHeader>
                       <CardTitle>Sticker Badges</CardTitle>
-                      <CardDescription className="dark:text-white/70">Double-border sticker badges with custom shapes</CardDescription>
+                      <CardDescription>Double-border sticker badges with custom shapes</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-3 pt-2">
                       <Badge>Default</Badge>
@@ -362,20 +362,20 @@ export default function Home() {
                   {/* Input Card */}
                   <Card
                     variant="news"
-                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                    surface="cream"
                   >
                     <CardHeader>
                       <CardTitle>Input Fields</CardTitle>
-                      <CardDescription className="dark:text-white/70">Bold borders & uppercase placeholder hints</CardDescription>
+                      <CardDescription>Bold borders & uppercase placeholder hints</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4 pt-2">
                       <div className="space-y-1.5">
-                        <Label htmlFor="demo-input" className="dark:text-white">Player Nickname</Label>
-                        <Input id="demo-input" placeholder="ENTER NICKNAME..." className="dark:bg-[#121212] dark:text-white dark:border-white/30" />
+                        <Label htmlFor="demo-input">Player Nickname</Label>
+                        <Input id="demo-input" placeholder="ENTER NICKNAME..." />
                       </div>
                       <div className="space-y-1.5">
-                        <Label htmlFor="demo-input-disabled" className="dark:text-white">E-shop Code</Label>
-                        <Input id="demo-input-disabled" placeholder="LOCKED..." disabled className="dark:bg-[#121212] dark:text-white dark:border-white/30" />
+                        <Label htmlFor="demo-input-disabled">E-shop Code</Label>
+                        <Input id="demo-input-disabled" placeholder="LOCKED..." disabled />
                       </div>
                     </CardContent>
                   </Card>
@@ -383,11 +383,11 @@ export default function Home() {
                   {/* Alert Card */}
                   <Card
                     variant="news"
-                    cardBgColor="bg-[#f5f0e8] dark:bg-[#1e1e1e] text-chaos-black dark:text-white"
+                    surface="cream"
                   >
                     <CardHeader>
                       <CardTitle>Ink Alerts</CardTitle>
-                      <CardDescription className="dark:text-white/70">High contrast alert blocks with warning icons</CardDescription>
+                      <CardDescription>High contrast alert blocks with warning icons</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-4 pt-2 font-heading">
                       <Alert variant="warning">

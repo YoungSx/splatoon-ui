@@ -381,9 +381,9 @@
 
 /* ── News cards: light mode shadow for visibility against cream background ── */
 [data-variant="news"] {
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.35));
 }
 
 .dark [data-variant="news"] {
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.65));
+  filter: none;
 }

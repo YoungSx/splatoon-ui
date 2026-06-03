@@ -8,7 +8,7 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button relative inline-flex shrink-0 items-center justify-center select-none overflow-hidden rounded-[8px] font-heading font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50 shadow-solid hover:shadow-solid-lg hover:rotate-[var(--hover-rotate)] hover:scale-[1.03] active:rotate-[var(--hover-rotate)] active:scale-[0.97] active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]",
+  "group/button relative inline-flex shrink-0 items-center justify-center select-none overflow-hidden rounded-[8px] font-heading font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -25,9 +25,9 @@ const buttonVariants = cva(
         destructive:
           "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-red)] [--text-color:#ffffff] [--hover-bg-color:var(--chaos-black)] [--hover-text-color:var(--ink-red)]",
         outline:
-          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-chaos-black dark:border-white [--bg-color:#ffffff] dark:[--bg-color:#1e1e1e] [--text-color:var(--chaos-black)] dark:[--text-color:#ffffff] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)] shadow-solid active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)] dark:active:shadow-[1px_1px_0px_#ffffff]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-[var(--outline-border-color)] [--bg-color:#ffffff] [--text-color:var(--chaos-black)] [--outline-border-color:var(--chaos-black)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)]",
         ghost:
-          "bg-transparent text-foreground shadow-none hover:bg-foreground/10 active:bg-foreground/20 hover:rotate-0 hover:scale-100 active:scale-95 shadow-none active:translate-x-0 active:translate-y-0 active:shadow-none",
+          "bg-transparent text-current shadow-none hover:bg-current/10 active:bg-current/20 hover:rotate-0 hover:scale-100 active:scale-95 active:translate-x-0 active:translate-y-0 active:shadow-none",
         arrow: "",
       },
       size: {
@@ -66,6 +66,9 @@ const sizeContentLineHeightMap = {
 
 const arrowButtonClassName =
   "group/button relative inline-block shrink-0 select-none bg-transparent p-0 font-heading text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
+
+const solidButtonEffectsClassName =
+  "shadow-solid hover:shadow-solid-lg hover:rotate-[var(--hover-rotate)] hover:scale-[1.03] active:rotate-[var(--hover-rotate)] active:scale-[0.97] active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]"
 
 interface DripControlPoint {
   y1: number // leave amplitude offset
@@ -181,6 +184,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               }
             : {}),
           "--hover-rotate": variant !== "ghost" ? hoverRotate : "0deg",
+          ...(variant === "ghost"
+            ? {
+                boxShadow: "none",
+              }
+            : {}),
         } as React.CSSProperties
       : undefined
 
@@ -216,6 +224,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variant === "arrow"
             ? arrowButtonClassName
             : buttonVariants({ variant, size }),
+          variant !== "arrow" && variant !== "ghost" ? solidButtonEffectsClassName : undefined,
           variant === "arrow" ? undefined : paddingClass,
           className
         )}

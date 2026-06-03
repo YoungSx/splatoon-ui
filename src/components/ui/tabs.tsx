@@ -25,12 +25,12 @@ function Tabs({
 }
 
 const tabsListVariants = cva(
-  "group/tabs-list inline-flex w-fit items-center justify-center text-foreground group-data-horizontal/tabs:h-auto group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col",
+  "group/tabs-list inline-flex w-fit items-center justify-center text-current group-data-horizontal/tabs:h-auto group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col",
   {
     variants: {
       variant: {
         default: "gap-3 bg-transparent p-1",
-        line: "gap-1 bg-transparent border-b-2 border-chaos-black/10 w-full justify-start rounded-none",
+        line: "gap-1 bg-transparent border-b-2 border-current/10 w-full justify-start rounded-none",
       },
     },
     defaultVariants: {
@@ -61,12 +61,12 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
       className={cn(
         "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 px-6 py-2.5 text-base font-black uppercase tracking-wider whitespace-nowrap transition-all outline-none focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 select-none",
         // Default Skew Tab Styling (Parallelogram)
-        "skew-x-[-12deg] border-2 border-transparent bg-transparent text-chaos-black/60 dark:text-white/60",
-        "data-active:bg-[#eaff3d] data-active:text-[#0d0d0d] data-active:border-[#0d0d0d] dark:data-active:border-white data-active:shadow-solid-sm dark:data-active:shadow-[1px_1px_0px_#ffffff]",
+        "skew-x-[-12deg] border-2 border-transparent bg-transparent text-current opacity-60",
+        "data-active:bg-[#eaff3d] data-active:text-[#0d0d0d] data-active:border-[#0d0d0d] data-active:shadow-solid-sm data-active:opacity-100",
         "data-active:active:translate-x-[2px] data-active:active:translate-y-[2px] data-active:active:shadow-none",
-        "hover:text-chaos-black hover:scale-[1.02] dark:hover:text-white",
+        "hover:opacity-100 hover:scale-[1.02]",
         // Override for Line Variant (No Skew, Clean Text with Underline)
-        "group-data-[variant=line]/tabs-list:skew-x-0 group-data-[variant=line]/tabs-list:border-0 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent group-data-[variant=line]/tabs-list:data-active:shadow-none group-data-[variant=line]/tabs-list:data-active:text-[#603bff] group-data-[variant=line]/tabs-list:hover:text-[#603bff] group-data-[variant=line]/tabs-list:active:translate-x-0 group-data-[variant=line]/tabs-list:active:translate-y-0",
+        "group-data-[variant=line]/tabs-list:skew-x-0 group-data-[variant=line]/tabs-list:border-0 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent group-data-[variant=line]/tabs-list:data-active:shadow-none group-data-[variant=line]/tabs-list:data-active:text-[#603bff] group-data-[variant=line]/tabs-list:hover:text-[#603bff] group-data-[variant=line]/tabs-list:hover:opacity-100 group-data-[variant=line]/tabs-list:active:translate-x-0 group-data-[variant=line]/tabs-list:active:translate-y-0",
         // Underline animation for line variant
         "after:absolute after:bg-[#603bff] after:opacity-0 after:transition-all group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-2px] group-data-horizontal/tabs:after:h-[3px] group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-[2px] group-data-vertical/tabs:after:w-[3px] group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
         className

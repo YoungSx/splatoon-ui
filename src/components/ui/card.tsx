@@ -1,12 +1,37 @@
 "use client"
 
 import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
 // CardContext for variant-sharing among sub-components (like CardImage)
-const CardContext = React.createContext<{ variant?: "news" | "tag" }>({ variant: "news" })
+const CardContext = React.createContext<{ variant?: "news" | "tag"; surface?: "paper" | "cream" | "danger" }>({
+  variant: "news",
+  surface: "paper",
+})
+
+const newsSurfaceVariants = cva("flex h-full flex-col pt-0 px-8 pb-6 relative z-10", {
+  variants: {
+    surface: {
+      paper: "bg-white text-[#0d0d0d]",
+      cream: "bg-[#f5f0e8] text-[#0d0d0d]",
+      danger: "bg-[#ff505e] text-white shadow-solid",
+    },
+  },
+  defaultVariants: {
+    surface: "paper",
+  },
+})
+
+type NewsSurface = NonNullable<VariantProps<typeof newsSurfaceVariants>["surface"]>
+
+const newsSurfaceFillMap = {
+  paper: { light: "#ffffff", dark: "#ffffff" },
+  cream: { light: "#f5f0e8", dark: "#f5f0e8" },
+  danger: { light: "#ff505e", dark: "#ff505e" },
+} as const satisfies Record<NewsSurface, { light: string; dark: string }>
 
 export interface CardProps extends React.ComponentProps<"div"> {
   asChild?: boolean
@@ -17,7 +42,7 @@ export interface CardProps extends React.ComponentProps<"div"> {
   tapeText?: string
   tapeColor?: "yellow" | "red" | "blue" | "green"
   tapePosition?: "news" | "event"
-  cardBgColor?: string
+  surface?: NewsSurface
   // For tag variant
   tagTheme?: "yellow" | "blue" | "purple" | "orange" | "green"
   tagRotation?: string
@@ -31,18 +56,6 @@ const tagThemeMap = {
   green: "text-[#6af7ce] text-[#0d0d0d]",
 }
 
-// Safelist of text color classes mapped from background colors to ensure Tailwind compile retains them
-const _tailwindCardSafelist = [
-  "text-white",
-  "dark:text-[#1e1e1e]",
-  "text-[#ff505e]",
-  "text-[#f5f0e8]",
-  "dark:text-[#111111]",
-  "text-[#603bff]",
-  "text-[#ff9750]",
-  "text-[#6af7ce]",
-]
-
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   (
     {
@@ -55,7 +68,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       tapeText = "NEWS!",
       tapeColor = "yellow",
       tapePosition = "news",
-      cardBgColor = "bg-white dark:bg-[#1e1e1e] text-chaos-black dark:text-white",
+      surface = "paper",
       // For tag
       tagTheme = "yellow",
       tagRotation = "2deg",
@@ -108,7 +121,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       const [bgColorClass, fgColorClass] = themeClasses.split(" ")
 
       return (
-        <CardContext.Provider value={{ variant }}>
+        <CardContext.Provider value={{ variant, surface }}>
           <Comp
             ref={ref}
             data-slot="card"
@@ -235,31 +248,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       </div>
     )
 
-    // Determine SVG fill colors for light and dark modes by parsing cardBgColor
-    // We need actual hex values since CSS classes won't reliably propagate dark: variants to SVG fill
-    const parseSvgFill = () => {
-      // Extract light bg color (bg-xxx without dark: prefix)
-      const lightBg = cardBgColor.split(" ").find(c => c.startsWith("bg-") && !c.startsWith("bg-transparent"))
-      // Extract dark bg color (dark:bg-xxx)
-      const darkBg = cardBgColor.split(" ").find(c => c.startsWith("dark:bg-"))
-
-      const extractColor = (cls?: string) => {
-        if (!cls) return null
-        const stripped = cls.replace(/^dark:/, "").replace("bg-", "")
-        if (stripped === "white") return "#ffffff"
-        if (stripped === "black") return "#0d0d0d"
-        // Match [#hexvalue] or [color]
-        const match = stripped.match(/^\[(.+)\]$/)
-        return match ? match[1] : null
-      }
-
-      return {
-        light: extractColor(lightBg) ?? "#ffffff",
-        dark: extractColor(darkBg) ?? (extractColor(lightBg) ?? "#ffffff"),
-      }
-    }
-
-    const svgFills = parseSvgFill()
+    const svgFills = newsSurfaceFillMap[surface]
 
     // Use CSS custom property on parent so SVG can inherit it
     // The actual switching is done via a CSS variable that Tailwind's dark mode toggles
@@ -270,7 +259,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     } as React.CSSProperties
 
     return (
-      <CardContext.Provider value={{ variant }}>
+      <CardContext.Provider value={{ variant, surface }}>
         <Comp
           ref={ref}
           data-slot="card"
@@ -298,7 +287,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           </svg>
 
           {/* Card Layout Content Area */}
-          <div className={cn("flex flex-col h-full pt-0 px-8 pb-6 relative z-10", cardBgColor)}>
+          <div className={cn(newsSurfaceVariants({ surface }))}>
             {useOfficialNewsTape ? officialTape : hasTape ? adhesiveTape : null}
             {hasStaples && stapleLeft}
             {hasStaples && stapleRight}
