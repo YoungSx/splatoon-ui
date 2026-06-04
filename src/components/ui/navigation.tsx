@@ -11,6 +11,7 @@ interface NavLink {
   label: string
   href: string
   isBuyNow?: boolean
+  selectedKey?: string
   hoverSplatId?: number
   hoverSplatColor?: string
   hoverSplatClassName?: string
@@ -22,7 +23,7 @@ const navLinks: NavLink[] = [
   {
     label: "Home",
     href: "#",
-    textClassName: "text-[#eaff3d]",
+    selectedKey: "home",
     hoverSplatId: 5,
     hoverSplatColor: "#f2ff27",
     hoverSplatClassName: "-left-[2.5em] top-1/2 h-[4em] w-[4em] -translate-y-[46%] rotate-[-18deg]",
@@ -30,6 +31,7 @@ const navLinks: NavLink[] = [
   {
     label: "Welcome to Splatsville",
     href: "#world",
+    selectedKey: "world",
     hoverSplatId: 9,
     hoverSplatColor: "#603bff",
     hoverSplatClassName: "-left-[2.35em] top-1/2 h-[4.2em] w-[4.2em] -translate-y-[44%] rotate-[12deg]",
@@ -37,6 +39,7 @@ const navLinks: NavLink[] = [
   {
     label: "How to play",
     href: "#gameplay",
+    selectedKey: "gameplay",
     hoverSplatId: 8,
     hoverSplatColor: "#f2ff27",
     hoverSplatClassName: "-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]",
@@ -44,6 +47,7 @@ const navLinks: NavLink[] = [
   {
     label: "Weapons & gear",
     href: "#weapons",
+    selectedKey: "weapons",
     hoverSplatId: 11,
     hoverSplatColor: "#603bff",
     hoverSplatClassName: "-left-[2.5em] top-1/2 h-[4.25em] w-[4.25em] -translate-y-[45%] rotate-[-10deg]",
@@ -51,6 +55,7 @@ const navLinks: NavLink[] = [
   {
     label: "News",
     href: "#news",
+    selectedKey: "news",
     hoverSplatId: 10,
     hoverSplatColor: "#603bff",
     hoverSplatClassName: "-left-[2.65em] top-1/2 h-[4.35em] w-[4.35em] -translate-y-[44%] -rotate-[18deg]",
@@ -58,6 +63,7 @@ const navLinks: NavLink[] = [
   {
     label: "Events",
     href: "#events",
+    selectedKey: "events",
     hoverSplatId: 6,
     hoverSplatColor: "#f2ff27",
     hoverSplatClassName: "-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]",
@@ -65,6 +71,7 @@ const navLinks: NavLink[] = [
   {
     label: "Expansion Pass",
     href: "#expansion-pass",
+    selectedKey: "expansion-pass",
     hoverSplatId: 12,
     hoverSplatColor: "#603bff",
     hoverSplatClassName: "-left-[2.55em] top-1/2 h-[4.3em] w-[4.3em] -translate-y-[44%] rotate-[16deg]",
@@ -72,6 +79,7 @@ const navLinks: NavLink[] = [
   {
     label: "Go to Splatoon Base",
     href: "https://splatoon.nintendo.com/base/",
+    selectedKey: "splatoon-base",
     hoverSplatId: 4,
     hoverSplatColor: "#f2ff27",
     hoverSplatClassName: "-left-[2.45em] top-1/2 h-[4.15em] w-[4.15em] -translate-y-[45%] -rotate-[12deg]",
@@ -198,6 +206,7 @@ export function Navigation() {
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const [isReducedMotion, setIsReducedMotion] = React.useState(false)
   const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
+  const [selectedNavKey, setSelectedNavKey] = React.useState("home")
 
   // Dimension tracking for full screen viewport sizes
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
@@ -241,6 +250,19 @@ export function Navigation() {
 
       // 2. Initialize dimensions
       handleResize()
+      const currentPath = window.location.pathname.toLowerCase()
+      const currentHash = window.location.hash.replace(/^#/, "").toLowerCase()
+      const matchedLink = navLinks.find((link) => {
+        if (!link.selectedKey) return false
+        if (currentHash) {
+          return currentHash === link.selectedKey
+        }
+        if (link.selectedKey === "home") {
+          return currentPath === "/" || currentPath === ""
+        }
+        return currentPath.includes(link.selectedKey)
+      })
+      setSelectedNavKey(matchedLink?.selectedKey ?? "home")
     })
 
     return () => {
@@ -743,22 +765,26 @@ export function Navigation() {
             <img
               src="https://splatoon.nintendo.com/_images/tape-assets/sticker-2-red.png"
               alt=""
-              className="pointer-events-none absolute left-[15%] top-[27%] z-[2] w-[8.9rem] -rotate-[28deg] select-none"
+              className="pointer-events-none absolute left-[10.25%] top-[23.2%] z-[2] w-[13.5rem] -rotate-[27deg] select-none"
             />
             <img
-              src="https://splatoon.nintendo.com/_images/tape-assets/sticker-9.png"
+              src="https://splatoon.nintendo.com/_images/tape-assets/sticker-10.png"
               alt=""
-              className="pointer-events-none absolute right-[17%] top-[58%] z-[2] w-[10rem] rotate-[-7deg] select-none"
+              className="pointer-events-none absolute right-[10.8%] top-[52.1%] z-[2] w-[14.35rem] rotate-[-7deg] select-none"
             />
-
+            <img
+              src="https://splatoon.nintendo.com/_images/tape-assets/sticker-5.png"
+              alt=""
+              className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[2] w-[29.5rem] -rotate-[9deg] select-none"
+            />
             <nav
               aria-label="Main site navigation"
               className={cn(
-                "relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-7 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] md:pt-9",
+                "relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] md:pt-5",
                 isContentVisible ? "translate-y-0 scale-100 opacity-100" : "-translate-y-6 scale-95 opacity-0"
               )}
             >
-              <div className="relative mb-7 h-[14rem] w-[40rem] max-w-[92vw] md:mb-9">
+              <div className="relative mb-5 h-[12.9rem] w-[40rem] max-w-[92vw] md:mb-7">
                 {logoSplatDecorations.map((splat) => (
                   <Splat
                     key={splat.id}
@@ -768,13 +794,13 @@ export function Navigation() {
                   />
                 ))}
                 <img
-                  src="https://splatoon.nintendo.com/_images/logos/splatoon3-logo.png"
+                  src="https://splatoon.nintendo.com/_images/logo/splatoon3-logo-subpage.png"
                   alt="Splatoon 3"
-                  className="pointer-events-none absolute left-1/2 top-[0.4rem] z-[2] w-[20rem] max-w-[75%] -translate-x-1/2 select-none md:w-[21rem]"
+                  className="pointer-events-none absolute left-1/2 top-[0.15rem] z-[2] w-[22.375rem] max-w-[78%] -translate-x-1/2 select-none"
                 />
               </div>
 
-              <ul className="relative flex w-full flex-col items-center gap-0.5">
+              <ul className="relative flex w-full flex-col items-center gap-0">
                 {navLinks.map((link, index) => {
                   if (link.isBuyNow) {
                     return (
@@ -786,7 +812,7 @@ export function Navigation() {
                           }}
                           variant="yellow"
                           size="lg"
-                          className="min-w-[240px] border-0 shadow-none hover:shadow-none active:shadow-none [&_span]:font-semibold [&_span]:normal-case [&_span]:tracking-normal"
+                          className="h-[72px] min-w-[241px] border-0 px-11 shadow-none hover:shadow-none active:shadow-none [&_span]:text-[2.05rem] [&_span]:font-semibold [&_span]:normal-case [&_span]:tracking-normal [&_svg]:mt-[0.18em]"
                         >
                           Buy now
                         </Button>
@@ -794,7 +820,9 @@ export function Navigation() {
                     )
                   }
 
-                  const isHighlighted = link.label === "Home" || activeNavLabel === link.label
+                  const isHighlighted = activeNavLabel
+                    ? activeNavLabel === link.label
+                    : selectedNavKey === link.selectedKey
 
                   return (
                     <li
@@ -829,7 +857,7 @@ export function Navigation() {
                         onFocus={() => setActiveNavLabel(link.label)}
                         onBlur={() => setActiveNavLabel((current) => (current === link.label ? null : current))}
                         className={cn(
-                          "group/nav-link relative z-[2] inline-flex items-center gap-3 py-1 font-heading text-[2.4rem] font-semibold leading-none text-white transition-colors duration-150 md:text-[3.65rem]",
+                          "group/nav-link relative z-[2] inline-flex items-center gap-3 py-[0.18rem] font-heading text-[2.18rem] font-semibold leading-none text-white transition-colors duration-150 md:text-[3.25rem]",
                           isHighlighted && "text-[#eaff3d]",
                           link.textClassName
                         )}
