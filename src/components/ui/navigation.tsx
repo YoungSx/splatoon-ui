@@ -653,7 +653,7 @@ export function Navigation() {
           aria-hidden="true"
           className={cn(
             "pointer-events-none absolute left-0 z-[1] overflow-hidden transition-all duration-300",
-            isCollapsed ? "top-[30px] h-[122px] w-[194px]" : "top-[39px] h-[138px] w-[206px]"
+            isCollapsed ? "top-[12px] h-[108px] w-[176px]" : "top-[18px] h-[122px] w-[188px]"
           )}
         >
           <svg
@@ -688,7 +688,7 @@ export function Navigation() {
         <div
           className={cn(
             "absolute left-0 z-10 transition-all duration-300",
-            isCollapsed ? "top-[18px]" : "top-[30px]"
+            isCollapsed ? "top-[8px]" : "top-[12px]"
           )}
         >
           <button
@@ -704,11 +704,11 @@ export function Navigation() {
           >
             <div
               data-menu-trigger-icon=""
-              className="nav-trigger__icon-wrap"
+              className="nav-trigger__icon-wrap anim--morph"
             >
               <span data-menu-trigger-line="" className="nav-trigger__icon" />
             </div>
-            <span className="sr-only">{isMenuPressed ? "Close navigation menu" : "Open navigation menu"}</span>
+            <span className="sr-only absolute">{isMenuPressed ? "Close navigation menu" : "Open navigation menu"}</span>
             <span aria-hidden="true" className="nav-trigger__label">
               {isMenuPressed ? "Close" : "Menu"}
             </span>
