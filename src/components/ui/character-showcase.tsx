@@ -3,7 +3,7 @@
 import * as React from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { Splat3 } from "./splat3"
+import { Splat3 } from "./splats"
 
 export interface CharacterShowcaseProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode

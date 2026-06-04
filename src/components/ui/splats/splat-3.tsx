@@ -6,13 +6,11 @@ import { cn } from "@/lib/utils"
 export interface Splat3Props extends React.SVGProps<SVGSVGElement> {
   /** CSS color value or CSS variable e.g. "var(--color-yellow)" */
   color?: string
-  className?: string
 }
 
 /**
  * Official Splatoon 3 #splat-3 ink splat shape.
- * Extracted from splatoon.nintendo.com — viewBox: 0 0 510 497
- * Control color via the `color` prop (maps to fill="currentColor").
+ * ViewBox: 0 0 510 497
  */
 export function Splat3({ color = "currentColor", className, style, ...props }: Splat3Props) {
   return (
@@ -33,3 +31,5 @@ export function Splat3({ color = "currentColor", className, style, ...props }: S
     </svg>
   )
 }
+
+Splat3.displayName = "Splat3"

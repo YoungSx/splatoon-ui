@@ -439,3 +439,109 @@
 .dark [data-variant="news"] {
   filter: none;
 }
+
+.nav-trigger {
+  align-items: center;
+  color: #eaff3d;
+  display: grid;
+  gap: 8px;
+  grid-template-columns: auto 1fr;
+  padding: 8px 88px 8px 16px;
+  position: relative;
+  z-index: 5;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  outline: none;
+  user-select: none;
+}
+
+.nav-trigger [aria-hidden="true"] {
+  position: relative;
+  top: -0.2em;
+}
+
+.nav-trigger__icon-wrap {
+  background-color: #eaff3d;
+  border-radius: 42.4521% 57.5479% 68.3653% 31.6347% / 39.1826% 39.1826% 60.8174% 51.6347%;
+  display: grid;
+  height: 48px;
+  place-content: center;
+  width: 48px;
+  transition: border-radius 0.25s cubic-bezier(0.21, 0.12, 0.35, 1.43);
+}
+
+.nav-trigger__label {
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.nav-trigger__icon {
+  --line-w: 19px;
+  --line-h: 4px;
+  --line-y: calc(var(--line-h) * -1.5);
+  background-color: #603bff;
+  display: block;
+  height: var(--line-h);
+  position: relative;
+  width: var(--line-w);
+  transition: background-color 0.1s linear;
+}
+
+.nav-trigger__icon::before,
+.nav-trigger__icon::after {
+  --line-rotation: 0deg;
+  background-color: #603bff;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateY(var(--line-y)) rotate(var(--line-rotation));
+  transition:
+    transform 0.25s cubic-bezier(0.21, 0.12, 0.35, 1.43),
+    background-color 0.1s linear;
+  width: 100%;
+}
+
+.nav-trigger__icon::after {
+  --line-y: calc(var(--line-h) * 1.5);
+}
+
+.nav-trigger-pressed .nav-trigger__icon {
+  background-color: transparent;
+}
+
+.nav-trigger-pressed .nav-trigger__icon-wrap {
+  border-radius: 53.2374% 46.7626% 61.1751% 38.8249% / 35.5875% 35.5875% 64.4125% 58.8249%;
+}
+
+.nav-trigger-pressed .nav-trigger__icon::before {
+  --line-y: 0px;
+  --line-rotation: 45deg;
+}
+
+.nav-trigger-pressed .nav-trigger__icon::after {
+  --line-y: 0px;
+  --line-rotation: -45deg;
+}
+
+@media screen and (min-width: 1024px) {
+  .nav-trigger {
+    gap: 12px;
+    padding-right: 100px;
+    font-size: 24px;
+  }
+
+  .nav-trigger__icon-wrap {
+    border-radius: 43.4335% 56.5665% 67.711% 32.289% / 38.8555% 38.8555% 61.1445% 52.289%;
+  }
+
+  .nav-trigger-pressed .nav-trigger__icon-wrap {
+    border-radius: 55.6865% 44.3135% 59.5424% 40.4576% / 34.7712% 34.7712% 65.2288% 60.4576%;
+  }
+}

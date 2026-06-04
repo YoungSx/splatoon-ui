@@ -21,6 +21,7 @@ import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
+import { InteractiveSplatter } from '@/components/ui/splats'
 
 const THEME_STORAGE_KEY = 'splat-theme'
 
@@ -108,7 +109,8 @@ export default function Home() {
          SECTION 2: NEWS FEED (Adapting Theme - bg-[#f5f0e8]/bg-[#111111])
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-12 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
-        <div className="w-full max-w-4xl space-y-8">
+        <InteractiveSplatter />
+        <div className="w-full max-w-4xl space-y-8 relative z-10">
           {/* Section Header */}
           <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
             <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
@@ -332,7 +334,8 @@ export default function Home() {
          SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
          ──────────────────────────────────────────────────────── */}
       <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
-        <div className="w-full max-w-4xl space-y-16">
+        <InteractiveSplatter />
+        <div className="w-full max-w-4xl space-y-16 relative z-10">
           {/* Sub-Section 1: Apparel Tags */}
           <div className="space-y-8">
             <div className="border-b-2 border-dashed border-chaos-black/10 dark:border-white/10 pb-4">

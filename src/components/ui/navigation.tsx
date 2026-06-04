@@ -100,13 +100,11 @@ export function Navigation() {
   const [phaseProgress, setPhaseProgress] = React.useState(0)
 
   const numPoints = 80 // Radial resolution for drawing smooth detailed bezier segments
-  const isMenuVisible = isMenuMounted || menuPhase === "opening" || menuPhase === "closing"
+  const isMenuPressed = menuPhase !== "closed"
   const isContentVisible =
     menuPhase === "open" || (menuPhase === "opening" && phaseProgress >= 0.32)
   const isContentInteractive =
     menuPhase === "open" || (menuPhase === "opening" && phaseProgress >= 0.42)
-
-
   // Scroll handler to collapse header bar
   React.useEffect(() => {
     const handleScroll = () => {
@@ -503,12 +501,36 @@ export function Navigation() {
          ──────────────────────────────────────────────────────── */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] w-full flex items-center justify-between border-b-[3px] border-chaos-black dark:border-white transition-all duration-300 select-none bg-white/95 dark:bg-chaos-black/95 backdrop-blur-md",
-          isCollapsed ? "h-[50px] px-4" : "h-[70px] md:h-[80px] px-6 md:px-8"
+          "fixed top-0 left-0 right-0 z-[100] w-full border-b-[3px] border-chaos-black dark:border-white transition-all duration-300 select-none bg-white/95 dark:bg-chaos-black/95 backdrop-blur-md",
+          isCollapsed ? "h-[50px] pr-4" : "h-[70px] md:h-[80px] pr-4 md:pr-8"
         )}
       >
-        {/* Left Accessibility Control (A11y Bar) */}
-        <div className="flex items-center gap-4">
+        <div className="absolute left-0 top-1/2 z-10 -translate-y-1/2">
+          <button
+            onClick={toggleMenu}
+            className={cn(
+              "nav-trigger group/menu-btn",
+              isMenuPressed && "nav-trigger-pressed"
+            )}
+            aria-expanded={isMenuPressed}
+            aria-controls="full-page-menu"
+            aria-live="polite"
+          >
+            <div
+              data-menu-trigger-icon=""
+              className="nav-trigger__icon-wrap"
+            >
+              <span data-menu-trigger-line="" className="nav-trigger__icon" />
+            </div>
+            <span className="sr-only">{isMenuPressed ? "Close navigation menu" : "Open navigation menu"}</span>
+            <span aria-hidden="true" className="nav-trigger__label">
+              {isMenuPressed ? "Close" : "Menu"}
+            </span>
+          </button>
+        </div>
+
+        {/* Right Accessibility Control (A11y Bar) */}
+        <div className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center gap-4 md:right-8">
           <button
             onClick={toggleReducedMotion}
             aria-pressed={isReducedMotion}
@@ -535,7 +557,7 @@ export function Navigation() {
         {/* Center: Nintendo Switch Logo Style Visual Lockup */}
         <a
           href="#"
-          className="flex items-center gap-2 group/logo hover:scale-[1.03] active:scale-[0.98] transition-transform"
+          className="group/logo absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 transition-transform hover:scale-[1.03] active:scale-[0.98]"
         >
           <div className="bg-[#ff505e] dark:bg-[#eaff3d] text-white dark:text-chaos-black p-1 px-2.5 rounded-[4px] border-2 border-chaos-black dark:border-white rotate-[-3deg] shadow-solid-sm group-hover/logo:rotate-0 transition-transform">
             <span className="font-heading font-black text-sm md:text-base tracking-widest leading-none">SWITCH</span>
@@ -545,73 +567,6 @@ export function Navigation() {
           </span>
         </a>
 
-        {/* Right Corner Area with Splatoon Splat Corner Backdrop */}
-        <div className="relative h-full flex items-center pr-2">
-          <div
-            className={cn(
-              "absolute top-0 right-0 h-full pointer-events-none select-none overflow-hidden transition-all duration-300 z-0",
-              isCollapsed ? "w-[236px]" : "w-[244px] md:w-[260px]"
-            )}
-          >
-            <svg
-              className="w-full h-full text-[#ff505e] dark:text-[#603bff] fill-current"
-              viewBox="0 0 226 138"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M0,76.3515281 C4.72248572,74.7212575 12.0010363,76.6320718 14.737896,81.3919634 C21.8013631,93.6673091 6.44938808,110.867755 12.5995295,121.562705 C16.6019531,128.523306 25.585586,128.183536 27.7021324,118.018503 C29.2045998,110.799178 19.3107584,91.7564947 26.2962967,81.4200178 C29.659704,76.4450427 37.2562041,76.7661094 41.3926652,83.390058 C45.4761347,89.9329607 54.3600187,86.460453 52.5458361,77.966213 C51.8382425,74.6651488 53.1318607,71.6726826 55.3855619,69.8086255 C57.3368992,68.3996727 59.4440941,67.7232506 61.4795946,67.8884597 C61.5014146,67.8915768 61.5263519,67.8884597 61.5512891,67.8915768 C67.813648,68.4557814 73.340359,76.9469042 71.3516159,96.1984368 C70.064232,108.682632 63.7270614,115.194363 66.7039418,128.682281 C69.3472869,140.649028 80.0141821,141.487542 84.7460193,128.875544 C88.6237567,118.539067 84.0415428,105.372216 82.8102677,95.6030607 C79.7367555,71.1739382 97.8692304,66.2550719 108.822904,70.1889181 C118.931828,73.8204005 115.686873,82.592067 121.141889,86.1362692 C126.989667,89.9360778 135.212715,83.040937 127.020839,72.9663008 C121.603228,66.3080635 125.870609,55.0582609 134.433427,57.8169406 C146.95191,61.8505357 151.668162,54.0483035 150.879522,46.9661335 C150.165694,40.5666199 154.97546,33.8304538 167.578107,42.2249449 C179.105336,49.902491 186.134515,32.2531747 174.130361,27.4028858 C159.526503,21.5021165 156.746003,5.67633432 180.514289,6.26859325 C186.48987,6.41821656 205.036926,11.3464343 215.326646,9.69122646 C223.219275,8.41942833 226.314608,4.12399248 225.669357,0 L0,0 L0,76.3515281 Z"
-              />
-            </svg>
-          </div>
-
-          {/* Morphing Toggle Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="group/menu-btn relative z-10 inline-grid min-w-[239px] grid-cols-[auto_1fr] items-center gap-3 px-4 py-2 pr-[100px] text-[#eaff3d] outline-none select-none transition-colors"
-            aria-expanded={isMenuVisible}
-            aria-controls="full-page-menu"
-          >
-            <div
-              data-menu-trigger-icon=""
-              className="relative grid h-12 w-12 shrink-0 place-content-center bg-[#eaff3d]"
-              style={{
-                borderRadius:
-                  "94.1396% 54.1396% 58.0465% 90.2326% / 86.3257% 86.3257% 61.9535% 61.9535%",
-              }}
-            >
-              <span
-                data-menu-trigger-line=""
-                className={cn(
-                  "absolute h-1 w-[19px] bg-[#603bff] transition-all duration-300",
-                  isMenuVisible ? "rotate-45 translate-y-0" : "-translate-y-[6px]"
-                )}
-              />
-              <span
-                data-menu-trigger-line=""
-                className={cn(
-                  "absolute h-1 w-[19px] bg-[#603bff] transition-all duration-200",
-                  isMenuVisible ? "w-0 opacity-0" : "opacity-100"
-                )}
-              />
-              <span
-                data-menu-trigger-line=""
-                className={cn(
-                  "absolute h-1 w-[19px] bg-[#603bff] transition-all duration-300",
-                  isMenuVisible ? "-rotate-45 translate-y-0" : "translate-y-[6px]"
-                )}
-              />
-            </div>
-            <span className="sr-only">{isMenuVisible ? "Close navigation menu" : "Open navigation menu"}</span>
-            <span
-              aria-hidden="true"
-              className="relative top-[-0.2em] font-heading text-2xl font-semibold normal-case tracking-normal leading-none"
-            >
-              {isMenuVisible ? "Close" : "Menu"}
-            </span>
-          </button>
-        </div>
       </header>
 
       {/* ────────────────────────────────────────────────────────
