@@ -486,10 +486,13 @@
 }
 
 .group\/button[data-drip-phase="entering"] .drip-hover-content {
-  opacity: 1;
   transition: opacity 0.05s ease, box-shadow 0.2s ease;
   transition-delay: 0s, 0.6s; /* Wait 0.6s for liquid to drip down before changing border color */
   animation: splat-drip-enter calc(1.8s * var(--drip-speed-factor)) cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+.group\/button[data-drip-phase="entering"] .drip-hover-content {
+  box-shadow: 0 0 0 2px var(--hover-text-color) inset;
 }
 
 /* ── Splatoon 3 Sticker Tape Torn Edge ── */
@@ -519,6 +522,25 @@
   filter: none;
 }
 
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+  }
+  34% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+  }
+}
+
+.anim--morph {
+  animation: morph calc(var(--duration-factor, 1) * 3s) linear infinite;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  transform: translateZ(0);
+}
+
 .nav-trigger {
   align-items: center;
   color: #eaff3d;
@@ -531,33 +553,30 @@
   z-index: 5;
   font-family: var(--font-heading);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   outline: none;
   user-select: none;
 }
 
-.nav-trigger [aria-hidden="true"] {
-  position: relative;
-  top: -0.2em;
-}
-
 .nav-trigger__icon-wrap {
   background-color: #eaff3d;
-  border-radius: 42.4521% 57.5479% 68.3653% 31.6347% / 39.1826% 39.1826% 60.8174% 51.6347%;
   display: grid;
+  flex-shrink: 0;
   height: 48px;
   place-content: center;
   width: 48px;
-  transition: border-radius 0.25s cubic-bezier(0.21, 0.12, 0.35, 1.43);
 }
 
 .nav-trigger__label {
+  display: block;
   font-size: inherit;
   font-weight: 700;
   line-height: 1;
   text-transform: none;
   letter-spacing: normal;
+  position: relative;
+  top: -0.2em;
   white-space: nowrap;
 }
 
@@ -595,10 +614,6 @@
 
 .nav-trigger-pressed .nav-trigger__icon {
   background-color: transparent;
-}
-
-.nav-trigger-pressed .nav-trigger__icon-wrap {
-  border-radius: 53.2374% 46.7626% 61.1751% 38.8249% / 35.5875% 35.5875% 64.4125% 58.8249%;
 }
 
 .nav-trigger-pressed .nav-trigger__icon::before {
@@ -654,14 +669,6 @@
     gap: 12px;
     font-size: 24px;
     padding-right: 100px;
-  }
-
-  .nav-trigger__icon-wrap {
-    border-radius: 43.4335% 56.5665% 67.711% 32.289% / 38.8555% 38.8555% 61.1445% 52.289%;
-  }
-
-  .nav-trigger-pressed .nav-trigger__icon-wrap {
-    border-radius: 55.6865% 44.3135% 59.5424% 40.4576% / 34.7712% 34.7712% 65.2288% 60.4576%;
   }
 
   .nav-reduced-motion {
