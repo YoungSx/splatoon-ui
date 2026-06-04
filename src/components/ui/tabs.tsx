@@ -62,8 +62,8 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
         "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 px-6 py-2.5 text-base font-black uppercase tracking-wider whitespace-nowrap transition-all outline-none focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 select-none",
         // Default Skew Tab Styling (Parallelogram)
         "skew-x-[-12deg] border-2 border-transparent bg-transparent text-current opacity-60",
-        "data-active:bg-[#eaff3d] data-active:text-[#0d0d0d] data-active:border-[#0d0d0d] data-active:shadow-solid-sm data-active:opacity-100",
-        "data-active:active:translate-x-[2px] data-active:active:translate-y-[2px] data-active:active:shadow-none",
+        "data-active:bg-[#eaff3d] data-active:text-[#0d0d0d] data-active:border-[#0d0d0d] data-active:opacity-100",
+        "data-active:active:translate-x-[1px] data-active:active:translate-y-[1px]",
         "hover:opacity-100 hover:scale-[1.02]",
         // Override for Line Variant (No Skew, Clean Text with Underline)
         "group-data-[variant=line]/tabs-list:skew-x-0 group-data-[variant=line]/tabs-list:border-0 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent group-data-[variant=line]/tabs-list:data-active:shadow-none group-data-[variant=line]/tabs-list:data-active:text-[#603bff] group-data-[variant=line]/tabs-list:hover:text-[#603bff] group-data-[variant=line]/tabs-list:hover:opacity-100 group-data-[variant=line]/tabs-list:active:translate-x-0 group-data-[variant=line]/tabs-list:active:translate-y-0",

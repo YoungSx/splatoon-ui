@@ -725,7 +725,7 @@ export function Navigation() {
           data-phase={coverPhase}
           className={cn(
             "fixed inset-0 z-[90] w-screen h-screen overflow-hidden select-none",
-            coverPhase === "closed" || coverPhase === "closing" ? "pointer-events-none" : "pointer-events-auto"
+            coverPhase === "closing" ? "pointer-events-none" : "pointer-events-auto"
           )}
         >
           <div

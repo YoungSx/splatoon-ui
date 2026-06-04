@@ -85,7 +85,7 @@ export default function Home() {
           variant="yellow"
           size="icon-lg"
           hasChevron={false}
-          className="rounded-full border-[3px] border-chaos-black shadow-solid-lg hover:scale-[1.1] active:scale-[0.95] dark:border-white [--bg-color:var(--ink-blue)] [--text-color:#eaff3d] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)] dark:[--bg-color:var(--neon-yellow)] dark:[--text-color:var(--chaos-black)] dark:[--hover-bg-color:var(--ink-blue)] dark:[--hover-text-color:#ffffff]"
+          className="shadow-soft-splat-md rounded-full border-[3px] border-chaos-black hover:scale-[1.1] active:scale-[0.95] dark:border-white [--bg-color:var(--ink-blue)] [--text-color:#eaff3d] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)] dark:[--bg-color:var(--neon-yellow)] dark:[--text-color:var(--chaos-black)] dark:[--hover-bg-color:var(--ink-blue)] dark:[--hover-text-color:#ffffff]"
           title="Toggle Ink Battle Theme"
         >
           <span className="flex flex-col items-center justify-center dark:hidden">
@@ -117,7 +117,7 @@ export default function Home() {
         </div>
 
         {/* Marquee Tape (Neon Yellow Warning Tape) */}
-        <Marquee speed={25} variant="tape" className="w-full max-w-4xl z-10 shadow-solid-sm">
+        <Marquee speed={25} variant="tape" className="z-10 w-full max-w-4xl">
           <MarqueeItem>Splat Zones</MarqueeItem>
           <MarqueeItem>Tower Control</MarqueeItem>
           <MarqueeItem>Rainmaker</MarqueeItem>
@@ -282,7 +282,7 @@ export default function Home() {
               <div className="w-full max-w-[340px] aspect-[3/4] relative">
                 <CharacterShowcase
                   reducedMotion={reducedMotion}
-                  boardClassName="bg-none bg-[#f5f0e8] dark:bg-[#151515] border-[3px] border-chaos-black dark:border-white shadow-solid-lg rounded-2xl"
+                  boardClassName="shadow-soft-splat-lg rounded-2xl border-[3px] border-chaos-black bg-none bg-[#f5f0e8] dark:border-white dark:bg-[#151515]"
                 />
               </div>
             </div>
@@ -298,7 +298,7 @@ export default function Home() {
                   Tactile 3D Depth Mechanics
                 </h3>
                 <p className="text-sm font-medium text-chaos-black/75 dark:text-white/75 leading-relaxed">
-                  This showcase is built to feel responsive and alive, matching Splatoon's signature tactile visual style. By mapping mouse coordinates to 3D rotational values and projecting layers at varying visual depths (Z-index), we achieve a high-fidelity parallax effect.
+                  This showcase is built to feel responsive and alive, matching Splatoon&apos;s signature tactile visual style. By mapping mouse coordinates to 3D rotational values and projecting layers at varying visual depths (Z-index), we achieve a high-fidelity parallax effect.
                 </p>
               </div>
 
@@ -332,7 +332,7 @@ export default function Home() {
               </div>
 
               {/* Reduced Motion Toggle Panel */}
-              <div className="flex items-center gap-4 bg-white/50 dark:bg-black/20 p-4 border-[2px] border-chaos-black dark:border-white rounded-xl shadow-solid-sm">
+              <div className="shadow-soft-splat-sm flex items-center gap-4 rounded-xl border-[2px] border-chaos-black bg-white/50 p-4 dark:border-white dark:bg-black/20">
                 <div className="flex-1">
                   <p className="font-heading text-sm font-black uppercase text-chaos-black dark:text-white">Reduced Motion Mode</p>
                   <p className="text-xs text-chaos-black/75 dark:text-white/75 font-medium mt-0.5">Disables mouse-tracking 3D rotations for accessibility.</p>
@@ -722,7 +722,7 @@ export default function Home() {
 
                       <Popover>
                         <PopoverTrigger render={<Button variant="outline">Open Popover</Button>} />
-                        <PopoverContent align="center" className="bg-white text-chaos-black border-2 border-chaos-black p-4 max-w-xs shadow-solid-sm rounded-lg">
+                        <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs rounded-lg border-2 border-chaos-black bg-white p-4 text-chaos-black">
                           <PopoverHeader>
                             <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>
                             <PopoverDescription className="text-xs">

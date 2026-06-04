@@ -156,7 +156,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col duration-150 outline-none sm:max-w-md drop-shadow-[5px_5px_0px_rgba(0,0,0,0.3)] data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "shadow-soft-splat-lg fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col duration-150 outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
           isReducedMotion
             ? "origin-center [transform:translate(-50%,-50%)]"
             : "origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]",
@@ -190,7 +190,7 @@ function DialogContent({
               render={
                 <Button
                   variant="destructive"
-                  className="absolute -top-1 -right-3 rounded-full border-[3px] border-chaos-black shadow-solid-sm z-50 hover:scale-110 active:scale-95 size-8 p-0"
+                  className="shadow-soft-splat-sm absolute -top-1 -right-3 z-50 size-8 rounded-full border-[3px] border-chaos-black p-0 hover:scale-110 active:scale-95"
                   size="icon-sm"
                 />
               }

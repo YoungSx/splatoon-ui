@@ -47,7 +47,7 @@ const newsSurfaceVariants = cva("flex h-full flex-col pt-0 px-8 pb-6 relative z-
     surface: {
       paper: "bg-white text-[#0d0d0d]",
       cream: "bg-[#f5f0e8] text-[#0d0d0d]",
-      danger: "bg-[#ff505e] text-white shadow-solid",
+      danger: "bg-[#ff505e] text-white",
     },
   },
   defaultVariants: {
@@ -503,7 +503,7 @@ const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
           {/* Photo Polaroid Frame */}
           <div
             className={cn(
-              "w-full bg-white text-chaos-black p-3 pb-8 border-2 border-chaos-black shadow-solid-sm [transform:rotate(2deg)] hover:rotate-0 transition-transform duration-300 relative z-10",
+              "shadow-soft-splat-sm relative z-10 w-full bg-white p-3 pb-8 text-chaos-black border-2 border-chaos-black [transform:rotate(2deg)] transition-transform duration-300 hover:rotate-0",
               className
             )}
             {...props}

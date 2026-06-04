@@ -68,7 +68,7 @@ const arrowButtonClassName =
   "group/button relative inline-block shrink-0 select-none bg-transparent p-0 font-heading text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
 
 const solidButtonEffectsClassName =
-  "shadow-solid hover:shadow-solid-lg hover:rotate-[var(--hover-rotate)] hover:scale-[1.03] active:rotate-[var(--hover-rotate)] active:scale-[0.97] active:translate-x-[3px] active:translate-y-[3px] active:shadow-[1px_1px_0px_var(--chaos-black)]"
+  "hover:rotate-[var(--hover-rotate)] hover:scale-[1.03] active:rotate-[var(--hover-rotate)] active:scale-[0.98] active:translate-x-[1px] active:translate-y-[1px]"
 
 interface DripControlPoint {
   y1: number // leave amplitude offset
