@@ -257,60 +257,78 @@ function createSpikeBursts(spikeIndex: number) {
 }
 
 function createMenuNoise(): MenuNoise {
-  const spikeCount = 4
   const angularOffsets = [
     randomBetween(-1.02, -0.7),
     randomBetween(-0.28, 0.04),
     randomBetween(0.26, 0.62),
     randomBetween(0.92, 1.28),
+    randomBetween(-1.56, -1.24),
+    randomBetween(1.46, 1.74),
   ]
   return {
     grid4: createCircularNoiseGrid(4, -0.95, 0.95),
     grid8: createCircularNoiseGrid(8, -0.28, 0.28),
     grid16: createCircularNoiseGrid(16, -0.03, 0.03),
     detailGrid: createCircularNoiseGrid(24, -0.006, 0.006),
-    spikes: Array.from({ length: spikeCount }, (_, index) => ({
-      offset: angularOffsets[index],
-      height:
-        index === 0
-          ? randomBetween(3.2, 4.1)
-          : index === 1
-            ? randomBetween(1.15, 1.6)
-            : index === 2
-              ? randomBetween(0.45, 0.7)
-              : randomBetween(0.16, 0.3),
-      sigma:
-        index === 0
-          ? randomBetween(0.24, 0.34)
-          : index === 1
-            ? randomBetween(0.18, 0.26)
-            : index === 2
-              ? randomBetween(0.12, 0.18)
+    spikes: angularOffsets.map((offset, index) => {
+      const isShoulder = index >= 4
+      return {
+        offset,
+        height: isShoulder
+          ? randomBetween(0.04, 0.08)
+          : index === 0
+            ? randomBetween(3.2, 4.1)
+            : index === 1
+              ? randomBetween(1.15, 1.6)
+              : index === 2
+                ? randomBetween(0.45, 0.7)
+                : randomBetween(0.16, 0.3),
+        sigma: isShoulder
+          ? randomBetween(0.16, 0.22)
+          : index === 0
+            ? randomBetween(0.24, 0.34)
+            : index === 1
+              ? randomBetween(0.18, 0.26)
+              : index === 2
+                ? randomBetween(0.12, 0.18)
+                : randomBetween(0.08, 0.12),
+        bursts: isShoulder
+          ? [
+              {
+                center: randomBetween(0.28, 0.72),
+                width: randomBetween(0.07, 0.1),
+                gain: randomBetween(0.05, 0.1),
+                power: randomBetween(1.8, 2.15),
+              },
+            ]
+          : createSpikeBursts(index),
+        wobblePhase: randomBetween(0, Math.PI * 2),
+        wobbleSpeed: isShoulder ? randomBetween(4.6, 6.8) : randomBetween(5.8, 8.9),
+        wobbleDepth: isShoulder
+          ? randomBetween(0.02, 0.05)
+          : index === 0
+            ? randomBetween(0.16, 0.24)
+            : index === 1
+              ? randomBetween(0.12, 0.2)
+              : randomBetween(0.08, 0.16),
+        sigmaPhase: randomBetween(0, Math.PI * 2),
+        sigmaDepth: isShoulder
+          ? randomBetween(0.02, 0.04)
+          : index === 0
+            ? randomBetween(0.12, 0.18)
+            : index === 1
+              ? randomBetween(0.1, 0.16)
               : randomBetween(0.08, 0.12),
-      bursts: createSpikeBursts(index),
-      wobblePhase: randomBetween(0, Math.PI * 2),
-      wobbleSpeed: randomBetween(5.8, 8.9),
-      wobbleDepth:
-        index === 0
-          ? randomBetween(0.16, 0.24)
-          : index === 1
-            ? randomBetween(0.12, 0.2)
-            : randomBetween(0.08, 0.16),
-      sigmaPhase: randomBetween(0, Math.PI * 2),
-      sigmaDepth:
-        index === 0
-          ? randomBetween(0.12, 0.18)
-          : index === 1
-            ? randomBetween(0.1, 0.16)
-            : randomBetween(0.08, 0.12),
-      driftPhase: randomBetween(0, Math.PI * 2),
-      driftAmount:
-        index === 0
-          ? randomBetween(0.05, 0.09)
-          : index === 1
-            ? randomBetween(0.04, 0.075)
-            : randomBetween(0.02, 0.05),
-    })),
+        driftPhase: randomBetween(0, Math.PI * 2),
+        driftAmount: isShoulder
+          ? randomBetween(0.01, 0.025)
+          : index === 0
+            ? randomBetween(0.05, 0.09)
+            : index === 1
+              ? randomBetween(0.04, 0.075)
+              : randomBetween(0.02, 0.05),
+      }
+    }),
   }
 }
 
