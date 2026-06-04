@@ -22,6 +22,41 @@ import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter } from '@/components/ui/splats'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Checkbox } from '@/components/ui/checkbox'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetFooter,
+} from '@/components/ui/sheet'
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 
 const THEME_STORAGE_KEY = 'splat-theme'
 
@@ -423,9 +458,10 @@ export default function Home() {
 
             <Tabs defaultValue="preview" className="w-full">
               {/* TabsList rendering our high-fidelity Skewed Tab Triggers! */}
-              <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-10">
+              <TabsList className="grid w-full grid-cols-3 max-w-lg mx-auto mb-10">
                 <TabsTrigger value="preview">Buttons & Badges</TabsTrigger>
                 <TabsTrigger value="forms">Form Fields & Alerts</TabsTrigger>
+                <TabsTrigger value="dialogs">Graffiti Dialogs</TabsTrigger>
               </TabsList>
 
               {/* Content Panel 1: Buttons & Badges */}
@@ -472,26 +508,70 @@ export default function Home() {
                 </div>
               </TabsContent>
 
-              {/* Content Panel 2: Forms & Alerts */}
+              {/* Content Panel 2: Forms & Selection */}
               <TabsContent value="forms" className="outline-none">
                 <div className="grid gap-8 md:grid-cols-2">
-                  {/* Input Card */}
+                  {/* Form Fields & Selection Inputs */}
                   <Card
                     variant="news"
                     surface="cream"
                   >
                     <CardHeader>
-                      <CardTitle>Input Fields</CardTitle>
-                      <CardDescription>Bold borders & uppercase placeholder hints</CardDescription>
+                      <CardTitle>Input & Selection</CardTitle>
+                      <CardDescription>Form controls with bold borders and ink theme accents</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-4 pt-2">
+                    <CardContent className="flex flex-col gap-6 pt-2">
                       <div className="space-y-1.5">
                         <Label htmlFor="demo-input">Player Nickname</Label>
                         <Input id="demo-input" placeholder="ENTER NICKNAME..." />
                       </div>
-                      <div className="space-y-1.5">
-                        <Label htmlFor="demo-input-disabled">E-shop Code</Label>
-                        <Input id="demo-input-disabled" placeholder="LOCKED..." disabled />
+
+                      <div className="space-y-2">
+                        <Label>Battle Mode Preference</Label>
+                        <Select defaultValue="turf">
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="SELECT MODE" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="turf">Turf War</SelectItem>
+                            <SelectItem value="ranked">Ranked Battle</SelectItem>
+                            <SelectItem value="salmon">Salmon Run</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="flex flex-col gap-3">
+                        <Label>Notification Settings</Label>
+                        <div className="flex items-center gap-3">
+                          <Checkbox id="demo-checkbox-1" defaultChecked />
+                          <Label htmlFor="demo-checkbox-1" className="cursor-pointer pb-0 font-medium text-sm">
+                            Receive Splatfest reminders
+                          </Label>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Checkbox id="demo-checkbox-2" />
+                          <Label htmlFor="demo-checkbox-2" className="cursor-pointer pb-0 font-medium text-sm">
+                            Enable desktop sounds
+                          </Label>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label>Weapon Class</Label>
+                        <RadioGroup defaultValue="shooter">
+                          <div className="flex items-center gap-3">
+                            <RadioGroupItem id="r1" value="shooter" />
+                            <Label htmlFor="r1" className="cursor-pointer pb-0 font-medium text-sm">Shooter</Label>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <RadioGroupItem id="r2" value="roller" />
+                            <Label htmlFor="r2" className="cursor-pointer pb-0 font-medium text-sm">Roller</Label>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <RadioGroupItem id="r3" value="charger" />
+                            <Label htmlFor="r3" className="cursor-pointer pb-0 font-medium text-sm">Charger</Label>
+                          </div>
+                        </RadioGroup>
                       </div>
                     </CardContent>
                   </Card>
@@ -520,6 +600,141 @@ export default function Home() {
                           Connection to multiplayer server has been lost.
                         </AlertDescription>
                       </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
+              </TabsContent>
+
+              {/* Content Panel 3: Overlays & Popups */}
+              <TabsContent value="dialogs" className="outline-none">
+                <div className="grid gap-8 md:grid-cols-2">
+                  {/* Default Dialog Card */}
+                  <Card
+                    variant="news"
+                    surface="cream"
+                  >
+                    <CardHeader>
+                      <CardTitle>Graffiti Dialogs</CardTitle>
+                      <CardDescription>Paper-tear modal with rotation and caution sticker tape</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-wrap gap-4 pt-2">
+                      <Dialog>
+                        <DialogTrigger render={<Button variant="yellow">Open Yellow Dialog</Button>} />
+                        <DialogContent surface="paper" hasTape={true} tapeText="ALERT!" tapeColor="yellow">
+                          <DialogHeader>
+                            <DialogTitle>Splatfest Incoming!</DialogTitle>
+                            <DialogDescription>
+                              The next Splatfest battle is starting soon. Select your team in the lobby!
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="py-4">
+                            <p className="font-bold text-chaos-black/80">Choose your side:</p>
+                            <div className="flex gap-3 mt-2">
+                              <Button size="sm" variant="blue">Team Water</Button>
+                              <Button size="sm" variant="orange">Team Fire</Button>
+                              <Button size="sm" variant="green">Team Grass</Button>
+                            </div>
+                          </div>
+                          <DialogFooter>
+                            <Button size="sm" variant="ghost">Learn More</Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
+
+                      <Dialog>
+                        <DialogTrigger render={<Button variant="blue">Open Blue Dialog</Button>} />
+                        <DialogContent surface="cream" hasTape={true} tapeText="EVENT INFO" tapeColor="blue" tapePosition="event">
+                          <DialogHeader>
+                            <DialogTitle>Big Run Event</DialogTitle>
+                            <DialogDescription>
+                              Salmonids are invading Wahoo World! Team up with your squad to defend the city.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="py-4">
+                            <p className="font-medium text-chaos-black/75">
+                              Golden Egg quotas have been increased. High-hazard level rewards are active.
+                            </p>
+                          </div>
+                          <DialogFooter />
+                        </DialogContent>
+                      </Dialog>
+                    </CardContent>
+                  </Card>
+
+                  {/* Danger Dialog & Drawers/Popovers Card */}
+                  <Card
+                    variant="news"
+                    surface="cream"
+                  >
+                    <CardHeader>
+                      <CardTitle>Drawers & Popovers</CardTitle>
+                      <CardDescription>Side sheets, contextual menus and alerts</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-wrap gap-4 pt-2">
+                      <Dialog>
+                        <DialogTrigger render={<Button variant="destructive">Open Danger Dialog</Button>} />
+                        <DialogContent surface="danger" hasTape={true} tapeText="DANGER!" tapeColor="red">
+                          <DialogHeader>
+                            <DialogTitle className="text-white">Connection Lost</DialogTitle>
+                            <DialogDescription className="text-white/80">
+                              You have been disconnected from the battle lobby. Please check your internet connection.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="py-2">
+                            <p className="text-sm font-semibold text-white/90">
+                              Error Code: 2318-0502. Game stats will not be recorded.
+                            </p>
+                          </div>
+                          <DialogFooter />
+                        </DialogContent>
+                      </Dialog>
+
+                      <Sheet>
+                        <SheetTrigger render={<Button variant="green">Open Right Drawer</Button>} />
+                        <SheetContent side="right" className="bg-[#f5f0e8] text-chaos-black p-6 border-l-[3px] border-chaos-black">
+                          <SheetHeader>
+                            <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
+                            <SheetDescription>
+                              Access your match statistics, gear catalog, and online lobby features.
+                            </SheetDescription>
+                          </SheetHeader>
+                          <div className="space-y-4 py-4">
+                            <div className="rounded-lg bg-white p-3 border-2 border-chaos-black">
+                              <h4 className="font-bold text-sm">Last Battle Result</h4>
+                              <p className="text-xs text-muted-foreground mt-1">Turf War - Wahoo World</p>
+                              <p className="font-black text-[#eaff3d] bg-chaos-black px-2 py-0.5 inline-block text-xs mt-2 rounded">
+                                VICTORY
+                              </p>
+                            </div>
+                            <div className="rounded-lg bg-white p-3 border-2 border-chaos-black">
+                              <h4 className="font-bold text-sm">Active Catalog</h4>
+                              <p className="text-xs text-muted-foreground mt-1">Sizzle Season 2026</p>
+                              <div className="w-full bg-muted h-2 mt-2 overflow-hidden border border-chaos-black">
+                                <div className="bg-[#603bff] h-full" style={{ width: '45%', height: '8px' }} />
+                              </div>
+                            </div>
+                          </div>
+                          <SheetFooter>
+                            <Button size="sm" variant="yellow">Refresh Data</Button>
+                          </SheetFooter>
+                        </SheetContent>
+                      </Sheet>
+
+                      <Popover>
+                        <PopoverTrigger render={<Button variant="outline">Open Popover</Button>} />
+                        <PopoverContent align="center" className="bg-white text-chaos-black border-2 border-chaos-black p-4 max-w-xs shadow-solid-sm rounded-lg">
+                          <PopoverHeader>
+                            <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>
+                            <PopoverDescription className="text-xs">
+                              Corporate sponsorship details & job requirements.
+                            </PopoverDescription>
+                          </PopoverHeader>
+                          <div className="py-2 text-xs">
+                            <p>We are currently recruiting part-time workers to collect Golden Eggs in remote ocean zones.</p>
+                            <p className="font-bold text-[#ff505e] mt-1.5">No experience needed. Hazard pay included!</p>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
                     </CardContent>
                   </Card>
                 </div>

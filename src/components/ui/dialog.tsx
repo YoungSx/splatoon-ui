@@ -39,41 +39,182 @@ function DialogOverlay({
   )
 }
 
+interface DialogContentProps extends DialogPrimitive.Popup.Props {
+  showCloseButton?: boolean
+  hasTape?: boolean
+  tapeText?: string
+  tapeColor?: "yellow" | "red" | "blue" | "green"
+  tapePosition?: "news" | "event"
+  surface?: "paper" | "cream" | "danger"
+}
+
+const surfaceFills = {
+  paper: { bg: "bg-white text-[#0d0d0d]", fill: "#ffffff" },
+  cream: { bg: "bg-[#f5f0e8] text-[#0d0d0d]", fill: "#f5f0e8" },
+  danger: { bg: "bg-[#ff505e] text-white", fill: "#ff505e" },
+} as const
+
 function DialogContent({
   className,
   children,
   showCloseButton = true,
+  hasTape = true,
+  tapeText = "ALERT!",
+  tapeColor = "yellow",
+  tapePosition = "news",
+  surface = "paper",
   ...props
-}: DialogPrimitive.Popup.Props & {
-  showCloseButton?: boolean
-}) {
+}: DialogContentProps) {
+  const [isReducedMotion, setIsReducedMotion] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkRM = () => {
+      const storedRM = localStorage.getItem("splat-reduced-motion")
+      const mediaRM = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      const hasClass = document.documentElement.classList.contains("reduced-motion")
+      setIsReducedMotion(storedRM === "true" || mediaRM || hasClass)
+    }
+    checkRM()
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const listener = (e: MediaQueryListEvent) => {
+      setIsReducedMotion(e.matches || document.documentElement.classList.contains("reduced-motion"))
+    }
+    mediaQuery.addEventListener("change", listener)
+    return () => mediaQuery.removeEventListener("change", listener)
+  }, [])
+
+  const fillInfo = surfaceFills[surface] || surfaceFills.paper
+
+  const stickerColorMap = {
+    yellow: { bg: "#eaff3d", text: "#0d0d0d" },
+    red: { bg: "#ff505e", text: "#ffffff" },
+    blue: { bg: "#603bff", text: "#eaff3d" },
+    green: { bg: "#6af7ce", text: "#0d0d0d" },
+  }
+
+  const stickerColors = stickerColorMap[tapeColor] || stickerColorMap.yellow
+
+  const adhesiveTape = (
+    <div
+      aria-hidden="true"
+      className={cn(
+        "absolute z-30 select-none pointer-events-none w-[35%] max-w-[120px]",
+        tapePosition === "news"
+          ? "left-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(-12deg)]"
+          : "right-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(12deg)]"
+      )}
+    >
+      <svg
+        viewBox="0 0 96 31"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
+      >
+        <rect width="96" height="31" rx="5" fill={stickerColors.bg} />
+        {/* Logo B on the right */}
+        <g fill={stickerColors.text}>
+          <path
+            d="M74,7 h4.5 c1.5,0 2.5,0.8 2.5,1.8 v0.2 c0,0.8 -0.6,1.4 -1.5,1.6 c1,0.2 1.7,0.8 1.7,1.7 v0.2 c0,1 -1,1.8 -2.5,1.8 h-4.7 z M76.5,8.8 v2.2 h1.8 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z M76.5,12.5 v2.2 h2 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z"
+          />
+          <text
+            x="73"
+            y="26"
+            fontFamily="monospace"
+            fontWeight="900"
+            fontSize="4.5"
+            letterSpacing="0.2"
+          >
+            VALK
+          </text>
+        </g>
+        {/* Left Text / Markings */}
+        <g fill={stickerColors.text}>
+          <text
+            x="8"
+            y="19.5"
+            fontFamily="sans-serif"
+            fontWeight="900"
+            fontSize={tapeText.length > 12 ? "6.5" : tapeText.length > 9 ? "7.5" : "8.5"}
+            letterSpacing="0.3"
+          >
+            {tapeText.toUpperCase()}
+          </text>
+        </g>
+        {/* Center detail markings */}
+        <g fill={stickerColors.text} opacity="0.6">
+          <rect x="48" y="11" width="1.5" height="4" />
+          <rect x="48" y="17" width="1.5" height="1.5" />
+          <rect x="46" y="20" width="5.5" height="1" />
+        </g>
+      </svg>
+    </div>
+  )
+
   return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 border-2 border-foreground bg-card p-6 text-sm text-card-foreground shadow-2xl duration-150 outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-open:slide-in-from-bottom-4 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 data-closed:slide-out-to-bottom-4",
+          "fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col duration-150 outline-none sm:max-w-md drop-shadow-[5px_5px_0px_rgba(0,0,0,0.3)] data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          isReducedMotion
+            ? "origin-center [transform:translate(-50%,-50%)]"
+            : "origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]",
           className
         )}
         {...props}
       >
-        {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close
-            data-slot="dialog-close"
-            render={
-              <Button
-                variant="ghost"
-                className="absolute top-3 right-3"
-                size="icon-sm"
-              />
-            }
-          >
-            <XIcon />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        )}
+        {/* Top Paper Tear SVG */}
+        <svg
+          aria-hidden="true"
+          className="relative z-10 mb-[-2px] w-full pointer-events-none select-none"
+          style={{ fill: fillInfo.fill }}
+          viewBox="0 0 448 60"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M253.96 23.774a4.711 4.711 0 0 1-4.693 4.328h-49.535c-.131 0-.255-.027-.384-.038-2.431-.198-4.348-2.205-4.348-4.68a4.724 4.724 0 0 1 4.732-4.716h18.204c-.006-.106-.017-.21-.017-.315 0-3.452 2.808-6.25 6.27-6.25h.62a6.26 6.26 0 0 1 5.038 2.54 6.194 6.194 0 0 1 1.233 3.71c0 .106-.01.21-.016.315H249.267c2.614 0 4.733 2.111 4.733 4.717 0 .133-.029.258-.04.389M53.446.102H9.693C4.34.102 0 4.437 0 9.782v50.044h448V9.783c0-5.346-4.338-9.68-9.693-9.68H53.445Z"
+            fillRule="evenodd"
+          />
+        </svg>
+
+        {/* Dialog Content body */}
+        <div className={cn("relative z-10 px-8 py-4 flex flex-col gap-4 border-l-[3px] border-r-[3px] border-chaos-black dark:border-white/20", fillInfo.bg)}>
+          {hasTape && adhesiveTape}
+          {children}
+
+          {showCloseButton && (
+            <DialogPrimitive.Close
+              data-slot="dialog-close"
+              render={
+                <Button
+                  variant="destructive"
+                  className="absolute -top-1 -right-3 rounded-full border-[3px] border-chaos-black shadow-solid-sm z-50 hover:scale-110 active:scale-95 size-8 p-0"
+                  size="icon-sm"
+                />
+              }
+            >
+              <XIcon className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          )}
+        </div>
+
+        {/* Bottom Paper Tear SVG */}
+        <svg
+          aria-hidden="true"
+          className="relative z-10 mt-[-2px] w-full pointer-events-none select-none"
+          style={{ fill: fillInfo.fill }}
+          viewBox="0 0 448 24"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0 .826c0 9.527 5.976 17.64 14.378 20.862 2.49.955 5.184 1.5 8.01 1.5h403.223c4.635 0 8.94-1.407 12.514-3.816C444.082 15.354 448 8.548 448 .826H0Z"
+            fillRule="evenodd"
+          />
+        </svg>
       </DialogPrimitive.Popup>
     </DialogPortal>
   )
@@ -83,7 +224,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-2", className)}
+      className={cn("flex flex-col gap-1.5", className)}
       {...props}
     />
   )
@@ -101,7 +242,7 @@ function DialogFooter({
     <div
       data-slot="dialog-footer"
       className={cn(
-        "-mx-6 -mb-6 flex flex-col-reverse gap-2 border-t-2 border-foreground/20 bg-muted/50 p-4 sm:flex-row sm:justify-end",
+        "-mx-8 -mb-4 mt-2 flex flex-col-reverse gap-2 border-t-2 border-dashed border-foreground/15 bg-foreground/5 p-4 sm:flex-row sm:justify-end sm:gap-4",
         className
       )}
       {...props}
@@ -120,7 +261,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("splat-heading text-lg", className)}
+      className={cn("splat-skew text-2xl font-black uppercase tracking-wider text-current", className)}
       {...props}
     />
   )
@@ -134,7 +275,7 @@ function DialogDescription({
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn(
-        "text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-sm font-medium opacity-85 leading-relaxed",
         className
       )}
       {...props}
