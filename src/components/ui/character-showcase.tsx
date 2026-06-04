@@ -29,12 +29,12 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
     const rotateY = useTransform(dxSpring, (val) => val * 20)
 
     // Implement motion transformations for the midground, foreground, and shadows
-    const midX = useTransform(dxSpring, [-0.5, 0.5], [15, -15])
-    const midY = useTransform(dySpring, [-0.5, 0.5], [15, -15])
-    const foreX = useTransform(dxSpring, [-0.5, 0.5], [35, -35])
-    const foreY = useTransform(dySpring, [-0.5, 0.5], [35, -35])
-    const shadowX = useTransform(dxSpring, [-0.5, 0.5], [25, -25])
-    const shadowY = useTransform(dySpring, [-0.5, 0.5], [25, -25])
+    const midX = useTransform(dxSpring, [-0.5, 0.5], [10, -10])
+    const midY = useTransform(dySpring, [-0.5, 0.5], [10, -10])
+    const foreX = useTransform(dxSpring, [-0.5, 0.5], [20, -20])
+    const foreY = useTransform(dySpring, [-0.5, 0.5], [20, -20])
+    const shadowX = useTransform(dxSpring, [-0.5, 0.5], [15, -15])
+    const shadowY = useTransform(dySpring, [-0.5, 0.5], [15, -15])
 
     // Track reduced motion and focus states
     const [systemReducedMotion, setSystemReducedMotion] = React.useState(false)
@@ -184,7 +184,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
             style={{
               x: isReducedMotionActive ? 0 : shadowX,
               y: isReducedMotionActive ? 0 : shadowY,
-              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(-20px)",
+              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(-15px)",
             }}
           />
 
@@ -195,7 +195,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
               boardClassName
             )}
             style={{
-              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(-10px)",
+              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(-5px)",
               transformStyle: "preserve-3d",
             }}
           />
@@ -204,7 +204,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden"
             style={{
-              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(25px)",
+              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(5px)",
               transformStyle: "preserve-3d",
             }}
           >
@@ -220,11 +220,11 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
 
           {/* Midground Layer: Ink Splat SVGs */}
           <motion.div
-            className="absolute inset-0 pointer-events-none select-none overflow-hidden"
+            className="absolute inset-0 pointer-events-none select-none overflow-visible"
             style={{
               x: isReducedMotionActive ? 0 : midX,
               y: isReducedMotionActive ? 0 : midY,
-              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(45px)",
+              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(15px)",
               transformStyle: "preserve-3d",
             }}
           >
@@ -247,7 +247,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
             style={{
               x: isReducedMotionActive ? 0 : foreX,
               y: isReducedMotionActive ? 0 : foreY,
-              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(80px)",
+              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(35px)",
               transformStyle: "preserve-3d",
             }}
           >
@@ -264,7 +264,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
           <div
             className="relative w-full h-full overflow-visible"
             style={{
-              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(10px)",
+              transform: isReducedMotionActive ? "translateZ(0px)" : "translateZ(20px)",
               transformStyle: "preserve-3d",
             }}
           >

@@ -246,49 +246,7 @@ export default function Home() {
                 <CharacterShowcase
                   reducedMotion={reducedMotion}
                   boardClassName="bg-none bg-[#f5f0e8] dark:bg-[#151515] border-[3px] border-chaos-black dark:border-white shadow-solid-lg rounded-2xl"
-                >
-                  {/* Background Skewed "SPLAT 3" Text */}
-                  <div
-                    className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none"
-                    style={{ transform: "translateZ(-5px) scale(1.1)", transformStyle: "preserve-3d" }}
-                  >
-                    <span className="font-display font-black text-8xl text-chaos-black/10 dark:text-white/10 select-none uppercase tracking-tighter -rotate-12 scale-125 leading-none opacity-85">
-                      SPLAT 3
-                    </span>
-                  </div>
-
-                  {/* Splatoon Brand Ink SVG elements */}
-                  {/* Top-Right Purple Splatter */}
-                  <svg
-                    viewBox="0 0 100 100"
-                    className="absolute -top-4 -right-4 w-28 h-28 text-ink-purple dark:text-ink-purple fill-current opacity-85 pointer-events-none"
-                    style={{ transform: "translateZ(10px) rotate(45deg)" }}
-                  >
-                    <path d="M30,20 C50,10 70,30 65,55 C60,80 85,85 75,95 C65,105 35,90 25,75 C15,60 10,30 30,20 Z" />
-                  </svg>
-
-                  {/* Bottom-Left Green Splatter */}
-                  <svg
-                    viewBox="0 0 100 100"
-                    className="absolute -bottom-4 -left-4 w-32 h-32 text-ink-green dark:text-ink-green fill-current opacity-90 pointer-events-none"
-                    style={{ transform: "translateZ(15px) rotate(-15deg)" }}
-                  >
-                    <path d="M50,15 C60,5 85,15 85,35 C85,55 60,60 55,75 C50,90 20,85 15,65 C10,45 35,30 40,25 Z" />
-                  </svg>
-
-                  {/* Foreground Character Image */}
-                  <div
-                    className="absolute inset-0 flex items-center justify-center p-6 pointer-events-none"
-                    style={{ transform: "translateZ(35px)", transformStyle: "preserve-3d" }}
-                  >
-                    <img
-                      src="/images/splatoon_inkling.png"
-                      alt="Splatoon Inkling character"
-                      className="w-full h-full object-contain filter drop-shadow-[0_15px_12px_rgba(0,0,0,0.55)] dark:drop-shadow-[0_15px_12px_rgba(0,0,0,0.85)] scale-110 select-none"
-                      draggable={false}
-                    />
-                  </div>
-                </CharacterShowcase>
+                />
               </div>
             </div>
 
