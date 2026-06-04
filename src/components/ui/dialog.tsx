@@ -5,6 +5,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { Tape } from "./tape"
 import { XIcon } from "lucide-react"
 
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
@@ -85,70 +86,7 @@ function DialogContent({
 
   const fillInfo = surfaceFills[surface] || surfaceFills.paper
 
-  const stickerColorMap = {
-    yellow: { bg: "#eaff3d", text: "#0d0d0d" },
-    red: { bg: "#ff505e", text: "#ffffff" },
-    blue: { bg: "#603bff", text: "#eaff3d" },
-    green: { bg: "#6af7ce", text: "#0d0d0d" },
-  }
-
-  const stickerColors = stickerColorMap[tapeColor] || stickerColorMap.yellow
-
-  const adhesiveTape = (
-    <div
-      aria-hidden="true"
-      className={cn(
-        "absolute z-30 select-none pointer-events-none w-[35%] max-w-[120px]",
-        tapePosition === "news"
-          ? "left-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(-12deg)]"
-          : "right-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(12deg)]"
-      )}
-    >
-      <svg
-        viewBox="0 0 96 31"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
-      >
-        <rect width="96" height="31" rx="5" fill={stickerColors.bg} />
-        {/* Logo B on the right */}
-        <g fill={stickerColors.text}>
-          <path
-            d="M74,7 h4.5 c1.5,0 2.5,0.8 2.5,1.8 v0.2 c0,0.8 -0.6,1.4 -1.5,1.6 c1,0.2 1.7,0.8 1.7,1.7 v0.2 c0,1 -1,1.8 -2.5,1.8 h-4.7 z M76.5,8.8 v2.2 h1.8 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z M76.5,12.5 v2.2 h2 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z"
-          />
-          <text
-            x="73"
-            y="26"
-            fontFamily="monospace"
-            fontWeight="900"
-            fontSize="4.5"
-            letterSpacing="0.2"
-          >
-            VALK
-          </text>
-        </g>
-        {/* Left Text / Markings */}
-        <g fill={stickerColors.text}>
-          <text
-            x="8"
-            y="19.5"
-            fontFamily="sans-serif"
-            fontWeight="900"
-            fontSize={tapeText.length > 12 ? "6.5" : tapeText.length > 9 ? "7.5" : "8.5"}
-            letterSpacing="0.3"
-          >
-            {tapeText.toUpperCase()}
-          </text>
-        </g>
-        {/* Center detail markings */}
-        <g fill={stickerColors.text} opacity="0.6">
-          <rect x="48" y="11" width="1.5" height="4" />
-          <rect x="48" y="17" width="1.5" height="1.5" />
-          <rect x="46" y="20" width="5.5" height="1" />
-        </g>
-      </svg>
-    </div>
-  )
+  
 
   return (
     <DialogPortal>
@@ -181,7 +119,19 @@ function DialogContent({
 
         {/* Dialog Content body */}
         <div className={cn("relative z-10 px-8 py-4 flex flex-col gap-4 border-l-[3px] border-r-[3px] border-chaos-black dark:border-white/20", fillInfo.bg)}>
-          {hasTape && adhesiveTape}
+          {hasTape && (
+            <Tape
+              variant="torn"
+              color={tapeColor}
+              text={tapeText}
+              className={cn(
+                "absolute z-30 select-none pointer-events-none w-[35%] max-w-[120px]",
+                tapePosition === "news"
+                  ? "left-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(-12deg)]"
+                  : "right-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(12deg)]"
+              )}
+            />
+          )}
           {children}
 
           {showCloseButton && (
