@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { NavMenuButton } from '@/components/ui/nav-menu-button'
 import { Splat } from '@/components/ui/splats'
+import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
 
 interface NavLink {
   label: string
@@ -176,12 +177,18 @@ type MenuSpike = {
   driftPhase: number
   driftAmount: number
 }
+type MenuTrough = {
+  offset: number
+  depth: number
+  sigma: number
+}
 type MenuNoise = {
   grid4: number[]
   grid8: number[]
   grid16: number[]
   detailGrid: number[]
   spikes: MenuSpike[]
+  troughs: MenuTrough[]
 }
 
 type NavigationDialogProps = {
@@ -217,6 +224,11 @@ function createCircularNoiseGrid(count: number, min = -1, max = 1) {
   return Array.from({ length: count }, () => randomBetween(min, max))
 }
 
+function randomMostlyDeep(min: number, max: number, shallowBias = 0.16) {
+  const mix = Math.random() < shallowBias ? Math.random() * 0.45 : 0.72 + Math.random() * 0.28
+  return min + (max - min) * mix
+}
+
 function createSpikeBursts(spikeIndex: number) {
   const burstCount = spikeIndex === 0 ? 3 : 2
   const centers = Array.from({ length: burstCount }, () => randomBetween(0.16, 0.9)).sort(
@@ -244,7 +256,7 @@ function createSpikeBursts(spikeIndex: number) {
           : randomBetween(1.25, 1.95)
         : spikeIndex === 1
           ? randomBetween(0.95, 1.55)
-          : spikeIndex === 2
+        : spikeIndex === 2
             ? randomBetween(0.55, 0.95)
             : randomBetween(0.28, 0.62),
     power:
@@ -264,6 +276,10 @@ function createMenuNoise(): MenuNoise {
     randomBetween(0.92, 1.28),
     randomBetween(-1.56, -1.24),
     randomBetween(1.46, 1.74),
+  ]
+  const troughOffsets = [
+    (angularOffsets[0] + angularOffsets[1]) / 2 + randomBetween(-0.04, 0.04),
+    (angularOffsets[1] + angularOffsets[2]) / 2 + randomBetween(-0.05, 0.05),
   ]
   return {
     grid4: createCircularNoiseGrid(4, -0.95, 0.95),
@@ -329,6 +345,14 @@ function createMenuNoise(): MenuNoise {
               : randomBetween(0.02, 0.05),
       }
     }),
+    troughs: troughOffsets.map((offset, index) => ({
+      offset,
+      depth:
+        index === 0
+          ? randomMostlyDeep(145, 245, 0.16)
+          : randomMostlyDeep(185, 320, 0.12),
+      sigma: index === 0 ? randomBetween(0.17, 0.24) : randomBetween(0.18, 0.26),
+    })),
   }
 }
 
@@ -605,7 +629,22 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
       spikeSum += spikeValue
     })
 
-    const totalOffset = fbm + spikeSum
+    let troughSum = 0
+    menuNoise.troughs.forEach((trough, troughIndex) => {
+      const currentAngle = frontAngle + trough.offset
+      const diff = getAngularDistance(angle, currentAngle)
+      const openingEnvelope = 0.22 + 0.9 * Math.pow(t, 0.92)
+      const delay = troughIndex === 0 ? 0.98 : 1.08
+      const troughValue =
+        trough.depth *
+        openingEnvelope *
+        delay *
+        Math.exp(-(diff * diff) / (2 * trough.sigma * trough.sigma))
+
+      troughSum += troughValue
+    })
+
+    const totalOffset = fbm + spikeSum - troughSum
     const noiseScale = 0.08 + 0.92 * Math.pow(t, 0.9)
     return totalOffset * noiseScale
   }
@@ -752,11 +791,19 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     return path
   }
 
+  const getFullScreenCoverPath = () => {
+    const width = Math.max(dimensions.width, 1)
+    const height = Math.max(dimensions.height, 1)
+    return `M 0 0 L ${width.toFixed(1)} 0 L ${width.toFixed(1)} ${height.toFixed(1)} L 0 ${height.toFixed(1)} Z`
+  }
+
   const currentCoverPath =
     dimensions.width > 0
       ? coverPhase === 'closing'
         ? getMenuCloseWavePath(phaseProgress)
-        : getMenuDripPath(coverPhase === 'open' ? 1 : phaseProgress)
+        : coverPhase === 'open'
+          ? getFullScreenCoverPath()
+          : getMenuDripPath(phaseProgress)
       : ''
 
   const contentTransitionClass = React.useMemo(() => {
@@ -854,21 +901,20 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                 />
               ))}
 
-              <img
-                src="https://splatoon.nintendo.com/_images/tape-assets/sticker-2-red.png"
-                alt=""
-                className="pointer-events-none absolute top-[23.2%] left-[10.25%] z-[2] w-[13.5rem] -rotate-[27deg] select-none"
-              />
-              <img
-                src="https://splatoon.nintendo.com/_images/tape-assets/sticker-10.png"
-                alt=""
-                className="pointer-events-none absolute top-[52.1%] right-[10.8%] z-[2] w-[14.35rem] rotate-[-7deg] select-none"
-              />
-              <img
-                src="https://splatoon.nintendo.com/_images/tape-assets/sticker-5.png"
-                alt=""
-                className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[2] w-[29.5rem] -rotate-[9deg] select-none"
-              />
+              {/* Vector Sticker 2 Red */}
+              <div className="pointer-events-none absolute top-[23.2%] left-[10.25%] z-[2] w-[13.5rem] -rotate-[27deg] select-none">
+                <Sticker2Red />
+              </div>
+
+              {/* Vector Sticker 10 */}
+              <div className="pointer-events-none absolute top-[52.1%] right-[10.8%] z-[2] w-[14.35rem] rotate-[-7deg] select-none">
+                <Sticker10 />
+              </div>
+
+              {/* Vector Sticker 5 */}
+              <div className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[2] w-[29.5rem] -rotate-[9deg] select-none">
+                <Sticker5 />
+              </div>
 
               <nav
                 aria-label="Main site navigation"
