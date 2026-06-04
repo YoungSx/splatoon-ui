@@ -458,7 +458,7 @@ export default function Home() {
 
             <Tabs defaultValue="preview" className="w-full">
               {/* TabsList rendering our high-fidelity Skewed Tab Triggers! */}
-              <TabsList className="grid w-full grid-cols-3 max-w-lg mx-auto mb-10">
+              <TabsList className="grid w-full grid-cols-3 gap-4 max-w-xl mx-auto mb-10">
                 <TabsTrigger value="preview">Buttons & Badges</TabsTrigger>
                 <TabsTrigger value="forms">Form Fields & Alerts</TabsTrigger>
                 <TabsTrigger value="dialogs">Graffiti Dialogs</TabsTrigger>

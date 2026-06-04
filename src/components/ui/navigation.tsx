@@ -525,16 +525,19 @@ export function Navigation() {
          ──────────────────────────────────────────────────────── */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[100] w-full border-b-[3px] border-chaos-black dark:border-white transition-all duration-300 select-none bg-white/95 dark:bg-chaos-black/95 backdrop-blur-md",
-          isCollapsed ? "h-[50px] pr-4" : "h-[70px] md:h-[80px] pr-4 md:pr-8"
+          "fixed left-0 right-0 top-0 z-[100] w-full select-none bg-black text-white transition-all duration-300",
+          isCollapsed ? "h-[72px]" : "h-[92px]"
         )}
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-[39px] z-[1] h-[138px] w-[226px] overflow-hidden"
+          className={cn(
+            "pointer-events-none absolute left-0 z-[1] overflow-hidden transition-all duration-300",
+            isCollapsed ? "top-[30px] h-[122px] w-[194px]" : "top-[39px] h-[138px] w-[206px]"
+          )}
         >
           <svg
-            className="h-full w-full fill-chaos-black dark:fill-white"
+            className="h-full w-full fill-black"
             viewBox="0 0 226 138"
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -546,7 +549,28 @@ export function Navigation() {
           </svg>
         </div>
 
-        <div className="absolute left-0 top-1/2 z-10 -translate-y-1/2">
+        <div className="relative flex h-full w-full flex-col items-center justify-start">
+          <button
+            onClick={toggleReducedMotion}
+            aria-pressed={isReducedMotion}
+            className="nav-reduced-motion mt-2.5 md:mt-3"
+            title="Toggle Reduced Motion"
+          >
+            <span aria-hidden="true" className="nav-reduced-motion__icon">
+              {isReducedMotion ? <span className="nav-reduced-motion__icon-inner" /> : null}
+            </span>
+            <span className="nav-reduced-motion__label">
+              Reduced motion
+            </span>
+          </button>
+        </div>
+
+        <div
+          className={cn(
+            "absolute left-0 z-10 transition-all duration-300",
+            isCollapsed ? "top-[18px]" : "top-[30px]"
+          )}
+        >
           <button
             ref={menuTriggerRef}
             onClick={toggleMenu}
@@ -570,45 +594,6 @@ export function Navigation() {
             </span>
           </button>
         </div>
-
-        {/* Right Accessibility Control (A11y Bar) */}
-        <div className="absolute right-4 top-1/2 flex -translate-y-1/2 items-center gap-4 md:right-8">
-          <button
-            onClick={toggleReducedMotion}
-            aria-pressed={isReducedMotion}
-            className={cn(
-              "group/a11y flex items-center gap-2 px-3 py-1.5 border-2 border-chaos-black dark:border-white rounded-[6px] transition-all hover:scale-[1.02] active:scale-[0.98]",
-              isReducedMotion
-                ? "bg-chaos-black text-[#eaff3d] dark:bg-white dark:text-chaos-black"
-                : "bg-transparent text-chaos-black/60 dark:text-white/60 hover:text-chaos-black dark:hover:text-white"
-            )}
-            title="Toggle Reduced Motion"
-          >
-            <span
-              className={cn(
-                "relative flex h-3 w-3 shrink-0 rounded-full border border-chaos-black dark:border-white transition-all",
-                isReducedMotion ? "bg-[#eaff3d] dark:bg-chaos-black scale-110" : "bg-transparent"
-              )}
-            />
-            <span className="font-heading font-black text-[11px] md:text-xs uppercase tracking-widest leading-none">
-              {isReducedMotion ? "Motion: Off" : "Reduced Motion"}
-            </span>
-          </button>
-        </div>
-
-        {/* Center: Nintendo Switch Logo Style Visual Lockup */}
-        <a
-          href="#"
-          className="group/logo absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 transition-transform hover:scale-[1.03] active:scale-[0.98]"
-        >
-          <div className="bg-[#ff505e] dark:bg-[#eaff3d] text-white dark:text-chaos-black p-1 px-2.5 rounded-[4px] border-2 border-chaos-black dark:border-white rotate-[-3deg] shadow-solid-sm group-hover/logo:rotate-0 transition-transform">
-            <span className="font-heading font-black text-sm md:text-base tracking-widest leading-none">SWITCH</span>
-          </div>
-          <span className="font-heading font-black text-base md:text-xl uppercase tracking-widest text-chaos-black dark:text-white leading-none">
-            UI
-          </span>
-        </a>
-
       </header>
 
       {/* ────────────────────────────────────────────────────────
