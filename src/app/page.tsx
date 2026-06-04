@@ -20,10 +20,13 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
+import { CharacterShowcase } from '@/components/ui/character-showcase'
 
 const THEME_STORAGE_KEY = 'splat-theme'
 
 export default function Home() {
+  const [reducedMotion, setReducedMotion] = React.useState(false)
+
   const toggleTheme = React.useCallback(() => {
     const root = window.document.documentElement
     const nextTheme = root.classList.contains('dark') ? 'light' : 'dark'
@@ -206,8 +209,156 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Slanted Transition Divider 2: News Feed to Tags Section */}
+      {/* Slanted Transition Divider 2A: News Feed to Character Showcase Section */}
       <div className="w-full h-12 relative z-10 -mt-1 bg-[#f5f0e8] dark:bg-[#151515]">
+        <svg
+          viewBox="0 0 1440 60"
+          fill="none"
+          preserveAspectRatio="none"
+          className="w-full h-full text-[#ead6b8] dark:text-[#1e1b15] fill-current transition-colors duration-300"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M0,0 L1440,60 L0,60 Z" />
+        </svg>
+      </div>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 2.5: 3D CHARACTER PARALLAX SHOWCASE (bg-[#ead6b8] / bg-[#1e1b15])
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-[#ead6b8] dark:bg-[#1e1b15] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
+        <div className="w-full max-w-4xl space-y-12">
+          {/* Section Header */}
+          <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
+            <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
+              1.5 3D Character Parallax Showcase
+            </h2>
+            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
+              Interactive 3D layer perspective card using framer-motion springs. Hover or move your cursor to interact.
+            </p>
+          </div>
+
+          {/* Grid Content */}
+          <div className="grid gap-12 md:grid-cols-2 items-center">
+            
+            {/* Left Column: 3D Parallax Showcase Card */}
+            <div className="flex justify-center items-center">
+              <div className="w-full max-w-[340px] aspect-[3/4] relative">
+                <CharacterShowcase
+                  reducedMotion={reducedMotion}
+                  boardClassName="bg-none bg-[#f5f0e8] dark:bg-[#151515] border-[3px] border-chaos-black dark:border-white shadow-solid-lg rounded-2xl"
+                >
+                  {/* Background Skewed "SPLAT 3" Text */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none"
+                    style={{ transform: "translateZ(-5px) scale(1.1)", transformStyle: "preserve-3d" }}
+                  >
+                    <span className="font-display font-black text-8xl text-chaos-black/10 dark:text-white/10 select-none uppercase tracking-tighter -rotate-12 scale-125 leading-none opacity-85">
+                      SPLAT 3
+                    </span>
+                  </div>
+
+                  {/* Splatoon Brand Ink SVG elements */}
+                  {/* Top-Right Purple Splatter */}
+                  <svg
+                    viewBox="0 0 100 100"
+                    className="absolute -top-4 -right-4 w-28 h-28 text-ink-purple dark:text-ink-purple fill-current opacity-85 pointer-events-none"
+                    style={{ transform: "translateZ(10px) rotate(45deg)" }}
+                  >
+                    <path d="M30,20 C50,10 70,30 65,55 C60,80 85,85 75,95 C65,105 35,90 25,75 C15,60 10,30 30,20 Z" />
+                  </svg>
+
+                  {/* Bottom-Left Green Splatter */}
+                  <svg
+                    viewBox="0 0 100 100"
+                    className="absolute -bottom-4 -left-4 w-32 h-32 text-ink-green dark:text-ink-green fill-current opacity-90 pointer-events-none"
+                    style={{ transform: "translateZ(15px) rotate(-15deg)" }}
+                  >
+                    <path d="M50,15 C60,5 85,15 85,35 C85,55 60,60 55,75 C50,90 20,85 15,65 C10,45 35,30 40,25 Z" />
+                  </svg>
+
+                  {/* Foreground Character Image */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-center p-6 pointer-events-none"
+                    style={{ transform: "translateZ(35px)", transformStyle: "preserve-3d" }}
+                  >
+                    <img
+                      src="/images/splatoon_inkling.png"
+                      alt="Splatoon Inkling character"
+                      className="w-full h-full object-contain filter drop-shadow-[0_15px_12px_rgba(0,0,0,0.55)] dark:drop-shadow-[0_15px_12px_rgba(0,0,0,0.85)] scale-110 select-none"
+                      draggable={false}
+                    />
+                  </div>
+                </CharacterShowcase>
+              </div>
+            </div>
+
+            {/* Right Column: Beautiful Typography Description */}
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Badge variant="sticker">
+                  <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
+                  Premium Feature
+                </Badge>
+                <h3 className="text-2xl font-black uppercase tracking-wide text-chaos-black dark:text-[#eaff3d]">
+                  Tactile 3D Depth Mechanics
+                </h3>
+                <p className="text-sm font-medium text-chaos-black/75 dark:text-white/75 leading-relaxed">
+                  This showcase is built to feel responsive and alive, matching Splatoon's signature tactile visual style. By mapping mouse coordinates to 3D rotational values and projecting layers at varying visual depths (Z-index), we achieve a high-fidelity parallax effect.
+                </p>
+              </div>
+
+              {/* Component Spec Table / Cards */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-[#f5f0e8] dark:bg-[#151515]/60 p-3 border-[2px] border-chaos-black dark:border-white/20 rounded-lg">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Stiffness</span>
+                  <p className="font-heading text-lg font-black text-[#603bff] dark:text-[#eaff3d]">180</p>
+                </div>
+                <div className="bg-[#f5f0e8] dark:bg-[#151515]/60 p-3 border-[2px] border-chaos-black dark:border-white/20 rounded-lg">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Damping</span>
+                  <p className="font-heading text-lg font-black text-[#603bff] dark:text-[#eaff3d]">20</p>
+                </div>
+                <div className="bg-[#f5f0e8] dark:bg-[#151515]/60 p-3 border-[2px] border-chaos-black dark:border-white/20 rounded-lg col-span-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Z-Index Depth Layer Projection</span>
+                  <div className="flex flex-col gap-1 mt-1 text-[11px] font-semibold text-chaos-black/80 dark:text-white/80">
+                    <div className="flex justify-between border-b border-chaos-black/5 dark:border-white/5 pb-0.5">
+                      <span>Foreground Inkling</span>
+                      <code className="text-[#ff505e]">translateZ(35px)</code>
+                    </div>
+                    <div className="flex justify-between border-b border-chaos-black/5 dark:border-white/5 pb-0.5">
+                      <span>Brand Ink Splatters</span>
+                      <code className="text-[#6af7ce]">translateZ(10px - 15px)</code>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Background Skewed Text</span>
+                      <code className="text-[#af50ff]">translateZ(-5px)</code>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Reduced Motion Toggle Panel */}
+              <div className="flex items-center gap-4 bg-white/50 dark:bg-black/20 p-4 border-[2px] border-chaos-black dark:border-white rounded-xl shadow-solid-sm">
+                <div className="flex-1">
+                  <p className="font-heading text-sm font-black uppercase text-chaos-black dark:text-white">Reduced Motion Mode</p>
+                  <p className="text-xs text-chaos-black/75 dark:text-white/75 font-medium mt-0.5">Disables mouse-tracking 3D rotations for accessibility.</p>
+                </div>
+                <Button
+                  variant={reducedMotion ? "destructive" : "yellow"}
+                  size="sm"
+                  onClick={() => setReducedMotion(!reducedMotion)}
+                  className="min-w-[80px]"
+                >
+                  {reducedMotion ? "ON" : "OFF"}
+                </Button>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+
+      {/* Slanted Transition Divider 2B: Character Showcase to Tags Section */}
+      <div className="w-full h-12 relative z-10 -mt-1 bg-[#ead6b8] dark:bg-[#1e1b15]">
         <svg
           viewBox="0 0 1440 60"
           fill="none"
@@ -215,7 +366,7 @@ export default function Home() {
           className="w-full h-full text-white dark:text-[#0d0d0d] fill-current transition-colors duration-300"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path d="M0,0 L1440,60 L0,60 Z" />
+          <path d="M0,60 L1440,0 L1440,60 Z" />
         </svg>
       </div>
 

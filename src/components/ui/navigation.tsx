@@ -45,7 +45,46 @@ const DETERMINISTIC_NOISE = {
 }
 
 const menuNoise = DETERMINISTIC_NOISE
-const MENU_ANIMATION_MS = 750
+const MENU_ANIMATION_MS = 1125
+const CLOSE_WAVE_LOBES = [
+  { center: 0.12, width: 0.06, height: 78, ragged: 34 },
+  { center: 0.28, width: 0.075, height: 118, ragged: 36 },
+  { center: 0.47, width: 0.09, height: 168, ragged: 42 },
+  { center: 0.68, width: 0.08, height: 132, ragged: 38 },
+  { center: 0.86, width: 0.055, height: 88, ragged: 30 },
+] as const
+const CLOSE_WAVE_SPRAYS = [
+  {
+    id: "close-spray-left",
+    ratio: 0.16,
+    left: "11%",
+    offset: -18,
+    width: 170,
+    height: 118,
+    rotate: -18,
+    path: "M39 44 C50 10 108 6 126 34 C143 14 174 30 166 60 C182 87 150 118 118 107 C96 128 50 121 43 89 C13 85 8 56 39 44 Z",
+  },
+  {
+    id: "close-spray-mid",
+    ratio: 0.48,
+    left: "44%",
+    offset: 10,
+    width: 224,
+    height: 154,
+    rotate: 7,
+    path: "M54 56 C56 18 126 8 152 38 C188 16 232 46 215 83 C240 120 188 154 146 137 C116 164 50 160 39 118 C8 102 17 64 54 56 Z",
+  },
+  {
+    id: "close-spray-right",
+    ratio: 0.82,
+    left: "74%",
+    offset: -6,
+    width: 190,
+    height: 128,
+    rotate: 14,
+    path: "M42 45 C46 16 110 8 132 34 C162 14 197 33 191 64 C212 92 171 127 132 114 C105 139 49 132 41 96 C16 89 10 57 42 45 Z",
+  },
+] as const
 
 type MenuPhase = "closed" | "opening" | "open" | "closing"
 
@@ -61,8 +100,11 @@ export function Navigation() {
   const [phaseProgress, setPhaseProgress] = React.useState(0)
 
   const numPoints = 80 // Radial resolution for drawing smooth detailed bezier segments
-  const isMenuExpanded = menuPhase === "opening" || menuPhase === "open"
   const isMenuVisible = isMenuMounted || menuPhase === "opening" || menuPhase === "closing"
+  const isContentVisible =
+    menuPhase === "open" || (menuPhase === "opening" && phaseProgress >= 0.32)
+  const isContentInteractive =
+    menuPhase === "open" || (menuPhase === "opening" && phaseProgress >= 0.42)
 
 
   // Scroll handler to collapse header bar
@@ -320,18 +362,18 @@ export function Navigation() {
     return path
   }
 
-  const getMenuCloseWavePath = (t: number) => {
-    if (!dimensions.width || !dimensions.height) return ""
+  const getMenuCloseWavePoints = (t: number) => {
+    if (!dimensions.width || !dimensions.height) return []
 
     const width = dimensions.width
     const height = dimensions.height
-    const points = 10
+    const points = 22
     const eased = t
-    const travel = -150 + (height + 220) * eased
-    const waveEnvelope = Math.sin(Math.min(eased, 0.96) * Math.PI)
-    const amplitudePrimary = 24 + 62 * waveEnvelope
-    const amplitudeSecondary = 10 + 28 * waveEnvelope
-    const phaseShift = eased * Math.PI * 1.35
+    const travel = -112 + (height + 224) * Math.pow(eased, 0.72)
+    const waveEnvelope = Math.sin(Math.min(eased, 0.95) * Math.PI)
+    const amplitudePrimary = 14 + 22 * waveEnvelope
+    const amplitudeSecondary = 6 + 12 * waveEnvelope
+    const phaseShift = eased * Math.PI * 0.92
 
     const wavePoints: Array<{ x: number; y: number }> = []
 
@@ -339,16 +381,42 @@ export function Navigation() {
       const ratio = i / points
       const x = width * ratio
       const angle = ratio * Math.PI * 2
+      const sideBias = (0.44 - ratio) * 46 * (1 - eased * 0.85)
       const harmonic =
         Math.sin(angle + phaseShift) * amplitudePrimary +
-        Math.sin(angle * 2.15 - phaseShift * 0.8) * amplitudeSecondary +
-        getPeriodicNoiseValue(angle + phaseShift * 0.35, menuNoise.grid12) * 14 * waveEnvelope
+        Math.sin(angle * 1.9 - phaseShift * 0.72) * amplitudeSecondary +
+        getPeriodicNoiseValue(angle + phaseShift * 0.35, menuNoise.grid12) * 8 * waveEnvelope
+
+      const lobeOffset = CLOSE_WAVE_LOBES.reduce((total, lobe, lobeIndex) => {
+        const distance = ratio - lobe.center
+        const gaussian = Math.exp(-(distance * distance) / (2 * lobe.width * lobe.width))
+        const raggedAngle = ratio * Math.PI * (5.2 + lobeIndex * 1.6) + phaseShift * (0.5 + lobeIndex * 0.12)
+        const raggedNoise =
+          Math.sin(raggedAngle) * 0.65 +
+          getPeriodicNoiseValue(raggedAngle * 0.5, menuNoise.grid24) * 0.35
+
+        return total + gaussian * (lobe.height + raggedNoise * lobe.ragged) * (1.16 - eased * 0.12)
+      }, 0)
+
+      const notchOffset =
+        -Math.exp(-Math.pow((ratio - 0.57) / 0.13, 2)) * (18 + 24 * waveEnvelope) -
+        Math.exp(-Math.pow((ratio - 0.27) / 0.08, 2)) * (10 + 14 * waveEnvelope) -
+        Math.exp(-Math.pow((ratio - 0.78) / 0.05, 2)) * (8 + 12 * waveEnvelope)
 
       wavePoints.push({
         x,
-        y: travel + harmonic,
+        y: travel + harmonic + lobeOffset + notchOffset + sideBias,
       })
     }
+
+    return wavePoints
+  }
+
+  const getMenuCloseWavePath = (t: number) => {
+    const wavePoints = getMenuCloseWavePoints(t)
+    if (!wavePoints || wavePoints.length === 0) return ""
+    const width = dimensions.width
+    const height = dimensions.height
 
     let path = `M 0 ${wavePoints[0].y.toFixed(1)}`
 
@@ -368,6 +436,24 @@ export function Navigation() {
     return path
   }
 
+  const sampleCloseWaveY = React.useCallback((points: Array<{ x: number; y: number }>, ratio: number) => {
+    if (points.length === 0) return 0
+
+    const targetX = dimensions.width * ratio
+
+    for (let i = 0; i < points.length - 1; i++) {
+      const current = points[i]
+      const next = points[i + 1]
+
+      if (targetX >= current.x && targetX <= next.x) {
+        const segmentRatio = (targetX - current.x) / Math.max(next.x - current.x, 1)
+        return lerp(current.y, next.y, segmentRatio)
+      }
+    }
+
+    return points[points.length - 1].y
+  }, [dimensions.width])
+
   // Inject style with calculated path literal to bypass browser CSS variable interpolation bugs
   const currentClipPath =
     dimensions.width > 0
@@ -382,6 +468,7 @@ export function Navigation() {
         WebkitClipPath: currentClipPath,
       } as React.CSSProperties
     : undefined
+  const closeWavePoints = menuPhase === "closing" ? getMenuCloseWavePoints(phaseProgress) : []
 
   // Background ink splats inside the menu overlay
   const inkSplats = [
@@ -532,12 +619,41 @@ export function Navigation() {
             className="absolute inset-0 bg-black"
           />
 
+          {menuPhase === "closing" && dimensions.height > 0
+            ? CLOSE_WAVE_SPRAYS.map((spray, index) => {
+                const anchoredY = sampleCloseWaveY(closeWavePoints, spray.ratio)
+                const pulse = Math.sin(phaseProgress * Math.PI * (1.55 + index * 0.18))
+                const scale = 0.82 + Math.max(pulse, 0) * 0.22 + (1 - phaseProgress) * 0.06
+                const oscillation = pulse * 7
+                const sprayTop = anchoredY - spray.height * (0.54 + Math.max(pulse, 0) * 0.06) + spray.offset + oscillation
+
+                return (
+                  <svg
+                    key={spray.id}
+                    data-menu-spray=""
+                    viewBox="0 0 240 170"
+                    className="absolute z-[1] overflow-visible fill-black"
+                    style={{
+                      left: spray.left,
+                      top: `${sprayTop}px`,
+                      width: `${spray.width}px`,
+                      height: `${spray.height}px`,
+                      transform: `translateX(-50%) rotate(${spray.rotate + pulse * 3.5}deg) scale(${scale})`,
+                      transformOrigin: "center",
+                    }}
+                  >
+                    <path d={spray.path} />
+                  </svg>
+                )
+              })
+            : null}
+
           <div
             data-menu-content=""
             data-phase={menuPhase}
             className={cn(
               "absolute inset-0 flex flex-col justify-center items-center text-white p-6",
-              menuPhase === "closing" ? "pointer-events-none" : "pointer-events-auto"
+              isContentInteractive ? "pointer-events-auto" : "pointer-events-none"
             )}
           >
             {/* Background Ink Splatters */}
@@ -555,8 +671,8 @@ export function Navigation() {
             {/* Menu Center Content Column */}
             <nav
               className={cn(
-                "relative z-10 w-full max-w-xl flex flex-col gap-6 md:gap-8 pt-10 text-center transition-all duration-200 ease-[cubic-bezier(0.165,0.84,0.44,1)]",
-                isMenuExpanded ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-6 scale-95"
+                "relative z-10 w-full max-w-xl flex flex-col gap-6 md:gap-8 pt-10 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)]",
+                isContentVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-6 scale-95"
               )}
             >
               <ul className="flex flex-col gap-4 md:gap-6">
@@ -599,8 +715,8 @@ export function Navigation() {
             {/* Menu Overlay Footer: Options & Versions */}
             <div
               className={cn(
-                "absolute bottom-10 left-6 right-6 z-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs uppercase tracking-wider text-white/40 transition-opacity duration-200 ease-out",
-                isMenuExpanded ? "opacity-100" : "opacity-0"
+                "absolute bottom-10 left-6 right-6 z-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs uppercase tracking-wider text-white/40 transition-opacity duration-[300ms] ease-out",
+                isContentVisible ? "opacity-100" : "opacity-0"
               )}
             >
               <div className="flex items-center gap-4">
