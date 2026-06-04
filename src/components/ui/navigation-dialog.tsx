@@ -159,9 +159,22 @@ type CoverPhase = 'closed' | 'opening' | 'open' | 'closing'
 type ContentPhase = 'hidden' | 'entering' | 'visible' | 'exiting'
 type MenuOrigin = { x: number; y: number }
 type MenuSpike = {
-  angle: number
+  offset: number
   height: number
   sigma: number
+  pulseCenterA: number
+  pulseCenterB: number
+  pulseWidthA: number
+  pulseWidthB: number
+  pulseGainA: number
+  pulseGainB: number
+  wobblePhase: number
+  wobbleSpeed: number
+  wobbleDepth: number
+  sigmaPhase: number
+  sigmaDepth: number
+  driftPhase: number
+  driftAmount: number
 }
 type MenuNoise = {
   grid4: number[]
@@ -205,27 +218,94 @@ function createCircularNoiseGrid(count: number, min = -1, max = 1) {
 }
 
 function createMenuNoise(): MenuNoise {
-  const spikeCount = Math.random() > 0.72 ? 3 : 2
-  const baseAngle = randomBetween(0, Math.PI * 2)
+  const spikeCount = 4
+  const angularOffsets = [
+    randomBetween(-1.02, -0.7),
+    randomBetween(-0.28, 0.04),
+    randomBetween(0.26, 0.62),
+    randomBetween(0.92, 1.28),
+  ]
   return {
     grid4: createCircularNoiseGrid(4, -0.95, 0.95),
     grid8: createCircularNoiseGrid(8, -0.28, 0.28),
     grid16: createCircularNoiseGrid(16, -0.03, 0.03),
     detailGrid: createCircularNoiseGrid(24, -0.006, 0.006),
     spikes: Array.from({ length: spikeCount }, (_, index) => ({
-      angle: baseAngle + ((Math.PI * 2) / spikeCount) * index + randomBetween(-0.28, 0.28),
+      offset: angularOffsets[index],
       height:
         index === 0
-          ? randomBetween(1.46, 1.94)
+          ? randomBetween(3.2, 4.1)
           : index === 1
-            ? randomBetween(0.82, 1.16)
-            : randomBetween(0.42, 0.66),
+            ? randomBetween(1.15, 1.6)
+            : index === 2
+              ? randomBetween(0.45, 0.7)
+              : randomBetween(0.16, 0.3),
       sigma:
         index === 0
-          ? randomBetween(0.58, 0.88)
+          ? randomBetween(0.24, 0.34)
           : index === 1
-            ? randomBetween(0.44, 0.64)
-            : randomBetween(0.28, 0.4),
+            ? randomBetween(0.18, 0.26)
+            : index === 2
+              ? randomBetween(0.12, 0.18)
+              : randomBetween(0.08, 0.12),
+      pulseCenterA:
+        index === 0
+          ? randomBetween(0.2, 0.34)
+          : index === 1
+            ? randomBetween(0.28, 0.44)
+            : index === 2
+              ? randomBetween(0.4, 0.58)
+              : randomBetween(0.5, 0.72),
+      pulseCenterB:
+        index === 0
+          ? randomBetween(0.52, 0.68)
+          : index === 1
+            ? randomBetween(0.56, 0.78)
+            : index === 2
+              ? randomBetween(0.62, 0.84)
+              : randomBetween(0.68, 0.9),
+      pulseWidthA:
+        index === 0 ? randomBetween(0.055, 0.085) : randomBetween(0.05, 0.08),
+      pulseWidthB:
+        index === 0 ? randomBetween(0.065, 0.11) : randomBetween(0.055, 0.095),
+      pulseGainA:
+        index === 0
+          ? randomBetween(1.35, 1.8)
+          : index === 1
+            ? randomBetween(0.95, 1.4)
+            : index === 2
+              ? randomBetween(0.6, 0.95)
+              : randomBetween(0.38, 0.62),
+      pulseGainB:
+        index === 0
+          ? randomBetween(2.15, 2.9)
+          : index === 1
+            ? randomBetween(1.05, 1.55)
+            : index === 2
+              ? randomBetween(0.58, 0.92)
+              : randomBetween(0.3, 0.5),
+      wobblePhase: randomBetween(0, Math.PI * 2),
+      wobbleSpeed: randomBetween(5.8, 8.9),
+      wobbleDepth:
+        index === 0
+          ? randomBetween(0.16, 0.24)
+          : index === 1
+            ? randomBetween(0.12, 0.2)
+            : randomBetween(0.08, 0.16),
+      sigmaPhase: randomBetween(0, Math.PI * 2),
+      sigmaDepth:
+        index === 0
+          ? randomBetween(0.12, 0.18)
+          : index === 1
+            ? randomBetween(0.1, 0.16)
+            : randomBetween(0.08, 0.12),
+      driftPhase: randomBetween(0, Math.PI * 2),
+      driftAmount:
+        index === 0
+          ? randomBetween(0.05, 0.09)
+          : index === 1
+            ? randomBetween(0.04, 0.075)
+            : randomBetween(0.02, 0.05),
     })),
   }
 }
@@ -437,13 +517,34 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     return lerp(grid[idx0], grid[idx1], fade(u))
   }
 
-  const getMenuRadiusOffset = (angle: number, t: number) => {
+  const getAngularDistance = (angleA: number, angleB: number) => {
+    let diff = Math.abs(angleA - angleB)
+    if (diff > Math.PI) {
+      diff = 2 * Math.PI - diff
+    }
+    return diff
+  }
+
+  const getTemporalGaussian = (t: number, center: number, width: number) => {
+    const distance = t - center
+    return Math.exp(-(distance * distance) / (2 * width * width))
+  }
+
+  const getImpulse = (value: number, power = 1.9) => {
+    if (value <= 0) return 0
+    return Math.pow(value, power)
+  }
+
+  const getMenuRadiusOffset = (angle: number, t: number, frontAngle: number) => {
     const n4 = getPeriodicNoiseValue(angle + 0.92 * t, menuNoise.grid4) * 650
     const n8 = getPeriodicNoiseValue(angle - 1.02 * t, menuNoise.grid8) * 68
     const n16 = getPeriodicNoiseValue(angle + 1.34 * t, menuNoise.grid16) * 3
     const detail = getPeriodicNoiseValue(angle - 1.8 * t, menuNoise.detailGrid) * 0.6
+    const frontDistance = getAngularDistance(angle, frontAngle)
+    const frontWeight = Math.exp(-(frontDistance * frontDistance) / (2 * 0.95 * 0.95))
+    const fbmSectorScale = 0.14 + frontWeight * 0.86
 
-    let fbm = n4 + n8 + n16 + detail
+    let fbm = (n4 + n8 + n16 + detail) * fbmSectorScale
     const maxFbm = 1280
 
     if (fbm > 0) {
@@ -453,21 +554,42 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     }
 
     let spikeSum = 0
-    menuNoise.spikes.forEach((spike, index) => {
-      const drift = 0.06 * Math.sin(t * Math.PI * 0.72)
-      const currentAngle = spike.angle + (index % 2 === 0 ? drift : -drift)
+    menuNoise.spikes.forEach((spike, spikeIndex) => {
+      const rawPulseA = getTemporalGaussian(t, spike.pulseCenterA, spike.pulseWidthA)
+      const rawPulseB = getTemporalGaussian(t, spike.pulseCenterB, spike.pulseWidthB)
+      const pulseA = getImpulse(rawPulseA, spikeIndex === 0 ? 2.6 : 2.25) * spike.pulseGainA
+      const pulseB = getImpulse(rawPulseB, spikeIndex === 0 ? 2.9 : 2.35) * spike.pulseGainB
+      const openingEnvelope = 0.2 + 0.8 * Math.pow(t, 0.86)
+      const wobble =
+        1 +
+        Math.sin(t * spike.wobbleSpeed + spike.wobblePhase) * spike.wobbleDepth +
+        Math.sin(t * (spike.wobbleSpeed * 1.57) + spike.wobblePhase * 0.6) * (spike.wobbleDepth * 0.14)
+      const secondaryBurst =
+        spikeIndex === 0
+          ? getImpulse(
+              getTemporalGaussian(
+                t,
+                Math.min(0.9, spike.pulseCenterB + 0.045),
+                Math.max(0.04, spike.pulseWidthB * 0.72)
+              ),
+              3.2
+            ) * 2.35
+          : 0
+      const surge = 1 + pulseA + pulseB + secondaryBurst
+      const liveHeightScale = Math.max(0.18, openingEnvelope * surge * wobble)
+      const liveSigmaScale =
+        1 +
+        Math.sin(t * (spike.wobbleSpeed * 0.94) + spike.sigmaPhase) * spike.sigmaDepth +
+        pulseB * 0.05 +
+        secondaryBurst * 0.08
+      const drift =
+        Math.sin(t * (spike.wobbleSpeed * 0.72) + spike.driftPhase) * spike.driftAmount +
+        Math.sin(t * (spike.wobbleSpeed * 1.12) + spike.driftPhase * 0.7) * (spike.driftAmount * 0.18)
+      const currentAngle = frontAngle + spike.offset + drift
 
-      const getAngularDistance = (targetAngle: number) => {
-        let diff = Math.abs(angle - targetAngle)
-        if (diff > Math.PI) {
-          diff = 2 * Math.PI - diff
-        }
-        return diff
-      }
-
-      const currentSigma = spike.sigma * (1.12 - 0.06 * t)
-      const currentHeight = spike.height * 960 * Math.pow(t, 1.01)
-      const diff = getAngularDistance(currentAngle)
+      const currentSigma = spike.sigma * Math.max(0.7, liveSigmaScale)
+      const currentHeight = spike.height * 540 * liveHeightScale
+      const diff = getAngularDistance(angle, currentAngle)
       const spikeValue =
         currentHeight * Math.exp(-(diff * diff) / (2 * currentSigma * currentSigma))
 
@@ -483,66 +605,64 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     if (!dimensions.width || !dimensions.height) return ''
 
     const fallbackOrigin = {
-      x: dimensions.width * 0.9,
-      y: dimensions.height * 0.05,
+      x: 0,
+      y: 0,
     }
     const { x: cx, y: cy } = menuOrigin ?? fallbackOrigin
-    const deltaTheta = (2 * Math.PI) / numPoints
-    const k = (4 / 3) * Math.tan(Math.PI / (2 * numPoints))
+    const width = dimensions.width
+    const height = dimensions.height
+    const travelProgress = Math.pow(t, 0.9)
+    const frontAngle = Math.atan2(height - cy, width - cx)
+    const farthestCornerDistance = Math.max(
+      Math.hypot(cx, cy),
+      Math.hypot(width - cx, cy),
+      Math.hypot(cx, height - cy),
+      Math.hypot(width - cx, height - cy)
+    )
+    const baseRadius = 14 + farthestCornerDistance * 0.94 * travelProgress
+    const deltaTheta = (Math.PI * 2) / numPoints
 
-    const radii: number[] = []
-    const baseRadius = 15 + (2400 - 15) * Math.pow(t, 1.5)
-
-    for (let index = 0; index < numPoints; index += 1) {
+    const radii = Array.from({ length: numPoints }, (_, index) => {
       const angle = index * deltaTheta
-      const radius = Math.max(5, baseRadius + getMenuRadiusOffset(angle, t))
-      radii.push(radius)
-    }
+      const radius = baseRadius + getMenuRadiusOffset(angle, t, frontAngle)
+      return Math.max(14, radius)
+    })
 
-    const smoothCircularRadii = (source: number[], passes: number) => {
-      let current = [...source]
-
-      for (let pass = 0; pass < passes; pass += 1) {
-        current = current.map((radius, index) => {
-          const prev2 = current[(index - 2 + current.length) % current.length]
-          const prev1 = current[(index - 1 + current.length) % current.length]
-          const next1 = current[(index + 1) % current.length]
-          const next2 = current[(index + 2) % current.length]
-
-          return prev2 * 0.08 + prev1 * 0.22 + radius * 0.4 + next1 * 0.22 + next2 * 0.08
-        })
+    for (let pass = 0; pass < 3; pass += 1) {
+      const nextRadii = radii.slice()
+      for (let index = 0; index < radii.length; index += 1) {
+        const prev = radii[(index - 1 + radii.length) % radii.length]
+        const current = radii[index]
+        const next = radii[(index + 1) % radii.length]
+        nextRadii[index] = prev * 0.11 + current * 0.78 + next * 0.11
       }
 
-      return current
+      radii.splice(0, radii.length, ...nextRadii)
     }
 
-    const smoothedRadii = smoothCircularRadii(radii, 4)
-    const points: Array<{ x: number; y: number; tx: number; ty: number }> = []
-
-    for (let index = 0; index < numPoints; index += 1) {
+    const points = radii.map((radius, index) => {
       const angle = index * deltaTheta
-      const radius = smoothedRadii[index]
-      const x = cx + radius * Math.cos(angle)
-      const y = cy + radius * Math.sin(angle)
-      const tx = -Math.sin(angle)
-      const ty = Math.cos(angle)
+      return {
+        x: cx + Math.cos(angle) * radius,
+        y: cy + Math.sin(angle) * radius,
+      }
+    })
 
-      points.push({ x, y, tx, ty })
-    }
+    if (points.length < 2) return ''
 
     let path = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`
 
-    for (let index = 0; index < numPoints; index += 1) {
-      const current = points[index]
-      const next = points[(index + 1) % numPoints]
-      const rCurrent = smoothedRadii[index]
-      const rNext = smoothedRadii[(index + 1) % numPoints]
-      const cp1x = current.x + k * rCurrent * current.tx
-      const cp1y = current.y + k * rCurrent * current.ty
-      const cp2x = next.x - k * rNext * next.tx
-      const cp2y = next.y - k * rNext * next.ty
+    for (let index = 0; index < points.length; index += 1) {
+      const p0 = points[(index - 1 + points.length) % points.length]
+      const p1 = points[index]
+      const p2 = points[(index + 1) % points.length]
+      const p3 = points[(index + 2) % points.length]
+      const cp1x = p1.x + (p2.x - p0.x) / 6
+      const cp1y = p1.y + (p2.y - p0.y) / 6
+      const cp2x = p2.x - (p3.x - p1.x) / 6
+      const cp2y = p2.y - (p3.y - p1.y) / 6
 
-      path += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${next.x.toFixed(1)} ${next.y.toFixed(1)}`
+      path += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)} ${cp2x.toFixed(1)} ${cp2y.toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`
     }
 
     path += ' Z'

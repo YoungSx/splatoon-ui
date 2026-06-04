@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { NavigationDialog } from '@/components/ui/navigation-dialog'
 import { cn } from '@/lib/utils'
+import styles from '@/components/ui/navigation.module.css'
 
 const REDUCED_MOTION_KEY = 'splat-reduced-motion'
 
@@ -87,13 +88,13 @@ export function Navigation() {
           <button
             onClick={toggleReducedMotion}
             aria-pressed={isReducedMotion}
-            className="nav-reduced-motion"
+            className={styles.reducedMotion}
             title="Toggle Reduced Motion"
           >
-            <span aria-hidden="true" className="nav-reduced-motion__icon">
-              {isReducedMotion ? <span className="nav-reduced-motion__icon-inner" /> : null}
+            <span aria-hidden="true" className={styles.reducedMotionIcon}>
+              {isReducedMotion ? <span className={styles.reducedMotionIconInner} /> : null}
             </span>
-            <span className="nav-reduced-motion__label">Reduced motion</span>
+            <span className={styles.reducedMotionLabel}>Reduced motion</span>
           </button>
         </div>
 

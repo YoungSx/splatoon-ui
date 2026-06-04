@@ -1,0 +1,37 @@
+.reducedMotion {
+  align-items: center;
+  color: #fff;
+  display: inline-flex;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 12px 16px;
+}
+
+.reducedMotionIcon {
+  --dimension: 13px;
+  align-items: center;
+  border: 2px solid #eaff3d;
+  border-radius: 50%;
+  display: inline-flex;
+  height: var(--dimension);
+  justify-content: center;
+  margin-inline-end: 10px;
+  position: relative;
+  flex-shrink: 0;
+  width: var(--dimension);
+}
+
+.reducedMotionIconInner {
+  --inner-dimension: calc(var(--dimension) - 8px);
+  background-color: currentColor;
+  border-radius: 50%;
+  height: var(--inner-dimension);
+  width: var(--inner-dimension);
+}
+
+.reducedMotionLabel {
+  position: relative;
+  top: -0.1em;
+}
