@@ -316,7 +316,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           data-variant="news"
           style={cardStyle}
           className={cn(
-            "group/card relative flex h-full flex-col cursor-pointer transition-transform duration-300 [transition-timing-function:var(--ease-in-out-quart)] hover:rotate-[2deg]",
+            "group/card relative flex h-full flex-col cursor-pointer transition-transform duration-300 [transition-timing-function:var(--ease-in-out-quart)]",
             className
           )}
           {...props}

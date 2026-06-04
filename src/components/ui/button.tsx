@@ -13,14 +13,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        yellow: "bg-[var(--bg-color)] text-[var(--text-color)]",
-        blue: "bg-[var(--bg-color)] text-[var(--text-color)]",
-        green: "bg-[var(--bg-color)] text-[var(--text-color)]",
-        orange: "bg-[var(--bg-color)] text-[var(--text-color)]",
-        purple: "bg-[var(--bg-color)] text-[var(--text-color)]",
-        destructive: "bg-[var(--bg-color)] text-[var(--text-color)]",
-        outline:
-          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-[var(--outline-border-color)]",
+        yellow: "",
+        blue: "",
+        green: "",
+        orange: "",
+        purple: "",
+        destructive: "",
+        outline: "",
         ghost:
           "bg-transparent text-current shadow-none hover:bg-current/10 active:bg-current/20 hover:rotate-0 hover:scale-100 active:scale-95 active:translate-x-0 active:translate-y-0 active:shadow-none",
         arrow: "",
@@ -350,7 +349,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             : buttonVariants({ variant, size }),
           hasDrip ? styles.dripRoot : undefined,
           variant !== "arrow" && variant !== "ghost" ? solidButtonEffectsClassName : undefined,
-          variant === "arrow" ? undefined : paddingClass,
+          variant === "arrow" || (hasDrip && isTextChildren) ? undefined : paddingClass,
           className
         )}
         onClick={(event) => {
@@ -373,6 +372,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {hasDrip ? (
           isTextChildren ? (
             <>
+              {/* Official structure: base content in normal flow defines size, hover layer overlays it. */}
+              <span
+                className={cn(
+                  "relative z-10 flex h-full w-full items-center justify-center bg-[var(--bg-color)] text-[var(--text-color)] rounded-[8px]",
+                  paddingClass
+                )}
+              >
+                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
+                  {children}
+                  {hasChevron && size !== "icon" && splatChevron}
+                </span>
+              </span>
+
               {/* Hover cover content layer (aria-hidden to avoid double-reading) */}
               <span
                 aria-hidden="true"
@@ -387,17 +399,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
               </span>
-
-              {/* Default base content layer (now transparent background wrapper to center content) */}
-              <span className="flex items-center justify-center w-full h-full">
-                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
-                  {children}
-                  {hasChevron && size !== "icon" && splatChevron}
-                </span>
-              </span>
             </>
           ) : (
             <>
+              {/* Base surface layer keeps the root transparent, like the official button shell. */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 z-10 bg-[var(--bg-color)] rounded-[8px]"
+              />
+
               {/* Pure Drip Liquid Background Mask Layer */}
               <span
                 aria-hidden="true"
