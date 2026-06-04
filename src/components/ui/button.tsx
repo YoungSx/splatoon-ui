@@ -252,7 +252,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       if (isOut) {
         path += `L${dimensions.width} ${dimensions.height}, 0 ${dimensions.height}`
       } else {
-        path += `L${dimensions.width} 0, 0 0`
+        path += `L${dimensions.width} -8, 0 -8`
       }
       path += "Z"
       return path
