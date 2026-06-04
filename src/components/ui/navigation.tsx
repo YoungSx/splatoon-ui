@@ -1,27 +1,130 @@
 "use client"
 
 import * as React from "react"
-import { Sun, Moon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { Splat } from "@/components/ui/splats"
 
 const REDUCED_MOTION_KEY = "splat-reduced-motion"
-const THEME_STORAGE_KEY = "splat-theme"
 
 interface NavLink {
   label: string
   href: string
-  description?: string
   isBuyNow?: boolean
+  hoverSplatId?: number
+  hoverSplatColor?: string
+  hoverSplatClassName?: string
+  textClassName?: string
 }
 
 const navLinks: NavLink[] = [
-  { label: "Home", href: "#", description: "Back to the lobby" },
-  { label: "World", href: "#world", description: "Explore the City of Chaos" },
-  { label: "Gameplay", href: "#gameplay", description: "Learn online battle modes" },
-  { label: "Weapons & Gear", href: "#weapons", description: "Check your shop loadouts" },
-  { label: "News Feed", href: "#news", description: "Peep the ink-formation feed" },
+  { label: "Buy now", href: "#buy", isBuyNow: true },
+  {
+    label: "Home",
+    href: "#",
+    textClassName: "text-[#eaff3d]",
+    hoverSplatId: 5,
+    hoverSplatColor: "#f2ff27",
+    hoverSplatClassName: "-left-[2.5em] top-1/2 h-[4em] w-[4em] -translate-y-[46%] rotate-[-18deg]",
+  },
+  {
+    label: "Welcome to Splatsville",
+    href: "#world",
+    hoverSplatId: 9,
+    hoverSplatColor: "#603bff",
+    hoverSplatClassName: "-left-[2.35em] top-1/2 h-[4.2em] w-[4.2em] -translate-y-[44%] rotate-[12deg]",
+  },
+  {
+    label: "How to play",
+    href: "#gameplay",
+    hoverSplatId: 8,
+    hoverSplatColor: "#f2ff27",
+    hoverSplatClassName: "-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]",
+  },
+  {
+    label: "Weapons & gear",
+    href: "#weapons",
+    hoverSplatId: 11,
+    hoverSplatColor: "#603bff",
+    hoverSplatClassName: "-left-[2.5em] top-1/2 h-[4.25em] w-[4.25em] -translate-y-[45%] rotate-[-10deg]",
+  },
+  {
+    label: "News",
+    href: "#news",
+    hoverSplatId: 10,
+    hoverSplatColor: "#603bff",
+    hoverSplatClassName: "-left-[2.65em] top-1/2 h-[4.35em] w-[4.35em] -translate-y-[44%] -rotate-[18deg]",
+  },
+  {
+    label: "Events",
+    href: "#events",
+    hoverSplatId: 6,
+    hoverSplatColor: "#f2ff27",
+    hoverSplatClassName: "-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]",
+  },
+  {
+    label: "Expansion Pass",
+    href: "#expansion-pass",
+    hoverSplatId: 12,
+    hoverSplatColor: "#603bff",
+    hoverSplatClassName: "-left-[2.55em] top-1/2 h-[4.3em] w-[4.3em] -translate-y-[44%] rotate-[16deg]",
+  },
+  {
+    label: "Go to Splatoon Base",
+    href: "https://splatoon.nintendo.com/base/",
+    hoverSplatId: 4,
+    hoverSplatColor: "#f2ff27",
+    hoverSplatClassName: "-left-[2.45em] top-1/2 h-[4.15em] w-[4.15em] -translate-y-[45%] -rotate-[12deg]",
+  },
 ]
+
+const logoSplatDecorations = [
+  {
+    id: "logo-splat-yellow-left",
+    splatId: 4,
+    color: "#f2ff27",
+    className: "absolute left-[3.5%] top-[-13%] h-[13.5rem] w-[13.5rem] rotate-[-12deg]",
+  },
+  {
+    id: "logo-splat-purple-mid",
+    splatId: 7,
+    color: "#603bff",
+    className: "absolute left-[30%] top-[-28%] h-[14rem] w-[14rem] rotate-[7deg]",
+  },
+  {
+    id: "logo-splat-yellow-right",
+    splatId: 2,
+    color: "#f2ff27",
+    className: "absolute right-[1%] top-[-9%] h-[13.75rem] w-[13.75rem] rotate-[10deg]",
+  },
+] as const
+
+const overlayDecorations = [
+  {
+    id: "overlay-splat-left",
+    splatId: 7,
+    color: "#603bff",
+    className: "absolute left-[-7.5%] top-[17%] h-[30rem] w-[30rem] rotate-[-21deg]",
+  },
+  {
+    id: "overlay-splat-left-yellow",
+    splatId: 8,
+    color: "#f2ff27",
+    className: "absolute left-[16%] top-[51%] h-[16rem] w-[16rem] rotate-[14deg]",
+  },
+  {
+    id: "overlay-splat-right-yellow",
+    splatId: 6,
+    color: "#f2ff27",
+    className: "absolute right-[4%] top-[56%] h-[27rem] w-[27rem] rotate-[18deg]",
+  },
+  {
+    id: "overlay-splat-right-purple",
+    splatId: 7,
+    color: "#603bff",
+    className: "absolute right-[19%] top-[79%] h-[13rem] w-[13rem] rotate-[14deg]",
+  },
+] as const
 
 const DETERMINISTIC_NOISE = {
   grid3: [0.15, -0.65, 0.82, -0.3, 0.54, -0.71],
@@ -94,7 +197,7 @@ export function Navigation() {
   const [isMenuMounted, setIsMenuMounted] = React.useState(false)
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const [isReducedMotion, setIsReducedMotion] = React.useState(false)
-  const [theme, setTheme] = React.useState<"light" | "dark">("light")
+  const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
 
   // Dimension tracking for full screen viewport sizes
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
@@ -136,11 +239,7 @@ export function Navigation() {
       setIsReducedMotion(forceRM)
       document.documentElement.classList.toggle("reduced-motion", forceRM)
 
-      // 2. Theme init
-      const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light"
-      setTheme(currentTheme)
-
-      // 3. Initialize dimensions
+      // 2. Initialize dimensions
       handleResize()
     })
 
@@ -158,13 +257,6 @@ export function Navigation() {
       return next
     })
   }, [])
-
-  const toggleTheme = React.useCallback(() => {
-    const nextTheme = theme === "dark" ? "light" : "dark"
-    document.documentElement.classList.toggle("dark", nextTheme === "dark")
-    localStorage.setItem(THEME_STORAGE_KEY, nextTheme)
-    setTheme(nextTheme)
-  }, [theme])
 
   const getMenuTriggerOrigin = React.useCallback((): MenuOrigin | null => {
     const trigger = menuTriggerRef.current
@@ -228,6 +320,7 @@ export function Navigation() {
   // Split mounted cover from fading content so close can feel like a tide receding.
   const toggleMenu = React.useCallback(() => {
     if (menuPhase === "opening" || menuPhase === "open") {
+      setActiveNavLabel(null)
       if (isReducedMotion) {
         setPhaseProgress(0)
         setIsMenuMounted(false)
@@ -241,6 +334,7 @@ export function Navigation() {
 
     if (isReducedMotion) {
       setMenuOrigin(getMenuTriggerOrigin())
+      setActiveNavLabel(null)
       setIsMenuMounted(true)
       setPhaseProgress(1)
       setMenuPhase("open")
@@ -248,6 +342,7 @@ export function Navigation() {
     }
 
     setMenuOrigin(getMenuTriggerOrigin())
+    setActiveNavLabel(null)
     setIsMenuMounted(true)
     setPhaseProgress(0)
     setMenuPhase("opening")
@@ -492,22 +587,6 @@ export function Navigation() {
     : undefined
   const closeWavePoints = menuPhase === "closing" ? getMenuCloseWavePoints(phaseProgress) : []
 
-  // Background ink splats inside the menu overlay
-  const inkSplats = [
-    {
-      id: "menu-splat-left",
-      color: "var(--neon-yellow)",
-      className: "absolute -left-[10%] bottom-[12%] w-[450px] h-[400px] opacity-25 dark:opacity-30 pointer-events-none select-none blur-[1px] z-0",
-      path: "M100 200 C80 120 150 50 250 80 C320 60 400 120 380 200 C420 280 320 380 220 350 C120 380 60 300 100 200 Z",
-    },
-    {
-      id: "menu-splat-right",
-      color: "var(--ink-blue)",
-      className: "absolute -right-[12%] -top-[5%] w-[480px] h-[440px] opacity-25 dark:opacity-20 pointer-events-none select-none blur-[1px] z-0",
-      path: "M120 180 C90 100 180 40 280 80 C350 50 430 110 400 200 C440 290 350 390 240 340 C140 370 70 290 120 180 Z",
-    },
-  ]
-
   return (
     <>
       {/* ────────────────────────────────────────────────────────
@@ -652,93 +731,132 @@ export function Navigation() {
               isContentInteractive ? "pointer-events-auto" : "pointer-events-none"
             )}
           >
-            {/* Background Ink Splatters */}
-            {inkSplats.map((splat) => (
-              <svg
+            {overlayDecorations.map((splat) => (
+              <Splat
                 key={splat.id}
-                className={splat.className}
-                style={{ fill: splat.color }}
-                viewBox="0 0 500 400"
-              >
-                <path d={splat.path} />
-              </svg>
+                id={splat.splatId}
+                color={splat.color}
+                className={cn("pointer-events-none absolute z-[1] opacity-100", splat.className)}
+              />
             ))}
 
-            {/* Menu Center Content Column */}
+            <img
+              src="https://splatoon.nintendo.com/_images/tape-assets/sticker-2-red.png"
+              alt=""
+              className="pointer-events-none absolute left-[15%] top-[27%] z-[2] w-[8.9rem] -rotate-[28deg] select-none"
+            />
+            <img
+              src="https://splatoon.nintendo.com/_images/tape-assets/sticker-9.png"
+              alt=""
+              className="pointer-events-none absolute right-[17%] top-[58%] z-[2] w-[10rem] rotate-[-7deg] select-none"
+            />
+
             <nav
+              aria-label="Main site navigation"
               className={cn(
-                "relative z-10 w-full max-w-xl flex flex-col gap-6 md:gap-8 pt-10 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)]",
-                isContentVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-6 scale-95"
+                "relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-7 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] md:pt-9",
+                isContentVisible ? "translate-y-0 scale-100 opacity-100" : "-translate-y-6 scale-95 opacity-0"
               )}
             >
-              <ul className="flex flex-col gap-4 md:gap-6">
-                {navLinks.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      onClick={toggleMenu}
-                      className="group/link inline-block relative px-4 py-2 font-heading font-black text-3xl md:text-5xl uppercase tracking-wider text-white transition-transform duration-200 hover:scale-[1.05] hover:text-[#eaff3d] active:scale-[0.98]"
-                    >
-                      <span className="inline-block transition-transform duration-200 group-hover/link:rotate-[-2deg] group-active/link:rotate-0">
-                        {link.label}
-                      </span>
-                      {link.description && (
-                        <span className="block text-[11px] md:text-xs font-semibold text-white/50 lowercase tracking-widest mt-0.5 md:mt-1 group-hover/link:text-white/80 transition-colors">
-                          {link.description}
-                        </span>
-                      )}
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1.5 bg-[#eaff3d] group-hover/link:w-[80%] transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]" />
-                    </a>
-                  </li>
+              <div className="relative mb-7 h-[14rem] w-[40rem] max-w-[92vw] md:mb-9">
+                {logoSplatDecorations.map((splat) => (
+                  <Splat
+                    key={splat.id}
+                    id={splat.splatId}
+                    color={splat.color}
+                    className={cn("pointer-events-none absolute z-[1]", splat.className)}
+                  />
                 ))}
-
-                <li className="mt-4">
-                  <Button
-                    onClick={() => {
-                      toggleMenu()
-                      window.location.hash = "#buy"
-                    }}
-                    variant="yellow"
-                    size="lg"
-                    className="w-full max-w-sm mx-auto shadow-solid-lg border-[3px] border-white text-chaos-black"
-                  >
-                    Buy Now
-                  </Button>
-                </li>
-              </ul>
-            </nav>
-
-            {/* Menu Overlay Footer: Options & Versions */}
-            <div
-              className={cn(
-                "absolute bottom-10 left-6 right-6 z-10 flex flex-col md:flex-row items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs uppercase tracking-wider text-white/40 transition-opacity duration-[300ms] ease-out",
-                isContentVisible ? "opacity-100" : "opacity-0"
-              )}
-            >
-              <div className="flex items-center gap-4">
-                <Button
-                  onClick={toggleTheme}
-                  variant="outline"
-                  size="sm"
-                  hasChevron={false}
-                  className="border-white/20 text-white hover:bg-white/10 hover:text-[#eaff3d] dark:[--bg-color:transparent]"
-                >
-                  {theme === "dark" ? (
-                    <>
-                      <Sun className="h-3.5 w-3.5 mr-1" />
-                      Light Battle
-                    </>
-                  ) : (
-                    <>
-                      <Moon className="h-3.5 w-3.5 mr-1" />
-                      Night Battle
-                    </>
-                  )}
-                </Button>
+                <img
+                  src="https://splatoon.nintendo.com/_images/logos/splatoon3-logo.png"
+                  alt="Splatoon 3"
+                  className="pointer-events-none absolute left-1/2 top-[0.4rem] z-[2] w-[20rem] max-w-[75%] -translate-x-1/2 select-none md:w-[21rem]"
+                />
               </div>
 
-              <span>splatoon-ui v0.1.0</span>
-            </div>
+              <ul className="relative flex w-full flex-col items-center gap-0.5">
+                {navLinks.map((link, index) => {
+                  if (link.isBuyNow) {
+                    return (
+                      <li key={link.label} className="mb-4 md:mb-5">
+                        <Button
+                          onClick={() => {
+                            toggleMenu()
+                            window.location.hash = "#buy"
+                          }}
+                          variant="yellow"
+                          size="lg"
+                          className="min-w-[240px] border-0 shadow-none hover:shadow-none active:shadow-none [&_span]:font-semibold [&_span]:normal-case [&_span]:tracking-normal"
+                        >
+                          Buy now
+                        </Button>
+                      </li>
+                    )
+                  }
+
+                  const isHighlighted = link.label === "Home" || activeNavLabel === link.label
+
+                  return (
+                    <li
+                      key={link.label}
+                      className="relative"
+                      style={{
+                        transitionDelay: `${Math.max(index - 1, 0) * 80}ms`,
+                      }}
+                    >
+                      {link.hoverSplatId ? (
+                        <Splat
+                          id={link.hoverSplatId}
+                          data-nav-hover-splat={link.label}
+                          color={link.hoverSplatColor}
+                          className={cn(
+                            "pointer-events-none absolute z-[1] opacity-0 transition-all duration-150 ease-out",
+                            activeNavLabel === link.label
+                              ? "scale-100 opacity-100"
+                              : "scale-[1.32] opacity-0",
+                            link.hoverSplatClassName
+                          )}
+                        />
+                      ) : null}
+
+                      <a
+                        href={link.href}
+                        data-nav-link="true"
+                        data-nav-label={link.label}
+                        onClick={toggleMenu}
+                        onMouseEnter={() => setActiveNavLabel(link.label)}
+                        onMouseLeave={() => setActiveNavLabel((current) => (current === link.label ? null : current))}
+                        onFocus={() => setActiveNavLabel(link.label)}
+                        onBlur={() => setActiveNavLabel((current) => (current === link.label ? null : current))}
+                        className={cn(
+                          "group/nav-link relative z-[2] inline-flex items-center gap-3 py-1 font-heading text-[2.4rem] font-semibold leading-none text-white transition-colors duration-150 md:text-[3.65rem]",
+                          isHighlighted && "text-[#eaff3d]",
+                          link.textClassName
+                        )}
+                      >
+                        <span className="relative inline-block">
+                          {link.label}
+                        </span>
+                        <svg
+                          data-nav-chevron="true"
+                          aria-hidden="true"
+                          viewBox="0 0 7 12"
+                          className={cn(
+                            "mt-[0.22em] h-[1.1rem] w-[0.65rem] shrink-0 text-current transition-transform duration-200 ease-out md:h-[1.35rem] md:w-[0.8rem]"
+                          )}
+                          style={{ transform: isHighlighted ? "translateX(5px)" : "translateX(0px)" }}
+                        >
+                          <path
+                            d="M0,11.23.12,11l.32-.47.3-.12-.16-.35.18-.49.4-.21L1.09,9l.23-.35.26-.21.32-.21L2,7.84l.2-.38v-.3l.47-.47-.05-.38L3,6.08l-.19-.77,0-.26-.26-.3-.1-.31-.42-.25,0-.38-.32-.23L1.5,3.25l0-.32-.05-.26L1,2.37.94,2,.66,1.76.51,1.41.23,1.08.3.66.14.41,0,.13l.7,0L1,.08l.14.14L1.68,0,2,.12,2.21,0l.66.21.26,0h.42l.33.14L4.3.69l0,.38.29.27.14.4L5,2l.07.37,0,.14L5.48,3l.07.09.42.3.1.33L6,4.07l.24.33.42.25,0,.35.1.4.16.47-.11.42-.21.33L6.41,7,6.2,7.2,6,7.6,6,7.93l-.28.31-.3.3,0,.19-.16.37L5,9.43l-.18.14-.23.33-.21.38.09.42-.3.33,0,.18-.66.24-.39.1-.52.09,0-.09-.5-.09-.46.07-.26.09-.4,0-.39-.07-.45.17L0,11.23Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            </nav>
           </div>
         </div>
       )}
