@@ -6,6 +6,36 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+type DecorativeImageFallbackProps = {
+  src: string
+  alt?: string
+  className?: string
+  fallback: React.ReactNode
+}
+
+function DecorativeImageFallback({
+  src,
+  alt = "",
+  className,
+  fallback,
+}: DecorativeImageFallbackProps) {
+  const [failed, setFailed] = React.useState(false)
+
+  if (failed) {
+    return fallback
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={className}
+      loading="eager"
+      onError={() => setFailed(true)}
+    />
+  )
+}
+
 // CardContext for variant-sharing among sub-components (like CardImage)
 const CardContext = React.createContext<{ variant?: "news" | "tag"; surface?: "paper" | "cream" | "danger" }>({
   variant: "news",
@@ -80,23 +110,45 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     const Comp = asChild ? Slot : "div"
     
     const stapleLeft = (
-      <picture className="pointer-events-none absolute bottom-0 left-[20px] z-30 w-[20%] select-none">
-        <source
-          srcSet="/official/news/news-staple-left.png 1x, /official/news/news-staple-left-2x.png 2x"
-          type="image/png"
+      <div className="pointer-events-none absolute bottom-0 left-[20px] z-30 w-[20%] max-w-[140px] select-none">
+        <DecorativeImageFallback
+          src="/official/news/news-staple-left.png"
+          fallback={
+            <svg
+              width="75"
+              height="48"
+              viewBox="0 0 75 48"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-auto w-full"
+              fill="none"
+            >
+              <path d="M12 6L53 0L75 8V45L12 47H0V7L12 6Z" fill="#d8d8d8" />
+            </svg>
+          }
+          className="h-auto w-full drop-shadow-[1px_2px_2px_rgba(0,0,0,0.25)]"
         />
-        <img alt="" src="/official/news/news-staple-left.png" className="h-auto w-full" />
-      </picture>
+      </div>
     )
 
     const stapleRight = (
-      <picture className="pointer-events-none absolute bottom-0 right-[20px] z-30 w-[10%] select-none">
-        <source
-          srcSet="/official/news/news-staple-right.png 1x, /official/news/news-staple-right-2x.png 2x"
-          type="image/png"
+      <div className="pointer-events-none absolute bottom-0 right-[20px] z-30 w-[10%] max-w-[90px] select-none">
+        <DecorativeImageFallback
+          src="/official/news/news-staple-right.png"
+          fallback={
+            <svg
+              width="45"
+              height="17"
+              viewBox="0 0 45 17"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-auto w-full"
+              fill="none"
+            >
+              <path d="M6 4L38 0L45 6V15L6 17H0V5L6 4Z" fill="#d8d8d8" />
+            </svg>
+          }
+          className="h-auto w-full drop-shadow-[1px_1.5px_1.5px_rgba(0,0,0,0.25)]"
         />
-        <img alt="" src="/official/news/news-staple-right.png" className="h-auto w-full" />
-      </picture>
+      </div>
     )
 
     // Tag Hanger Background SVG path
@@ -159,29 +211,11 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     }
 
     const stickerColors = stickerColorMap[tapeColor] || stickerColorMap.yellow
-    const useOfficialNewsTape =
-      hasTape &&
-      tapePosition === "news" &&
+
+    const isOfficialNewsTape =
       tapeColor === "yellow" &&
+      tapePosition === "news" &&
       (!tapeText || tapeText === "NEWS!" || tapeText === "8W-157")
-
-    const officialTape = (
-      <picture
-        className="pointer-events-none absolute left-0 top-0 z-30 w-[45%] max-w-[150px] origin-center select-none [transform:translate(10%,-130%)_rotate(-10deg)]"
-      >
-        <source
-          media="(min-width: 640px)"
-          srcSet="/official/tape/sticker-9-medium-up.png 1x, /official/tape/sticker-9-medium-up-2x.png 2x"
-          type="image/png"
-        />
-        <source
-          srcSet="/official/tape/sticker-9.png 1x, /official/tape/sticker-9-2x.png 2x"
-          type="image/png"
-        />
-        <img alt="" src="/official/tape/sticker-9.png" className="h-auto w-full" />
-      </picture>
-    )
-
     const adhesiveTape = (
       <div
         aria-hidden="true"
@@ -192,59 +226,75 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             : "right-0 top-0 origin-center [transform:translate(-10%,-130%)_rotate(10deg)]"
         )}
       >
-        <svg
-          viewBox="0 0 96 31"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
-        >
-          <rect width="96" height="31" rx="5" fill={stickerColors.bg} />
-          
-          {/* Logo B on the right */}
-          <g fill={stickerColors.text}>
-            <path
-              d="M74,7 h4.5 c1.5,0 2.5,0.8 2.5,1.8 v0.2 c0,0.8 -0.6,1.4 -1.5,1.6 c1,0.2 1.7,0.8 1.7,1.7 v0.2 c0,1 -1,1.8 -2.5,1.8 h-4.7 z M76.5,8.8 v2.2 h1.8 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z M76.5,12.5 v2.2 h2 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z"
-            />
-            <text
-              x="73"
-              y="26"
-              fontFamily="monospace"
-              fontWeight="900"
-              fontSize="4.5"
-              letterSpacing="0.2"
-            >
-              VALK
-            </text>
-          </g>
-
-          {/* Left Text / Markings */}
-          <g fill={stickerColors.text}>
-            {tapeText && tapeText !== "NEWS!" && tapeText !== "8W-157" ? (
-              <text
-                x="8"
-                y="19.5"
-                fontFamily="'obviously-narrow', 'fooregular', 'Montserrat', sans-serif"
-                fontWeight="900"
-                fontSize={tapeText.length > 12 ? "6.5" : tapeText.length > 9 ? "7.5" : "8.5"}
-                letterSpacing="0.3"
-              >
-                {tapeText.toUpperCase()}
-              </text>
-            ) : (
-              // Default 8W-157 path
-              <path
-                d="M8,11 h3.5 v5.5 h-3.5 z M9,12 h1.5 v1 h-1.5 z M9,14 h1.5 v1.5 h-1.5 z M13,11 l1,4.5 h1 l1,-4.5 h1.2 l-1.5,5.5 h-1.2 l-1,-3.5 l-1,3.5 h-1.2 l-1.5,-5.5 z M19.5,13.5 h2.5 v1.5 h-2.5 z M24,11.5 h1.5 v5 h-1.5 z M23,12.5 l1.5,-1.5 v1.5 z M27,11 h4.5 v1.8 h-3 v1.2 h2.5 c0.8,0 1.2,0.4 1.2,1.2 v1.8 c0,0.8 -0.4,1.2 -1.2,1.2 h-3.5 c-0.8,0 -1,-0.4 -1,-0.8 h1.2 c0,0.2 0.1,0.3 0.3,0.3 h2 c0.2,0 0.3,-0.1 0.3,-0.3 v-1.4 c0,-0.2 -0.1,-0.3 -0.3,-0.3 h-3.5 z M33,11 h5.5 l-3,5.5 h-1.5 l2.2,-4 h-3.2 z"
+        {isOfficialNewsTape ? (
+          <DecorativeImageFallback
+            src="/official/tape/sticker-9.png"
+            fallback={
+              <img
+                src="/official/tape/sticker-9-medium-up.png"
+                alt=""
+                className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
               />
-            )}
-          </g>
-
-          {/* Center detail markings */}
-          <g fill={stickerColors.text} opacity="0.6">
-            <rect x="48" y="11" width="1.5" height="4" />
-            <rect x="48" y="17" width="1.5" height="1.5" />
-            <rect x="46" y="20" width="5.5" height="1" />
-          </g>
-        </svg>
+            }
+            className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
+          />
+        ) : (
+          <svg
+            viewBox="0 0 96 31"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
+          >
+            <path
+              d="M 4,1.5 
+               Q 27,0.5 48,1.2 Q 70,0.5 92,1.5
+               L 93,3 L 91.5,4.5 L 94,6 L 92,7.5 L 94.5,9 L 92.5,11 L 95,12.5 L 93,14 L 95.5,15.5 L 93.5,17 L 95,18.5 L 93,20 L 94.5,22 L 92.5,23.5 L 94,25 L 92,26.5 L 93.5,28 L 91,29.5
+               Q 70,30.5 48,29.2 Q 26,30 4,29.5
+               L 2.5,28 L 4,26.5 L 1.8,25 L 3.5,23.5 L 1.2,22 L 3.2,20.5 L 1,19 L 2.8,17.5 L 0.8,16 L 2.5,14.5 L 0.5,13 L 2.2,11.5 L 0.8,10 L 2.8,8.5 L 1.2,7 L 3.2,5.5 L 1.8,4 L 4,1.5
+               Z"
+              fill={stickerColors.bg}
+            />
+            <g fill={stickerColors.text}>
+              <path
+                d="M74,7 h4.5 c1.5,0 2.5,0.8 2.5,1.8 v0.2 c0,0.8 -0.6,1.4 -1.5,1.6 c1,0.2 1.7,0.8 1.7,1.7 v0.2 c0,1 -1,1.8 -2.5,1.8 h-4.7 z M76.5,8.8 v2.2 h1.8 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z M76.5,12.5 v2.2 h2 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z"
+              />
+              <text
+                x="73"
+                y="26"
+                fontFamily="monospace"
+                fontWeight="900"
+                fontSize="4.5"
+                letterSpacing="0.2"
+              >
+                VALK
+              </text>
+            </g>
+            <g fill={stickerColors.text}>
+              {tapeText && tapeText !== "NEWS!" && tapeText !== "8W-157" ? (
+                <text
+                  x="8"
+                  y="19.5"
+                  fontFamily="'obviously-narrow', 'fooregular', 'Montserrat', sans-serif"
+                  fontWeight="900"
+                  fontSize={tapeText.length > 12 ? "6.5" : tapeText.length > 9 ? "7.5" : "8.5"}
+                  letterSpacing="0.3"
+                >
+                  {tapeText.toUpperCase()}
+                </text>
+              ) : (
+                // Default 8W-157 path
+                <path
+                  d="M8,11 h3.5 v5.5 h-3.5 z M9,12 h1.5 v1 h-1.5 z M9,14 h1.5 v1.5 h-1.5 z M13,11 l1,4.5 h1 l1,-4.5 h1.2 l-1.5,5.5 h-1.2 l-1,-3.5 l-1,3.5 h-1.2 l-1.5,-5.5 z M19.5,13.5 h2.5 v1.5 h-2.5 z M24,11.5 h1.5 v5 h-1.5 z M23,12.5 l1.5,-1.5 v1.5 z M27,11 h4.5 v1.8 h-3 v1.2 h2.5 c0.8,0 1.2,0.4 1.2,1.2 v1.8 c0,0.8 -0.4,1.2 -1.2,1.2 h-3.5 c-0.8,0 -1,-0.4 -1,-0.8 h1.2 c0,0.2 0.1,0.3 0.3,0.3 h2 c0.2,0 0.3,-0.1 0.3,-0.3 v-1.4 c0,-0.2 -0.1,-0.3 -0.3,-0.3 h-3.5 z M33,11 h5.5 l-3,5.5 h-1.5 l2.2,-4 h-3.2 z"
+                />
+              )}
+            </g>
+            <g fill={stickerColors.text} opacity="0.6">
+              <rect x="48" y="11" width="1.5" height="4" />
+              <rect x="48" y="17" width="1.5" height="1.5" />
+              <rect x="46" y="20" width="5.5" height="1" />
+            </g>
+          </svg>
+        )}
       </div>
     )
 
@@ -288,7 +338,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
           {/* Card Layout Content Area */}
           <div className={cn(newsSurfaceVariants({ surface }))}>
-            {useOfficialNewsTape ? officialTape : hasTape ? adhesiveTape : null}
+            {hasTape && adhesiveTape}
             {hasStaples && stapleLeft}
             {hasStaples && stapleRight}
             
