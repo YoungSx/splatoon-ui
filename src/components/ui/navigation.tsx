@@ -157,9 +157,10 @@ const DETERMINISTIC_NOISE = {
 
 const menuNoise = DETERMINISTIC_NOISE
 const MENU_ANIMATION_MS = 1125
-const MENU_CONTENT_ENTER_DELAY_MS = 360
-const MENU_CONTENT_ENTER_MS = 260
-const MENU_CONTENT_EXIT_MS = 220
+const MENU_CONTENT_ENTER_MS = 300
+const MENU_CONTENT_EXIT_MS = 240
+const MENU_CONTENT_TRANSITION_IN_EASING = "cubic-bezier(0.15, 0.9, 0.25, 1)"
+const MENU_CONTENT_TRANSITION_OUT_EASING = "cubic-bezier(0.25, 0.12, 0.4, 1)"
 const CLOSE_WAVE_LOBES = [
   { center: 0.12, width: 0.06, height: 78, ragged: 34 },
   { center: 0.28, width: 0.075, height: 118, ragged: 36 },
@@ -305,8 +306,14 @@ export function Navigation() {
       }
 
       if (coverPhase === "opening") {
+        clearAnimationTimers()
         setCoverPhase("open")
         setPhaseProgress(1)
+        setContentPhase("entering")
+        const timer = window.setTimeout(() => {
+          setContentPhase("visible")
+        }, MENU_CONTENT_ENTER_MS)
+        animationTimersRef.current.push(timer)
         return
       }
 
@@ -364,13 +371,6 @@ export function Navigation() {
     setCoverPhase("opening")
     setContentPhase("hidden")
     setPhaseProgress(0)
-    const enterDelayTimer = window.setTimeout(() => {
-      setContentPhase("entering")
-    }, MENU_CONTENT_ENTER_DELAY_MS)
-    const enterVisibleTimer = window.setTimeout(() => {
-      setContentPhase("visible")
-    }, MENU_CONTENT_ENTER_DELAY_MS + MENU_CONTENT_ENTER_MS)
-    animationTimersRef.current.push(enterDelayTimer, enterVisibleTimer)
   }, [clearAnimationTimers, contentPhase, coverPhase, getMenuTriggerOrigin, isReducedMotion])
 
   // Harmonic waves sum function representing periodic circular Perlin-like noise
@@ -594,18 +594,38 @@ export function Navigation() {
     : undefined
   const contentTransitionClass = React.useMemo(() => {
     if (contentPhase === "hidden") {
-      return "-translate-y-6 scale-95 opacity-0"
+      return [
+        "transition-all",
+        "duration-[220ms]",
+        `ease-[${MENU_CONTENT_TRANSITION_OUT_EASING}]`,
+        "-translate-y-4 scale-95 opacity-0",
+      ].join(" ")
     }
 
     if (contentPhase === "entering") {
-      return "translate-y-0 scale-100 opacity-100"
+      return [
+        "transition-all",
+        `duration-[${MENU_CONTENT_ENTER_MS}ms]`,
+        `ease-[${MENU_CONTENT_TRANSITION_IN_EASING}]`,
+        "translate-y-0 scale-100 opacity-100",
+      ].join(" ")
     }
 
     if (contentPhase === "visible") {
-      return "translate-y-0 scale-100 opacity-100"
+      return [
+        "transition-all",
+        "duration-[220ms]",
+        "ease-[cubic-bezier(0.16, 0.84, 0.44, 1)]",
+        "translate-y-0 scale-100 opacity-100",
+      ].join(" ")
     }
 
-    return "translate-y-0 scale-100 opacity-0"
+    return [
+      "transition-all",
+      `duration-[${MENU_CONTENT_EXIT_MS}ms]`,
+      `ease-[${MENU_CONTENT_TRANSITION_OUT_EASING}]`,
+      "translate-y-[-2px] scale-[0.985] opacity-0",
+    ].join(" ")
   }, [contentPhase])
 
   return (
@@ -750,9 +770,9 @@ export function Navigation() {
             />
             <nav
               aria-label="Main site navigation"
-              className={cn(
-                "relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] md:pt-5",
-                contentPhase === "hidden" ? "-translate-y-6 scale-95 opacity-0" : "translate-y-0 scale-100 opacity-100"
+            className={cn(
+              "relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] md:pt-5",
+                contentPhase === "hidden" ? "-translate-y-2 scale-95 opacity-0" : contentPhase === "exiting" ? "translate-y-[2px] scale-[0.985] opacity-0" : "translate-y-0 scale-100 opacity-100"
               )}
             >
               <div className="relative mb-5 h-[12.9rem] w-[40rem] max-w-[92vw] md:mb-7">
