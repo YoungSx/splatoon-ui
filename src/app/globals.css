@@ -560,8 +560,9 @@
     forwards;
 }
 
-.group\/button[data-drip-phase='entering'] .drip-hover-content {
-  box-shadow: 0 0 0 2px var(--hover-text-color) inset;
+.group\/button[data-drip-phase='entering'] .drip-hover-content,
+.group\/button[data-drip-phase='leaving'] .drip-hover-content {
+  box-shadow: none;
 }
 
 /* ── Splatoon 3 Sticker Tape Torn Edge ── */

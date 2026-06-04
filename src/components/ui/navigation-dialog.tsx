@@ -142,28 +142,6 @@ const overlayDecorations = [
   },
 ] as const
 
-const DETERMINISTIC_NOISE = {
-  grid3: [0.15, -0.65, 0.82, -0.3, 0.54, -0.71],
-  grid6: [-0.42, 0.88, -0.15, 0.63, -0.74, 0.29, -0.81, 0.45, -0.12, 0.68, -0.35, 0.72],
-  grid12: [
-    0.35, -0.58, 0.71, -0.22, 0.84, -0.47, 0.12, -0.89, 0.53, -0.31, 0.64, -0.18, 0.77, -0.52, 0.28,
-    -0.73, 0.49, -0.61, 0.81, -0.36, 0.15, -0.85, 0.69, -0.41,
-  ],
-  grid24: [
-    -0.12, 0.45, -0.68, 0.29, -0.81, 0.53, -0.22, 0.71, -0.35, 0.64, -0.73, 0.18, -0.85, 0.39,
-    -0.52, 0.61, -0.28, 0.77, -0.41, 0.84, -0.63, 0.15, -0.89, 0.49, -0.31, 0.68, -0.74, 0.12,
-    -0.82, 0.58, -0.15, 0.72, -0.47, 0.81, -0.58, 0.28, -0.88, 0.35, -0.61, 0.52, -0.26, 0.79,
-    -0.39, 0.69, -0.71, 0.19, -0.84, 0.42,
-  ],
-  spikes: [
-    { angle: Math.PI * 0.9, height: 1.1, sigma: 0.22 },
-    { angle: Math.PI * 0.6, height: 0.95, sigma: 0.18 },
-    { angle: Math.PI * 1.25, height: 1.35, sigma: 0.26 },
-    { angle: Math.PI * 0.15, height: 0.65, sigma: 0.15 },
-  ],
-}
-
-const menuNoise = DETERMINISTIC_NOISE
 const MENU_ANIMATION_MS = 1125
 const MENU_CONTENT_ENTER_MS = 300
 const MENU_CONTENT_EXIT_MS = 240
@@ -180,6 +158,18 @@ const CLOSE_WAVE_LOBES = [
 type CoverPhase = 'closed' | 'opening' | 'open' | 'closing'
 type ContentPhase = 'hidden' | 'entering' | 'visible' | 'exiting'
 type MenuOrigin = { x: number; y: number }
+type MenuSpike = {
+  angle: number
+  height: number
+  sigma: number
+}
+type MenuNoise = {
+  grid4: number[]
+  grid8: number[]
+  grid16: number[]
+  detailGrid: number[]
+  spikes: MenuSpike[]
+}
 
 type NavigationDialogProps = {
   isReducedMotion: boolean
@@ -206,6 +196,40 @@ function getCurrentSelectedNavKey() {
   return matchedLink?.selectedKey ?? 'home'
 }
 
+function randomBetween(min: number, max: number) {
+  return min + Math.random() * (max - min)
+}
+
+function createCircularNoiseGrid(count: number, min = -1, max = 1) {
+  return Array.from({ length: count }, () => randomBetween(min, max))
+}
+
+function createMenuNoise(): MenuNoise {
+  const spikeCount = Math.random() > 0.72 ? 3 : 2
+  const baseAngle = randomBetween(0, Math.PI * 2)
+  return {
+    grid4: createCircularNoiseGrid(4, -0.95, 0.95),
+    grid8: createCircularNoiseGrid(8, -0.28, 0.28),
+    grid16: createCircularNoiseGrid(16, -0.03, 0.03),
+    detailGrid: createCircularNoiseGrid(24, -0.006, 0.006),
+    spikes: Array.from({ length: spikeCount }, (_, index) => ({
+      angle: baseAngle + ((Math.PI * 2) / spikeCount) * index + randomBetween(-0.28, 0.28),
+      height:
+        index === 0
+          ? randomBetween(1.46, 1.94)
+          : index === 1
+            ? randomBetween(0.82, 1.16)
+            : randomBetween(0.42, 0.66),
+      sigma:
+        index === 0
+          ? randomBetween(0.58, 0.88)
+          : index === 1
+            ? randomBetween(0.44, 0.64)
+            : randomBetween(0.28, 0.4),
+    })),
+  }
+}
+
 export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
   const [coverPhase, setCoverPhase] = React.useState<CoverPhase>('closed')
   const [contentPhase, setContentPhase] = React.useState<ContentPhase>('hidden')
@@ -214,10 +238,11 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
   const [phaseProgress, setPhaseProgress] = React.useState(0)
   const [menuOrigin, setMenuOrigin] = React.useState<MenuOrigin | null>(null)
+  const [menuNoise, setMenuNoise] = React.useState<MenuNoise>(createMenuNoise)
 
   const menuTriggerRef = React.useRef<HTMLButtonElement>(null)
   const animationTimersRef = React.useRef<number[]>([])
-  const numPoints = 80
+  const numPoints = 144
 
   const isMenuMounted = coverPhase !== 'closed'
   const isMenuPressed = coverPhase !== 'closed'
@@ -325,6 +350,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
   }, [clearAnimationTimers, coverPhase, isReducedMotion])
 
   const openMenu = React.useCallback(() => {
+    setMenuNoise(createMenuNoise())
     setMenuOrigin(getMenuTriggerOrigin())
     setActiveNavLabel(null)
 
@@ -412,39 +438,44 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
   }
 
   const getMenuRadiusOffset = (angle: number, t: number) => {
-    const n3 = getPeriodicNoiseValue(angle + 1.2 * t, menuNoise.grid3) * 550
-    const n6 = getPeriodicNoiseValue(angle - 1.8 * t, menuNoise.grid6) * 350
-    const n12 = getPeriodicNoiseValue(angle + 2.8 * t, menuNoise.grid12) * 180
-    const n24 = getPeriodicNoiseValue(angle - 4 * t, menuNoise.grid24) * 70
+    const n4 = getPeriodicNoiseValue(angle + 0.92 * t, menuNoise.grid4) * 650
+    const n8 = getPeriodicNoiseValue(angle - 1.02 * t, menuNoise.grid8) * 68
+    const n16 = getPeriodicNoiseValue(angle + 1.34 * t, menuNoise.grid16) * 3
+    const detail = getPeriodicNoiseValue(angle - 1.8 * t, menuNoise.detailGrid) * 0.6
 
-    let fbm = n3 + n6 + n12 + n24
-    const maxFbm = 1150
+    let fbm = n4 + n8 + n16 + detail
+    const maxFbm = 1280
 
     if (fbm > 0) {
-      fbm = Math.pow(fbm / maxFbm, 1.1) * maxFbm
+      fbm = Math.pow(fbm / maxFbm, 1.01) * maxFbm
     } else {
-      fbm = -Math.pow(Math.abs(fbm) / maxFbm, 1.5) * maxFbm
+      fbm = -Math.pow(Math.abs(fbm) / maxFbm, 1.04) * maxFbm
     }
 
     let spikeSum = 0
     menuNoise.spikes.forEach((spike, index) => {
-      const drift = 0.15 * Math.sin(t * Math.PI)
+      const drift = 0.06 * Math.sin(t * Math.PI * 0.72)
       const currentAngle = spike.angle + (index % 2 === 0 ? drift : -drift)
 
-      let diff = Math.abs(angle - currentAngle)
-      if (diff > Math.PI) {
-        diff = 2 * Math.PI - diff
+      const getAngularDistance = (targetAngle: number) => {
+        let diff = Math.abs(angle - targetAngle)
+        if (diff > Math.PI) {
+          diff = 2 * Math.PI - diff
+        }
+        return diff
       }
 
-      const currentSigma = spike.sigma * (1.4 - 0.4 * t)
-      const currentHeight = spike.height * 900 * Math.pow(t, 1.2)
+      const currentSigma = spike.sigma * (1.12 - 0.06 * t)
+      const currentHeight = spike.height * 960 * Math.pow(t, 1.01)
+      const diff = getAngularDistance(currentAngle)
       const spikeValue =
         currentHeight * Math.exp(-(diff * diff) / (2 * currentSigma * currentSigma))
+
       spikeSum += spikeValue
     })
 
     const totalOffset = fbm + spikeSum
-    const noiseScale = 0.006 + (1 - 0.006) * t
+    const noiseScale = 0.08 + 0.92 * Math.pow(t, 0.9)
     return totalOffset * noiseScale
   }
 
@@ -459,12 +490,38 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     const deltaTheta = (2 * Math.PI) / numPoints
     const k = (4 / 3) * Math.tan(Math.PI / (2 * numPoints))
 
-    const points: Array<{ x: number; y: number; tx: number; ty: number }> = []
+    const radii: number[] = []
     const baseRadius = 15 + (2400 - 15) * Math.pow(t, 1.5)
 
     for (let index = 0; index < numPoints; index += 1) {
       const angle = index * deltaTheta
       const radius = Math.max(5, baseRadius + getMenuRadiusOffset(angle, t))
+      radii.push(radius)
+    }
+
+    const smoothCircularRadii = (source: number[], passes: number) => {
+      let current = [...source]
+
+      for (let pass = 0; pass < passes; pass += 1) {
+        current = current.map((radius, index) => {
+          const prev2 = current[(index - 2 + current.length) % current.length]
+          const prev1 = current[(index - 1 + current.length) % current.length]
+          const next1 = current[(index + 1) % current.length]
+          const next2 = current[(index + 2) % current.length]
+
+          return prev2 * 0.08 + prev1 * 0.22 + radius * 0.4 + next1 * 0.22 + next2 * 0.08
+        })
+      }
+
+      return current
+    }
+
+    const smoothedRadii = smoothCircularRadii(radii, 4)
+    const points: Array<{ x: number; y: number; tx: number; ty: number }> = []
+
+    for (let index = 0; index < numPoints; index += 1) {
+      const angle = index * deltaTheta
+      const radius = smoothedRadii[index]
       const x = cx + radius * Math.cos(angle)
       const y = cy + radius * Math.sin(angle)
       const tx = -Math.sin(angle)
@@ -478,10 +535,8 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     for (let index = 0; index < numPoints; index += 1) {
       const current = points[index]
       const next = points[(index + 1) % numPoints]
-      const angleCurrent = index * deltaTheta
-      const angleNext = ((index + 1) % numPoints) * deltaTheta
-      const rCurrent = Math.max(5, baseRadius + getMenuRadiusOffset(angleCurrent, t))
-      const rNext = Math.max(5, baseRadius + getMenuRadiusOffset(angleNext, t))
+      const rCurrent = smoothedRadii[index]
+      const rNext = smoothedRadii[(index + 1) % numPoints]
       const cp1x = current.x + k * rCurrent * current.tx
       const cp1y = current.y + k * rCurrent * current.ty
       const cp2x = next.x - k * rNext * next.tx
@@ -516,7 +571,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
       const harmonic =
         Math.sin(angle + phaseShift) * amplitudePrimary +
         Math.sin(angle * 1.9 - phaseShift * 0.72) * amplitudeSecondary +
-        getPeriodicNoiseValue(angle + phaseShift * 0.35, menuNoise.grid12) * 8 * waveEnvelope
+        getPeriodicNoiseValue(angle + phaseShift * 0.35, menuNoise.grid16) * 8 * waveEnvelope
 
       const lobeOffset = CLOSE_WAVE_LOBES.reduce((total, lobe, lobeIndex) => {
         const distance = ratio - lobe.center
@@ -525,7 +580,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
           ratio * Math.PI * (5.2 + lobeIndex * 1.6) + phaseShift * (0.5 + lobeIndex * 0.12)
         const raggedNoise =
           Math.sin(raggedAngle) * 0.65 +
-          getPeriodicNoiseValue(raggedAngle * 0.5, menuNoise.grid24) * 0.35
+          getPeriodicNoiseValue(raggedAngle * 0.5, menuNoise.detailGrid) * 0.28
 
         return total + gaussian * (lobe.height + raggedNoise * lobe.ragged) * (1.16 - t * 0.12)
       }, 0)
@@ -568,19 +623,12 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     return path
   }
 
-  const currentClipPath =
+  const currentCoverPath =
     dimensions.width > 0
       ? coverPhase === 'closing'
-        ? `path("${getMenuCloseWavePath(phaseProgress)}")`
-        : `path("${getMenuDripPath(coverPhase === 'open' ? 1 : phaseProgress)}")`
-      : undefined
-
-  const dripStyle = currentClipPath
-    ? ({
-        clipPath: currentClipPath,
-        WebkitClipPath: currentClipPath,
-      } as React.CSSProperties)
-    : undefined
+        ? getMenuCloseWavePath(phaseProgress)
+        : getMenuDripPath(coverPhase === 'open' ? 1 : phaseProgress)
+      : ''
 
   const contentTransitionClass = React.useMemo(() => {
     if (contentPhase === 'hidden') {
@@ -647,12 +695,17 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
           >
             <DialogPrimitive.Close className="sr-only">Close navigation menu</DialogPrimitive.Close>
 
-            <div
+            <svg
+              data-menu-cover-svg=""
               data-menu-cover=""
               data-phase={coverPhase}
-              style={dripStyle}
-              className="absolute inset-0 bg-black"
-            />
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 h-full w-full"
+              viewBox={`0 0 ${Math.max(dimensions.width, 1)} ${Math.max(dimensions.height, 1)}`}
+              preserveAspectRatio="none"
+            >
+              <path d={currentCoverPath} fill="#000" shapeRendering="geometricPrecision" />
+            </svg>
 
             <div
               data-menu-content=""

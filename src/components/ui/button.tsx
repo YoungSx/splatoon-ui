@@ -314,7 +314,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               <span
                 aria-hidden="true"
                 className={cn(
-                  "absolute inset-0 z-20 drip-hover-content flex items-center justify-center bg-[var(--hover-bg-color)] text-[var(--hover-text-color)] rounded-[8px] shadow-[0_0_0_2px_var(--hover-bg-color)_inset] group-hover/button:shadow-[0_0_0_2px_var(--hover-text-color)_inset]",
+                  "absolute inset-0 z-20 drip-hover-content flex items-center justify-center bg-[var(--hover-bg-color)] text-[var(--hover-text-color)] rounded-[8px]",
                   paddingClass
                 )}
               >
