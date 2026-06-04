@@ -6,6 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import styles from "./button.module.css"
 
 const buttonVariants = cva(
   "group/button relative inline-flex shrink-0 items-center justify-center select-none overflow-hidden rounded-[8px] font-heading font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50",
@@ -67,8 +68,7 @@ const sizeContentLineHeightMap = {
 const arrowButtonClassName =
   "group/button relative inline-block shrink-0 select-none bg-transparent p-0 font-heading text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
 
-const solidButtonEffectsClassName =
-  "hover:rotate-[var(--hover-rotate)] hover:scale-[1.03] active:rotate-[var(--hover-rotate)] active:scale-[0.98] active:translate-x-[1px] active:translate-y-[1px]"
+const solidButtonEffectsClassName = "active:scale-[0.98] active:translate-x-[1px] active:translate-y-[1px]"
 
 interface DripControlPoint {
   y1: number // leave amplitude offset
@@ -284,6 +284,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variant === "arrow"
             ? arrowButtonClassName
             : buttonVariants({ variant, size }),
+          hasDrip ? styles.dripRoot : undefined,
           variant !== "arrow" && variant !== "ghost" ? solidButtonEffectsClassName : undefined,
           variant === "arrow" ? undefined : paddingClass,
           className
@@ -314,7 +315,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               <span
                 aria-hidden="true"
                 className={cn(
-                  "absolute inset-0 z-20 drip-hover-content flex items-center justify-center bg-[var(--hover-bg-color)] text-[var(--hover-text-color)] rounded-[8px]",
+                  "absolute inset-0 z-20 flex items-center justify-center bg-[var(--hover-bg-color)] text-[var(--hover-text-color)] rounded-[8px]",
+                  styles.dripHoverContent,
                   paddingClass
                 )}
               >
@@ -337,7 +339,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {/* Pure Drip Liquid Background Mask Layer */}
               <span
                 aria-hidden="true"
-                className="absolute inset-0 z-20 drip-hover-content bg-[var(--hover-bg-color)] rounded-[8px]"
+                className={cn(
+                  "absolute inset-0 z-20 bg-[var(--hover-bg-color)] rounded-[8px]",
+                  styles.dripHoverContent
+                )}
               />
 
               {/* Unified content wrapper placed on top, transitions text colors */}
