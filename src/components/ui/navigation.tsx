@@ -60,14 +60,14 @@ export function Navigation() {
       <header
         className={cn(
           'fixed top-0 right-0 left-0 z-[100] w-full bg-black text-white transition-all duration-300 select-none',
-          isCollapsed ? 'h-[72px]' : 'h-[92px]'
+          isCollapsed ? 'h-[36px]' : 'h-[40px]'
         )}
       >
         <div
           aria-hidden="true"
           className={cn(
             'pointer-events-none absolute left-0 z-[1] overflow-hidden transition-all duration-300',
-            isCollapsed ? 'top-[12px] h-[108px] w-[176px]' : 'top-[18px] h-[122px] w-[188px]'
+            isCollapsed ? 'top-[35px] h-[136px] w-[224px]' : 'top-[39px] h-[140px] w-[228px]'
           )}
         >
           <svg
@@ -83,11 +83,11 @@ export function Navigation() {
           </svg>
         </div>
 
-        <div className="relative flex h-full w-full flex-col items-center justify-start">
+        <div className="relative flex h-full w-full flex-col items-center justify-center">
           <button
             onClick={toggleReducedMotion}
             aria-pressed={isReducedMotion}
-            className="nav-reduced-motion mt-2.5 md:mt-3"
+            className="nav-reduced-motion"
             title="Toggle Reduced Motion"
           >
             <span aria-hidden="true" className="nav-reduced-motion__icon">
@@ -100,7 +100,7 @@ export function Navigation() {
         <div
           className={cn(
             'absolute left-0 z-10 transition-all duration-300',
-            isCollapsed ? 'top-[8px]' : 'top-[12px]'
+            isCollapsed ? 'top-[35px]' : 'top-[39px]'
           )}
         >
           <NavigationDialog isReducedMotion={isReducedMotion} />
