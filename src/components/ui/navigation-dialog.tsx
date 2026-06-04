@@ -162,12 +162,12 @@ type MenuSpike = {
   offset: number
   height: number
   sigma: number
-  pulseCenterA: number
-  pulseCenterB: number
-  pulseWidthA: number
-  pulseWidthB: number
-  pulseGainA: number
-  pulseGainB: number
+  bursts: Array<{
+    center: number
+    width: number
+    gain: number
+    power: number
+  }>
   wobblePhase: number
   wobbleSpeed: number
   wobbleDepth: number
@@ -217,6 +217,45 @@ function createCircularNoiseGrid(count: number, min = -1, max = 1) {
   return Array.from({ length: count }, () => randomBetween(min, max))
 }
 
+function createSpikeBursts(spikeIndex: number) {
+  const burstCount = spikeIndex === 0 ? 3 : 2
+  const centers = Array.from({ length: burstCount }, () => randomBetween(0.16, 0.9)).sort(
+    (a, b) => a - b
+  )
+
+  for (let index = 1; index < centers.length; index += 1) {
+    if (centers[index] - centers[index - 1] < 0.12) {
+      centers[index] = Math.min(0.92, centers[index - 1] + randomBetween(0.12, 0.18))
+    }
+  }
+
+  return centers.map((center, burstIndex) => ({
+    center,
+    width:
+      spikeIndex === 0
+        ? burstIndex === centers.length - 1
+          ? randomBetween(0.045, 0.07)
+          : randomBetween(0.055, 0.09)
+        : randomBetween(0.05, 0.085),
+    gain:
+      spikeIndex === 0
+        ? burstIndex === centers.length - 1
+          ? randomBetween(2.2, 3.1)
+          : randomBetween(1.25, 1.95)
+        : spikeIndex === 1
+          ? randomBetween(0.95, 1.55)
+          : spikeIndex === 2
+            ? randomBetween(0.55, 0.95)
+            : randomBetween(0.28, 0.62),
+    power:
+      spikeIndex === 0
+        ? burstIndex === centers.length - 1
+          ? randomBetween(2.9, 3.35)
+          : randomBetween(2.25, 2.8)
+        : randomBetween(2.05, 2.55),
+  }))
+}
+
 function createMenuNoise(): MenuNoise {
   const spikeCount = 4
   const angularOffsets = [
@@ -248,42 +287,7 @@ function createMenuNoise(): MenuNoise {
             : index === 2
               ? randomBetween(0.12, 0.18)
               : randomBetween(0.08, 0.12),
-      pulseCenterA:
-        index === 0
-          ? randomBetween(0.2, 0.34)
-          : index === 1
-            ? randomBetween(0.28, 0.44)
-            : index === 2
-              ? randomBetween(0.4, 0.58)
-              : randomBetween(0.5, 0.72),
-      pulseCenterB:
-        index === 0
-          ? randomBetween(0.52, 0.68)
-          : index === 1
-            ? randomBetween(0.56, 0.78)
-            : index === 2
-              ? randomBetween(0.62, 0.84)
-              : randomBetween(0.68, 0.9),
-      pulseWidthA:
-        index === 0 ? randomBetween(0.055, 0.085) : randomBetween(0.05, 0.08),
-      pulseWidthB:
-        index === 0 ? randomBetween(0.065, 0.11) : randomBetween(0.055, 0.095),
-      pulseGainA:
-        index === 0
-          ? randomBetween(1.35, 1.8)
-          : index === 1
-            ? randomBetween(0.95, 1.4)
-            : index === 2
-              ? randomBetween(0.6, 0.95)
-              : randomBetween(0.38, 0.62),
-      pulseGainB:
-        index === 0
-          ? randomBetween(2.15, 2.9)
-          : index === 1
-            ? randomBetween(1.05, 1.55)
-            : index === 2
-              ? randomBetween(0.58, 0.92)
-              : randomBetween(0.3, 0.5),
+      bursts: createSpikeBursts(index),
       wobblePhase: randomBetween(0, Math.PI * 2),
       wobbleSpeed: randomBetween(5.8, 8.9),
       wobbleDepth:
@@ -554,34 +558,21 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     }
 
     let spikeSum = 0
-    menuNoise.spikes.forEach((spike, spikeIndex) => {
-      const rawPulseA = getTemporalGaussian(t, spike.pulseCenterA, spike.pulseWidthA)
-      const rawPulseB = getTemporalGaussian(t, spike.pulseCenterB, spike.pulseWidthB)
-      const pulseA = getImpulse(rawPulseA, spikeIndex === 0 ? 2.6 : 2.25) * spike.pulseGainA
-      const pulseB = getImpulse(rawPulseB, spikeIndex === 0 ? 2.9 : 2.35) * spike.pulseGainB
+    menuNoise.spikes.forEach((spike) => {
+      const burstEnergy = spike.bursts.reduce((sum, burst) => {
+        return sum + getImpulse(getTemporalGaussian(t, burst.center, burst.width), burst.power) * burst.gain
+      }, 0)
       const openingEnvelope = 0.2 + 0.8 * Math.pow(t, 0.86)
       const wobble =
         1 +
         Math.sin(t * spike.wobbleSpeed + spike.wobblePhase) * spike.wobbleDepth +
         Math.sin(t * (spike.wobbleSpeed * 1.57) + spike.wobblePhase * 0.6) * (spike.wobbleDepth * 0.14)
-      const secondaryBurst =
-        spikeIndex === 0
-          ? getImpulse(
-              getTemporalGaussian(
-                t,
-                Math.min(0.9, spike.pulseCenterB + 0.045),
-                Math.max(0.04, spike.pulseWidthB * 0.72)
-              ),
-              3.2
-            ) * 2.35
-          : 0
-      const surge = 1 + pulseA + pulseB + secondaryBurst
+      const surge = 1 + burstEnergy
       const liveHeightScale = Math.max(0.18, openingEnvelope * surge * wobble)
       const liveSigmaScale =
         1 +
         Math.sin(t * (spike.wobbleSpeed * 0.94) + spike.sigmaPhase) * spike.sigmaDepth +
-        pulseB * 0.05 +
-        secondaryBurst * 0.08
+        burstEnergy * 0.06
       const drift =
         Math.sin(t * (spike.wobbleSpeed * 0.72) + spike.driftPhase) * spike.driftAmount +
         Math.sin(t * (spike.wobbleSpeed * 1.12) + spike.driftPhase * 0.7) * (spike.driftAmount * 0.18)
@@ -897,6 +888,9 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                             onClick={() => closeMenuAndNavigate('#buy')}
                             variant="yellow"
                             size="lg"
+                            textColor="black"
+                            hoverColor="blue"
+                            textHoverColor="white"
                             className="h-[72px] min-w-[241px] border-0 px-11 shadow-none hover:shadow-none active:shadow-none [&_span]:text-[2.05rem] [&_span]:font-semibold [&_span]:tracking-normal [&_span]:normal-case [&_svg]:mt-[0.18em]"
                           >
                             Buy now
