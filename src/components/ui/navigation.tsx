@@ -87,6 +87,7 @@ const CLOSE_WAVE_SPRAYS = [
 ] as const
 
 type MenuPhase = "closed" | "opening" | "open" | "closing"
+type MenuOrigin = { x: number; y: number }
 
 export function Navigation() {
   const [menuPhase, setMenuPhase] = React.useState<MenuPhase>("closed")
@@ -98,6 +99,8 @@ export function Navigation() {
   // Dimension tracking for full screen viewport sizes
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
   const [phaseProgress, setPhaseProgress] = React.useState(0)
+  const [menuOrigin, setMenuOrigin] = React.useState<MenuOrigin | null>(null)
+  const menuTriggerRef = React.useRef<HTMLButtonElement>(null)
 
   const numPoints = 80 // Radial resolution for drawing smooth detailed bezier segments
   const isMenuPressed = menuPhase !== "closed"
@@ -163,6 +166,22 @@ export function Navigation() {
     setTheme(nextTheme)
   }, [theme])
 
+  const getMenuTriggerOrigin = React.useCallback((): MenuOrigin | null => {
+    const trigger = menuTriggerRef.current
+    if (!trigger) return null
+
+    const rect = trigger.getBoundingClientRect()
+    if (!rect.width || !rect.height) return null
+
+    const viewportWidth = window.innerWidth || dimensions.width
+    const viewportHeight = window.innerHeight || dimensions.height
+
+    return {
+      x: Math.min(Math.max(rect.left + rect.width / 2, 0), viewportWidth),
+      y: Math.min(Math.max(rect.top + rect.height / 2, 0), viewportHeight),
+    }
+  }, [dimensions.height, dimensions.width])
+
   // Synchronize dynamic clip-path progress via JS animation loop
   React.useEffect(() => {
     if (isReducedMotion || (menuPhase !== "opening" && menuPhase !== "closing")) {
@@ -221,16 +240,18 @@ export function Navigation() {
     }
 
     if (isReducedMotion) {
+      setMenuOrigin(getMenuTriggerOrigin())
       setIsMenuMounted(true)
       setPhaseProgress(1)
       setMenuPhase("open")
       return
     }
 
+    setMenuOrigin(getMenuTriggerOrigin())
     setIsMenuMounted(true)
     setPhaseProgress(0)
     setMenuPhase("opening")
-  }, [isReducedMotion, menuPhase])
+  }, [getMenuTriggerOrigin, isReducedMotion, menuPhase])
 
   // Harmonic waves sum function representing periodic circular Perlin-like noise
   // Smoothstep interpolation helper
@@ -308,9 +329,12 @@ export function Navigation() {
   const getMenuDripPath = (t: number) => {
     if (!dimensions.width || !dimensions.height) return ""
 
-    // Menu button approximate center coordinates (top-right area)
-    const cx = dimensions.width * 0.9
-    const cy = dimensions.height * 0.05
+    const liveOrigin = menuOrigin
+    const fallbackOrigin = {
+      x: dimensions.width * 0.9,
+      y: dimensions.height * 0.05,
+    }
+    const { x: cx, y: cy } = liveOrigin ?? fallbackOrigin
 
     const deltaTheta = (2 * Math.PI) / numPoints
     const k = (4 / 3) * Math.tan(Math.PI / (2 * numPoints)) // Tangent multiplier for circular bezier segment
@@ -524,6 +548,7 @@ export function Navigation() {
 
         <div className="absolute left-0 top-1/2 z-10 -translate-y-1/2">
           <button
+            ref={menuTriggerRef}
             onClick={toggleMenu}
             className={cn(
               "nav-trigger group/menu-btn",
