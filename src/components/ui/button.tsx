@@ -66,7 +66,6 @@ const solidButtonEffectsClassName = "active:scale-[0.98] active:translate-x-[1px
 interface DripControlPoint {
   y1: number // leave amplitude offset
   y2: number // enter amplitude offset
-  xOffset: number // light horizontal jitter
 }
 
 type OfficialButtonColor =
@@ -216,9 +215,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           const amplitude = r % 2 === 0 ? -80 : maxAmplitude
           const y1 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
           const y2 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
-          const xOffset = Math.random() * 12 - 6 // Fixed horizontal jitter between -6px and 6px
 
-          points.push({ y1, y2, xOffset })
+          points.push({ y1, y2 })
         }
         setControlPoints(points)
       }
@@ -247,7 +245,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       for (let o = 0; o < controlPoints.length; o++) {
         const pt = controlPoints[o]
         const offset = index === 0 ? 0 : isOut ? pt.y1 : pt.y2
-        const a = o * stepSize + pt.xOffset
+        const a = o * stepSize + (Math.random() * 12 - 6)
         path += `C${a + 6} ${r + offset},${a + 24} ${r + offset},${a + stepSize} ${r}`
       }
 
@@ -372,25 +370,26 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {hasDrip ? (
           isTextChildren ? (
             <>
-              {/* Official structure: base content in normal flow defines size, hover layer overlays it. */}
+              {/* Official structure: overlay sits above a square base layer; the root provides the corner clip. */}
               <span
+                aria-hidden="true"
                 className={cn(
-                  "relative z-10 flex h-full w-full items-center justify-center bg-[var(--bg-color)] text-[var(--text-color)] rounded-[8px]",
+                  "absolute left-0 top-0 z-20 flex h-full w-full items-center justify-center rounded-[8px]",
+                  styles.dripHoverContent,
                   paddingClass
                 )}
               >
+                <span aria-hidden="true" className={styles.dripFill} />
+                <span aria-hidden="true" className={styles.dripFrame} />
                 <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
               </span>
 
-              {/* Hover cover content layer (aria-hidden to avoid double-reading) */}
               <span
-                aria-hidden="true"
                 className={cn(
-                  "absolute inset-0 z-20 flex items-center justify-center bg-[var(--hover-bg-color)] text-[var(--hover-text-color)] rounded-[8px]",
-                  styles.dripHoverContent,
+                  "flex h-full w-full items-center justify-center bg-[var(--bg-color)] text-[var(--text-color)]",
                   paddingClass
                 )}
               >
@@ -405,17 +404,20 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {/* Base surface layer keeps the root transparent, like the official button shell. */}
               <span
                 aria-hidden="true"
-                className="absolute inset-0 z-10 bg-[var(--bg-color)] rounded-[8px]"
+                className="absolute left-0 top-0 z-10 h-full w-full bg-[var(--bg-color)]"
               />
 
               {/* Pure Drip Liquid Background Mask Layer */}
               <span
                 aria-hidden="true"
                 className={cn(
-                  "absolute inset-0 z-20 bg-[var(--hover-bg-color)] rounded-[8px]",
+                  "absolute left-0 top-0 z-20 h-full w-full rounded-[8px]",
                   styles.dripHoverContent
                 )}
-              />
+              >
+                <span aria-hidden="true" className={styles.dripFill} />
+                <span aria-hidden="true" className={styles.dripFrame} />
+              </span>
 
               {/* Unified content wrapper placed on top, transitions text colors */}
               <span className="relative z-30 flex items-center justify-center w-full h-full text-[var(--text-color)] group-hover/button:text-[var(--hover-text-color)] transition-colors duration-200">
