@@ -3,6 +3,7 @@
 import * as React from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { Splat3 } from "./splat3"
 
 export interface CharacterShowcaseProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
@@ -227,31 +228,17 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
               transformStyle: "preserve-3d",
             }}
           >
-            {/* Yellow Ink Splat SVG (#ffeb3b) */}
-            <svg
-              viewBox="0 0 200 200"
-              className="absolute top-[8%] left-[6%] w-36 h-36 text-[#ffeb3b] fill-current opacity-95 drop-shadow-[2px_4px_6px_rgba(0,0,0,0.15)]"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M100,60 C90,30 60,40 50,60 C40,80 20,70 30,100 C40,130 50,150 80,140 C110,130 120,160 140,140 C160,120 140,90 150,70 C160,50 130,50 110,65 Z" />
-              <circle cx="45" cy="40" r="8" />
-              <circle cx="155" cy="135" r="6" />
-              <circle cx="120" cy="170" r="10" />
-              <circle cx="165" cy="60" r="5" />
-            </svg>
+            {/* Official Yellow Ink Splat (#ffeb3b) */}
+            <Splat3
+              color="#ffeb3b"
+              className="absolute -top-[5%] -left-[5%] w-48 h-48 opacity-95 drop-shadow-[2px_4px_6px_rgba(0,0,0,0.2)]"
+            />
 
-            {/* Blue Ink Splat SVG (#603bff) */}
-            <svg
-              viewBox="0 0 200 200"
-              className="absolute bottom-[6%] right-[8%] w-40 h-40 text-[#603bff] fill-current opacity-95 drop-shadow-[2px_4px_6px_rgba(0,0,0,0.15)]"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M100,50 C70,40 80,80 60,100 C40,120 45,150 75,145 C105,140 120,170 140,150 C160,130 150,110 160,80 C170,50 130,60 100,50 Z" />
-              <circle cx="155" cy="50" r="7" />
-              <circle cx="50" cy="155" r="9" />
-              <circle cx="70" cy="50" r="5" />
-              <circle cx="170" cy="120" r="6" />
-            </svg>
+            {/* Official Blue Ink Splat (#603bff) - Rotated for variety */}
+            <Splat3
+              color="#603bff"
+              className="absolute -bottom-[8%] -right-[5%] w-52 h-52 opacity-95 rotate-[135deg] drop-shadow-[2px_4px_6px_rgba(0,0,0,0.2)]"
+            />
           </motion.div>
 
           {/* Foreground Layer: Inkling Character Wrapper (breaking bounds) */}

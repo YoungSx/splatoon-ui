@@ -550,7 +550,7 @@ export function Navigation() {
           <div
             className={cn(
               "absolute top-0 right-0 h-full pointer-events-none select-none overflow-hidden transition-all duration-300 z-0",
-              isCollapsed ? "w-[120px]" : "w-[160px] md:w-[190px]"
+              isCollapsed ? "w-[236px]" : "w-[244px] md:w-[260px]"
             )}
           >
             <svg
@@ -569,31 +569,45 @@ export function Navigation() {
           {/* Morphing Toggle Menu Button */}
           <button
             onClick={toggleMenu}
-            className="relative z-10 flex items-center justify-center gap-1.5 md:gap-2 text-white outline-none group/menu-btn select-none hover:scale-[1.05] active:scale-[0.95] transition-transform py-1 px-3 rounded-[6px]"
+            className="group/menu-btn relative z-10 inline-grid min-w-[239px] grid-cols-[auto_1fr] items-center gap-3 px-4 py-2 pr-[100px] text-[#eaff3d] outline-none select-none transition-colors"
             aria-expanded={isMenuVisible}
             aria-controls="full-page-menu"
           >
-            <div className="relative w-5 h-4 flex items-center justify-center">
+            <div
+              data-menu-trigger-icon=""
+              className="relative grid h-12 w-12 shrink-0 place-content-center bg-[#eaff3d]"
+              style={{
+                borderRadius:
+                  "94.1396% 54.1396% 58.0465% 90.2326% / 86.3257% 86.3257% 61.9535% 61.9535%",
+              }}
+            >
               <span
+                data-menu-trigger-line=""
                 className={cn(
-                  "absolute h-[3px] w-full bg-white dark:bg-white rounded-full transition-all duration-300",
-                  isMenuVisible ? "rotate-45 translate-y-0" : "-translate-y-1.5"
+                  "absolute h-1 w-[19px] bg-[#603bff] transition-all duration-300",
+                  isMenuVisible ? "rotate-45 translate-y-0" : "-translate-y-[6px]"
                 )}
               />
               <span
+                data-menu-trigger-line=""
                 className={cn(
-                  "absolute h-[3px] bg-white dark:bg-white rounded-full transition-all duration-200",
-                  isMenuVisible ? "w-0 opacity-0" : "w-full"
+                  "absolute h-1 w-[19px] bg-[#603bff] transition-all duration-200",
+                  isMenuVisible ? "w-0 opacity-0" : "opacity-100"
                 )}
               />
               <span
+                data-menu-trigger-line=""
                 className={cn(
-                  "absolute h-[3px] w-full bg-white dark:bg-white rounded-full transition-all duration-300",
-                  isMenuVisible ? "-rotate-45 translate-y-0" : "translate-y-1.5"
+                  "absolute h-1 w-[19px] bg-[#603bff] transition-all duration-300",
+                  isMenuVisible ? "-rotate-45 translate-y-0" : "translate-y-[6px]"
                 )}
               />
             </div>
-            <span className="font-heading font-black text-xs md:text-sm uppercase tracking-widest leading-none drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,0.5)]">
+            <span className="sr-only">{isMenuVisible ? "Close navigation menu" : "Open navigation menu"}</span>
+            <span
+              aria-hidden="true"
+              className="relative top-[-0.2em] font-heading text-2xl font-semibold normal-case tracking-normal leading-none"
+            >
               {isMenuVisible ? "Close" : "Menu"}
             </span>
           </button>
