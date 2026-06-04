@@ -13,20 +13,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        yellow:
-          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--neon-yellow)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-blue)] [--hover-text-color:#ffffff]",
-        blue:
-          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-blue)] [--text-color:var(--neon-yellow)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)]",
-        green:
-          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-green)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-purple)] [--hover-text-color:#ffffff]",
-        orange:
-          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-orange)] [--text-color:var(--chaos-black)] [--hover-bg-color:var(--ink-blue)] [--hover-text-color:#ffffff]",
-        purple:
-          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-purple)] [--text-color:#ffffff] [--hover-bg-color:var(--ink-green)] [--hover-text-color:var(--chaos-black)]",
-        destructive:
-          "bg-[var(--bg-color)] text-[var(--text-color)] [--bg-color:var(--ink-red)] [--text-color:#ffffff] [--hover-bg-color:var(--chaos-black)] [--hover-text-color:var(--ink-red)]",
+        yellow: "bg-[var(--bg-color)] text-[var(--text-color)]",
+        blue: "bg-[var(--bg-color)] text-[var(--text-color)]",
+        green: "bg-[var(--bg-color)] text-[var(--text-color)]",
+        orange: "bg-[var(--bg-color)] text-[var(--text-color)]",
+        purple: "bg-[var(--bg-color)] text-[var(--text-color)]",
+        destructive: "bg-[var(--bg-color)] text-[var(--text-color)]",
         outline:
-          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-[var(--outline-border-color)] [--bg-color:#ffffff] [--text-color:var(--chaos-black)] [--outline-border-color:var(--chaos-black)] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--chaos-black)]",
+          "bg-[var(--bg-color)] text-[var(--text-color)] border-[3px] border-[var(--outline-border-color)]",
         ghost:
           "bg-transparent text-current shadow-none hover:bg-current/10 active:bg-current/20 hover:rotate-0 hover:scale-100 active:scale-95 active:translate-x-0 active:translate-y-0 active:shadow-none",
         arrow: "",
@@ -76,18 +70,101 @@ interface DripControlPoint {
   xOffset: number // light horizontal jitter
 }
 
+type OfficialButtonColor =
+  | "yellow"
+  | "blue"
+  | "green"
+  | "purple"
+  | "orange"
+  | "red"
+  | "white"
+  | "black"
+
+interface ButtonColorConfig {
+  bgColor: string
+  textColor: string
+  hoverBgColor: string
+  hoverTextColor: string
+  outlineBorderColor?: string
+}
+
+const officialColorVarMap: Record<OfficialButtonColor, string> = {
+  yellow: "var(--neon-yellow)",
+  blue: "var(--ink-blue)",
+  green: "var(--ink-green)",
+  purple: "var(--ink-purple)",
+  orange: "var(--ink-orange)",
+  red: "var(--ink-red)",
+  white: "#ffffff",
+  black: "var(--chaos-black)",
+}
+
+// These presets map to actual official button combinations or official theme defaults.
+const officialVariantPresets: Record<
+  NonNullable<VariantProps<typeof buttonVariants>["variant"]>,
+  ButtonColorConfig | null
+> = {
+  yellow: {
+    bgColor: officialColorVarMap.yellow,
+    textColor: officialColorVarMap.black,
+    hoverBgColor: officialColorVarMap.blue,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  blue: {
+    bgColor: officialColorVarMap.blue,
+    textColor: officialColorVarMap.white,
+    hoverBgColor: officialColorVarMap.yellow,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  green: {
+    bgColor: officialColorVarMap.green,
+    textColor: officialColorVarMap.black,
+    hoverBgColor: officialColorVarMap.red,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  orange: {
+    bgColor: officialColorVarMap.orange,
+    textColor: officialColorVarMap.black,
+    hoverBgColor: officialColorVarMap.purple,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  purple: {
+    bgColor: officialColorVarMap.purple,
+    textColor: officialColorVarMap.black,
+    hoverBgColor: officialColorVarMap.blue,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  destructive: {
+    bgColor: officialColorVarMap.red,
+    textColor: officialColorVarMap.black,
+    hoverBgColor: officialColorVarMap.green,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  outline: {
+    bgColor: officialColorVarMap.white,
+    textColor: officialColorVarMap.black,
+    hoverBgColor: officialColorVarMap.yellow,
+    hoverTextColor: officialColorVarMap.black,
+    outlineBorderColor: officialColorVarMap.black,
+  },
+  ghost: null,
+  arrow: null,
+}
+
 export interface ButtonProps
   extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>,
     VariantProps<typeof buttonVariants> {
   hasChevron?: boolean
   asChild?: boolean
+  color?: OfficialButtonColor
+  hoverColor?: OfficialButtonColor
+  textColor?: OfficialButtonColor
+  textHoverColor?: OfficialButtonColor
 }
 
-type DripPhase = "idle" | "entering" | "leaving"
 type ButtonMouseEnterEvent = Parameters<NonNullable<ButtonProps["onMouseEnter"]>>[0]
 type ButtonMouseLeaveEvent = Parameters<NonNullable<ButtonProps["onMouseLeave"]>>[0]
-type ButtonFocusEvent = Parameters<NonNullable<ButtonProps["onFocus"]>>[0]
-type ButtonBlurEvent = Parameters<NonNullable<ButtonProps["onBlur"]>>[0]
+type ButtonClickEvent = Parameters<NonNullable<ButtonProps["onClick"]>>[0]
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -100,63 +177,31 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       onClick,
       onMouseEnter,
       onMouseLeave,
-      onFocus,
-      onBlur,
       asChild = false,
+      color,
+      hoverColor,
+      textColor,
+      textHoverColor,
       ...props
     },
     ref
   ) => {
     const localRef = React.useRef<HTMLButtonElement>(null)
     const activeRef = (ref as React.RefObject<HTMLButtonElement>) || localRef
-    const dripTimerRef = React.useRef<number | null>(null)
 
     // Component mounting state to guard against SSR hydration mismatch
     const [mounted, setMounted] = React.useState(false)
     const [dimensions, setDimensions] = React.useState({ width: 100, height: 50 })
     const [controlPoints, setControlPoints] = React.useState<DripControlPoint[]>([])
     const [speedFactorActive, setSpeedFactorActive] = React.useState(false)
-    const [hoverRotate, setHoverRotate] = React.useState("0deg")
-    const [dripPhase, setDripPhase] = React.useState<DripPhase>("idle")
+    const [hovered, setHovered] = React.useState(false)
 
     const stepSize = 30
     const maxAmplitude = 80
     const hasDrip = variant !== "ghost" && variant !== "arrow"
 
-    const clearDripTimer = React.useCallback(() => {
-      if (dripTimerRef.current !== null) {
-        window.clearTimeout(dripTimerRef.current)
-        dripTimerRef.current = null
-      }
-    }, [])
-
-    const finishDripLeave = React.useCallback(() => {
-      clearDripTimer()
-      setDripPhase("idle")
-    }, [clearDripTimer])
-
-    const startDripEnter = React.useCallback(() => {
-      if (variant === "ghost" || variant === "arrow") return
-      clearDripTimer()
-      setDripPhase("entering")
-    }, [clearDripTimer, variant])
-
-    const startDripLeave = React.useCallback(() => {
-      if (variant === "ghost" || variant === "arrow") return
-      clearDripTimer()
-      setDripPhase("leaving")
-      dripTimerRef.current = window.setTimeout(() => {
-        setDripPhase("idle")
-        dripTimerRef.current = null
-      }, speedFactorActive ? 1800 : 0)
-    }, [clearDripTimer, speedFactorActive, variant])
-
     React.useEffect(() => {
       setMounted(true)
-
-      // Random tilt: -2.5deg ~ -1.5deg or 1.5deg ~ 2.5deg
-      const angle = (Math.random() > 0.5 ? 1 : -1) * (1.5 + Math.random() * 1.0)
-      setHoverRotate(`${angle.toFixed(2)}deg`)
 
       const handleResize = () => {
         if (!activeRef.current) return
@@ -190,15 +235,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return () => {
         window.removeEventListener("resize", handleResize)
         clearTimeout(timer)
-        clearDripTimer()
       }
-    }, [activeRef, clearDripTimer])
-
-    React.useEffect(() => {
-      if (!hasDrip && dripPhase !== "idle") {
-        finishDripLeave()
-      }
-    }, [dripPhase, finishDripLeave, hasDrip])
+    }, [activeRef])
 
     // Path generation function corresponding to the official F(index, isOut)
     const getDripPath = (index: number, isOut: boolean) => {
@@ -230,9 +268,41 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const contentLineHeightClass = paddingKey && paddingKey in sizeContentLineHeightMap
       ? sizeContentLineHeightMap[paddingKey as keyof typeof sizeContentLineHeightMap]
       : sizeContentLineHeightMap.default
+    const variantKey = (variant ?? "yellow") as NonNullable<VariantProps<typeof buttonVariants>["variant"]>
+    const variantPreset = officialVariantPresets[variantKey]
+
+    const resolvedColorConfig = variantPreset
+      ? {
+          bgColor: color ? officialColorVarMap[color] : variantPreset.bgColor,
+          textColor: textColor ? officialColorVarMap[textColor] : variantPreset.textColor,
+          hoverBgColor: hoverColor ? officialColorVarMap[hoverColor] : variantPreset.hoverBgColor,
+          hoverTextColor: textHoverColor ? officialColorVarMap[textHoverColor] : variantPreset.hoverTextColor,
+          outlineBorderColor: variantPreset.outlineBorderColor,
+        }
+      : null
+    const colorStyle = {
+      ...(resolvedColorConfig
+        ? {
+            "--bg-color": resolvedColorConfig.bgColor,
+            "--text-color": resolvedColorConfig.textColor,
+            "--hover-bg-color": resolvedColorConfig.hoverBgColor,
+            "--hover-text-color": resolvedColorConfig.hoverTextColor,
+            ...(resolvedColorConfig.outlineBorderColor
+              ? {
+                  "--outline-border-color": resolvedColorConfig.outlineBorderColor,
+                }
+              : {}),
+          }
+        : {}),
+      ...(variant === "ghost"
+        ? {
+            boxShadow: "none",
+          }
+        : {}),
+    } as React.CSSProperties
 
     const dripStyle = mounted && dimensions.width > 0
-      ? {
+      ? ({
           ...(hasDrip
             ? {
                 "--drip-in-start": `path("${getDripPath(0, false)}")`,
@@ -242,13 +312,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 "--drip-speed-factor": speedFactorActive ? "1" : "0",
               }
             : {}),
-          "--hover-rotate": variant !== "ghost" ? hoverRotate : "0deg",
-          ...(variant === "ghost"
-            ? {
-                boxShadow: "none",
-              }
-            : {}),
-        } as React.CSSProperties
+        } as React.CSSProperties)
       : undefined
 
     const splatChevron = (
@@ -278,8 +342,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Comp
         ref={activeRef}
         data-slot="button"
-        data-drip-phase={hasDrip ? dripPhase : undefined}
-        style={dripStyle}
+        data-drip-hovered={hasDrip && hovered ? "true" : undefined}
+        style={dripStyle ? ({ ...colorStyle, ...dripStyle } as React.CSSProperties) : colorStyle}
         className={cn(
           variant === "arrow"
             ? arrowButtonClassName
@@ -289,22 +353,20 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           variant === "arrow" ? undefined : paddingClass,
           className
         )}
-        onClick={onClick}
+        onClick={(event) => {
+          if (hasDrip) {
+            setHovered(true)
+          }
+          onClick?.(event as ButtonClickEvent)
+        }}
         onMouseEnter={(event: ButtonMouseEnterEvent) => {
-          startDripEnter()
+          if (hasDrip) {
+            setHovered(true)
+          }
           onMouseEnter?.(event)
         }}
         onMouseLeave={(event: ButtonMouseLeaveEvent) => {
-          startDripLeave()
           onMouseLeave?.(event)
-        }}
-        onFocus={(event: ButtonFocusEvent) => {
-          startDripEnter()
-          onFocus?.(event)
-        }}
-        onBlur={(event: ButtonBlurEvent) => {
-          startDripLeave()
-          onBlur?.(event)
         }}
         {...props}
       >

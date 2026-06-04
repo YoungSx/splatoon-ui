@@ -341,6 +341,9 @@ export default function Home() {
                   variant={reducedMotion ? "destructive" : "yellow"}
                   size="sm"
                   onClick={() => setReducedMotion(!reducedMotion)}
+                  textColor="black"
+                  hoverColor={reducedMotion ? "green" : "blue"}
+                  textHoverColor="white"
                   className="min-w-[80px]"
                 >
                   {reducedMotion ? "ON" : "OFF"}
@@ -399,7 +402,9 @@ export default function Home() {
                   </p>
                 </CardContent>
                 <CardFooter className="justify-center border-none mt-0">
-                  <Button variant="blue" size="sm">Equip Now</Button>
+                  <Button variant="blue" size="sm" textColor="white" hoverColor="yellow" textHoverColor="black">
+                    Equip Now
+                  </Button>
                 </CardFooter>
               </Card>
 
@@ -419,7 +424,9 @@ export default function Home() {
                   </p>
                 </CardContent>
                 <CardFooter className="justify-center border-none mt-0">
-                  <Button variant="yellow" size="sm">Ink Up</Button>
+                  <Button variant="yellow" size="sm" textColor="black" hoverColor="blue" textHoverColor="white">
+                    Ink Up
+                  </Button>
                 </CardFooter>
               </Card>
 
@@ -439,7 +446,9 @@ export default function Home() {
                   </p>
                 </CardContent>
                 <CardFooter className="justify-center border-none mt-0">
-                  <Button variant="green" size="sm">Travel</Button>
+                  <Button variant="green" size="sm" textColor="black" hoverColor="red" textHoverColor="black">
+                    Travel
+                  </Button>
                 </CardFooter>
               </Card>
             </div>
@@ -477,13 +486,15 @@ export default function Home() {
                       <CardDescription>Featuring liquid-fill math & bouncy rotational physics</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
-                      <Button variant="yellow">Yellow</Button>
-                      <Button variant="blue">Blue</Button>
-                      <Button variant="green">Green</Button>
-                      <Button variant="orange">Orange</Button>
-                      <Button variant="purple">Purple</Button>
-                      <Button variant="destructive">Alert</Button>
-                      <Button variant="outline">Outline</Button>
+                      <Button variant="yellow" textColor="black" hoverColor="blue" textHoverColor="white">Yellow</Button>
+                      <Button variant="blue" textColor="yellow" hoverColor="yellow" textHoverColor="blue">Blue</Button>
+                      <Button variant="green" textColor="black" hoverColor="red" textHoverColor="black">Green</Button>
+                      <Button variant="orange" textColor="black" hoverColor="purple" textHoverColor="black">Orange</Button>
+                      <Button variant="purple" textColor="black" hoverColor="blue" textHoverColor="white">Purple</Button>
+                      <Button variant="destructive" textColor="black" hoverColor="green" textHoverColor="white">Alert</Button>
+                      <Button variant="outline" textColor="black" hoverColor="yellow" textHoverColor="black">
+                        Outline
+                      </Button>
                       <Button variant="ghost">Ghost</Button>
                     </CardContent>
                   </Card>
@@ -619,7 +630,13 @@ export default function Home() {
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
                       <Dialog>
-                        <DialogTrigger render={<Button variant="yellow">Open Yellow Dialog</Button>} />
+                        <DialogTrigger
+                          render={
+                            <Button variant="yellow" textColor="black" hoverColor="blue" textHoverColor="white">
+                              Open Yellow Dialog
+                            </Button>
+                          }
+                        />
                         <DialogContent surface="paper" hasTape={true} tapeText="ALERT!" tapeColor="yellow">
                           <DialogHeader>
                             <DialogTitle>Splatfest Incoming!</DialogTitle>
@@ -630,9 +647,15 @@ export default function Home() {
                           <div className="py-4">
                             <p className="font-bold text-chaos-black/80">Choose your side:</p>
                             <div className="flex gap-3 mt-2">
-                              <Button size="sm" variant="blue">Team Water</Button>
-                              <Button size="sm" variant="orange">Team Fire</Button>
-                              <Button size="sm" variant="green">Team Grass</Button>
+                              <Button size="sm" variant="blue" textColor="white" hoverColor="yellow" textHoverColor="black">
+                                Team Water
+                              </Button>
+                              <Button size="sm" variant="orange" textColor="black" hoverColor="purple" textHoverColor="black">
+                                Team Fire
+                              </Button>
+                              <Button size="sm" variant="green" textColor="black" hoverColor="red" textHoverColor="black">
+                                Team Grass
+                              </Button>
                             </div>
                           </div>
                           <DialogFooter>
@@ -642,7 +665,13 @@ export default function Home() {
                       </Dialog>
 
                       <Dialog>
-                        <DialogTrigger render={<Button variant="blue">Open Blue Dialog</Button>} />
+                        <DialogTrigger
+                          render={
+                            <Button variant="blue" textColor="white" hoverColor="yellow" textHoverColor="black">
+                              Open Blue Dialog
+                            </Button>
+                          }
+                        />
                         <DialogContent surface="cream" hasTape={true} tapeText="EVENT INFO" tapeColor="blue" tapePosition="event">
                           <DialogHeader>
                             <DialogTitle>Big Run Event</DialogTitle>
@@ -672,7 +701,13 @@ export default function Home() {
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
                       <Dialog>
-                        <DialogTrigger render={<Button variant="destructive">Open Danger Dialog</Button>} />
+                        <DialogTrigger
+                          render={
+                            <Button variant="destructive" textColor="black" hoverColor="green" textHoverColor="white">
+                              Open Danger Dialog
+                            </Button>
+                          }
+                        />
                         <DialogContent surface="danger" hasTape={true} tapeText="DANGER!" tapeColor="red">
                           <DialogHeader>
                             <DialogTitle className="text-white">Connection Lost</DialogTitle>
@@ -690,7 +725,13 @@ export default function Home() {
                       </Dialog>
 
                       <Sheet>
-                        <SheetTrigger render={<Button variant="green">Open Right Drawer</Button>} />
+                        <SheetTrigger
+                          render={
+                            <Button variant="green" textColor="black" hoverColor="red" textHoverColor="black">
+                              Open Right Drawer
+                            </Button>
+                          }
+                        />
                         <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black border-l-[3px] border-chaos-black">
                           <SheetHeader>
                             <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
@@ -715,13 +756,21 @@ export default function Home() {
                             </div>
                           </div>
                           <SheetFooter>
-                            <Button size="sm" variant="yellow">Refresh Data</Button>
+                            <Button size="sm" variant="yellow" textColor="black" hoverColor="blue" textHoverColor="white">
+                              Refresh Data
+                            </Button>
                           </SheetFooter>
                         </SheetContent>
                       </Sheet>
 
                       <Popover>
-                        <PopoverTrigger render={<Button variant="outline">Open Popover</Button>} />
+                        <PopoverTrigger
+                          render={
+                            <Button variant="outline" textColor="black" hoverColor="yellow" textHoverColor="black">
+                              Open Popover
+                            </Button>
+                          }
+                        />
                         <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs border-2 border-chaos-black bg-white p-4 pt-6 text-chaos-black">
                           <PopoverHeader>
                             <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>

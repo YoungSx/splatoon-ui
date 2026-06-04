@@ -190,6 +190,9 @@ function DialogContent({
               render={
                 <Button
                   variant="destructive"
+                  textColor="black"
+                  hoverColor="green"
+                  textHoverColor="white"
                   className="shadow-soft-splat-sm absolute -top-1 -right-3 z-50 size-8 rounded-full border-[3px] border-chaos-black p-0 hover:scale-110 active:scale-95"
                   size="icon-sm"
                 />
@@ -249,7 +252,9 @@ function DialogFooter({
     >
       {children}
       {showCloseButton && (
-        <DialogPrimitive.Close render={<Button variant="outline" />}>
+        <DialogPrimitive.Close
+          render={<Button variant="outline" textColor="black" hoverColor="yellow" textHoverColor="black" />}
+        >
           Close
         </DialogPrimitive.Close>
       )}
