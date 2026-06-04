@@ -304,15 +304,15 @@ export default function Home() {
 
               {/* Component Spec Table / Cards */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-[#f5f0e8] dark:bg-[#151515]/60 p-3 border-[2px] border-chaos-black dark:border-white/20 rounded-lg">
+                <div className="scrap-panel-tight shadow-soft-splat-sm border-[2px] border-chaos-black bg-[#f5f0e8] p-3 pt-6 dark:border-white/20 dark:bg-[#151515]/60">
                   <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Stiffness</span>
                   <p className="font-heading text-lg font-black text-[#603bff] dark:text-[#eaff3d]">180</p>
                 </div>
-                <div className="bg-[#f5f0e8] dark:bg-[#151515]/60 p-3 border-[2px] border-chaos-black dark:border-white/20 rounded-lg">
+                <div className="scrap-panel-tight shadow-soft-splat-sm border-[2px] border-chaos-black bg-[#f5f0e8] p-3 pt-6 dark:border-white/20 dark:bg-[#151515]/60">
                   <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Damping</span>
                   <p className="font-heading text-lg font-black text-[#603bff] dark:text-[#eaff3d]">20</p>
                 </div>
-                <div className="bg-[#f5f0e8] dark:bg-[#151515]/60 p-3 border-[2px] border-chaos-black dark:border-white/20 rounded-lg col-span-2">
+                <div className="scrap-panel-tight shadow-soft-splat-sm col-span-2 border-[2px] border-chaos-black bg-[#f5f0e8] p-3 pt-6 dark:border-white/20 dark:bg-[#151515]/60">
                   <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Z-Index Depth Layer Projection</span>
                   <div className="flex flex-col gap-1 mt-1 text-[11px] font-semibold text-chaos-black/80 dark:text-white/80">
                     <div className="flex justify-between border-b border-chaos-black/5 dark:border-white/5 pb-0.5">
@@ -332,7 +332,7 @@ export default function Home() {
               </div>
 
               {/* Reduced Motion Toggle Panel */}
-              <div className="shadow-soft-splat-sm flex items-center gap-4 rounded-xl border-[2px] border-chaos-black bg-white/50 p-4 dark:border-white dark:bg-black/20">
+              <div className="scrap-panel shadow-soft-splat-sm flex items-center gap-4 border-[2px] border-chaos-black bg-white/50 p-4 pt-8 dark:border-white dark:bg-black/20">
                 <div className="flex-1">
                   <p className="font-heading text-sm font-black uppercase text-chaos-black dark:text-white">Reduced Motion Mode</p>
                   <p className="text-xs text-chaos-black/75 dark:text-white/75 font-medium mt-0.5">Disables mouse-tracking 3D rotations for accessibility.</p>
@@ -691,7 +691,7 @@ export default function Home() {
 
                       <Sheet>
                         <SheetTrigger render={<Button variant="green">Open Right Drawer</Button>} />
-                        <SheetContent side="right" className="bg-[#f5f0e8] text-chaos-black p-6 border-l-[3px] border-chaos-black">
+                        <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black border-l-[3px] border-chaos-black">
                           <SheetHeader>
                             <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
                             <SheetDescription>
@@ -699,14 +699,14 @@ export default function Home() {
                             </SheetDescription>
                           </SheetHeader>
                           <div className="space-y-4 py-4">
-                            <div className="rounded-lg bg-white p-3 border-2 border-chaos-black">
+                            <div className="scrap-panel-tight border-2 border-chaos-black bg-white p-3 pt-6">
                               <h4 className="font-bold text-sm">Last Battle Result</h4>
                               <p className="text-xs text-muted-foreground mt-1">Turf War - Wahoo World</p>
-                              <p className="font-black text-[#eaff3d] bg-chaos-black px-2 py-0.5 inline-block text-xs mt-2 rounded">
+                              <p className="inline-block bg-chaos-black px-2 py-0.5 text-xs font-black text-[#eaff3d] [transform:rotate(-2deg)]">
                                 VICTORY
                               </p>
                             </div>
-                            <div className="rounded-lg bg-white p-3 border-2 border-chaos-black">
+                            <div className="scrap-panel-tight border-2 border-chaos-black bg-white p-3 pt-6">
                               <h4 className="font-bold text-sm">Active Catalog</h4>
                               <p className="text-xs text-muted-foreground mt-1">Sizzle Season 2026</p>
                               <div className="w-full bg-muted h-2 mt-2 overflow-hidden border border-chaos-black">
@@ -722,7 +722,7 @@ export default function Home() {
 
                       <Popover>
                         <PopoverTrigger render={<Button variant="outline">Open Popover</Button>} />
-                        <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs rounded-lg border-2 border-chaos-black bg-white p-4 text-chaos-black">
+                        <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs border-2 border-chaos-black bg-white p-4 pt-6 text-chaos-black">
                           <PopoverHeader>
                             <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>
                             <PopoverDescription className="text-xs">

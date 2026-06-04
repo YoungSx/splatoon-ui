@@ -83,10 +83,33 @@ export interface ButtonProps
   asChild?: boolean
 }
 
+type DripPhase = "idle" | "entering" | "leaving"
+type ButtonMouseEnterEvent = Parameters<NonNullable<ButtonProps["onMouseEnter"]>>[0]
+type ButtonMouseLeaveEvent = Parameters<NonNullable<ButtonProps["onMouseLeave"]>>[0]
+type ButtonFocusEvent = Parameters<NonNullable<ButtonProps["onFocus"]>>[0]
+type ButtonBlurEvent = Parameters<NonNullable<ButtonProps["onBlur"]>>[0]
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "yellow", size = "default", children, hasChevron = true, onClick, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant = "yellow",
+      size = "default",
+      children,
+      hasChevron = true,
+      onClick,
+      onMouseEnter,
+      onMouseLeave,
+      onFocus,
+      onBlur,
+      asChild = false,
+      ...props
+    },
+    ref
+  ) => {
     const localRef = React.useRef<HTMLButtonElement>(null)
     const activeRef = (ref as React.RefObject<HTMLButtonElement>) || localRef
+    const dripTimerRef = React.useRef<number | null>(null)
 
     // Component mounting state to guard against SSR hydration mismatch
     const [mounted, setMounted] = React.useState(false)
@@ -94,9 +117,39 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const [controlPoints, setControlPoints] = React.useState<DripControlPoint[]>([])
     const [speedFactorActive, setSpeedFactorActive] = React.useState(false)
     const [hoverRotate, setHoverRotate] = React.useState("0deg")
+    const [dripPhase, setDripPhase] = React.useState<DripPhase>("idle")
 
     const stepSize = 30
     const maxAmplitude = 80
+    const hasDrip = variant !== "ghost" && variant !== "arrow"
+
+    const clearDripTimer = React.useCallback(() => {
+      if (dripTimerRef.current !== null) {
+        window.clearTimeout(dripTimerRef.current)
+        dripTimerRef.current = null
+      }
+    }, [])
+
+    const finishDripLeave = React.useCallback(() => {
+      clearDripTimer()
+      setDripPhase("idle")
+    }, [clearDripTimer])
+
+    const startDripEnter = React.useCallback(() => {
+      if (variant === "ghost" || variant === "arrow") return
+      clearDripTimer()
+      setDripPhase("entering")
+    }, [clearDripTimer, variant])
+
+    const startDripLeave = React.useCallback(() => {
+      if (variant === "ghost" || variant === "arrow") return
+      clearDripTimer()
+      setDripPhase("leaving")
+      dripTimerRef.current = window.setTimeout(() => {
+        setDripPhase("idle")
+        dripTimerRef.current = null
+      }, speedFactorActive ? 1800 : 0)
+    }, [clearDripTimer, speedFactorActive, variant])
 
     React.useEffect(() => {
       setMounted(true)
@@ -137,8 +190,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return () => {
         window.removeEventListener("resize", handleResize)
         clearTimeout(timer)
+        clearDripTimer()
       }
-    }, [activeRef])
+    }, [activeRef, clearDripTimer])
+
+    React.useEffect(() => {
+      if (!hasDrip && dripPhase !== "idle") {
+        finishDripLeave()
+      }
+    }, [dripPhase, finishDripLeave, hasDrip])
 
     // Path generation function corresponding to the official F(index, isOut)
     const getDripPath = (index: number, isOut: boolean) => {
@@ -164,7 +224,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     const paddingKey = size
-    const hasDrip = variant !== "ghost" && variant !== "arrow"
     const paddingClass = paddingKey && paddingKey in sizePaddingMap
       ? sizePaddingMap[paddingKey as keyof typeof sizePaddingMap]
       : sizePaddingMap.default
@@ -216,9 +275,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? Slot : ButtonPrimitive
 
     return (
-      <Comp
+        <Comp
         ref={activeRef}
         data-slot="button"
+        data-drip-phase={hasDrip ? dripPhase : undefined}
         style={dripStyle}
         className={cn(
           variant === "arrow"
@@ -229,6 +289,22 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className
         )}
         onClick={onClick}
+        onMouseEnter={(event: ButtonMouseEnterEvent) => {
+          startDripEnter()
+          onMouseEnter?.(event)
+        }}
+        onMouseLeave={(event: ButtonMouseLeaveEvent) => {
+          startDripLeave()
+          onMouseLeave?.(event)
+        }}
+        onFocus={(event: ButtonFocusEvent) => {
+          startDripEnter()
+          onFocus?.(event)
+        }}
+        onBlur={(event: ButtonBlurEvent) => {
+          startDripLeave()
+          onBlur?.(event)
+        }}
         {...props}
       >
         {hasDrip ? (
