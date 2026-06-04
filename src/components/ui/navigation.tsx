@@ -157,6 +157,9 @@ const DETERMINISTIC_NOISE = {
 
 const menuNoise = DETERMINISTIC_NOISE
 const MENU_ANIMATION_MS = 1125
+const MENU_CONTENT_ENTER_DELAY_MS = 360
+const MENU_CONTENT_ENTER_MS = 260
+const MENU_CONTENT_EXIT_MS = 220
 const CLOSE_WAVE_LOBES = [
   { center: 0.12, width: 0.06, height: 78, ragged: 34 },
   { center: 0.28, width: 0.075, height: 118, ragged: 36 },
@@ -164,45 +167,14 @@ const CLOSE_WAVE_LOBES = [
   { center: 0.68, width: 0.08, height: 132, ragged: 38 },
   { center: 0.86, width: 0.055, height: 88, ragged: 30 },
 ] as const
-const CLOSE_WAVE_SPRAYS = [
-  {
-    id: "close-spray-left",
-    ratio: 0.16,
-    left: "11%",
-    offset: -18,
-    width: 170,
-    height: 118,
-    rotate: -18,
-    path: "M39 44 C50 10 108 6 126 34 C143 14 174 30 166 60 C182 87 150 118 118 107 C96 128 50 121 43 89 C13 85 8 56 39 44 Z",
-  },
-  {
-    id: "close-spray-mid",
-    ratio: 0.48,
-    left: "44%",
-    offset: 10,
-    width: 224,
-    height: 154,
-    rotate: 7,
-    path: "M54 56 C56 18 126 8 152 38 C188 16 232 46 215 83 C240 120 188 154 146 137 C116 164 50 160 39 118 C8 102 17 64 54 56 Z",
-  },
-  {
-    id: "close-spray-right",
-    ratio: 0.82,
-    left: "74%",
-    offset: -6,
-    width: 190,
-    height: 128,
-    rotate: 14,
-    path: "M42 45 C46 16 110 8 132 34 C162 14 197 33 191 64 C212 92 171 127 132 114 C105 139 49 132 41 96 C16 89 10 57 42 45 Z",
-  },
-] as const
 
-type MenuPhase = "closed" | "opening" | "open" | "closing"
+type CoverPhase = "closed" | "opening" | "open" | "closing"
+type ContentPhase = "hidden" | "entering" | "visible" | "exiting"
 type MenuOrigin = { x: number; y: number }
 
 export function Navigation() {
-  const [menuPhase, setMenuPhase] = React.useState<MenuPhase>("closed")
-  const [isMenuMounted, setIsMenuMounted] = React.useState(false)
+  const [coverPhase, setCoverPhase] = React.useState<CoverPhase>("closed")
+  const [contentPhase, setContentPhase] = React.useState<ContentPhase>("hidden")
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const [isReducedMotion, setIsReducedMotion] = React.useState(false)
   const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
@@ -213,13 +185,23 @@ export function Navigation() {
   const [phaseProgress, setPhaseProgress] = React.useState(0)
   const [menuOrigin, setMenuOrigin] = React.useState<MenuOrigin | null>(null)
   const menuTriggerRef = React.useRef<HTMLButtonElement>(null)
+  const animationTimersRef = React.useRef<number[]>([])
 
   const numPoints = 80 // Radial resolution for drawing smooth detailed bezier segments
-  const isMenuPressed = menuPhase !== "closed"
-  const isContentVisible =
-    menuPhase === "open" || (menuPhase === "opening" && phaseProgress >= 0.32)
-  const isContentInteractive =
-    menuPhase === "open" || (menuPhase === "opening" && phaseProgress >= 0.42)
+  const isMenuMounted = coverPhase !== "closed"
+  const isMenuPressed = coverPhase !== "closed"
+  const isContentInteractive = contentPhase === "visible"
+
+  const clearAnimationTimers = React.useCallback(() => {
+    animationTimersRef.current.forEach((timer) => window.clearTimeout(timer))
+    animationTimersRef.current = []
+  }, [])
+
+  React.useEffect(() => {
+    return () => {
+      clearAnimationTimers()
+    }
+  }, [clearAnimationTimers])
   // Scroll handler to collapse header bar
   React.useEffect(() => {
     const handleScroll = () => {
@@ -298,7 +280,7 @@ export function Navigation() {
 
   // Synchronize dynamic clip-path progress via JS animation loop
   React.useEffect(() => {
-    if (isReducedMotion || (menuPhase !== "opening" && menuPhase !== "closing")) {
+    if (isReducedMotion || (coverPhase !== "opening" && coverPhase !== "closing")) {
       return
     }
 
@@ -322,53 +304,74 @@ export function Navigation() {
         return
       }
 
-      if (menuPhase === "opening") {
-        setMenuPhase("open")
+      if (coverPhase === "opening") {
+        setCoverPhase("open")
         setPhaseProgress(1)
         return
       }
 
-      if (menuPhase === "closing") {
-        setIsMenuMounted(false)
-        setMenuPhase("closed")
+      if (coverPhase === "closing") {
+        setCoverPhase("closed")
+        setContentPhase("hidden")
         setPhaseProgress(0)
       }
     }
 
     animationFrameId = requestAnimationFrame(step)
     return () => cancelAnimationFrame(animationFrameId)
-  }, [menuPhase, isReducedMotion])
+  }, [coverPhase, isReducedMotion])
 
   // Split mounted cover from fading content so close can feel like a tide receding.
   const toggleMenu = React.useCallback(() => {
-    if (menuPhase === "opening" || menuPhase === "open") {
+    clearAnimationTimers()
+
+    if (coverPhase === "opening" || coverPhase === "open") {
       setActiveNavLabel(null)
       if (isReducedMotion) {
         setPhaseProgress(0)
-        setIsMenuMounted(false)
-        setMenuPhase("closed")
+        setContentPhase("hidden")
+        setCoverPhase("closed")
         return
       }
 
-      setMenuPhase("closing")
+      if (contentPhase === "entering" || contentPhase === "visible") {
+        setContentPhase("exiting")
+        const timer = window.setTimeout(() => {
+          setContentPhase("hidden")
+          setCoverPhase("closing")
+          setPhaseProgress(0)
+        }, MENU_CONTENT_EXIT_MS)
+        animationTimersRef.current.push(timer)
+        return
+      }
+
+      setCoverPhase("closing")
+      setPhaseProgress(0)
       return
     }
 
     if (isReducedMotion) {
       setMenuOrigin(getMenuTriggerOrigin())
       setActiveNavLabel(null)
-      setIsMenuMounted(true)
+      setCoverPhase("open")
       setPhaseProgress(1)
-      setMenuPhase("open")
+      setContentPhase("visible")
       return
     }
 
     setMenuOrigin(getMenuTriggerOrigin())
     setActiveNavLabel(null)
-    setIsMenuMounted(true)
+    setCoverPhase("opening")
+    setContentPhase("hidden")
     setPhaseProgress(0)
-    setMenuPhase("opening")
-  }, [getMenuTriggerOrigin, isReducedMotion, menuPhase])
+    const enterDelayTimer = window.setTimeout(() => {
+      setContentPhase("entering")
+    }, MENU_CONTENT_ENTER_DELAY_MS)
+    const enterVisibleTimer = window.setTimeout(() => {
+      setContentPhase("visible")
+    }, MENU_CONTENT_ENTER_DELAY_MS + MENU_CONTENT_ENTER_MS)
+    animationTimersRef.current.push(enterDelayTimer, enterVisibleTimer)
+  }, [clearAnimationTimers, contentPhase, coverPhase, getMenuTriggerOrigin, isReducedMotion])
 
   // Harmonic waves sum function representing periodic circular Perlin-like noise
   // Smoothstep interpolation helper
@@ -575,30 +578,12 @@ export function Navigation() {
     return path
   }
 
-  const sampleCloseWaveY = React.useCallback((points: Array<{ x: number; y: number }>, ratio: number) => {
-    if (points.length === 0) return 0
-
-    const targetX = dimensions.width * ratio
-
-    for (let i = 0; i < points.length - 1; i++) {
-      const current = points[i]
-      const next = points[i + 1]
-
-      if (targetX >= current.x && targetX <= next.x) {
-        const segmentRatio = (targetX - current.x) / Math.max(next.x - current.x, 1)
-        return lerp(current.y, next.y, segmentRatio)
-      }
-    }
-
-    return points[points.length - 1].y
-  }, [dimensions.width])
-
   // Inject style with calculated path literal to bypass browser CSS variable interpolation bugs
   const currentClipPath =
     dimensions.width > 0
-      ? menuPhase === "closing"
+      ? coverPhase === "closing"
         ? `path("${getMenuCloseWavePath(phaseProgress)}")`
-        : `path("${getMenuDripPath(menuPhase === "open" ? 1 : phaseProgress)}")`
+        : `path("${getMenuDripPath(coverPhase === "open" ? 1 : phaseProgress)}")`
       : undefined
 
   const dripStyle = currentClipPath
@@ -607,7 +592,21 @@ export function Navigation() {
         WebkitClipPath: currentClipPath,
       } as React.CSSProperties
     : undefined
-  const closeWavePoints = menuPhase === "closing" ? getMenuCloseWavePoints(phaseProgress) : []
+  const contentTransitionClass = React.useMemo(() => {
+    if (contentPhase === "hidden") {
+      return "-translate-y-6 scale-95 opacity-0"
+    }
+
+    if (contentPhase === "entering") {
+      return "translate-y-0 scale-100 opacity-100"
+    }
+
+    if (contentPhase === "visible") {
+      return "translate-y-0 scale-100 opacity-100"
+    }
+
+    return "translate-y-0 scale-100 opacity-0"
+  }, [contentPhase])
 
   return (
     <>
@@ -703,53 +702,25 @@ export function Navigation() {
       {isMenuMounted && (
         <div
           id="full-page-menu"
-          data-phase={menuPhase}
+          data-phase={coverPhase}
           className={cn(
             "fixed inset-0 z-[90] w-screen h-screen overflow-hidden select-none",
-            menuPhase === "closing" ? "pointer-events-none" : "pointer-events-auto"
+            coverPhase === "closed" || coverPhase === "closing" ? "pointer-events-none" : "pointer-events-auto"
           )}
         >
           <div
             data-menu-cover=""
-            data-phase={menuPhase}
+            data-phase={coverPhase}
             style={dripStyle}
             className="absolute inset-0 bg-black"
           />
 
-          {menuPhase === "closing" && dimensions.height > 0
-            ? CLOSE_WAVE_SPRAYS.map((spray, index) => {
-                const anchoredY = sampleCloseWaveY(closeWavePoints, spray.ratio)
-                const pulse = Math.sin(phaseProgress * Math.PI * (1.55 + index * 0.18))
-                const scale = 0.82 + Math.max(pulse, 0) * 0.22 + (1 - phaseProgress) * 0.06
-                const oscillation = pulse * 7
-                const sprayTop = anchoredY - spray.height * (0.54 + Math.max(pulse, 0) * 0.06) + spray.offset + oscillation
-
-                return (
-                  <svg
-                    key={spray.id}
-                    data-menu-spray=""
-                    viewBox="0 0 240 170"
-                    className="absolute z-[1] overflow-visible fill-black"
-                    style={{
-                      left: spray.left,
-                      top: `${sprayTop}px`,
-                      width: `${spray.width}px`,
-                      height: `${spray.height}px`,
-                      transform: `translateX(-50%) rotate(${spray.rotate + pulse * 3.5}deg) scale(${scale})`,
-                      transformOrigin: "center",
-                    }}
-                  >
-                    <path d={spray.path} />
-                  </svg>
-                )
-              })
-            : null}
-
           <div
             data-menu-content=""
-            data-phase={menuPhase}
+            data-phase={contentPhase}
             className={cn(
               "absolute inset-0 flex flex-col justify-center items-center text-white p-6",
+              contentTransitionClass,
               isContentInteractive ? "pointer-events-auto" : "pointer-events-none"
             )}
           >
@@ -781,7 +752,7 @@ export function Navigation() {
               aria-label="Main site navigation"
               className={cn(
                 "relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] md:pt-5",
-                isContentVisible ? "translate-y-0 scale-100 opacity-100" : "-translate-y-6 scale-95 opacity-0"
+                contentPhase === "hidden" ? "-translate-y-6 scale-95 opacity-0" : "translate-y-0 scale-100 opacity-100"
               )}
             >
               <div className="relative mb-5 h-[12.9rem] w-[40rem] max-w-[92vw] md:mb-7">
