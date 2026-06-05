@@ -19,8 +19,7 @@
 
 .dripFrame {
   border-radius: inherit;
-  border: 2px solid var(--hover-text-color);
-  box-sizing: border-box;
+  box-shadow: inset 0 0 0 2px var(--hover-text-color);
   inset: 0;
   position: absolute;
 }

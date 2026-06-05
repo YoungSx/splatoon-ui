@@ -374,7 +374,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               <span
                 aria-hidden="true"
                 className={cn(
-                  "absolute left-0 top-0 z-20 flex h-full w-full items-center justify-center rounded-[8px]",
+                  "absolute left-0 top-0 z-20 flex h-full w-full items-center justify-center rounded-[8px] text-[var(--hover-text-color)]",
                   styles.dripHoverContent,
                   paddingClass
                 )}
