@@ -68,6 +68,22 @@ interface DripControlPoint {
   y2: number // enter amplitude offset
 }
 
+type OfficialButtonTheme =
+  | "dark"
+  | "light"
+  | "yellow"
+  | "dark-yellow"
+  | "dark-red"
+  | "dark-purple"
+  | "dark-purpleOrange"
+  | "dark-green"
+  | "dark-blue"
+  | "light-blue"
+  | "light-green"
+  | "light-purple"
+  | "light-red"
+  | "black"
+
 type OfficialButtonColor =
   | "yellow"
   | "blue"
@@ -78,12 +94,15 @@ type OfficialButtonColor =
   | "white"
   | "black"
 
-interface ButtonColorConfig {
+interface ButtonSurfaceConfig {
   bgColor: string
-  textColor: string
   hoverBgColor: string
-  hoverTextColor: string
   outlineBorderColor?: string
+}
+
+interface ButtonTextThemeConfig {
+  textColor: string
+  hoverTextColor: string
 }
 
 const officialColorVarMap: Record<OfficialButtonColor, string> = {
@@ -97,56 +116,138 @@ const officialColorVarMap: Record<OfficialButtonColor, string> = {
   black: "var(--chaos-black)",
 }
 
-// These presets map to actual official button combinations or official theme defaults.
-const officialVariantPresets: Record<
+const officialVariantSurfacePresets: Record<
   NonNullable<VariantProps<typeof buttonVariants>["variant"]>,
-  ButtonColorConfig | null
+  ButtonSurfaceConfig | null
 > = {
   yellow: {
     bgColor: officialColorVarMap.yellow,
-    textColor: officialColorVarMap.black,
     hoverBgColor: officialColorVarMap.blue,
-    hoverTextColor: officialColorVarMap.white,
   },
   blue: {
     bgColor: officialColorVarMap.blue,
-    textColor: officialColorVarMap.white,
     hoverBgColor: officialColorVarMap.yellow,
-    hoverTextColor: officialColorVarMap.black,
   },
   green: {
     bgColor: officialColorVarMap.green,
-    textColor: officialColorVarMap.black,
     hoverBgColor: officialColorVarMap.red,
-    hoverTextColor: officialColorVarMap.black,
   },
   orange: {
     bgColor: officialColorVarMap.orange,
-    textColor: officialColorVarMap.black,
     hoverBgColor: officialColorVarMap.purple,
-    hoverTextColor: officialColorVarMap.black,
   },
   purple: {
     bgColor: officialColorVarMap.purple,
-    textColor: officialColorVarMap.black,
     hoverBgColor: officialColorVarMap.blue,
-    hoverTextColor: officialColorVarMap.white,
   },
   destructive: {
     bgColor: officialColorVarMap.red,
-    textColor: officialColorVarMap.black,
     hoverBgColor: officialColorVarMap.green,
-    hoverTextColor: officialColorVarMap.white,
   },
   outline: {
     bgColor: officialColorVarMap.white,
-    textColor: officialColorVarMap.black,
     hoverBgColor: officialColorVarMap.yellow,
-    hoverTextColor: officialColorVarMap.black,
     outlineBorderColor: officialColorVarMap.black,
   },
   ghost: null,
   arrow: null,
+}
+
+// Keep a legacy fallback for callers that only specify `variant`.
+const officialVariantFallbackTextPresets: Record<
+  NonNullable<VariantProps<typeof buttonVariants>["variant"]>,
+  ButtonTextThemeConfig | null
+> = {
+  yellow: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  blue: {
+    textColor: officialColorVarMap.white,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  green: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  orange: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  purple: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  destructive: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  outline: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  ghost: null,
+  arrow: null,
+}
+
+// These map to the official theme classes and only influence text contrast.
+const officialButtonThemeTextPresets: Record<OfficialButtonTheme, ButtonTextThemeConfig> = {
+  dark: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  light: {
+    textColor: officialColorVarMap.white,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  yellow: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  "dark-yellow": {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  "dark-red": {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  "dark-purple": {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  "dark-purpleOrange": {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  "dark-green": {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  "dark-blue": {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  "light-blue": {
+    textColor: officialColorVarMap.white,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  "light-green": {
+    textColor: officialColorVarMap.white,
+    hoverTextColor: officialColorVarMap.black,
+  },
+  "light-purple": {
+    textColor: officialColorVarMap.white,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  "light-red": {
+    textColor: officialColorVarMap.white,
+    hoverTextColor: officialColorVarMap.white,
+  },
+  black: {
+    textColor: officialColorVarMap.black,
+    hoverTextColor: officialColorVarMap.black,
+  },
 }
 
 export interface ButtonProps
@@ -158,6 +259,7 @@ export interface ButtonProps
   hoverColor?: OfficialButtonColor
   textColor?: OfficialButtonColor
   textHoverColor?: OfficialButtonColor
+  theme?: OfficialButtonTheme
 }
 
 type ButtonMouseEnterEvent = Parameters<NonNullable<ButtonProps["onMouseEnter"]>>[0]
@@ -180,6 +282,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       hoverColor,
       textColor,
       textHoverColor,
+      theme,
       ...props
     },
     ref
@@ -266,15 +369,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ? sizeContentLineHeightMap[paddingKey as keyof typeof sizeContentLineHeightMap]
       : sizeContentLineHeightMap.default
     const variantKey = (variant ?? "yellow") as NonNullable<VariantProps<typeof buttonVariants>["variant"]>
-    const variantPreset = officialVariantPresets[variantKey]
+    const surfacePreset = officialVariantSurfacePresets[variantKey]
+    const fallbackTextPreset = officialVariantFallbackTextPresets[variantKey]
+    const themeTextPreset = theme ? officialButtonThemeTextPresets[theme] : null
 
-    const resolvedColorConfig = variantPreset
+    const resolvedColorConfig = surfacePreset
       ? {
-          bgColor: color ? officialColorVarMap[color] : variantPreset.bgColor,
-          textColor: textColor ? officialColorVarMap[textColor] : variantPreset.textColor,
-          hoverBgColor: hoverColor ? officialColorVarMap[hoverColor] : variantPreset.hoverBgColor,
-          hoverTextColor: textHoverColor ? officialColorVarMap[textHoverColor] : variantPreset.hoverTextColor,
-          outlineBorderColor: variantPreset.outlineBorderColor,
+          bgColor: color ? officialColorVarMap[color] : surfacePreset.bgColor,
+          textColor: textColor
+            ? officialColorVarMap[textColor]
+            : themeTextPreset?.textColor ?? fallbackTextPreset?.textColor ?? officialColorVarMap.black,
+          hoverBgColor: hoverColor ? officialColorVarMap[hoverColor] : surfacePreset.hoverBgColor,
+          hoverTextColor: textHoverColor
+            ? officialColorVarMap[textHoverColor]
+            : themeTextPreset?.hoverTextColor ?? fallbackTextPreset?.hoverTextColor ?? officialColorVarMap.white,
+          outlineBorderColor: surfacePreset.outlineBorderColor,
         }
       : null
     const colorStyle = {
