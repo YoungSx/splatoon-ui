@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils"
 
 const carouselLayout = {
   minHeightPx: 500,
-  cardMaxWidth: "min(28rem, 100%)",
   navButtonWidthPx: 64,
   navButtonHeightPx: 80,
   indicatorWidthPx: 32,
@@ -120,10 +119,11 @@ CarouselContent.displayName = "CarouselContent"
 type CarouselItemProps = Omit<HTMLMotionProps<"div">, "children"> & {
   children?: React.ReactNode
   "data-index"?: number
+  shellClassName?: string
 }
 
 export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ className, children, style, "data-index": index = 0, ...props }, ref) => {
+  ({ className, children, shellClassName, style, "data-index": index = 0, ...props }, ref) => {
     const { currentIndex, goToNext, goToPrev, goToIndex } = useCarousel()
     
     const offset = index - currentIndex
@@ -154,8 +154,10 @@ export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
     return (
       <div
         data-slot="carousel-item-shell"
-        className="pointer-events-none absolute inset-0 m-auto flex w-full items-center justify-center"
-        style={{ maxWidth: carouselLayout.cardMaxWidth }}
+        className={cn(
+          "pointer-events-none absolute inset-0 m-auto flex w-full items-center justify-center",
+          shellClassName
+        )}
       >
         <motion.div
           ref={ref}

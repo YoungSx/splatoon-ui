@@ -75,15 +75,6 @@ interface PaperCardFrameProps {
   props?: Omit<React.ComponentProps<"div">, "children" | "className">
 }
 
-export interface NewsCardProps extends Omit<CardProps, "children" | "variant" | "title"> {
-  media: React.ReactNode
-  mediaClassName?: string
-  bodyClassName?: string
-  title: React.ReactNode
-  titleClassName?: string
-  action?: React.ReactNode
-}
-
 function PaperCardFrame({
   asChild = false,
   className,
@@ -267,36 +258,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
   }
 )
 Card.displayName = "Card"
-
-function NewsCard({
-  media,
-  mediaClassName,
-  bodyClassName,
-  title,
-  titleClassName,
-  action,
-  paperFasteners = true,
-  paperLabel,
-  surface = "paper",
-  className,
-  ...props
-}: NewsCardProps) {
-  return (
-    <Card
-      className={className}
-      paperFasteners={paperFasteners}
-      paperLabel={paperLabel}
-      surface={surface}
-      {...props}
-    >
-      <CardImage className={cn("h-48 p-4 flex items-center justify-center", mediaClassName)}>{media}</CardImage>
-      <div className={cn("flex h-full flex-col items-center justify-center gap-2 py-4 text-center", bodyClassName)}>
-        <p className={cn("max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]", titleClassName)}>{title}</p>
-        {action}
-      </div>
-    </Card>
-  )
-}
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -482,5 +443,6 @@ export {
   CardDescription,
   CardContent,
   CardImage,
-  NewsCard,
 }
+
+export type { NewsSurface, PaperLabelConfig }

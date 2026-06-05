@@ -10,8 +10,8 @@ import {
   CardHeader,
   CardTitle,
   CardImage,
-  NewsCard,
 } from '@/components/ui/card'
+import { NewsCard } from '@/components/ui/news-card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -23,7 +23,7 @@ import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter } from '@/components/ui/splats'
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators } from '@/components/ui/carousel'
+import { NewsCarousel } from '@/components/ui/news-carousel'
 import { Divider } from '@/components/ui/divider'
 import {
   Dialog,
@@ -62,6 +62,31 @@ import {
 } from '@/components/ui/popover'
 
 const THEME_STORAGE_KEY = 'splat-theme'
+
+const homepageNewsCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
+  id: item,
+  paperLabel: {
+    text: `SNAP 0${item}`,
+    color: item % 2 === 0 ? "yellow" as const : "blue" as const,
+    placement: item % 2 === 0 ? "left" as const : "right" as const,
+  },
+  mediaClassName: item % 2 === 0 ? "bg-[#603bff]" : "bg-[#ff9750]",
+  media: (
+    <span className="font-heading text-6xl font-black text-[#eaff3d]">
+      {`0${item}`}
+    </span>
+  ),
+  title: `Battle Record #${item}`,
+  bodyClassName: "gap-1.5",
+  action: (
+    <>
+      <p className="text-sm font-bold text-chaos-black/60">Splatlands Region</p>
+      <Button size="sm" variant="arrow">
+        Read
+      </Button>
+    </>
+  ),
+}))
 
 export default function Home() {
   const [reducedMotion, setReducedMotion] = React.useState(false)
@@ -781,41 +806,7 @@ export default function Home() {
             </p>
           </div>
 
-          <Carousel initialIndex={2}>
-            <CarouselContent>
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <CarouselItem key={item}>
-                  <NewsCard
-                    paperLabel={{
-                      text: `SNAP 0${item}`,
-                      color: item % 2 === 0 ? "yellow" : "blue",
-                      placement: item % 2 === 0 ? "left" : "right",
-                    }}
-                    className="h-[420px]"
-                    mediaClassName={item % 2 === 0 ? "bg-[#603bff]" : "bg-[#ff9750]"}
-                    media={
-                      <span className="font-heading text-6xl font-black text-[#eaff3d]">
-                        {`0${item}`}
-                      </span>
-                    }
-                    title={`Battle Record #${item}`}
-                    bodyClassName="gap-1.5"
-                    action={
-                      <>
-                        <p className="text-sm font-bold text-chaos-black/60">Splatlands Region</p>
-                        <Button size="sm" variant="arrow">
-                          Read
-                        </Button>
-                      </>
-                    }
-                  />
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-            <CarouselIndicators />
-          </Carousel>
+          <NewsCarousel initialIndex={2} items={homepageNewsCarouselItems} />
         </div>
       </section>
 
