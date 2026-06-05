@@ -7,17 +7,17 @@ export const cardStackPhysicsTuning = {
   // These parameters are the ones you'll most likely tweak while iterating on motion.
   // Gravity acceleration used by the rigid-body solver before conversion into pixel units.
   // Increase: faster, stronger return toward equilibrium. Decrease: looser, slower swing.
-  gravityMetersPerSecondSquared: 9.80665,
+  gravityMetersPerSecondSquared: 10.6,
   // Rigid-body mass of one hanging card. Ideal gravity/support drive mostly cancel this out;
   // dissipation terms feel it through inertia.
   // Increase: more inertia, so the same dissipative torques slow it less. Decrease: easier to damp out.
-  cardMassKilograms: 5,
+  cardMassKilograms: 7,
   // Linear air-drag torque coefficient in tau = -c * omega.
   // Increase: faster decay while moving, shorter tail. Decrease: freer motion, longer oscillation.
-  airAngularDragTorqueCoefficientKgPx2PerSecond: 1123333.3333333335,
+  airAngularDragTorqueCoefficientKgPx2PerSecond: 680000,
   // Load-dependent dry friction coefficient at the pivot. Multiplied by the pivot radial load proxy.
   // Increase: more load-driven dry friction, steadier but more likely to stop at a slight tilt. Decrease: less static sticking.
-  pivotLoadFrictionTorquePerUnitNormalPx: 0.0005098581064889644,
+  pivotLoadFrictionTorquePerUnitNormalPx: 0.00016,
   // Viscous friction torque coefficient at the pivot in tau = -c * omega.
   // Increase: smoother velocity-proportional damping without as much hard lock. Decrease: less pivot damping.
   pivotViscousFrictionTorqueCoefficientKgPx2PerSecond: 0,
@@ -40,10 +40,10 @@ export const cardStackSupportDriverTuning = {
   easeInBack: {
     // Total support motion duration for the easeInBack driver.
     // Increase: longer support travel time, more drawn-out shove. Decrease: snappier support motion.
-    durationSeconds: 0.72,
+    durationSeconds: 0.62,
     // Standard easeInBack overshoot amount; larger values create a stronger backward wind-up.
     // Increase: more reverse wind-up before release. Decrease: straighter, less theatrical launch.
-    overshoot: 1.70158,
+    overshoot: 1.4,
     // Human-readable label used for diagnostics/UI.
     label: "easeInBack",
   },

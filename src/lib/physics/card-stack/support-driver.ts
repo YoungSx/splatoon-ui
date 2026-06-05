@@ -35,6 +35,7 @@ export type SupportMotionState = {
   fromPositionPx: number
   targetPositionPx: number
   initialVelocityPxPerSecond: number
+  initialAccelerationPxPerSecondSquared: number
   startedAt: number
 }
 
@@ -158,12 +159,14 @@ export function startSupportMotion({
   fromPositionPx,
   targetPositionPx,
   initialVelocityPxPerSecond,
+  initialAccelerationPxPerSecondSquared,
   startedAt,
 }: {
   driver: SupportMotionDriver
   fromPositionPx: number
   targetPositionPx: number
   initialVelocityPxPerSecond: number
+  initialAccelerationPxPerSecondSquared: number
   startedAt: number
 }): SupportMotionState {
   return {
@@ -171,6 +174,7 @@ export function startSupportMotion({
     fromPositionPx,
     targetPositionPx,
     initialVelocityPxPerSecond,
+    initialAccelerationPxPerSecondSquared,
     startedAt,
   }
 }
@@ -191,12 +195,20 @@ function sampleCurveMotion(
   const durationSeconds = Math.max(driver.durationSeconds, Number.EPSILON)
   const deltaPx = state.targetPositionPx - state.fromPositionPx
   const normalized = driver.sample(progress)
-  const normalizedEnd = driver.sample(1)
   const carryA = state.initialVelocityPxPerSecond * durationSeconds
-  const carryC = carryA - deltaPx * normalizedEnd.slope
-  const carryB = -2 * carryA + deltaPx * normalizedEnd.slope
-  const carryPosition = carryA * progress + carryB * progress * progress + carryC * progress * progress * progress
-  const carrySlope = carryA + 2 * carryB * progress + 3 * carryC * progress * progress
+  const carryB = (state.initialAccelerationPxPerSecondSquared * durationSeconds * durationSeconds) / 2
+  // Keep the authored curve intact at the far end. We only correct the launch so mid-flight
+  // retargets remain C2-continuous at the start; forcing a zero-velocity/zero-acceleration
+  // landing turns easeInBack into a long tail that visibly "holds" the first apex.
+  const carryC = -(carryA + carryB)
+  const carryPosition =
+    carryA * progress +
+    carryB * progress * progress +
+    carryC * progress * progress * progress
+  const carrySlope =
+    carryA +
+    2 * carryB * progress +
+    3 * carryC * progress * progress
   const carryCurvature = 2 * carryB + 6 * carryC * progress
 
   if (progress >= 1) {

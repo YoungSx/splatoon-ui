@@ -196,6 +196,8 @@ export function useCreateCardStackCarouselScene({
               fromPositionPx: supportMotionStateRef.current.fromPositionPx * pitchRatio,
               targetPositionPx: supportMotionStateRef.current.targetPositionPx * pitchRatio,
               initialVelocityPxPerSecond: supportMotionStateRef.current.initialVelocityPxPerSecond * pitchRatio,
+              initialAccelerationPxPerSecondSquared:
+                supportMotionStateRef.current.initialAccelerationPxPerSecondSquared * pitchRatio,
             }
           }
         }
@@ -255,6 +257,7 @@ export function useCreateCardStackCarouselScene({
           fromPositionPx: sceneSnapshotRef.current.support.positionPx,
           targetPositionPx,
           initialVelocityPxPerSecond: sceneSnapshotRef.current.support.velocityPxPerSecond,
+          initialAccelerationPxPerSecondSquared: sceneSnapshotRef.current.support.accelerationPxPerSecondSquared,
           startedAt: now,
         })
         publishSceneState()
