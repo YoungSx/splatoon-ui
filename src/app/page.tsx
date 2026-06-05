@@ -784,10 +784,10 @@ export default function Home() {
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#603bff] text-white py-16 px-6 flex flex-col items-center relative z-10 overflow-hidden">
         {/* Full height ripped borders */}
-        <Divider variant="rip-left" color="custom" customColor="#0d0d0d" className="opacity-20 hidden md:block" />
-        <Divider variant="rip-right" color="custom" customColor="#0d0d0d" className="opacity-20 hidden md:block" />
+        <Divider variant="rip-left" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
+        <Divider variant="rip-right" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
         
-        <div className="w-full max-w-5xl space-y-12 relative z-20">
+        <div className="relative z-20 w-full space-y-12" style={{ maxWidth: "64rem" }}>
           <div className="text-center pb-4 border-b-4 border-dashed border-white/20">
             <h2 className="text-4xl font-black uppercase tracking-wider text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
               4. 3D Splat Gallery

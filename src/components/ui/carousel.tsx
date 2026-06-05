@@ -1,8 +1,17 @@
 "use client"
 
 import * as React from "react"
-import { motion, PanInfo } from "framer-motion"
+import { motion, PanInfo, type HTMLMotionProps } from "framer-motion"
 import { cn } from "@/lib/utils"
+
+const carouselLayout = {
+  minHeightPx: 500,
+  cardMaxWidth: "min(28rem, 100%)",
+  navButtonWidthPx: 64,
+  navButtonHeightPx: 80,
+  indicatorWidthPx: 32,
+  indicatorHeightPx: 12,
+} as const
 
 interface CarouselContextType {
   currentIndex: number
@@ -60,7 +69,12 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     return (
       <CarouselContext.Provider value={{ currentIndex, itemCount, goToNext, goToPrev, goToIndex }}>
         <CarouselCountContext.Provider value={setItemCount}>
-          <div ref={ref} className={cn("relative w-full max-w-7xl mx-auto py-8", className)} {...props}>
+          <div
+            ref={ref}
+            data-slot="carousel"
+            className={cn("relative mx-auto w-full py-8", className)}
+            {...props}
+          >
             {children}
           </div>
         </CarouselCountContext.Provider>
@@ -71,7 +85,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 Carousel.displayName = "Carousel"
 
 export const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, style, ...props }, ref) => {
     const setItemCount = React.useContext(CarouselCountContext)
     const childrenArray = React.Children.toArray(children).filter(React.isValidElement)
     
@@ -81,12 +95,21 @@ export const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttrib
 
     return (
       <div 
+        data-slot="carousel-content"
         ref={ref} 
-        className={cn("relative flex items-center justify-center min-h-[500px] w-full overflow-hidden perspective-1000", className)} 
+        className={cn("relative flex w-full items-center justify-center overflow-hidden", className)}
+        style={{
+          minHeight: `${carouselLayout.minHeightPx}px`,
+          perspective: "1000px",
+          ...style,
+        }}
         {...props}
       >
         {childrenArray.map((child, index) => {
-          return React.cloneElement(child as React.ReactElement<any>, { 'data-index': index })
+          return React.cloneElement(
+            child as React.ReactElement<{ "data-index"?: number }>,
+            { "data-index": index }
+          )
         })}
       </div>
     )
@@ -94,8 +117,13 @@ export const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttrib
 )
 CarouselContent.displayName = "CarouselContent"
 
-export const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { 'data-index'?: number }>(
-  ({ className, children, 'data-index': index = 0, ...props }, ref) => {
+type CarouselItemProps = Omit<HTMLMotionProps<"div">, "children"> & {
+  children?: React.ReactNode
+  "data-index"?: number
+}
+
+export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
+  ({ className, children, style, "data-index": index = 0, ...props }, ref) => {
     const { currentIndex, goToNext, goToPrev, goToIndex } = useCarousel()
     
     const offset = index - currentIndex
@@ -114,7 +142,7 @@ export const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttribute
     // Only show items within +/- 2 distance to optimize DOM & visual clarity
     const opacity = Math.abs(offset) > 2 ? 0 : 1
 
-    const handleDragEnd = (e: any, { offset: dragOffset, velocity }: PanInfo) => {
+    const handleDragEnd = (_event: MouseEvent | TouchEvent | PointerEvent, { offset: dragOffset, velocity }: PanInfo) => {
       const swipePower = Math.abs(dragOffset.x) * velocity.x
       if (dragOffset.x < -50 || swipePower < -500) {
         goToNext()
@@ -124,9 +152,14 @@ export const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttribute
     }
 
     return (
-      <div className="absolute inset-0 m-auto flex items-center justify-center pointer-events-none w-full max-w-sm md:max-w-md">
+      <div
+        data-slot="carousel-item-shell"
+        className="pointer-events-none absolute inset-0 m-auto flex w-full items-center justify-center"
+        style={{ maxWidth: carouselLayout.cardMaxWidth }}
+      >
         <motion.div
           ref={ref}
+          data-slot="carousel-item"
           className={cn(
             "origin-center transition-colors duration-300 w-full pointer-events-auto",
             className
@@ -154,9 +187,10 @@ export const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttribute
           }}
           style={{
             cursor: isActive ? "grab" : "pointer",
-            pointerEvents: opacity === 0 ? "none" : "auto"
+            pointerEvents: opacity === 0 ? "none" : "auto",
+            ...style,
           }}
-          {...(props as any)}
+          {...props}
         >
           {children}
           {/* Dim overlay for non-active cards to emphasize depth */}
@@ -174,24 +208,33 @@ export const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttribute
 CarouselItem.displayName = "CarouselItem"
 
 export const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-  ({ className, ...props }, ref) => {
+  ({ className, style, ...props }, ref) => {
     const { currentIndex, goToPrev } = useCarousel()
     const disabled = currentIndex === 0
 
     return (
       <button
         ref={ref}
+        data-slot="carousel-previous"
         onClick={goToPrev}
         disabled={disabled}
         className={cn(
-          "absolute left-4 top-1/2 -translate-y-1/2 z-50",
-          "w-12 h-16 md:w-16 md:h-20 flex items-center justify-center",
+          "absolute z-50",
+          "flex items-center justify-center",
           "bg-[var(--chaos-black,#181818)] text-[var(--neon-yellow,#E3FF00)]",
           "transition-transform duration-200 active:scale-90 disabled:opacity-30 disabled:hover:scale-100",
           "hover:scale-110 shadow-solid",
           className
         )}
-        style={{ clipPath: "polygon(20% 0%, 100% 10%, 80% 100%, 0% 90%)" }}
+        style={{
+          left: "1rem",
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: `${carouselLayout.navButtonWidthPx}px`,
+          height: `${carouselLayout.navButtonHeightPx}px`,
+          clipPath: "polygon(20% 0%, 100% 10%, 80% 100%, 0% 90%)",
+          ...style,
+        }}
         {...props}
       >
         <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 fill-current" xmlns="http://www.w3.org/2000/svg">
@@ -204,24 +247,33 @@ export const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.Button
 CarouselPrevious.displayName = "CarouselPrevious"
 
 export const CarouselNext = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-  ({ className, ...props }, ref) => {
+  ({ className, style, ...props }, ref) => {
     const { currentIndex, itemCount, goToNext } = useCarousel()
     const disabled = currentIndex >= itemCount - 1
 
     return (
       <button
         ref={ref}
+        data-slot="carousel-next"
         onClick={goToNext}
         disabled={disabled}
         className={cn(
-          "absolute right-4 top-1/2 -translate-y-1/2 z-50",
-          "w-12 h-16 md:w-16 md:h-20 flex items-center justify-center",
+          "absolute z-50",
+          "flex items-center justify-center",
           "bg-[var(--chaos-black,#181818)] text-[var(--neon-yellow,#E3FF00)]",
           "transition-transform duration-200 active:scale-90 disabled:opacity-30 disabled:hover:scale-100",
           "hover:scale-110 shadow-solid",
           className
         )}
-        style={{ clipPath: "polygon(0% 10%, 80% 0%, 100% 90%, 20% 100%)" }}
+        style={{
+          right: "1rem",
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: `${carouselLayout.navButtonWidthPx}px`,
+          height: `${carouselLayout.navButtonHeightPx}px`,
+          clipPath: "polygon(0% 10%, 80% 0%, 100% 90%, 20% 100%)",
+          ...style,
+        }}
         {...props}
       >
         <svg viewBox="0 0 24 24" className="w-8 h-8 md:w-10 md:h-10 fill-current" xmlns="http://www.w3.org/2000/svg">
@@ -238,19 +290,26 @@ export const CarouselIndicators = React.forwardRef<HTMLDivElement, React.HTMLAtt
     const { currentIndex, itemCount, goToIndex } = useCarousel()
     
     return (
-      <div ref={ref} className={cn("flex flex-wrap items-center justify-center gap-3 mt-6 z-50 relative", className)} {...props}>
+      <div
+        ref={ref}
+        data-slot="carousel-indicators"
+        className={cn("relative z-50 mt-6 flex flex-wrap items-center justify-center gap-3", className)}
+        {...props}
+      >
         {Array.from({ length: itemCount }).map((_, i) => (
           <button
             key={i}
             onClick={() => goToIndex(i)}
             aria-label={`Go to slide ${i + 1}`}
             className={cn(
-              "w-8 h-3 transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              "transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
               currentIndex === i 
                 ? "bg-[var(--neon-yellow,#E3FF00)] scale-110 shadow-[2px_2px_0px_var(--chaos-black,#181818)]" 
                 : "bg-[var(--chaos-black,#181818)]/40 hover:bg-[var(--chaos-black,#181818)]/70 scale-100"
             )}
             style={{
+              width: `${carouselLayout.indicatorWidthPx}px`,
+              height: `${carouselLayout.indicatorHeightPx}px`,
               clipPath: "polygon(10% 0, 100% 15%, 90% 100%, 0 85%)"
             }}
           />
