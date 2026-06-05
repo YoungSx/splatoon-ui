@@ -34,8 +34,10 @@ export type EaseInBackDriverOptions = EaseInBackOptions & {
   label?: string
 }
 
-export function createEaseInBackEasing({ overshoot = 1.70158 }: EaseInBackOptions = {}) {
-  const validatedOvershoot = Number.isFinite(overshoot) ? overshoot : 1.70158
+export function createEaseInBackEasing({
+  overshoot = cardStackSupportDriverTuning.easeInBack.overshoot,
+}: EaseInBackOptions = {}) {
+  const validatedOvershoot = Number.isFinite(overshoot) ? overshoot : cardStackSupportDriverTuning.easeInBack.overshoot
   const safeOvershoot = Math.max(validatedOvershoot, 0)
   const coefficient = safeOvershoot + 1
 

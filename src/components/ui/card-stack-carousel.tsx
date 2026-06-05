@@ -80,7 +80,7 @@ export const CardStackCarouselContent = React.forwardRef<
       className={cn("relative flex w-full items-center justify-center overflow-visible", className)}
       style={{
         minHeight: `${cardStackLayout.minHeightPx}px`,
-        perspective: "1200px",
+        perspective: `${cardStackLayout.perspectivePx}px`,
         transformStyle: "preserve-3d",
         ...style,
       }}
@@ -118,7 +118,7 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
     const continuousOffset = pitchPx > 0 ? offsetPx / pitchPx : 0
     const logicalOffset = index - currentIndex
     const isActive = logicalOffset === 0
-    const isVisible = Math.abs(continuousOffset) <= cardStackLayout.visibleOffsetLimit + 0.6
+    const isVisible = Math.abs(continuousOffset) <= cardStackLayout.visibleOffsetLimit + cardStackLayout.visibleOffsetBuffer
     const opacity = isVisible ? 1 : 0
     const deckTranslateYPx = 0
     const deckScale = 1
@@ -162,12 +162,18 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
       (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         const swipePower = Math.abs(info.offset.x) * info.velocity.x
 
-        if (info.offset.x < -50 || swipePower < -500) {
+        if (
+          info.offset.x < -cardStackLayout.swipeOffsetThresholdPx ||
+          swipePower < -cardStackLayout.swipePowerThreshold
+        ) {
           navigateByDirection(1)
           return
         }
 
-        if (info.offset.x > 50 || swipePower > 500) {
+        if (
+          info.offset.x > cardStackLayout.swipeOffsetThresholdPx ||
+          swipePower > cardStackLayout.swipePowerThreshold
+        ) {
           navigateByDirection(-1)
         }
       },

@@ -24,6 +24,7 @@ import {
   startSupportAnimation,
   type SupportMotionProfile,
 } from "@/lib/physics/card-stack/support-driver"
+import { cardStackRuntimeTuning } from "@/lib/physics/card-stack/tuning"
 
 export type CardStackCarouselPhysicsStore = {
   getSnapshot: () => CardStackCarouselSceneSnapshot
@@ -123,7 +124,10 @@ export function useCreateCardStackCarouselScene({
       const previousVelocity = sceneSnapshotRef.current.support.velocityPxPerSecond
       const nextPosition = supportPositionPxMotion.get()
       const nextVelocity = supportPositionPxMotion.getVelocity()
-      const dt = Math.min(Math.max((now - sceneSnapshotRef.current.support.lastUpdatedAt) / 1000, 0), 1 / 30)
+      const dt = Math.min(
+        Math.max((now - sceneSnapshotRef.current.support.lastUpdatedAt) / 1000, 0),
+        cardStackRuntimeTuning.maxDeltaSeconds
+      )
 
       sceneSnapshotRef.current.support.positionPx = nextPosition
       sceneSnapshotRef.current.support.velocityPxPerSecond = nextVelocity

@@ -1,6 +1,6 @@
 "use client"
 
-import { cardStackPhysicsTuning } from "@/lib/physics/card-stack/tuning"
+import { cardStackPhysicsTuning, cardStackRuntimeTuning } from "@/lib/physics/card-stack/tuning"
 
 export const cardSwingPhysics = {
   ...cardStackPhysicsTuning,
@@ -133,7 +133,7 @@ export function integrateCardState(
   support: CardStackCarouselSupportSnapshot,
   now: number
 ) {
-  const dt = Math.min(Math.max((now - state.lastUpdatedAt) / 1000, 0), 1 / 30)
+  const dt = Math.min(Math.max((now - state.lastUpdatedAt) / 1000, 0), cardStackRuntimeTuning.maxDeltaSeconds)
   state.lastUpdatedAt = now
 
   const driveAngularAcceleration = resolveDriveAngularAcceleration(state, support)
