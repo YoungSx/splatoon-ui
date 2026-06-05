@@ -1,6 +1,7 @@
 "use client"
 
 import { animate, type AnimationPlaybackControls, type MotionValue } from "framer-motion"
+import { cardStackSupportDriverTuning } from "@/lib/physics/card-stack/tuning"
 
 export type SupportSpringDriver = {
   kind: "spring"
@@ -76,9 +77,9 @@ export function createCurveSupportMotionDriver({
 }
 
 export function createEaseInBackSupportMotionDriver({
-  durationSeconds = 0.72,
-  overshoot = 1.70158,
-  label = "easeInBack",
+  durationSeconds = cardStackSupportDriverTuning.easeInBack.durationSeconds,
+  overshoot = cardStackSupportDriverTuning.easeInBack.overshoot,
+  label = cardStackSupportDriverTuning.easeInBack.label,
 }: EaseInBackDriverOptions = {}): SupportCurveDriver {
   return createCurveSupportMotionDriver({
     durationSeconds,
@@ -89,8 +90,8 @@ export function createEaseInBackSupportMotionDriver({
 
 export function createSupportMotionProfile({
   driver,
-  settleVelocityEpsilonPxPerSecond = 2,
-  settlePositionEpsilonPx = 0.75,
+  settleVelocityEpsilonPxPerSecond = cardStackSupportDriverTuning.settleVelocityEpsilonPxPerSecond,
+  settlePositionEpsilonPx = cardStackSupportDriverTuning.settlePositionEpsilonPx,
 }: {
   driver: SupportMotionDriver
   settleVelocityEpsilonPxPerSecond?: number
@@ -106,9 +107,9 @@ export function createSupportMotionProfile({
 export const supportMotionPresets = {
   easeInBack: createEaseInBackSupportMotionDriver(),
   gentleSpring: createSpringSupportMotionDriver({
-    stiffness: 14,
-    damping: 11,
-    mass: 1.9,
+    stiffness: cardStackSupportDriverTuning.gentleSpring.stiffness,
+    damping: cardStackSupportDriverTuning.gentleSpring.damping,
+    mass: cardStackSupportDriverTuning.gentleSpring.mass,
   }),
 } as const
 

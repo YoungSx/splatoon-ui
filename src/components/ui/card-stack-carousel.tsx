@@ -19,19 +19,11 @@ import {
   useCreateCardStackCarouselScene,
 } from "@/lib/physics/card-stack/store"
 import { defaultSupportMotionProfile } from "@/lib/physics/card-stack/support-driver"
+import { cardStackLayoutTuning } from "@/lib/physics/card-stack/tuning"
 import { cn } from "@/lib/utils"
 
 const cardStackLayout = {
-  minHeightPx: 500,
-  navButtonWidthPx: 64,
-  navButtonHeightPx: 80,
-  indicatorWidthPx: 32,
-  indicatorHeightPx: 12,
-  visibleOffsetLimit: 2,
-  deckStepWidthMultiplier: 1.08,
-  fallbackCardWidthPx: 320,
-  fallbackCardHeightPx: 360,
-  fallbackHangerYPx: 20,
+  ...cardStackLayoutTuning,
 } as const
 
 const FALLBACK_GEOMETRY: CardSwingGeometry = createCardSwingGeometry({

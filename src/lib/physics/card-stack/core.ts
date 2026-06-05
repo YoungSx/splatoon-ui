@@ -1,10 +1,9 @@
 "use client"
 
+import { cardStackPhysicsTuning } from "@/lib/physics/card-stack/tuning"
+
 export const cardSwingPhysics = {
-  simulationPixelsPerMeter: 1000,
-  gravityMetersPerSecondSquared: 9.80665,
-  pivotCoulombFrictionSpecificTorquePx2PerSecondSquared: 42000,
-  angularVelocitySwitchEpsilon: 0.0005,
+  ...cardStackPhysicsTuning,
 } as const
 
 export type CardSwingGeometry = {
