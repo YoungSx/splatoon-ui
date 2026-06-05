@@ -12,9 +12,15 @@ import {
 
 import { CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel"
 import {
+  applyCardAngularImpulse,
+  cloneSceneSnapshot,
+  createCardState,
   createCardSwingGeometry,
-  integrateSceneSnapshot,
+  getReferenceCardState,
+  integrateCardState,
+  type CardStackCarouselCardState,
   type CardStackCarouselSceneSnapshot,
+  type CardStackCarouselSupportSnapshot,
   type CardSwingGeometry,
 } from "@/components/ui/card-stack-carousel.physics"
 import { cn } from "@/lib/utils"
@@ -42,7 +48,11 @@ const supportMotionProfile = {
 
 type CardStackCarouselPhysicsStore = {
   getSnapshot: () => CardStackCarouselSceneSnapshot
-  registerCardMetrics: (metrics: Pick<CardSwingGeometry, "cardWidthPx" | "cardHeightPx" | "hangerYPx" | "pitchPx">) => void
+  registerCardMetrics: (
+    cardId: string,
+    metrics: Pick<CardSwingGeometry, "cardWidthPx" | "cardHeightPx" | "hangerYPx" | "pitchPx">
+  ) => void
+  applyCardImpulse: (cardId: string, angularVelocityDelta: number) => void
   setTargetIndex: (index: number) => void
   subscribe: (listener: () => void) => () => void
 }
@@ -54,15 +64,24 @@ const FALLBACK_GEOMETRY: CardSwingGeometry = createCardSwingGeometry({
   pitchPx: cardStackLayout.fallbackCardWidthPx * cardStackLayout.deckStepWidthMultiplier,
 })
 
-const ZERO_SCENE_SNAPSHOT: CardStackCarouselSceneSnapshot = {
-  angle: 0,
-  angularVelocity: 0,
-  supportPositionPx: 0,
-  supportVelocityPxPerSecond: 0,
-  supportAccelerationPxPerSecondSquared: 0,
-  targetPositionPx: 0,
+const ZERO_CARD_STATE: CardStackCarouselCardState = createCardState({
   geometry: FALLBACK_GEOMETRY,
+})
+
+const ZERO_SUPPORT_SNAPSHOT: CardStackCarouselSupportSnapshot = {
+  positionPx: 0,
+  velocityPxPerSecond: 0,
+  accelerationPxPerSecondSquared: 0,
+  targetPositionPx: 0,
+  pitchPx: FALLBACK_GEOMETRY.pitchPx,
   lastUpdatedAt: 0,
+}
+
+const ZERO_SCENE_SNAPSHOT: CardStackCarouselSceneSnapshot = {
+  support: {
+    ...ZERO_SUPPORT_SNAPSHOT,
+  },
+  cards: {},
 }
 
 const CardStackCarouselPhysicsContext = React.createContext<CardStackCarouselPhysicsStore | null>(null)
@@ -85,34 +104,42 @@ function radiansToDegrees(value: number) {
   return value * (180 / Math.PI)
 }
 
-function updateSceneSnapshot(snapshot: CardStackCarouselSceneSnapshot, now: number) {
-  const swingMoving = integrateSceneSnapshot(snapshot, now)
+function resolveCardId(index: number) {
+  return String(index)
+}
+
+function updateSceneSnapshot(scene: CardStackCarouselSceneSnapshot, now: number) {
+  let swingMoving = false
+
+  for (const state of Object.values(scene.cards)) {
+    swingMoving = integrateCardState(state, scene.support, now) || swingMoving
+  }
+
   const supportMoving =
-    Math.abs(snapshot.supportVelocityPxPerSecond) >= supportMotionProfile.settleVelocityEpsilonPxPerSecond ||
-    Math.abs(snapshot.targetPositionPx - snapshot.supportPositionPx) >= supportMotionProfile.settlePositionEpsilonPx
+    Math.abs(scene.support.velocityPxPerSecond) >= supportMotionProfile.settleVelocityEpsilonPxPerSecond ||
+    Math.abs(scene.support.targetPositionPx - scene.support.positionPx) >= supportMotionProfile.settlePositionEpsilonPx
 
   return supportMoving || swingMoving
 }
 
+function getPrimaryCardState(scene: CardStackCarouselSceneSnapshot) {
+  return Object.values(scene.cards)[0] ?? ZERO_CARD_STATE
+}
+
+function getCardState(scene: CardStackCarouselSceneSnapshot, cardId: string) {
+  return scene.cards[cardId] ?? ZERO_CARD_STATE
+}
+
 export function CardStackCarouselScene({ children }: { children: React.ReactNode }) {
   const animationFrameRef = React.useRef<number | null>(null)
-  const sceneSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>({
-    ...ZERO_SCENE_SNAPSHOT,
-  })
-  const publishedSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>({
-    ...ZERO_SCENE_SNAPSHOT,
-  })
+  const sceneSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>(cloneSceneSnapshot(ZERO_SCENE_SNAPSHOT))
+  const publishedSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>(cloneSceneSnapshot(ZERO_SCENE_SNAPSHOT))
   const listenersRef = React.useRef(new Set<() => void>())
   const supportPositionPxMotion = useMotionValue(0)
   const supportAnimationRef = React.useRef<AnimationPlaybackControls | null>(null)
 
   const publishSceneState = React.useCallback(() => {
-    publishedSnapshotRef.current = {
-      ...sceneSnapshotRef.current,
-      geometry: {
-        ...sceneSnapshotRef.current.geometry,
-      },
-    }
+    publishedSnapshotRef.current = cloneSceneSnapshot(sceneSnapshotRef.current)
 
     for (const listener of listenersRef.current) {
       listener()
@@ -121,14 +148,15 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
 
   const syncSupportKinematicsFromMotion = React.useCallback(
     (now: number) => {
-      const previousVelocity = sceneSnapshotRef.current.supportVelocityPxPerSecond
+      const previousVelocity = sceneSnapshotRef.current.support.velocityPxPerSecond
       const nextPosition = supportPositionPxMotion.get()
       const nextVelocity = supportPositionPxMotion.getVelocity()
-      const dt = Math.min(Math.max((now - sceneSnapshotRef.current.lastUpdatedAt) / 1000, 0), 1 / 30)
+      const dt = Math.min(Math.max((now - sceneSnapshotRef.current.support.lastUpdatedAt) / 1000, 0), 1 / 30)
 
-      sceneSnapshotRef.current.supportPositionPx = nextPosition
-      sceneSnapshotRef.current.supportVelocityPxPerSecond = nextVelocity
-      sceneSnapshotRef.current.supportAccelerationPxPerSecondSquared = dt > 0 ? (nextVelocity - previousVelocity) / dt : 0
+      sceneSnapshotRef.current.support.positionPx = nextPosition
+      sceneSnapshotRef.current.support.velocityPxPerSecond = nextVelocity
+      sceneSnapshotRef.current.support.accelerationPxPerSecondSquared = dt > 0 ? (nextVelocity - previousVelocity) / dt : 0
+      sceneSnapshotRef.current.support.lastUpdatedAt = now
     },
     [supportPositionPxMotion]
   )
@@ -163,40 +191,71 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
   const store = React.useMemo<CardStackCarouselPhysicsStore>(
     () => ({
       getSnapshot: () => publishedSnapshotRef.current,
-      registerCardMetrics: (metrics) => {
+      registerCardMetrics: (cardId, metrics) => {
         const nextGeometry = createCardSwingGeometry(metrics)
-        const currentGeometry = sceneSnapshotRef.current.geometry
-        const pitchRatio = currentGeometry.pitchPx > 0 ? nextGeometry.pitchPx / currentGeometry.pitchPx : 1
+        const currentCard = sceneSnapshotRef.current.cards[cardId]
+        const pitchRatio =
+          sceneSnapshotRef.current.support.pitchPx > 0 ? nextGeometry.pitchPx / sceneSnapshotRef.current.support.pitchPx : 1
+        const pitchChanged = Math.abs(sceneSnapshotRef.current.support.pitchPx - nextGeometry.pitchPx) > 0.5
         const geometryChanged =
-          Math.abs(currentGeometry.cardWidthPx - nextGeometry.cardWidthPx) > 0.5 ||
-          Math.abs(currentGeometry.cardHeightPx - nextGeometry.cardHeightPx) > 0.5 ||
-          Math.abs(currentGeometry.hangerYPx - nextGeometry.hangerYPx) > 0.5 ||
-          Math.abs(currentGeometry.pitchPx - nextGeometry.pitchPx) > 0.5
+          !currentCard ||
+          Math.abs(currentCard.geometry.cardWidthPx - nextGeometry.cardWidthPx) > 0.5 ||
+          Math.abs(currentCard.geometry.cardHeightPx - nextGeometry.cardHeightPx) > 0.5 ||
+          Math.abs(currentCard.geometry.hangerYPx - nextGeometry.hangerYPx) > 0.5 ||
+          Math.abs(currentCard.geometry.pitchPx - nextGeometry.pitchPx) > 0.5
 
-        if (!geometryChanged) return
+        if (!geometryChanged && !pitchChanged) return
 
-        sceneSnapshotRef.current.supportPositionPx *= pitchRatio
-        sceneSnapshotRef.current.targetPositionPx *= pitchRatio
-        sceneSnapshotRef.current.supportVelocityPxPerSecond *= pitchRatio
-        sceneSnapshotRef.current.supportAccelerationPxPerSecondSquared *= pitchRatio
-        supportPositionPxMotion.set(sceneSnapshotRef.current.supportPositionPx)
-        sceneSnapshotRef.current.geometry = nextGeometry
+        if (pitchChanged) {
+          sceneSnapshotRef.current.support.positionPx *= pitchRatio
+          sceneSnapshotRef.current.support.targetPositionPx *= pitchRatio
+          sceneSnapshotRef.current.support.velocityPxPerSecond *= pitchRatio
+          sceneSnapshotRef.current.support.accelerationPxPerSecondSquared *= pitchRatio
+          sceneSnapshotRef.current.support.pitchPx = nextGeometry.pitchPx
+          supportPositionPxMotion.set(sceneSnapshotRef.current.support.positionPx)
+        }
+
+        const seedState = currentCard ?? getReferenceCardState(sceneSnapshotRef.current.cards, cardId)
+
+        sceneSnapshotRef.current.cards[cardId] = createCardState({
+          geometry: nextGeometry,
+          lastUpdatedAt: currentCard?.lastUpdatedAt ?? seedState?.lastUpdatedAt ?? sceneSnapshotRef.current.support.lastUpdatedAt,
+          seedState,
+        })
+
         publishSceneState()
       },
+      applyCardImpulse: (cardId, angularVelocityDelta) => {
+        const cardState = sceneSnapshotRef.current.cards[cardId]
+        if (!cardState) return
+
+        const now = getNow()
+        syncSupportKinematicsFromMotion(now)
+        updateSceneSnapshot(sceneSnapshotRef.current, now)
+
+        applyCardAngularImpulse(cardState, angularVelocityDelta)
+        publishSceneState()
+        startPhysicsLoop()
+      },
       setTargetIndex: (index) => {
-        const targetPositionPx = index * sceneSnapshotRef.current.geometry.pitchPx
-        if (Math.abs(sceneSnapshotRef.current.targetPositionPx - targetPositionPx) < 0.001) return
+        const targetPositionPx = index * sceneSnapshotRef.current.support.pitchPx
+        if (Math.abs(sceneSnapshotRef.current.support.targetPositionPx - targetPositionPx) < 0.001) return
 
         const now = getNow()
 
-        if (sceneSnapshotRef.current.lastUpdatedAt === 0) {
-          sceneSnapshotRef.current.targetPositionPx = targetPositionPx
-          sceneSnapshotRef.current.supportPositionPx = targetPositionPx
-          sceneSnapshotRef.current.supportVelocityPxPerSecond = 0
-          sceneSnapshotRef.current.supportAccelerationPxPerSecondSquared = 0
-          sceneSnapshotRef.current.angle = 0
-          sceneSnapshotRef.current.angularVelocity = 0
-          sceneSnapshotRef.current.lastUpdatedAt = now
+        if (sceneSnapshotRef.current.support.lastUpdatedAt === 0) {
+          sceneSnapshotRef.current.support.targetPositionPx = targetPositionPx
+          sceneSnapshotRef.current.support.positionPx = targetPositionPx
+          sceneSnapshotRef.current.support.velocityPxPerSecond = 0
+          sceneSnapshotRef.current.support.accelerationPxPerSecondSquared = 0
+          sceneSnapshotRef.current.support.lastUpdatedAt = now
+
+          for (const state of Object.values(sceneSnapshotRef.current.cards)) {
+            state.angle = 0
+            state.angularVelocity = 0
+            state.lastUpdatedAt = now
+          }
+
           supportPositionPxMotion.set(targetPositionPx)
           publishSceneState()
           return
@@ -204,8 +263,8 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
 
         syncSupportKinematicsFromMotion(now)
         updateSceneSnapshot(sceneSnapshotRef.current, now)
-        sceneSnapshotRef.current.targetPositionPx = targetPositionPx
-        sceneSnapshotRef.current.lastUpdatedAt = now
+        sceneSnapshotRef.current.support.targetPositionPx = targetPositionPx
+        sceneSnapshotRef.current.support.lastUpdatedAt = now
         supportAnimationRef.current?.stop()
         supportAnimationRef.current = animate(supportPositionPxMotion, targetPositionPx, {
           type: "spring",
@@ -227,6 +286,7 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
   )
 
   const sceneSnapshot = React.useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot)
+  const primaryCardState = getPrimaryCardState(sceneSnapshot)
 
   React.useEffect(() => {
     return () => {
@@ -239,10 +299,11 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
     <CardStackCarouselPhysicsContext.Provider value={store}>
       <div
         data-slot="card-stack-carousel-scene"
-        data-shared-angle={radiansToDegrees(sceneSnapshot.angle).toFixed(4)}
-        data-shared-velocity={radiansToDegrees(sceneSnapshot.angularVelocity).toFixed(4)}
-        data-support-position={(sceneSnapshot.geometry.pitchPx > 0 ? sceneSnapshot.supportPositionPx / sceneSnapshot.geometry.pitchPx : 0).toFixed(4)}
-        data-support-velocity={(sceneSnapshot.geometry.pitchPx > 0 ? sceneSnapshot.supportVelocityPxPerSecond / sceneSnapshot.geometry.pitchPx : 0).toFixed(4)}
+        data-card-count={Object.keys(sceneSnapshot.cards).length}
+        data-shared-angle={radiansToDegrees(primaryCardState.angle).toFixed(4)}
+        data-shared-velocity={radiansToDegrees(primaryCardState.angularVelocity).toFixed(4)}
+        data-support-position={(sceneSnapshot.support.pitchPx > 0 ? sceneSnapshot.support.positionPx / sceneSnapshot.support.pitchPx : 0).toFixed(4)}
+        data-support-velocity={(sceneSnapshot.support.pitchPx > 0 ? sceneSnapshot.support.velocityPxPerSecond / sceneSnapshot.support.pitchPx : 0).toFixed(4)}
       >
         {children}
       </div>
@@ -296,10 +357,12 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
     const physicsStore = useCardStackCarouselPhysicsStore()
     const sceneSnapshot = React.useSyncExternalStore(physicsStore.subscribe, physicsStore.getSnapshot, physicsStore.getSnapshot)
     const swingRef = React.useRef<HTMLDivElement | null>(null)
+    const cardId = resolveCardId(index)
+    const cardState = getCardState(sceneSnapshot, cardId)
 
-    const pitchPx = sceneSnapshot.geometry.pitchPx
+    const pitchPx = sceneSnapshot.support.pitchPx
     const cardAnchorPx = index * pitchPx
-    const offsetPx = cardAnchorPx - sceneSnapshot.supportPositionPx
+    const offsetPx = cardAnchorPx - sceneSnapshot.support.positionPx
     const continuousOffset = pitchPx > 0 ? offsetPx / pitchPx : 0
     const logicalOffset = index - currentIndex
     const isActive = logicalOffset === 0
@@ -316,7 +379,7 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
       const measure = () => {
         if (!swingRef.current) return
         const rect = swingRef.current.getBoundingClientRect()
-        physicsStore.registerCardMetrics({
+        physicsStore.registerCardMetrics(cardId, {
           cardWidthPx: rect.width,
           cardHeightPx: rect.height,
           hangerYPx: resolveHangerYPx(swingRef.current),
@@ -330,7 +393,7 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
       const observer = new ResizeObserver(measure)
       observer.observe(swingRef.current)
       return () => observer.disconnect()
-    }, [physicsStore])
+    }, [cardId, physicsStore])
 
     const navigateByDirection = React.useCallback(
       (direction: 1 | -1) => {
@@ -370,7 +433,7 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
           data-slot="card-stack-item-deck"
           data-active={isActive ? "true" : "false"}
           data-offset={continuousOffset.toFixed(4)}
-          className={cn("w-full origin-center pointer-events-auto transition-colors duration-300", className)}
+          className={cn("pointer-events-auto w-full origin-center transition-colors duration-300", className)}
           drag={isActive ? "x" : false}
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.2}
@@ -397,11 +460,12 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
           <motion.div
             ref={swingRef}
             data-slot="card-stack-item-swing"
-            data-angle={radiansToDegrees(sceneSnapshot.angle).toFixed(4)}
-            data-velocity={radiansToDegrees(sceneSnapshot.angularVelocity).toFixed(4)}
+            data-card-id={cardId}
+            data-angle={radiansToDegrees(cardState.angle).toFixed(4)}
+            data-velocity={radiansToDegrees(cardState.angularVelocity).toFixed(4)}
             className="w-full"
             style={{
-              rotate: `${radiansToDegrees(sceneSnapshot.angle)}deg`,
+              rotate: `${radiansToDegrees(cardState.angle)}deg`,
               transformOrigin: "50% var(--card-hanger-y, 1.25rem)",
             }}
           >

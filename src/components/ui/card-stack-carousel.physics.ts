@@ -3,7 +3,7 @@
 export const cardSwingPhysics = {
   simulationPixelsPerMeter: 1000,
   gravityMetersPerSecondSquared: 9.80665,
-  pivotCoulombFrictionSpecificTorquePx2PerSecondSquared: 84000,
+  pivotCoulombFrictionSpecificTorquePx2PerSecondSquared: 42000,
   angularVelocitySwitchEpsilon: 0.0005,
 } as const
 
@@ -18,15 +18,25 @@ export type CardSwingGeometry = {
   forcingCoefficient: number
 }
 
-export type CardStackCarouselSceneSnapshot = {
+export type CardStackCarouselSupportSnapshot = {
+  positionPx: number
+  velocityPxPerSecond: number
+  accelerationPxPerSecondSquared: number
+  targetPositionPx: number
+  pitchPx: number
+  lastUpdatedAt: number
+}
+
+export type CardStackCarouselCardState = {
   angle: number
   angularVelocity: number
-  supportPositionPx: number
-  supportVelocityPxPerSecond: number
-  supportAccelerationPxPerSecondSquared: number
-  targetPositionPx: number
   geometry: CardSwingGeometry
   lastUpdatedAt: number
+}
+
+export type CardStackCarouselSceneSnapshot = {
+  support: CardStackCarouselSupportSnapshot
+  cards: Record<string, CardStackCarouselCardState>
 }
 
 const gravityPxPerSecondSquared =
@@ -54,52 +64,108 @@ export function createCardSwingGeometry({
   }
 }
 
-function resolveDriveAngularAcceleration(snapshot: CardStackCarouselSceneSnapshot) {
-  const gravityAngularAcceleration = -Math.sin(snapshot.angle) * snapshot.geometry.restoringCoefficient
+export function createCardState({
+  geometry,
+  lastUpdatedAt = 0,
+  seedState,
+}: {
+  geometry: CardSwingGeometry
+  lastUpdatedAt?: number
+  seedState?: Pick<CardStackCarouselCardState, "angle" | "angularVelocity">
+}): CardStackCarouselCardState {
+  return {
+    angle: seedState?.angle ?? 0,
+    angularVelocity: seedState?.angularVelocity ?? 0,
+    geometry,
+    lastUpdatedAt,
+  }
+}
+
+export function cloneCardState(state: CardStackCarouselCardState): CardStackCarouselCardState {
+  return {
+    angle: state.angle,
+    angularVelocity: state.angularVelocity,
+    geometry: {
+      ...state.geometry,
+    },
+    lastUpdatedAt: state.lastUpdatedAt,
+  }
+}
+
+export function cloneSceneSnapshot(scene: CardStackCarouselSceneSnapshot): CardStackCarouselSceneSnapshot {
+  return {
+    support: {
+      ...scene.support,
+    },
+    cards: Object.fromEntries(Object.entries(scene.cards).map(([cardId, state]) => [cardId, cloneCardState(state)])),
+  }
+}
+
+export function getReferenceCardState(
+  cards: Record<string, CardStackCarouselCardState>,
+  excludedCardId?: string
+): CardStackCarouselCardState | null {
+  for (const [cardId, state] of Object.entries(cards)) {
+    if (cardId !== excludedCardId) {
+      return state
+    }
+  }
+
+  return null
+}
+
+function resolveDriveAngularAcceleration(
+  state: CardStackCarouselCardState,
+  support: CardStackCarouselSupportSnapshot
+) {
+  const gravityAngularAcceleration = -Math.sin(state.angle) * state.geometry.restoringCoefficient
   const supportAngularAcceleration =
-    -Math.cos(snapshot.angle) *
-    snapshot.geometry.forcingCoefficient *
-    snapshot.supportAccelerationPxPerSecondSquared
+    -Math.cos(state.angle) * state.geometry.forcingCoefficient * support.accelerationPxPerSecondSquared
 
   return gravityAngularAcceleration + supportAngularAcceleration
 }
 
-function resolveCoulombFrictionAngularAcceleration(snapshot: CardStackCarouselSceneSnapshot) {
-  return (
-    cardSwingPhysics.pivotCoulombFrictionSpecificTorquePx2PerSecondSquared / snapshot.geometry.inertiaOverMassPx2
-  )
+function resolveCoulombFrictionAngularAcceleration(state: CardStackCarouselCardState) {
+  return cardSwingPhysics.pivotCoulombFrictionSpecificTorquePx2PerSecondSquared / state.geometry.inertiaOverMassPx2
 }
 
-export function integrateSceneSnapshot(snapshot: CardStackCarouselSceneSnapshot, now: number) {
-  const dt = Math.min(Math.max((now - snapshot.lastUpdatedAt) / 1000, 0), 1 / 30)
-  snapshot.lastUpdatedAt = now
+export function integrateCardState(
+  state: CardStackCarouselCardState,
+  support: CardStackCarouselSupportSnapshot,
+  now: number
+) {
+  const dt = Math.min(Math.max((now - state.lastUpdatedAt) / 1000, 0), 1 / 30)
+  state.lastUpdatedAt = now
 
-  const driveAngularAcceleration = resolveDriveAngularAcceleration(snapshot)
-  const frictionAngularAcceleration = resolveCoulombFrictionAngularAcceleration(snapshot)
-  const isEffectivelyStill =
-    Math.abs(snapshot.angularVelocity) <= cardSwingPhysics.angularVelocitySwitchEpsilon
+  const driveAngularAcceleration = resolveDriveAngularAcceleration(state, support)
+  const frictionAngularAcceleration = resolveCoulombFrictionAngularAcceleration(state)
+  const isEffectivelyStill = Math.abs(state.angularVelocity) <= cardSwingPhysics.angularVelocitySwitchEpsilon
 
   let netAngularAcceleration = driveAngularAcceleration
 
   if (isEffectivelyStill) {
     if (Math.abs(driveAngularAcceleration) <= frictionAngularAcceleration) {
-      snapshot.angularVelocity = 0
+      state.angularVelocity = 0
       return false
     }
 
     netAngularAcceleration -= frictionAngularAcceleration * Math.sign(driveAngularAcceleration)
   } else {
-    netAngularAcceleration -= frictionAngularAcceleration * Math.sign(snapshot.angularVelocity)
+    netAngularAcceleration -= frictionAngularAcceleration * Math.sign(state.angularVelocity)
   }
 
-  const nextAngularVelocity = snapshot.angularVelocity + netAngularAcceleration * dt
+  const nextAngularVelocity = state.angularVelocity + netAngularAcceleration * dt
   const crossedZeroWhileFrictionDominated =
-    Math.sign(snapshot.angularVelocity) !== 0 &&
-    Math.sign(nextAngularVelocity) !== Math.sign(snapshot.angularVelocity) &&
+    Math.sign(state.angularVelocity) !== 0 &&
+    Math.sign(nextAngularVelocity) !== Math.sign(state.angularVelocity) &&
     Math.abs(driveAngularAcceleration) <= frictionAngularAcceleration
 
-  snapshot.angularVelocity = crossedZeroWhileFrictionDominated ? 0 : nextAngularVelocity
-  snapshot.angle += snapshot.angularVelocity * dt
+  state.angularVelocity = crossedZeroWhileFrictionDominated ? 0 : nextAngularVelocity
+  state.angle += state.angularVelocity * dt
 
-  return Math.abs(snapshot.angularVelocity) > cardSwingPhysics.angularVelocitySwitchEpsilon
+  return Math.abs(state.angularVelocity) > cardSwingPhysics.angularVelocitySwitchEpsilon
+}
+
+export function applyCardAngularImpulse(state: CardStackCarouselCardState, angularVelocityDelta: number) {
+  state.angularVelocity += angularVelocityDelta
 }
