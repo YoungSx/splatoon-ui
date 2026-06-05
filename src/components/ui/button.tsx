@@ -288,7 +288,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const localRef = React.useRef<HTMLButtonElement>(null)
-    const activeRef = (ref as React.RefObject<HTMLButtonElement>) || localRef
+    const setButtonRef = React.useCallback(
+      (node: HTMLButtonElement | null) => {
+        localRef.current = node
+
+        if (typeof ref === "function") {
+          ref(node)
+          return
+        }
+
+        if (ref) {
+          ;(ref as React.MutableRefObject<HTMLButtonElement | null>).current = node
+        }
+      },
+      [ref]
+    )
 
     // Component mounting state to guard against SSR hydration mismatch
     const [mounted, setMounted] = React.useState(false)
@@ -305,10 +319,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       setMounted(true)
 
       const handleResize = () => {
-        if (!activeRef.current) return
-        const width = activeRef.current.clientWidth
+        if (!localRef.current) return
+        const width = localRef.current.clientWidth
         // 2px extra height to cover fully when clipping
-        const height = activeRef.current.clientHeight + 2
+        const height = localRef.current.clientHeight + 2
         setDimensions({ width, height })
 
         const points: DripControlPoint[] = []
@@ -336,7 +350,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         window.removeEventListener("resize", handleResize)
         clearTimeout(timer)
       }
-    }, [activeRef])
+    }, [])
 
     // Path generation function corresponding to the official F(index, isOut)
     const getDripPath = (index: number, isOut: boolean) => {
@@ -446,7 +460,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
         <Comp
-        ref={activeRef}
+        ref={setButtonRef}
         data-slot="button"
         data-drip-hovered={hasDrip && hovered ? "true" : undefined}
         style={dripStyle ? ({ ...colorStyle, ...dripStyle } as React.CSSProperties) : colorStyle}

@@ -15,6 +15,62 @@ function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
 }
 
+type SheetTriggerButtonProps = Omit<SheetPrimitive.Trigger.Props, "render" | "children"> &
+  Pick<
+    React.ComponentProps<typeof Button>,
+    | "children"
+    | "variant"
+    | "size"
+    | "theme"
+    | "hasChevron"
+    | "color"
+    | "hoverColor"
+    | "textColor"
+    | "textHoverColor"
+  >
+
+function SheetTriggerButton({
+  children,
+  variant = "yellow",
+  size = "default",
+  theme,
+  hasChevron = true,
+  color,
+  hoverColor,
+  textColor,
+  textHoverColor,
+  ...props
+}: SheetTriggerButtonProps) {
+  return (
+    <SheetPrimitive.Trigger
+      data-slot="sheet-trigger"
+      render={(triggerProps) => {
+        const { ref, ...buttonProps } = triggerProps as typeof triggerProps & {
+          ref?: React.Ref<HTMLButtonElement>
+        }
+
+        return (
+          <Button
+            {...buttonProps}
+            ref={ref}
+            variant={variant}
+            size={size}
+            theme={theme}
+            hasChevron={hasChevron}
+            color={color}
+            hoverColor={hoverColor}
+            textColor={textColor}
+            textHoverColor={textHoverColor}
+          >
+            {children}
+          </Button>
+        )
+      }}
+      {...props}
+    />
+  )
+}
+
 function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />
 }
@@ -121,6 +177,7 @@ function SheetDescription({
 export {
   Sheet,
   SheetTrigger,
+  SheetTriggerButton,
   SheetClose,
   SheetContent,
   SheetHeader,

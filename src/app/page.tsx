@@ -22,6 +22,8 @@ import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter } from '@/components/ui/splats'
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, CarouselIndicators } from '@/components/ui/carousel'
+import { Divider } from '@/components/ui/divider'
 import {
   Dialog,
   DialogContent,
@@ -29,7 +31,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  DialogTriggerButton,
 } from '@/components/ui/dialog'
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -42,7 +44,7 @@ import {
 } from '@/components/ui/select'
 import {
   Sheet,
-  SheetTrigger,
+  SheetTriggerButton,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -55,7 +57,7 @@ import {
   PopoverDescription,
   PopoverHeader,
   PopoverTitle,
-  PopoverTrigger,
+  PopoverTriggerButton,
 } from '@/components/ui/popover'
 
 const THEME_STORAGE_KEY = 'splat-theme'
@@ -629,13 +631,9 @@ export default function Home() {
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
                       <Dialog>
-                        <DialogTrigger
-                          render={
-                            <Button variant="yellow" theme="dark-yellow">
-                              Open Yellow Dialog
-                            </Button>
-                          }
-                        />
+                        <DialogTriggerButton variant="yellow" theme="dark-yellow">
+                          Open Yellow Dialog
+                        </DialogTriggerButton>
                         <DialogContent surface="paper" hasTape={true} tapeText="ALERT!" tapeColor="yellow">
                           <DialogHeader>
                             <DialogTitle>Splatfest Incoming!</DialogTitle>
@@ -664,13 +662,9 @@ export default function Home() {
                       </Dialog>
 
                       <Dialog>
-                        <DialogTrigger
-                          render={
-                            <Button variant="blue" theme="light-blue">
-                              Open Blue Dialog
-                            </Button>
-                          }
-                        />
+                        <DialogTriggerButton variant="blue" theme="light-blue">
+                          Open Blue Dialog
+                        </DialogTriggerButton>
                         <DialogContent surface="cream" hasTape={true} tapeText="EVENT INFO" tapeColor="blue" tapePosition="event">
                           <DialogHeader>
                             <DialogTitle>Big Run Event</DialogTitle>
@@ -700,13 +694,9 @@ export default function Home() {
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
                       <Dialog>
-                        <DialogTrigger
-                          render={
-                            <Button variant="destructive" theme="light-red">
-                              Open Danger Dialog
-                            </Button>
-                          }
-                        />
+                        <DialogTriggerButton variant="destructive" theme="light-red">
+                          Open Danger Dialog
+                        </DialogTriggerButton>
                         <DialogContent surface="danger" hasTape={true} tapeText="DANGER!" tapeColor="red">
                           <DialogHeader>
                             <DialogTitle className="text-white">Connection Lost</DialogTitle>
@@ -724,13 +714,9 @@ export default function Home() {
                       </Dialog>
 
                       <Sheet>
-                        <SheetTrigger
-                          render={
-                            <Button variant="green" theme="light-green">
-                              Open Right Drawer
-                            </Button>
-                          }
-                        />
+                        <SheetTriggerButton variant="green" theme="light-green">
+                          Open Right Drawer
+                        </SheetTriggerButton>
                         <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black border-l-[3px] border-chaos-black">
                           <SheetHeader>
                             <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
@@ -763,13 +749,9 @@ export default function Home() {
                       </Sheet>
 
                       <Popover>
-                        <PopoverTrigger
-                          render={
-                            <Button variant="outline" theme="yellow">
-                              Open Popover
-                            </Button>
-                          }
-                        />
+                        <PopoverTriggerButton variant="outline" theme="yellow">
+                          Open Popover
+                        </PopoverTriggerButton>
                         <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs border-2 border-chaos-black bg-white p-4 pt-6 text-chaos-black">
                           <PopoverHeader>
                             <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>
@@ -789,6 +771,62 @@ export default function Home() {
               </TabsContent>
             </Tabs>
           </div>
+        </div>
+      </section>
+
+      {/* Slanted Transition Divider 3: Components to Gallery Section */}
+      <div className="w-full relative z-20 bg-white dark:bg-[#0d0d0d]">
+        <Divider variant="wave" color="custom" customColor="#603bff" />
+      </div>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 4: GALLERY CAROUSEL
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-[#603bff] text-white py-16 px-6 flex flex-col items-center relative z-10 overflow-hidden">
+        {/* Full height ripped borders */}
+        <Divider variant="rip-left" color="custom" customColor="#0d0d0d" className="opacity-20 hidden md:block" />
+        <Divider variant="rip-right" color="custom" customColor="#0d0d0d" className="opacity-20 hidden md:block" />
+        
+        <div className="w-full max-w-5xl space-y-12 relative z-20">
+          <div className="text-center pb-4 border-b-4 border-dashed border-white/20">
+            <h2 className="text-4xl font-black uppercase tracking-wider text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
+              4. 3D Splat Gallery
+            </h2>
+            <p className="text-sm font-medium text-white/80 mt-2">
+              Swipe or click to navigate through the overlapping Z-index carousel.
+            </p>
+          </div>
+
+          <Carousel initialIndex={2}>
+            <CarouselContent>
+              {[1, 2, 3, 4, 5, 6].map((item) => (
+                <CarouselItem key={item}>
+                  <Card 
+                    variant="news" 
+                    hasTape 
+                    tapeColor={item % 2 === 0 ? "yellow" : "blue"} 
+                    tapePosition={item % 2 === 0 ? "news" : "event"}
+                    tapeText={`SNAP 0${item}`} 
+                    className="h-[420px]"
+                  >
+                    <CardImage className="bg-chaos-black flex items-center justify-center p-3">
+                      <div className="w-full h-full bg-[#f5f0e8] flex items-center justify-center border-[3px] border-chaos-black overflow-hidden relative">
+                        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "repeating-linear-gradient(45deg, #000 0, #000 2px, transparent 2px, transparent 8px)" }} />
+                        <span className="font-heading text-6xl font-black text-chaos-black opacity-40">IMG_{item}</span>
+                      </div>
+                    </CardImage>
+                    <CardContent className="flex flex-col items-center justify-center py-5 text-center">
+                      <p className="text-xl font-black uppercase text-chaos-black">Battle Record #{item}</p>
+                      <p className="text-sm font-bold text-chaos-black/60 mt-1">Splatlands Region</p>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+            <CarouselIndicators />
+          </Carousel>
         </div>
       </section>
 
