@@ -1,10 +1,11 @@
-.dripRoot[data-drip-hovered='true'] .dripHoverContent {
+.dripRoot[data-drip-state='entering'] .dripHoverContent,
+.dripRoot[data-drip-state='entered'] .dripHoverContent,
+.dripRoot[data-drip-state='leaving'] .dripHoverContent {
   opacity: 1;
 }
 
 .dripHoverContent {
-  animation: splat-drip-leave calc(1.8s * var(--drip-speed-factor)) cubic-bezier(0.77, 0, 0.175, 1)
-    forwards;
+  animation: splat-drip-leave calc(1.8s * var(--drip-speed-factor)) ease forwards;
   animation-fill-mode: forwards;
   background-color: var(--hover-bg-color);
   clip-path: var(--drip-out-start);
@@ -24,11 +25,17 @@
   position: absolute;
 }
 
-@media (hover: hover) {
-  .dripRoot:hover .dripHoverContent {
-    animation: splat-drip-enter calc(1.8s * var(--drip-speed-factor))
-      cubic-bezier(0.77, 0, 0.175, 1) forwards;
-  }
+.dripRoot[data-drip-state='entering'] .dripHoverContent {
+  animation: splat-drip-enter calc(1.8s * var(--drip-speed-factor)) ease forwards;
+}
+
+.dripRoot[data-drip-state='entered'] .dripHoverContent {
+  animation: none;
+  clip-path: var(--drip-in-end);
+}
+
+.dripRoot[data-drip-state='leaving'] .dripHoverContent {
+  animation: splat-drip-leave calc(1.8s * var(--drip-speed-factor)) ease forwards;
 }
 
 @keyframes splat-drip-enter {

@@ -68,6 +68,8 @@ interface DripControlPoint {
   y2: number // enter amplitude offset
 }
 
+type DripAnimationState = "idle" | "entering" | "entered" | "leaving"
+
 type OfficialButtonTheme =
   | "dark"
   | "light"
@@ -309,7 +311,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const [dimensions, setDimensions] = React.useState({ width: 100, height: 50 })
     const [controlPoints, setControlPoints] = React.useState<DripControlPoint[]>([])
     const [speedFactorActive, setSpeedFactorActive] = React.useState(false)
-    const [hovered, setHovered] = React.useState(false)
+    const [dripAnimationState, setDripAnimationState] = React.useState<DripAnimationState>("idle")
+    const pendingDripLeaveRef = React.useRef(false)
 
     const stepSize = 30
     const maxAmplitude = 80
@@ -353,7 +356,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     }, [])
 
     // Path generation function corresponding to the official F(index, isOut)
-    const getDripPath = (index: number, isOut: boolean) => {
+    const getDripPath = React.useCallback((index: number, isOut: boolean) => {
       if (!dimensions.width || !dimensions.height || controlPoints.length === 0) return ""
 
       const r = index === 0 ? -8 : dimensions.height + maxAmplitude
@@ -373,7 +376,55 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
       path += "Z"
       return path
-    }
+    }, [controlPoints, dimensions.height, dimensions.width])
+
+    const dripPaths = React.useMemo(() => {
+      if (!mounted || dimensions.width <= 0) return null
+
+      return {
+        inStart: getDripPath(0, false),
+        inEnd: getDripPath(1, false),
+        outStart: getDripPath(0, true),
+        outEnd: getDripPath(1, true),
+      }
+    }, [dimensions.width, getDripPath, mounted])
+
+    const startDripEnter = React.useCallback(() => {
+      if (!hasDrip) return
+
+      pendingDripLeaveRef.current = false
+      setDripAnimationState("entering")
+    }, [hasDrip])
+
+    const startDripLeave = React.useCallback(() => {
+      if (!hasDrip) return
+
+      setDripAnimationState((current) => {
+        if (current === "entering") {
+          pendingDripLeaveRef.current = true
+          return current
+        }
+
+        return current === "idle" ? current : "leaving"
+      })
+    }, [hasDrip])
+
+    const handleDripAnimationEnd = React.useCallback(() => {
+      setDripAnimationState((current) => {
+        if (current === "entering") {
+          if (pendingDripLeaveRef.current) {
+            pendingDripLeaveRef.current = false
+            return "leaving"
+          }
+
+          return "entered"
+        }
+
+        if (current === "leaving") return "idle"
+
+        return current
+      })
+    }, [])
 
     const paddingKey = size
     const paddingClass = paddingKey && paddingKey in sizePaddingMap
@@ -421,14 +472,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         : {}),
     } as React.CSSProperties
 
-    const dripStyle = mounted && dimensions.width > 0
+    const dripStyle = dripPaths
       ? ({
           ...(hasDrip
             ? {
-                "--drip-in-start": `path("${getDripPath(0, false)}")`,
-                "--drip-in-end": `path("${getDripPath(1, false)}")`,
-                "--drip-out-start": `path("${getDripPath(0, true)}")`,
-                "--drip-out-end": `path("${getDripPath(1, true)}")`,
+                "--drip-in-start": `path("${dripPaths.inStart}")`,
+                "--drip-in-end": `path("${dripPaths.inEnd}")`,
+                "--drip-out-start": `path("${dripPaths.outStart}")`,
+                "--drip-out-end": `path("${dripPaths.outEnd}")`,
                 "--drip-speed-factor": speedFactorActive ? "1" : "0",
               }
             : {}),
@@ -462,7 +513,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         <Comp
         ref={setButtonRef}
         data-slot="button"
-        data-drip-hovered={hasDrip && hovered ? "true" : undefined}
+        data-drip-state={hasDrip ? dripAnimationState : undefined}
         style={dripStyle ? ({ ...colorStyle, ...dripStyle } as React.CSSProperties) : colorStyle}
         className={cn(
           variant === "arrow"
@@ -475,17 +526,20 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         onClick={(event) => {
           if (hasDrip) {
-            setHovered(true)
+            startDripEnter()
           }
           onClick?.(event as ButtonClickEvent)
         }}
         onMouseEnter={(event: ButtonMouseEnterEvent) => {
           if (hasDrip) {
-            setHovered(true)
+            startDripEnter()
           }
           onMouseEnter?.(event)
         }}
         onMouseLeave={(event: ButtonMouseLeaveEvent) => {
+          if (hasDrip) {
+            startDripLeave()
+          }
           onMouseLeave?.(event)
         }}
         {...props}
@@ -496,6 +550,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {/* Official structure: overlay sits above a square base layer; the root provides the corner clip. */}
               <span
                 aria-hidden="true"
+                onAnimationEnd={handleDripAnimationEnd}
                 className={cn(
                   "absolute left-0 top-0 z-20 flex h-full w-full items-center justify-center rounded-[8px] text-[var(--hover-text-color)]",
                   styles.dripHoverContent,
@@ -533,6 +588,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {/* Pure Drip Liquid Background Mask Layer */}
               <span
                 aria-hidden="true"
+                onAnimationEnd={handleDripAnimationEnd}
                 className={cn(
                   "absolute left-0 top-0 z-20 h-full w-full rounded-[8px]",
                   styles.dripHoverContent
