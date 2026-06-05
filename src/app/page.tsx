@@ -341,9 +341,7 @@ export default function Home() {
                   variant={reducedMotion ? "destructive" : "yellow"}
                   size="sm"
                   onClick={() => setReducedMotion(!reducedMotion)}
-                  textColor="black"
-                  hoverColor={reducedMotion ? "green" : "blue"}
-                  textHoverColor="white"
+                  theme={reducedMotion ? "light-red" : "dark-yellow"}
                   className="min-w-[80px]"
                 >
                   {reducedMotion ? "ON" : "OFF"}
@@ -402,7 +400,7 @@ export default function Home() {
                   </p>
                 </CardContent>
                 <CardFooter className="justify-center border-none mt-0">
-                  <Button variant="blue" size="sm" textColor="white" hoverColor="yellow" textHoverColor="black">
+                  <Button variant="blue" size="sm" theme="light-blue">
                     Equip Now
                   </Button>
                 </CardFooter>
@@ -424,7 +422,7 @@ export default function Home() {
                   </p>
                 </CardContent>
                 <CardFooter className="justify-center border-none mt-0">
-                  <Button variant="yellow" size="sm" textColor="black" hoverColor="blue" textHoverColor="white">
+                  <Button variant="yellow" size="sm" theme="dark-yellow">
                     Ink Up
                   </Button>
                 </CardFooter>
@@ -446,7 +444,7 @@ export default function Home() {
                   </p>
                 </CardContent>
                 <CardFooter className="justify-center border-none mt-0">
-                  <Button variant="green" size="sm" textColor="black" hoverColor="red" textHoverColor="black">
+                  <Button variant="green" size="sm" theme="light-green">
                     Travel
                   </Button>
                 </CardFooter>
@@ -486,13 +484,13 @@ export default function Home() {
                       <CardDescription>Featuring liquid-fill math & bouncy rotational physics</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-4 pt-2">
-                      <Button variant="yellow" textColor="black" hoverColor="blue" textHoverColor="white">Yellow</Button>
-                      <Button variant="blue" textColor="yellow" hoverColor="yellow" textHoverColor="blue">Blue</Button>
-                      <Button variant="green" textColor="black" hoverColor="red" textHoverColor="black">Green</Button>
-                      <Button variant="orange" textColor="black" hoverColor="purple" textHoverColor="black">Orange</Button>
-                      <Button variant="purple" textColor="black" hoverColor="blue" textHoverColor="white">Purple</Button>
-                      <Button variant="destructive" textColor="black" hoverColor="green" textHoverColor="white">Alert</Button>
-                      <Button variant="outline" textColor="black" hoverColor="yellow" textHoverColor="black">
+                      <Button variant="yellow" theme="dark-yellow">Yellow</Button>
+                      <Button variant="blue" theme="light-blue">Blue</Button>
+                      <Button variant="green" theme="light-green">Green</Button>
+                      <Button variant="orange" theme="dark-purpleOrange">Orange</Button>
+                      <Button variant="purple" theme="dark-purple">Purple</Button>
+                      <Button variant="destructive" theme="light-red">Alert</Button>
+                      <Button variant="outline" theme="yellow">
                         Outline
                       </Button>
                       <Button variant="ghost">Ghost</Button>
@@ -632,7 +630,7 @@ export default function Home() {
                       <Dialog>
                         <DialogTrigger
                           render={
-                            <Button variant="yellow" textColor="black" hoverColor="blue" textHoverColor="white">
+                            <Button variant="yellow" theme="dark-yellow">
                               Open Yellow Dialog
                             </Button>
                           }
@@ -647,13 +645,13 @@ export default function Home() {
                           <div className="py-4">
                             <p className="font-bold text-chaos-black/80">Choose your side:</p>
                             <div className="flex gap-3 mt-2">
-                              <Button size="sm" variant="blue" textColor="white" hoverColor="yellow" textHoverColor="black">
+                              <Button size="sm" variant="blue" theme="light-blue">
                                 Team Water
                               </Button>
-                              <Button size="sm" variant="orange" textColor="black" hoverColor="purple" textHoverColor="black">
+                              <Button size="sm" variant="orange" theme="dark-purpleOrange">
                                 Team Fire
                               </Button>
-                              <Button size="sm" variant="green" textColor="black" hoverColor="red" textHoverColor="black">
+                              <Button size="sm" variant="green" theme="light-green">
                                 Team Grass
                               </Button>
                             </div>
@@ -667,7 +665,7 @@ export default function Home() {
                       <Dialog>
                         <DialogTrigger
                           render={
-                            <Button variant="blue" textColor="white" hoverColor="yellow" textHoverColor="black">
+                            <Button variant="blue" theme="light-blue">
                               Open Blue Dialog
                             </Button>
                           }
@@ -703,7 +701,7 @@ export default function Home() {
                       <Dialog>
                         <DialogTrigger
                           render={
-                            <Button variant="destructive" textColor="black" hoverColor="green" textHoverColor="white">
+                            <Button variant="destructive" theme="light-red">
                               Open Danger Dialog
                             </Button>
                           }
@@ -727,7 +725,7 @@ export default function Home() {
                       <Sheet>
                         <SheetTrigger
                           render={
-                            <Button variant="green" textColor="black" hoverColor="red" textHoverColor="black">
+                            <Button variant="green" theme="light-green">
                               Open Right Drawer
                             </Button>
                           }
@@ -756,7 +754,7 @@ export default function Home() {
                             </div>
                           </div>
                           <SheetFooter>
-                            <Button size="sm" variant="yellow" textColor="black" hoverColor="blue" textHoverColor="white">
+                            <Button size="sm" variant="yellow" theme="dark-yellow">
                               Refresh Data
                             </Button>
                           </SheetFooter>
@@ -766,7 +764,7 @@ export default function Home() {
                       <Popover>
                         <PopoverTrigger
                           render={
-                            <Button variant="outline" textColor="black" hoverColor="yellow" textHoverColor="black">
+                            <Button variant="outline" theme="yellow">
                               Open Popover
                             </Button>
                           }
