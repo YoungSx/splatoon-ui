@@ -25,6 +25,7 @@ import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter } from '@/components/ui/splats'
 import { NewsCarousel } from '@/components/ui/news-carousel'
 import { Divider } from '@/components/ui/divider'
+import { Progress } from '@/components/ui/progress'
 import {
   Dialog,
   DialogContent,
@@ -807,6 +808,67 @@ export default function Home() {
           </div>
 
           <NewsCarousel initialIndex={2} items={homepageNewsCarouselItems} />
+        </div>
+      </section>
+
+      {/* Slanted Transition Divider 4: Gallery to Progress Section */}
+      <div className="w-full relative z-20 bg-[#603bff]">
+        <Divider variant="wave" color="custom" customColor="#1e1b15" direction="down" />
+      </div>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 5: INK PROGRESS BAR
+         ──────────────────────────────────────────────────────── */}
+      <section
+        className="relative z-10 flex flex-col items-center overflow-hidden px-6 py-16 text-white"
+        style={{ backgroundColor: "#1e1b15" }}
+      >
+        <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "48rem" }}>
+          <div className="text-center pb-4 border-b-4 border-dashed border-white/10">
+            <h2
+              className="text-4xl font-black uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]"
+              style={{ color: "#11d87a" }}
+            >
+              5. Ink Progress Bar
+            </h2>
+            <p className="text-sm font-medium text-white/60 mt-2">
+              SplatNet 3 style liquid physics with velocity-based splatter morphing.
+            </p>
+          </div>
+
+          <div className="space-y-12">
+            <div className="space-y-4">
+              <div className="flex justify-between items-end px-2">
+                <h3 className="text-lg font-black uppercase text-white/80">Catalog Level 24</h3>
+                <span className="text-sm font-bold" style={{ color: "#e3ff00" }}>75 / 100</span>
+              </div>
+              <Progress value={75} variant="yellow" trackVariant="dark" />
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-end px-2">
+                <h3 className="text-lg font-black uppercase text-white/80">Turf War Coverage</h3>
+                <span className="text-sm font-bold" style={{ color: "#4100ff" }}>45.2%</span>
+              </div>
+              <Progress value={45} variant="blue" trackVariant="dark" size="lg" />
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex justify-between items-end px-2">
+                <h3 className="text-lg font-black uppercase text-white/80">Rank Reset</h3>
+                <span className="text-sm font-bold" style={{ color: "#e60012" }}>10%</span>
+              </div>
+              <Progress value={10} variant="red" trackVariant="transparent" />
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex justify-between items-end px-2">
+                <h3 className="text-lg font-black uppercase text-white/80">Splatfest Team Ink</h3>
+                <span className="text-sm font-bold" style={{ color: "#11d87a" }}>92%</span>
+              </div>
+              <Progress value={92} variant="green" trackVariant="light" />
+            </div>
+          </div>
         </div>
       </section>
 
