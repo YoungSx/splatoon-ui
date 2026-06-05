@@ -23,7 +23,7 @@ export const cardStackPhysicsTuning = {
   // Advanced/model-scale tuning below this line. Change these only when you want to alter solver scale or lock behavior.
   // Simulation scale factor that maps 1 meter in the model to this many CSS pixels.
   // Increase: stronger effective gravity/drive in pixel space. Decrease: softer, slower response.
-  simulationPixelsPerMeter: 1000,
+  simulationPixelsPerMeter: 5000,
   // Mass-independent dry friction torque at the pivot. This creates a true lock zone even with zero load.
   // Increase: easier small-angle lock/stick, stronger dead-zone feel. Decrease: less tendency to freeze off-center.
   pivotConstantFrictionTorqueKgPx2PerSecondSquared: 0,
