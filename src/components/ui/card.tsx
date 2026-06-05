@@ -7,38 +7,18 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Tape, Staple } from "./tape"
 
-type DecorativeImageFallbackProps = {
-  src: string
-  alt?: string
-  className?: string
-  fallback: React.ReactNode
-}
-
-function DecorativeImageFallback({
-  src,
-  alt = "",
-  className,
-  fallback,
-}: DecorativeImageFallbackProps) {
-  const [failed, setFailed] = React.useState(false)
-
-  if (failed) {
-    return fallback
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      className={className}
-      loading="eager"
-      onError={() => setFailed(true)}
-    />
-  )
-}
-
 // CardContext for variant-sharing among sub-components (like CardImage)
-const CardContext = React.createContext<{ variant?: "news" | "tag"; surface?: "paper" | "cream" | "danger" }>({
+type PaperCardVariant = "news" | "gallery"
+type PaperLabelColor = "yellow" | "red" | "blue" | "green"
+type PaperLabelPlacement = "left" | "right"
+
+interface PaperLabelConfig {
+  text?: string
+  color?: PaperLabelColor
+  placement?: PaperLabelPlacement
+}
+
+const CardContext = React.createContext<{ variant?: PaperCardVariant | "tag"; surface?: "paper" | "cream" | "danger" }>({
   variant: "news",
   surface: "paper",
 })
@@ -66,13 +46,9 @@ const newsSurfaceFillMap = {
 
 export interface CardProps extends React.ComponentProps<"div"> {
   asChild?: boolean
-  variant?: "news" | "tag"
-  // For news variant
-  hasStaples?: boolean
-  hasTape?: boolean
-  tapeText?: string
-  tapeColor?: "yellow" | "red" | "blue" | "green"
-  tapePosition?: "news" | "event"
+  variant?: PaperCardVariant | "tag"
+  paperFasteners?: boolean
+  paperLabel?: PaperLabelConfig
   surface?: NewsSurface
   // For tag variant
   tagTheme?: "yellow" | "blue" | "purple" | "orange" | "green"
@@ -87,18 +63,120 @@ const tagThemeMap = {
   green: "text-[#6af7ce] text-[#0d0d0d]",
 }
 
+interface PaperCardFrameProps {
+  asChild?: boolean
+  className?: string
+  dataVariant: PaperCardVariant
+  surface: NewsSurface
+  paperLabel?: PaperLabelConfig
+  paperFasteners: boolean
+  children: React.ReactNode
+  forwardedRef?: React.ForwardedRef<HTMLDivElement>
+  props?: Omit<React.ComponentProps<"div">, "children" | "className">
+}
+
+function PaperCardFrame({
+  asChild = false,
+  className,
+  dataVariant,
+  surface,
+  paperLabel,
+  paperFasteners,
+  children,
+  forwardedRef,
+  props,
+}: PaperCardFrameProps) {
+  const Comp = asChild ? Slot : "div"
+  const svgFills = newsSurfaceFillMap[surface]
+
+  const cardStyle = {
+    "--card-svg-fill": svgFills.light,
+    "--card-svg-fill-dark": svgFills.dark,
+  } as React.CSSProperties
+
+  return (
+    <Comp
+      ref={forwardedRef}
+      data-slot="card"
+      data-variant={dataVariant}
+      style={cardStyle}
+      className={cn(
+        "group/card relative flex h-full flex-col cursor-pointer transition-transform duration-300 [transition-timing-function:var(--ease-in-out-quart)]",
+        className
+      )}
+      {...props}
+    >
+      <svg
+        aria-hidden="true"
+        className="relative z-10 mb-[-2px] w-full pointer-events-none select-none"
+        style={{ fill: "var(--card-svg-fill)" }}
+        viewBox="0 0 448 60"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M253.96 23.774a4.711 4.711 0 0 1-4.693 4.328h-49.535c-.131 0-.255-.027-.384-.038-2.431-.198-4.348-2.205-4.348-4.68a4.724 4.724 0 0 1 4.732-4.716h18.204c-.006-.106-.017-.21-.017-.315 0-3.452 2.808-6.25 6.27-6.25h.62a6.26 6.26 0 0 1 5.038 2.54 6.194 6.194 0 0 1 1.233 3.71c0 .106-.01.21-.016.315H249.267c2.614 0 4.733 2.111 4.733 4.717 0 .133-.029.258-.04.389M53.446.102H9.693C4.34.102 0 4.437 0 9.782v50.044h448V9.783c0-5.346-4.338-9.68-9.693-9.68H53.445Z"
+          fillRule="evenodd"
+        />
+      </svg>
+
+      <div className={cn(newsSurfaceVariants({ surface }))}>
+        {paperLabel && (
+          <Tape
+            variant="torn"
+            color={paperLabel.color ?? "yellow"}
+            text={paperLabel.text ?? "NEWS!"}
+            className={cn(
+              "absolute z-30 select-none pointer-events-none w-[45%] max-w-[150px]",
+              (paperLabel.placement ?? "left") === "left"
+                ? "left-0 top-0 origin-center [transform:translate(10%,-130%)_rotate(-10deg)]"
+                : "right-0 top-0 origin-center [transform:translate(-10%,-130%)_rotate(10deg)]"
+            )}
+          />
+        )}
+        {paperFasteners && (
+          <Staple
+            position="left"
+            className="pointer-events-none absolute bottom-0 left-[20px] z-30 w-[20%] max-w-[140px] select-none"
+          />
+        )}
+        {paperFasteners && (
+          <Staple
+            position="right"
+            className="pointer-events-none absolute bottom-0 right-[20px] z-30 w-[10%] max-w-[90px] select-none"
+          />
+        )}
+
+        <div className="relative flex h-full w-full flex-col gap-0">
+          {children}
+        </div>
+      </div>
+
+      <svg
+        aria-hidden="true"
+        className="relative z-10 mt-[-2px] w-full pointer-events-none select-none"
+        style={{ fill: "var(--card-svg-fill)" }}
+        viewBox="0 0 448 24"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M0 .826c0 9.527 5.976 17.64 14.378 20.862 2.49.955 5.184 1.5 8.01 1.5h403.223c4.635 0 8.94-1.407 12.514-3.816C444.082 15.354 448 8.548 448 .826H0Z"
+          fillRule="evenodd"
+        />
+      </svg>
+    </Comp>
+  )
+}
+
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
   (
     {
       className,
       asChild = false,
       variant = "news",
-      // For news
-      hasStaples = false,
-      hasTape = false,
-      tapeText = "NEWS!",
-      tapeColor = "yellow",
-      tapePosition = "news",
+      paperFasteners,
+      paperLabel,
       surface = "paper",
       // For tag
       tagTheme = "yellow",
@@ -109,8 +187,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     ref
   ) => {
     const Comp = asChild ? Slot : "div"
-    
-    
 
     // Tag Hanger Background SVG path
     const tagBgSvg = (
@@ -163,96 +239,24 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       )
     }
 
-    // Default: variant === "news" (Polaroid News style card)
-    
-
-    const svgFills = newsSurfaceFillMap[surface]
-
-    // Use CSS custom property on parent so SVG can inherit it
-    // The actual switching is done via a CSS variable that Tailwind's dark mode toggles
-    const cardStyle = {
-      // These two CSS vars are used by the SVG via light-dark() — each card has its own values
-      "--card-svg-fill": svgFills.light,
-      "--card-svg-fill-dark": svgFills.dark,
-    } as React.CSSProperties
+    // Officially, homepage news cards and gallery placards are related paper surfaces,
+    // but not the same semantic module. Keep their top-level variants separate while
+    // reusing the same paper shell implementation.
 
     return (
       <CardContext.Provider value={{ variant, surface }}>
-        <Comp
-          ref={ref}
-          data-slot="card"
-          data-variant="news"
-          style={cardStyle}
-          className={cn(
-            "group/card relative flex h-full flex-col cursor-pointer transition-transform duration-300 [transition-timing-function:var(--ease-in-out-quart)]",
-            className
-          )}
-          {...props}
+        <PaperCardFrame
+          asChild={asChild}
+          className={className}
+          dataVariant={variant}
+          surface={surface}
+          paperLabel={paperLabel}
+          paperFasteners={paperFasteners ?? false}
+          forwardedRef={ref}
+          props={props}
         >
-          {/* Top Paper Tear SVG — fill via CSS vars per card (dark mode aware) */}
-          <svg
-            aria-hidden="true"
-            className="relative z-10 mb-[-2px] w-full pointer-events-none select-none"
-            style={{ fill: "var(--card-svg-fill)" }}
-            viewBox="0 0 448 60"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M253.96 23.774a4.711 4.711 0 0 1-4.693 4.328h-49.535c-.131 0-.255-.027-.384-.038-2.431-.198-4.348-2.205-4.348-4.68a4.724 4.724 0 0 1 4.732-4.716h18.204c-.006-.106-.017-.21-.017-.315 0-3.452 2.808-6.25 6.27-6.25h.62a6.26 6.26 0 0 1 5.038 2.54 6.194 6.194 0 0 1 1.233 3.71c0 .106-.01.21-.016.315H249.267c2.614 0 4.733 2.111 4.733 4.717 0 .133-.029.258-.04.389M53.446.102H9.693C4.34.102 0 4.437 0 9.782v50.044h448V9.783c0-5.346-4.338-9.68-9.693-9.68H53.445Z"
-              fillRule="evenodd"
-            />
-          </svg>
-
-          {/* Card Layout Content Area */}
-          <div className={cn(newsSurfaceVariants({ surface }))}>
-            {hasTape && (
-              <Tape
-                variant="torn"
-                color={tapeColor}
-                text={tapeText}
-                className={cn(
-                  "absolute z-30 select-none pointer-events-none w-[45%] max-w-[150px]",
-                  tapePosition === "news"
-                    ? "left-0 top-0 origin-center [transform:translate(10%,-130%)_rotate(-10deg)]"
-                    : "right-0 top-0 origin-center [transform:translate(-10%,-130%)_rotate(10deg)]"
-                )}
-              />
-            )}
-            {hasStaples && (
-              <Staple
-                position="left"
-                className="pointer-events-none absolute bottom-0 left-[20px] z-30 w-[20%] max-w-[140px] select-none"
-              />
-            )}
-            {hasStaples && (
-              <Staple
-                position="right"
-                className="pointer-events-none absolute bottom-0 right-[20px] z-30 w-[10%] max-w-[90px] select-none"
-              />
-            )}
-            
-            {/* The rest of the children */}
-            <div className={cn("relative flex h-full w-full flex-col", variant === "news" ? "gap-0" : "gap-4")}>
-              {children}
-            </div>
-          </div>
-
-          {/* Bottom Paper Tear SVG — fill via CSS var to support dark mode */}
-          <svg
-            aria-hidden="true"
-            className="relative z-10 mt-[-2px] w-full pointer-events-none select-none"
-            style={{ fill: "var(--card-svg-fill)" }}
-            viewBox="0 0 448 24"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0 .826c0 9.527 5.976 17.64 14.378 20.862 2.49.955 5.184 1.5 8.01 1.5h403.223c4.635 0 8.94-1.407 12.514-3.816C444.082 15.354 448 8.548 448 .826H0Z"
-              fillRule="evenodd"
-            />
-          </svg>
-        </Comp>
+          {children}
+        </PaperCardFrame>
       </CardContext.Provider>
     )
   }

@@ -163,11 +163,8 @@ export default function Home() {
             {/* News Card 1: Default Sticker */}
             <Card
               variant="news"
-              hasTape={true}
-              tapeText="8W-157" // Official default brand marking
-              tapeColor="yellow"
-              tapePosition="news"
-              hasStaples={true}
+              paperLabel={{ text: "8W-157", color: "yellow", placement: "left" }}
+              paperFasteners
             >
               <CardImage className="bg-[#603bff] p-4 h-48 flex items-center justify-center">
                 <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#eaff3d] fill-current">
@@ -189,11 +186,8 @@ export default function Home() {
             {/* News Card 2: Custom Text Sticker (Blue) */}
             <Card
               variant="news"
-              hasTape={true}
-              tapeText="EVENT INFO"
-              tapeColor="blue"
-              tapePosition="event"
-              hasStaples={true}
+              paperLabel={{ text: "EVENT INFO", color: "blue", placement: "right" }}
+              paperFasteners
             >
               <CardImage className="bg-[#ff9750] p-4 h-48 flex items-center justify-center">
                 <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#603bff] fill-current">
@@ -217,11 +211,8 @@ export default function Home() {
             {/* News Card 3: Custom Danger Alert (Red Custom Bg) */}
             <Card
               variant="news"
-              hasTape={true}
-              tapeText="DANGER ALERT"
-              tapeColor="red"
-              tapePosition="news"
-              hasStaples={true}
+              paperLabel={{ text: "DANGER ALERT", color: "red", placement: "left" }}
+              paperFasteners
               surface="danger"
             >
               <CardImage className="bg-[#0d0d0d] p-4 h-48 flex items-center justify-center">
@@ -802,11 +793,12 @@ export default function Home() {
               {[1, 2, 3, 4, 5, 6].map((item) => (
                 <CarouselItem key={item}>
                   <Card 
-                    variant="news" 
-                    hasTape 
-                    tapeColor={item % 2 === 0 ? "yellow" : "blue"} 
-                    tapePosition={item % 2 === 0 ? "news" : "event"}
-                    tapeText={`SNAP 0${item}`} 
+                    variant="gallery" 
+                    paperLabel={{
+                      text: `SNAP 0${item}`,
+                      color: item % 2 === 0 ? "yellow" : "blue",
+                      placement: item % 2 === 0 ? "left" : "right",
+                    }}
                     className="h-[420px]"
                   >
                     <CardImage className="bg-chaos-black flex items-center justify-center p-3">
