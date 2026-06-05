@@ -11,10 +11,11 @@ export type CardSwingGeometry = {
   cardHeightPx: number
   hangerYPx: number
   pitchPx: number
+  cardMassKilograms: number
   centerDistancePx: number
-  inertiaOverMassPx2: number
-  restoringCoefficient: number
-  forcingCoefficient: number
+  momentOfInertiaKgPx2: number
+  restoringTorqueCoefficient: number
+  forcingTorqueCoefficient: number
 }
 
 export type CardStackCarouselSupportSnapshot = {
@@ -47,19 +48,22 @@ export function createCardSwingGeometry({
   hangerYPx,
   pitchPx,
 }: Pick<CardSwingGeometry, "cardWidthPx" | "cardHeightPx" | "hangerYPx" | "pitchPx">): CardSwingGeometry {
+  const cardMassKilograms = cardSwingPhysics.cardMassKilograms
   const centerDistancePx = Math.max(cardHeightPx / 2 - hangerYPx, 1)
   const inertiaOverMassPx2 =
     (cardWidthPx * cardWidthPx + cardHeightPx * cardHeightPx) / 12 + centerDistancePx * centerDistancePx
+  const momentOfInertiaKgPx2 = cardMassKilograms * inertiaOverMassPx2
 
   return {
     cardWidthPx,
     cardHeightPx,
     hangerYPx,
     pitchPx,
+    cardMassKilograms,
     centerDistancePx,
-    inertiaOverMassPx2,
-    restoringCoefficient: (gravityPxPerSecondSquared * centerDistancePx) / inertiaOverMassPx2,
-    forcingCoefficient: centerDistancePx / inertiaOverMassPx2,
+    momentOfInertiaKgPx2,
+    restoringTorqueCoefficient: cardMassKilograms * gravityPxPerSecondSquared * centerDistancePx,
+    forcingTorqueCoefficient: cardMassKilograms * centerDistancePx,
   }
 }
 
@@ -117,19 +121,27 @@ function resolveDriveAngularAcceleration(
   state: CardStackCarouselCardState,
   support: CardStackCarouselSupportSnapshot
 ) {
-  const gravityAngularAcceleration = -Math.sin(state.angle) * state.geometry.restoringCoefficient
-  const supportAngularAcceleration =
-    -Math.cos(state.angle) * state.geometry.forcingCoefficient * support.accelerationPxPerSecondSquared
+  const gravityTorque = -Math.sin(state.angle) * state.geometry.restoringTorqueCoefficient
+  const supportTorque =
+    -Math.cos(state.angle) * state.geometry.forcingTorqueCoefficient * support.accelerationPxPerSecondSquared
 
-  return gravityAngularAcceleration + supportAngularAcceleration
+  return (gravityTorque + supportTorque) / state.geometry.momentOfInertiaKgPx2
 }
 
 function resolveCoulombFrictionAngularAcceleration(state: CardStackCarouselCardState) {
-  return cardSwingPhysics.pivotCoulombFrictionSpecificTorquePx2PerSecondSquared / state.geometry.inertiaOverMassPx2
+  const frictionTorque =
+    cardSwingPhysics.pivotCoulombFrictionSpecificTorquePx2PerSecondSquared * state.geometry.cardMassKilograms
+
+  return frictionTorque / state.geometry.momentOfInertiaKgPx2
 }
 
 function resolveAirDragAngularAcceleration(state: CardStackCarouselCardState) {
-  return -cardSwingPhysics.airAngularDragCoefficientPerSecond * state.angularVelocity
+  const airDragTorque =
+    -cardSwingPhysics.airAngularDragCoefficientPerSecond *
+    state.geometry.momentOfInertiaKgPx2 *
+    state.angularVelocity
+
+  return airDragTorque / state.geometry.momentOfInertiaKgPx2
 }
 
 export function integrateCardState(

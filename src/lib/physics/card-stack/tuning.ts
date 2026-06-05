@@ -3,6 +3,7 @@
 export const cardStackPhysicsTuning = {
   simulationPixelsPerMeter: 1000,
   gravityMetersPerSecondSquared: 9.80665,
+  cardMassKilograms: 5,
   airAngularDragCoefficientPerSecond: 5,
   pivotCoulombFrictionSpecificTorquePx2PerSecondSquared: 5,
   angularVelocitySwitchEpsilon: 0.0005,
