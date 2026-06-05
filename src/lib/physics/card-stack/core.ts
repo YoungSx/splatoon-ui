@@ -52,7 +52,6 @@ export function createCardSwingGeometry({
   const centerDistancePx = Math.max(cardHeightPx / 2 - hangerYPx, 1)
   const inertiaOverMassPx2 =
     (cardWidthPx * cardWidthPx + cardHeightPx * cardHeightPx) / 12 + centerDistancePx * centerDistancePx
-  const momentOfInertiaKgPx2 = cardMassKilograms * inertiaOverMassPx2
 
   return {
     cardWidthPx,
@@ -61,7 +60,7 @@ export function createCardSwingGeometry({
     pitchPx,
     cardMassKilograms,
     centerDistancePx,
-    momentOfInertiaKgPx2,
+    momentOfInertiaKgPx2: cardMassKilograms * inertiaOverMassPx2,
     restoringTorqueCoefficient: cardMassKilograms * gravityPxPerSecondSquared * centerDistancePx,
     forcingTorqueCoefficient: cardMassKilograms * centerDistancePx,
   }
@@ -128,20 +127,46 @@ function resolveDriveAngularAcceleration(
   return (gravityTorque + supportTorque) / state.geometry.momentOfInertiaKgPx2
 }
 
-function resolveCoulombFrictionAngularAcceleration(state: CardStackCarouselCardState) {
-  const frictionTorque =
-    cardSwingPhysics.pivotCoulombFrictionSpecificTorquePx2PerSecondSquared * state.geometry.cardMassKilograms
+function resolvePivotRadialLoadForce(
+  state: CardStackCarouselCardState,
+  support: CardStackCarouselSupportSnapshot
+) {
+  const effectiveSupportFieldPxPerSecondSquared = Math.hypot(
+    gravityPxPerSecondSquared,
+    support.accelerationPxPerSecondSquared
+  )
 
-  return frictionTorque / state.geometry.momentOfInertiaKgPx2
+  return state.geometry.cardMassKilograms * effectiveSupportFieldPxPerSecondSquared
+}
+
+function resolvePivotCoulombFrictionTorque(
+  state: CardStackCarouselCardState,
+  support: CardStackCarouselSupportSnapshot
+) {
+  const loadFrictionTorque =
+    cardSwingPhysics.pivotLoadFrictionTorquePerUnitNormalPx * resolvePivotRadialLoadForce(state, support)
+
+  return cardSwingPhysics.pivotConstantFrictionTorqueKgPx2PerSecondSquared + loadFrictionTorque
+}
+
+function resolvePivotCoulombFrictionAngularAcceleration(
+  state: CardStackCarouselCardState,
+  support: CardStackCarouselSupportSnapshot
+) {
+  return resolvePivotCoulombFrictionTorque(state, support) / state.geometry.momentOfInertiaKgPx2
 }
 
 function resolveAirDragAngularAcceleration(state: CardStackCarouselCardState) {
-  const airDragTorque =
-    -cardSwingPhysics.airAngularDragCoefficientPerSecond *
-    state.geometry.momentOfInertiaKgPx2 *
-    state.angularVelocity
+  const airDragTorque = -cardSwingPhysics.airAngularDragTorqueCoefficientKgPx2PerSecond * state.angularVelocity
 
   return airDragTorque / state.geometry.momentOfInertiaKgPx2
+}
+
+function resolvePivotViscousFrictionAngularAcceleration(state: CardStackCarouselCardState) {
+  const pivotViscousFrictionTorque =
+    -cardSwingPhysics.pivotViscousFrictionTorqueCoefficientKgPx2PerSecond * state.angularVelocity
+
+  return pivotViscousFrictionTorque / state.geometry.momentOfInertiaKgPx2
 }
 
 export function integrateCardState(
@@ -154,27 +179,29 @@ export function integrateCardState(
 
   const driveAngularAcceleration = resolveDriveAngularAcceleration(state, support)
   const airDragAngularAcceleration = resolveAirDragAngularAcceleration(state)
-  const frictionAngularAcceleration = resolveCoulombFrictionAngularAcceleration(state)
+  const pivotViscousFrictionAngularAcceleration = resolvePivotViscousFrictionAngularAcceleration(state)
+  const pivotCoulombFrictionAngularAcceleration = resolvePivotCoulombFrictionAngularAcceleration(state, support)
   const isEffectivelyStill = Math.abs(state.angularVelocity) <= cardSwingPhysics.angularVelocitySwitchEpsilon
 
-  let netAngularAcceleration = driveAngularAcceleration + airDragAngularAcceleration
+  let netAngularAcceleration =
+    driveAngularAcceleration + airDragAngularAcceleration + pivotViscousFrictionAngularAcceleration
 
   if (isEffectivelyStill) {
-    if (Math.abs(driveAngularAcceleration) <= frictionAngularAcceleration) {
+    if (Math.abs(driveAngularAcceleration) <= pivotCoulombFrictionAngularAcceleration) {
       state.angularVelocity = 0
       return false
     }
 
-    netAngularAcceleration -= frictionAngularAcceleration * Math.sign(driveAngularAcceleration)
+    netAngularAcceleration -= pivotCoulombFrictionAngularAcceleration * Math.sign(driveAngularAcceleration)
   } else {
-    netAngularAcceleration -= frictionAngularAcceleration * Math.sign(state.angularVelocity)
+    netAngularAcceleration -= pivotCoulombFrictionAngularAcceleration * Math.sign(state.angularVelocity)
   }
 
   const nextAngularVelocity = state.angularVelocity + netAngularAcceleration * dt
   const crossedZeroWhileFrictionDominated =
     Math.sign(state.angularVelocity) !== 0 &&
     Math.sign(nextAngularVelocity) !== Math.sign(state.angularVelocity) &&
-    Math.abs(driveAngularAcceleration) <= frictionAngularAcceleration
+    Math.abs(driveAngularAcceleration) <= pivotCoulombFrictionAngularAcceleration
 
   state.angularVelocity = crossedZeroWhileFrictionDominated ? 0 : nextAngularVelocity
   state.angle += state.angularVelocity * dt
