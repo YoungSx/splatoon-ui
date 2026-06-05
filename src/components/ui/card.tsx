@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 import { Tape, Staple } from "./tape"
 
 // CardContext for variant-sharing among sub-components (like CardImage)
-type PaperCardVariant = "news" | "gallery"
+type CardVariant = "news" | "tag"
 type PaperLabelColor = "yellow" | "red" | "blue" | "green"
 type PaperLabelPlacement = "left" | "right"
 
@@ -18,7 +18,7 @@ interface PaperLabelConfig {
   placement?: PaperLabelPlacement
 }
 
-const CardContext = React.createContext<{ variant?: PaperCardVariant | "tag"; surface?: "paper" | "cream" | "danger" }>({
+const CardContext = React.createContext<{ variant?: CardVariant; surface?: "paper" | "cream" | "danger" }>({
   variant: "news",
   surface: "paper",
 })
@@ -46,7 +46,7 @@ const newsSurfaceFillMap = {
 
 export interface CardProps extends React.ComponentProps<"div"> {
   asChild?: boolean
-  variant?: PaperCardVariant | "tag"
+  variant?: CardVariant
   paperFasteners?: boolean
   paperLabel?: PaperLabelConfig
   surface?: NewsSurface
@@ -66,13 +66,22 @@ const tagThemeMap = {
 interface PaperCardFrameProps {
   asChild?: boolean
   className?: string
-  dataVariant: PaperCardVariant
+  dataVariant: "news"
   surface: NewsSurface
   paperLabel?: PaperLabelConfig
   paperFasteners: boolean
   children: React.ReactNode
   forwardedRef?: React.ForwardedRef<HTMLDivElement>
   props?: Omit<React.ComponentProps<"div">, "children" | "className">
+}
+
+export interface NewsCardProps extends Omit<CardProps, "children" | "variant" | "title"> {
+  media: React.ReactNode
+  mediaClassName?: string
+  bodyClassName?: string
+  title: React.ReactNode
+  titleClassName?: string
+  action?: React.ReactNode
 }
 
 function PaperCardFrame({
@@ -239,16 +248,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       )
     }
 
-    // Officially, homepage news cards and gallery placards are related paper surfaces,
-    // but not the same semantic module. Keep their top-level variants separate while
-    // reusing the same paper shell implementation.
-
     return (
       <CardContext.Provider value={{ variant, surface }}>
         <PaperCardFrame
           asChild={asChild}
           className={className}
-          dataVariant={variant}
+          dataVariant="news"
           surface={surface}
           paperLabel={paperLabel}
           paperFasteners={paperFasteners ?? false}
@@ -262,6 +267,36 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
   }
 )
 Card.displayName = "Card"
+
+function NewsCard({
+  media,
+  mediaClassName,
+  bodyClassName,
+  title,
+  titleClassName,
+  action,
+  paperFasteners = true,
+  paperLabel,
+  surface = "paper",
+  className,
+  ...props
+}: NewsCardProps) {
+  return (
+    <Card
+      className={className}
+      paperFasteners={paperFasteners}
+      paperLabel={paperLabel}
+      surface={surface}
+      {...props}
+    >
+      <CardImage className={cn("h-48 p-4 flex items-center justify-center", mediaClassName)}>{media}</CardImage>
+      <div className={cn("flex h-full flex-col items-center justify-center gap-2 py-4 text-center", bodyClassName)}>
+        <p className={cn("max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]", titleClassName)}>{title}</p>
+        {action}
+      </div>
+    </Card>
+  )
+}
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -447,4 +482,5 @@ export {
   CardDescription,
   CardContent,
   CardImage,
+  NewsCard,
 }

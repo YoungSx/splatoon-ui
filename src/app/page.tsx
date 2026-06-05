@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
   CardImage,
+  NewsCard,
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -161,35 +162,29 @@ export default function Home() {
           {/* Cards Grid */}
           <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 pt-6">
             {/* News Card 1: Default Sticker */}
-            <Card
-              variant="news"
+            <NewsCard
               paperLabel={{ text: "8W-157", color: "yellow", placement: "left" }}
-              paperFasteners
-            >
-              <CardImage className="bg-[#603bff] p-4 h-48 flex items-center justify-center">
+              mediaClassName="bg-[#603bff]"
+              media={
                 <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#eaff3d] fill-current">
                   <path d="M50,10 C40,25 35,40 35,60 C35,70 40,80 50,85 C60,80 65,70 65,60 C65,40 60,25 50,10 Z M35,60 C25,65 15,55 10,70 C20,70 25,65 35,60 Z M65,60 C75,65 85,55 90,70 C80,70 75,65 65,60 Z" />
                   <circle cx="45" cy="55" r="4" fill="black" />
                   <circle cx="55" cy="55" r="4" fill="black" />
                 </svg>
-              </CardImage>
-              <div className="flex h-full flex-col items-center justify-center gap-2 py-4 text-center">
-                <p className="max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]">
-                  Beginner Basics for Splatoon 3: Choosing the right weapons
-                </p>
+              }
+              title="Beginner Basics for Splatoon 3: Choosing the right weapons"
+              action={
                 <Button size="sm" variant="arrow">
                   Read
                 </Button>
-              </div>
-            </Card>
+              }
+            />
 
             {/* News Card 2: Custom Text Sticker (Blue) */}
-            <Card
-              variant="news"
+            <NewsCard
               paperLabel={{ text: "EVENT INFO", color: "blue", placement: "right" }}
-              paperFasteners
-            >
-              <CardImage className="bg-[#ff9750] p-4 h-48 flex items-center justify-center">
+              mediaClassName="bg-[#ff9750]"
+              media={
                 <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#603bff] fill-current">
                   <path d="M50,15 C30,15 20,35 20,55 C20,70 30,85 50,85 C70,85 80,70 80,55 C80,35 70,15 50,15 Z" />
                   <circle cx="42" cy="45" r="6" fill="#ff9750" />
@@ -197,16 +192,14 @@ export default function Home() {
                   <circle cx="42" cy="45" r="3" fill="black" />
                   <circle cx="58" cy="45" r="3" fill="black" />
                 </svg>
-              </CardImage>
-              <div className="flex h-full flex-col items-center justify-center gap-2 py-4 text-center">
-                <p className="max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]">
-                  Beginner Basics for Splatoon 3: Choosing the right gear
-                </p>
+              }
+              title="Beginner Basics for Splatoon 3: Choosing the right gear"
+              action={
                 <Button size="sm" variant="arrow">
                   Read
                 </Button>
-              </div>
-            </Card>
+              }
+            />
 
             {/* News Card 3: Custom Danger Alert (Red Custom Bg) */}
             <Card
@@ -792,26 +785,30 @@ export default function Home() {
             <CarouselContent>
               {[1, 2, 3, 4, 5, 6].map((item) => (
                 <CarouselItem key={item}>
-                  <Card 
-                    variant="gallery" 
+                  <NewsCard
                     paperLabel={{
                       text: `SNAP 0${item}`,
                       color: item % 2 === 0 ? "yellow" : "blue",
                       placement: item % 2 === 0 ? "left" : "right",
                     }}
                     className="h-[420px]"
-                  >
-                    <CardImage className="bg-chaos-black flex items-center justify-center p-3">
-                      <div className="w-full h-full bg-[#f5f0e8] flex items-center justify-center border-[3px] border-chaos-black overflow-hidden relative">
-                        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "repeating-linear-gradient(45deg, #000 0, #000 2px, transparent 2px, transparent 8px)" }} />
-                        <span className="font-heading text-6xl font-black text-chaos-black opacity-40">IMG_{item}</span>
-                      </div>
-                    </CardImage>
-                    <CardContent className="flex flex-col items-center justify-center py-5 text-center">
-                      <p className="text-xl font-black uppercase text-chaos-black">Battle Record #{item}</p>
-                      <p className="text-sm font-bold text-chaos-black/60 mt-1">Splatlands Region</p>
-                    </CardContent>
-                  </Card>
+                    mediaClassName={item % 2 === 0 ? "bg-[#603bff]" : "bg-[#ff9750]"}
+                    media={
+                      <span className="font-heading text-6xl font-black text-[#eaff3d]">
+                        {`0${item}`}
+                      </span>
+                    }
+                    title={`Battle Record #${item}`}
+                    bodyClassName="gap-1.5"
+                    action={
+                      <>
+                        <p className="text-sm font-bold text-chaos-black/60">Splatlands Region</p>
+                        <Button size="sm" variant="arrow">
+                          Read
+                        </Button>
+                      </>
+                    }
+                  />
                 </CarouselItem>
               ))}
             </CarouselContent>
