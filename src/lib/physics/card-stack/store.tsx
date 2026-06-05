@@ -1,10 +1,6 @@
 "use client"
 
 import * as React from "react"
-import {
-  useMotionValue,
-  type AnimationPlaybackControls,
-} from "framer-motion"
 
 import {
   applyCardAngularImpulse,
@@ -21,10 +17,11 @@ import {
 import {
   defaultSupportMotionProfile,
   describeSupportMotionDriver,
-  startSupportAnimation,
+  sampleSupportMotion,
+  startSupportMotion,
   type SupportMotionProfile,
+  type SupportMotionState,
 } from "@/lib/physics/card-stack/support-driver"
-import { cardStackRuntimeTuning } from "@/lib/physics/card-stack/tuning"
 
 export type CardStackCarouselPhysicsStore = {
   getSnapshot: () => CardStackCarouselSceneSnapshot
@@ -79,18 +76,14 @@ export function createZeroCardState(fallbackGeometry: CardSwingGeometry): CardSt
   })
 }
 
-function updateSceneSnapshot(scene: CardStackCarouselSceneSnapshot, now: number, supportMotionProfile: SupportMotionProfile) {
+function updateSceneSnapshot(scene: CardStackCarouselSceneSnapshot, now: number, supportMotionActive: boolean) {
   let swingMoving = false
 
   for (const state of Object.values(scene.cards)) {
     swingMoving = integrateCardState(state, scene.support, now) || swingMoving
   }
 
-  const supportMoving =
-    Math.abs(scene.support.velocityPxPerSecond) >= supportMotionProfile.settleVelocityEpsilonPxPerSecond ||
-    Math.abs(scene.support.targetPositionPx - scene.support.positionPx) >= supportMotionProfile.settlePositionEpsilonPx
-
-  return supportMoving || swingMoving
+  return supportMotionActive || swingMoving
 }
 
 export function useCreateCardStackCarouselScene({
@@ -108,8 +101,7 @@ export function useCreateCardStackCarouselScene({
     cloneSceneSnapshot(createZeroSceneSnapshot(fallbackGeometry))
   )
   const listenersRef = React.useRef(new Set<() => void>())
-  const supportPositionPxMotion = useMotionValue(0)
-  const supportAnimationRef = React.useRef<AnimationPlaybackControls | null>(null)
+  const supportMotionStateRef = React.useRef<SupportMotionState | null>(null)
 
   const publishSceneState = React.useCallback(() => {
     publishedSnapshotRef.current = cloneSceneSnapshot(sceneSnapshotRef.current)
@@ -119,22 +111,31 @@ export function useCreateCardStackCarouselScene({
     }
   }, [])
 
-  const syncSupportKinematicsFromMotion = React.useCallback(
+  const syncSupportKinematics = React.useCallback(
     (now: number) => {
-      const previousVelocity = sceneSnapshotRef.current.support.velocityPxPerSecond
-      const nextPosition = supportPositionPxMotion.get()
-      const nextVelocity = supportPositionPxMotion.getVelocity()
-      const dt = Math.min(
-        Math.max((now - sceneSnapshotRef.current.support.lastUpdatedAt) / 1000, 0),
-        cardStackRuntimeTuning.maxDeltaSeconds
-      )
+      const activeMotion = supportMotionStateRef.current
 
-      sceneSnapshotRef.current.support.positionPx = nextPosition
-      sceneSnapshotRef.current.support.velocityPxPerSecond = nextVelocity
-      sceneSnapshotRef.current.support.accelerationPxPerSecondSquared = dt > 0 ? (nextVelocity - previousVelocity) / dt : 0
+      if (!activeMotion) {
+        sceneSnapshotRef.current.support.velocityPxPerSecond = 0
+        sceneSnapshotRef.current.support.accelerationPxPerSecondSquared = 0
+        sceneSnapshotRef.current.support.lastUpdatedAt = now
+        return false
+      }
+
+      const sample = sampleSupportMotion(activeMotion, supportMotionProfile, now)
+
+      sceneSnapshotRef.current.support.positionPx = sample.positionPx
+      sceneSnapshotRef.current.support.velocityPxPerSecond = sample.velocityPxPerSecond
+      sceneSnapshotRef.current.support.accelerationPxPerSecondSquared = sample.accelerationPxPerSecondSquared
       sceneSnapshotRef.current.support.lastUpdatedAt = now
+
+      if (sample.done) {
+        supportMotionStateRef.current = null
+      }
+
+      return !sample.done
     },
-    [supportPositionPxMotion]
+    [supportMotionProfile]
   )
 
   const stopPhysicsLoop = React.useCallback(() => {
@@ -146,8 +147,8 @@ export function useCreateCardStackCarouselScene({
 
   const stepPhysics = React.useCallback(
     function stepPhysicsFrame(now: number) {
-      syncSupportKinematicsFromMotion(now)
-      const hasMeaningfulMotion = updateSceneSnapshot(sceneSnapshotRef.current, now, supportMotionProfile)
+      const supportMotionActive = syncSupportKinematics(now)
+      const hasMeaningfulMotion = updateSceneSnapshot(sceneSnapshotRef.current, now, supportMotionActive)
       publishSceneState()
 
       if (hasMeaningfulMotion) {
@@ -156,7 +157,7 @@ export function useCreateCardStackCarouselScene({
         animationFrameRef.current = null
       }
     },
-    [publishSceneState, supportMotionProfile, syncSupportKinematicsFromMotion]
+    [publishSceneState, syncSupportKinematics]
   )
 
   const startPhysicsLoop = React.useCallback(() => {
@@ -188,14 +189,23 @@ export function useCreateCardStackCarouselScene({
           sceneSnapshotRef.current.support.velocityPxPerSecond *= pitchRatio
           sceneSnapshotRef.current.support.accelerationPxPerSecondSquared *= pitchRatio
           sceneSnapshotRef.current.support.pitchPx = nextGeometry.pitchPx
-          supportPositionPxMotion.set(sceneSnapshotRef.current.support.positionPx)
+
+          if (supportMotionStateRef.current) {
+            supportMotionStateRef.current = {
+              ...supportMotionStateRef.current,
+              fromPositionPx: supportMotionStateRef.current.fromPositionPx * pitchRatio,
+              targetPositionPx: supportMotionStateRef.current.targetPositionPx * pitchRatio,
+              initialVelocityPxPerSecond: supportMotionStateRef.current.initialVelocityPxPerSecond * pitchRatio,
+            }
+          }
         }
 
         const seedState = currentCard ?? getReferenceCardState(sceneSnapshotRef.current.cards, cardId)
 
         sceneSnapshotRef.current.cards[cardId] = createCardState({
           geometry: nextGeometry,
-          lastUpdatedAt: currentCard?.lastUpdatedAt ?? seedState?.lastUpdatedAt ?? sceneSnapshotRef.current.support.lastUpdatedAt,
+          lastUpdatedAt:
+            currentCard?.lastUpdatedAt ?? seedState?.lastUpdatedAt ?? sceneSnapshotRef.current.support.lastUpdatedAt,
           seedState,
         })
 
@@ -206,8 +216,8 @@ export function useCreateCardStackCarouselScene({
         if (!cardState) return
 
         const now = getNow()
-        syncSupportKinematicsFromMotion(now)
-        updateSceneSnapshot(sceneSnapshotRef.current, now, supportMotionProfile)
+        const supportMotionActive = syncSupportKinematics(now)
+        updateSceneSnapshot(sceneSnapshotRef.current, now, supportMotionActive)
 
         applyCardAngularImpulse(cardState, angularVelocityDelta)
         publishSceneState()
@@ -232,21 +242,21 @@ export function useCreateCardStackCarouselScene({
             state.lastUpdatedAt = now
           }
 
-          supportPositionPxMotion.set(targetPositionPx)
           publishSceneState()
           return
         }
 
-        syncSupportKinematicsFromMotion(now)
-        updateSceneSnapshot(sceneSnapshotRef.current, now, supportMotionProfile)
+        const supportMotionActive = syncSupportKinematics(now)
+        updateSceneSnapshot(sceneSnapshotRef.current, now, supportMotionActive)
         sceneSnapshotRef.current.support.targetPositionPx = targetPositionPx
         sceneSnapshotRef.current.support.lastUpdatedAt = now
-        supportAnimationRef.current?.stop()
-        supportAnimationRef.current = startSupportAnimation(
-          supportPositionPxMotion,
+        supportMotionStateRef.current = startSupportMotion({
+          driver: supportMotionProfile.driver,
+          fromPositionPx: sceneSnapshotRef.current.support.positionPx,
           targetPositionPx,
-          supportMotionProfile.driver
-        )
+          initialVelocityPxPerSecond: sceneSnapshotRef.current.support.velocityPxPerSecond,
+          startedAt: now,
+        })
         publishSceneState()
         startPhysicsLoop()
       },
@@ -257,14 +267,14 @@ export function useCreateCardStackCarouselScene({
         }
       },
     }),
-    [publishSceneState, startPhysicsLoop, supportMotionProfile, supportPositionPxMotion, syncSupportKinematicsFromMotion]
+    [publishSceneState, startPhysicsLoop, supportMotionProfile.driver, syncSupportKinematics]
   )
 
   const sceneSnapshot = React.useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot)
 
   React.useEffect(() => {
     return () => {
-      supportAnimationRef.current?.stop()
+      supportMotionStateRef.current = null
       stopPhysicsLoop()
     }
   }, [stopPhysicsLoop])

@@ -1,5 +1,7 @@
 "use client"
 
+// Card swing layer: these parameters feed the hanging-card rigid-body solver itself.
+// If motion changes here, it is the card pendulum dynamics changing.
 export const cardStackPhysicsTuning = {
   // Common daily tuning knobs: start here when you want to change how the cards feel.
   // These parameters are the ones you'll most likely tweak while iterating on motion.
@@ -32,6 +34,8 @@ export const cardStackPhysicsTuning = {
   angularVelocitySwitchEpsilon: 0.0005,
 } as const
 
+// Support input layer: these parameters shape how the invisible support/pivot moves.
+// If motion changes here, it is the external shove/retarget curve changing before the card physics even reacts.
 export const cardStackSupportDriverTuning = {
   easeInBack: {
     // Total support motion duration for the easeInBack driver.
@@ -62,12 +66,14 @@ export const cardStackSupportDriverTuning = {
   settlePositionEpsilonPx: 0.75,
 } as const
 
+// Runtime integration layer: engineering stability knobs for the per-frame solver.
 export const cardStackRuntimeTuning = {
   // Maximum simulation step size. Larger frame gaps are clamped to this for stability.
   // Increase: less clamping, potentially less stable under frame drops. Decrease: more stable but less faithful to very large frame gaps.
   maxDeltaSeconds: 1 / 30,
 } as const
 
+// Layout/presentation layer: scene geometry and interaction thresholds, not physical forces.
 export const cardStackLayoutTuning = {
   // Minimum scene height reserved for the carousel section.
   // Increase: taller reserved stage. Decrease: more compact section height.
