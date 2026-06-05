@@ -38,10 +38,33 @@ const cardStackLayout = {
   fallbackHangerYPx: 20,
 } as const
 
+function easeInBack(progress: number) {
+  const overshoot = 1.70158
+  const coefficient = overshoot + 1
+  return coefficient * progress * progress * progress - overshoot * progress * progress
+}
+
+type SupportMotionDriver =
+  | {
+      kind: "spring"
+      stiffness: number
+      damping: number
+      mass: number
+    }
+  | {
+      kind: "curve"
+      durationSeconds: number
+      ease: (progress: number) => number
+      label: string
+    }
+
 const supportMotionProfile = {
-  springStiffness: 26,
-  springDamping: 11,
-  springMass: 1.9,
+  driver: {
+    kind: "curve",
+    durationSeconds: 0.72,
+    ease: easeInBack,
+    label: "easeInBack",
+  } satisfies SupportMotionDriver,
   settleVelocityEpsilonPxPerSecond: 2,
   settlePositionEpsilonPx: 0.75,
 } as const
@@ -128,6 +151,31 @@ function getPrimaryCardState(scene: CardStackCarouselSceneSnapshot) {
 
 function getCardState(scene: CardStackCarouselSceneSnapshot, cardId: string) {
   return scene.cards[cardId] ?? ZERO_CARD_STATE
+}
+
+function startSupportAnimation(
+  supportPositionPxMotion: ReturnType<typeof useMotionValue<number>>,
+  targetPositionPx: number,
+  driver: SupportMotionDriver
+) {
+  if (driver.kind === "spring") {
+    return animate(supportPositionPxMotion, targetPositionPx, {
+      type: "spring",
+      stiffness: driver.stiffness,
+      damping: driver.damping,
+      mass: driver.mass,
+    })
+  }
+
+  return animate(supportPositionPxMotion, targetPositionPx, {
+    type: "tween",
+    duration: driver.durationSeconds,
+    ease: driver.ease,
+  })
+}
+
+function describeSupportMotionDriver(driver: SupportMotionDriver) {
+  return driver.kind === "curve" ? driver.label : "spring"
 }
 
 export function CardStackCarouselScene({ children }: { children: React.ReactNode }) {
@@ -266,12 +314,11 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
         sceneSnapshotRef.current.support.targetPositionPx = targetPositionPx
         sceneSnapshotRef.current.support.lastUpdatedAt = now
         supportAnimationRef.current?.stop()
-        supportAnimationRef.current = animate(supportPositionPxMotion, targetPositionPx, {
-          type: "spring",
-          stiffness: supportMotionProfile.springStiffness,
-          damping: supportMotionProfile.springDamping,
-          mass: supportMotionProfile.springMass,
-        })
+        supportAnimationRef.current = startSupportAnimation(
+          supportPositionPxMotion,
+          targetPositionPx,
+          supportMotionProfile.driver
+        )
         publishSceneState()
         startPhysicsLoop()
       },
@@ -300,6 +347,7 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
       <div
         data-slot="card-stack-carousel-scene"
         data-card-count={Object.keys(sceneSnapshot.cards).length}
+        data-support-driver={describeSupportMotionDriver(supportMotionProfile.driver)}
         data-shared-angle={radiansToDegrees(primaryCardState.angle).toFixed(4)}
         data-shared-velocity={radiansToDegrees(primaryCardState.angularVelocity).toFixed(4)}
         data-support-position={(sceneSnapshot.support.pitchPx > 0 ? sceneSnapshot.support.positionPx / sceneSnapshot.support.pitchPx : 0).toFixed(4)}
