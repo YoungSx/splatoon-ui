@@ -128,6 +128,10 @@ function resolveCoulombFrictionAngularAcceleration(state: CardStackCarouselCardS
   return cardSwingPhysics.pivotCoulombFrictionSpecificTorquePx2PerSecondSquared / state.geometry.inertiaOverMassPx2
 }
 
+function resolveAirDragAngularAcceleration(state: CardStackCarouselCardState) {
+  return -cardSwingPhysics.airAngularDragCoefficientPerSecond * state.angularVelocity
+}
+
 export function integrateCardState(
   state: CardStackCarouselCardState,
   support: CardStackCarouselSupportSnapshot,
@@ -137,10 +141,11 @@ export function integrateCardState(
   state.lastUpdatedAt = now
 
   const driveAngularAcceleration = resolveDriveAngularAcceleration(state, support)
+  const airDragAngularAcceleration = resolveAirDragAngularAcceleration(state)
   const frictionAngularAcceleration = resolveCoulombFrictionAngularAcceleration(state)
   const isEffectivelyStill = Math.abs(state.angularVelocity) <= cardSwingPhysics.angularVelocitySwitchEpsilon
 
-  let netAngularAcceleration = driveAngularAcceleration
+  let netAngularAcceleration = driveAngularAcceleration + airDragAngularAcceleration
 
   if (isEffectivelyStill) {
     if (Math.abs(driveAngularAcceleration) <= frictionAngularAcceleration) {
