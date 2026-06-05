@@ -12,13 +12,283 @@ const cardStackLayout = {
   navButtonHeightPx: 80,
   indicatorWidthPx: 32,
   indicatorHeightPx: 12,
-  hangerFallback: "1.25rem",
+  visibleOffsetLimit: 2,
+  deckStepWidthMultiplier: 1.08,
+  fallbackCardWidthPx: 320,
+  fallbackCardHeightPx: 360,
+  fallbackHangerYPx: 20,
 } as const
+
+const supportMotionPhysics = {
+  stiffness: 8,
+  damping: 11,
+  settleVelocityEpsilon: 0.001,
+  settlePositionEpsilon: 0.001,
+} as const
+
+const cardSwingPhysics = {
+  gravityPxPerSecondSquared: 3000,
+  angularDamping: 12,
+  settleVelocityEpsilon: 0.000175,
+  settleAngleEpsilon: 0.000873,
+} as const
+
+type CardSwingGeometry = {
+  cardWidthPx: number
+  cardHeightPx: number
+  hangerYPx: number
+  pitchPx: number
+  restoringCoefficient: number
+  forcingCoefficient: number
+}
+
+type CardStackCarouselSceneSnapshot = {
+  angle: number
+  angularVelocity: number
+  supportPositionIndex: number
+  supportVelocityIndex: number
+  supportAccelerationIndex: number
+  targetIndex: number
+  geometry: CardSwingGeometry
+  lastUpdatedAt: number
+}
+
+type CardStackCarouselPhysicsStore = {
+  getSnapshot: () => CardStackCarouselSceneSnapshot
+  registerCardMetrics: (metrics: Pick<CardSwingGeometry, "cardWidthPx" | "cardHeightPx" | "hangerYPx" | "pitchPx">) => void
+  setTargetIndex: (index: number) => void
+  subscribe: (listener: () => void) => () => void
+}
+
+const FALLBACK_GEOMETRY: CardSwingGeometry = createCardSwingGeometry({
+  cardWidthPx: cardStackLayout.fallbackCardWidthPx,
+  cardHeightPx: cardStackLayout.fallbackCardHeightPx,
+  hangerYPx: cardStackLayout.fallbackHangerYPx,
+  pitchPx: cardStackLayout.fallbackCardWidthPx * cardStackLayout.deckStepWidthMultiplier,
+})
+
+const ZERO_SCENE_SNAPSHOT: CardStackCarouselSceneSnapshot = {
+  angle: 0,
+  angularVelocity: 0,
+  supportPositionIndex: 0,
+  supportVelocityIndex: 0,
+  supportAccelerationIndex: 0,
+  targetIndex: 0,
+  geometry: FALLBACK_GEOMETRY,
+  lastUpdatedAt: 0,
+}
+
+const CardStackCarouselPhysicsContext = React.createContext<CardStackCarouselPhysicsStore | null>(null)
+
+function createCardSwingGeometry({
+  cardWidthPx,
+  cardHeightPx,
+  hangerYPx,
+  pitchPx,
+}: Pick<CardSwingGeometry, "cardWidthPx" | "cardHeightPx" | "hangerYPx" | "pitchPx">): CardSwingGeometry {
+  const distanceToCenterPx = Math.max(cardHeightPx / 2 - hangerYPx, 1)
+  const inertiaOverMassPx2 = (cardWidthPx * cardWidthPx + cardHeightPx * cardHeightPx) / 12 + distanceToCenterPx * distanceToCenterPx
+
+  return {
+    cardWidthPx,
+    cardHeightPx,
+    hangerYPx,
+    pitchPx,
+    restoringCoefficient: (cardSwingPhysics.gravityPxPerSecondSquared * distanceToCenterPx) / inertiaOverMassPx2,
+    forcingCoefficient: distanceToCenterPx / inertiaOverMassPx2,
+  }
+}
+
+function useCardStackCarouselPhysicsStore() {
+  const context = React.useContext(CardStackCarouselPhysicsContext)
+
+  if (!context) {
+    throw new Error("Card stack carousel physics must be used within CardStackCarouselScene")
+  }
+
+  return context
+}
+
+function getNow() {
+  return typeof performance !== "undefined" ? performance.now() : Date.now()
+}
+
+function radiansToDegrees(value: number) {
+  return value * (180 / Math.PI)
+}
+
+function integrateSceneSnapshot(snapshot: CardStackCarouselSceneSnapshot, now: number) {
+  const dt = Math.min(Math.max((now - snapshot.lastUpdatedAt) / 1000, 0), 1 / 30)
+  snapshot.lastUpdatedAt = now
+
+  const supportDisplacement = snapshot.targetIndex - snapshot.supportPositionIndex
+  snapshot.supportAccelerationIndex =
+    supportDisplacement * supportMotionPhysics.stiffness - snapshot.supportVelocityIndex * supportMotionPhysics.damping
+  snapshot.supportVelocityIndex += snapshot.supportAccelerationIndex * dt
+  snapshot.supportPositionIndex += snapshot.supportVelocityIndex * dt
+
+  if (
+    Math.abs(snapshot.supportVelocityIndex) < supportMotionPhysics.settleVelocityEpsilon &&
+    Math.abs(snapshot.targetIndex - snapshot.supportPositionIndex) < supportMotionPhysics.settlePositionEpsilon
+  ) {
+    snapshot.supportPositionIndex = snapshot.targetIndex
+    snapshot.supportVelocityIndex = 0
+    snapshot.supportAccelerationIndex = 0
+  }
+
+  const supportAccelerationPx = snapshot.supportAccelerationIndex * snapshot.geometry.pitchPx
+  const angularAcceleration =
+    -snapshot.angle * snapshot.geometry.restoringCoefficient -
+    snapshot.angularVelocity * cardSwingPhysics.angularDamping -
+    snapshot.geometry.forcingCoefficient * supportAccelerationPx
+
+  snapshot.angularVelocity += angularAcceleration * dt
+  snapshot.angle += snapshot.angularVelocity * dt
+
+  if (
+    Math.abs(snapshot.angularVelocity) < cardSwingPhysics.settleVelocityEpsilon &&
+    Math.abs(snapshot.angle) < cardSwingPhysics.settleAngleEpsilon
+  ) {
+    snapshot.angularVelocity = 0
+    snapshot.angle = 0
+  }
+
+  const supportMoving =
+    Math.abs(snapshot.supportVelocityIndex) >= supportMotionPhysics.settleVelocityEpsilon ||
+    Math.abs(snapshot.targetIndex - snapshot.supportPositionIndex) >= supportMotionPhysics.settlePositionEpsilon
+  const swingMoving =
+    Math.abs(snapshot.angularVelocity) >= cardSwingPhysics.settleVelocityEpsilon ||
+    Math.abs(snapshot.angle) >= cardSwingPhysics.settleAngleEpsilon
+
+  return supportMoving || swingMoving
+}
+
+export function CardStackCarouselScene({ children }: { children: React.ReactNode }) {
+  const animationFrameRef = React.useRef<number | null>(null)
+  const sceneSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>({
+    ...ZERO_SCENE_SNAPSHOT,
+  })
+  const publishedSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>({
+    ...ZERO_SCENE_SNAPSHOT,
+  })
+  const listenersRef = React.useRef(new Set<() => void>())
+
+  const publishSceneState = React.useCallback(() => {
+    publishedSnapshotRef.current = {
+      ...sceneSnapshotRef.current,
+      geometry: {
+        ...sceneSnapshotRef.current.geometry,
+      },
+    }
+
+    for (const listener of listenersRef.current) {
+      listener()
+    }
+  }, [])
+
+  const stopPhysicsLoop = React.useCallback(() => {
+    if (animationFrameRef.current !== null) {
+      window.cancelAnimationFrame(animationFrameRef.current)
+      animationFrameRef.current = null
+    }
+  }, [])
+
+  const stepPhysics = React.useCallback(
+    function stepPhysicsFrame(now: number) {
+      const hasMeaningfulMotion = integrateSceneSnapshot(sceneSnapshotRef.current, now)
+      publishSceneState()
+
+      if (hasMeaningfulMotion) {
+        animationFrameRef.current = window.requestAnimationFrame(stepPhysicsFrame)
+      } else {
+        animationFrameRef.current = null
+      }
+    },
+    [publishSceneState]
+  )
+
+  const startPhysicsLoop = React.useCallback(() => {
+    if (typeof window === "undefined" || animationFrameRef.current !== null) return
+    animationFrameRef.current = window.requestAnimationFrame(stepPhysics)
+  }, [stepPhysics])
+
+  const store = React.useMemo<CardStackCarouselPhysicsStore>(
+    () => ({
+      getSnapshot: () => publishedSnapshotRef.current,
+      registerCardMetrics: (metrics) => {
+        const nextGeometry = createCardSwingGeometry(metrics)
+        const currentGeometry = sceneSnapshotRef.current.geometry
+
+        const geometryChanged =
+          Math.abs(currentGeometry.cardWidthPx - nextGeometry.cardWidthPx) > 0.5 ||
+          Math.abs(currentGeometry.cardHeightPx - nextGeometry.cardHeightPx) > 0.5 ||
+          Math.abs(currentGeometry.hangerYPx - nextGeometry.hangerYPx) > 0.5
+
+        if (!geometryChanged) return
+
+        sceneSnapshotRef.current.geometry = nextGeometry
+        publishSceneState()
+      },
+      setTargetIndex: (index) => {
+        if (sceneSnapshotRef.current.targetIndex === index) return
+        sceneSnapshotRef.current.targetIndex = index
+        if (sceneSnapshotRef.current.lastUpdatedAt === 0) {
+          sceneSnapshotRef.current.supportPositionIndex = index
+          sceneSnapshotRef.current.supportVelocityIndex = 0
+          sceneSnapshotRef.current.supportAccelerationIndex = 0
+          sceneSnapshotRef.current.angle = 0
+          sceneSnapshotRef.current.angularVelocity = 0
+          sceneSnapshotRef.current.lastUpdatedAt = getNow()
+          publishSceneState()
+          return
+        }
+        publishSceneState()
+        startPhysicsLoop()
+      },
+      subscribe: (listener) => {
+        listenersRef.current.add(listener)
+        return () => {
+          listenersRef.current.delete(listener)
+        }
+      },
+    }),
+    [publishSceneState, startPhysicsLoop]
+  )
+
+  const sceneSnapshot = React.useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot)
+
+  React.useEffect(() => {
+    return () => {
+      stopPhysicsLoop()
+    }
+  }, [stopPhysicsLoop])
+
+  return (
+    <CardStackCarouselPhysicsContext.Provider value={store}>
+      <div
+        data-slot="card-stack-carousel-scene"
+        data-shared-angle={radiansToDegrees(sceneSnapshot.angle).toFixed(4)}
+        data-shared-velocity={radiansToDegrees(sceneSnapshot.angularVelocity).toFixed(4)}
+        data-support-position={sceneSnapshot.supportPositionIndex.toFixed(4)}
+        data-support-velocity={sceneSnapshot.supportVelocityIndex.toFixed(4)}
+      >
+        {children}
+      </div>
+    </CardStackCarouselPhysicsContext.Provider>
+  )
+}
 
 export const CardStackCarouselContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof CarouselContent>
 >(({ className, style, ...props }, ref) => {
+  const { currentIndex } = useCarousel()
+  const physicsStore = useCardStackCarouselPhysicsStore()
+
+  React.useEffect(() => {
+    physicsStore.setTargetIndex(currentIndex)
+  }, [currentIndex, physicsStore])
+
   return (
     <CarouselContent
       ref={ref}
@@ -42,49 +312,77 @@ export interface CardStackCarouselItemProps extends Omit<HTMLMotionProps<"div">,
   "data-index"?: number
 }
 
+function resolveHangerYPx(element: HTMLElement) {
+  const transformOrigin = getComputedStyle(element).transformOrigin.split(" ")
+  const hangerYPx = Number.parseFloat(transformOrigin[1] ?? "")
+  return Number.isFinite(hangerYPx) ? hangerYPx : cardStackLayout.fallbackHangerYPx
+}
+
 export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackCarouselItemProps>(
   ({ className, children, shellClassName, shellStyle, style, "data-index": index = 0, ...props }, ref) => {
     const { currentIndex, goToIndex, goToNext, goToPrev } = useCarousel()
+    const physicsStore = useCardStackCarouselPhysicsStore()
+    const sceneSnapshot = React.useSyncExternalStore(physicsStore.subscribe, physicsStore.getSnapshot, physicsStore.getSnapshot)
+    const swingRef = React.useRef<HTMLDivElement | null>(null)
 
-    const offset = index - currentIndex
-    const isActive = offset === 0
-    const visibleOffsetLimit = 2
-    const opacity = Math.abs(offset) > visibleOffsetLimit ? 0 : 1
-    const deckTranslateXPercent = offset * 108
+    const continuousOffset = index - sceneSnapshot.supportPositionIndex
+    const logicalOffset = index - currentIndex
+    const isActive = logicalOffset === 0
+    const isVisible = Math.abs(continuousOffset) <= cardStackLayout.visibleOffsetLimit + 0.6
+    const opacity = isVisible ? 1 : 0
+    const deckTranslateXPx = continuousOffset * sceneSnapshot.geometry.pitchPx
     const deckTranslateYPx = 0
     const deckScale = 1
     const deckRotateDeg = 0
-    const deckZIndex = 50 - Math.abs(offset)
-
-    const prevIndexRef = React.useRef(currentIndex)
-    const [swingKey, setSwingKey] = React.useState(0)
-    const [swingDirection, setSwingDirection] = React.useState(1)
+    const deckZIndex = 50 - Math.round(Math.abs(continuousOffset))
 
     React.useEffect(() => {
-      if (currentIndex === prevIndexRef.current) return
+      if (!swingRef.current) return
 
-      setSwingDirection(currentIndex > prevIndexRef.current ? 1 : -1)
-      setSwingKey((value) => value + 1)
-      prevIndexRef.current = currentIndex
-    }, [currentIndex])
+      const measure = () => {
+        if (!swingRef.current) return
+        const rect = swingRef.current.getBoundingClientRect()
+        physicsStore.registerCardMetrics({
+          cardWidthPx: rect.width,
+          cardHeightPx: rect.height,
+          hangerYPx: resolveHangerYPx(swingRef.current),
+          pitchPx: rect.width * cardStackLayout.deckStepWidthMultiplier,
+        })
+      }
 
-    const swingRotate =
-      swingKey > 0 ? [0, swingDirection * 8, swingDirection * -5, swingDirection * 2.5, swingDirection * -1, 0] : 0
+      measure()
+
+      if (typeof ResizeObserver === "undefined") return
+      const observer = new ResizeObserver(measure)
+      observer.observe(swingRef.current)
+      return () => observer.disconnect()
+    }, [physicsStore])
+
+    const navigateByDirection = React.useCallback(
+      (direction: 1 | -1) => {
+        if (direction === 1) {
+          goToNext()
+          return
+        }
+        goToPrev()
+      },
+      [goToNext, goToPrev]
+    )
 
     const handleDragEnd = React.useCallback(
       (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         const swipePower = Math.abs(info.offset.x) * info.velocity.x
 
         if (info.offset.x < -50 || swipePower < -500) {
-          goToNext()
+          navigateByDirection(1)
           return
         }
 
         if (info.offset.x > 50 || swipePower > 500) {
-          goToPrev()
+          navigateByDirection(-1)
         }
       },
-      [goToNext, goToPrev]
+      [navigateByDirection]
     )
 
     return (
@@ -97,33 +395,24 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
           ref={ref}
           data-slot="card-stack-item-deck"
           data-active={isActive ? "true" : "false"}
-          data-offset={offset}
+          data-offset={continuousOffset.toFixed(4)}
           className={cn("w-full origin-center pointer-events-auto transition-colors duration-300", className)}
           drag={isActive ? "x" : false}
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.2}
-          initial={false}
-          animate={{
-            x: `${deckTranslateXPercent}%`,
-            y: deckTranslateYPx,
-            scale: deckScale,
-            rotate: deckRotateDeg,
-            opacity,
-            zIndex: deckZIndex,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 350,
-            damping: 35,
-            mass: 0.8,
-          }}
           onClick={() => {
-            if (!isActive && opacity > 0) {
+            if (!isActive && isVisible) {
               goToIndex(index)
             }
           }}
           onDragEnd={isActive ? handleDragEnd : undefined}
           style={{
+            x: deckTranslateXPx,
+            y: deckTranslateYPx,
+            scale: deckScale,
+            rotate: deckRotateDeg,
+            opacity,
+            zIndex: deckZIndex,
             cursor: isActive ? "grab" : "pointer",
             pointerEvents: opacity === 0 ? "none" : "auto",
             ...style,
@@ -132,23 +421,15 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
           {...props}
         >
           <motion.div
-            key={swingKey}
+            ref={swingRef}
             data-slot="card-stack-item-swing"
+            data-angle={radiansToDegrees(sceneSnapshot.angle).toFixed(4)}
+            data-velocity={radiansToDegrees(sceneSnapshot.angularVelocity).toFixed(4)}
             className="w-full"
-            initial={false}
-            animate={{ rotate: swingRotate }}
-            transition={
-              swingKey > 0
-                ? {
-                    duration: 0.7,
-                    ease: "easeOut",
-                    times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-                  }
-                : {
-                    duration: 0.2,
-                  }
-            }
-            style={{ transformOrigin: `50% var(--card-hanger-y, ${cardStackLayout.hangerFallback})` }}
+            style={{
+              rotate: `${radiansToDegrees(sceneSnapshot.angle)}deg`,
+              transformOrigin: "50% var(--card-hanger-y, 1.25rem)",
+            }}
           >
             <CarouselItem data-index={index} className="w-full">
               {children}
@@ -172,7 +453,7 @@ export const CardStackCarouselPrevious = React.forwardRef<
       ref={ref}
       type={type}
       data-slot="card-stack-carousel-previous"
-        className={cn(
+      className={cn(
         "absolute z-50 flex items-center justify-center bg-[var(--chaos-black,#181818)] text-[var(--neon-yellow,#E3FF00)] transition-transform duration-200 shadow-solid",
         "hover:scale-110 active:scale-90 disabled:opacity-30 disabled:hover:scale-100",
         className
@@ -209,7 +490,7 @@ export const CardStackCarouselNext = React.forwardRef<
       ref={ref}
       type={type}
       data-slot="card-stack-carousel-next"
-        className={cn(
+      className={cn(
         "absolute z-50 flex items-center justify-center bg-[var(--chaos-black,#181818)] text-[var(--neon-yellow,#E3FF00)] transition-transform duration-200 shadow-solid",
         "hover:scale-110 active:scale-90 disabled:opacity-30 disabled:hover:scale-100",
         className
@@ -261,7 +542,10 @@ export const CardStackCarouselIndicators = React.forwardRef<HTMLDivElement, Reac
                   ? "scale-110 bg-[var(--neon-yellow,#E3FF00)] shadow-[2px_2px_0px_var(--chaos-black,#181818)]"
                   : "bg-[var(--chaos-black,#181818)]/40 hover:bg-[var(--chaos-black,#181818)]/70"
               )}
-              onClick={() => goToIndex(index)}
+              onClick={() => {
+                if (index === currentIndex) return
+                goToIndex(index)
+              }}
               style={{
                 width: `${cardStackLayout.indicatorWidthPx}px`,
                 height: `${cardStackLayout.indicatorHeightPx}px`,

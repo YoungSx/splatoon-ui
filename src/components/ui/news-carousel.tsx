@@ -9,6 +9,7 @@ import {
   CardStackCarouselItem,
   CardStackCarouselNext,
   CardStackCarouselPrevious,
+  CardStackCarouselScene,
 } from "@/components/ui/card-stack-carousel"
 import { type CardProps } from "@/components/ui/card"
 import { NewsCard, type NewsCardProps } from "@/components/ui/news-card"
@@ -34,28 +35,34 @@ export interface NewsCarouselProps extends Omit<React.ComponentPropsWithoutRef<t
 export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
   return (
     <Carousel itemCount={items.length} {...props}>
-      <CardStackCarouselContent>
-        {items.map((item) => (
-          <CardStackCarouselItem key={item.id} shellStyle={newsCarouselItemShellStyle}>
-            <NewsCard
-              className={item.cardClassName}
-              media={item.media}
-              mediaClassName={item.mediaClassName}
-              bodyClassName={item.bodyClassName}
-              paperFasteners={item.paperFasteners}
-              paperLabel={item.paperLabel}
-              surface={item.surface}
-              title={item.title}
-              titleClassName={item.titleClassName}
-              action={item.action}
-              {...item.cardProps}
-            />
-          </CardStackCarouselItem>
-        ))}
-      </CardStackCarouselContent>
-      <CardStackCarouselPrevious />
-      <CardStackCarouselNext />
-      <CardStackCarouselIndicators />
+      <CardStackCarouselScene>
+        <CardStackCarouselContent>
+          {items.map((item, index) => (
+            <CardStackCarouselItem
+              key={item.id}
+              data-index={index}
+              shellStyle={newsCarouselItemShellStyle}
+            >
+              <NewsCard
+                className={item.cardClassName}
+                media={item.media}
+                mediaClassName={item.mediaClassName}
+                bodyClassName={item.bodyClassName}
+                paperFasteners={item.paperFasteners}
+                paperLabel={item.paperLabel}
+                surface={item.surface}
+                title={item.title}
+                titleClassName={item.titleClassName}
+                action={item.action}
+                {...item.cardProps}
+              />
+            </CardStackCarouselItem>
+          ))}
+        </CardStackCarouselContent>
+        <CardStackCarouselPrevious />
+        <CardStackCarouselNext />
+        <CardStackCarouselIndicators />
+      </CardStackCarouselScene>
     </Carousel>
   )
 }
