@@ -132,6 +132,7 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
           {...props}
         >
           <motion.div
+            key={swingKey}
             data-slot="card-stack-item-swing"
             className="w-full"
             initial={false}
