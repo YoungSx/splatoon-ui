@@ -70,6 +70,104 @@ interface DripControlPoint {
 
 type DripAnimationState = "idle" | "entering" | "entered" | "leaving"
 
+const dripAnimationDurationMs = 1800
+const dripPathStartY = -8
+
+const cubicAt = (p0: number, p1: number, p2: number, p3: number, t: number) => {
+  const inverseT = 1 - t
+  return (
+    inverseT ** 3 * p0 +
+    3 * inverseT ** 2 * t * p1 +
+    3 * inverseT * t ** 2 * p2 +
+    t ** 3 * p3
+  )
+}
+
+const cubicBezierProgressAtTime = (timeFraction: number) => {
+  // CSS `ease` is cubic-bezier(0.25, 0.1, 0.25, 1).
+  let lower = 0
+  let upper = 1
+
+  for (let i = 0; i < 24; i++) {
+    const midpoint = (lower + upper) / 2
+    const x = cubicAt(0, 0.25, 0.25, 1, midpoint)
+
+    if (x < timeFraction) {
+      lower = midpoint
+    } else {
+      upper = midpoint
+    }
+  }
+
+  return cubicAt(0, 0.1, 1, 1, (lower + upper) / 2)
+}
+
+const timeFractionForCssEaseProgress = (targetProgress: number) => {
+  let lower = 0
+  let upper = 1
+
+  for (let i = 0; i < 24; i++) {
+    const midpoint = (lower + upper) / 2
+    const progress = cubicBezierProgressAtTime(midpoint)
+
+    if (progress < targetProgress) {
+      lower = midpoint
+    } else {
+      upper = midpoint
+    }
+  }
+
+  return (lower + upper) / 2
+}
+
+const cubicBezierYExtrema = (p0: number, p1: number, p2: number, p3: number) => {
+  const a = -p0 + 3 * p1 - 3 * p2 + p3
+  const b = 2 * (p0 - 2 * p1 + p2)
+  const c = p1 - p0
+  const roots = [0, 1]
+
+  if (Math.abs(a) < Number.EPSILON) {
+    if (Math.abs(b) > Number.EPSILON) {
+      roots.push(-c / b)
+    }
+  } else {
+    const discriminant = b ** 2 - 4 * a * c
+
+    if (discriminant >= 0) {
+      const sqrtDiscriminant = Math.sqrt(discriminant)
+      roots.push((-b + sqrtDiscriminant) / (2 * a), (-b - sqrtDiscriminant) / (2 * a))
+    }
+  }
+
+  return roots
+    .filter((root) => root >= 0 && root <= 1)
+    .map((root) => cubicAt(p0, p1, p2, p3, root))
+}
+
+const calculateDripVisualFillDelayMs = (
+  height: number,
+  maxAmplitude: number,
+  controlPoints: DripControlPoint[]
+) => {
+  if (height <= 0 || controlPoints.length === 0) return 0
+
+  const endY = height + maxAmplitude
+  const lowestFilledY = Math.min(
+    ...controlPoints.flatMap((point) =>
+      cubicBezierYExtrema(endY, endY + point.y2, endY + point.y2, endY)
+    )
+  )
+
+  if (lowestFilledY <= height) return dripAnimationDurationMs
+
+  const requiredProgress = Math.min(
+    1,
+    Math.max(0, (height - dripPathStartY) / (lowestFilledY - dripPathStartY))
+  )
+
+  return timeFractionForCssEaseProgress(requiredProgress) * dripAnimationDurationMs
+}
+
 type OfficialButtonTheme =
   | "dark"
   | "light"
@@ -312,7 +410,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const [controlPoints, setControlPoints] = React.useState<DripControlPoint[]>([])
     const [speedFactorActive, setSpeedFactorActive] = React.useState(false)
     const [dripAnimationState, setDripAnimationState] = React.useState<DripAnimationState>("idle")
-    const pendingDripLeaveRef = React.useRef(false)
+    const pendingDripLeaveTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+    const dripEnterStartedAtRef = React.useRef(0)
 
     const stepSize = 30
     const maxAmplitude = 80
@@ -352,6 +451,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return () => {
         window.removeEventListener("resize", handleResize)
         clearTimeout(timer)
+        if (pendingDripLeaveTimerRef.current) {
+          clearTimeout(pendingDripLeaveTimerRef.current)
+        }
       }
     }, [])
 
@@ -392,7 +494,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const startDripEnter = React.useCallback(() => {
       if (!hasDrip) return
 
-      pendingDripLeaveRef.current = false
+      if (pendingDripLeaveTimerRef.current) {
+        clearTimeout(pendingDripLeaveTimerRef.current)
+        pendingDripLeaveTimerRef.current = null
+      }
+      dripEnterStartedAtRef.current = performance.now()
       setDripAnimationState("entering")
     }, [hasDrip])
 
@@ -401,22 +507,29 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       setDripAnimationState((current) => {
         if (current === "entering") {
-          pendingDripLeaveRef.current = true
+          if (!pendingDripLeaveTimerRef.current) {
+            const elapsedSinceEnter = performance.now() - dripEnterStartedAtRef.current
+            const visualFillDelayMs = calculateDripVisualFillDelayMs(
+              dimensions.height,
+              maxAmplitude,
+              controlPoints
+            )
+            const remainingFillTime = Math.max(0, visualFillDelayMs - elapsedSinceEnter)
+            pendingDripLeaveTimerRef.current = setTimeout(() => {
+              pendingDripLeaveTimerRef.current = null
+              setDripAnimationState("leaving")
+            }, remainingFillTime)
+          }
           return current
         }
 
         return current === "idle" ? current : "leaving"
       })
-    }, [hasDrip])
+    }, [controlPoints, dimensions.height, hasDrip])
 
     const handleDripAnimationEnd = React.useCallback(() => {
       setDripAnimationState((current) => {
         if (current === "entering") {
-          if (pendingDripLeaveRef.current) {
-            pendingDripLeaveRef.current = false
-            return "leaving"
-          }
-
           return "entered"
         }
 
