@@ -11,6 +11,12 @@ import {
 } from "framer-motion"
 
 import { CarouselContent, CarouselItem, useCarousel } from "@/components/ui/carousel"
+import {
+  createCardSwingGeometry,
+  integrateSceneSnapshot,
+  type CardStackCarouselSceneSnapshot,
+  type CardSwingGeometry,
+} from "@/components/ui/card-stack-carousel.physics"
 import { cn } from "@/lib/utils"
 
 const cardStackLayout = {
@@ -34,60 +40,11 @@ const supportMotionProfile = {
   settlePositionEpsilonPx: 0.75,
 } as const
 
-const cardSwingPhysics = {
-  gravityPxPerSecondSquared: 3000,
-  settleVelocityEpsilon: 0.000175,
-  settleAngleEpsilon: 0.000873,
-} as const
-
-type CardSwingGeometry = {
-  cardWidthPx: number
-  cardHeightPx: number
-  hangerYPx: number
-  pitchPx: number
-  centerDistancePx: number
-  inertiaOverMassPx2: number
-  restoringCoefficient: number
-  forcingCoefficient: number
-}
-
-type CardStackCarouselSceneSnapshot = {
-  angle: number
-  angularVelocity: number
-  supportPositionPx: number
-  supportVelocityPxPerSecond: number
-  supportAccelerationPxPerSecondSquared: number
-  targetPositionPx: number
-  geometry: CardSwingGeometry
-  lastUpdatedAt: number
-}
-
 type CardStackCarouselPhysicsStore = {
   getSnapshot: () => CardStackCarouselSceneSnapshot
   registerCardMetrics: (metrics: Pick<CardSwingGeometry, "cardWidthPx" | "cardHeightPx" | "hangerYPx" | "pitchPx">) => void
   setTargetIndex: (index: number) => void
   subscribe: (listener: () => void) => () => void
-}
-
-function createCardSwingGeometry({
-  cardWidthPx,
-  cardHeightPx,
-  hangerYPx,
-  pitchPx,
-}: Pick<CardSwingGeometry, "cardWidthPx" | "cardHeightPx" | "hangerYPx" | "pitchPx">): CardSwingGeometry {
-  const centerDistancePx = Math.max(cardHeightPx / 2 - hangerYPx, 1)
-  const inertiaOverMassPx2 = (cardWidthPx * cardWidthPx + cardHeightPx * cardHeightPx) / 12 + centerDistancePx * centerDistancePx
-
-  return {
-    cardWidthPx,
-    cardHeightPx,
-    hangerYPx,
-    pitchPx,
-    centerDistancePx,
-    inertiaOverMassPx2,
-    restoringCoefficient: (cardSwingPhysics.gravityPxPerSecondSquared * centerDistancePx) / inertiaOverMassPx2,
-    forcingCoefficient: centerDistancePx / inertiaOverMassPx2,
-  }
 }
 
 const FALLBACK_GEOMETRY: CardSwingGeometry = createCardSwingGeometry({
@@ -128,31 +85,11 @@ function radiansToDegrees(value: number) {
   return value * (180 / Math.PI)
 }
 
-function integrateSceneSnapshot(snapshot: CardStackCarouselSceneSnapshot, now: number) {
-  const dt = Math.min(Math.max((now - snapshot.lastUpdatedAt) / 1000, 0), 1 / 30)
-  snapshot.lastUpdatedAt = now
-
-  const angularAcceleration =
-    -Math.sin(snapshot.angle) * snapshot.geometry.restoringCoefficient -
-    snapshot.geometry.forcingCoefficient * snapshot.supportAccelerationPxPerSecondSquared
-
-  snapshot.angularVelocity += angularAcceleration * dt
-  snapshot.angle += snapshot.angularVelocity * dt
-
-  if (
-    Math.abs(snapshot.angularVelocity) < cardSwingPhysics.settleVelocityEpsilon &&
-    Math.abs(snapshot.angle) < cardSwingPhysics.settleAngleEpsilon
-  ) {
-    snapshot.angularVelocity = 0
-    snapshot.angle = 0
-  }
-
+function updateSceneSnapshot(snapshot: CardStackCarouselSceneSnapshot, now: number) {
+  const swingMoving = integrateSceneSnapshot(snapshot, now)
   const supportMoving =
     Math.abs(snapshot.supportVelocityPxPerSecond) >= supportMotionProfile.settleVelocityEpsilonPxPerSecond ||
     Math.abs(snapshot.targetPositionPx - snapshot.supportPositionPx) >= supportMotionProfile.settlePositionEpsilonPx
-  const swingMoving =
-    Math.abs(snapshot.angularVelocity) >= cardSwingPhysics.settleVelocityEpsilon ||
-    Math.abs(snapshot.angle) >= cardSwingPhysics.settleAngleEpsilon
 
   return supportMoving || swingMoving
 }
@@ -206,7 +143,7 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
   const stepPhysics = React.useCallback(
     function stepPhysicsFrame(now: number) {
       syncSupportKinematicsFromMotion(now)
-      const hasMeaningfulMotion = integrateSceneSnapshot(sceneSnapshotRef.current, now)
+      const hasMeaningfulMotion = updateSceneSnapshot(sceneSnapshotRef.current, now)
       publishSceneState()
 
       if (hasMeaningfulMotion) {
@@ -266,7 +203,7 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
         }
 
         syncSupportKinematicsFromMotion(now)
-        integrateSceneSnapshot(sceneSnapshotRef.current, now)
+        updateSceneSnapshot(sceneSnapshotRef.current, now)
         sceneSnapshotRef.current.targetPositionPx = targetPositionPx
         sceneSnapshotRef.current.lastUpdatedAt = now
         supportAnimationRef.current?.stop()
