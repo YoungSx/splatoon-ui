@@ -2,28 +2,41 @@
 
 import * as React from "react"
 
-import { Carousel, CarouselContent, CarouselIndicators, CarouselItem, CarouselNext, CarouselPrevious, type CarouselProps } from "@/components/ui/carousel"
+import { Carousel } from "@/components/ui/carousel"
+import {
+  CardStackCarouselContent,
+  CardStackCarouselIndicators,
+  CardStackCarouselItem,
+  CardStackCarouselNext,
+  CardStackCarouselPrevious,
+} from "@/components/ui/card-stack-carousel"
 import { type CardProps } from "@/components/ui/card"
 import { NewsCard, type NewsCardProps } from "@/components/ui/news-card"
 
-const newsCarouselItemShellClassName = "w-[min(88vw,22rem)] md:w-[min(42vw,22rem)] lg:w-[22rem]"
+const newsCarouselItemShellStyle = {
+  width: "clamp(16.5rem, 19vw, 23rem)",
+} satisfies React.CSSProperties
 
-export interface NewsCarouselItem extends Pick<NewsCardProps, "action" | "bodyClassName" | "media" | "mediaClassName" | "paperFasteners" | "paperLabel" | "surface" | "title" | "titleClassName"> {
+export interface NewsCarouselItem
+  extends Pick<
+    NewsCardProps,
+    "action" | "bodyClassName" | "media" | "mediaClassName" | "paperFasteners" | "paperLabel" | "surface" | "title" | "titleClassName"
+  > {
   id: React.Key
   cardClassName?: string
   cardProps?: Omit<CardProps, "children" | "variant">
 }
 
-export interface NewsCarouselProps extends Omit<CarouselProps, "children"> {
+export interface NewsCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
   items: NewsCarouselItem[]
 }
 
 export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
   return (
-    <Carousel {...props}>
-      <CarouselContent>
+    <Carousel itemCount={items.length} {...props}>
+      <CardStackCarouselContent>
         {items.map((item) => (
-          <CarouselItem key={item.id} shellClassName={newsCarouselItemShellClassName}>
+          <CardStackCarouselItem key={item.id} shellStyle={newsCarouselItemShellStyle}>
             <NewsCard
               className={item.cardClassName}
               media={item.media}
@@ -37,12 +50,12 @@ export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
               action={item.action}
               {...item.cardProps}
             />
-          </CarouselItem>
+          </CardStackCarouselItem>
         ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-      <CarouselIndicators />
+      </CardStackCarouselContent>
+      <CardStackCarouselPrevious />
+      <CardStackCarouselNext />
+      <CardStackCarouselIndicators />
     </Carousel>
   )
 }

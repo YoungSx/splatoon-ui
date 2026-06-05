@@ -25,6 +25,7 @@ export function NewsCard({
   paperLabel,
   surface = "paper",
   className,
+  style,
   ...props
 }: NewsCardProps) {
   return (
@@ -33,6 +34,12 @@ export function NewsCard({
       paperFasteners={paperFasteners}
       paperLabel={paperLabel}
       surface={surface}
+      style={
+        {
+          "--card-hanger-y": "1.25rem",
+          ...style,
+        } as React.CSSProperties
+      }
       {...props}
     >
       <CardImage className={cn("aspect-[8/5] w-full p-4 flex items-center justify-center", mediaClassName)}>{media}</CardImage>

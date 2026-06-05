@@ -88,10 +88,12 @@ function PaperCardFrame({
 }: PaperCardFrameProps) {
   const Comp = asChild ? Slot : "div"
   const svgFills = newsSurfaceFillMap[surface]
+  const { style: propStyle, ...restProps } = props ?? {}
 
   const cardStyle = {
     "--card-svg-fill": svgFills.light,
     "--card-svg-fill-dark": svgFills.dark,
+    ...propStyle,
   } as React.CSSProperties
 
   return (
@@ -104,7 +106,7 @@ function PaperCardFrame({
         "group/card relative flex h-full flex-col cursor-pointer transition-transform duration-300 [transition-timing-function:var(--ease-in-out-quart)]",
         className
       )}
-      {...props}
+      {...restProps}
     >
       <svg
         aria-hidden="true"
