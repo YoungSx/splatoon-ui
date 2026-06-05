@@ -952,10 +952,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                             onClick={() => closeMenuAndNavigate('#buy')}
                             variant="yellow"
                             size="lg"
-                            textColor="black"
-                            hoverColor="blue"
-                            textHoverColor="white"
-                            className="h-[72px] min-w-[241px] border-0 px-11 shadow-none hover:shadow-none active:shadow-none [&_span]:text-[2.05rem] [&_span]:font-semibold [&_span]:tracking-normal [&_span]:normal-case [&_svg]:mt-[0.18em]"
+                            theme="dark-yellow"
                           >
                             Buy now
                           </Button>

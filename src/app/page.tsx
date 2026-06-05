@@ -174,11 +174,11 @@ export default function Home() {
                   <circle cx="55" cy="55" r="4" fill="black" />
                 </svg>
               </CardImage>
-              <div className="flex h-full flex-col items-center justify-center py-4 text-center">
+              <div className="flex h-full flex-col items-center justify-center gap-2 py-4 text-center">
                 <p className="max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]">
                   Beginner Basics for Splatoon 3: Choosing the right weapons
                 </p>
-                <Button size="sm" variant="arrow" className="mt-2">
+                <Button size="sm" variant="arrow">
                   Read
                 </Button>
               </div>
@@ -202,11 +202,11 @@ export default function Home() {
                   <circle cx="58" cy="45" r="3" fill="black" />
                 </svg>
               </CardImage>
-              <div className="flex h-full flex-col items-center justify-center py-4 text-center">
+              <div className="flex h-full flex-col items-center justify-center gap-2 py-4 text-center">
                 <p className="max-w-[18ch] text-balance text-[1.25rem] font-medium leading-[1.6]">
                   Beginner Basics for Splatoon 3: Choosing the right gear
                 </p>
-                <Button size="sm" variant="arrow" className="mt-2">
+                <Button size="sm" variant="arrow">
                   Read
                 </Button>
               </div>
@@ -236,8 +236,8 @@ export default function Home() {
                   Golden Eggs demand is surging! Watch out for Coho Salmon and horror-boros in the spawning grounds.
                 </p>
               </CardContent>
-              <CardFooter className="border-white/20">
-                <Button size="sm" variant="arrow" className="text-white hover:text-[#eaff3d]">
+              <CardFooter className="border-white/20 text-white">
+                <Button size="sm" variant="arrow">
                   Read
                 </Button>
               </CardFooter>
@@ -337,15 +337,16 @@ export default function Home() {
                   <p className="font-heading text-sm font-black uppercase text-chaos-black dark:text-white">Reduced Motion Mode</p>
                   <p className="text-xs text-chaos-black/75 dark:text-white/75 font-medium mt-0.5">Disables mouse-tracking 3D rotations for accessibility.</p>
                 </div>
-                <Button
-                  variant={reducedMotion ? "destructive" : "yellow"}
-                  size="sm"
-                  onClick={() => setReducedMotion(!reducedMotion)}
-                  theme={reducedMotion ? "light-red" : "dark-yellow"}
-                  className="min-w-[80px]"
-                >
-                  {reducedMotion ? "ON" : "OFF"}
-                </Button>
+                <div className="min-w-[80px]">
+                  <Button
+                    variant={reducedMotion ? "destructive" : "yellow"}
+                    size="sm"
+                    onClick={() => setReducedMotion(!reducedMotion)}
+                    theme={reducedMotion ? "light-red" : "dark-yellow"}
+                  >
+                    {reducedMotion ? "ON" : "OFF"}
+                  </Button>
+                </div>
               </div>
             </div>
             
