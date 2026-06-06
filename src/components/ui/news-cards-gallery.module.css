@@ -1,6 +1,6 @@
 .newsCardsGallery {
   padding-bottom: calc(var(--base-space, 8px) * 14) !important;
-  padding-right: calc(var(--gutter-width) * 1) !important;
+  padding-right: calc(var(--gutter-width)*1) !important;
 }
 
 .newsCardsGallery .gallery {
@@ -20,7 +20,7 @@
 
 .newsCardGroup {
   display: grid;
-  gap: calc(var(--gutter-width) * 1);
+  gap: calc(var(--gutter-width)*1);
   grid-template-columns: 1fr;
   height: 100%;
   padding: 0 var(--gutter-width);

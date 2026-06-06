@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: transform calc(var(--duration-factor) * 0.3s) var(--ease-in-out);
+  transition: transform calc(var(--duration-factor) * .3s) var(--ease-in-out);
 }
 
 .card:hover {
@@ -29,7 +29,6 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  overflow: visible;
   transform: rotate(-1deg);
   width: 100%;
 }
@@ -91,4 +90,23 @@
   height: 100%;
   justify-content: center;
   padding: calc(var(--base-space, 8px) * 2) 0;
+}
+
+/* ── Surface: dark ── */
+.surfaceDark .cardLayout {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+/* ── Convenience title/subtitle ── */
+.title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 2;
+}
+
+.subtitle {
+  margin-top: calc(var(--base-space, 8px) * 1);
+  font-size: 0.875rem;
+  opacity: 0.75;
 }

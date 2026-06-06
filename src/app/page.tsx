@@ -11,7 +11,6 @@ import {
   CardTitle,
   CardImage,
 } from '@/components/ui/card'
-import { NewsCard } from '@/components/ui/news-card'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -184,25 +183,25 @@ export default function Home() {
           {/* Section Header */}
           <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
             <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
-              1. Polaroid News Card (`news` variant)
+              1. Polaroid News Card (GridNewsCard)
             </h2>
             <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
-              Matches the scrapbook Polaroid style on the official Splatoon news feed. Features ripped edges, metal staples, and tilted brand stickers.
+              Unified component matching the official Splatoon news feed. Features curved SVG edges, official staple/tape assets, hover animation, and surface variants.
             </p>
           </div>
 
-          {/* Cards Grid */}
+          {/* Cards Grid — unified GridNewsCard */}
           <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 pt-6">
-            {/* News Card 1: Default Sticker */}
-            <NewsCard
-              paperLabel={{ text: "8W-157", color: "yellow", placement: "left" }}
-              mediaClassName="bg-[#603bff]"
-              media={
-                <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#eaff3d] fill-current">
-                  <path d="M50,10 C40,25 35,40 35,60 C35,70 40,80 50,85 C60,80 65,70 65,60 C65,40 60,25 50,10 Z M35,60 C25,65 15,55 10,70 C20,70 25,65 35,60 Z M65,60 C75,65 85,55 90,70 C80,70 75,65 65,60 Z" />
-                  <circle cx="45" cy="55" r="4" fill="black" />
-                  <circle cx="55" cy="55" r="4" fill="black" />
-                </svg>
+            {/* News Card 1: title + action convenience props */}
+            <GridNewsCard
+              image={
+                <div className="h-full w-full bg-[#603bff] flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#eaff3d] fill-current">
+                    <path d="M50,10 C40,25 35,40 35,60 C35,70 40,80 50,85 C60,80 65,70 65,60 C65,40 60,25 50,10 Z M35,60 C25,65 15,55 10,70 C20,70 25,65 35,60 Z M65,60 C75,65 85,55 90,70 C80,70 75,65 65,60 Z" />
+                    <circle cx="45" cy="55" r="4" fill="black" />
+                    <circle cx="55" cy="55" r="4" fill="black" />
+                  </svg>
+                </div>
               }
               title="Beginner Basics for Splatoon 3: Choosing the right weapons"
               action={
@@ -212,18 +211,18 @@ export default function Home() {
               }
             />
 
-            {/* News Card 2: Custom Text Sticker (Blue) */}
-            <NewsCard
-              paperLabel={{ text: "EVENT INFO", color: "blue", placement: "right" }}
-              mediaClassName="bg-[#ff9750]"
-              media={
-                <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#603bff] fill-current">
-                  <path d="M50,15 C30,15 20,35 20,55 C20,70 30,85 50,85 C70,85 80,70 80,55 C80,35 70,15 50,15 Z" />
-                  <circle cx="42" cy="45" r="6" fill="#ff9750" />
-                  <circle cx="58" cy="45" r="6" fill="#ff9750" />
-                  <circle cx="42" cy="45" r="3" fill="black" />
-                  <circle cx="58" cy="45" r="3" fill="black" />
-                </svg>
+            {/* News Card 2: title + action convenience props */}
+            <GridNewsCard
+              image={
+                <div className="h-full w-full bg-[#ff9750] flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#603bff] fill-current">
+                    <path d="M50,15 C30,15 20,35 20,55 C20,70 30,85 50,85 C70,85 80,70 80,55 C80,35 70,15 50,15 Z" />
+                    <circle cx="42" cy="45" r="6" fill="#ff9750" />
+                    <circle cx="58" cy="45" r="6" fill="#ff9750" />
+                    <circle cx="42" cy="45" r="3" fill="black" />
+                    <circle cx="58" cy="45" r="3" fill="black" />
+                  </svg>
+                </div>
               }
               title="Beginner Basics for Splatoon 3: Choosing the right gear"
               action={
@@ -233,33 +232,29 @@ export default function Home() {
               }
             />
 
-            {/* News Card 3: Custom Danger Alert (Red Custom Bg) */}
-            <Card
-              variant="news"
-              paperLabel={{ text: "DANGER ALERT", color: "red", placement: "left" }}
-              paperFasteners
-              surface="danger"
+            {/* News Card 3: dark surface + custom children */}
+            <GridNewsCard
+              surface="dark"
+              showTape={false}
+              image={
+                <div className="h-full w-full bg-[#0d0d0d] flex items-center justify-center">
+                  <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#ff505e] fill-current">
+                    <path d="M50,10 L15,80 L85,80 Z M50,30 L50,55 M50,65 L50,72" stroke="currentColor" strokeWidth="8" strokeLinecap="round" fill="none" />
+                  </svg>
+                </div>
+              }
             >
-              <CardImage className="bg-[#0d0d0d] p-4 h-48 flex items-center justify-center">
-                <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#ff505e] fill-current">
-                  <path d="M50,10 L15,80 L85,80 Z M50,30 L50,55 M50,65 L50,72" stroke="currentColor" strokeWidth="8" strokeLinecap="round" fill="none" />
-                </svg>
-              </CardImage>
-              <CardHeader className="border-white/20">
-                <CardTitle className="text-white">Salmon Run Max</CardTitle>
-                <CardDescription className="text-white/80">Hazard Level Max Warning</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm font-medium text-white/95 leading-relaxed">
-                  Golden Eggs demand is surging! Watch out for Coho Salmon and horror-boros in the spawning grounds.
+              <div className="space-y-3 p-4 text-center">
+                <p className="text-xs font-black uppercase tracking-[0.35em] text-white/60">Danger Alert</p>
+                <h4 className="text-xl font-black text-white">Salmon Run Max</h4>
+                <p className="text-sm text-white/80">
+                  Golden Eggs demand is surging! Watch out for Coho Salmon and horror-boros.
                 </p>
-              </CardContent>
-              <CardFooter className="border-white/20 text-white">
                 <Button size="sm" variant="arrow">
                   Read
                 </Button>
-              </CardFooter>
-            </Card>
+              </div>
+            </GridNewsCard>
           </div>
         </div>
       </section>
@@ -818,7 +813,7 @@ export default function Home() {
                   marginOffset={3}
                   className="mb-4"
                 >
-                  <div className="text-lg font-black uppercase tracking-wider">
+                  <div className="text-lg font-black font-foo uppercase tracking-wider">
                     Official Heading Tape
                   </div>
                 </HeadingTape>

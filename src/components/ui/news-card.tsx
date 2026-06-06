@@ -1,3 +1,9 @@
+/**
+ * @deprecated Use `GridNewsCard` from `@/components/ui/grid-news-card` instead.
+ * This component is retained for reference only — it is no longer imported anywhere.
+ * GridNewsCard is the single source of truth for news card UI, matching the official Splatoon DOM structure.
+ */
+
 "use client"
 
 import * as React from "react"

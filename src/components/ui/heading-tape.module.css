@@ -7,12 +7,10 @@
 }
 
 .overlapTop {
-  margin-top: -3px;
+  margin-top: -30px;
 }
 
 .headingTapeContainer {
-  padding: 0;
-  position: relative;
   transform: rotate(-3deg);
   width: fit-content;
 }
@@ -23,7 +21,6 @@
   position: absolute;
   top: 0;
   width: 100%;
-  pointer-events: none;
 }
 
 .headingTapeSticker1,
@@ -47,16 +44,6 @@
   background: var(--color-white);
   border-radius: 10px;
   display: inline-block;
-  font-family: 'fooregular', sans-serif;
-  font-weight: 500;
   padding: calc(var(--base-space, 8px) * 2) 40px;
   text-align: center;
-  text-transform: uppercase;
-  width: 100%;
-}
-
-@media screen and (min-width: 640px) {
-  .headingTapeText {
-    padding: calc(var(--base-space, 8px) * 2) 60px;
-  }
 }

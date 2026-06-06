@@ -11,8 +11,7 @@ import {
   CardStackCarouselPrevious,
   CardStackCarouselScene,
 } from "@/components/ui/card-stack-carousel"
-import { type CardProps } from "@/components/ui/card"
-import { NewsCard, type NewsCardProps } from "@/components/ui/news-card"
+import { GridNewsCard, type GridNewsCardProps } from "@/components/ui/grid-news-card"
 
 const newsCarouselItemShellStyle = {
   width: "clamp(16.5rem, 19vw, 23rem)",
@@ -20,12 +19,11 @@ const newsCarouselItemShellStyle = {
 
 export interface NewsCarouselItem
   extends Pick<
-    NewsCardProps,
-    "action" | "bodyClassName" | "media" | "mediaClassName" | "paperFasteners" | "paperLabel" | "surface" | "title" | "titleClassName"
+    GridNewsCardProps,
+    "image" | "title" | "subtitle" | "action" | "surface" | "showTape"
   > {
   id: React.Key
   cardClassName?: string
-  cardProps?: Omit<CardProps, "children" | "variant">
 }
 
 export interface NewsCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
@@ -43,18 +41,14 @@ export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
               data-index={index}
               shellStyle={newsCarouselItemShellStyle}
             >
-              <NewsCard
+              <GridNewsCard
                 className={item.cardClassName}
-                media={item.media}
-                mediaClassName={item.mediaClassName}
-                bodyClassName={item.bodyClassName}
-                paperFasteners={item.paperFasteners}
-                paperLabel={item.paperLabel}
-                surface={item.surface}
+                image={item.image}
                 title={item.title}
-                titleClassName={item.titleClassName}
+                subtitle={item.subtitle}
                 action={item.action}
-                {...item.cardProps}
+                surface={item.surface}
+                showTape={item.showTape}
               />
             </CardStackCarouselItem>
           ))}
