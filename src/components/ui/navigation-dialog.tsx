@@ -5,6 +5,7 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { InkSplashCanvas } from '@/components/ui/ink-splash-canvas'
 import { NavMenuButton } from '@/components/ui/nav-menu-button'
 import { Splat } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
@@ -143,53 +144,16 @@ const overlayDecorations = [
   },
 ] as const
 
-const MENU_ANIMATION_MS = 1125
+// Animation timing constants
 const MENU_CONTENT_ENTER_MS = 300
 const MENU_CONTENT_EXIT_MS = 240
 const MENU_CONTENT_TRANSITION_IN_EASING = 'cubic-bezier(0.15, 0.9, 0.25, 1)'
 const MENU_CONTENT_TRANSITION_OUT_EASING = 'cubic-bezier(0.25, 0.12, 0.4, 1)'
-const CLOSE_WAVE_LOBES = [
-  { center: 0.12, width: 0.06, height: 78, ragged: 34 },
-  { center: 0.28, width: 0.075, height: 118, ragged: 36 },
-  { center: 0.47, width: 0.09, height: 168, ragged: 42 },
-  { center: 0.68, width: 0.08, height: 132, ragged: 38 },
-  { center: 0.86, width: 0.055, height: 88, ragged: 30 },
-] as const
 
+// Animation phases
 type CoverPhase = 'closed' | 'opening' | 'open' | 'closing'
 type ContentPhase = 'hidden' | 'entering' | 'visible' | 'exiting'
-type MenuOrigin = { x: number; y: number }
-type MenuSpike = {
-  offset: number
-  height: number
-  sigma: number
-  bursts: Array<{
-    center: number
-    width: number
-    gain: number
-    power: number
-  }>
-  wobblePhase: number
-  wobbleSpeed: number
-  wobbleDepth: number
-  sigmaPhase: number
-  sigmaDepth: number
-  driftPhase: number
-  driftAmount: number
-}
-type MenuTrough = {
-  offset: number
-  depth: number
-  sigma: number
-}
-type MenuNoise = {
-  grid4: number[]
-  grid8: number[]
-  grid16: number[]
-  detailGrid: number[]
-  spikes: MenuSpike[]
-  troughs: MenuTrough[]
-}
+type CanvasState = 'in' | 'out' | 'idle'
 
 type NavigationDialogProps = {
   isReducedMotion: boolean
@@ -216,163 +180,26 @@ function getCurrentSelectedNavKey() {
   return matchedLink?.selectedKey ?? 'home'
 }
 
-function randomBetween(min: number, max: number) {
-  return min + Math.random() * (max - min)
-}
-
-function createCircularNoiseGrid(count: number, min = -1, max = 1) {
-  return Array.from({ length: count }, () => randomBetween(min, max))
-}
-
-function randomMostlyDeep(min: number, max: number, shallowBias = 0.16) {
-  const mix = Math.random() < shallowBias ? Math.random() * 0.45 : 0.72 + Math.random() * 0.28
-  return min + (max - min) * mix
-}
-
-function createSpikeBursts(spikeIndex: number) {
-  const burstCount = spikeIndex === 0 ? 3 : 2
-  const centers = Array.from({ length: burstCount }, () => randomBetween(0.16, 0.9)).sort(
-    (a, b) => a - b
-  )
-
-  for (let index = 1; index < centers.length; index += 1) {
-    if (centers[index] - centers[index - 1] < 0.12) {
-      centers[index] = Math.min(0.92, centers[index - 1] + randomBetween(0.12, 0.18))
-    }
-  }
-
-  return centers.map((center, burstIndex) => ({
-    center,
-    width:
-      spikeIndex === 0
-        ? burstIndex === centers.length - 1
-          ? randomBetween(0.045, 0.07)
-          : randomBetween(0.055, 0.09)
-        : randomBetween(0.05, 0.085),
-    gain:
-      spikeIndex === 0
-        ? burstIndex === centers.length - 1
-          ? randomBetween(2.2, 3.1)
-          : randomBetween(1.25, 1.95)
-        : spikeIndex === 1
-          ? randomBetween(0.95, 1.55)
-        : spikeIndex === 2
-            ? randomBetween(0.55, 0.95)
-            : randomBetween(0.28, 0.62),
-    power:
-      spikeIndex === 0
-        ? burstIndex === centers.length - 1
-          ? randomBetween(2.9, 3.35)
-          : randomBetween(2.25, 2.8)
-        : randomBetween(2.05, 2.55),
-  }))
-}
-
-function createMenuNoise(): MenuNoise {
-  const angularOffsets = [
-    randomBetween(-1.02, -0.7),
-    randomBetween(-0.28, 0.04),
-    randomBetween(0.26, 0.62),
-    randomBetween(0.92, 1.28),
-    randomBetween(-1.56, -1.24),
-    randomBetween(1.46, 1.74),
-  ]
-  const troughOffsets = [
-    (angularOffsets[0] + angularOffsets[1]) / 2 + randomBetween(-0.04, 0.04),
-    (angularOffsets[1] + angularOffsets[2]) / 2 + randomBetween(-0.05, 0.05),
-  ]
-  return {
-    grid4: createCircularNoiseGrid(4, -0.95, 0.95),
-    grid8: createCircularNoiseGrid(8, -0.28, 0.28),
-    grid16: createCircularNoiseGrid(16, -0.03, 0.03),
-    detailGrid: createCircularNoiseGrid(24, -0.006, 0.006),
-    spikes: angularOffsets.map((offset, index) => {
-      const isShoulder = index >= 4
-      return {
-        offset,
-        height: isShoulder
-          ? randomBetween(0.04, 0.08)
-          : index === 0
-            ? randomBetween(3.2, 4.1)
-            : index === 1
-              ? randomBetween(1.15, 1.6)
-              : index === 2
-                ? randomBetween(0.45, 0.7)
-                : randomBetween(0.16, 0.3),
-        sigma: isShoulder
-          ? randomBetween(0.16, 0.22)
-          : index === 0
-            ? randomBetween(0.24, 0.34)
-            : index === 1
-              ? randomBetween(0.18, 0.26)
-              : index === 2
-                ? randomBetween(0.12, 0.18)
-                : randomBetween(0.08, 0.12),
-        bursts: isShoulder
-          ? [
-              {
-                center: randomBetween(0.28, 0.72),
-                width: randomBetween(0.07, 0.1),
-                gain: randomBetween(0.05, 0.1),
-                power: randomBetween(1.8, 2.15),
-              },
-            ]
-          : createSpikeBursts(index),
-        wobblePhase: randomBetween(0, Math.PI * 2),
-        wobbleSpeed: isShoulder ? randomBetween(4.6, 6.8) : randomBetween(5.8, 8.9),
-        wobbleDepth: isShoulder
-          ? randomBetween(0.02, 0.05)
-          : index === 0
-            ? randomBetween(0.16, 0.24)
-            : index === 1
-              ? randomBetween(0.12, 0.2)
-              : randomBetween(0.08, 0.16),
-        sigmaPhase: randomBetween(0, Math.PI * 2),
-        sigmaDepth: isShoulder
-          ? randomBetween(0.02, 0.04)
-          : index === 0
-            ? randomBetween(0.12, 0.18)
-            : index === 1
-              ? randomBetween(0.1, 0.16)
-              : randomBetween(0.08, 0.12),
-        driftPhase: randomBetween(0, Math.PI * 2),
-        driftAmount: isShoulder
-          ? randomBetween(0.01, 0.025)
-          : index === 0
-            ? randomBetween(0.05, 0.09)
-            : index === 1
-              ? randomBetween(0.04, 0.075)
-              : randomBetween(0.02, 0.05),
-      }
-    }),
-    troughs: troughOffsets.map((offset, index) => ({
-      offset,
-      depth:
-        index === 0
-          ? randomMostlyDeep(145, 245, 0.16)
-          : randomMostlyDeep(185, 320, 0.12),
-      sigma: index === 0 ? randomBetween(0.17, 0.24) : randomBetween(0.18, 0.26),
-    })),
-  }
-}
-
 export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
   const [coverPhase, setCoverPhase] = React.useState<CoverPhase>('closed')
   const [contentPhase, setContentPhase] = React.useState<ContentPhase>('hidden')
   const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
   const [selectedNavKey, setSelectedNavKey] = React.useState(getCurrentSelectedNavKey)
-  const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
-  const [phaseProgress, setPhaseProgress] = React.useState(0)
-  const [menuOrigin, setMenuOrigin] = React.useState<MenuOrigin | null>(null)
-  const [menuNoise, setMenuNoise] = React.useState<MenuNoise>(createMenuNoise)
+  const [openCount, setOpenCount] = React.useState(0)
 
   const menuTriggerRef = React.useRef<HTMLButtonElement>(null)
   const animationTimersRef = React.useRef<number[]>([])
-  const numPoints = 144
+  const triggerPosRef = React.useRef<[number, number]>([0, 0])
 
   const isMenuMounted = coverPhase !== 'closed'
   const isMenuPressed = coverPhase !== 'closed'
   const isContentInteractive = contentPhase === 'visible'
+
+  // Canvas state: 'in' for opening, 'out' for closing, 'idle' when closed
+  const canvasState: CanvasState =
+    coverPhase === 'opening' ? 'in' :
+    coverPhase === 'closing' ? 'out' :
+    'idle'
 
   const clearAnimationTimers = React.useCallback(() => {
     animationTimersRef.current.forEach((timer) => window.clearTimeout(timer))
@@ -385,19 +212,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     }
   }, [clearAnimationTimers])
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      setDimensions({ width: window.innerWidth, height: window.innerHeight })
-    }
-
-    window.addEventListener('resize', handleResize)
-    handleResize()
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
+  // Sync selected nav key with URL changes
   React.useEffect(() => {
     const syncSelectedNavKey = () => {
       setSelectedNavKey(getCurrentSelectedNavKey())
@@ -412,92 +227,40 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     }
   }, [])
 
-  const getMenuTriggerOrigin = React.useCallback((): MenuOrigin | null => {
-    const trigger = menuTriggerRef.current
-    if (!trigger) return null
-
-    const rect = trigger.getBoundingClientRect()
-    if (!rect.width || !rect.height) return null
-
-    const viewportWidth = window.innerWidth || dimensions.width
-    const viewportHeight = window.innerHeight || dimensions.height
-
-    return {
-      x: Math.min(Math.max(rect.left + rect.width / 2, 0), viewportWidth),
-      y: Math.min(Math.max(rect.top + rect.height / 2, 0), viewportHeight),
-    }
-  }, [dimensions.height, dimensions.width])
-
-  React.useEffect(() => {
-    if (isReducedMotion || (coverPhase !== 'opening' && coverPhase !== 'closing')) {
-      return
-    }
-
-    let startTimestamp: number | null = null
-    let animationFrameId = 0
-
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp
-      const elapsed = timestamp - startTimestamp
-      const progress = Math.min(elapsed / MENU_ANIMATION_MS, 1)
-
-      const ease = (value: number) => {
-        return value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2
-      }
-
-      setPhaseProgress(ease(progress))
-
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(step)
-        return
-      }
-
-      if (coverPhase === 'opening') {
-        clearAnimationTimers()
-        setCoverPhase('open')
-        setPhaseProgress(1)
-        setContentPhase('entering')
-        const timer = window.setTimeout(() => {
-          setContentPhase('visible')
-        }, MENU_CONTENT_ENTER_MS)
-        animationTimersRef.current.push(timer)
-        return
-      }
-
-      if (coverPhase === 'closing') {
-        setCoverPhase('closed')
-        setContentPhase('hidden')
-        setPhaseProgress(0)
-      }
-    }
-
-    animationFrameId = requestAnimationFrame(step)
-    return () => cancelAnimationFrame(animationFrameId)
-  }, [clearAnimationTimers, coverPhase, isReducedMotion])
-
+  // Open menu handler
   const openMenu = React.useCallback(() => {
-    setMenuNoise(createMenuNoise())
-    setMenuOrigin(getMenuTriggerOrigin())
     setActiveNavLabel(null)
 
     if (isReducedMotion) {
       setCoverPhase('open')
-      setPhaseProgress(1)
       setContentPhase('visible')
       return
     }
 
+    // Capture trigger button position in NDC coordinates [-0.5..0.5]
+    // matching the shader's circle(pos) coordinate space
+    const triggerEl = menuTriggerRef.current
+    if (triggerEl) {
+      const rect = triggerEl.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      triggerPosRef.current = [
+        cx / window.innerWidth - 0.5,
+        0.5 - cy / window.innerHeight,
+      ]
+    }
+
+    setOpenCount((c) => c + 1)
     setCoverPhase('opening')
     setContentPhase('hidden')
-    setPhaseProgress(0)
-  }, [getMenuTriggerOrigin, isReducedMotion])
+  }, [isReducedMotion])
 
+  // Close menu handler
   const closeMenu = React.useCallback(() => {
     clearAnimationTimers()
     setActiveNavLabel(null)
 
     if (isReducedMotion) {
-      setPhaseProgress(0)
       setContentPhase('hidden')
       setCoverPhase('closed')
       return
@@ -508,16 +271,15 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
       const timer = window.setTimeout(() => {
         setContentPhase('hidden')
         setCoverPhase('closing')
-        setPhaseProgress(0)
       }, MENU_CONTENT_EXIT_MS)
       animationTimersRef.current.push(timer)
       return
     }
 
     setCoverPhase('closing')
-    setPhaseProgress(0)
   }, [clearAnimationTimers, contentPhase, isReducedMotion])
 
+  // Handle open state changes from DialogPrimitive
   const handleOpenChange = React.useCallback(
     (nextOpen: boolean) => {
       if (nextOpen) {
@@ -534,6 +296,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     [closeMenu, coverPhase, openMenu]
   )
 
+  // Navigate and close
   const closeMenuAndNavigate = React.useCallback(
     (href: string) => {
       closeMenu()
@@ -546,266 +309,26 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     [closeMenu]
   )
 
-  const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-  const fade = (t: number) => t * t * t * (t * (t * 6 - 15) + 10)
-
-  const getPeriodicNoiseValue = (angle: number, grid: number[]) => {
-    if (!grid || grid.length === 0) return 0
-    const size = grid.length
-    let normalizedAngle = angle % (2 * Math.PI)
-    if (normalizedAngle < 0) normalizedAngle += 2 * Math.PI
-
-    const t = (normalizedAngle / (2 * Math.PI)) * size
-    const idx0 = Math.floor(t) % size
-    const idx1 = (idx0 + 1) % size
-    const u = t - Math.floor(t)
-
-    return lerp(grid[idx0], grid[idx1], fade(u))
-  }
-
-  const getAngularDistance = (angleA: number, angleB: number) => {
-    let diff = Math.abs(angleA - angleB)
-    if (diff > Math.PI) {
-      diff = 2 * Math.PI - diff
-    }
-    return diff
-  }
-
-  const getTemporalGaussian = (t: number, center: number, width: number) => {
-    const distance = t - center
-    return Math.exp(-(distance * distance) / (2 * width * width))
-  }
-
-  const getImpulse = (value: number, power = 1.9) => {
-    if (value <= 0) return 0
-    return Math.pow(value, power)
-  }
-
-  const getMenuRadiusOffset = (angle: number, t: number, frontAngle: number) => {
-    const n4 = getPeriodicNoiseValue(angle + 0.92 * t, menuNoise.grid4) * 650
-    const n8 = getPeriodicNoiseValue(angle - 1.02 * t, menuNoise.grid8) * 68
-    const n16 = getPeriodicNoiseValue(angle + 1.34 * t, menuNoise.grid16) * 3
-    const detail = getPeriodicNoiseValue(angle - 1.8 * t, menuNoise.detailGrid) * 0.6
-    const frontDistance = getAngularDistance(angle, frontAngle)
-    const frontWeight = Math.exp(-(frontDistance * frontDistance) / (2 * 0.95 * 0.95))
-    const fbmSectorScale = 0.14 + frontWeight * 0.86
-
-    let fbm = (n4 + n8 + n16 + detail) * fbmSectorScale
-    const maxFbm = 1280
-
-    if (fbm > 0) {
-      fbm = Math.pow(fbm / maxFbm, 1.01) * maxFbm
-    } else {
-      fbm = -Math.pow(Math.abs(fbm) / maxFbm, 1.04) * maxFbm
+  // Canvas animation complete handler
+  const handleCanvasComplete = React.useCallback(() => {
+    if (coverPhase === 'opening') {
+      clearAnimationTimers()
+      setCoverPhase('open')
+      setContentPhase('entering')
+      const timer = window.setTimeout(() => {
+        setContentPhase('visible')
+      }, MENU_CONTENT_ENTER_MS)
+      animationTimersRef.current.push(timer)
+      return
     }
 
-    let spikeSum = 0
-    menuNoise.spikes.forEach((spike) => {
-      const burstEnergy = spike.bursts.reduce((sum, burst) => {
-        return sum + getImpulse(getTemporalGaussian(t, burst.center, burst.width), burst.power) * burst.gain
-      }, 0)
-      const openingEnvelope = 0.2 + 0.8 * Math.pow(t, 0.86)
-      const wobble =
-        1 +
-        Math.sin(t * spike.wobbleSpeed + spike.wobblePhase) * spike.wobbleDepth +
-        Math.sin(t * (spike.wobbleSpeed * 1.57) + spike.wobblePhase * 0.6) * (spike.wobbleDepth * 0.14)
-      const surge = 1 + burstEnergy
-      const liveHeightScale = Math.max(0.18, openingEnvelope * surge * wobble)
-      const liveSigmaScale =
-        1 +
-        Math.sin(t * (spike.wobbleSpeed * 0.94) + spike.sigmaPhase) * spike.sigmaDepth +
-        burstEnergy * 0.06
-      const drift =
-        Math.sin(t * (spike.wobbleSpeed * 0.72) + spike.driftPhase) * spike.driftAmount +
-        Math.sin(t * (spike.wobbleSpeed * 1.12) + spike.driftPhase * 0.7) * (spike.driftAmount * 0.18)
-      const currentAngle = frontAngle + spike.offset + drift
-
-      const currentSigma = spike.sigma * Math.max(0.7, liveSigmaScale)
-      const currentHeight = spike.height * 540 * liveHeightScale
-      const diff = getAngularDistance(angle, currentAngle)
-      const spikeValue =
-        currentHeight * Math.exp(-(diff * diff) / (2 * currentSigma * currentSigma))
-
-      spikeSum += spikeValue
-    })
-
-    let troughSum = 0
-    menuNoise.troughs.forEach((trough, troughIndex) => {
-      const currentAngle = frontAngle + trough.offset
-      const diff = getAngularDistance(angle, currentAngle)
-      const openingEnvelope = 0.22 + 0.9 * Math.pow(t, 0.92)
-      const delay = troughIndex === 0 ? 0.98 : 1.08
-      const troughValue =
-        trough.depth *
-        openingEnvelope *
-        delay *
-        Math.exp(-(diff * diff) / (2 * trough.sigma * trough.sigma))
-
-      troughSum += troughValue
-    })
-
-    const totalOffset = fbm + spikeSum - troughSum
-    const noiseScale = 0.08 + 0.92 * Math.pow(t, 0.9)
-    return totalOffset * noiseScale
-  }
-
-  const getMenuDripPath = (t: number) => {
-    if (!dimensions.width || !dimensions.height) return ''
-
-    const fallbackOrigin = {
-      x: 0,
-      y: 0,
+    if (coverPhase === 'closing') {
+      setCoverPhase('closed')
+      setContentPhase('hidden')
     }
-    const { x: cx, y: cy } = menuOrigin ?? fallbackOrigin
-    const width = dimensions.width
-    const height = dimensions.height
-    const travelProgress = Math.pow(t, 0.9)
-    const frontAngle = Math.atan2(height - cy, width - cx)
-    const farthestCornerDistance = Math.max(
-      Math.hypot(cx, cy),
-      Math.hypot(width - cx, cy),
-      Math.hypot(cx, height - cy),
-      Math.hypot(width - cx, height - cy)
-    )
-    const baseRadius = 14 + farthestCornerDistance * 0.94 * travelProgress
-    const deltaTheta = (Math.PI * 2) / numPoints
+  }, [clearAnimationTimers, coverPhase])
 
-    const radii = Array.from({ length: numPoints }, (_, index) => {
-      const angle = index * deltaTheta
-      const radius = baseRadius + getMenuRadiusOffset(angle, t, frontAngle)
-      return Math.max(14, radius)
-    })
-
-    for (let pass = 0; pass < 3; pass += 1) {
-      const nextRadii = radii.slice()
-      for (let index = 0; index < radii.length; index += 1) {
-        const prev = radii[(index - 1 + radii.length) % radii.length]
-        const current = radii[index]
-        const next = radii[(index + 1) % radii.length]
-        nextRadii[index] = prev * 0.11 + current * 0.78 + next * 0.11
-      }
-
-      radii.splice(0, radii.length, ...nextRadii)
-    }
-
-    const points = radii.map((radius, index) => {
-      const angle = index * deltaTheta
-      return {
-        x: cx + Math.cos(angle) * radius,
-        y: cy + Math.sin(angle) * radius,
-      }
-    })
-
-    if (points.length < 2) return ''
-
-    let path = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`
-
-    for (let index = 0; index < points.length; index += 1) {
-      const p0 = points[(index - 1 + points.length) % points.length]
-      const p1 = points[index]
-      const p2 = points[(index + 1) % points.length]
-      const p3 = points[(index + 2) % points.length]
-      const cp1x = p1.x + (p2.x - p0.x) / 6
-      const cp1y = p1.y + (p2.y - p0.y) / 6
-      const cp2x = p2.x - (p3.x - p1.x) / 6
-      const cp2y = p2.y - (p3.y - p1.y) / 6
-
-      path += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)} ${cp2x.toFixed(1)} ${cp2y.toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`
-    }
-
-    path += ' Z'
-    return path
-  }
-
-  const getMenuCloseWavePoints = (t: number) => {
-    if (!dimensions.width || !dimensions.height) return []
-
-    const width = dimensions.width
-    const height = dimensions.height
-    const points = 22
-    const travel = -112 + (height + 224) * Math.pow(t, 0.72)
-    const waveEnvelope = Math.sin(Math.min(t, 0.95) * Math.PI)
-    const amplitudePrimary = 14 + 22 * waveEnvelope
-    const amplitudeSecondary = 6 + 12 * waveEnvelope
-    const phaseShift = t * Math.PI * 0.92
-
-    const wavePoints: Array<{ x: number; y: number }> = []
-
-    for (let index = 0; index <= points; index += 1) {
-      const ratio = index / points
-      const x = width * ratio
-      const angle = ratio * Math.PI * 2
-      const sideBias = (0.44 - ratio) * 46 * (1 - t * 0.85)
-      const harmonic =
-        Math.sin(angle + phaseShift) * amplitudePrimary +
-        Math.sin(angle * 1.9 - phaseShift * 0.72) * amplitudeSecondary +
-        getPeriodicNoiseValue(angle + phaseShift * 0.35, menuNoise.grid16) * 8 * waveEnvelope
-
-      const lobeOffset = CLOSE_WAVE_LOBES.reduce((total, lobe, lobeIndex) => {
-        const distance = ratio - lobe.center
-        const gaussian = Math.exp(-(distance * distance) / (2 * lobe.width * lobe.width))
-        const raggedAngle =
-          ratio * Math.PI * (5.2 + lobeIndex * 1.6) + phaseShift * (0.5 + lobeIndex * 0.12)
-        const raggedNoise =
-          Math.sin(raggedAngle) * 0.65 +
-          getPeriodicNoiseValue(raggedAngle * 0.5, menuNoise.detailGrid) * 0.28
-
-        return total + gaussian * (lobe.height + raggedNoise * lobe.ragged) * (1.16 - t * 0.12)
-      }, 0)
-
-      const notchOffset =
-        -Math.exp(-Math.pow((ratio - 0.57) / 0.13, 2)) * (18 + 24 * waveEnvelope) -
-        Math.exp(-Math.pow((ratio - 0.27) / 0.08, 2)) * (10 + 14 * waveEnvelope) -
-        Math.exp(-Math.pow((ratio - 0.78) / 0.05, 2)) * (8 + 12 * waveEnvelope)
-
-      wavePoints.push({
-        x,
-        y: travel + harmonic + lobeOffset + notchOffset + sideBias,
-      })
-    }
-
-    return wavePoints
-  }
-
-  const getMenuCloseWavePath = (t: number) => {
-    const wavePoints = getMenuCloseWavePoints(t)
-    if (wavePoints.length === 0) return ''
-
-    const width = dimensions.width
-    const height = dimensions.height
-    let path = `M 0 ${wavePoints[0].y.toFixed(1)}`
-
-    for (let index = 0; index < wavePoints.length - 1; index += 1) {
-      const current = wavePoints[index]
-      const next = wavePoints[index + 1]
-      const midX = ((current.x + next.x) / 2).toFixed(1)
-      const midY = ((current.y + next.y) / 2).toFixed(1)
-      path += ` Q ${current.x.toFixed(1)} ${current.y.toFixed(1)} ${midX} ${midY}`
-    }
-
-    const last = wavePoints[wavePoints.length - 1]
-    path += ` T ${last.x.toFixed(1)} ${last.y.toFixed(1)}`
-    path += ` L ${width.toFixed(1)} ${(height + 120).toFixed(1)}`
-    path += ` L 0 ${(height + 120).toFixed(1)} Z`
-
-    return path
-  }
-
-  const getFullScreenCoverPath = () => {
-    const width = Math.max(dimensions.width, 1)
-    const height = Math.max(dimensions.height, 1)
-    return `M 0 0 L ${width.toFixed(1)} 0 L ${width.toFixed(1)} ${height.toFixed(1)} L 0 ${height.toFixed(1)} Z`
-  }
-
-  const currentCoverPath =
-    dimensions.width > 0
-      ? coverPhase === 'closing'
-        ? getMenuCloseWavePath(phaseProgress)
-        : coverPhase === 'open'
-          ? getFullScreenCoverPath()
-          : getMenuDripPath(phaseProgress)
-      : ''
-
+  // Content transition classes
   const contentTransitionClass = React.useMemo(() => {
     if (contentPhase === 'hidden') {
       return [
@@ -871,17 +394,17 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
           >
             <DialogPrimitive.Close className="sr-only">Close navigation menu</DialogPrimitive.Close>
 
-            <svg
-              data-menu-cover-svg=""
-              data-menu-cover=""
-              data-phase={coverPhase}
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 h-full w-full"
-              viewBox={`0 0 ${Math.max(dimensions.width, 1)} ${Math.max(dimensions.height, 1)}`}
-              preserveAspectRatio="none"
-            >
-              <path d={currentCoverPath} fill="#000" shapeRendering="geometricPrecision" />
-            </svg>
+            {/* WebGL ink splash canvas (replaces SVG path animation) */}
+            <InkSplashCanvas
+              state={canvasState}
+              durationIn={700}
+              durationOut={1000}
+              color="#000000"
+              count={openCount}
+              startPosition={triggerPosRef.current}
+              onComplete={handleCanvasComplete}
+              className="pointer-events-none absolute inset-0 z-[80]"
+            />
 
             <div
               data-menu-content=""
