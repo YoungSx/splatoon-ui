@@ -27,6 +27,11 @@ export interface InkSplashCanvasProps {
   count?: number
   /** Start position in NDC coordinates [-0.5..0.5]. If not provided, defaults to [0,0] (center). */
   startPosition?: [number, number]
+  /**
+   * Optional texture supported by the official splat-transition shader.
+   * The official navigation overlay leaves this unset so the ink stays flat black.
+   */
+  background?: string
   /** Called when animation completes */
   onComplete?: () => void
   /** Additional CSS class */
@@ -121,6 +126,8 @@ const fragmentShaderSource = `
   uniform vec2 u_resolution;
   uniform vec2 u_start;
   uniform bool u_animatingOut;
+  uniform sampler2D u_background;
+  uniform bool u_background_ready;
 
   varying vec2 v_uv;
 
@@ -132,8 +139,8 @@ const fragmentShaderSource = `
   float circle(vec2 _uv, float _radius, vec2 _pos){
     vec2 mx = u_resolution.xy / min(u_resolution.y, u_resolution.x);
     float dist = length(_uv - mx * _pos) - max(mx.x, mx.y) * _radius;
-    // Original: smoothstep(0.4*u_progress, -0.4, dist) — inverted edges are undefined on ANGLE/Windows.
-    // Equivalent: 1.0 - smoothstep(-0.4, 0.4*u_progress, dist)
+    // ANGLE-compatible: official's smoothstep(0.4*progress, -0.4, dist) has e0>e1 on Windows ANGLE.
+    // Mathematically equivalent: 1.0 - smoothstep(-0.4, 0.4*progress, dist)
     return (1.0 - smoothstep(-0.4, 0.4 * u_progress, dist)) + smoothstep(0.9, 1.0, u_progress);
   }
 
@@ -141,8 +148,6 @@ const fragmentShaderSource = `
     vec2 mx = u_resolution.xy / min(u_resolution.y, u_resolution.x);
     float e0 = _uv.y + (0.5 - 0.1 * (1.0 - _progress)) / mx.y;
     float e1 = _uv.y + (0.5 + 0.5 * (1.0 - _progress)) / mx.y;
-    // When progress → 1.0, e0 ≈ e1 → undefined smoothstep on ANGLE.
-    // Enforce minimum gap so smoothstep always returns 1.0 for x >> e1.
     e1 = max(e1, e0 + 0.001);
     return smoothstep(e0, e1, _progress) * (0.8 + 0.2 * smoothstep(0.0, 0.5, _progress));
   }
@@ -151,8 +156,8 @@ const fragmentShaderSource = `
     vec2 uv = getScreenSpace();
     vec2 pos = mix(u_start, vec2(0.0, 0.0), u_progress);
 
-    float c = u_animatingOut ? swipe(uv, 1.0 * u_progress) : circle(uv, 0.8 * u_progress, pos);
-    float c2 = u_animatingOut ? swipe(uv, (1.0 + (0.1 * smoothstep(u_progress, 1.0, 0.9))) * u_progress) : circle(uv, 0.9 * u_progress, pos);
+    float c = u_animatingOut ? swipe(uv, u_progress) : circle(uv, .8 * u_progress, pos);
+    float c2 = u_animatingOut ? swipe(uv, (1. + (0.1 * smoothstep(u_progress, 1.0, 0.9))) * u_progress) : circle(uv, .9 * u_progress, pos);
     float c3 = u_animatingOut ? 0.0 : circle(uv, 0.95 * u_progress, pos);
 
     vec4 baseColor = vec4(0.0);
@@ -160,10 +165,12 @@ const fragmentShaderSource = `
 
     vec2 noisePos = vec2(uv.x, uv.y + u_noiseY);
 
-    vec4 shadow = vec4(vec3(0.0), step((snoise((noisePos.xy + u_seed) * noiseSize) + 1.0) / 2.0, c3) * 0.25);
-    vec4 altColor = vec4(u_color * 1.2, step((snoise((noisePos.xy + u_seed) * noiseSize) + 1.0) / 2.0, c2));
-    vec4 topColor = vec4(u_color, step((snoise((noisePos.xy + u_seed) * noiseSize) + 1.0) / 2.0, c));
+    vec4 color = u_background_ready ? texture2D(u_background, u_animatingOut ? vec2(uv.x, uv.y + (((snoise(uv.xy + u_seed) * 1. + 1.0) * 0.5) * (1.0 - u_progress))) : uv) : vec4(u_color, 1.0);
 
+    vec4 shadow = vec4(vec3(0.0), step((snoise((noisePos.xy + u_seed ) * noiseSize) + 1.0) / 2.0, c3) * 0.25);
+    vec4 altColor = vec4(u_color * (u_background_ready ? 1.0 : 1.2), step((snoise((noisePos.xy + u_seed ) * noiseSize) + 1.0) / 2.0, c2));
+    vec4 topColor = vec4(color.rgb, step((snoise((noisePos.xy + u_seed) * noiseSize) + 1.0) / 2.0, c));
+    
     vec4 layers = mix(altColor, topColor, topColor.a);
     layers = mix(shadow, layers, layers.a);
     gl_FragColor = mix(baseColor, layers, layers.a);
@@ -236,6 +243,7 @@ export function InkSplashCanvas({
   color = '#000000',
   count = 0,
   startPosition,
+  background,
   onComplete,
   className,
 }: InkSplashCanvasProps) {
@@ -250,6 +258,7 @@ export function InkSplashCanvas({
   const colorRef = React.useRef(color)
   const countRef = React.useRef(count)
   const startPosRef = React.useRef(startPosition)
+  const bgReadyRef = React.useRef(false)
   const validRef = React.useRef(false)
 
   // Keep refs in sync
@@ -303,6 +312,7 @@ export function InkSplashCanvas({
     const uniformNames = [
       'u_resolution', 'u_color', 'u_progress', 'u_noiseSize',
       'u_noiseY', 'u_seed', 'u_start', 'u_animatingOut',
+      'u_background', 'u_background_ready',
     ]
     uniformNames.forEach((name) => {
       uniformsRef.current[name] = gl.getUniformLocation(program, name)
@@ -315,6 +325,11 @@ export function InkSplashCanvas({
     // so noiseSize = 1 + 0.2*(1-1) = 1.0 always.
     // We hardcode 1.0 to match exactly.
     gl.uniform1f(uniformsRef.current.u_noiseSize, 1.0)
+
+    // Set u_background_ready to false initially
+    gl.uniform1i(uniformsRef.current.u_background_ready, 0)
+    bgReadyRef.current = false
+
     validRef.current = true
 
     // The canvas fills the entire viewport (position:fixed inset-0 parent).
@@ -344,6 +359,55 @@ export function InkSplashCanvas({
       gl.deleteBuffer(buffer)
     }
   }, [])
+
+  // ─────────────────────────────────────────────────────────────
+  // Background texture loading (async, watches `background` prop)
+  // Matches official: creates GL texture, loads image, sets ready flag
+  // ─────────────────────────────────────────────────────────────
+
+  React.useEffect(() => {
+    const gl = glRef.current
+    if (!gl || !background) {
+      bgReadyRef.current = false
+      if (gl && uniformsRef.current.u_background_ready) {
+        gl.uniform1i(uniformsRef.current.u_background_ready, 0)
+      }
+      return
+    }
+
+    const bgTexture = gl.createTexture()
+    if (!bgTexture) return
+
+    gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D, bgTexture)
+    // Placeholder 1x1 pixel while image loads
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+      new Uint8Array([0, 0, 0, 255]))
+    gl.uniform1i(uniformsRef.current.u_background, 0)
+
+    let cancelled = false
+    const img = new Image()
+    img.crossOrigin = 'anonymous'
+    img.onload = () => {
+      if (cancelled || !validRef.current) return
+      gl.activeTexture(gl.TEXTURE0)
+      gl.bindTexture(gl.TEXTURE_2D, bgTexture)
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+      gl.uniform1i(uniformsRef.current.u_background_ready, 1)
+      bgReadyRef.current = true
+    }
+    img.src = background
+
+    return () => {
+      cancelled = true
+      gl.deleteTexture(bgTexture)
+      bgReadyRef.current = false
+    }
+  }, [background])
 
   // ─────────────────────────────────────────────────────────────
   // Draw a single frame
