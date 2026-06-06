@@ -1,0 +1,30 @@
+.buttonArrow {
+  color: var(--color);
+  display: inline-block;
+  font-family: var(--font-alt);
+  font-size: 1.5rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.buttonArrow:hover .iconWrap {
+  transform: translateX(10px);
+}
+
+.iconWrap {
+  display: inline-flex;
+  margin-left: 0.5rem;
+}
+
+.iconWrap svg {
+  height: 16px;
+  transform: translateX(5px);
+  transition: transform 0.3s ease;
+  width: 8px;
+}
+
+@media screen and (min-width: 1024px) {
+  .buttonArrow {
+    font-size: 1.625rem;
+  }
+}

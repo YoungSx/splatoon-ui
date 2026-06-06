@@ -401,6 +401,7 @@ const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
             {...props}
           >
             {src ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={src}
                 alt={alt}
@@ -426,6 +427,7 @@ const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
         {...props}
       >
         {src ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img src={src} alt={alt} className="w-full h-auto object-contain" />
         ) : (
           children

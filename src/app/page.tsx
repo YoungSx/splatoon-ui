@@ -24,6 +24,12 @@ import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter } from '@/components/ui/splats'
 import { NewsCarousel } from '@/components/ui/news-carousel'
+import { BlackTapeContainer } from '@/components/ui/black-tape-container'
+import { GridNewsCard } from '@/components/ui/grid-news-card'
+import { HeadingTape } from '@/components/ui/heading-tape'
+import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
+import { StyledPhoto, StyledPhotoDecoration, StyledPhotoTape } from '@/components/ui/styled-photo'
+import { TagCard } from '@/components/ui/tag-card'
 import { Divider } from '@/components/ui/divider'
 import { Progress } from '@/components/ui/progress'
 import {
@@ -780,6 +786,112 @@ export default function Home() {
                 </div>
               </TabsContent>
             </Tabs>
+          </div>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 3.5: OFFICIAL REPLICA COMPONENTS
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-[#f5f0e8] dark:bg-[#111111] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
+        <div className="w-full max-w-6xl space-y-12">
+          <div className="border-b-2 border-dashed border-chaos-black/10 dark:border-white/10 pb-4">
+            <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
+              3.5 Official Replica Components
+            </h2>
+            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
+              Demonstrates the newly implemented Splatoon-style UI pieces: heading tape, black tape container, styled photo, news gallery, and apparel tag card.
+            </p>
+          </div>
+
+          <div className="grid gap-8 xl:grid-cols-[1.5fr_1fr]">
+            <div className="grid gap-6">
+              <BlackTapeContainer tapeVariant="yellow" className="p-6">
+                <HeadingTape
+                  stickerLeft={
+                    <span className="block h-12 w-12 rounded-full border-[3px] border-chaos-black bg-gradient-to-br from-[#ffda00] via-[#ffd650] to-[#ffc700] shadow-soft-splat-sm" />
+                  }
+                  stickerRight={
+                    <span className="block h-12 w-12 rounded-full border-[3px] border-chaos-black bg-gradient-to-br from-[#603bff] via-[#8c77ff] to-[#c199ff] shadow-soft-splat-sm" />
+                  }
+                  overlapTop
+                  marginOffset={3}
+                  className="mb-4"
+                >
+                  <div className="text-lg font-black uppercase tracking-wider">
+                    Official Heading Tape
+                  </div>
+                </HeadingTape>
+                <p className="text-sm font-medium text-chaos-black/75 dark:text-white/75">
+                  This container combines tape framing and sticker decorations to mimic official magazine-style headings.
+                </p>
+
+                <StyledPhoto
+                  src="/images/splatoon_inkling.png"
+                  alt="Styled Photo Demo"
+                  border="medium"
+                  nested
+                  className="mt-6"
+                >
+                  <StyledPhotoTape position="center" />
+                  <StyledPhotoDecoration position="bottomLeft" />
+                  <StyledPhotoDecoration position="topRight" />
+                </StyledPhoto>
+              </BlackTapeContainer>
+
+              <TagCard
+                rotation="-3deg"
+                className="relative overflow-hidden rounded-[1.5rem] border-[3px] border-chaos-black bg-white p-6 shadow-soft-splat-sm"
+                background={
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#f6ff8b] via-[#ffdc4f] to-[#ff7500] opacity-30" />
+                }
+              >
+                <div className="relative z-10 space-y-4 text-center">
+                  <p className="text-xs font-black uppercase tracking-[0.35em] text-chaos-black/60">Tag Card Replica</p>
+                  <h3 className="text-2xl font-black uppercase text-[#603bff]">Gear Preview</h3>
+                  <p className="text-sm font-medium text-chaos-black/75">
+                    A hand-tagged apparel card with tilted paper geometry, custom background, and layered visual depth.
+                  </p>
+                </div>
+              </TagCard>
+            </div>
+
+            <div className="space-y-6">
+              <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm dark:bg-[#121212]/95">
+                <NewsCardsGalleryGroup>
+                  <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
+                    <div className="space-y-3 p-4">
+                      <p className="text-sm uppercase tracking-[0.35em] text-[#603bff]">News Grid</p>
+                      <h4 className="text-xl font-black">Official grid news card</h4>
+                      <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
+                    </div>
+                  </GridNewsCard>
+                  <GridNewsCard image={<div className="h-full w-full bg-[#ff9750] flex items-center justify-center text-white">B</div>}>
+                    <div className="space-y-3 p-4">
+                      <p className="text-sm uppercase tracking-[0.35em] text-[#ff9750]">News Grid</p>
+                      <h4 className="text-xl font-black">Secondary story block</h4>
+                      <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
+                    </div>
+                  </GridNewsCard>
+                </NewsCardsGalleryGroup>
+                <NewsCardsGalleryGroup>
+                  <GridNewsCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
+                    <div className="space-y-3 p-4">
+                      <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
+                      <h4 className="text-xl font-black">Community update</h4>
+                      <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
+                    </div>
+                  </GridNewsCard>
+                  <GridNewsCard image={<div className="h-full w-full bg-[#ff505e] flex items-center justify-center text-white">D</div>}>
+                    <div className="space-y-3 p-4">
+                      <p className="text-sm uppercase tracking-[0.35em] text-[#ff505e]">News Grid</p>
+                      <h4 className="text-xl font-black">Event highlight</h4>
+                      <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
+                    </div>
+                  </GridNewsCard>
+                </NewsCardsGalleryGroup>
+              </NewsCardsGallery>
+            </div>
           </div>
         </div>
       </section>

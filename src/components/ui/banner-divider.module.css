@@ -1,0 +1,83 @@
+.bannerDivider {
+  --total-width: 110vw;
+  background-position: 50%;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  height: 47px;
+  left: -5vw;
+  position: absolute;
+  width: 110vw;
+  z-index: 2;
+}
+
+@media screen and (min-width: 640px) {
+  .bannerDivider {
+    height: 65px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .bannerDivider {
+    height: 90px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .bannerDivider {
+    height: 110px;
+  }
+}
+
+.banner-divider--design1 {
+  background-image: url("/_images/banners/banner-design1.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-design1.png") 1x, url("/_images/banners/banner-design1-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-design1.png") 1x, url("/_images/banners/banner-design1-2x.png") 2x);
+}
+
+.banner-divider--design2 {
+  background-image: url("/_images/banners/banner-design2.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-design2.png") 1x, url("/_images/banners/banner-design2-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-design2.png") 1x, url("/_images/banners/banner-design2-2x.png") 2x);
+}
+
+.banner-divider--design3 {
+  background-image: url("/_images/banners/banner-design3.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-design3.png") 1x, url("/_images/banners/banner-design3-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-design3.png") 1x, url("/_images/banners/banner-design3-2x.png") 2x);
+}
+
+.banner-divider--yellow {
+  background-image: url("/_images/banners/banner-yellow.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-yellow.png") 1x, url("/_images/banners/banner-yellow-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-yellow.png") 1x, url("/_images/banners/banner-yellow-2x.png") 2x);
+}
+
+.banner-divider--blue {
+  background-image: url("/_images/banners/banner-blue.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-blue.png") 1x, url("/_images/banners/banner-blue-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-blue.png") 1x, url("/_images/banners/banner-blue-2x.png") 2x);
+}
+
+.banner-divider--green {
+  background-image: url("/_images/banners/banner-green.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-green.png") 1x, url("/_images/banners/banner-green-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-green.png") 1x, url("/_images/banners/banner-green-2x.png") 2x);
+}
+
+.banner-divider--purple {
+  background-image: url("/_images/banners/banner-purple.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-purple.png") 1x, url("/_images/banners/banner-purple-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-purple.png") 1x, url("/_images/banners/banner-purple-2x.png") 2x);
+}
+
+.banner-divider--orange {
+  background-image: url("/_images/banners/banner-orange.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-orange.png") 1x, url("/_images/banners/banner-orange-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-orange.png") 1x, url("/_images/banners/banner-orange-2x.png") 2x);
+}
+
+.banner-divider--red {
+  background-image: url("/_images/banners/banner-red.png");
+  background-image: -webkit-image-set(url("/_images/banners/banner-red.png") 1x, url("/_images/banners/banner-red-2x.png") 2x);
+  background-image: image-set(url("/_images/banners/banner-red.png") 1x, url("/_images/banners/banner-red-2x.png") 2x);
+}

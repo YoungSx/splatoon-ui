@@ -1,0 +1,154 @@
+.photoContainer {
+  --border-offset-x: 3px;
+  --border-offset-y: 4px;
+  display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  line-height: 0;
+  margin-top: calc(var(--base-space, 8px) * var(--margin-offset));
+  padding: calc(var(--border-offset-y) * 2) calc(var(--border-offset-x) * 2);
+  position: relative;
+  transform: rotate(var(--end-rotate));
+}
+
+.photoContainer:before {
+  content: "";
+  background-image: url(/images/svg/styled-photo-background.svg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: calc(100% + var(--border-offset-y) * 2);
+  left: calc(var(--border-offset-x) * -1);
+  position: absolute;
+  top: calc(var(--border-offset-y) * -1);
+  width: calc(100% + var(--border-offset-x) * 2);
+  z-index: -1;
+}
+
+.fillWidth {
+  display: block;
+}
+
+.photoContainerNested {
+  max-width: 350px;
+}
+
+.photoContainerNested.photoContainer {
+  --border-offset-x: 2px;
+  --border-offset-y: 3px;
+  --margin-offset: 4;
+}
+
+.thinBorder.photoContainer,
+.photoContainer.thinBorder {
+  --border-offset-x: 2px;
+  --border-offset-y: 3px;
+}
+
+.mediumBorder.photoContainer,
+.photoContainer.mediumBorder {
+  --border-offset-x: 2px;
+  --border-offset-y: 4px;
+}
+
+.photo {
+  display: block;
+  position: relative;
+  width: 100%;
+  border-radius: 1rem;
+  object-fit: cover;
+}
+
+.photoTape {
+  --top-offset: -2;
+  position: absolute;
+  top: calc(var(--base-space, 8px) * var(--top-offset));
+  height: calc(var(--base-space, 8px) * 3.5);
+  min-height: 30px;
+  width: clamp(100px, 40%, 170px);
+  background: linear-gradient(135deg, #f7de58 0%, #f6c42f 40%, #d2a203 100%);
+  border-radius: 999px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.photoTapeCenter {
+  left: 0;
+  margin: 0 auto;
+  right: 0;
+}
+
+.photoTapeLeft {
+  --left-offset: 3;
+  left: calc(var(--base-space, 8px) * var(--left-offset));
+}
+
+.photoTapeRight {
+  --right-offset: 3;
+  right: calc(var(--base-space, 8px) * var(--right-offset));
+}
+
+.photoDecoration {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ffd36f 30%, #ff505e 60%, #d94752 100%);
+  border-radius: 1rem;
+  transform: rotate(var(--decoration-rotation));
+  z-index: 1;
+}
+
+.photoDecorationBottomLeft {
+  --bottom-offset: -2;
+  --left-offset: 3;
+  bottom: calc(var(--base-space, 8px) * var(--bottom-offset));
+  left: calc(var(--base-space, 8px) * var(--left-offset));
+}
+
+.photoDecorationTopRight {
+  --right-offset: 3;
+  --top-offset: -2;
+  right: calc(var(--base-space, 8px) * var(--right-offset));
+  top: calc(var(--base-space, 8px) * var(--top-offset));
+}
+
+.photoDecorationBottomRight {
+  --bottom-offset: -2;
+  --left-offset: 3;
+  bottom: calc(var(--base-space, 8px) * var(--bottom-offset));
+  left: calc(60% + calc(var(--base-space, 8px) * var(--left-offset)));
+}
+
+@media screen and (min-width: 640px) {
+  .photoContainer {
+    --border-offset-x: 4px;
+    --border-offset-y: 3px;
+  }
+
+  .photoTape {
+    --top-offset: -4;
+  }
+
+  .photoTapeLeft {
+    --left-offset: 5;
+  }
+
+  .photoTapeRight {
+    --right-offset: 5;
+  }
+
+  .photoDecorationBottomLeft {
+    --bottom-offset: -3;
+  }
+
+  .photoDecorationTopRight {
+    --top-offset: -3;
+  }
+
+  .photoDecorationBottomRight {
+    --bottom-offset: -3;
+  }
+}
+
+.photoContainerNested .photoTape {
+  transform: rotate(var(--rotation)) scale(0.6);
+}

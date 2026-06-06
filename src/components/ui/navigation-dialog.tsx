@@ -936,6 +936,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                       className={cn('pointer-events-none absolute z-[1]', splat.className)}
                     />
                   ))}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://splatoon.nintendo.com/_images/logo/splatoon3-logo-subpage.png"
                     alt="Splatoon 3"

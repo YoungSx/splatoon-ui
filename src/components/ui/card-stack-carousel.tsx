@@ -251,8 +251,8 @@ export const CardStackCarouselPrevious = React.forwardRef<
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
-    // enable client-side intro animation
-    setMounted(true)
+    const frame = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(frame)
   }, [])
 
   return (
@@ -296,7 +296,8 @@ export const CardStackCarouselNext = React.forwardRef<
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
-    setMounted(true)
+    const frame = requestAnimationFrame(() => setMounted(true))
+    return () => cancelAnimationFrame(frame)
   }, [])
 
   return (

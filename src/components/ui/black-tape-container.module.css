@@ -1,0 +1,85 @@
+.blackTapeContainer {
+  --top-padding: 4;
+  --bottom-padding: 10;
+  background: var(--color-black-alt, #0e0e0e);
+  padding: 0 1.5em;
+  padding-bottom: calc(var(--base-space, 8px) * var(--bottom-padding));
+  padding-top: calc(var(--base-space, 8px) * var(--top-padding));
+  position: relative;
+  color: #fff;
+}
+
+.blackTapeContainer::before,
+.blackTapeContainer::after {
+  --x: -16px;
+  --width: 30px;
+  background-repeat: repeat-y;
+  content: "";
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: var(--width);
+  z-index: -1;
+}
+
+.blackTapeContainer::before {
+  background-image: url(/images/svg/left-black-tape-container.svg);
+  background-position: calc(100% - 1px) top;
+  left: var(--x);
+}
+
+.blackTapeContainer::after {
+  background-image: url(/images/svg/right-black-tape-container.svg);
+  background-position: 1px top;
+  right: var(--x);
+}
+
+.tapeYellow {
+  background: var(--color-yellow, #eaff3d);
+  color: var(--color-black, #0d0d0d);
+}
+
+.tapeYellow::before {
+  background-image: url(/images/svg/left-yellow-tape-container.svg);
+}
+
+.tapeYellow::after {
+  background-image: url(/images/svg/right-yellow-tape-container.svg);
+}
+
+.noVerticalPadding {
+  padding: 0 1.5em;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+@media screen and (min-width: 640px) {
+  .blackTapeContainer {
+    padding: 0 2em;
+    padding-bottom: calc(var(--base-space, 8px) * var(--bottom-padding));
+    padding-top: calc(var(--base-space, 8px) * var(--top-padding));
+  }
+
+  .blackTapeContainer::before,
+  .blackTapeContainer::after {
+    --x: -38px;
+    --width: 40px;
+  }
+
+  .noVerticalPadding {
+    padding: 0 2em;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .blackTapeContainer {
+    --top-padding: 8;
+    --bottom-padding: 4;
+  }
+
+  .blackTapeContainer::before,
+  .blackTapeContainer::after {
+    --x: -58px;
+    --width: 60px;
+  }
+}

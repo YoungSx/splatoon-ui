@@ -1,0 +1,62 @@
+.headingTapeSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: calc(var(--base-space, 8px) * var(--margin-offset));
+  position: relative;
+  width: 100%;
+}
+
+.overlapTop {
+  margin-top: -3px;
+}
+
+.headingTapeContainer {
+  padding: 0;
+  position: relative;
+  transform: rotate(-3deg);
+  width: fit-content;
+}
+
+.headingTapeStickers {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.headingTapeSticker1,
+.headingTapeSticker2 {
+  position: absolute;
+}
+
+.headingTapeSticker1 {
+  bottom: -17px;
+  left: -19px;
+  transform: rotate(-2deg);
+}
+
+.headingTapeSticker2 {
+  right: -17px;
+  top: -15px;
+  transform: rotate(1deg);
+}
+
+.headingTapeText {
+  background: var(--color-white);
+  border-radius: 10px;
+  display: inline-block;
+  font-family: 'fooregular', sans-serif;
+  font-weight: 500;
+  padding: calc(var(--base-space, 8px) * 2) 40px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+@media screen and (min-width: 640px) {
+  .headingTapeText {
+    padding: calc(var(--base-space, 8px) * 2) 60px;
+  }
+}

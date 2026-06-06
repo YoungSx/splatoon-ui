@@ -252,6 +252,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
             }}
           >
             <div className="relative w-full h-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/splatoon_inkling.png"
                 alt="Splatoon Inkling Character"
