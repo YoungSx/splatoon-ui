@@ -30,6 +30,7 @@ import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-ca
 import { StyledPhoto, StyledPhotoDecoration, StyledPhotoTape } from '@/components/ui/styled-photo'
 import { TagCard } from '@/components/ui/tag-card'
 import { Divider } from '@/components/ui/divider'
+import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { Progress } from '@/components/ui/progress'
 import {
   Dialog,
@@ -988,9 +989,10 @@ export default function Home() {
         <MarqueeItem>Splashdown!</MarqueeItem>
       </Marquee>
 
-      {/* Footer */}
-      <footer className="bg-white dark:bg-[#0c0c0c] border-t border-chaos-black/10 dark:border-white/5 py-8 flex justify-center text-center transition-colors duration-300">
-        <div className="max-w-md w-full flex items-center justify-between text-xs uppercase tracking-wider text-chaos-black/40 dark:text-white/40 px-4">
+      {/* Footer with interactive wave transition */}
+      <footer className="relative bg-[#0c0c0c] dark:bg-[#0c0c0c] py-8 flex justify-center text-center">
+        <WaveCanvas color="#0c0c0c" height={120} />
+        <div className="relative z-20 max-w-md w-full flex items-center justify-between text-xs uppercase tracking-wider text-white/40 px-4">
           <span>splatoon-ui v0.1.0</span>
           <span>Next.js + Radix + Tailwind CSS</span>
         </div>
