@@ -146,9 +146,10 @@ const overlayDecorations = [
 
 // Animation timing constants
 const MENU_CONTENT_ENTER_MS = 300
-const MENU_CONTENT_EXIT_MS = 240
+const MENU_CONTENT_EXIT_MS = 400
 const MENU_CONTENT_TRANSITION_IN_EASING = 'cubic-bezier(0.15, 0.9, 0.25, 1)'
 const MENU_CONTENT_TRANSITION_OUT_EASING = 'cubic-bezier(0.25, 0.12, 0.4, 1)'
+const NAV_SPLAT_START_POSITION: [number, number] = [-0.5, 0.5]
 
 // Animation phases
 type CoverPhase = 'closed' | 'opening' | 'open' | 'closing'
@@ -187,9 +188,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
   const [selectedNavKey, setSelectedNavKey] = React.useState(getCurrentSelectedNavKey)
   const [openCount, setOpenCount] = React.useState(0)
 
-  const menuTriggerRef = React.useRef<HTMLButtonElement>(null)
   const animationTimersRef = React.useRef<number[]>([])
-  const triggerPosRef = React.useRef<[number, number]>([0, 0])
 
   const isMenuMounted = coverPhase !== 'closed'
   const isMenuPressed = coverPhase !== 'closed'
@@ -237,20 +236,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
       return
     }
 
-    // Capture trigger button position in NDC coordinates [-0.5..0.5]
-    // matching the shader's circle(pos) coordinate space
-    const triggerEl = menuTriggerRef.current
-    if (triggerEl) {
-      const rect = triggerEl.getBoundingClientRect()
-      const cx = rect.left + rect.width / 2
-      const cy = rect.top + rect.height / 2
-      triggerPosRef.current = [
-        cx / window.innerWidth - 0.5,
-        0.5 - cy / window.innerHeight,
-      ]
-    }
-
-    setOpenCount((c) => c + 1)
+    setOpenCount(Math.round(10000 * Math.random()))
     setCoverPhase('opening')
     setContentPhase('hidden')
   }, [isReducedMotion])
@@ -266,17 +252,17 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
       return
     }
 
+    setOpenCount(Math.round(10000 * Math.random()))
+    setCoverPhase('closing')
+
     if (contentPhase === 'entering' || contentPhase === 'visible') {
       setContentPhase('exiting')
       const timer = window.setTimeout(() => {
         setContentPhase('hidden')
-        setCoverPhase('closing')
       }, MENU_CONTENT_EXIT_MS)
       animationTimersRef.current.push(timer)
       return
     }
-
-    setCoverPhase('closing')
   }, [clearAnimationTimers, contentPhase, isReducedMotion])
 
   // Handle open state changes from DialogPrimitive
@@ -374,7 +360,6 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     >
       <NavMenuButton
         id="site-navigation-trigger"
-        ref={menuTriggerRef}
         pressed={isMenuPressed}
         aria-haspopup="dialog"
         onClick={() => handleOpenChange(!isMenuPressed)}
@@ -401,7 +386,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
               durationOut={1000}
               color="#000000"
               count={openCount}
-              startPosition={triggerPosRef.current}
+              startPosition={NAV_SPLAT_START_POSITION}
               onComplete={handleCanvasComplete}
               className="pointer-events-none absolute inset-0 z-[80]"
             />

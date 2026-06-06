@@ -139,24 +139,21 @@ const fragmentShaderSource = `
   float circle(vec2 _uv, float _radius, vec2 _pos){
     vec2 mx = u_resolution.xy / min(u_resolution.y, u_resolution.x);
     float dist = length(_uv - mx * _pos) - max(mx.x, mx.y) * _radius;
-    // ANGLE-compatible: official's smoothstep(0.4*progress, -0.4, dist) has e0>e1 on Windows ANGLE.
-    // Mathematically equivalent: 1.0 - smoothstep(-0.4, 0.4*progress, dist)
-    return (1.0 - smoothstep(-0.4, 0.4 * u_progress, dist)) + smoothstep(0.9, 1.0, u_progress);
+
+    return (1.0 - smoothstep(-0.4, 0.4 * u_progress, dist)) + (1.0 * smoothstep( 0.9, 1.0, u_progress));
   }
 
   float swipe(vec2 _uv, float _progress) {
     vec2 mx = u_resolution.xy / min(u_resolution.y, u_resolution.x);
-    float e0 = _uv.y + (0.5 - 0.1 * (1.0 - _progress)) / mx.y;
-    float e1 = _uv.y + (0.5 + 0.5 * (1.0 - _progress)) / mx.y;
-    e1 = max(e1, e0 + 0.001);
-    return smoothstep(e0, e1, _progress) * (0.8 + 0.2 * smoothstep(0.0, 0.5, _progress));
+
+    return smoothstep(_uv.y + (0.5 - 0.1 * (1.0 -_progress) ) / mx.y, _uv.y + (0.5 + 0.5 * (1.0 - _progress)) / mx.y, _progress) * (0.8 + 0.2 * smoothstep(0.0, 0.5, _progress));
   }
 
   void main () {
     vec2 uv = getScreenSpace();
     vec2 pos = mix(u_start, vec2(0.0, 0.0), u_progress);
 
-    float c = u_animatingOut ? swipe(uv, u_progress) : circle(uv, .8 * u_progress, pos);
+    float c = u_animatingOut ? swipe(uv, 1. * u_progress) : circle(uv, .8 * u_progress, pos);
     float c2 = u_animatingOut ? swipe(uv, (1. + (0.1 * smoothstep(u_progress, 1.0, 0.9))) * u_progress) : circle(uv, .9 * u_progress, pos);
     float c3 = u_animatingOut ? 0.0 : circle(uv, 0.95 * u_progress, pos);
 
@@ -168,8 +165,8 @@ const fragmentShaderSource = `
     vec4 color = u_background_ready ? texture2D(u_background, u_animatingOut ? vec2(uv.x, uv.y + (((snoise(uv.xy + u_seed) * 1. + 1.0) * 0.5) * (1.0 - u_progress))) : uv) : vec4(u_color, 1.0);
 
     vec4 shadow = vec4(vec3(0.0), step((snoise((noisePos.xy + u_seed ) * noiseSize) + 1.0) / 2.0, c3) * 0.25);
-    vec4 altColor = vec4(u_color * (u_background_ready ? 1.0 : 1.2), step((snoise((noisePos.xy + u_seed ) * noiseSize) + 1.0) / 2.0, c2));
-    vec4 topColor = vec4(color.rgb, step((snoise((noisePos.xy + u_seed) * noiseSize) + 1.0) / 2.0, c));
+    vec4 altColor = vec4(u_color * (u_background_ready ? 1.0 : 1.2), step((snoise((noisePos.xy + u_seed ) * (noiseSize * (u_animatingOut ? 1. : 1.))) + 1.0) / 2.0, c2));
+    vec4 topColor = vec4(color.rgb, step((snoise((noisePos.xy + u_seed) * (noiseSize * (u_animatingOut ? 1. : 1.))) + 1.0) / 2.0, c));
     
     vec4 layers = mix(altColor, topColor, topColor.a);
     layers = mix(shadow, layers, layers.a);
