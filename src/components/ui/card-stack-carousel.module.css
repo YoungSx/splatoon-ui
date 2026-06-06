@@ -4,7 +4,6 @@
   justify-content: center;
   border-radius: 9999px;
   transform: translateY(-50%) scale(1);
-  transition: box-shadow 220ms ease, opacity 150ms linear;
   will-change: transform, opacity;
   box-shadow: none;
   --scale: 1;
@@ -21,18 +20,14 @@
   --squish-direction: 1;
 }
 
-.shell:hover {
-  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.08);
-}
-
-.shell:active {
-  transform: translateY(-50%) scale(0.96);
+.shell:not(:disabled):not([aria-disabled=true]):hover {
+  --scale: 1.1;
 }
 
 .shell:disabled {
-  opacity: 0.3;
-  animation: none;
-  transform: translateY(-50%) scale(1);
+  background-color: transparent;
+  cursor: auto;
+  opacity: 0.2;
 }
 
 .icon {
