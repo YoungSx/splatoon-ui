@@ -70,16 +70,12 @@
 }
 
 .cardBottom {
-  display: block;
   margin-top: -2px;
-  overflow: hidden;
   width: 100%;
 }
 
 .cardTop {
-  display: block;
   margin-bottom: -2px;
-  overflow: hidden;
   width: 100%;
 }
 

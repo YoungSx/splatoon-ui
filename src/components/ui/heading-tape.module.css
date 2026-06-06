@@ -47,3 +47,9 @@
   padding: calc(var(--base-space, 8px) * 2) 40px;
   text-align: center;
 }
+
+@media screen and (min-width: 640px) {
+  .headingTapeText {
+    padding: calc(var(--base-space, 8px) * 2) 60px;
+  }
+}

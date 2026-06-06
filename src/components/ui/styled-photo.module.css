@@ -10,17 +10,17 @@
   transform: rotate(var(--end-rotate));
 }
 
-.photoContainer:before {
-  content: "";
+.photoContainer::before {
   background-image: url(/images/svg/styled-photo-background.svg);
+  background-position: 50% center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  content: "";
   height: calc(100% + var(--border-offset-y) * 2);
   left: calc(var(--border-offset-x) * -1);
   position: absolute;
   top: calc(var(--border-offset-y) * -1);
   width: calc(100% + var(--border-offset-x) * 2);
-  z-index: -1;
 }
 
 .fillWidth {
@@ -50,17 +50,14 @@
 }
 
 .photo {
-  display: block;
   position: relative;
-  width: 100%;
-  border-radius: 1rem;
-  object-fit: cover;
 }
 
 .photoTape {
   --top-offset: -2;
   position: absolute;
   top: calc(var(--base-space, 8px) * var(--top-offset));
+  transform: rotate(var(--tape-rotation));
   height: calc(var(--base-space, 8px) * 3.5);
   min-height: 30px;
   width: clamp(100px, 40%, 170px);
@@ -87,7 +84,7 @@
 }
 
 .photoDecoration {
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   position: absolute;
   width: 44px;
   height: 44px;

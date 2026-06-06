@@ -1,12 +1,7 @@
 .blackTapeContainer {
-  --top-padding: 4;
-  --bottom-padding: 10;
   background: var(--color-black-alt, #0e0e0e);
-  padding: 0 1.5em;
-  padding-bottom: calc(var(--base-space, 8px) * var(--bottom-padding));
-  padding-top: calc(var(--base-space, 8px) * var(--top-padding));
+  padding: 1.5em;
   position: relative;
-  color: #fff;
 }
 
 .blackTapeContainer::before,
@@ -49,15 +44,11 @@
 
 .noVerticalPadding {
   padding: 0 1.5em;
-  padding-bottom: 0;
-  padding-top: 0;
 }
 
 @media screen and (min-width: 640px) {
   .blackTapeContainer {
-    padding: 0 2em;
-    padding-bottom: calc(var(--base-space, 8px) * var(--bottom-padding));
-    padding-top: calc(var(--base-space, 8px) * var(--top-padding));
+    padding: 2em;
   }
 
   .blackTapeContainer::before,
@@ -72,11 +63,6 @@
 }
 
 @media screen and (min-width: 1024px) {
-  .blackTapeContainer {
-    --top-padding: 8;
-    --bottom-padding: 4;
-  }
-
   .blackTapeContainer::before,
   .blackTapeContainer::after {
     --x: -58px;
