@@ -1,0 +1,86 @@
+.shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  transform: translateY(-50%) scale(1);
+  transition: box-shadow 220ms ease, opacity 150ms linear;
+  will-change: transform, opacity;
+  box-shadow: none;
+  --scale: 1;
+  --squish-direction: 1;
+  background-color: #6AF7CE;
+  color: #0D0D0D;
+}
+
+.left {
+  --squish-direction: -1;
+}
+
+.right {
+  --squish-direction: 1;
+}
+
+.shell:hover {
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.08);
+}
+
+.shell:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.shell:disabled {
+  opacity: 0.3;
+  animation: none;
+  transform: translateY(-50%) scale(1);
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.intro {
+  animation: icon-button_squish 2s ease-out infinite;
+}
+
+@-webkit-keyframes icon-button_squish {
+  0%, 100% {
+    transform: translateY(-50%) scale(calc(var(--scale) * 1));
+  }
+  30% {
+    transform: translateY(-50%) scaleX(calc(var(--scale) * .9)) scaleY(calc(var(--scale) * 1.1)) translateX(calc(15% * var(--squish-direction)));
+  }
+  45% {
+    transform: translateY(-50%) scaleX(calc(var(--scale) * 1.05)) scaleY(calc(var(--scale) * 1)) translateX(calc(8% * var(--squish-direction)));
+  }
+  60% {
+    transform: translateY(-50%) scaleX(calc(var(--scale) * .95)) scaleY(calc(var(--scale) * 1.05)) translateX(calc(8% * var(--squish-direction)));
+  }
+}
+
+@keyframes icon-button_squish {
+  0%, 100% {
+    transform: translateY(-50%) scale(calc(var(--scale) * 1));
+  }
+  30% {
+    transform: translateY(-50%) scaleX(calc(var(--scale) * .9)) scaleY(calc(var(--scale) * 1.1)) translateX(calc(15% * var(--squish-direction)));
+  }
+  45% {
+    transform: translateY(-50%) scaleX(calc(var(--scale) * 1.05)) scaleY(calc(var(--scale) * 1)) translateX(calc(8% * var(--squish-direction)));
+  }
+  60% {
+    transform: translateY(-50%) scaleX(calc(var(--scale) * .95)) scaleY(calc(var(--scale) * 1.05)) translateX(calc(8% * var(--squish-direction)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell,
+  .shell:hover,
+  .shell:active {
+    transition: none;
+    transform: none;
+    animation: none;
+  }
+}

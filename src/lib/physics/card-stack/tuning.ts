@@ -83,10 +83,10 @@ export const cardStackLayoutTuning = {
   perspectivePx: 1200,
   // Previous/next navigation button width.
   // Increase: wider nav hit area. Decrease: narrower button footprint.
-  navButtonWidthPx: 64,
+  navButtonWidthPx: 86,
   // Previous/next navigation button height.
   // Increase: taller nav hit area. Decrease: shorter button footprint.
-  navButtonHeightPx: 80,
+  navButtonHeightPx: 86,
   // Indicator pill width.
   // Increase: wider indicators. Decrease: tighter indicator pills.
   indicatorWidthPx: 32,

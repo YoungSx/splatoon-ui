@@ -21,6 +21,11 @@ import {
 import { defaultSupportMotionProfile } from "@/lib/physics/card-stack/support-driver"
 import { cardStackLayoutTuning } from "@/lib/physics/card-stack/tuning"
 import { cn } from "@/lib/utils"
+import {
+  splatoonCarouselArrowLeftPath,
+  splatoonCarouselArrowRightPath,
+} from "@/components/ui/card-stack-carousel-icons"
+import styles from "./card-stack-carousel.module.css"
 
 const cardStackLayout = {
   ...cardStackLayoutTuning,
@@ -243,15 +248,24 @@ export const CardStackCarouselPrevious = React.forwardRef<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, style, type = "button", ...props }, ref) => {
   const { canGoPrev, goToPrev } = useCarousel()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    // enable client-side intro animation
+    setMounted(true)
+  }, [])
 
   return (
     <button
       ref={ref}
       type={type}
       data-slot="card-stack-carousel-previous"
+      aria-label="Previous carousel item"
       className={cn(
-        "absolute z-50 flex items-center justify-center bg-[var(--chaos-black,#181818)] text-[var(--neon-yellow,#E3FF00)] transition-transform duration-200 shadow-solid",
-        "hover:scale-110 active:scale-90 disabled:opacity-30 disabled:hover:scale-100",
+        "absolute z-50 flex items-center justify-center",
+        styles.shell,
+        styles.left,
+        mounted && styles.intro,
         className
       )}
       disabled={!canGoPrev}
@@ -259,16 +273,15 @@ export const CardStackCarouselPrevious = React.forwardRef<
       style={{
         left: "1rem",
         top: "50%",
-        transform: "translateY(-50%)",
         width: `${cardStackLayout.navButtonWidthPx}px`,
         height: `${cardStackLayout.navButtonHeightPx}px`,
-        clipPath: "polygon(20% 0%, 100% 10%, 80% 100%, 0% 90%)",
+        borderRadius: "9999px",
         ...style,
       }}
       {...props}
     >
-      <svg viewBox="0 0 24 24" className="h-8 w-8 fill-current md:h-10 md:w-10" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15 19l-7-7 7-7" fill="none" stroke="currentColor" strokeLinecap="square" strokeWidth="3" />
+      <svg viewBox="0 0 40 40" className={cn("fill-current h-[40px] w-[40px]", styles.icon)} xmlns="http://www.w3.org/2000/svg">
+        <path d={splatoonCarouselArrowLeftPath} />
       </svg>
     </button>
   )
@@ -280,15 +293,23 @@ export const CardStackCarouselNext = React.forwardRef<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 >(({ className, style, type = "button", ...props }, ref) => {
   const { canGoNext, goToNext } = useCarousel()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   return (
     <button
       ref={ref}
       type={type}
       data-slot="card-stack-carousel-next"
+      aria-label="Next carousel item"
       className={cn(
-        "absolute z-50 flex items-center justify-center bg-[var(--chaos-black,#181818)] text-[var(--neon-yellow,#E3FF00)] transition-transform duration-200 shadow-solid",
-        "hover:scale-110 active:scale-90 disabled:opacity-30 disabled:hover:scale-100",
+        "absolute z-50 flex items-center justify-center",
+        styles.shell,
+        styles.right,
+        mounted && styles.intro,
         className
       )}
       disabled={!canGoNext}
@@ -296,16 +317,15 @@ export const CardStackCarouselNext = React.forwardRef<
       style={{
         right: "1rem",
         top: "50%",
-        transform: "translateY(-50%)",
         width: `${cardStackLayout.navButtonWidthPx}px`,
         height: `${cardStackLayout.navButtonHeightPx}px`,
-        clipPath: "polygon(0% 10%, 80% 0%, 100% 90%, 20% 100%)",
+        borderRadius: "9999px",
         ...style,
       }}
       {...props}
     >
-      <svg viewBox="0 0 24 24" className="h-8 w-8 fill-current md:h-10 md:w-10" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeLinecap="square" strokeWidth="3" />
+      <svg viewBox="0 0 40 40" className={cn("fill-current h-[40px] w-[40px]", styles.icon)} xmlns="http://www.w3.org/2000/svg">
+        <path d={splatoonCarouselArrowRightPath} />
       </svg>
     </button>
   )
