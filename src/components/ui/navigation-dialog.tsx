@@ -399,7 +399,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
               data-menu-content=""
               data-phase={contentPhase}
               className={cn(
-                'absolute inset-0 flex flex-col items-center justify-center p-6 text-white',
+                'absolute inset-0 z-[81] flex flex-col items-center justify-center p-6 text-white',
                 contentTransitionClass,
                 isContentInteractive ? 'pointer-events-auto' : 'pointer-events-none'
               )}

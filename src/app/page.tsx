@@ -22,6 +22,7 @@ import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter } from '@/components/ui/splats'
+import { TrailerVideo, TrailerVideoThumbnail, TrailerVideoContent } from '@/components/ui/trailer-video'
 import { NewsCarousel } from '@/components/ui/news-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
 import { GridNewsCard } from '@/components/ui/grid-news-card'
@@ -161,6 +162,40 @@ export default function Home() {
           <MarqueeItem>Salmon Run</MarqueeItem>
         </Marquee>
       </header>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-24 px-6 relative z-10 transition-colors duration-300 overflow-hidden flex flex-col items-center">
+        {/* Decorative Splats */}
+        <div className="absolute top-10 left-10 text-splat-red opacity-80 mix-blend-multiply dark:mix-blend-normal">
+          <svg viewBox="0 0 100 100" className="w-32 h-32 fill-current">
+            <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
+          </svg>
+        </div>
+        <div className="absolute bottom-10 right-10 text-splat-green opacity-80 mix-blend-multiply dark:mix-blend-normal">
+          <svg viewBox="0 0 100 100" className="w-48 h-48 fill-current">
+            <path d="M50 90 C 80 85, 90 60, 80 35 C 70 10, 30 15, 20 40 C 10 65, 20 95, 50 90 Z"/>
+          </svg>
+        </div>
+
+        <div className="w-full max-w-5xl flex flex-col items-center relative z-10 space-y-12">
+          <HeadingTape color="red" className="mb-4 text-center">
+            Watch the Trailer
+          </HeadingTape>
+
+          <TrailerVideo>
+            <TrailerVideoThumbnail 
+              src="/_images/screenshots/video-trailer.webp" 
+              alt="Splatoon 3 Trailer"
+              blobColor="#eaff3d" 
+              className="w-full max-w-2xl"
+            />
+            {/* The official trailer uses N4mKx-H4b0U */}
+            <TrailerVideoContent videoId="N4mKx-H4b0U" title="Splatoon 3 - Announcement Trailer" />
+          </TrailerVideo>
+        </div>
+      </section>
 
       {/* Slanted Transition Divider 1: Header to News Feed */}
       <div className="w-full h-12 relative z-10 -mt-1 bg-white dark:bg-[#0d0d0d]">

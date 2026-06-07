@@ -298,6 +298,10 @@ export function InkSplashCanvas({
   const colorRef = React.useRef(color)
   const countRef = React.useRef(count)
   const startPosRef = React.useRef(startPosition)
+  const transitionSeedRef = React.useRef(count)
+  const transitionStartRef = React.useRef<[number, number]>(
+    startPosition ?? OFFICIAL_START_POSITIONS[count % OFFICIAL_START_POSITIONS.length]
+  )
 
   const bgReadyRef = React.useRef(false)
   const validRef = React.useRef(false)
@@ -493,14 +497,11 @@ export function InkSplashCanvas({
     gl.uniform3f(uniforms.u_color, r, g, b)
 
     gl.uniform1f(uniforms.u_progress, progress)
-    gl.uniform1f(uniforms.u_seed, countRef.current)
+    gl.uniform1f(uniforms.u_seed, transitionSeedRef.current)
     gl.uniform1f(uniforms.u_noiseSize, 1.0)
 
-    const startPos = startPosRef.current ?? OFFICIAL_START_POSITIONS[countRef.current % OFFICIAL_START_POSITIONS.length]
+    const startPos = transitionStartRef.current
     gl.uniform2f(uniforms.u_start, startPos[0], startPos[1])
-
-    const isAnimatingOut = stateRef.current === 'out'
-    gl.uniform1i(uniforms.u_animatingOut, isAnimatingOut ? 1 : 0)
 
     // Noise Y is updated by tween, matching official `u_noiseY.value` behavior.
     gl.uniform1f(uniforms.u_noiseY, noiseYRef.current)
@@ -544,12 +545,18 @@ export function InkSplashCanvas({
   // Progress tween
   // ─────────────────────────────────────────────────────────────
 
-  React.useEffect(() => {
+    React.useEffect(() => {
     cancelAnimationFrame(tweenRef.current)
 
     if (state === 'idle') {
       progressRef.current = 0
       noiseYRef.current = 0
+      const gl = glRef.current
+      const uniform = uniformsRef.current.u_animatingOut
+      if (gl && uniform) {
+        gl.useProgram(programRef.current)
+        gl.uniform1i(uniform, 0)
+      }
       return
     }
 
@@ -557,6 +564,15 @@ export function InkSplashCanvas({
     // Opening (in):  progress 0.1 → 1.0, linear easing, real duration = 1.2 * durationIn
     // Closing (out): progress 1.0 → 0.0, t² easing,  real duration = durationOut
     const isOpening = state === 'in'
+    transitionSeedRef.current = countRef.current
+    transitionStartRef.current =
+      startPosRef.current ?? OFFICIAL_START_POSITIONS[countRef.current % OFFICIAL_START_POSITIONS.length]
+    const gl = glRef.current
+    const uniform = uniformsRef.current.u_animatingOut
+    if (gl && uniform) {
+      gl.useProgram(programRef.current)
+      gl.uniform1i(uniform, isOpening ? 0 : 1)
+    }
     const duration = isOpening ? 1.2 * durationIn : durationOut
     const startVal = isOpening ? 0.1 : 1.0
     const endVal = isOpening ? 1.0 : 0.0
