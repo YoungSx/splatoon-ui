@@ -27,6 +27,10 @@ import { NewsCarousel } from '@/components/ui/news-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
 import { GridNewsCard } from '@/components/ui/grid-news-card'
 import { HeadingTape } from '@/components/ui/heading-tape'
+import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
+import { WeaponCard } from '@/components/ui/weapon-card'
+import { SplatoonTitle } from '@/components/ui/splatoon-title'
+import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
 import { StyledPhoto, StyledPhotoDecoration, StyledPhotoTape } from '@/components/ui/styled-photo'
 import { TagCard } from '@/components/ui/tag-card'
@@ -95,6 +99,298 @@ const homepageNewsCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
     </>
   ),
 }))
+
+// ── Page Transition Demo ────────────────────────────────────────────────────
+
+function PageTransitionDemo() {
+  const transitionRef = React.useRef<PageTransitionHandle>(null)
+  const [demoPage, setDemoPage] = React.useState<'home' | 'about' | 'weapons'>('home')
+  const [isTransitioning, setIsTransitioning] = React.useState(false)
+  const [inkColor, setInkColor] = React.useState('#000000')
+
+  const navigateTo = React.useCallback(async (target: 'home' | 'about' | 'weapons', color: string) => {
+    if (isTransitioning) return
+    setIsTransitioning(true)
+    setInkColor(color)
+
+    // Phase 1: Cover with ink
+    await transitionRef.current?.transitionOut({ color })
+    // Phase 2: Swap content (hidden behind ink)
+    setDemoPage(target)
+    // Phase 3: Reveal (handled by autoReveal or manual)
+    transitionRef.current?.transitionIn({ color })
+  }, [isTransitioning])
+
+  const pageContent: Record<string, { title: string; subtitle: string; emoji: string }> = {
+    home: { title: 'INKopolis Square', subtitle: 'The heart of Splatoon 3', emoji: '🏙️' },
+    about: { title: 'Battle Stages', subtitle: 'Where turf wars happen', emoji: '🗺️' },
+    weapons: { title: 'Weapon Shop', subtitle: 'Fresh weapons for fresh squids', emoji: '🔫' },
+  }
+
+  const current = pageContent[demoPage]
+
+  return (
+    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 transition-colors duration-300">
+      <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
+        <HeadingTape color="green" className="mb-4 text-center">
+          Page Transition
+        </HeadingTape>
+        <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium">
+          WebGL ink splash screen transition — ported from official splatoon.nintendo.com shader
+        </p>
+
+        <PageTransition
+          ref={transitionRef}
+          inkColor={inkColor}
+          durationIn={700}
+          durationOut={1000}
+          autoReveal={false}
+          onRevealed={() => setIsTransitioning(false)}
+          className="w-full h-[320px] rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 dark:border-white/15 bg-[#f5f0e8] dark:bg-[#1a1a1a] transition-colors duration-300"
+        >
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center space-y-3">
+              <p className="text-6xl">{current.emoji}</p>
+              <h3 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-wider">
+                {current.title}
+              </h3>
+              <p className="text-sm text-chaos-black/50 dark:text-white/50 font-medium">
+                {current.subtitle}
+              </p>
+            </div>
+          </div>
+        </PageTransition>
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Button
+            variant="yellow"
+            onClick={() => navigateTo('home', '#000000')}
+            disabled={isTransitioning || demoPage === 'home'}
+          >
+            🏙️ Inkopolis
+          </Button>
+          <Button
+            variant="blue"
+            onClick={() => navigateTo('about', '#603bff')}
+            disabled={isTransitioning || demoPage === 'about'}
+          >
+            🗺️ Stages
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => navigateTo('weapons', '#ff505e')}
+            disabled={isTransitioning || demoPage === 'weapons'}
+          >
+            🔫 Weapons
+          </Button>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Badge variant="default">WebGL Shader</Badge>
+          <Badge variant="secondary">Simplex Noise</Badge>
+          <Badge variant="outline">Ink Cover/Reveal</Badge>
+          <Badge variant="ghost">Official Port</Badge>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Splatoon Title Demo ─────────────────────────────────────────────────────
+
+function SplatoonTitleDemo() {
+  const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
+
+  return (
+    <section className="bg-[#0d0d0d] text-white py-16 px-6 relative z-10 overflow-hidden">
+      <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
+        <HeadingTape color="purple" className="mb-4 text-center">
+          Splatoon Titles
+        </HeadingTape>
+        <p className="text-center text-white/60 text-sm font-medium max-w-xl mx-auto">
+          使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
+        </p>
+
+        <div className="space-y-8">
+          {/* Official logo */}
+          <div className="text-center">
+            <SplatoonTitle variant="logo" size="xl" animate>
+              Splatoon Logo
+            </SplatoonTitle>
+          </div>
+
+          {/* Official section titles with content images */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {['story', 'character', 'world'].map((section) => (
+              <div
+                key={section}
+                className="relative group cursor-pointer"
+                onMouseEnter={() => setHoveredSection(section)}
+                onMouseLeave={() => setHoveredSection(null)}
+              >
+                {/* Content image */}
+                <div className="aspect-[3/4] overflow-hidden rounded-lg mb-4">
+                  <img
+                    src={`/official/nav-${section}-image.png`}
+                    alt={section}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+
+                {/* Title image */}
+                <div className="text-center">
+                  <SplatoonTitle
+                    variant="section"
+                    section={section}
+                    size="md"
+                  >
+                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                  </SplatoonTitle>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Text fallback */}
+          <div className="text-center">
+            <SplatoonTitle variant="text" color="#eaff3d" size="xl" shadow skewed splat>
+              Custom Title
+            </SplatoonTitle>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Badge variant="default">Official Assets</Badge>
+          <Badge variant="secondary">3 Variants</Badge>
+          <Badge variant="outline">Hover Effects</Badge>
+          <Badge variant="ghost">Image + Text</Badge>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Weapon Card Demo (FASHION Section Style) ────────────────────────────────
+
+const WEAPON_CARDS = [
+  { name: 'Splattershot', section: 'Shooter', image: '/official/nav-fashion-image.png' },
+  { name: 'Splat Roller', section: 'Roller', image: '/official/nav-fashion-image.png' },
+  { name: 'E-liter 4K', section: 'Charger', image: '/official/nav-fashion-image.png' },
+  { name: 'Slosher', section: 'Slosher', image: '/official/nav-fashion-image.png' },
+  { name: 'Dualie Squelchers', section: 'Dualies', image: '/official/nav-fashion-image.png' },
+  { name: 'Splatana Stamper', section: 'Splatana', image: '/official/nav-fashion-image.png' },
+]
+
+function WeaponCardDemo() {
+  return (
+    <section className="bg-[#1a1a1a] text-white py-16 px-6 relative z-10 overflow-hidden">
+      <div className="w-full max-w-5xl mx-auto space-y-8 relative z-10">
+        <HeadingTape color="yellow" className="mb-4 text-center">
+          Weapon Cards
+        </HeadingTape>
+        <p className="text-center text-white/60 text-sm font-medium max-w-xl mx-auto">
+          FASHION 区域风格 — 官方 bouncy easing + 图片导航卡片
+        </p>
+
+        {/* Official FASHION title */}
+        <div className="text-center">
+          <SplatoonTitle variant="section" section="fashion" size="lg">
+            Fashion
+          </SplatoonTitle>
+        </div>
+
+        {/* Weapon cards grid */}
+        <div className="flex flex-wrap justify-center gap-4">
+          {WEAPON_CARDS.map((weapon) => (
+            <WeaponCard
+              key={weapon.name}
+              name={weapon.name}
+              section={weapon.section}
+              image={weapon.image}
+              size="md"
+            />
+          ))}
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Badge variant="default">FASHION Style</Badge>
+          <Badge variant="secondary">Bouncy Easing</Badge>
+          <Badge variant="outline">Official Images</Badge>
+          <Badge variant="ghost">Hover Effects</Badge>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Splatoon Gallery Demo ───────────────────────────────────────────────────
+
+const GALLERY_ITEMS: GalleryItem[] = [
+  {
+    id: 'splatoon1',
+    title: 'Splatoon',
+    description: 'The original ink-based shooter that started it all.',
+    image: '/images/splatoon_inkling.png',
+    section: 'Area 1',
+  },
+  {
+    id: 'splatoon2',
+    title: 'Splatoon 2',
+    description: 'The sequel that brought Salmon Run and new weapons.',
+    image: '/images/splatoon_inkling.png',
+    section: 'Area 2',
+  },
+  {
+    id: 'splatoon3',
+    title: 'Splatoon 3',
+    description: 'The latest entry with Splatfest and Tri-Stringer.',
+    image: '/images/splatoon_inkling.png',
+    section: 'Area 3',
+  },
+  {
+    id: 'splatfest',
+    title: 'Splatfests',
+    description: 'Team-based festival battles with unique themes.',
+    image: '/images/splatoon_inkling.png',
+    section: 'Fest',
+  },
+  {
+    id: 'event',
+    title: 'Special Events',
+    description: 'Limited-time events with exclusive rewards.',
+    image: '/images/splatoon_inkling.png',
+    section: 'Event',
+  },
+  {
+    id: 'graffiti',
+    title: 'Graffiti',
+    description: 'Street art and ink graffiti from the Splatoon world.',
+    image: '/images/splatoon_inkling.png',
+    section: 'Graffiti',
+  },
+]
+
+function SplatoonGalleryDemo() {
+  return (
+    <section className="bg-[#1a1a1a] text-white py-16 px-6 relative z-10 overflow-hidden">
+      <div className="w-full max-w-6xl mx-auto relative z-10">
+        <SplatoonGallery
+          items={GALLERY_ITEMS}
+          title="Artwork Gallery"
+          columns={3}
+          hover
+        />
+
+        <div className="flex flex-wrap justify-center gap-3 mt-8">
+          <Badge variant="default">Official Assets</Badge>
+          <Badge variant="secondary">Grid Layout</Badge>
+          <Badge variant="outline">Hover Effects</Badge>
+          <Badge variant="ghost">Responsive</Badge>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 export default function Home() {
   const [reducedMotion, setReducedMotion] = React.useState(false)
@@ -197,6 +493,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Divider between Trailer and PageTransition */}
+      <div className="w-full h-12 relative z-10 bg-white dark:bg-[#0d0d0d] transition-colors duration-300" />
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 1.5: PAGE TRANSITION (WebGL Ink Splash)
+         ──────────────────────────────────────────────────────── */}
+      <PageTransitionDemo />
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 1.7: SPLATOON TITLE (Typography Component)
+         ──────────────────────────────────────────────────────── */}
+      <SplatoonTitleDemo />
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 1.6: WEAPON CARDS (FASHION Section Style)
+         ──────────────────────────────────────────────────────── */}
+      <WeaponCardDemo />
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 1.11: SPLATOON GALLERY (Artwork Gallery)
+         ──────────────────────────────────────────────────────── */}
+      <SplatoonGalleryDemo />
+
       {/* Slanted Transition Divider 1: Header to News Feed */}
       <div className="w-full h-12 relative z-10 -mt-1 bg-white dark:bg-[#0d0d0d]">
         <svg
@@ -215,11 +534,11 @@ export default function Home() {
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-12 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
         <InteractiveSplatter />
-        <div className="w-full max-w-4xl space-y-8 relative z-10">
+        <div className="w-full max-w-4xl mx-auto space-y-8 relative z-10">
           {/* Section Header */}
           <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
             <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
-              1. Polaroid News Card (GridNewsCard)
+              Polaroid News Card
             </h2>
             <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
               Unified component matching the official Splatoon news feed. Features curved SVG edges, official staple/tape assets, hover animation, and surface variants.
@@ -312,11 +631,11 @@ export default function Home() {
          SECTION 2.5: 3D CHARACTER PARALLAX SHOWCASE (bg-[#ead6b8] / bg-[#1e1b15])
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#ead6b8] dark:bg-[#1e1b15] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
-        <div className="w-full max-w-4xl space-y-12">
+        <div className="w-full max-w-4xl mx-auto space-y-12">
           {/* Section Header */}
           <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
             <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
-              1.5 3D Character Parallax Showcase
+              3D Character Parallax
             </h2>
             <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
               Interactive 3D layer perspective card using framer-motion springs. Hover or move your cursor to interact.
@@ -426,7 +745,7 @@ export default function Home() {
           <div className="space-y-8">
             <div className="border-b-2 border-dashed border-chaos-black/10 dark:border-white/10 pb-4">
               <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
-                2. Apparel Hanging Tag Card (`tag` variant)
+                Apparel Hanging Tag Card
               </h2>
               <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
                 Hanging clothing-tag style container with custom clip background paths, hanger cut-outs, tilted photo layers, and integrated scotch tape.
@@ -828,7 +1147,7 @@ export default function Home() {
         <div className="w-full max-w-6xl space-y-12">
           <div className="border-b-2 border-dashed border-chaos-black/10 dark:border-white/10 pb-4">
             <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
-              3.5 Official Replica Components
+              Official Replica Components
             </h2>
             <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
               Demonstrates the newly implemented Splatoon-style UI pieces: heading tape, black tape container, styled photo, news gallery, and apparel tag card.
@@ -943,7 +1262,7 @@ export default function Home() {
         <div className="relative z-20 w-full space-y-12" style={{ maxWidth: "64rem" }}>
           <div className="text-center pb-4 border-b-4 border-dashed border-white/20">
             <h2 className="text-4xl font-black uppercase tracking-wider text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
-              4. 3D Splat Gallery
+              3D Splat Gallery
             </h2>
             <p className="text-sm font-medium text-white/80 mt-2">
               Swipe or click to navigate through the overlapping Z-index carousel.
@@ -972,7 +1291,7 @@ export default function Home() {
               className="text-4xl font-black uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]"
               style={{ color: "#11d87a" }}
             >
-              5. Ink Progress Bar
+              Ink Progress Bar
             </h2>
             <p className="text-sm font-medium text-white/60 mt-2">
               SplatNet 3 style liquid physics with velocity-based splatter morphing.
