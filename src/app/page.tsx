@@ -202,12 +202,12 @@ function SplatoonTitleDemo() {
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
 
   return (
-    <section className="bg-[#0d0d0d] text-white py-16 px-6 relative z-10 overflow-hidden">
+    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
       <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
         <HeadingTape color="purple" className="mb-4 text-center">
           Splatoon Titles
         </HeadingTape>
-        <p className="text-center text-white/60 text-sm font-medium max-w-xl mx-auto">
+        <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
           使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
         </p>
 
@@ -283,12 +283,12 @@ const WEAPON_CARDS = [
 
 function WeaponCardDemo() {
   return (
-    <section className="bg-[#1a1a1a] text-white py-16 px-6 relative z-10 overflow-hidden">
+    <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
       <div className="w-full max-w-5xl mx-auto space-y-8 relative z-10">
         <HeadingTape color="yellow" className="mb-4 text-center">
           Weapon Cards
         </HeadingTape>
-        <p className="text-center text-white/60 text-sm font-medium max-w-xl mx-auto">
+        <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
           FASHION 区域风格 — 官方 bouncy easing + 图片导航卡片
         </p>
 
@@ -372,7 +372,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
 
 function SplatoonGalleryDemo() {
   return (
-    <section className="bg-[#1a1a1a] text-white py-16 px-6 relative z-10 overflow-hidden">
+    <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
       <div className="w-full max-w-6xl mx-auto relative z-10">
         <SplatoonGallery
           items={GALLERY_ITEMS}

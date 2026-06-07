@@ -103,7 +103,7 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
         {/* Section label below card */}
         {section && (
           <div className="mt-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-white/60">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-chaos-black/60 dark:text-white/60">
               {section}
             </span>
           </div>
