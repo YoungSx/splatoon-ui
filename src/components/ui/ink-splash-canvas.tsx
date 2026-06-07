@@ -5,7 +5,8 @@
  * Faithfully reproduces the official splatoon.nintendo.com implementation
  * using fragment shaders with simplex noise (Ashima Arts) for organic ink edges.
  *
- * Uses raw WebGL1 — no external dependencies (official uses OGL library).
+ * Uses raw WebGL with WebGL2-first fallback — no external dependencies
+ * (official uses OGL library on top of WebGL).
  */
 
 import * as React from 'react'
@@ -13,6 +14,8 @@ import * as React from 'react'
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
 // ─────────────────────────────────────────────────────────────────────────────
+
+type GLContext = WebGLRenderingContext | WebGL2RenderingContext
 
 export interface InkSplashCanvasProps {
   /** Animation state */
@@ -43,11 +46,12 @@ export interface InkSplashCanvasProps {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const vertexShaderSource = `
-attribute vec2 a_position;
+attribute vec3 position;
+attribute vec2 uv;
 varying vec2 v_uv;
 void main() {
-  v_uv = a_position * 0.5 + 0.5;
-  gl_Position = vec4(a_position, 0.0, 1.0);
+  gl_Position = vec4(position, 1.0);
+  v_uv = uv;
 }
 `
 
@@ -140,7 +144,7 @@ const fragmentShaderSource = `
     vec2 mx = u_resolution.xy / min(u_resolution.y, u_resolution.x);
     float dist = length(_uv - mx * _pos) - max(mx.x, mx.y) * _radius;
 
-    return (1.0 - smoothstep(-0.4, 0.4 * u_progress, dist)) + (1.0 * smoothstep( 0.9, 1.0, u_progress));
+    return smoothstep( 0.4 * u_progress, -0.4, dist) + (1.0 * smoothstep( 0.9, 1.0, u_progress));
   }
 
   float swipe(vec2 _uv, float _progress) {
@@ -174,11 +178,43 @@ const fragmentShaderSource = `
   }
 `
 
+function isWebGl2Context(gl: GLContext): gl is WebGL2RenderingContext {
+  return typeof WebGL2RenderingContext !== 'undefined' && gl instanceof WebGL2RenderingContext
+}
+
+function getVertexShaderSource(gl: GLContext): string {
+  if (!isWebGl2Context(gl)) {
+    return vertexShaderSource
+  }
+
+  return `#version 300 es
+in vec3 position;
+in vec2 uv;
+out vec2 v_uv;
+void main() {
+  gl_Position = vec4(position, 1.0);
+  v_uv = uv;
+}
+`
+}
+
+function getFragmentShaderSource(gl: GLContext): string {
+  if (!isWebGl2Context(gl)) {
+    return fragmentShaderSource
+  }
+
+  return `#version 300 es
+${fragmentShaderSource
+  .replace('varying vec2 v_uv;', 'in vec2 v_uv;\nout vec4 outColor;')
+  .replace(/texture2D/g, 'texture')
+  .replace(/gl_FragColor/g, 'outColor')}`
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // WebGL Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-function createShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null {
+function createShader(gl: GLContext, type: number, source: string): WebGLShader | null {
   const shader = gl.createShader(type)
   if (!shader) return null
 
@@ -195,7 +231,7 @@ function createShader(gl: WebGLRenderingContext, type: number, source: string): 
 }
 
 function createProgram(
-  gl: WebGLRenderingContext,
+  gl: GLContext,
   vertexShader: WebGLShader,
   fragmentShader: WebGLShader
 ): WebGLProgram | null {
@@ -227,7 +263,12 @@ function hexToRgb(hex: string): [number, number, number] {
 // Default start positions (cycle through corners like official site)
 // ─────────────────────────────────────────────────────────────────────────────
 
-const DEFAULT_START: [number, number] = [0, 0]
+const OFFICIAL_START_POSITIONS: [number, number][] = [
+  [-0.5, 0.5],
+  [0.5, 0.5],
+  [0.5, -0.5],
+  [-0.5, -0.5],
+]
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Component
@@ -244,19 +285,23 @@ export function InkSplashCanvas({
   onComplete,
   className,
 }: InkSplashCanvasProps) {
+  const containerRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
-  const glRef = React.useRef<WebGLRenderingContext | null>(null)
+  const glRef = React.useRef<GLContext | null>(null)
   const programRef = React.useRef<WebGLProgram | null>(null)
   const uniformsRef = React.useRef<Record<string, WebGLUniformLocation | null>>({})
-  const animationRef = React.useRef<number>(0)
-  const startTimeRef = React.useRef(0)
+  const renderLoopRef = React.useRef<number>(0)
+  const tweenRef = React.useRef<number>(0)
+  const progressRef = React.useRef(0)
   const stateRef = React.useRef(state)
   const onCompleteRef = React.useRef(onComplete)
   const colorRef = React.useRef(color)
   const countRef = React.useRef(count)
   const startPosRef = React.useRef(startPosition)
+
   const bgReadyRef = React.useRef(false)
   const validRef = React.useRef(false)
+  const noiseYRef = React.useRef(0)
 
   // Keep refs in sync
   stateRef.current = state
@@ -271,12 +316,22 @@ export function InkSplashCanvas({
 
   React.useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    const container = containerRef.current
+    if (!canvas || !container) return
 
-    const gl = canvas.getContext('webgl', {
-      premultipliedAlpha: true,
+    const contextAttributes = {
       alpha: true,
-    })
+      depth: true,
+      stencil: false,
+      antialias: false,
+      premultipliedAlpha: true,
+      preserveDrawingBuffer: false,
+      powerPreference: 'default',
+    } as const
+
+    const webgl2 = canvas.getContext('webgl2', contextAttributes) as WebGL2RenderingContext | null
+    const webgl1 = canvas.getContext('webgl', contextAttributes) as WebGLRenderingContext | null
+    const gl: GLContext | null = webgl2 ?? webgl1
     if (!gl) {
       console.error('WebGL not supported')
       return
@@ -285,8 +340,8 @@ export function InkSplashCanvas({
     glRef.current = gl
 
     // Create shaders
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource)
+    const vertexShader = createShader(gl, gl.VERTEX_SHADER, getVertexShaderSource(gl))
+    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, getFragmentShaderSource(gl))
     if (!vertexShader || !fragmentShader) return
 
     // Create program
@@ -295,15 +350,24 @@ export function InkSplashCanvas({
 
     programRef.current = program
 
-    // Create fullscreen quad
-    const vertices = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1])
-    const buffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+    // Official OGL helper uses a single oversized fullscreen triangle.
+    const positions = new Float32Array([-1, -1, 3, -1, -1, 3])
+    const positionBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW)
 
-    const positionLoc = gl.getAttribLocation(program, 'a_position')
+    const positionLoc = gl.getAttribLocation(program, 'position')
     gl.enableVertexAttribArray(positionLoc)
     gl.vertexAttribPointer(positionLoc, 2, gl.FLOAT, false, 0, 0)
+
+    const uvs = new Float32Array([0, 0, 2, 0, 0, 2])
+    const uvBuffer = gl.createBuffer()
+    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer)
+    gl.bufferData(gl.ARRAY_BUFFER, uvs, gl.STATIC_DRAW)
+
+    const uvLoc = gl.getAttribLocation(program, 'uv')
+    gl.enableVertexAttribArray(uvLoc)
+    gl.vertexAttribPointer(uvLoc, 2, gl.FLOAT, false, 0, 0)
 
     // Get uniform locations
     const uniformNames = [
@@ -318,10 +382,13 @@ export function InkSplashCanvas({
     // Activate program before setting uniforms (required by WebGL spec)
     gl.useProgram(program)
 
-    // Set initial noise size — official forces dpr:1 in OGL renderer,
-    // so noiseSize = 1 + 0.2*(1-1) = 1.0 always.
-    // We hardcode 1.0 to match exactly.
+    // Set initial values EXACTLY like official code
+    progressRef.current = 0
+    gl.uniform1f(uniformsRef.current.u_progress, 0)
+    
     gl.uniform1f(uniformsRef.current.u_noiseSize, 1.0)
+    gl.uniform1i(uniformsRef.current.u_animatingOut, 0)
+    gl.uniform1f(uniformsRef.current.u_noiseY, 0)
 
     // Set u_background_ready to false initially
     gl.uniform1i(uniformsRef.current.u_background_ready, 0)
@@ -329,12 +396,10 @@ export function InkSplashCanvas({
 
     validRef.current = true
 
-    // The canvas fills the entire viewport (position:fixed inset-0 parent).
-    // Use window dimensions directly — ResizeObserver is unreliable for
-    // portal-mounted elements that start at 0 dimensions.
     const resize = () => {
-      const w = window.innerWidth
-      const h = window.innerHeight
+      const rect = container.getBoundingClientRect()
+      const w = Math.round(rect.width)
+      const h = Math.round(rect.height)
       if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
         canvas.width = w
         canvas.height = h
@@ -346,6 +411,8 @@ export function InkSplashCanvas({
 
     // Cleanup
     return () => {
+      cancelAnimationFrame(renderLoopRef.current)
+      cancelAnimationFrame(tweenRef.current)
       window.removeEventListener('resize', resize)
       validRef.current = false
       programRef.current = null
@@ -353,9 +420,10 @@ export function InkSplashCanvas({
       gl.deleteShader(vertexShader)
       gl.deleteShader(fragmentShader)
       gl.deleteProgram(program)
-      gl.deleteBuffer(buffer)
+      gl.deleteBuffer(positionBuffer)
+      gl.deleteBuffer(uvBuffer)
     }
-  }, [])
+  }, [count])
 
   // ─────────────────────────────────────────────────────────────
   // Background texture loading (async, watches `background` prop)
@@ -404,13 +472,13 @@ export function InkSplashCanvas({
       gl.deleteTexture(bgTexture)
       bgReadyRef.current = false
     }
-  }, [background])
+  }, [background, count])
 
   // ─────────────────────────────────────────────────────────────
   // Draw a single frame
   // ─────────────────────────────────────────────────────────────
 
-  const drawFrame = React.useCallback((gl: WebGLRenderingContext, progress: number) => {
+  const drawFrame = React.useCallback((gl: GLContext, progress: number) => {
     if (!validRef.current) return
     const program = programRef.current
     const canvas = canvasRef.current
@@ -421,50 +489,69 @@ export function InkSplashCanvas({
     const uniforms = uniformsRef.current
     gl.uniform2f(uniforms.u_resolution, canvas.width, canvas.height)
 
-    const [r, g, b] = hexToRgb(colorRef.current)
+    const [r, g, b] = colorRef.current ? hexToRgb(colorRef.current) : [1, 0, 0]
     gl.uniform3f(uniforms.u_color, r, g, b)
 
     gl.uniform1f(uniforms.u_progress, progress)
     gl.uniform1f(uniforms.u_seed, countRef.current)
     gl.uniform1f(uniforms.u_noiseSize, 1.0)
 
-    // Start position: use prop or default to center
-    const startPos = startPosRef.current ?? DEFAULT_START
+    const startPos = startPosRef.current ?? OFFICIAL_START_POSITIONS[countRef.current % OFFICIAL_START_POSITIONS.length]
     gl.uniform2f(uniforms.u_start, startPos[0], startPos[1])
 
-    // Animating out flag
     const isAnimatingOut = stateRef.current === 'out'
     gl.uniform1i(uniforms.u_animatingOut, isAnimatingOut ? 1 : 0)
 
-    // Noise Y: during closing, animate noise offset (official: 1000 - 1000*progress)
-    const noiseY = isAnimatingOut ? 1000 - 1000 * progress : 0
-    gl.uniform1f(uniforms.u_noiseY, noiseY)
+    // Noise Y is updated by tween, matching official `u_noiseY.value` behavior.
+    gl.uniform1f(uniforms.u_noiseY, noiseYRef.current)
 
-    // Enable blending
-    gl.enable(gl.BLEND)
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+    // Match the OGL program state used by the official transition.
+    gl.enable(gl.DEPTH_TEST)
+    gl.enable(gl.CULL_FACE)
+    gl.cullFace(gl.BACK)
+    gl.frontFace(gl.CCW)
+    gl.depthMask(true)
+    gl.depthFunc(gl.LESS)
+    gl.disable(gl.BLEND)
 
-    // Clear and draw
+    // OGL autoClear clears both color and depth every frame before rendering.
     gl.clearColor(0, 0, 0, 0)
-    gl.clear(gl.COLOR_BUFFER_BIT)
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.drawArrays(gl.TRIANGLES, 0, 3)
   }, [])
 
+  // Official wrapper keeps a continuous render loop alive while the canvas is mounted.
+  // Tweens only mutate uniforms; rendering happens independently every frame.
+  React.useEffect(() => {
+    if (!validRef.current) return
+
+    const render = () => {
+      const gl = glRef.current
+      if (gl && validRef.current) {
+        drawFrame(gl, progressRef.current)
+        renderLoopRef.current = requestAnimationFrame(render)
+      }
+    }
+
+    renderLoopRef.current = requestAnimationFrame(render)
+
+    return () => {
+      cancelAnimationFrame(renderLoopRef.current)
+    }
+  }, [count, drawFrame])
+
   // ─────────────────────────────────────────────────────────────
-  // Animation loop
+  // Progress tween
   // ─────────────────────────────────────────────────────────────
 
   React.useEffect(() => {
+    cancelAnimationFrame(tweenRef.current)
+
     if (state === 'idle') {
-      const gl = glRef.current
-      if (gl) {
-        gl.clearColor(0, 0, 0, 0)
-        gl.clear(gl.COLOR_BUFFER_BIT)
-      }
+      progressRef.current = 0
+      noiseYRef.current = 0
       return
     }
-
-    startTimeRef.current = performance.now()
 
     // Official animation behavior:
     // Opening (in):  progress 0.1 → 1.0, linear easing, real duration = 1.2 * durationIn
@@ -473,48 +560,56 @@ export function InkSplashCanvas({
     const duration = isOpening ? 1.2 * durationIn : durationOut
     const startVal = isOpening ? 0.1 : 1.0
     const endVal = isOpening ? 1.0 : 0.0
+    let startTime: number | null = null
+    let completed = false
 
-    const animate = () => {
-      const gl = glRef.current
-      if (!gl) return
+    const animateTween = (now: number) => {
+      if (startTime === null) {
+        startTime = now
+      }
 
-      const elapsed = performance.now() - startTimeRef.current
+      const elapsed = now - startTime
       const rawT = Math.min(elapsed / duration, 1)
-      // Opening uses linear, closing uses t² easing
-      const easedT = isOpening ? rawT : rawT * rawT
-      const progress = startVal + (endVal - startVal) * easedT
 
-      if (rawT >= 1) {
-        drawFrame(gl, endVal)
-        onCompleteRef.current?.()
+      // Official evaluates `timingFunction: n => n*n` on the linear time scale
+      // and applies it to the progress tween.
+      // Reverting to strict algorithmic match:
+      const easedT = isOpening ? rawT : rawT * rawT
+      const currentProgress = startVal + (endVal - startVal) * easedT
+
+      progressRef.current = currentProgress
+      noiseYRef.current = state === 'out' ? 1000 - 1000 * currentProgress : 0
+
+      if (rawT < 1) {
+        tweenRef.current = requestAnimationFrame(animateTween)
         return
       }
 
-      drawFrame(gl, progress)
-      animationRef.current = requestAnimationFrame(animate)
+      progressRef.current = endVal
+      if (!completed) {
+        completed = true
+        onCompleteRef.current?.()
+      }
     }
 
-    // Draw initial frame
-    drawFrame(glRef.current!, startVal)
-    animationRef.current = requestAnimationFrame(animate)
+    tweenRef.current = requestAnimationFrame(animateTween)
 
     return () => {
-      cancelAnimationFrame(animationRef.current)
+      cancelAnimationFrame(tweenRef.current)
     }
-  }, [state, durationIn, durationOut, drawFrame])
+  }, [state, durationIn, durationOut])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={className}
-      style={{
-        display: 'block',
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'none',
-      }}
-    />
+    <div ref={containerRef} className={className}>
+      <canvas
+        ref={canvasRef}
+        style={{
+          display: 'block',
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
   )
 }

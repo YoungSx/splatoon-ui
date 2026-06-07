@@ -191,12 +191,13 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
   const animationTimersRef = React.useRef<number[]>([])
 
   const isMenuMounted = coverPhase !== 'closed'
-  const isMenuPressed = coverPhase !== 'closed'
+  const isMenuPressed = coverPhase === 'opening' || coverPhase === 'open'
   const isContentInteractive = contentPhase === 'visible'
 
-  // Canvas state: 'in' for opening, 'out' for closing, 'idle' when closed
+  // Keep the completed opening frame mounted while the menu is open, matching
+  // the official nav transition before it switches to the closing tween.
   const canvasState: CanvasState =
-    coverPhase === 'opening' ? 'in' :
+    coverPhase === 'opening' || coverPhase === 'open' ? 'in' :
     coverPhase === 'closing' ? 'out' :
     'idle'
 
@@ -252,6 +253,9 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
       return
     }
 
+    // Official nav generates a fresh transition count for closing as well.
+    // The shader still starts from progress=1, but the closing wave uses its
+    // own noise seed instead of reusing the opening one.
     setOpenCount(Math.round(10000 * Math.random()))
     setCoverPhase('closing')
 
@@ -353,7 +357,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
 
   return (
     <DialogPrimitive.Root
-      open={isMenuPressed}
+      open={isMenuMounted}
       onOpenChange={handleOpenChange}
       triggerId="site-navigation-trigger"
       modal
@@ -362,7 +366,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
         id="site-navigation-trigger"
         pressed={isMenuPressed}
         aria-haspopup="dialog"
-        onClick={() => handleOpenChange(!isMenuPressed)}
+        onClick={() => handleOpenChange(!isMenuMounted)}
       />
 
       <DialogPrimitive.Portal keepMounted>
