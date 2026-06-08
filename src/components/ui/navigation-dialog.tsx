@@ -318,41 +318,19 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     }
   }, [clearAnimationTimers, coverPhase])
 
-  // Content transition classes
+  // Content transition classes.
+  // Official: content hidden until ink splash covers screen, then instantly visible.
+  // No fade-in on container — ink splash canvas handles the visual reveal.
+  // Only on exit: content fades out (200ms) before ink retracts.
   const contentTransitionClass = React.useMemo(() => {
     if (contentPhase === 'hidden') {
-      return [
-        'transition-all',
-        'duration-[220ms]',
-        `ease-[${MENU_CONTENT_TRANSITION_OUT_EASING}]`,
-        '-translate-y-4 scale-95 opacity-0',
-      ].join(' ')
+      return 'opacity-0 pointer-events-none'
     }
-
-    if (contentPhase === 'entering') {
-      return [
-        'transition-all',
-        `duration-[${MENU_CONTENT_ENTER_MS}ms]`,
-        `ease-[${MENU_CONTENT_TRANSITION_IN_EASING}]`,
-        'translate-y-0 scale-100 opacity-100',
-      ].join(' ')
+    if (contentPhase === 'exiting') {
+      return 'transition-opacity duration-200 opacity-0 pointer-events-none'
     }
-
-    if (contentPhase === 'visible') {
-      return [
-        'transition-all',
-        'duration-[220ms]',
-        'ease-[cubic-bezier(0.16, 0.84, 0.44, 1)]',
-        'translate-y-0 scale-100 opacity-100',
-      ].join(' ')
-    }
-
-    return [
-      'transition-all',
-      `duration-[${MENU_CONTENT_EXIT_MS}ms]`,
-      `ease-[${MENU_CONTENT_TRANSITION_OUT_EASING}]`,
-      'translate-y-[-2px] scale-[0.985] opacity-0',
-    ].join(' ')
+    // entering / visible: instantly visible, ink splash has covered the screen
+    return 'opacity-100 pointer-events-auto'
   }, [contentPhase])
 
   return (
@@ -431,12 +409,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
               <nav
                 aria-label="Main site navigation"
                 className={cn(
-                  'relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center transition-all duration-[300ms] ease-[cubic-bezier(0.165,0.84,0.44,1)] md:pt-5',
-                  contentPhase === 'hidden'
-                    ? '-translate-y-2 scale-95 opacity-0'
-                    : contentPhase === 'exiting'
-                      ? 'translate-y-[2px] scale-[0.985] opacity-0'
-                      : 'translate-y-0 scale-100 opacity-100'
+                  'relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center md:pt-5',
                 )}
               >
                 <div className="relative mb-5 h-[12.9rem] w-[40rem] max-w-[92vw] md:mb-7">
@@ -477,12 +450,24 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                       ? activeNavLabel === link.label
                       : selectedNavKey === link.selectedKey
 
+                    // Official stagger: each li starts at opacity:0, scale(0.5),
+                    // then transitions to visible with per-item delay (0.1s increments)
+                    const itemDelay = contentPhase === 'entering'
+                      ? `${(index + 1) * 100}ms`
+                      : '0s'
+                    const isItemVisible = contentPhase === 'entering' || contentPhase === 'visible'
+
                     return (
                       <li
                         key={link.label}
                         className="relative"
                         style={{
-                          transitionDelay: `${Math.max(index - 1, 0) * 80}ms`,
+                          opacity: isItemVisible ? 1 : 0,
+                          transform: isItemVisible ? 'scale(1)' : 'scale(0.5)',
+                          transitionProperty: 'opacity, transform',
+                          transitionDuration: '700ms',
+                          transitionTimingFunction: 'cubic-bezier(0.51, 0, 0.9, 0.43)',
+                          transitionDelay: itemDelay,
                         }}
                       >
                         {link.hoverSplatId ? (
