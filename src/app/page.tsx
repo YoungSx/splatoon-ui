@@ -133,15 +133,15 @@ function PageTransitionDemo() {
 
   const current = pageContent[demoPage]
 
-  return (
-    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 transition-colors duration-300">
-      <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
-        <HeadingTape color="green" className="mb-4 text-center">
-          Page Transition
-        </HeadingTape>
-        <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium">
-          WebGL ink splash screen transition — ported from official splatoon.nintendo.com shader
-        </p>
+  return (      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 transition-colors duration-300">
+      <InView direction="up" rootMargin="-50px">
+        <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
+          <HeadingTape color="green" className="mb-4 text-center">
+            Page Transition
+          </HeadingTape>
+          <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium">
+            WebGL ink splash screen transition — ported from official splatoon.nintendo.com shader
+          </p>
 
         <PageTransition
           ref={transitionRef}
@@ -196,6 +196,7 @@ function PageTransitionDemo() {
           <Badge variant="ghost">Official Port</Badge>
         </div>
       </div>
+      </InView>
     </section>
   )
 }
@@ -207,6 +208,7 @@ function SplatoonTitleDemo() {
 
   return (
     <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+      <InView direction="up" rootMargin="-50px">
       <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
         <HeadingTape color="purple" className="mb-4 text-center">
           Splatoon Titles
@@ -264,6 +266,7 @@ function SplatoonTitleDemo() {
           <Badge variant="ghost">Image + Text</Badge>
         </div>
       </div>
+      </InView>
     </section>
   )
 }
@@ -282,6 +285,7 @@ const WEAPON_CARDS = [
 function WeaponCardDemo() {
   return (
     <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+      <InView direction="up" rootMargin="-50px">
       <div className="w-full max-w-5xl mx-auto space-y-8 relative z-10">
         <HeadingTape color="yellow" className="mb-4 text-center">
           Weapon Cards
@@ -317,6 +321,7 @@ function WeaponCardDemo() {
           <Badge variant="ghost">Hover Effects</Badge>
         </div>
       </div>
+      </InView>
     </section>
   )
 }
@@ -371,6 +376,7 @@ const GALLERY_ITEMS: GalleryItem[] = [
 function SplatoonGalleryDemo() {
   return (
     <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+      <InView direction="up" rootMargin="-50px">
       <div className="w-full max-w-6xl mx-auto relative z-10">
         <SplatoonGallery
           items={GALLERY_ITEMS}
@@ -386,6 +392,7 @@ function SplatoonGalleryDemo() {
           <Badge variant="ghost">Responsive</Badge>
         </div>
       </div>
+      </InView>
     </section>
   )
 }
@@ -474,19 +481,23 @@ export default function Home() {
         </div>
 
         <div className="w-full max-w-5xl flex flex-col items-center relative z-10 space-y-12">
-          <TapeTitle color="red" id="trailer-section-title">
-            Watch the trailer
-          </TapeTitle>
+          <InView direction="up" rootMargin="-50px">
+            <TapeTitle color="red" id="trailer-section-title">
+              Watch the trailer
+            </TapeTitle>
+          </InView>
 
-          <TrailerVideo>
-            <TrailerVideoThumbnail 
-              src="/_images/screenshots/video-trailer.jpg" 
-              alt="Splatoon 3 Trailer"
-              className="w-full max-w-2xl"
-            />
-            {/* The official trailer uses N4mKx-H4b0U */}
-            <TrailerVideoContent videoId="N4mKx-H4b0U" title="Splatoon 3 - Announcement Trailer" />
-          </TrailerVideo>
+          <InView direction="up" rootMargin="-50px" delay={2}>
+            <TrailerVideo>
+              <TrailerVideoThumbnail 
+                src="/_images/screenshots/video-trailer.jpg" 
+                alt="Splatoon 3 Trailer"
+                className="w-full max-w-2xl"
+              />
+              {/* The official trailer uses N4mKx-H4b0U */}
+              <TrailerVideoContent videoId="N4mKx-H4b0U" title="Splatoon 3 - Announcement Trailer" />
+            </TrailerVideo>
+          </InView>
         </div>
       </section>
 
@@ -531,6 +542,7 @@ export default function Home() {
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-12 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
         <InteractiveSplatter />
+        <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-4xl mx-auto space-y-8 relative z-10">
           {/* Section Header */}
           <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
@@ -542,7 +554,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Cards Grid — unified GridNewsCard */}
+          {/* Cards Grid — unified GridNewsCard with staggered animation */}
+          <InViewStagger rootMargin="-30px">
           <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 pt-6">
             {/* News Card 1: title + action convenience props */}
             <GridNewsCard
@@ -608,7 +621,9 @@ export default function Home() {
               </div>
             </GridNewsCard>
           </div>
+          </InViewStagger>
         </div>
+      </InView>
       </section>
 
       {/* Slanted Transition Divider 2A: News Feed to Character Showcase Section */}
@@ -628,6 +643,7 @@ export default function Home() {
          SECTION 2.5: 3D CHARACTER PARALLAX SHOWCASE (bg-[#ead6b8] / bg-[#1e1b15])
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#ead6b8] dark:bg-[#1e1b15] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
+        <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-4xl mx-auto space-y-12">
           {/* Section Header */}
           <div className="border-b-2 border-dashed border-chaos-black/20 dark:border-white/10 pb-4">
@@ -717,6 +733,7 @@ export default function Home() {
             
           </div>
         </div>
+      </InView>
       </section>
 
       {/* Slanted Transition Divider 2B: Character Showcase to Tags Section */}
@@ -740,6 +757,7 @@ export default function Home() {
         <div className="w-full max-w-4xl space-y-16 relative z-10">
           {/* Sub-Section 1: Apparel Tags */}
           <div className="space-y-8">
+            <InView direction="up" rootMargin="-50px">
             <div className="border-b-2 border-dashed border-chaos-black/10 dark:border-white/10 pb-4">
               <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
                 Apparel Hanging Tag Card
@@ -748,7 +766,9 @@ export default function Home() {
                 Hanging clothing-tag style container with custom clip background paths, hanger cut-outs, tilted photo layers, and integrated scotch tape.
               </p>
             </div>
+            </InView>
 
+            <InViewStagger rootMargin="-30px">
             <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 pt-6">
               {/* Yellow Tag */}
               <Card variant="tag" tagTheme="yellow" tagRotation="-2deg">
@@ -816,6 +836,7 @@ export default function Home() {
                 </CardFooter>
               </Card>
             </div>
+            </InViewStagger>
           </div>
 
           {/* Sub-Section 2: Other Components Tab Showcase */}
@@ -1338,10 +1359,10 @@ export default function Home() {
                   </GridNewsCard>
                 </NewsCardsGalleryGroup>
               </NewsCardsGallery>
-            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Slanted Transition Divider 3: Components to Gallery Section */}
       <div className="w-full relative z-20 bg-white dark:bg-[#0d0d0d]">
@@ -1426,10 +1447,10 @@ export default function Home() {
                 <span className="text-sm font-bold" style={{ color: "#11d87a" }}>92%</span>
               </div>
               <Progress value={92} variant="green" trackVariant="light" />
-            </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* Warning Marquee (Bottom Decoration) */}
       <Marquee speed={20} variant="warning" direction="right" className="w-full border-t-2 border-b-2 border-chaos-black dark:border-white/20">
