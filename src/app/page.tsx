@@ -1172,7 +1172,8 @@ export default function Home() {
                     Official Heading Tape
                   </div>
                 </HeadingTape>
-                <p className="text-sm font-medium text-chaos-black/75 dark:text-white/75">
+                {/* Official: tapeYellow sets color:var(--color-black) on the container — text inherits dark color */}
+                <p className="text-sm font-medium">
                   This container combines tape framing and sticker decorations to mimic official magazine-style headings.
                 </p>
 
