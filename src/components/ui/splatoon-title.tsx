@@ -1,14 +1,12 @@
 'use client'
 
 /**
- * SplatoonTitle — Splatoon-style heading component.
+ * SplatoonTitle — Official Splatoon image-based heading.
  *
- * Uses official Nintendo Splatoon assets when available:
- * - Official logo image for main titles
- * - Official section title images for navigation
- * - Fallback to styled text when images unavailable
+ * Uses official Nintendo Splatoon assets:
+ * - `logo` variant: official logo image
+ * - `section` variant: official section title images (story/character/world/fashion/music/gallery/history)
  *
- * Based on the official Splatoon 3 visual language.
  */
 
 import * as React from 'react'
@@ -16,7 +14,7 @@ import { cn } from '@/lib/utils'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
-export type SplatoonTitleVariant = 'logo' | 'section' | 'text'
+export type SplatoonTitleVariant = 'logo' | 'section'
 export type SplatoonTitleSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
 export interface SplatoonTitleProps extends React.ComponentProps<'div'> {
@@ -26,16 +24,6 @@ export interface SplatoonTitleProps extends React.ComponentProps<'div'> {
   section?: string
   /** Title size */
   size?: SplatoonTitleSize
-  /** Primary color for text fallback */
-  color?: string
-  /** Secondary color for gradients */
-  color2?: string
-  /** Enable skew effect */
-  skewed?: boolean
-  /** Enable 3D shadow */
-  shadow?: boolean
-  /** Enable ink splatter decorations */
-  splat?: boolean
   /** Animation on mount */
   animate?: boolean
   /** Custom image URL (overrides section) */
@@ -92,14 +80,9 @@ const SECTION_IMAGES: Record<string, { title: string; hover: string }> = {
 export const SplatoonTitle = React.forwardRef<HTMLDivElement, SplatoonTitleProps>(
   function SplatoonTitle(
     {
-      variant = 'text',
+      variant = 'section',
       section,
       size = 'lg',
-      color = '#eaff3d',
-      color2 = '#603bff',
-      skewed = false,
-      shadow = true,
-      splat = false,
       animate = false,
       image,
       imageHover,
@@ -179,53 +162,5 @@ export const SplatoonTitle = React.forwardRef<HTMLDivElement, SplatoonTitleProps
       )
     }
 
-    // Text variant: styled text fallback
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          'relative inline-block',
-          animate && 'transition-all duration-700 ease-out',
-          animate && (isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'),
-          className,
-        )}
-        {...props}
-      >
-        {/* Ink splatter decorations */}
-        {splat && (
-          <>
-            <div
-              className="absolute -top-4 -left-4 w-16 h-16 opacity-20 pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse at center, ${color} 0%, transparent 70%)`,
-                transform: 'rotate(-15deg)',
-              }}
-            />
-            <div
-              className="absolute -bottom-4 -right-4 w-20 h-20 opacity-15 pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse at center, ${color2} 0%, transparent 70%)`,
-                transform: 'rotate(25deg)',
-              }}
-            />
-          </>
-        )}
-
-        {/* Main title text */}
-        <h1
-          className={cn(
-            'font-heading font-black uppercase tracking-wider leading-none',
-            skewed && '-skew-x-6',
-          )}
-          style={{
-            color: color,
-            textShadow: shadow ? `3px 3px 0px rgba(0,0,0,0.5)` : 'none',
-            fontSize: `clamp(2rem, 5vw, ${size === '2xl' ? '6rem' : size === 'xl' ? '4rem' : size === 'lg' ? '3rem' : size === 'md' ? '2rem' : '1.5rem'})`,
-          }}
-        >
-          {children}
-        </h1>
-      </div>
-    )
   },
 )

@@ -28,6 +28,7 @@ import { BlackTapeContainer } from '@/components/ui/black-tape-container'
 import { GridNewsCard } from '@/components/ui/grid-news-card'
 import { HeadingTape } from '@/components/ui/heading-tape'
 import { TapeTitle } from '@/components/ui/tape-title'
+import { CategoryTitle } from '@/components/ui/category-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
 import { WeaponCard } from '@/components/ui/weapon-card'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
@@ -253,12 +254,6 @@ function SplatoonTitleDemo() {
             ))}
           </div>
 
-          {/* Text fallback */}
-          <div className="text-center">
-            <SplatoonTitle variant="text" color="#eaff3d" size="xl" shadow skewed splat>
-              Custom Title
-            </SplatoonTitle>
-          </div>
         </div>
 
         <div className="flex flex-wrap justify-center gap-3">
@@ -1239,7 +1234,19 @@ export default function Home() {
             </div>
 
             <div className="space-y-6">
-              <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm dark:bg-[#121212]/95">
+              {/* CategoryTitle: official full-width white section heading */}
+          <div className="max-w-md mx-auto">
+            <CategoryTitle
+              stickerLeft={
+                <span className="block h-10 w-10 rounded-full border-[3px] border-chaos-black bg-gradient-to-br from-[#ffda00] via-[#ffd650] to-[#ffc700] shadow-soft-splat-sm" />
+              }
+              points={<span className="inline-flex items-center gap-1 rounded-full bg-[#ff505e] px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white">NEW</span>}
+            >
+              <span className="font-heading font-black text-xl uppercase tracking-wider">Category Title</span>
+            </CategoryTitle>
+          </div>
+
+          <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm dark:bg-[#121212]/95">
                 <NewsCardsGalleryGroup>
                   <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
                     <div className="space-y-3 p-4">
