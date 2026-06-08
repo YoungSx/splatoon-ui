@@ -256,72 +256,37 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
     // ── Phase 2: ink-in complete → show video content ───────────────
     const handleInkInComplete = React.useCallback(() => {
       setShouldPlayVideo(true)
-
-      // Set phase to open immediately so the video container mounts
       setContentVisible(true)
       setPhase('open')
-
-      // Start GSAP video entry on next frame so the DOM element exists
-      requestAnimationFrame(() => {
-        const videoEl = videoRef.current
-        if (!videoEl) return
-
-        // Set initial state: scale(0), invisible
-        videoEl.style.transform = 'scale(0)'
-        videoEl.style.opacity = '0'
-
-        // Official: scale 0→1, ease-back-out (cubic-bezier 0.21,0.12,0.35,1.43), 600ms
-        const duration = 600
-        const startTime = performance.now()
-        const easeBackOut = (t: number) => {
-          // Proper back-ease-out: overshoots past 1 then settles
-          const c1 = 1.70158
-          const c3 = c1 + 1
-          return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2)
-        }
-        const animate = (now: number) => {
-          const elapsed = now - startTime
-          const rawT = Math.min(elapsed / duration, 1)
-          const t = easeBackOut(rawT)
-          videoEl.style.transform = `scale(${t})`
-          videoEl.style.opacity = String(rawT) // linear opacity
-          if (rawT < 1) {
-            animFrameRef.current = requestAnimationFrame(animate)
-          }
-        }
-        animFrameRef.current = requestAnimationFrame(animate)
-      })
     }, [])
 
     // ── Close handler ───────────────────────────────────────────────
+    // Official GSAP: scale:0.7, yPercent:100, rotate:random, opacity:0, power3.in, 700ms
     const handleClose = React.useCallback(() => {
       if (phase !== 'open') return
-
-      // Cancel any running animation
       cancelAnimationFrame(animFrameRef.current)
-
-      // Phase 3: video content fade out with GSAP (official: power3.in, 700ms)
       closeRotateRef.current = getSplatRandomRotation()
       const videoEl = videoRef.current
 
       if (videoEl) {
-        const duration = 500
+        const duration = 700
         const startTime = performance.now()
         const animate = (now: number) => {
           const elapsed = now - startTime
           const rawT = Math.min(elapsed / duration, 1)
           const t = power3In(rawT)
 
-          const scale = 1 + t * (0.85 - 1)
+          const scale = 1 + t * (0.7 - 1)
+          const yPercent = t * 100
+          const rotate = t * closeRotateRef.current
           const opacity = 1 - t
 
-          videoEl.style.transform = `scale(${scale})`
+          videoEl.style.transform = `translateY(${yPercent}%) scale(${scale}) rotate(${rotate}deg)`
           videoEl.style.opacity = String(opacity)
 
           if (rawT < 1) {
             animFrameRef.current = requestAnimationFrame(animate)
           } else {
-            // Video faded out → start ink-out
             setContentVisible(false)
             setShouldPlayVideo(false)
             splashCountRef.current += 1
@@ -353,15 +318,20 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
     }, [open, phase, handleClose])
 
     const isInkActive = phase === 'ink-in' || phase === 'ink-out'
-    const showContent = phase === 'open' || phase === 'ink-out'
+    const isModalMounted = phase !== 'idle'
+    // Canvas state: 'in' keeps the filled ink after splash completes, 'idle' resets to empty
+    const canvasState = phase === 'ink-out' ? 'out' as const : phase === 'idle' ? 'idle' as const : 'in' as const
 
     return (
       <DialogPrimitive.Portal keepMounted>
-        {/* ── WebGL Ink Splash Backdrop ────────────────────────────── */}
-        {isInkActive && (
+        {/* ── WebGL Ink Splash Canvas ────────────────────────────────
+            Official: canvas stays visible for the ENTIRE modal lifetime.
+            It's the background — ink covers screen, then stays as backdrop.
+        */}
+        {isModalMounted && (
           <InkSplashCanvas
             className="fixed inset-0 z-[100] pointer-events-none"
-            state={phase === 'ink-in' ? 'in' : 'out'}
+            state={canvasState}
             durationIn={700}
             durationOut={700}
             color="#000000"
@@ -372,19 +342,16 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
           />
         )}
 
-        {/* ── Dark Backdrop ────────────────────────────────────────── */}
-        {showContent && (
+        {/* ── Backdrop — official: transparent, canvas IS the background */}
+        {isModalMounted && (
           <DialogPrimitive.Backdrop
-            className={cn(
-              "fixed inset-0 z-50 transition-opacity duration-600 ease-out",
-              phase === 'open' ? "opacity-100" : "opacity-0"
-            )}
-            style={{ backgroundColor: 'rgb(0 0 0 / 90%)' }}
+            className="fixed inset-0 z-50"
+            style={{ backgroundColor: 'transparent' }}
           />
         )}
 
         {/* ── Video Content ────────────────────────────────────────── */}
-        {showContent && (
+        {isModalMounted && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-8 pointer-events-none">
             <div
               ref={(node) => {
@@ -398,8 +365,14 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
               )}
               style={{
                 transformOrigin: 'center center',
-                // GSAP will set transform + opacity via direct DOM manipulation.
-                // We do NOT set them here to avoid React re-renders overwriting GSAP.
+                // Official: CSS transition for content entry
+                // transform 0.6s, opacity 0.6s, delay 0.5s
+                transform: contentVisible ? 'scale(1) translateY(0)' : 'scale(0.7) translateY(20%)',
+                opacity: contentVisible ? 1 : 0,
+                transitionProperty: 'transform, opacity',
+                transitionDuration: '0.6s',
+                transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
+                transitionDelay: contentVisible ? '0.5s' : '0s',
               }}
               {...props}
             >
@@ -422,21 +395,25 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
           </div>
         )}
 
-        {/* ── Close Button ─────────────────────────────────────────── */}
-        {showContent && (
+        {/* ── Close Button ───────────────────────────────────────────
+            Official: opacity:var(--alpha), transform:translateX(calc(200%*(1-var(--alpha)))) scale(var(--scale))
+            transition: 0.3s ease-back-out, delay 0.5s
+        */}
+        {isModalMounted && (
           <DialogPrimitive.Close
-            className={cn(
-              "fixed z-[120] p-3 sm:p-5 rounded-full bg-yellow-400 text-blue-700 border-2 border-black",
-              "right-4 top-5 sm:right-8 sm:top-8",
-              "transition-all duration-600 ease-[cubic-bezier(0.21,0.12,0.35,1.43)]",
-              "hover:scale-110 hover:duration-300",
-              contentVisible
-                ? "opacity-100 translate-x-0 delay-500"
-                : "opacity-0 translate-x-[200%]"
-            )}
+            className="fixed z-[120] p-3 sm:p-5 rounded-full bg-yellow-400 border-2 border-[#603bff] right-4 top-5 sm:right-8 sm:top-8 hover:scale-110"
+            style={{
+              opacity: contentVisible ? 1 : 0,
+              transform: `translateX(${contentVisible ? '0' : '200%'}) scale(1)`,
+              transitionProperty: 'transform, opacity',
+              transitionDuration: '0.3s',
+              transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
+              transitionDelay: contentVisible ? '0.5s' : '0s',
+              borderRadius: '40% 60% 70% 30% / 40% 40% 60% 50%',
+            }}
             onClick={handleClose}
           >
-            <XIcon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3]" />
+            <XIcon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3] text-[#603bff]" />
             <span className="sr-only">Close video</span>
           </DialogPrimitive.Close>
         )}
