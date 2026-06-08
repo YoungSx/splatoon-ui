@@ -382,12 +382,22 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                 isContentInteractive ? 'pointer-events-auto' : 'pointer-events-none'
               )}
             >
-              {overlayDecorations.map((splat) => (
+              {/* Background Splats — official: opacity+transform 0.4s, staggered 0.5s→1.1s */}
+              {overlayDecorations.map((splat, i) => (
                 <Splat
                   key={splat.id}
                   id={splat.splatId}
                   color={splat.color}
-                  className={cn('pointer-events-none absolute z-[1] opacity-100', splat.className)}
+                  className={cn('pointer-events-none absolute z-[1]', splat.className)}
+                  style={{
+                    opacity: contentPhase === 'hidden' || contentPhase === 'exiting' ? 0 : 1,
+                    transform: contentPhase === 'hidden' || contentPhase === 'exiting'
+                      ? 'scale(0.8) translate(0, 10%)'
+                      : 'scale(1) translate(0, 0)',
+                    transitionProperty: 'opacity, transform',
+                    transitionDuration: '0.4s',
+                    transitionDelay: `${0.5 + i * 0.1}s`,
+                  }}
                 />
               ))}
 
@@ -412,7 +422,19 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                   'relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center md:pt-5',
                 )}
               >
-                <div className="relative mb-5 h-[12.9rem] w-[40rem] max-w-[92vw] md:mb-7">
+                <div
+                  className="relative mb-5 h-[12.9rem] w-[40rem] max-w-[92vw] md:mb-7"
+                  style={{
+                    opacity: contentPhase === 'hidden' || contentPhase === 'exiting' ? 0 : 1,
+                    transform: contentPhase === 'hidden' || contentPhase === 'exiting'
+                      ? 'scale(0.85)'
+                      : 'scale(1)',
+                    transitionProperty: 'opacity, transform',
+                    transitionDuration: '0.3s',
+                    transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
+                    transitionDelay: contentPhase === 'exiting' ? '0s' : '0.1s',
+                  }}
+                >
                   {logoSplatDecorations.map((splat) => (
                     <Splat
                       key={splat.id}
