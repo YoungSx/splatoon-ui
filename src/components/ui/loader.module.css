@@ -1,0 +1,33 @@
+/* loader.module.css
+   Matches official splatoon.nintendo.com loader component exactly.
+   CSS border spinner with 3px transparent right edge.
+   Uses 359deg rotation to avoid animation reset glitch. */
+
+.loader {
+  --color: currentcolor;
+  --size: 1em;
+  animation: rotate-360 1s linear infinite;
+  border-radius: 50%;
+  border: 3px solid var(--color);
+  border-right-color: transparent;
+  display: inline-block;
+  height: var(--size);
+  margin: auto;
+  vertical-align: middle;
+  width: var(--size);
+}
+
+/* Official variants: named CSS colors */
+.blue {
+  --color: blue;
+}
+
+.red {
+  --color: red;
+}
+
+@keyframes rotate-360 {
+  to {
+    transform: rotate(359deg);
+  }
+}

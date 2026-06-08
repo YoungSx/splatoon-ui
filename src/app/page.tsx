@@ -37,6 +37,7 @@ import { StyledPhoto, StyledPhotoDecoration, StyledPhotoTape } from '@/component
 import { TagCard } from '@/components/ui/tag-card'
 import { Divider } from '@/components/ui/divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
+import { Loader } from '@/components/ui/loader'
 import { Progress } from '@/components/ui/progress'
 import {
   Dialog,
@@ -881,6 +882,36 @@ export default function Home() {
                       <Badge variant="destructive">Destructive</Badge>
                       <Badge variant="outline">Outline</Badge>
                       <Badge variant="sticker">Sticker Badge</Badge>
+                    </CardContent>
+                  </Card>
+
+                  {/* Loader Card — full width span in 2-col grid */}
+                  <Card
+                    variant="news"
+                    surface="cream"
+                    className="md:col-span-2"
+                  >
+                    <CardHeader>
+                      <CardTitle>Loader</CardTitle>
+                      <CardDescription>Official CSS border spinner — 3px arc, 359deg rotation</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-wrap items-center gap-6 pt-2">
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader variant="default" />
+                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Default</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader variant="blue" size="1.5em" />
+                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Blue</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader variant="red" size="2em" />
+                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Red</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader variant="default" size="2em" style={{ '--color': '#6af7ce' } as React.CSSProperties} />
+                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Custom</span>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
