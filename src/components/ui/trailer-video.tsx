@@ -114,12 +114,11 @@ export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, Trailer
               {...rest}
               {...props}
             >
-              {/* Jagged / Skewed Image Container */}
+              {/* Jagged / Skewed Image Container (styled-photo) */}
               <div 
                 className="relative overflow-hidden shadow-soft-splat-md border-4 border-white dark:border-[#1a1a1a]"
                 style={{ 
                   transform: 'rotate(-2deg)', 
-                  clipPath: 'polygon(2% 0%, 100% 2%, 98% 100%, 0% 98%)',
                   transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
                 }}
               >
@@ -129,19 +128,25 @@ export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, Trailer
                   alt={alt}
                   className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-105"
                 />
-                
-                {/* Tape Decoration 1 */}
-                <div 
-                  className="absolute -top-4 -left-4 w-24 h-10 bg-yellow-400 opacity-90 mix-blend-multiply dark:mix-blend-normal"
-                  style={{ transform: 'rotate(-15deg)', clipPath: 'polygon(0% 10%, 100% 0%, 95% 100%, 5% 90%)' }}
-                />
-                
-                {/* Tape Decoration 2 */}
-                <div 
-                  className="absolute -bottom-4 -right-4 w-32 h-12 bg-splat-blue opacity-90 mix-blend-multiply dark:mix-blend-normal"
-                  style={{ transform: 'rotate(-5deg)', clipPath: 'polygon(5% 0%, 95% 10%, 100% 90%, 0% 100%)' }}
-                />
               </div>
+
+              {/* Tape Decoration 1 — official uses tape-2.png (166×73) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/_images/tape-assets/tape-2.png"
+                alt=""
+                className="absolute -top-4 -left-4 w-24 h-auto opacity-90 mix-blend-multiply dark:mix-blend-normal pointer-events-none"
+                style={{ transform: 'rotate(-25deg)' }}
+              />
+              
+              {/* Tape Decoration 2 — official uses tape-3.png (202×77) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/_images/tape-assets/tape-3.png"
+                alt=""
+                className="absolute -bottom-4 -right-4 w-32 h-auto opacity-90 mix-blend-multiply dark:mix-blend-normal pointer-events-none"
+                style={{ transform: 'rotate(-15deg)' }}
+              />
 
               {/* Centered WebGL Play Button */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

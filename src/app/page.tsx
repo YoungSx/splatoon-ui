@@ -482,7 +482,7 @@ export default function Home() {
 
           <TrailerVideo>
             <TrailerVideoThumbnail 
-              src="/_images/screenshots/video-trailer.webp" 
+              src="/_images/screenshots/video-trailer.jpg" 
               alt="Splatoon 3 Trailer"
               className="w-full max-w-2xl"
             />
