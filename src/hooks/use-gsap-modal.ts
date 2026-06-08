@@ -1,23 +1,30 @@
 import * as React from 'react'
-import { power3In, power3Out, lerp, getSplatRandomRotation } from '@/lib/wobble-math'
+import { power3In, power3Out, power4InOut, lerp, getSplatRandomRotation } from '@/lib/wobble-math'
 
 interface UseGsapModalProps {
   isOpen: boolean
   durationIn?: number
   durationOut?: number
+  onOpenStart?: () => void
+  onOpenComplete?: () => void
+  onCloseStart?: () => void
   onCloseComplete?: () => void
+  /** Optional ref to the trigger element for FLIP-style open animation */
+  triggerRef?: React.RefObject<HTMLElement | null>
 }
 
 export function useGsapModal({
   isOpen,
-  durationIn = 700, // Official is ~0.7s
+  durationIn = 700,
   durationOut = 700,
+  onOpenStart,
+  onOpenComplete,
+  onCloseStart,
   onCloseComplete,
+  triggerRef,
 }: UseGsapModalProps) {
   const [el, setEl] = React.useState<HTMLDivElement | null>(null)
   const animationRef = React.useRef<number>(0)
-  
-  // Store the randomized parameters for the current close animation
   const closeParamsRef = React.useRef({ rotate: 0 })
 
   React.useEffect(() => {
@@ -26,8 +33,10 @@ export function useGsapModal({
     let startTime: number | null = null
     const duration = isOpen ? durationIn : durationOut
 
-    if (!isOpen) {
-      // Calculate random rotation once per close action
+    if (isOpen) {
+      onOpenStart?.()
+    } else {
+      onCloseStart?.()
       closeParamsRef.current.rotate = getSplatRandomRotation()
     }
 
@@ -37,23 +46,41 @@ export function useGsapModal({
       const rawT = Math.min(elapsed / duration, 1)
 
       if (isOpen) {
-        // Open Animation: Slam into place
-        const t = power3Out(rawT)
-        // From scale 0.7, opacity 0, to scale 1, opacity 1. No rotation on entrance usually, 
-        // or starting from random rotation to 0. Official starts unrotated and just fades/scales.
-        // Wait, the GSAP tween: `to({ scale: .7, rotate: random, opacity: 0, yPercent: 100 })` is the CLOSE animation.
-        // The entrance is likely the reverse, but let's implement the pop-in.
-        
-        const scale = lerp(0.7, 1.0, t)
+        // Open: FLIP-style slam from trigger position
+        // Uses power4.inOut for bouncy overshoot (matches official)
+        const t = power4InOut(rawT)
+
+        // Try to get trigger position for FLIP origin
+        const triggerEl = triggerRef?.current
+        let originY = 20
+        let originScale = 0.7
+
+        if (triggerEl) {
+          const triggerRect = triggerEl.getBoundingClientRect()
+          const modalRect = el.getBoundingClientRect()
+          if (modalRect.height > 0) {
+            // Calculate relative Y offset from trigger center to modal center
+            const triggerCenter = triggerRect.top + triggerRect.height / 2
+            const modalCenter = modalRect.top + modalRect.height / 2
+            originY = ((triggerCenter - modalCenter) / modalRect.height) * 100
+            originScale = Math.min(triggerRect.width / modalRect.width, 0.7)
+          }
+        }
+
+        const scale = lerp(originScale, 1.0, t)
         const opacity = lerp(0, 1, t)
-        const yPercent = lerp(20, 0, t) // slight slide up
-        
-        el.style.transform = `translateY(${yPercent}%) scale(${scale}) rotate(0deg)`
+        const yPercent = lerp(originY, 0, t)
+
+        el.style.transform = `translateY(${yPercent}%) scale(${scale})`
         el.style.opacity = opacity.toString()
+
+        if (rawT >= 1) {
+          onOpenComplete?.()
+        }
       } else {
-        // Close Animation: Drop down, scale down, rotate, fade out
+        // Close: drop down with random rotation (matches official power3.in)
         const t = power3In(rawT)
-        
+
         const scale = lerp(1.0, 0.7, t)
         const opacity = lerp(1, 0, t)
         const yPercent = lerp(0, 100, t)
@@ -70,12 +97,11 @@ export function useGsapModal({
       }
     }
 
-    // Cancel any running animation and start the new one
     cancelAnimationFrame(animationRef.current)
     animationRef.current = requestAnimationFrame(animate)
 
     return () => cancelAnimationFrame(animationRef.current)
-  }, [isOpen, durationIn, durationOut, onCloseComplete, el])
+  }, [isOpen, durationIn, durationOut, onOpenStart, onOpenComplete, onCloseStart, onCloseComplete, triggerRef, el])
 
   return { contentRef: setEl }
 }

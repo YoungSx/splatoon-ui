@@ -18,6 +18,11 @@ export const power3InOut = (t: number) => {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 }
 
+// GSAP 'power4.inOut' equivalent (used for FLIP-style open animation)
+export const power4InOut = (t: number) => {
+  return t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2
+}
+
 // GSAP 'back.out' equivalent (used for the bouncy pop-in of elements)
 export const backOut = (t: number, overshoot = 1.70158) => {
   return 1 + overshoot * Math.pow(t - 1, 3) + (overshoot + 1) * Math.pow(t - 1, 2)

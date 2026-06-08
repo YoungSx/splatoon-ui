@@ -4,6 +4,12 @@ import * as React from 'react'
 import { blobVertexShader, blobFragmentShader } from '@/lib/shaders/blob-shaders'
 import { cn } from '@/lib/utils'
 
+// ── CSS Custom Properties (matches official :root variables) ──
+// --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43)
+// --duration-factor: 1
+// --color-green: #6af7ce
+const EASE_BACK_OUT = 'cubic-bezier(0.21, 0.12, 0.35, 1.43)'
+
 interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   idleWobbleAmount?: number
   hexColor?: string
@@ -138,12 +144,17 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
       gl.uniform3f(uniformsRef.current.u_color, r, g, b)
 
       const resize = () => {
-        // High-DPI support
-        const dpr = window.devicePixelRatio || 1
-        canvas.width = blobSize * dpr
-        canvas.height = blobSize * dpr
-        canvas.style.width = `${blobSize}px`
-        canvas.style.height = `${blobSize}px`
+        // Official image-blob CSS: canvas { height: 100%; width: 100%; }
+        // The canvas fills its parent container which uses padding-top:100% for 1:1 aspect ratio.
+        // We read the parent size to get the display dimensions, then set internal resolution with DPR.
+        const parent = canvas.parentElement
+        if (!parent) return
+        const displaySize = Math.max(parent.clientWidth, parent.clientHeight, blobSize)
+        const dpr = Math.min(window.devicePixelRatio || 1, 2)
+        canvas.width = displaySize * dpr
+        canvas.height = displaySize * dpr
+        canvas.style.width = `${displaySize}px`
+        canvas.style.height = `${displaySize}px`
         gl.viewport(0, 0, canvas.width, canvas.height)
       }
       resize()
@@ -188,19 +199,56 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
           'transition-transform duration-300',
           className
         )}
+        style={{
+          // Official default: --blob-scale: 0.8 (shrunk), hover → 1 (full size)
+          '--blob-scale': '0.8',
+        } as React.CSSProperties}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.setProperty('--blob-scale', '1')
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.setProperty('--blob-scale', '0.8')
+        }}
         {...props}
       >
-        {/* WebGL Blob Layer */}
-        <div className="absolute inset-0 flex items-center justify-center -z-10 pointer-events-none">
+        {/* ── Blob Positioner ──────────────────────────────────────────
+            Official CSS (.play-button_blobPositioner):
+              height:100%; left:0; position:absolute; top:0;
+              transform: scale(var(--blob-scale));
+              transition: transform 0.3s cubic-bezier(0.21,0.12,0.35,1.43) 0.1s;
+              width:100%;
+        */}
+        <div
+          className="absolute inset-0 flex items-center justify-center -z-10 pointer-events-none"
+          style={{
+            transform: 'scale(var(--blob-scale, 0.8))',
+            transition: `transform 0.3s ${EASE_BACK_OUT} 0.1s`,
+          }}
+        >
           <canvas ref={canvasRef} className="block" />
         </div>
-        
-        {/* Play Icon Layer */}
+
+        {/* ── Play Icon ──────────────────────────────────────────────
+            Official CSS (.play-button_playIcon):
+              color: var(--color-green);   → #6af7ce
+              left: 50%; position: absolute; top: 50%;
+              transform: translate(-40%,-50%) scale(var(--blob-scale));
+              transition: transform 0.3s var(--ease-back-out);
+              width: 30%;
+        */}
         <svg
           aria-hidden="true"
           role="img"
-          className="relative z-10 w-8 h-8 md:w-12 md:h-12 ml-1 text-chaos-black"
+          className="relative z-10 text-[#6af7ce]"
           viewBox="0 0 74 84"
+          style={{
+            width: '30%',
+            transform: 'translate(-40%, -50%) scale(var(--blob-scale, 0.8))',
+            transition: `transform 0.3s ${EASE_BACK_OUT}`,
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+          }}
         >
           <path
             d="M8.273.749C4.596-1.38 0 1.28 0 5.539V78.46c0 4.258 4.596 6.918 8.273 4.79l62.97-36.461c3.676-2.13 3.676-7.452 0-9.58L8.273.75Z"
