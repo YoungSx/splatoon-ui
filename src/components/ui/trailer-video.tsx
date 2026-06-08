@@ -90,7 +90,7 @@ interface TrailerVideoThumbnailProps extends React.ButtonHTMLAttributes<HTMLButt
 }
 
 export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, TrailerVideoThumbnailProps>(
-  ({ src, alt = "Video thumbnail", className, blobColor = "#6af7ce", blobSize = 160, ...props }, ref) => {
+  ({ src, alt = "Video thumbnail", className, blobColor = "#000000", blobSize = 160, ...props }, ref) => {
     const { triggerRef } = useTrailerVideoContext()
 
     return (

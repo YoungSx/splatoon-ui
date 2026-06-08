@@ -484,7 +484,6 @@ export default function Home() {
             <TrailerVideoThumbnail 
               src="/_images/screenshots/video-trailer.webp" 
               alt="Splatoon 3 Trailer"
-              blobColor="#eaff3d" 
               className="w-full max-w-2xl"
             />
             {/* The official trailer uses N4mKx-H4b0U */}

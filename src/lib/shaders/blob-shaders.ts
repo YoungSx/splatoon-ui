@@ -1,81 +1,90 @@
-export const blobVertexShader = `
+/**
+ * Blob play button shaders — ported from official splatoon.nintendo.com
+ * chunk 566 (SimplexBlobRenderer).
+ *
+ * The official approach: fullscreen triangle + fragment shader noise alpha mask.
+ * No vertex deformation — all wobble is in the fragment shader.
+ */
+
+// Fragment shader: simplex noise + circle = organic blob shape
+// The vertex shader is the standard OGL fullscreen triangle (handled by WTCGL).
+export const blobFragmentShader = `
 precision highp float;
 
-attribute vec2 position;
-attribute vec2 uv;
+//
+// Description : Array and textureless GLSL 2D simplex noise function.
+//      Author : Ian McEwan, Ashima Arts.
+//  Maintainer : ijm
+//     Lastmod : 20110822 (ijm)
+//     License : Copyright (C) 2011 Ashima Arts. All rights reserved.
+//               Distributed under the MIT License.
+//
+vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
 
-uniform mat4 projectionMatrix;
-uniform mat4 modelViewMatrix;
-uniform float u_time;
-uniform float u_wobbleAmount;
-
-varying vec2 v_uv;
-varying vec3 v_position;
-
-// Simplex 2D noise
-vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
-float snoise(vec2 v){
+float snoise(vec2 v) {
   const vec4 C = vec4(0.211324865405187, 0.366025403784439,
-           -0.577350269189626, 0.024390243902439);
-  vec2 i  = floor(v + dot(v, C.yy) );
-  vec2 x0 = v -   i + dot(i, C.xx);
-  vec2 i1;
-  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+                     -0.577350269189626, 0.024390243902439);
+  vec2 i = floor(v + dot(v, C.yy));
+  vec2 x0 = v - i + dot(i, C.xx);
+  vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
   vec4 x12 = x0.xyxy + C.xxzz;
   x12.xy -= i1;
-  i = mod(i, 289.0);
-  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
-  + i.x + vec3(0.0, i1.x, 1.0 ));
-  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-  m = m*m ;
-  m = m*m ;
-  vec3 x = 2.0 * fract(p * C.www) - 1.0;
-  vec3 h = abs(x) - 0.5;
-  vec3 ox = floor(x + 0.5);
-  vec3 a0 = x - ox;
-  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+  i = mod289(i);
+  vec3 p = permute(permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0));
+  vec3 m = max(0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)), 0.0);
+  m = m * m;
+  m = m * m;
+  vec3 x_ = 2.0 * fract(p * C.www) - 1.0;
+  vec3 h = abs(x_) - 0.5;
+  vec3 ox = floor(x_ + 0.5);
+  vec3 a0 = x_ - ox;
+  m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
   vec3 g;
-  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+  g.x = a0.x * x0.x + h.x * x0.y;
   g.yz = a0.yz * x12.xz + h.yz * x12.yw;
   return 130.0 * dot(m, g);
 }
 
+uniform vec2 u_resolution;
+uniform vec3 u_color;
+uniform float i_time;
+uniform float u_noiseSize;
+uniform float u_seed;
+uniform float u_progress;
+uniform float u_idleSpeed;
+
+varying vec2 v_uv;
+
+vec2 getScreenSpace() {
+  vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / u_resolution.xy;
+  return uv;
+}
+
+float circle(vec2 _uv, float _radius, vec2 _pos) {
+  float dist = length(_uv * _pos) / _radius;
+  return smoothstep(0.15, 0.25, dist);
+}
+
 void main() {
-  v_uv = uv;
-  
-  // Calculate noise based on angle and time
-  // Position is around (0,0), radius ~0.5
-  float angle = atan(position.y, position.x);
-  float radius = length(position);
-  
-  // Create an organic wobbly shape
-  // Base splat shape
-  float baseShape = snoise(vec2(cos(angle) * 1.5, sin(angle) * 1.5));
-  
-  // Time-based wobble
-  float timeWobble = snoise(vec2(cos(angle) * 2.0 + u_time * 0.5, sin(angle) * 2.0 + u_time * 0.5));
-  
-  // Combine shape and wobble
-  float distortion = (baseShape * 0.15) + (timeWobble * 0.1 * u_wobbleAmount);
-  
-  vec2 newPosition = position + normalize(position) * distortion;
-  
-  v_position = vec3(newPosition, 0.0);
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(v_position, 1.0);
+  vec2 uv = getScreenSpace();
+
+  float n = (snoise((uv.xy + u_seed + (i_time * 3.0) * u_idleSpeed) * u_noiseSize) + 1.0) / 2.0;
+  float c = circle(uv, 1.0 * u_progress, vec2(0.5));
+  float alpha = smoothstep(n, n + 0.01, 1.0 - c);
+
+  gl_FragColor = vec4(u_color, 1.0) * alpha;
 }
 `
 
-export const blobFragmentShader = `
-precision highp float;
-
-uniform vec3 u_color;
+// Standard fullscreen-triangle vertex shader (OGL convention)
+export const blobVertexShader = `
+attribute vec3 position;
+attribute vec2 uv;
 varying vec2 v_uv;
-varying vec3 v_position;
-
 void main() {
-  // Simple solid color for the blob, edge antialiasing could be added here
-  // but since we are deforming geometry, we rely on WebGL MSAA or alpha blending if we used SDFs.
-  // We will render it as solid colored triangles.
-  gl_FragColor = vec4(u_color, 1.0);
+  gl_Position = vec4(position, 1.0);
+  v_uv = uv;
 }
 `

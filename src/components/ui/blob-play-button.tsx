@@ -12,7 +12,9 @@ const EASE_BACK_OUT = 'cubic-bezier(0.21, 0.12, 0.35, 1.43)'
 
 interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   idleWobbleAmount?: number
+  /** Blob color — official default is #6af7ce (--color-green) */
   hexColor?: string
+  /** Container width in px — official uses 40% of parent button */
   blobSize?: number
 }
 
@@ -29,39 +31,48 @@ function hexToRgb(hex: string): [number, number, number] {
 }
 
 export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonProps>(
-  ({ className, idleWobbleAmount = 0.9, hexColor = '#eaff3d', blobSize = 120, ...props }, ref) => {
+  ({ className, idleWobbleAmount = 0.9, hexColor = '#000000', blobSize = 120, ...props }, ref) => {
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
-    const glRef = React.useRef<WebGLRenderingContext | null>(null)
-    const programRef = React.useRef<WebGLProgram | null>(null)
-    const uniformsRef = React.useRef<Record<string, WebGLUniformLocation | null>>({})
     const animationRef = React.useRef<number>(0)
     const validRef = React.useRef<boolean>(true)
 
     React.useEffect(() => {
       const canvas = canvasRef.current
       if (!canvas) return
-      const gl = canvas.getContext('webgl', { alpha: true, antialias: true })
+
+      // Use WebGL2 first (matches official OGL renderer)
+      // Official context: { alpha:true, antialias:false, premultipliedAlpha:true, depth:true }
+      const gl = (canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, depth: true }) as WebGL2RenderingContext)
+        || (canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, depth: true }) as WebGLRenderingContext)
       if (!gl) return
 
-      glRef.current = gl
       validRef.current = true
 
-      // Compile Shaders
       const createShader = (type: number, source: string) => {
         const shader = gl.createShader(type)
         if (!shader) return null
         gl.shaderSource(shader, source)
         gl.compileShader(shader)
         if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-          console.error('Shader compile error:', gl.getShaderInfoLog(shader))
           gl.deleteShader(shader)
           return null
         }
         return shader
       }
 
-      const vertexShader = createShader(gl.VERTEX_SHADER, blobVertexShader)
-      const fragmentShader = createShader(gl.FRAGMENT_SHADER, blobFragmentShader)
+      // Adapt fragment shader for WebGL2 if needed
+      const isWebGL2 = typeof WebGL2RenderingContext !== 'undefined' && gl instanceof WebGL2RenderingContext
+      let fragSrc = blobFragmentShader
+      let vertSrc = blobVertexShader
+      if (isWebGL2) {
+        vertSrc = `#version 300 es\nin vec3 position;\nin vec2 uv;\nout vec2 v_uv;\nvoid main() {\n  gl_Position = vec4(position, 1.0);\n  v_uv = uv;\n}\n`
+        fragSrc = `#version 300 es\n${fragSrc
+          .replace('varying vec2 v_uv;', 'in vec2 v_uv;\nout vec4 outColor;')
+          .replace(/gl_FragColor/g, 'outColor')}`
+      }
+
+      const vertexShader = createShader(gl.VERTEX_SHADER, vertSrc)
+      const fragmentShader = createShader(gl.FRAGMENT_SHADER, fragSrc)
       if (!vertexShader || !fragmentShader) return
 
       const program = gl.createProgram()
@@ -69,111 +80,73 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
       gl.attachShader(program, vertexShader)
       gl.attachShader(program, fragmentShader)
       gl.linkProgram(program)
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-        console.error('Program link error:', gl.getProgramInfoLog(program))
-        return
-      }
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return
 
-      programRef.current = program
       gl.useProgram(program)
 
-      // Get uniform locations
-      uniformsRef.current = {
-        u_time: gl.getUniformLocation(program, 'u_time'),
-        u_wobbleAmount: gl.getUniformLocation(program, 'u_wobbleAmount'),
-        u_color: gl.getUniformLocation(program, 'u_color'),
-        projectionMatrix: gl.getUniformLocation(program, 'projectionMatrix'),
-        modelViewMatrix: gl.getUniformLocation(program, 'modelViewMatrix'),
-      }
-
-      // Generate a circular mesh
-      const segments = 64
-      const vertices = []
-      const uvs = []
-      
-      // Center point
-      vertices.push(0, 0)
-      uvs.push(0.5, 0.5)
-
-      for (let i = 0; i <= segments; i++) {
-        const theta = (i / segments) * Math.PI * 2
-        // Radius is ~0.7 to leave room for wobble distortion
-        const x = Math.cos(theta) * 0.7
-        const y = Math.sin(theta) * 0.7
-        vertices.push(x, y)
-        uvs.push(x * 0.5 + 0.5, y * 0.5 + 0.5)
-      }
-
-      // Create indices for triangle fan
-      const indices = []
-      for (let i = 1; i <= segments; i++) {
-        indices.push(0, i, i + 1)
-      }
-
-      // Buffers
+      // ── Fullscreen triangle (official OGL convention) ────────────
+      const positions = new Float32Array([-1, -1, 3, -1, -1, 3])
       const positionBuffer = gl.createBuffer()
       gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
+      gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW)
       const posLoc = gl.getAttribLocation(program, 'position')
       gl.enableVertexAttribArray(posLoc)
       gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0)
 
+      const uvs = new Float32Array([0, 0, 2, 0, 0, 2])
       const uvBuffer = gl.createBuffer()
       gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer)
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uvs), gl.STATIC_DRAW)
+      gl.bufferData(gl.ARRAY_BUFFER, uvs, gl.STATIC_DRAW)
       const uvLoc = gl.getAttribLocation(program, 'uv')
       gl.enableVertexAttribArray(uvLoc)
       gl.vertexAttribPointer(uvLoc, 2, gl.FLOAT, false, 0, 0)
 
-      const indexBuffer = gl.createBuffer()
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW)
+      // ── Uniforms (matching official SimplexBlobRenderer) ─────────
+      const u_resolution = gl.getUniformLocation(program, 'u_resolution')
+      const u_color = gl.getUniformLocation(program, 'u_color')
+      const u_i_time = gl.getUniformLocation(program, 'i_time')
+      const u_noiseSize = gl.getUniformLocation(program, 'u_noiseSize')
+      const u_seed = gl.getUniformLocation(program, 'u_seed')
+      const u_progress = gl.getUniformLocation(program, 'u_progress')
+      const u_idleSpeed = gl.getUniformLocation(program, 'u_idleSpeed')
 
-      // Setup simple orthographic projection
-      const projectionMatrix = new Float32Array([
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ])
-      gl.uniformMatrix4fv(uniformsRef.current.projectionMatrix, false, projectionMatrix)
-      gl.uniformMatrix4fv(uniformsRef.current.modelViewMatrix, false, projectionMatrix)
-
-      // Set fixed color
       const [r, g, b] = hexToRgb(hexColor)
-      gl.uniform3f(uniformsRef.current.u_color, r, g, b)
+      gl.uniform3f(u_color, r, g, b)
+      gl.uniform1f(u_progress, 1.0) // blob visible at full size
+      gl.uniform1f(u_seed, Math.random())
+      gl.uniform1f(u_idleSpeed, idleWobbleAmount)
 
+      // ── Resize: match official 2:1 canvas, 3:1 canvas-to-display ratio ──
+      // Official: 750×375 canvas (2:1) → 249×249 display = 3:1 horizontal, 1.5:1 vertical
+      // The 2:1 canvas stretched to square creates the elliptical blob shape.
+      // The 3:1 ratio ensures smoothstep(n, n+.01, 1-c) covers ~3 display pixels.
       const resize = () => {
-        // Official image-blob CSS: canvas { height: 100%; width: 100%; }
-        // The canvas fills its parent container which uses padding-top:100% for 1:1 aspect ratio.
-        // We read the parent size to get the display dimensions, then set internal resolution with DPR.
         const parent = canvas.parentElement
         if (!parent) return
-        const displaySize = Math.max(parent.clientWidth, parent.clientHeight, blobSize)
+        const w = parent.clientWidth || blobSize
+        const h = parent.clientHeight || blobSize
         const dpr = Math.min(window.devicePixelRatio || 1, 2)
-        canvas.width = displaySize * dpr
-        canvas.height = displaySize * dpr
-        canvas.style.width = `${displaySize}px`
-        canvas.style.height = `${displaySize}px`
+        // Match official ratios: canvas = display × 3, aspect 2:1
+        const canvasW = Math.round(w * 3)
+        const canvasH = Math.round(canvasW / 2)
+        canvas.width = canvasW
+        canvas.height = canvasH
+        canvas.style.width = `${w}px`
+        canvas.style.height = `${h}px`
         gl.viewport(0, 0, canvas.width, canvas.height)
+        gl.uniform2f(u_resolution, canvas.width, canvas.height)
+        gl.uniform1f(u_noiseSize, 0.945)
       }
       resize()
       window.addEventListener('resize', resize)
 
-      let startTime = performance.now()
-
-      const render = (now: number) => {
+      // ── Render loop (official: i_time += 0.001 per frame) ────────
+      const render = () => {
         if (!validRef.current) return
-        
         gl.clearColor(0, 0, 0, 0)
         gl.clear(gl.COLOR_BUFFER_BIT)
-        
-        const elapsed = (now - startTime) / 1000
-        gl.uniform1f(uniformsRef.current.u_time, elapsed)
-        gl.uniform1f(uniformsRef.current.u_wobbleAmount, idleWobbleAmount)
-
-        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
-
+        gl.uniform1f(u_i_time, (gl.getUniform(program, u_i_time!) || 0) + 0.001)
+        gl.drawArrays(gl.TRIANGLES, 0, 3)
         animationRef.current = requestAnimationFrame(render)
       }
       animationRef.current = requestAnimationFrame(render)
@@ -187,74 +160,79 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
         gl.deleteShader(fragmentShader)
         gl.deleteBuffer(positionBuffer)
         gl.deleteBuffer(uvBuffer)
-        gl.deleteBuffer(indexBuffer)
       }
     }, [hexColor, idleWobbleAmount, blobSize])
 
     return (
+      // ── playButton container ──────────────────────────────────────
+      // Official: position:absolute; left:50%; top:50%;
+      //   transform:translate(-50%,-50%); width:100%; height:0; padding-top:100%;
+      // The padding-top:100% creates a 1:1 square based on the parent width.
       <div
-        ref={ref}
+        ref={(node) => {
+          // Forward ref
+          if (typeof ref === 'function') ref(node)
+          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node
+        }}
         className={cn(
-          'group relative flex items-center justify-center isolate overflow-visible',
-          'transition-transform duration-300',
+          'relative',
           className
         )}
         style={{
-          // Official default: --blob-scale: 0.8 (shrunk), hover → 1 (full size)
-          '--blob-scale': '0.8',
+          width: blobSize,
+          height: 0,
+          paddingTop: blobSize,
+          // Official cascade: button sets 0.8, but playIconContainer overrides to 1.
+          // Effective default is 1. Container hover sets 1.1.
+          '--blob-scale': '1',
         } as React.CSSProperties}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.setProperty('--blob-scale', '1')
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.setProperty('--blob-scale', '0.8')
-        }}
+        onMouseEnter={(e) => e.currentTarget.style.setProperty('--blob-scale', '1.1')}
+        onMouseLeave={(e) => e.currentTarget.style.setProperty('--blob-scale', '1')}
         {...props}
       >
-        {/* ── Blob Positioner ──────────────────────────────────────────
-            Official CSS (.play-button_blobPositioner):
-              height:100%; left:0; position:absolute; top:0;
-              transform: scale(var(--blob-scale));
-              transition: transform 0.3s cubic-bezier(0.21,0.12,0.35,1.43) 0.1s;
-              width:100%;
+        {/* ── blobPositioner ─────────────────────────────────────────
+            Official: position:absolute; inset:0; width:100%; height:100%;
+              transform:scale(var(--blob-scale));
+              transition:transform 0.3s cubic-bezier(0.21,0.12,0.35,1.43) 0.1s;
         */}
         <div
-          className="absolute inset-0 flex items-center justify-center -z-10 pointer-events-none"
           style={{
-            transform: 'scale(var(--blob-scale, 0.8))',
+            position: 'absolute',
+            left: 0, top: 0, right: 0, bottom: 0,
+            width: '100%', height: '100%',
+            transform: 'scale(var(--blob-scale, 1))',
             transition: `transform 0.3s ${EASE_BACK_OUT} 0.1s`,
           }}
         >
-          <canvas ref={canvasRef} className="block" />
+          {/* ── image-blob ───────────────────────────────────────────
+              Official: width:100%; height:100%; canvas { display:inline }
+          */}
+          <div style={{ width: '100%', height: '100%' }}>
+            <canvas ref={canvasRef} style={{ display: 'inline', width: '100%', height: '100%' }} />
+          </div>
         </div>
 
-        {/* ── Play Icon ──────────────────────────────────────────────
-            Official CSS (.play-button_playIcon):
-              color: var(--color-green);   → #6af7ce
-              left: 50%; position: absolute; top: 50%;
-              transform: translate(-40%,-50%) scale(var(--blob-scale));
-              transition: transform 0.3s var(--ease-back-out);
-              width: 30%;
+        {/* ── playIcon ───────────────────────────────────────────────
+            Official: position:absolute; left:50%; top:50%;
+              transform:translate(-40%,-50%) scale(var(--blob-scale));
+              transition:transform 0.3s cubic-bezier(0.21,0.12,0.35,1.43);
+              color:#6af7ce; width:30%;
         */}
         <svg
           aria-hidden="true"
-          role="img"
-          className="relative z-10 text-[#6af7ce]"
           viewBox="0 0 74 84"
           style={{
-            width: '30%',
-            transform: 'translate(-40%, -50%) scale(var(--blob-scale, 0.8))',
-            transition: `transform 0.3s ${EASE_BACK_OUT}`,
             position: 'absolute',
-            left: '50%',
-            top: '50%',
+            left: '50%', top: '50%',
+            width: '30%',
+            color: '#6af7ce',
+            transform: 'translate(-40%, -50%) scale(var(--blob-scale, 1))',
+            transition: `transform 0.3s ${EASE_BACK_OUT}`,
           }}
         >
           <path
             d="M8.273.749C4.596-1.38 0 1.28 0 5.539V78.46c0 4.258 4.596 6.918 8.273 4.79l62.97-36.461c3.676-2.13 3.676-7.452 0-9.58L8.273.75Z"
-            stroke="none"
-            fill="currentColor"
-            fillRule="evenodd"
+            stroke="none" fill="currentColor" fillRule="evenodd"
           />
         </svg>
       </div>
