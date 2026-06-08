@@ -364,7 +364,8 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
             state={phase === 'ink-in' ? 'in' : 'out'}
             durationIn={700}
             durationOut={700}
-            color="#6af7ce"
+            color="#000000"
+            background="/_images/backgrounds/camo-black-2x.webp"
             count={splashCountRef.current}
             startPosition={splashStartPos}
             onComplete={phase === 'ink-in' ? handleInkInComplete : handleInkOutComplete}
