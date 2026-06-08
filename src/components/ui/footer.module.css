@@ -1,0 +1,163 @@
+/* footer.module.css
+   Exact replica of official splatoon.nintendo.com footer.
+   https://splatoon.nintendo.com */
+
+/* ── Container ── */
+
+.footer {
+  background-color: #0c0c0c;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Content wrapper ── */
+
+.inner {
+  margin: 0 auto;
+  max-width: 64rem;
+  padding: 2.5rem 1.5rem;
+  position: relative;
+  z-index: 20;
+}
+
+@media (min-width: 768px) {
+  .inner {
+    padding: 3rem 2rem;
+  }
+}
+
+/* ── Social icons row ── */
+
+.socialRow {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.socialLink:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.socialLink svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* ── Divider ── */
+
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 1.5rem 0;
+}
+
+/* ── Nav columns ── */
+
+.navGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .navGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.navColumn h3 {
+  font-family: var(--font-heading, sans-serif);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.75rem;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.navLink:hover {
+  color: #fff;
+}
+
+/* ── Legal / Copyright ── */
+
+.legalRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .legalRow {
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.copyright {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
+.legalLink {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6875rem;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.legalLink:hover {
+  color: #fff;
+}
+
+/* ── Nintendo branding ── */
+
+.brandRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.nintendoLogo {
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.2s ease;
+}
+
+.nintendoLogo:hover {
+  color: rgba(255, 255, 255, 0.7);
+}

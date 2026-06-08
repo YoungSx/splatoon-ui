@@ -41,6 +41,7 @@ import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { Loader } from '@/components/ui/loader'
 import { InView, InViewStagger } from '@/components/ui/in-view'
 import { Progress } from '@/components/ui/progress'
+import { Footer } from '@/components/ui/footer'
 import {
   Dialog,
   DialogContent,
@@ -1461,14 +1462,8 @@ export default function Home() {
         <MarqueeItem>Splashdown!</MarqueeItem>
       </Marquee>
 
-      {/* Footer with interactive wave transition */}
-      <footer className="relative bg-[#0c0c0c] dark:bg-[#0c0c0c] py-8 flex justify-center text-center">
-        <WaveCanvas color="#0c0c0c" height={120} />
-        <div className="relative z-20 max-w-md w-full flex items-center justify-between text-xs uppercase tracking-wider text-white/40 px-4">
-          <span>splatoon-ui v0.1.0</span>
-          <span>Next.js + Radix + Tailwind CSS</span>
-        </div>
-      </footer>
+      {/* Official Splatoon Footer */}
+      <Footer />
     </div>
   )
 }
