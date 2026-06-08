@@ -19,7 +19,7 @@
 .iconWrap svg {
   height: 16px;
   transform: translateX(5px);
-  transition: transform 0.3s ease;
+  transition: transform 0.2s;
   width: 8px;
 }
 

@@ -144,10 +144,10 @@ const overlayDecorations = [
   },
 ] as const
 
-// Animation timing constants
-const MENU_CONTENT_ENTER_MS = 300
+// Animation timing constants (verified against official splatoon.nintendo.com)
+const MENU_CONTENT_ENTER_MS = 700
 const MENU_CONTENT_EXIT_MS = 400
-const MENU_CONTENT_TRANSITION_IN_EASING = 'cubic-bezier(0.15, 0.9, 0.25, 1)'
+const MENU_CONTENT_TRANSITION_IN_EASING = 'cubic-bezier(0.51, 0, 0.9, 0.43)'
 const MENU_CONTENT_TRANSITION_OUT_EASING = 'cubic-bezier(0.25, 0.12, 0.4, 1)'
 const NAV_SPLAT_START_POSITION: [number, number] = [-0.5, 0.5]
 
