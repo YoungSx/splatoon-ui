@@ -21,10 +21,7 @@ import {
 import { defaultSupportMotionProfile } from "@/lib/physics/card-stack/support-driver"
 import { cardStackLayoutTuning } from "@/lib/physics/card-stack/tuning"
 import { cn } from "@/lib/utils"
-import {
-  splatoonCarouselArrowLeftPath,
-  splatoonCarouselArrowRightPath,
-} from "@/components/ui/card-stack-carousel-icons"
+import { IconButton } from "@/components/ui/icon-button"
 import styles from "./card-stack-carousel.module.css"
 
 const cardStackLayout = {
@@ -246,44 +243,32 @@ CardStackCarouselItem.displayName = "CardStackCarouselItem"
 export const CardStackCarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, style, type = "button", ...props }, ref) => {
+>(({ className, style, ...props }, ref) => {
   const { canGoPrev, goToPrev } = useCarousel()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    const frame = requestAnimationFrame(() => setMounted(true))
-    return () => cancelAnimationFrame(frame)
-  }, [])
 
   return (
-    <button
-      ref={ref}
-      type={type}
+    <div
       data-slot="card-stack-carousel-previous"
-      aria-label="Previous carousel item"
-      className={cn(
-        "absolute z-50 flex items-center justify-center",
-        styles.shell,
-        styles.left,
-        mounted && styles.intro,
-        className
-      )}
-      disabled={!canGoPrev}
-      onClick={goToPrev}
+      className={cn("absolute z-50", styles.left)}
       style={{
         left: "1rem",
         top: "50%",
-        width: `${cardStackLayout.navButtonWidthPx}px`,
-        height: `${cardStackLayout.navButtonHeightPx}px`,
-        borderRadius: "9999px",
-        ...style,
+        transform: "translateY(-50%)",
       }}
-      {...props}
     >
-      <svg viewBox="0 0 40 40" className={cn("fill-current h-[40px] w-[40px]", styles.icon)} xmlns="http://www.w3.org/2000/svg">
-        <path d={splatoonCarouselArrowLeftPath} />
-      </svg>
-    </button>
+      <IconButton
+        ref={ref}
+        variant="carousel"
+        direction="left"
+        animation="squish"
+        aria-label="Previous carousel item"
+        disabled={!canGoPrev}
+        onClick={goToPrev}
+        className={className}
+        style={style}
+        {...(props as Omit<React.ComponentPropsWithoutRef<typeof IconButton>, 'variant' | 'direction' | 'animation'>)}
+      />
+    </div>
   )
 })
 CardStackCarouselPrevious.displayName = "CardStackCarouselPrevious"
@@ -291,44 +276,32 @@ CardStackCarouselPrevious.displayName = "CardStackCarouselPrevious"
 export const CardStackCarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, style, type = "button", ...props }, ref) => {
+>(({ className, style, ...props }, ref) => {
   const { canGoNext, goToNext } = useCarousel()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    const frame = requestAnimationFrame(() => setMounted(true))
-    return () => cancelAnimationFrame(frame)
-  }, [])
 
   return (
-    <button
-      ref={ref}
-      type={type}
+    <div
       data-slot="card-stack-carousel-next"
-      aria-label="Next carousel item"
-      className={cn(
-        "absolute z-50 flex items-center justify-center",
-        styles.shell,
-        styles.right,
-        mounted && styles.intro,
-        className
-      )}
-      disabled={!canGoNext}
-      onClick={goToNext}
+      className={cn("absolute z-50", styles.right)}
       style={{
         right: "1rem",
         top: "50%",
-        width: `${cardStackLayout.navButtonWidthPx}px`,
-        height: `${cardStackLayout.navButtonHeightPx}px`,
-        borderRadius: "9999px",
-        ...style,
+        transform: "translateY(-50%)",
       }}
-      {...props}
     >
-      <svg viewBox="0 0 40 40" className={cn("fill-current h-[40px] w-[40px]", styles.icon)} xmlns="http://www.w3.org/2000/svg">
-        <path d={splatoonCarouselArrowRightPath} />
-      </svg>
-    </button>
+      <IconButton
+        ref={ref}
+        variant="carousel"
+        direction="right"
+        animation="squish"
+        aria-label="Next carousel item"
+        disabled={!canGoNext}
+        onClick={goToNext}
+        className={className}
+        style={style}
+        {...(props as Omit<React.ComponentPropsWithoutRef<typeof IconButton>, 'variant' | 'direction' | 'animation'>)}
+      />
+    </div>
   )
 })
 CardStackCarouselNext.displayName = "CardStackCarouselNext"

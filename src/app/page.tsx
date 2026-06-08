@@ -39,6 +39,7 @@ import { TagCard } from '@/components/ui/tag-card'
 import { Divider } from '@/components/ui/divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { Loader } from '@/components/ui/loader'
+import { IconButton } from '@/components/ui/icon-button'
 import { InView, InViewStagger } from '@/components/ui/in-view'
 import { Progress } from '@/components/ui/progress'
 import { Footer } from '@/components/ui/footer'
@@ -957,6 +958,52 @@ export default function Home() {
                           </div>
                         ))}
                       </InViewStagger>
+                    </CardContent>
+                  </Card>
+
+                  {/* IconButton Demo Card */}
+                  <Card
+                    variant="news"
+                    surface="cream"
+                    className="md:col-span-2"
+                  >
+                    <CardHeader>
+                      <CardTitle>IconButton</CardTitle>
+                      <CardDescription>Official circular icon button — carousel arrows, close buttons, etc.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-wrap items-center gap-4 pt-2">
+                      <div className="flex flex-col items-center gap-2">
+                        <IconButton variant="carousel" size="sm" direction="left" animation="squish" aria-label="Previous" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Carousel sm</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <IconButton variant="carousel" size="sm" direction="right" aria-label="Next" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Carousel sm</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <IconButton variant="primary" size="md" direction="left" aria-label="Previous" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Primary md</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <IconButton variant="yellow" size="lg" direction="right" animation="squish" aria-label="Next" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Yellow lg</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <IconButton variant="ghost" size="sm" aria-label="Close" icon={
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
+                            <path d="M18 6L6 18M6 6l12 12" />
+                          </svg>
+                        } />
+                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Ghost X</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <IconButton variant="outline" size="md" direction="up" aria-label="Scroll up" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Outline md</span>
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <IconButton variant="carousel" size="md" disabled aria-label="Disabled" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Disabled</span>
+                      </div>
                     </CardContent>
                   </Card>
 

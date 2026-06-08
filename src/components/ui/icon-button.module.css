@@ -1,0 +1,160 @@
+/* icon-button.module.css
+   Official splatoon.nintendo.com circular icon button system.
+   Supports size variants, color variants, and squish animation. */
+
+/* ── Base shell ── */
+
+.shell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.shell:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.shell:disabled,
+.shell[aria-disabled="true"] {
+  cursor: auto;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* ── Size variants ── */
+
+.sm {
+  --icon-button-size: 40px;
+  --icon-button-icon-size: 20px;
+}
+
+.md {
+  --icon-button-size: 48px;
+  --icon-button-icon-size: 24px;
+}
+
+.lg {
+  --icon-button-size: 60px;
+  --icon-button-icon-size: 30px;
+}
+
+.shell {
+  width: var(--icon-button-size, 40px);
+  height: var(--icon-button-size, 40px);
+}
+
+.icon {
+  width: var(--icon-button-icon-size, 20px);
+  height: var(--icon-button-icon-size, 20px);
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ── Color variants ── */
+
+.carousel {
+  background-color: #6AF7CE;
+  color: #0D0D0D;
+}
+
+.carousel:disabled,
+.carousel[aria-disabled="true"] {
+  background-color: transparent;
+  color: #0D0D0D;
+}
+
+.primary {
+  background-color: #603bff;
+  color: #fff;
+}
+
+.ghost {
+  background-color: transparent;
+  color: currentColor;
+}
+
+.ghost:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.yellow {
+  background-color: #E3FF00;
+  color: #0D0D0D;
+}
+
+.outline {
+  background-color: transparent;
+  color: currentColor;
+  border: 2px solid currentColor;
+}
+
+.outline:hover {
+  background-color: currentColor;
+  color: #0D0D0D;
+}
+
+/* ── Hover scale ── */
+
+.shell:not(:disabled):not([aria-disabled="true"]):hover {
+  --scale: 1.1;
+}
+
+/* ── Squish animation (official) ── */
+
+.squish {
+  animation: icon-button_squish 2s ease-out infinite;
+}
+
+/* The squish direction is controlled by --squish-direction (1 or -1) */
+
+@keyframes icon-button_squish {
+  0%, 100% {
+    transform: scale(calc(var(--scale, 1) * 1));
+  }
+  30% {
+    transform: scaleX(calc(var(--scale, 1) * .9)) scaleY(calc(var(--scale, 1) * 1.1)) translateX(calc(15% * var(--squish-direction, 1)));
+  }
+  45% {
+    transform: scaleX(calc(var(--scale, 1) * 1.05)) scaleY(calc(var(--scale, 1) * 1)) translateX(calc(8% * var(--squish-direction, 1)));
+  }
+  60% {
+    transform: scaleX(calc(var(--scale, 1) * .95)) scaleY(calc(var(--scale, 1) * 1.05)) translateX(calc(8% * var(--squish-direction, 1)));
+  }
+}
+
+/* ── Scale-only animation (gentle pulse) ── */
+
+@keyframes icon-button_pulse {
+  0%, 100% {
+    transform: scale(calc(var(--scale, 1) * 1));
+  }
+  50% {
+    transform: scale(calc(var(--scale, 1) * 1.05));
+  }
+}
+
+.pulse {
+  animation: icon-button_pulse 2s ease-in-out infinite;
+}
+
+/* ── Reduced motion ── */
+
+@media (prefers-reduced-motion: reduce) {
+  .shell,
+  .shell:hover,
+  .shell:active {
+    transition: none;
+    transform: none;
+    animation: none;
+  }
+}

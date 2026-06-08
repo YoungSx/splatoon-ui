@@ -14,10 +14,14 @@
 
 .left {
   --squish-direction: -1;
+  --icon-button-size: 86px;
+  --icon-button-icon-size: 40px;
 }
 
 .right {
   --squish-direction: 1;
+  --icon-button-size: 86px;
+  --icon-button-icon-size: 40px;
 }
 
 .shell:not(:disabled):not([aria-disabled=true]):hover {
