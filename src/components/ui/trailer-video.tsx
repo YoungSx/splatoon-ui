@@ -337,7 +337,7 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
         {isModalMounted && (
           <DialogPrimitive.Backdrop
             className="fixed inset-0 z-50"
-            style={{ backgroundColor: 'transparent' }}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }}
             onClick={handleClose}
           />
         )}
@@ -369,7 +369,8 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
                 ...(modalHeadingOut ? {} : {
                   transitionProperty: 'transform, opacity',
                   transitionDuration: '0.6s',
-                  transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
+                  // Official content uses CSS 'ease' (cubic-bezier(0.25, 0.1, 0.25, 1))
+                  transitionTimingFunction: 'ease',
                   transitionDelay: '0.5s',
                 }),
               }}
@@ -408,8 +409,10 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
               transitionProperty: 'transform, opacity',
               transitionDuration: modalHeadingOut ? '0.4s' : '0.6s',
               transitionTimingFunction: modalHeadingOut
-                ? 'cubic-bezier(0.6, -0.28, 0.735, 0.045)'  // ease-back-in
-                : 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',   // ease-back-out
+                // Official --ease-back-in: cubic-bezier(0.38, -0.37, 0.83, 0.23)
+                ? 'cubic-bezier(0.38, -0.37, 0.83, 0.23)'
+                // Official --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43)
+                : 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
               transitionDelay: modalHeadingOut ? '0s' : '0.5s',
             }}
             onClick={handleClose}
