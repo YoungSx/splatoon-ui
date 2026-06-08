@@ -5,7 +5,7 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 import { cn } from '@/lib/utils'
 import { BlobPlayButton } from './blob-play-button'
 import { InkSplashCanvas } from './ink-splash-canvas'
-import { power3In, getSplatRandomRotation } from '@/lib/wobble-math'
+import { power3In } from '@/lib/wobble-math'
 import navStyles from '@/components/ui/nav-menu-button.module.css'
 import photoStyles from './styled-photo.module.css'
 
@@ -212,140 +212,124 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
   ({ className, videoId, title = "YouTube video player", ...props }, ref) => {
     const { open, setOpen, triggerRef } = useTrailerVideoContext()
 
-    // ── Animation state machine ─────────────────────────────────────
-    // Official modal architecture:
-    //   modal_modal__xuQFK (z:10100)
-    //   ├─ modal_backdrop__yo7iT (z:1)
-    //   │    └─ splat-transition_canvasContainer (z:100)
-    //   │         └─ <CANVAS> ← WebGL ink splash shader (SAME as nav overlay)
-    //   ├─ modal_close__nC_6v (z:100) — morph blob close button
-    //   └─ modal_content__gmrPn (z:2) — video, CSS transition 0.6s 0.5s delay
-    //
-    // Flow: ink splash "in" → covers screen → video content fades in (delay 0.5s)
-    //       close: video fades out → ink splash "out" → unmount
-    const [phase, setPhase] = React.useState<'idle' | 'ink-in' | 'open' | 'closing' | 'ink-out'>('idle')
-    const [shouldPlayVideo, setShouldPlayVideo] = React.useState(false)
-    const [contentVisible, setContentVisible] = React.useState(false)
+    // ── State (matches official exactly) ───────────────────────────
+    // Official: P(modalActive), M(modalHeadingOut), Y(splatState)
+    const [modalActive, setModalActive] = React.useState(false)
+    const [modalHeadingOut, setModalHeadingOut] = React.useState(false)
+    const [splatState, setSplatState] = React.useState<'ready' | 'in' | 'out'>('ready')
     const [splashStartPos, setSplashStartPos] = React.useState<[number, number]>([0, 0])
     const videoRef = React.useRef<HTMLDivElement>(null)
     const animFrameRef = React.useRef<number>(0)
-    const closeRotateRef = React.useRef(0)
-    const splashCountRef = React.useRef(0)
+    const closeTimerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
+    const splashCountRef = React.useRef(Math.round(10000 * Math.random()))
 
-    // ── Phase 1: open → ink-in ──────────────────────────────────────
-    React.useEffect(() => {
-      if (open && phase === 'idle') {
-        splashCountRef.current += 1
+    // ── Constants (matches official defaults) ──────────────────────
+    const CLOSE_DELAY = 1200  // official default closeDelay
+    const DURATION_IN = 700   // official default durationIn
+    const DURATION_OUT = CLOSE_DELAY - 200  // official: durationOut = closeDelay - 200
 
-        // Calculate ink splash start position from trigger button center
-        // Convert viewport coordinates to NDC [-0.5..0.5]
-        const btn = triggerRef?.current
-        if (btn) {
-          const rect = btn.getBoundingClientRect()
-          const cx = rect.left + rect.width / 2
-          const cy = rect.top + rect.height / 2
-          const ndcX = (cx / window.innerWidth) - 0.5
-          const ndcY = 0.5 - (cy / window.innerHeight) // flip Y: screen top=0 → NDC top=+0.5
-          setSplashStartPos([ndcX, ndcY])
-        }
+    const isModalMounted = open || modalActive || modalHeadingOut
 
-        setPhase('ink-in')
-      }
-    }, [open, phase, triggerRef])
-
-    // ── Phase 2: ink-in complete → show video content ───────────────
-    const handleInkInComplete = React.useCallback(() => {
-      setShouldPlayVideo(true)
-      setContentVisible(true)
-      setPhase('open')
-    }, [])
-
-    // ── Close handler ───────────────────────────────────────────────
-    // Official: GSAP video exit (0.7s) → directly unmount. NO ink-out phase.
+    // ── Close handler (matches official W callback) ────────────────
+    // Official: onCloseStarted → splatState='out' + modalHeadingOut=true
+    //           → setTimeout(closeDelay) → onClose + toggleFunction(false)
     const handleClose = React.useCallback(() => {
-      if (phase !== 'open') return
-      cancelAnimationFrame(animFrameRef.current)
+      if (!modalActive || modalHeadingOut) return
 
-      // Immediately signal closing — close button exits now
-      setPhase('closing')
+      setSplatState('out')
+      setModalHeadingOut(true)
+      splashCountRef.current += 1
 
-      // Video content GSAP animation: scale:0.7, yPercent:100, rotate:random, opacity:0, 700ms
-      closeRotateRef.current = getSplatRandomRotation()
+      try { triggerRef?.current?.focus() } catch (_) { /* */ }
+
+      // GSAP content exit — matches official:
+      // .to(el, { duration: .7, ease: 'power3.in', yPercent: 100,
+      //          scale: .7, rotate: random(10-30deg), opacity: 0 })
       const videoEl = videoRef.current
-
       if (videoEl) {
         const duration = 700
+        const rotate = (Math.random() > 0.5 ? 1 : -1) * (20 + 10 * Math.random())
         const startTime = performance.now()
         const animate = (now: number) => {
           const elapsed = now - startTime
           const rawT = Math.min(elapsed / duration, 1)
           const t = power3In(rawT)
 
-          const scale = 1 + t * (0.7 - 1)
-          const yPercent = t * 100
-          const rotate = t * closeRotateRef.current
-          const opacity = 1 - t
-
-          videoEl.style.transform = `translateY(${yPercent}%) scale(${scale}) rotate(${rotate}deg)`
-          videoEl.style.opacity = String(opacity)
+          videoEl.style.transform = `translateY(${t * 100}%) scale(${1 + t * (0.7 - 1)}) rotate(${t * rotate}deg)`
+          videoEl.style.opacity = String(1 - t)
 
           if (rawT < 1) {
             animFrameRef.current = requestAnimationFrame(animate)
-          } else {
-            setContentVisible(false)
-            setShouldPlayVideo(false)
-            splashCountRef.current += 1
-            setPhase('ink-out')
           }
         }
         animFrameRef.current = requestAnimationFrame(animate)
-      } else {
-        setContentVisible(false)
-        setShouldPlayVideo(false)
-        splashCountRef.current += 1
-        setPhase('ink-out')
       }
-    }, [phase])
 
-    // ── Phase 4: ink-out complete → close dialog and unmount ────────
-    const handleInkOutComplete = React.useCallback(() => {
-      setPhase('idle')
-      // Sync dialog open state after animation completes
-      setOpen(false)
-    }, [setOpen])
+      closeTimerRef.current = setTimeout(() => {
+        cancelAnimationFrame(animFrameRef.current)
+        setModalActive(false)
+        setModalHeadingOut(false)
+        setSplatState('ready')
+        setOpen(false)
+      }, CLOSE_DELAY)
+    }, [modalActive, modalHeadingOut, setOpen, triggerRef])
 
-    // Cleanup
-    React.useEffect(() => () => cancelAnimationFrame(animFrameRef.current), [])
-
-    // Sync with Dialog open state
+    // ── Open effect (matches official mount useEffect) ─────────────
+    // Official: setTimeout(100) → modalActive=true + splatState='in'
     React.useEffect(() => {
-      if (!open && phase === 'open') {
+      if (!open) return
+
+      splashCountRef.current += 1
+
+      const btn = triggerRef?.current
+      if (btn) {
+        const rect = btn.getBoundingClientRect()
+        const cx = rect.left + rect.width / 2
+        const cy = rect.top + rect.height / 2
+        setSplashStartPos([(cx / window.innerWidth) - 0.5, 0.5 - (cy / window.innerHeight)])
+      }
+
+      const timer = setTimeout(() => {
+        setModalActive(true)
+        setSplatState('in')
+      }, 100)
+
+      return () => clearTimeout(timer)
+    }, [open, triggerRef])
+
+    // ── Sync with Dialog open state (handle external close) ────────
+    React.useEffect(() => {
+      if (!open && modalActive && !modalHeadingOut) {
         handleClose()
       }
-    }, [open, phase, handleClose])
+    }, [open, modalActive, modalHeadingOut, handleClose])
 
-    const isInkActive = phase === 'ink-in' || phase === 'ink-out'
-    const isModalMounted = phase !== 'idle'
-    const isClosing = phase === 'closing'
-    const canvasState = phase === 'ink-out' ? 'out' as const : phase === 'idle' ? 'idle' as const : 'in' as const
+    // ── Cleanup ────────────────────────────────────────────────────
+    React.useEffect(() => () => {
+      clearTimeout(closeTimerRef.current)
+      cancelAnimationFrame(animFrameRef.current)
+    }, [])
+
+    // ── Derived state ──────────────────────────────────────────────
+    const canvasState = splatState === 'out' ? 'out' as const
+      : splatState === 'ready' ? 'idle' as const
+      : 'in' as const
 
     return (
       <DialogPrimitive.Portal keepMounted>
         {/* ── WebGL Ink Splash Canvas ────────────────────────────────
-            Official: canvas stays visible for the ENTIRE modal lifetime.
-            It's the background — ink covers screen, then stays as backdrop.
+            Official: canvas inside backdrop, z:100 within backdrop.
         */}
         {isModalMounted && (
           <InkSplashCanvas
             className="fixed inset-0 z-[100] pointer-events-none"
             state={canvasState}
-            durationIn={700}
-            durationOut={700}
-            color="#000000"
+            durationIn={DURATION_IN}
+            durationOut={DURATION_OUT}
+            color="#6af7ce"
             background="/_images/backgrounds/camo-black-2x.webp"
             count={splashCountRef.current}
             startPosition={splashStartPos}
-            onComplete={phase === 'ink-in' ? handleInkInComplete : phase === 'ink-out' ? handleInkOutComplete : undefined}
           />
         )}
 
@@ -354,10 +338,14 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
           <DialogPrimitive.Backdrop
             className="fixed inset-0 z-50"
             style={{ backgroundColor: 'transparent' }}
+            onClick={handleClose}
           />
         )}
 
-        {/* ── Video Content ────────────────────────────────────────── */}
+        {/* ── Video Content — always mounted when modal is in DOM ────
+            Official: CSS class modalActive drives visibility.
+            No conditional rendering, no shouldPlayVideo.
+        */}
         {isModalMounted && (
           <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-8 pointer-events-none">
             <div
@@ -372,14 +360,18 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
               )}
               style={{
                 transformOrigin: 'center center',
-                // Entry: CSS transition drives scale/opacity
-                // Close: GSAP drives via inline style, so disable CSS transition
-                transform: contentVisible ? 'scale(1) translateY(0)' : 'scale(0.7) translateY(20%)',
-                opacity: contentVisible ? 1 : 0,
-                transitionProperty: isClosing ? 'none' : 'transform, opacity',
-                transitionDuration: '0.6s',
-                transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
-                transitionDelay: contentVisible ? '0.5s' : '0s',
+                // Entry: CSS transition (matches official --duration:0.6s, --content-delay:0.5s)
+                // Exit:  GSAP animation via inline styles (overrides CSS transition)
+                transform: modalActive
+                  ? 'scale(1) translateY(0)'
+                  : 'scale(0.7) translateY(20%)',
+                opacity: modalActive ? 1 : 0,
+                ...(modalHeadingOut ? {} : {
+                  transitionProperty: 'transform, opacity',
+                  transitionDuration: '0.6s',
+                  transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
+                  transitionDelay: '0.5s',
+                }),
               }}
               {...props}
             >
@@ -387,16 +379,14 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
                 className="relative w-full overflow-hidden bg-black border-4 border-white dark:border-[#1a1a1a]"
                 style={{ paddingBottom: '56.25%' }}
               >
-                {shouldPlayVideo && (
-                  <iframe
-                    className="absolute top-0 left-0 w-full h-full"
-                    src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`}
-                    title={title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                )}
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`}
+                  title={title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
               </div>
             </div>
           </div>
@@ -408,11 +398,20 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
             className={cn(
               navStyles.iconWrap, navStyles.morph, navStyles.pressed,
               'fixed z-[120] cursor-pointer right-4 top-5 sm:right-8 sm:top-8',
-              'transition-all duration-300 ease-[cubic-bezier(0.21,0.12,0.35,1.43)]',
-              (contentVisible && !isClosing)
-                ? 'opacity-100 translate-x-0 delay-500'
-                : 'opacity-0 translate-x-[200%] delay-0'
             )}
+            style={{
+              // Official close button: opacity var(--alpha), translateX calc(200%*(1-alpha))
+              // Entry: 0.6s, delay 0.5s, ease-back-out
+              // Exit:  0.4s, delay 0s,   ease-back-in
+              opacity: modalActive && !modalHeadingOut ? 1 : 0,
+              transform: `translateX(${modalActive && !modalHeadingOut ? '0' : '200%'})`,
+              transitionProperty: 'transform, opacity',
+              transitionDuration: modalHeadingOut ? '0.4s' : '0.6s',
+              transitionTimingFunction: modalHeadingOut
+                ? 'cubic-bezier(0.6, -0.28, 0.735, 0.045)'  // ease-back-in
+                : 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',   // ease-back-out
+              transitionDelay: modalHeadingOut ? '0s' : '0.5s',
+            }}
             onClick={handleClose}
           >
             <span data-menu-trigger-line="" className={navStyles.icon} />
