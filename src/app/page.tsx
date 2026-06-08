@@ -39,6 +39,7 @@ import { TagCard } from '@/components/ui/tag-card'
 import { Divider } from '@/components/ui/divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { Loader } from '@/components/ui/loader'
+import { InView, InViewStagger } from '@/components/ui/in-view'
 import { Progress } from '@/components/ui/progress'
 import {
   Dialog,
@@ -877,6 +878,63 @@ export default function Home() {
                       <Badge variant="destructive">Destructive</Badge>
                       <Badge variant="outline">Outline</Badge>
                       <Badge variant="sticker">Sticker Badge</Badge>
+                    </CardContent>
+                  </Card>
+
+                  {/* InView Demo Card */}
+                  <Card
+                    variant="news"
+                    surface="cream"
+                    className="md:col-span-2"
+                  >
+                    <CardHeader>
+                      <CardTitle>InView Animation</CardTitle>
+                      <CardDescription>Official scroll-triggered animation — try scrolling down &amp; back up</CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <InView direction="left" rootMargin="-50px">
+                          <div className="rounded-lg bg-[#603bff] p-4 text-center text-sm font-black uppercase tracking-wider text-white">
+                            Left
+                          </div>
+                        </InView>
+                        <InView direction="up" rootMargin="-50px" delay={1}>
+                          <div className="rounded-lg bg-[#af50ff] p-4 text-center text-sm font-black uppercase tracking-wider text-white">
+                            Up
+                          </div>
+                        </InView>
+                        <InView direction="right" rootMargin="-50px" delay={2}>
+                          <div className="rounded-lg bg-[#ff505e] p-4 text-center text-sm font-black uppercase tracking-wider text-white">
+                            Right
+                          </div>
+                        </InView>
+                        <InView direction="pop" rootMargin="-50px" delay={1}>
+                          <div className="rounded-lg bg-[#eaff3d] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">
+                            Pop
+                          </div>
+                        </InView>
+                        <InView drop rootMargin="-50px" delay={2}>
+                          <div className="rounded-lg bg-[#6af7ce] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">
+                            Drop
+                          </div>
+                        </InView>
+                        <InView drop="slow" rootMargin="-50px" delay={3}>
+                          <div className="rounded-lg bg-[#ff9750] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">
+                            Slow Drop
+                          </div>
+                        </InView>
+                      </div>
+
+                      <InViewStagger rootMargin="-30px" className="mt-6">
+                        {['Stagger 1', 'Stagger 2', 'Stagger 3', 'Stagger 4'].map((label, i) => (
+                          <div
+                            key={i}
+                            className="rounded-lg bg-gradient-to-r from-[#603bff] to-[#af50ff] p-3 text-center text-sm font-black uppercase tracking-wider text-white mb-2 last:mb-0"
+                          >
+                            {label}
+                          </div>
+                        ))}
+                      </InViewStagger>
                     </CardContent>
                   </Card>
 
