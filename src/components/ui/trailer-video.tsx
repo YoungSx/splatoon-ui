@@ -2,11 +2,11 @@
 
 import * as React from 'react'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
-import { XIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BlobPlayButton } from './blob-play-button'
 import { InkSplashCanvas } from './ink-splash-canvas'
 import { power3In, getSplatRandomRotation } from '@/lib/wobble-math'
+import navStyles from '@/components/ui/nav-menu-button.module.css'
 import photoStyles from './styled-photo.module.css'
 
 // ─────────────────────────────────────────────────────────────
@@ -210,7 +210,7 @@ interface TrailerVideoContentProps extends Omit<DialogPrimitive.Popup.Props, 'ch
 
 export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideoContentProps>(
   ({ className, videoId, title = "YouTube video player", ...props }, ref) => {
-    const { open, triggerRef } = useTrailerVideoContext()
+    const { open, setOpen, triggerRef } = useTrailerVideoContext()
 
     // ── Animation state machine ─────────────────────────────────────
     // Official modal architecture:
@@ -223,7 +223,7 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
     //
     // Flow: ink splash "in" → covers screen → video content fades in (delay 0.5s)
     //       close: video fades out → ink splash "out" → unmount
-    const [phase, setPhase] = React.useState<'idle' | 'ink-in' | 'open' | 'ink-out'>('idle')
+    const [phase, setPhase] = React.useState<'idle' | 'ink-in' | 'open' | 'closing' | 'ink-out'>('idle')
     const [shouldPlayVideo, setShouldPlayVideo] = React.useState(false)
     const [contentVisible, setContentVisible] = React.useState(false)
     const [splashStartPos, setSplashStartPos] = React.useState<[number, number]>([0, 0])
@@ -261,10 +261,15 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
     }, [])
 
     // ── Close handler ───────────────────────────────────────────────
-    // Official GSAP: scale:0.7, yPercent:100, rotate:random, opacity:0, power3.in, 700ms
+    // Official: GSAP video exit (0.7s) → directly unmount. NO ink-out phase.
     const handleClose = React.useCallback(() => {
       if (phase !== 'open') return
       cancelAnimationFrame(animFrameRef.current)
+
+      // Immediately signal closing — close button exits now
+      setPhase('closing')
+
+      // Video content GSAP animation: scale:0.7, yPercent:100, rotate:random, opacity:0, 700ms
       closeRotateRef.current = getSplatRandomRotation()
       const videoEl = videoRef.current
 
@@ -302,10 +307,12 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
       }
     }, [phase])
 
-    // ── Phase 4: ink-out complete → unmount ─────────────────────────
+    // ── Phase 4: ink-out complete → close dialog and unmount ────────
     const handleInkOutComplete = React.useCallback(() => {
       setPhase('idle')
-    }, [])
+      // Sync dialog open state after animation completes
+      setOpen(false)
+    }, [setOpen])
 
     // Cleanup
     React.useEffect(() => () => cancelAnimationFrame(animFrameRef.current), [])
@@ -319,7 +326,7 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
 
     const isInkActive = phase === 'ink-in' || phase === 'ink-out'
     const isModalMounted = phase !== 'idle'
-    // Canvas state: 'in' keeps the filled ink after splash completes, 'idle' resets to empty
+    const isClosing = phase === 'closing'
     const canvasState = phase === 'ink-out' ? 'out' as const : phase === 'idle' ? 'idle' as const : 'in' as const
 
     return (
@@ -338,7 +345,7 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
             background="/_images/backgrounds/camo-black-2x.webp"
             count={splashCountRef.current}
             startPosition={splashStartPos}
-            onComplete={phase === 'ink-in' ? handleInkInComplete : handleInkOutComplete}
+            onComplete={phase === 'ink-in' ? handleInkInComplete : phase === 'ink-out' ? handleInkOutComplete : undefined}
           />
         )}
 
@@ -365,11 +372,11 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
               )}
               style={{
                 transformOrigin: 'center center',
-                // Official: CSS transition for content entry
-                // transform 0.6s, opacity 0.6s, delay 0.5s
+                // Entry: CSS transition drives scale/opacity
+                // Close: GSAP drives via inline style, so disable CSS transition
                 transform: contentVisible ? 'scale(1) translateY(0)' : 'scale(0.7) translateY(20%)',
                 opacity: contentVisible ? 1 : 0,
-                transitionProperty: 'transform, opacity',
+                transitionProperty: isClosing ? 'none' : 'transform, opacity',
                 transitionDuration: '0.6s',
                 transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
                 transitionDelay: contentVisible ? '0.5s' : '0s',
@@ -395,26 +402,20 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
           </div>
         )}
 
-        {/* ── Close Button ───────────────────────────────────────────
-            Official: opacity:var(--alpha), transform:translateX(calc(200%*(1-var(--alpha)))) scale(var(--scale))
-            transition: 0.3s ease-back-out, delay 0.5s
-        */}
+        {/* ── Close Button — morph blob style from nav-menu-button ── */}
         {isModalMounted && (
           <DialogPrimitive.Close
-            className="fixed z-[120] p-3 sm:p-5 rounded-full bg-yellow-400 border-2 border-[#603bff] right-4 top-5 sm:right-8 sm:top-8 hover:scale-110"
-            style={{
-              opacity: contentVisible ? 1 : 0,
-              transform: `translateX(${contentVisible ? '0' : '200%'}) scale(1)`,
-              transitionProperty: 'transform, opacity',
-              transitionDuration: '0.3s',
-              transitionTimingFunction: 'cubic-bezier(0.21, 0.12, 0.35, 1.43)',
-              transitionDelay: contentVisible ? '0.5s' : '0s',
-              borderRadius: '40% 60% 70% 30% / 40% 40% 60% 50%',
-            }}
+            className={cn(
+              navStyles.iconWrap, navStyles.morph, navStyles.pressed,
+              'fixed z-[120] cursor-pointer right-4 top-5 sm:right-8 sm:top-8',
+              'transition-all duration-300 ease-[cubic-bezier(0.21,0.12,0.35,1.43)]',
+              (contentVisible && !isClosing)
+                ? 'opacity-100 translate-x-0 delay-500'
+                : 'opacity-0 translate-x-[200%] delay-0'
+            )}
             onClick={handleClose}
           >
-            <XIcon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[3] text-[#603bff]" />
-            <span className="sr-only">Close video</span>
+            <span data-menu-trigger-line="" className={navStyles.icon} />
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Portal>
