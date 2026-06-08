@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { BlobPlayButton } from './blob-play-button'
 import { InkSplashCanvas } from './ink-splash-canvas'
 import { power3In, getSplatRandomRotation } from '@/lib/wobble-math'
+import photoStyles from './styled-photo.module.css'
 
 // ─────────────────────────────────────────────────────────────
 // TrailerVideo Context
@@ -104,63 +105,91 @@ export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, Trailer
                 else if (triggerRefCb) triggerRefCb.current = node
                 if (typeof ref === 'function') ref(node)
                 else if (ref) ref.current = node
-                // Store ref for FLIP animation
                 ;(triggerRef as React.MutableRefObject<HTMLButtonElement | null>).current = node
               }}
               className={cn(
-                'group relative inline-flex items-center justify-center overflow-visible',
+                // Official: inline-block, relative, overflow:visible, padding:0
+                'group relative inline-block overflow-visible p-0 cursor-pointer',
                 className
               )}
               {...rest}
               {...props}
             >
-              {/* Jagged / Skewed Image Container (styled-photo) */}
-              <div 
-                className="relative overflow-hidden shadow-soft-splat-md border-4 border-white dark:border-[#1a1a1a]"
-                style={{ 
-                  transform: 'rotate(-2deg)', 
-                  transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              {/* ── Play Icon Container ─────────────────────────────
+                  Official: pos-absolute, width:var(--blob-size)=40%, z:10,
+                  left:50%, margin:10% 0 auto, top:0,
+                  transform:translate(-50%, -10%)
+              */}
+              <div
+                className="absolute left-1/2 top-0 z-10 pointer-events-none"
+                style={{
+                  width: '40%',
+                  margin: '10% 0 auto',
+                  transform: 'translate(-50%, -10%)',
                 }}
+              >
+                <BlobPlayButton
+                  hexColor={blobColor}
+                  blobSize={blobSize}
+                  className="pointer-events-auto shadow-none"
+                  tabIndex={-1}
+                />
+              </div>
+
+              {/* ── Styled Photo Container ──────────────────────────
+                  Official uses styled-photo_photoContainer with ::before
+                  pseudo-element for torn paper SVG border effect.
+                  CSS: --end-rotate:2deg, --margin-offset:6, padding:8px 6px
+              */}
+              <div
+                className={cn(photoStyles.photoContainer, 'border-0')}
+                style={{
+                  '--end-rotate': '2deg',
+                  '--margin-offset': '0',
+                } as React.CSSProperties}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={src}
                   alt={alt}
-                  className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-105"
+                  className={photoStyles.photo}
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
                 />
               </div>
 
-              {/* Tape Decoration 1 — official uses tape-2.png (166×73) */}
+              {/* ── Tape 1 (top-left) ───────────────────────────────
+                  Official: absolute, left:-25px, top:-40px, w:133px,
+                  transform:rotate(-25deg)
+              */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/_images/tape-assets/tape-2.png"
                 alt=""
-                className="absolute -top-4 -left-4 w-24 h-auto opacity-90 mix-blend-multiply dark:mix-blend-normal pointer-events-none"
-                style={{ transform: 'rotate(-25deg)' }}
+                className="absolute pointer-events-none"
+                style={{
+                  left: '-25px',
+                  top: '-40px',
+                  width: '133px',
+                  transform: 'rotate(-25deg)',
+                }}
               />
-              
-              {/* Tape Decoration 2 — official uses tape-3.png (202×77) */}
+
+              {/* ── Tape 2 (bottom-right) ───────────────────────────
+                  Official: absolute, right:-50px, bottom:10px, w:162px,
+                  transform:rotate(-23deg)
+              */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/_images/tape-assets/tape-3.png"
                 alt=""
-                className="absolute -bottom-4 -right-4 w-32 h-auto opacity-90 mix-blend-multiply dark:mix-blend-normal pointer-events-none"
-                style={{ transform: 'rotate(-15deg)' }}
+                className="absolute pointer-events-none"
+                style={{
+                  right: '-50px',
+                  bottom: '10px',
+                  width: '162px',
+                  transform: 'rotate(-23deg)',
+                }}
               />
-
-              {/* Centered WebGL Play Button */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                {/* 
-                  Pointer events are re-enabled here so the blob button can scale independently on hover,
-                  but typically the whole thumbnail is clickable. 
-                */}
-                <BlobPlayButton 
-                  hexColor={blobColor} 
-                  blobSize={blobSize} 
-                  className="pointer-events-auto shadow-none" 
-                  tabIndex={-1} // Prevent double tabbing since parent is trigger
-                />
-              </div>
             </button>
           )
         }}

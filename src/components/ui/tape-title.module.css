@@ -1,0 +1,82 @@
+/* tape-title.module.css
+   Matches official splatoon.nintendo.com tape-title component.
+   Red/yellow/black background with left/right tape SVG pseudo-elements. */
+
+.container {
+  background: var(--color-black, #0d0d0d);
+  color: var(--color-white, #fff);
+  display: inline-block;
+  position: relative;
+  transform: rotate(-4deg);
+  z-index: 2;
+}
+
+/* Left tape SVG */
+.container::before {
+  background-image: url("/images/svg/left-tape-black.svg");
+  background-position: 100% center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: " ";
+  height: 100%;
+  left: -61px;
+  position: absolute;
+  width: 62px;
+}
+
+/* Right tape SVG */
+.container::after {
+  background-image: url("/images/svg/right-tape-black.svg");
+  background-position: 0 center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  content: " ";
+  height: 100%;
+  position: absolute;
+  right: -58px;
+  top: 0;
+  width: 59px;
+}
+
+/* Red variant */
+.red {
+  background: #ff505e;
+  color: #0d0d0d;
+}
+
+.red::before {
+  background-image: url("/images/svg/left-tape-red.svg");
+}
+
+.red::after {
+  background-image: url("/images/svg/right-tape-red.svg");
+}
+
+/* Yellow variant */
+.yellow {
+  background: #eaff3d;
+  color: #0d0d0d;
+}
+
+.yellow::before {
+  background-image: url("/images/svg/left-tape-yellow.svg");
+}
+
+.yellow::after {
+  background-image: url("/images/svg/right-tape-yellow.svg");
+}
+
+/* Title text */
+.title {
+  padding: 8px 16px 16px;
+  text-transform: none;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+@media screen and (min-width: 1024px) {
+  .title {
+    padding: 16px 40px 24px;
+  }
+}

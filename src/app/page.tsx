@@ -27,6 +27,7 @@ import { NewsCarousel } from '@/components/ui/news-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
 import { GridNewsCard } from '@/components/ui/grid-news-card'
 import { HeadingTape } from '@/components/ui/heading-tape'
+import { TapeTitle } from '@/components/ui/tape-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
 import { WeaponCard } from '@/components/ui/weapon-card'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
@@ -476,9 +477,9 @@ export default function Home() {
         </div>
 
         <div className="w-full max-w-5xl flex flex-col items-center relative z-10 space-y-12">
-          <HeadingTape color="red" className="mb-4 text-center">
-            Watch the Trailer
-          </HeadingTape>
+          <TapeTitle color="red" id="trailer-section-title">
+            Watch the trailer
+          </TapeTitle>
 
           <TrailerVideo>
             <TrailerVideoThumbnail 
