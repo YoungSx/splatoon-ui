@@ -44,3 +44,5 @@ next-env.d.ts
 
 # scratch & comparison screenshots
 scratch/
+
+/.idea/

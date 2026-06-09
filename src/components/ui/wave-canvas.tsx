@@ -74,14 +74,21 @@ const WaveCanvas = React.forwardRef<HTMLCanvasElement, WaveCanvasProps>(
 
     const pointsRef = React.useRef<WavePoint[]>([])
     const animFrameRef = React.useRef<number>(0)
-    const oldMouseYRef = React.useRef<number>(0)
+    // Previous mouse position in SCREEN coordinates (clientX/clientY).
+    // Matches official splatoon.nintendo.com — listener is on window so it
+    // tracks the mouse continuously across the entire page, not just over
+    // the canvas. null = first event, no previous position yet.
+    const oldMousePosRef = React.useRef<{ x: number; y: number } | null>(null)
 
-    // Build points
+    // Build points with initial perturbation (wave is visible at rest)
     React.useEffect(() => {
       if (canvasWidth === 0) return
       const points: WavePoint[] = []
       for (let i = 0; i <= numPoints; i++) {
-        points.push(new WavePoint())
+        const pt = new WavePoint()
+        const t = i / numPoints
+        pt.height = Math.sin(t * Math.PI * 4) * 8 + Math.sin(t * Math.PI * 7) * 4
+        points.push(pt)
       }
       pointsRef.current = points
     }, [canvasWidth, numPoints])
@@ -176,42 +183,71 @@ const WaveCanvas = React.forwardRef<HTMLCanvasElement, WaveCanvasProps>(
       }
     }, [canvasWidth, height, color, numPoints, elasticity, friction])
 
-    // ── Mouse handlers (official: detect Y-axis crossing) ────────────────────
+    // ── Mouse handler (window-level, faithful to official implementation) ────
+    //
+    // The official splatoon.nintendo.com attaches mousemove on `window`,
+    // tracks oldMousePos in SCREEN coordinates continuously across the page,
+    // and triggers an impulse only on the frame the cursor crosses the
+    // canvas's vertical centerline (in screen coords).
+    //
+    // Listening on the canvas itself was the bug: it only fires while the
+    // mouse is over the canvas, and the user rarely moves vertically *within*
+    // a 120px-tall strip enough to trigger crossing detection. Listening on
+    // window means the mouse approaching the wave area from above the page
+    // will naturally cross the centerline and produce a splash — the intended
+    // "finger piercing the water surface" feel.
+    //
+    // Recreated from the minified official code:
+    //   const t = { x: e.clientX, y: e.clientY }
+    //   const n = { x: oldPos.x - t.x, y: oldPos.y - t.y }   // oldPos - new
+    //   const r = stage.getBoundingClientRect()
+    //   const surfaceY = r.top + height/2
+    //   if ((t.y - surfaceY) * (oldPos.y - surfaceY) < 0) {
+    //     const i = pointIndex(t.x - r.left)
+    //     const o = points[i]
+    //     let a = 5 * n.y                  // n.y = oldY - newY
+    //     a = clamp(a, -200, 200)
+    //     if (o) o.height += -a
+    //   }
+    //   oldPos = t  // always updated
 
-    const handleMouseMove = React.useCallback(
-      (e: React.MouseEvent<HTMLCanvasElement>) => {
-        if (!shouldAnimate) return
-        const canvas = canvasRef.current
-        if (!canvas) return
+    React.useEffect(() => {
+      if (!shouldAnimate) return
+      const canvas = canvasRef.current
+      if (!canvas) return
 
-        const rect = canvas.getBoundingClientRect()
-        const mouseY = e.clientY - rect.top
-        const oldY = oldMouseYRef.current
-        const halfH = height / 2
+      const onMouseMove = (e: MouseEvent) => {
+        const t = { x: e.clientX, y: e.clientY }
+        const oldPos = oldMousePosRef.current
 
-        // Detect if mouse crossed the wave's Y-axis (official behavior)
-        // Guard: skip on first frame (oldY === 0 is the default/uninitialized value)
-        if (oldY !== 0 && (mouseY - halfH) * (oldY - halfH) < 0) {
-          const speed = oldY - mouseY
-          const points = pointsRef.current
-          const segWidth = canvasWidth / numPoints
+        if (oldPos !== null) {
+          const rect = canvas.getBoundingClientRect()
+          const surfaceY = rect.top + height / 2
 
-          // Apply force to the nearest point (official: sets height directly)
-          const ptIndex = Math.round((e.clientX - rect.left) / segWidth)
-          const clampedIndex = Math.max(0, Math.min(points.length - 1, ptIndex))
-          const clampedSpeed = Math.max(-200, Math.min(200, 5 * speed))
-          if (points[clampedIndex]) {
-            points[clampedIndex].height += -clampedSpeed
+          // Crossing check in screen coordinates: did the cursor cross the
+          // canvas's vertical centerline between the previous and current frame?
+          if ((t.y - surfaceY) * (oldPos.y - surfaceY) < 0) {
+            const points = pointsRef.current
+            const segWidth = canvasWidth / numPoints
+            const localX = t.x - rect.left
+            const ptIndex = Math.round(localX / segWidth)
+            const idx = Math.max(0, Math.min(points.length - 1, ptIndex))
+            const ny = oldPos.y - t.y
+            const a = Math.max(-200, Math.min(200, 5 * ny))
+            if (points[idx]) {
+              points[idx].height += -a
+            }
           }
         }
 
-        oldMouseYRef.current = mouseY
-      },
-      [shouldAnimate, height, canvasWidth, numPoints],
-    )
+        oldMousePosRef.current = t
+      }
 
-    // Official behavior: do NOT reset oldMousePos on leave.
-    // This prevents false crossings when the mouse re-enters from the opposite side.
+      window.addEventListener("mousemove", onMouseMove, { passive: true })
+      return () => {
+        window.removeEventListener("mousemove", onMouseMove)
+      }
+    }, [shouldAnimate, canvasWidth, numPoints, height])
 
     // ── Render ───────────────────────────────────────────────────────────────
 
@@ -223,15 +259,15 @@ const WaveCanvas = React.forwardRef<HTMLCanvasElement, WaveCanvasProps>(
         data-slot="wave-canvas"
         width={canvasWidth}
         height={height}
-        className={cn("pointer-events-auto block", className)}
+        className={cn("block", className)}
         style={{
           position: "absolute",
-          bottom: "calc(100% - 1px)",
+          bottom: "100%",
           left: 0,
           zIndex: 10,
+          pointerEvents: "none",
           ...style,
         }}
-        onMouseMove={handleMouseMove}
         {...props}
       />
     )
