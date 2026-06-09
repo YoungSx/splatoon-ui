@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 
 // ─── Physics constants (matching official splatoon.nintendo.com) ──────────────
 
@@ -290,20 +291,4 @@ function useMergedRef<T>(
       else if (ref && typeof ref === "object") (ref as React.MutableRefObject<T>).current = node
     }
   }, refs)
-}
-
-/** Listen for prefers-reduced-motion changes */
-function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = React.useState(false)
-
-  React.useEffect(() => {
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setReduced(mql.matches)
-
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches)
-    mql.addEventListener("change", handler)
-    return () => mql.removeEventListener("change", handler)
-  }, [])
-
-  return reduced
 }
