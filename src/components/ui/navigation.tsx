@@ -61,28 +61,14 @@ export function Navigation() {
       <header
         className={cn(
           'fixed top-0 right-0 left-0 z-[100] w-full bg-black text-white transition-all duration-300 select-none',
-          isCollapsed ? 'h-[50px]' : 'h-[70px]'
+          isCollapsed ? 'h-[36px]' : 'h-[40px]'
         )}
-        style={{
-          backgroundImage: 'url(/official/banner_site.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
       >
-        {/* Nintendo logo */}
-        <a
-          href="https://www.nintendo.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute top-0 left-3 z-20 flex h-full items-center"
-        >
-          <span className="text-white font-bold text-sm tracking-wide mr-3">Nintendo</span>
-        </a>
         <div
           aria-hidden="true"
           className={cn(
             'pointer-events-none absolute left-0 z-[1] overflow-hidden transition-all duration-300',
-            isCollapsed ? 'top-[49px] h-[136px] w-[224px]' : 'top-[69px] h-[140px] w-[228px]'
+            isCollapsed ? 'top-[35px] h-[136px] w-[224px]' : 'top-[39px] h-[140px] w-[228px]'
           )}
         >
           <svg
@@ -115,7 +101,7 @@ export function Navigation() {
         <div
           className={cn(
             'absolute left-0 z-10 transition-all duration-300',
-            isCollapsed ? 'top-[49px]' : 'top-[69px]'
+            isCollapsed ? 'top-[35px]' : 'top-[39px]'
           )}
         >
           <NavigationDialog isReducedMotion={isReducedMotion} />
