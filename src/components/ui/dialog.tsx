@@ -88,7 +88,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-foreground/60 duration-150 supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+        "fixed inset-0 isolate z-50 bg-foreground/60 supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0",
         className
       )}
       {...props}
@@ -150,7 +150,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "shadow-soft-splat-lg fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col duration-150 outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "shadow-soft-splat-lg fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
           isReducedMotion
             ? "origin-center [transform:translate(-50%,-50%)]"
             : "origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]",

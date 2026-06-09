@@ -18,6 +18,7 @@
 
 .cardLayout {
   background-color: var(--color-white);
+  color: #0d0d0d;
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;

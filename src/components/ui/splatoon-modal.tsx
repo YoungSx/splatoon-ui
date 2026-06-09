@@ -106,7 +106,7 @@ function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
         aria-hidden="true"
       />
       {/* Scroll container + content */}
-      <div className={styles.scrollContainer} onClick={() => setOpen(false)}>
+      <div className={cn(styles.scrollContainer, open && styles.scrollContainerActive)} onClick={() => setOpen(false)}>
         <div
           ref={contentRef}
           className={cn(styles.content, open && styles.overlayActive)}

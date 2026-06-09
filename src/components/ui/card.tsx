@@ -8,7 +8,8 @@ import { cn } from "@/lib/utils"
 import { Tape, Staple } from "./tape"
 
 // CardContext for variant-sharing among sub-components (like CardImage)
-type CardVariant = "news" | "tag"
+type CardVariant = "news" | "tag" | "plain"
+type PlainStyle = "default" | "cream" | "colored"
 type PaperLabelColor = "yellow" | "red" | "blue" | "green"
 type PaperLabelPlacement = "left" | "right"
 
@@ -26,8 +27,8 @@ const CardContext = React.createContext<{ variant?: CardVariant; surface?: "pape
 const newsSurfaceVariants = cva("flex h-full flex-col pt-0 px-8 pb-6 relative z-10", {
   variants: {
     surface: {
-      paper: "bg-white text-[#0d0d0d]",
-      cream: "bg-[#f5f0e8] text-[#0d0d0d]",
+      paper: "bg-white text-[#0d0d0d] dark:bg-[#1a1a1a] dark:text-white",
+      cream: "bg-[#f5f0e8] text-[#0d0d0d] dark:bg-[#1e1b15] dark:text-white",
       danger: "bg-[#ff585e] text-white",
     },
   },
@@ -41,8 +42,8 @@ type NewsSurface = NonNullable<VariantProps<typeof newsSurfaceVariants>["surface
 const STAGGER_ROTATIONS = ['4deg', '-3deg', '2deg', '0deg']
 
 const newsSurfaceFillMap = {
-  paper: { light: "#ffffff", dark: "#ffffff" },
-  cream: { light: "#f5f0e8", dark: "#f5f0e8" },
+  paper: { light: "#ffffff", dark: "#1a1a1a" },
+  cream: { light: "#f5f0e8", dark: "#1e1b15" },
   danger: { light: "#ff585e", dark: "#ff585e" },
 } as const satisfies Record<NewsSurface, { light: string; dark: string }>
 
@@ -59,6 +60,10 @@ export interface CardProps extends React.ComponentProps<"div"> {
   // For tag variant
   tagTheme?: "yellow" | "blue" | "purple" | "orange" | "green"
   tagRotation?: string
+  /** Custom background ReactNode for tag variant (replaces built-in SVG) */
+  tagBackground?: React.ReactNode
+  // For plain variant
+  plainStyle?: PlainStyle
 }
 
 const tagThemeMap = {
@@ -211,12 +216,40 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       // For tag
       tagTheme = "yellow",
       tagRotation = "2deg",
+      tagBackground,
+      // For plain
+      plainStyle = "default",
       children,
       ...props
     },
     ref
   ) => {
     const Comp = asChild ? Slot : "div"
+
+    if (variant === "plain") {
+      const plainStyleClasses = {
+        default: "bg-white dark:bg-[#151515]",
+        cream: "bg-[#f5f0e8] dark:bg-[#151515]",
+        colored: "",
+      }
+      return (
+        <CardContext.Provider value={{ variant, surface }}>
+          <Comp
+            ref={ref}
+            data-slot="card"
+            data-variant="plain"
+            className={cn(
+              "rounded-xl border-[3px] border-chaos-black dark:border-white/15 transition-colors duration-300",
+              plainStyleClasses[plainStyle],
+              className
+            )}
+            {...props}
+          >
+            {children}
+          </Comp>
+        </CardContext.Provider>
+      )
+    }
 
     // Tag Hanger Background SVG path
     const tagBgSvg = (
@@ -257,7 +290,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           >
             {/* Tag Hanger Background SVG */}
             <div className={cn("absolute inset-0 w-full h-full z-0 pointer-events-none select-none", bgColorClass)}>
-              {tagBgSvg}
+              {tagBackground ?? tagBgSvg}
             </div>
 
             {/* Inner Content Area */}

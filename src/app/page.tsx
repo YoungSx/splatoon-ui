@@ -34,8 +34,7 @@ import { WeaponCard } from '@/components/ui/weapon-card'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
 import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
-import { StyledPhoto, StyledPhotoDecoration, StyledPhotoTape } from '@/components/ui/styled-photo'
-import { TagCard } from '@/components/ui/tag-card'
+import { StyledPhoto, StyledPhotoTape } from '@/components/ui/styled-photo'
 import { Divider } from '@/components/ui/divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { Loader } from '@/components/ui/loader'
@@ -427,31 +426,28 @@ export default function Home() {
          FIXED FLOAT: SPLATOON THEMED THEME TOGGLER
          ──────────────────────────────────────────────────────── */}
       <div className="fixed bottom-6 right-6 z-50">
-        <Button
+        <button
           onClick={toggleTheme}
-          variant="yellow"
-          size="icon-lg"
-          hasChevron={false}
-          className="shadow-soft-splat-md rounded-full border-[3px] border-chaos-black hover:scale-[1.1] active:scale-[0.95] dark:border-white [--bg-color:var(--ink-blue)] [--text-color:#eaff3d] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)] dark:[--bg-color:var(--neon-yellow)] dark:[--text-color:var(--chaos-black)] dark:[--hover-bg-color:var(--ink-blue)] dark:[--hover-text-color:#ffffff]"
+          className="group/toggle relative inline-flex size-14 items-center justify-center rounded-full border-[3px] border-[#0d0d0d] bg-[#603bff] text-[#eaff3d] shadow-soft-splat-md transition-all duration-300 hover:scale-110 active:scale-95 hover:bg-[#eaff3d] hover:text-[#603bff] dark:border-white dark:bg-[#eaff3d] dark:text-[#0d0d0d] dark:hover:bg-[#603bff] dark:hover:text-white"
           title="Toggle Ink Battle Theme"
         >
           {/* Squid silhouette — shown in light mode (switch to dark) */}
           <span className="flex flex-col items-center justify-center dark:hidden">
-            <svg className="h-5 w-5 text-[#eaff3d]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 2C8.5 2 5.5 4.5 5 8c-.3 2 .5 4 2 5.5L12 22l5-8.5c1.5-1.5 2.3-3.5 2-5.5-.5-3.5-3.5-6-7-6zm0 8.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
             </svg>
             <span className="mt-0.5 text-[9px] font-black leading-none">DARK</span>
           </span>
           {/* Kid silhouette — shown in dark mode (switch to light) */}
           <span className="hidden flex-col items-center justify-center dark:flex">
-            <svg className="h-5 w-5 animate-spin-slow text-chaos-black" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <svg className="h-5 w-5 animate-spin-slow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 1C9 1 6.5 3 6 6c-.3 2 .3 4 1.5 5.5L12 17l4.5-5.5C17.7 10 18.3 8 18 6c-.5-3-3-5-6-5zm0 7c-.8 0-1.5-.7-1.5-1.5S11.2 5 12 5s1.5.7 1.5 1.5S12.8 8 12 8z" />
               <circle cx="10.5" cy="5.5" r="0.5" />
               <circle cx="13.5" cy="5.5" r="0.5" />
             </svg>
             <span className="mt-0.5 text-[9px] font-black leading-none">LIGHT</span>
           </span>
-        </Button>
+        </button>
       </div>
 
       {/* ────────────────────────────────────────────────────────
@@ -611,9 +607,10 @@ export default function Home() {
                   { name: 'Stringers', desc: 'Tri-shot bows with charge-and-release mechanics.', accent: '#603bff' },
                   { name: 'Splatanas', desc: 'Blade weapons that slash ink projectiles.', accent: '#a51ee1' },
                 ].map((weapon) => (
-                  <div
+                  <Card
                     key={weapon.name}
-                    className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 bg-white dark:bg-[#151515] p-4 space-y-2 transition-colors duration-300 hover:scale-[1.02] transition-transform"
+                    variant="plain"
+                    className="p-4 space-y-2 hover:scale-[1.02] transition-transform"
                   >
                     <div className="h-1.5 w-12 rounded-full" style={{ backgroundColor: weapon.accent }} />
                     <h3 className="font-heading text-sm font-black uppercase tracking-wider">
@@ -622,7 +619,7 @@ export default function Home() {
                     <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
                       {weapon.desc}
                     </p>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </InViewStagger>
@@ -654,9 +651,11 @@ export default function Home() {
                   { name: 'Clam Blitz', desc: 'Collect clams, score touchdowns at the enemy basket.', color: '#a51ee1', text: '#ffffff' },
                   { name: 'Salmon Run', desc: 'Team up to defeat waves of Salmonids and collect Golden Eggs.', color: '#ff585e', text: '#ffffff' },
                 ].map((mode) => (
-                  <div
+                  <Card
                     key={mode.name}
-                    className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 overflow-hidden transition-colors duration-300"
+                    variant="plain"
+                    plainStyle="colored"
+                    className="overflow-hidden"
                   >
                     <div className="h-2" style={{ backgroundColor: mode.color }} />
                     <div className="bg-white dark:bg-[#1a1a1a] p-5 space-y-2 transition-colors duration-300">
@@ -667,7 +666,7 @@ export default function Home() {
                         {mode.desc}
                       </p>
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </InViewStagger>
@@ -700,7 +699,7 @@ export default function Home() {
               <p className="text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base max-w-md mx-auto">
                 Dive into the Splatlands and experience the most chaotic ink battles yet. Available now on Nintendo Switch.
               </p>
-              <div className="inline-block bg-chaos-black dark:bg-[#eaff3d] text-[#eaff3d] dark:text-chaos-black px-8 py-3 rounded-xl border-[3px] border-chaos-black font-heading text-2xl font-black">
+              <div className="inline-block bg-[#0d0d0d] dark:bg-[#eaff3d] text-[#eaff3d] dark:text-[#0d0d0d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] dark:border-[#eaff3d] font-heading text-2xl font-black">
                 $59.99
               </div>
               <div className="pt-2">
@@ -734,9 +733,11 @@ export default function Home() {
                   { mode: 'Tabletop Mode', desc: 'Flip the kickstand and play with Joy-Cons detached. Great for on-the-go co-op.', icon: '🎮' },
                   { mode: 'Handheld Mode', desc: 'Take Splatoon 3 anywhere in portable mode. Full game in the palm of your hands.', icon: '🕹️' },
                 ].map((item) => (
-                  <div
+                  <Card
                     key={item.mode}
-                    className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 bg-[#f5f0e8] dark:bg-[#151515] p-6 text-center space-y-3 transition-colors duration-300"
+                    variant="plain"
+                    plainStyle="cream"
+                    className="p-6 text-center space-y-3"
                   >
                     <div className="text-4xl">{item.icon}</div>
                     <h3 className="font-heading text-base font-black uppercase tracking-wider">
@@ -745,7 +746,7 @@ export default function Home() {
                     <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
                       {item.desc}
                     </p>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </InViewStagger>
@@ -876,7 +877,7 @@ export default function Home() {
               Gameplay Features
             </HeadingTape>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 overflow-hidden bg-[#603bff] text-white transition-colors duration-300">
+              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#603bff] text-white">
                 <div className="p-8 space-y-4">
                   <div className="h-1.5 w-16 rounded-full bg-[#eaff3d]" />
                   <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
@@ -887,8 +888,8 @@ export default function Home() {
                     possible. The team that covers more ground wins. Simple to learn, impossible to master.
                   </p>
                 </div>
-              </div>
-              <div className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 overflow-hidden bg-[#ff585e] text-white transition-colors duration-300">
+              </Card>
+              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#ff585e] text-white">
                 <div className="p-8 space-y-4">
                   <div className="h-1.5 w-16 rounded-full bg-[#eaff3d]" />
                   <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
@@ -899,7 +900,7 @@ export default function Home() {
                     defeat bosses, and earn exclusive gear from Grizzco Industries.
                   </p>
                 </div>
-              </div>
+              </Card>
             </div>
           </div>
         </InView>
@@ -978,66 +979,29 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Column: Beautiful Typography Description */}
+            {/* Right Column: Description */}
             <div className="space-y-6">
               <div className="space-y-2">
-                <Badge variant="sticker">
-                  <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
-                  Premium Feature
-                </Badge>
                 <h3 className="text-2xl font-black uppercase tracking-wide text-chaos-black dark:text-[#eaff3d]">
-                  Tactile 3D Depth Mechanics
+                  Tactile 3D Depth
                 </h3>
                 <p className="text-sm font-medium text-chaos-black/75 dark:text-white/75 leading-relaxed">
-                  This showcase is built to feel responsive and alive, matching Splatoon&apos;s signature tactile visual style. By mapping mouse coordinates to 3D rotational values and projecting layers at varying visual depths (Z-index), we achieve a high-fidelity parallax effect.
+                  Hover or move your cursor over the character card to see layers respond with spring-based 3D rotations. Each layer sits at a different depth, creating a tactile parallax effect inspired by Splatoon&apos;s visual style.
                 </p>
               </div>
 
-              {/* Component Spec Table / Cards */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="scrap-panel-tight shadow-soft-splat-sm border-[2px] border-chaos-black bg-[#f5f0e8] p-3 pt-6 dark:border-white/20 dark:bg-[#151515]/60">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Stiffness</span>
-                  <p className="font-heading text-lg font-black text-[#603bff] dark:text-[#eaff3d]">180</p>
-                </div>
-                <div className="scrap-panel-tight shadow-soft-splat-sm border-[2px] border-chaos-black bg-[#f5f0e8] p-3 pt-6 dark:border-white/20 dark:bg-[#151515]/60">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Damping</span>
-                  <p className="font-heading text-lg font-black text-[#603bff] dark:text-[#eaff3d]">20</p>
-                </div>
-                <div className="scrap-panel-tight shadow-soft-splat-sm col-span-2 border-[2px] border-chaos-black bg-[#f5f0e8] p-3 pt-6 dark:border-white/20 dark:bg-[#151515]/60">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-chaos-black/50 dark:text-white/50">Z-Index Depth Layer Projection</span>
-                  <div className="flex flex-col gap-1 mt-1 text-[11px] font-semibold text-chaos-black/80 dark:text-white/80">
-                    <div className="flex justify-between border-b border-chaos-black/5 dark:border-white/5 pb-0.5">
-                      <span>Foreground Inkling</span>
-                      <code className="text-[#ff585e]">translateZ(35px)</code>
-                    </div>
-                    <div className="flex justify-between border-b border-chaos-black/5 dark:border-white/5 pb-0.5">
-                      <span>Brand Ink Splatters</span>
-                      <code className="text-[#00c8b4]">translateZ(10px - 15px)</code>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Background Skewed Text</span>
-                      <code className="text-[#a51ee1]">translateZ(-5px)</code>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Reduced Motion Toggle Panel */}
-              <div className="scrap-panel shadow-soft-splat-sm flex items-center gap-4 border-[2px] border-chaos-black bg-white/50 p-4 pt-8 dark:border-white dark:bg-black/20">
-                <div className="flex-1">
-                  <p className="font-heading text-sm font-black uppercase text-chaos-black dark:text-white">Reduced Motion Mode</p>
-                  <p className="text-xs text-chaos-black/75 dark:text-white/75 font-medium mt-0.5">Disables mouse-tracking 3D rotations for accessibility.</p>
-                </div>
-                <div className="min-w-[80px]">
-                  <Button
-                    variant={reducedMotion ? "destructive" : "yellow"}
-                    size="sm"
-                    onClick={() => setReducedMotion(!reducedMotion)}
-                    theme={reducedMotion ? "light-red" : "dark-yellow"}
-                  >
-                    {reducedMotion ? "ON" : "OFF"}
-                  </Button>
-                </div>
+              <div className="flex items-center gap-4">
+                <Button
+                  variant={reducedMotion ? "destructive" : "yellow"}
+                  size="sm"
+                  onClick={() => setReducedMotion(!reducedMotion)}
+                  theme={reducedMotion ? "light-red" : "dark-yellow"}
+                >
+                  {reducedMotion ? "Motion: OFF" : "Motion: ON"}
+                </Button>
+                <span className="text-xs text-chaos-black/50 dark:text-white/50 font-medium">
+                  Toggle to disable 3D rotation
+                </span>
               </div>
             </div>
             
@@ -1059,7 +1023,7 @@ export default function Home() {
               Inklings and Octolings can switch between humanoid and squid forms at will — a mechanic that defines every battle.
             </p>
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 overflow-hidden bg-[#603bff] text-white p-8 space-y-4 transition-colors duration-300">
+              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#603bff] text-white p-8 space-y-4">
                 <div className="h-1.5 w-16 rounded-full bg-[#00c8b4]" />
                 <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
                   Squid Form
@@ -1068,8 +1032,8 @@ export default function Home() {
                   Dive into your team's ink and become a squid. Move at high speed through inked surfaces, swim
                   up walls, recharge your ink tank, and hide from enemies. Ink becomes your highway.
                 </p>
-              </div>
-              <div className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 overflow-hidden bg-[#eaff3d] text-chaos-black p-8 space-y-4 transition-colors duration-300">
+              </Card>
+              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#eaff3d] text-chaos-black p-8 space-y-4">
                 <div className="h-1.5 w-16 rounded-full bg-[#a51ee1]" />
                 <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
                   Kid Form
@@ -1078,7 +1042,7 @@ export default function Home() {
                   Pop out of the ink in humanoid form to attack, use sub weapons, and activate specials.
                   You paint the battlefield in kid form and traverse it as a squid.
                 </p>
-              </div>
+              </Card>
             </div>
           </div>
         </InView>
@@ -1097,7 +1061,7 @@ export default function Home() {
             </HeadingTape>
             <InViewStagger rootMargin="-30px">
               <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <div className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 bg-white dark:bg-[#1a1a1a] p-6 space-y-4 text-center transition-colors duration-300">
+                <Card variant="plain" className="p-6 space-y-4 text-center">
                   <div className="h-1.5 w-12 rounded-full bg-[#603bff] mx-auto" />
                   <h3 className="font-heading text-lg font-black uppercase tracking-wider">
                     Standard Edition
@@ -1108,8 +1072,8 @@ export default function Home() {
                   <div className="font-heading text-2xl font-black text-[#603bff] dark:text-[#eaff3d]">
                     $59.99
                   </div>
-                </div>
-                <div className="rounded-xl border-[3px] border-[#eaff3d] dark:border-[#eaff3d]/50 bg-white dark:bg-[#1a1a1a] p-6 space-y-4 text-center relative overflow-hidden transition-colors duration-300">
+                </Card>
+                <Card variant="plain" className="border-[#eaff3d] dark:border-[#eaff3d]/50 p-6 space-y-4 text-center relative overflow-hidden">
                   <div className="absolute top-3 right-3 bg-[#ff585e] text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
                     Special
                   </div>
@@ -1120,10 +1084,10 @@ export default function Home() {
                   <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
                     Includes the Side Order DLC, Inkopolis Plaza, and exclusive gear sets.
                   </p>
-                  <div className="font-heading text-2xl font-black text-[#eaff3d]">
+                  <div className="font-heading text-2xl font-black text-chaos-black dark:text-[#eaff3d]">
                     $24.99
                   </div>
-                </div>
+                </Card>
               </div>
             </InViewStagger>
           </div>
@@ -1151,9 +1115,11 @@ export default function Home() {
                   { name: 'Clothing', desc: 'T-shirts, hoodies, and jackets that grant abilities like ink saver, quick respawn, and swim speed.', accent: '#603bff' },
                   { name: 'Shoes', desc: 'Sneakers and boots with abilities like ink resistance, stealth jump, and object shredder.', accent: '#00c8b4' },
                 ].map((gear) => (
-                  <div
+                  <Card
                     key={gear.name}
-                    className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 bg-[#f5f0e8] dark:bg-[#151515] p-6 text-center space-y-3 transition-colors duration-300"
+                    variant="plain"
+                    plainStyle="cream"
+                    className="p-6 text-center space-y-3"
                   >
                     <div className="h-1.5 w-12 rounded-full mx-auto" style={{ backgroundColor: gear.accent }} />
                     <h3 className="font-heading text-base font-black uppercase tracking-wider">
@@ -1162,7 +1128,7 @@ export default function Home() {
                     <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
                       {gear.desc}
                     </p>
-                  </div>
+                  </Card>
                 ))}
               </div>
             </InViewStagger>
@@ -1197,7 +1163,7 @@ export default function Home() {
           </InView>
           <InView direction="up" rootMargin="-50px" delay={2}>
             <div className="max-w-2xl mx-auto">
-              <div className="rounded-xl border-[3px] border-chaos-black dark:border-white/15 overflow-hidden transition-colors duration-300">
+              <Card variant="plain" plainStyle="colored" className="overflow-hidden">
                 <div className="grid grid-cols-2">
                   <div className="bg-[#603bff] text-white p-8 text-center space-y-3">
                     <div className="text-4xl">🌊</div>
@@ -1223,7 +1189,7 @@ export default function Home() {
                     Choose your side. Battle for glory.
                   </p>
                 </div>
-              </div>
+              </Card>
             </div>
           </InView>
         </div>
@@ -1679,7 +1645,6 @@ export default function Home() {
                               Golden Egg quotas have been increased. High-hazard level rewards are active.
                             </p>
                           </div>
-                          <DialogFooter />
                         </DialogContent>
                       </Dialog>
                     </CardContent>
@@ -1711,7 +1676,6 @@ export default function Home() {
                               Error Code: 2318-0502. Game stats will not be recorded.
                             </p>
                           </div>
-                          <DialogFooter />
                         </DialogContent>
                       </Dialog>
 
@@ -1868,22 +1832,11 @@ export default function Home() {
           <div className="grid gap-8 xl:grid-cols-[1.5fr_1fr]">
             <div className="grid gap-6">
               <BlackTapeContainer tapeVariant="yellow" className="p-6">
-                <HeadingTape
-                  stickerLeft={
-                    <span className="block h-12 w-12 rounded-full border-[3px] border-chaos-black bg-gradient-to-br from-[#ffda00] via-[#ffd650] to-[#ffc700] shadow-soft-splat-sm" />
-                  }
-                  stickerRight={
-                    <span className="block h-12 w-12 rounded-full border-[3px] border-chaos-black bg-gradient-to-br from-[#603bff] via-[#8c77ff] to-[#c199ff] shadow-soft-splat-sm" />
-                  }
-                  overlapTop
-                  marginOffset={3}
-                  className="mb-4"
-                >
+                <HeadingTape className="mb-4">
                   Official Heading Tape
                 </HeadingTape>
-                {/* Official: tapeYellow sets color:var(--color-black) on the container — text inherits dark color */}
                 <p className="text-sm font-medium">
-                  This container combines tape framing and sticker decorations to mimic official magazine-style headings.
+                  Tape-framed section heading replicating the official Splatoon magazine layout style.
                 </p>
 
                 <StyledPhoto
@@ -1894,18 +1847,14 @@ export default function Home() {
                   className="mt-6"
                 >
                   <StyledPhotoTape position="center" />
-                  <StyledPhotoDecoration position="bottomLeft" />
-                  <StyledPhotoDecoration position="topRight" />
                 </StyledPhoto>
               </BlackTapeContainer>
 
-              <TagCard
-                rotation="-3deg"
-                className="relative overflow-hidden rounded-[1.5rem] border-[3px] border-chaos-black bg-white p-6 shadow-soft-splat-sm"
-                background={
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#f6ff8b] via-[#ffdc4f] to-[#ff7500] opacity-30" />
-                }
+              <Card
+                variant="plain"
+                className="relative overflow-hidden p-6 shadow-soft-splat-sm [transform:rotate(-3deg)] hover:rotate-0 transition-transform duration-300"
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#f6ff8b] via-[#ffdc4f] to-[#ff7500] opacity-30" />
                 <div className="relative z-10 space-y-4 text-center">
                   <p className="text-xs font-black uppercase tracking-[0.35em] text-chaos-black/60">Tag Card Replica</p>
                   <h3 className="text-2xl font-black uppercase text-[#603bff]">Gear Preview</h3>
@@ -1913,16 +1862,13 @@ export default function Home() {
                     A hand-tagged apparel card with tilted paper geometry, custom background, and layered visual depth.
                   </p>
                 </div>
-              </TagCard>
+              </Card>
             </div>
 
             <div className="space-y-6">
               {/* CategoryTitle: official full-width white section heading */}
           <div className="max-w-md mx-auto">
             <CategoryTitle
-              stickerLeft={
-                <span className="block h-10 w-10 rounded-full border-[3px] border-chaos-black bg-gradient-to-br from-[#ffda00] via-[#ffd650] to-[#ffc700] shadow-soft-splat-sm" />
-              }
               points={<span className="inline-flex items-center gap-1 rounded-full bg-[#ff585e] px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white">NEW</span>}
             >
               <span className="font-heading font-black text-xl uppercase tracking-wider">Category Title</span>
