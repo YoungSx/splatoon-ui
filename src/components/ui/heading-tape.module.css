@@ -1,7 +1,9 @@
+/* Heading Tape — 1:1 match of official splatoon.nintendo.com */
+
 .headingTapeSection {
   display: flex;
   justify-content: center;
-  margin-bottom: calc(var(--base-space, 8px) * var(--margin-offset));
+  margin-bottom: calc(var(--base-space, 8px) * var(--margin-offset, 2));
   position: relative;
   width: 100%;
 }
@@ -23,50 +25,48 @@
   width: 100%;
 }
 
-.headingTapeSticker1,
-.headingTapeSticker2 {
-  position: absolute;
-}
-
 .headingTapeSticker1 {
   bottom: -17px;
   left: -19px;
+  position: absolute;
   transform: rotate(-2deg);
 }
 
 .headingTapeSticker2 {
+  position: absolute;
   right: -17px;
   top: -15px;
   transform: rotate(1deg);
 }
 
 .headingTapeText {
-  background: var(--ht-bg, var(--color-white));
-  color: var(--ht-text, #0d0d0d);
+  background: var(--color-white, #ffffff);
   border-radius: 10px;
+  color: var(--color-black, #0d0d0d);
   display: inline-block;
-  padding: calc(var(--base-space, 8px) * 2) 40px;
-  text-align: center;
-  font-family: var(--font-heading);
-  font-weight: 600;
+  font-family: var(--font-heading, inherit);
   font-size: 1.125rem;
-  text-transform: uppercase;
+  font-weight: 600;
   letter-spacing: 0.04em;
+  padding: calc(var(--base-space, 8px) * 2) 40px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
 }
 
-/* Dark mode: default (no color) variant */
+/* Dark mode default */
 :global(.dark) .headingTapeText {
-  --ht-bg: var(--color-black-alt, #1a1a1a);
-  --ht-text: var(--color-white, #fff);
+  background: var(--color-black-alt, #1a1a1a);
+  color: var(--color-white, #ffffff);
 }
 
-/* Color variants */
-.yellow { --ht-bg: #eaff3d; --ht-text: #0d0d0d; }
-.blue   { --ht-bg: #603bff; --ht-text: #ffffff; }
-.green  { --ht-bg: #00c8b4; --ht-text: #0d0d0d; }
-.purple { --ht-bg: #a51ee1; --ht-text: #ffffff; }
-.orange { --ht-bg: #fa5a00; --ht-text: #ffffff; }
-.red    { --ht-bg: #ff585e; --ht-text: #ffffff; }
+/* Color variants — applied to .headingTapeText directly */
+.yellow { background: #eaff3d; color: #0d0d0d; }
+.blue   { background: #603bff; color: #ffffff; }
+.green  { background: #00c8b4; color: #0d0d0d; }
+.purple { background: #a51ee1; color: #ffffff; }
+.orange { background: #fa5a00; color: #ffffff; }
+.red    { background: #ff585e; color: #ffffff; }
 
 @media screen and (min-width: 640px) {
   .headingTapeText {

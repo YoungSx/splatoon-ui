@@ -1,7 +1,6 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { Tape } from "./tape"
 import styles from "./heading-tape.module.css"
 
 type HeadingTapeColor = "yellow" | "blue" | "green" | "purple" | "orange" | "red"
@@ -10,8 +9,6 @@ export interface HeadingTapeProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   className?: string
   color?: HeadingTapeColor
-  stickerLeft?: React.ReactNode
-  stickerRight?: React.ReactNode
   overlapTop?: boolean
   marginOffset?: number
 }
@@ -20,8 +17,6 @@ export function HeadingTape({
   children,
   className,
   color,
-  stickerLeft,
-  stickerRight,
   overlapTop = false,
   marginOffset = 2,
   ...props
@@ -33,17 +28,33 @@ export function HeadingTape({
       style={{ "--margin-offset": String(marginOffset) } as React.CSSProperties}
       {...props}
     >
-      <div className={styles.headingTapeContainer}>
-        <div className={styles.headingTapeStickers}>
-          <div className={styles.headingTapeSticker1}>
-            {stickerLeft ?? <Tape variant="torn" position="bottom-left" color="yellow" />}
-          </div>
-          <div className={styles.headingTapeSticker2}>
-            {stickerRight ?? <Tape variant="torn" position="top-right" color="red" />}
-          </div>
-        </div>
-        <div className={cn(styles.headingTapeText, color && styles[color])}>{children}</div>
-      </div>
+      <span className={cn(styles.headingTapeContainer, color && styles[color])}>
+        <span className={styles.headingTapeStickers}>
+          {/* Sticker 1 (bottom-left) — official: sticker-8 */}
+          <picture>
+            <source media="(min-width: 640px)" srcSet="/_images/tape-assets/sticker-8-medium-up.webp 1x, /_images/tape-assets/sticker-8-medium-up-2x.webp 2x" type="image/webp" />
+            <source media="(min-width: 640px)" srcSet="/_images/tape-assets/sticker-8-medium-up.png 1x, /_images/tape-assets/sticker-8-medium-up-2x.png 2x" type="image/png" />
+            <source srcSet="/_images/tape-assets/sticker-8.webp 1x, /_images/tape-assets/sticker-8-2x.webp 2x" type="image/webp" />
+            <source srcSet="/_images/tape-assets/sticker-8.png 1x, /_images/tape-assets/sticker-8-2x.png 2x" type="image/png" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={cn(styles.headingTapeSticker1)} alt="" src="/_images/tape-assets/sticker-8.png" />
+          </picture>
+
+          {/* Sticker 2 (top-right) — official: sticker-12 */}
+          <picture>
+            <source media="(min-width: 640px)" srcSet="/_images/tape-assets/sticker-12-medium-up.webp 1x, /_images/tape-assets/sticker-12-medium-up-2x.webp 2x" type="image/webp" />
+            <source media="(min-width: 640px)" srcSet="/_images/tape-assets/sticker-12-medium-up.png 1x, /_images/tape-assets/sticker-12-medium-up-2x.png 2x" type="image/png" />
+            <source srcSet="/_images/tape-assets/sticker-12.webp 1x, /_images/tape-assets/sticker-12-2x.webp 2x" type="image/webp" />
+            <source srcSet="/_images/tape-assets/sticker-12.png 1x, /_images/tape-assets/sticker-12-2x.png 2x" type="image/png" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className={cn(styles.headingTapeSticker2)} alt="" src="/_images/tape-assets/sticker-12.png" />
+          </picture>
+        </span>
+
+        <span className={cn(styles.headingTapeText, color && styles[color])}>
+          {children}
+        </span>
+      </span>
     </div>
   )
 }
