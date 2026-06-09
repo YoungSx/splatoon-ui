@@ -18,7 +18,7 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
-import { Zap, Skull, Flame, Sun, Moon } from 'lucide-react'
+import { Zap, Skull, Flame } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter } from '@/components/ui/splats'
@@ -40,6 +40,14 @@ import { Divider } from '@/components/ui/divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { Loader } from '@/components/ui/loader'
 import { IconButton } from '@/components/ui/icon-button'
+import {
+  SplatoonModal,
+  SplatoonModalTrigger,
+  SplatoonModalPortal,
+  SplatoonModalBody,
+  SplatoonModalStagger,
+  SplatoonModalCloseButton,
+} from '@/components/ui/splatoon-modal'
 import { InView, InViewStagger } from '@/components/ui/in-view'
 import { Progress } from '@/components/ui/progress'
 import { Footer } from '@/components/ui/footer'
@@ -427,12 +435,20 @@ export default function Home() {
           className="shadow-soft-splat-md rounded-full border-[3px] border-chaos-black hover:scale-[1.1] active:scale-[0.95] dark:border-white [--bg-color:var(--ink-blue)] [--text-color:#eaff3d] [--hover-bg-color:var(--neon-yellow)] [--hover-text-color:var(--ink-blue)] dark:[--bg-color:var(--neon-yellow)] dark:[--text-color:var(--chaos-black)] dark:[--hover-bg-color:var(--ink-blue)] dark:[--hover-text-color:#ffffff]"
           title="Toggle Ink Battle Theme"
         >
+          {/* Squid silhouette — shown in light mode (switch to dark) */}
           <span className="flex flex-col items-center justify-center dark:hidden">
-            <Moon className="h-5 w-5 text-[#eaff3d]" />
+            <svg className="h-5 w-5 text-[#eaff3d]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2C8.5 2 5.5 4.5 5 8c-.3 2 .5 4 2 5.5L12 22l5-8.5c1.5-1.5 2.3-3.5 2-5.5-.5-3.5-3.5-6-7-6zm0 8.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+            </svg>
             <span className="mt-0.5 text-[9px] font-black leading-none">DARK</span>
           </span>
+          {/* Kid silhouette — shown in dark mode (switch to light) */}
           <span className="hidden flex-col items-center justify-center dark:flex">
-            <Sun className="h-5 w-5 animate-spin-slow text-chaos-black" />
+            <svg className="h-5 w-5 animate-spin-slow text-chaos-black" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 1C9 1 6.5 3 6 6c-.3 2 .3 4 1.5 5.5L12 17l4.5-5.5C17.7 10 18.3 8 18 6c-.5-3-3-5-6-5zm0 7c-.8 0-1.5-.7-1.5-1.5S11.2 5 12 5s1.5.7 1.5 1.5S12.8 8 12 8z" />
+              <circle cx="10.5" cy="5.5" r="0.5" />
+              <circle cx="13.5" cy="5.5" r="0.5" />
+            </svg>
             <span className="mt-0.5 text-[9px] font-black leading-none">LIGHT</span>
           </span>
         </Button>
@@ -688,7 +704,7 @@ export default function Home() {
                 $59.99
               </div>
               <div className="pt-2">
-                <Button variant="blue" size="lg" theme="dark-blue" className="text-lg px-10">
+                <Button variant="blue">
                   Buy Now
                 </Button>
               </div>
@@ -1751,6 +1767,85 @@ export default function Home() {
                           </div>
                         </PopoverContent>
                       </Popover>
+                    </CardContent>
+                  </Card>
+
+                  {/* SplatoonModal — Official JP Feature Page Modal */}
+                  <Card
+                    variant="news"
+                    surface="cream"
+                    className="md:col-span-2"
+                  >
+                    <CardHeader>
+                      <CardTitle>Splatoon Modal (トジル)</CardTitle>
+                      <CardDescription>Full-screen overlay with bounce animation and staggered content reveal — from the official JP feature page</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-wrap gap-4 pt-2">
+                      <SplatoonModal>
+                        <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#eaff3d] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-chaos-black border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
+                          Open Splatoon Modal
+                        </SplatoonModalTrigger>
+                        <SplatoonModalPortal>
+                          <SplatoonModalBody>
+                            <div className="text-center space-y-4">
+                              <h2 className="font-heading text-2xl font-black uppercase tracking-wider">
+                                About Splatoon
+                              </h2>
+                              <p className="text-sm text-chaos-black/70 dark:text-white/70 max-w-sm mx-auto">
+                                Turf War is a 4v4 team battle mode where the goal is to cover the most ground with your team's ink.
+                              </p>
+                              <div className="grid grid-cols-2 gap-3 pt-2">
+                                <div className="rounded-lg bg-[#603bff] p-3 text-center text-xs font-black uppercase tracking-wider text-white">
+                                  Turf War
+                                </div>
+                                <div className="rounded-lg bg-[#ff585e] p-3 text-center text-xs font-black uppercase tracking-wider text-white">
+                                  Splat Zones
+                                </div>
+                                <div className="rounded-lg bg-[#00c8b4] p-3 text-center text-xs font-black uppercase tracking-wider text-chaos-black">
+                                  Tower Control
+                                </div>
+                                <div className="rounded-lg bg-[#a51ee1] p-3 text-center text-xs font-black uppercase tracking-wider text-white">
+                                  Rainmaker
+                                </div>
+                              </div>
+                            </div>
+                            <SplatoonModalCloseButton label="トジル" />
+                          </SplatoonModalBody>
+                        </SplatoonModalPortal>
+                      </SplatoonModal>
+
+                      <SplatoonModal>
+                        <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#603bff] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-white border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
+                          With Staggered Content
+                        </SplatoonModalTrigger>
+                        <SplatoonModalPortal>
+                          <SplatoonModalBody>
+                            <div className="text-center mb-4">
+                              <h2 className="font-heading text-2xl font-black uppercase tracking-wider">
+                                Weapon Types
+                              </h2>
+                            </div>
+                            <SplatoonModalStagger className="space-y-3">
+                              <div className="rounded-lg bg-[#eaff3d] p-3 text-sm font-black text-chaos-black">
+                                Shooters — Rapid-fire ink weapons
+                              </div>
+                              <div className="rounded-lg bg-[#603bff] p-3 text-sm font-black text-white">
+                                Rollers — Cover ground quickly
+                              </div>
+                              <div className="rounded-lg bg-[#ff585e] p-3 text-sm font-black text-white">
+                                Chargers — Long-range precision
+                              </div>
+                              <div className="rounded-lg bg-[#00c8b4] p-3 text-sm font-black text-chaos-black">
+                                Sloshers — Throw ink in arcs
+                              </div>
+                              <div className="rounded-lg bg-[#a51ee1] p-3 text-sm font-black text-white">
+                                Splatlings — Charged rapid-fire
+                              </div>
+                            </SplatoonModalStagger>
+                            <SplatoonModalCloseButton label="トジル" />
+                          </SplatoonModalBody>
+                        </SplatoonModalPortal>
+                      </SplatoonModal>
                     </CardContent>
                   </Card>
                 </div>
