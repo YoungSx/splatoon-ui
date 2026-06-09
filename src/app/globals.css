@@ -364,8 +364,6 @@
     );
   }
 
-  /* Skewed heading style — like real site h1/h2 */
-
   /* Ink splatter overlay */
   .ink-splatter {
     position: relative;
@@ -381,6 +379,22 @@
     pointer-events: none;
     z-index: 0;
   }
+}
+
+/* ── Skewed heading style — like real site h1/h2 ── */
+.splat-heading {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.splat-skew {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: skewX(-2deg);
 }
 
 /* ── Marquee Animation ── */
