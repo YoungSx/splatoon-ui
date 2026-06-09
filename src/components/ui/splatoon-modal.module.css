@@ -51,7 +51,7 @@
   max-width: 640px;
 }
 
-.overlayActive .content {
+.content.overlayActive {
   opacity: 1;
   transform: scale(1);
   transition-delay: 0.2s;
