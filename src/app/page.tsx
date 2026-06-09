@@ -36,17 +36,8 @@ import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gall
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
 import { StyledPhoto, StyledPhotoTape } from '@/components/ui/styled-photo'
 import { Divider } from '@/components/ui/divider'
-import { Carousel } from '@/components/ui/carousel'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
-import {
-  CardStackCarouselScene,
-  CardStackCarouselContent,
-  CardStackCarouselItem,
-  CardStackCarouselNext,
-  CardStackCarouselPrevious,
-  CardStackCarouselIndicators,
-} from '@/components/ui/card-stack-carousel'
 import { Loader } from '@/components/ui/loader'
 import { IconButton } from '@/components/ui/icon-button'
 import {
@@ -573,43 +564,10 @@ export default function Home() {
       </section>
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 3: CARDS & WEAPONS (CardStackCarousel + grids)
+         SECTION 3: CARDS & WEAPONS
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
-          {/* CardStackCarousel — physics-based stacked card swipe */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-6">
-              <HeadingTape color="yellow" className="text-center">
-                Card Stack Carousel
-              </HeadingTape>
-              <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-                Physics-driven card deck — drag or swipe to flip through weapons with spring dynamics.
-              </p>
-              <Carousel>
-                <CardStackCarouselScene>
-                  <CardStackCarouselContent>
-                    {WEAPON_CARDS.map((weapon, i) => (
-                      <CardStackCarouselItem key={weapon.name} data-index={i}>
-                        <WeaponCard
-                          name={weapon.name}
-                          section={weapon.section}
-                          image={weapon.image}
-                          size="lg"
-                        />
-                      </CardStackCarouselItem>
-                    ))}
-                  </CardStackCarouselContent>
-                  <div className="flex items-center justify-center gap-4 mt-4">
-                    <CardStackCarouselPrevious />
-                    <CardStackCarouselIndicators />
-                    <CardStackCarouselNext />
-                  </div>
-                </CardStackCarouselScene>
-              </Carousel>
-            </div>
-          </InView>
-
           {/* WeaponCard grid — FASHION section style */}
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
