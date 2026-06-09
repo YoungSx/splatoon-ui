@@ -92,6 +92,13 @@ function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   )
 }
 
+const sidePositionStyles: Record<string, React.CSSProperties> = {
+  top: { top: 0, left: 0, right: 0, height: "auto" },
+  right: { top: 0, right: 0, bottom: 0, width: "75%", maxWidth: "24rem" },
+  bottom: { bottom: 0, left: 0, right: 0, height: "auto" },
+  left: { top: 0, left: 0, bottom: 0, width: "75%", maxWidth: "24rem" },
+}
+
 function SheetContent({
   className,
   children,
@@ -108,8 +115,13 @@ function SheetContent({
       <SheetPrimitive.Popup
         data-slot="sheet-content"
         data-side={side}
+        style={{ position: "fixed", zIndex: 50, ...sidePositionStyles[side] }}
         className={cn(
-          "drawer-sheet fixed z-50 flex flex-col gap-4 border-2 border-foreground bg-popover bg-clip-padding text-sm text-popover-foreground shadow-none transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0 data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t-2 data-[side=bottom]:data-ending-style:translate-y-[2.5rem] data-[side=bottom]:data-starting-style:translate-y-[2.5rem] data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r-2 data-[side=left]:data-ending-style:translate-x-[-2.5rem] data-[side=left]:data-starting-style:translate-x-[-2.5rem] data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l-2 data-[side=right]:data-ending-style:translate-x-[2.5rem] data-[side=right]:data-starting-style:translate-x-[2.5rem] data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b-2 data-[side=top]:data-ending-style:translate-y-[-2.5rem] data-[side=top]:data-starting-style:translate-y-[-2.5rem] data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm",
+          "drawer-sheet flex flex-col gap-4 border-foreground bg-popover bg-clip-padding text-sm text-popover-foreground shadow-none transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0",
+          side === "top" && "border-b-2",
+          side === "right" && "border-l-2",
+          side === "bottom" && "border-t-2",
+          side === "left" && "border-r-2",
           className
         )}
         {...props}
