@@ -23,6 +23,11 @@
   position: absolute;
   top: 0;
   width: 100%;
+  z-index: 0;
+}
+
+.headingTapeStickers picture {
+  display: block;
 }
 
 .headingTapeSticker1 {
@@ -45,31 +50,28 @@
   color: var(--color-black, #0d0d0d);
   display: inline-block;
   font-family: var(--font-heading, inherit);
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1.875rem;
+  font-weight: var(--font-weight-regular, 500);
   letter-spacing: 0.04em;
+  line-height: 1;
   padding: calc(var(--base-space, 8px) * 2) 40px;
   position: relative;
   text-align: center;
   text-transform: uppercase;
+  z-index: 1;
 }
 
-/* Dark mode default */
-:global(.dark) .headingTapeText {
-  background: var(--color-black-alt, #1a1a1a);
-  color: var(--color-white, #ffffff);
-}
+/* Theme-independent: tape is always white, regardless of light/dark mode */
 
-/* Color variants — applied to .headingTapeText directly */
-.yellow { background: #eaff3d; color: #0d0d0d; }
-.blue   { background: #603bff; color: #ffffff; }
-.green  { background: #00c8b4; color: #0d0d0d; }
-.purple { background: #a51ee1; color: #ffffff; }
-.orange { background: #fa5a00; color: #ffffff; }
-.red    { background: #ff585e; color: #ffffff; }
 
 @media screen and (min-width: 640px) {
   .headingTapeText {
     padding: calc(var(--base-space, 8px) * 2) 60px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .headingTapeText {
+    font-size: 3.125rem;
   }
 }
