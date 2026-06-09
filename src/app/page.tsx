@@ -174,7 +174,7 @@ function PageTransitionDemo() {
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-3">
               <p className="text-6xl">{current.emoji}</p>
-              <h3 className="text-2xl md:text-3xl font-heading font-black uppercase tracking-wider">
+              <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider">
                 {current.title}
               </h3>
               <p className="text-sm text-chaos-black/50 dark:text-white/50 font-medium">
@@ -209,10 +209,10 @@ function PageTransitionDemo() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-3">
-          <Badge variant="default">WebGL Shader</Badge>
-          <Badge variant="secondary">Simplex Noise</Badge>
-          <Badge variant="outline">Ink Cover/Reveal</Badge>
-          <Badge variant="ghost">Official Port</Badge>
+          <Badge>WebGL Shader</Badge>
+          <Badge variant="blue">Simplex Noise</Badge>
+          <Badge variant="green">Ink Cover/Reveal</Badge>
+          <Badge variant="monochrome">Official Port</Badge>
         </div>
       </div>
       </InView>
@@ -279,10 +279,10 @@ function SplatoonTitleDemo() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-3">
-          <Badge variant="default">Official Assets</Badge>
-          <Badge variant="secondary">3 Variants</Badge>
-          <Badge variant="outline">Hover Effects</Badge>
-          <Badge variant="ghost">Image + Text</Badge>
+          <Badge>Official Assets</Badge>
+          <Badge variant="blue">3 Variants</Badge>
+          <Badge variant="green">Hover Effects</Badge>
+          <Badge variant="monochrome">Image + Text</Badge>
         </div>
       </div>
       </InView>
@@ -518,10 +518,10 @@ export default function Home() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-3">
-            <Badge variant="default">Official Assets</Badge>
-            <Badge variant="secondary">3 Variants</Badge>
-            <Badge variant="outline">Hover Effects</Badge>
-            <Badge variant="ghost">Image + Text</Badge>
+            <Badge>Official Assets</Badge>
+            <Badge variant="blue">3 Variants</Badge>
+            <Badge variant="green">Hover Effects</Badge>
+            <Badge variant="monochrome">Image + Text</Badge>
           </div>
         </div>
         </InView>
@@ -665,7 +665,7 @@ export default function Home() {
                       className="p-4 space-y-2 hover:scale-[1.02] transition-transform"
                     >
                       <div className="h-1.5 w-12 rounded-full" style={{ backgroundColor: weapon.accent }} />
-                      <h3 className="font-heading text-sm font-black uppercase tracking-wider">
+                      <h3 className="text-sm font-black uppercase tracking-wider">
                         {weapon.name}
                       </h3>
                       <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
@@ -714,7 +714,7 @@ export default function Home() {
                     >
                       <div className="h-2" style={{ backgroundColor: mode.color }} />
                       <div className="bg-white dark:bg-[#1a1a1a] p-5 space-y-2 transition-colors duration-300">
-                        <h3 className="font-heading text-base font-black uppercase tracking-wider">
+                        <h3 className="text-base font-black uppercase tracking-wider">
                           {mode.name}
                         </h3>
                         <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
@@ -814,7 +814,7 @@ export default function Home() {
               <p className="text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base max-w-md mx-auto">
                 Dive into the Splatlands and experience the most chaotic ink battles yet.
               </p>
-              <div className="inline-block bg-[#0d0d0d] dark:bg-[#eaff3d] text-[#eaff3d] dark:text-[#0d0d0d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] dark:border-[#eaff3d] font-heading text-2xl font-black">
+              <div className="inline-block bg-[#0d0d0d] dark:bg-[#eaff3d] text-[#eaff3d] dark:text-[#0d0d0d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] dark:border-[#eaff3d] font-alt text-2xl font-black">
                 $59.99
               </div>
               <div className="flex flex-wrap justify-center gap-3 pt-2">
@@ -856,20 +856,20 @@ export default function Home() {
                 <div className="grid sm:grid-cols-2 gap-6">
                   <Card variant="plain" className="p-6 space-y-4 text-center bg-white dark:bg-[#222]">
                     <div className="h-1.5 w-12 rounded-full bg-[#603bff] mx-auto" />
-                    <h3 className="font-heading text-lg font-black uppercase tracking-wider">Standard Edition</h3>
+                    <h3 className="text-lg font-black uppercase tracking-wider">Standard Edition</h3>
                     <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
                       The full base game with all launch content, stages, weapons, and modes.
                     </p>
-                    <div className="font-heading text-2xl font-black text-[#603bff] dark:text-[#eaff3d]">$59.99</div>
+                    <div className="font-alt text-2xl font-black text-[#603bff] dark:text-[#eaff3d]">$59.99</div>
                   </Card>
                   <Card variant="plain" className="border-[#eaff3d] dark:border-[#eaff3d]/50 p-6 space-y-4 text-center relative overflow-hidden bg-white dark:bg-[#222]">
                     <div className="absolute top-3 right-3 bg-[#ff585e] text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">Special</div>
                     <div className="h-1.5 w-12 rounded-full bg-[#eaff3d] mx-auto" />
-                    <h3 className="font-heading text-lg font-black uppercase tracking-wider">Expansion Pass</h3>
+                    <h3 className="text-lg font-black uppercase tracking-wider">Expansion Pass</h3>
                     <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
                       Includes the Side Order DLC, Inkopolis Plaza, and exclusive gear sets.
                     </p>
-                    <div className="font-heading text-2xl font-black text-chaos-black dark:text-[#eaff3d]">$24.99</div>
+                    <div className="font-alt text-2xl font-black text-chaos-black dark:text-[#eaff3d]">$24.99</div>
                   </Card>
                 </div>
               </InViewStagger>
@@ -903,7 +903,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-4">
-                <h3 className="font-heading text-lg font-black uppercase tracking-wider text-[#eaff3d]">
+                <h3 className="text-lg font-black uppercase tracking-wider text-[#eaff3d]">
                   Graffiti Dialogs
                 </h3>
                 <p className="text-xs text-white/50">Paper-tear modal with rotation and caution sticker tape</p>
@@ -949,7 +949,7 @@ export default function Home() {
 
               {/* Sheet + Popover */}
               <div className="space-y-4">
-                <h3 className="font-heading text-lg font-black uppercase tracking-wider text-[#00c8b4]">
+                <h3 className="text-lg font-black uppercase tracking-wider text-[#00c8b4]">
                   Drawers & Popovers
                 </h3>
                 <p className="text-xs text-white/50">Side sheets, contextual menus and alerts</p>
@@ -992,7 +992,7 @@ export default function Home() {
           {/* SplatoonModal */}
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-4">
-              <h3 className="font-heading text-lg font-black uppercase tracking-wider text-[#eaff3d]">
+              <h3 className="text-lg font-black uppercase tracking-wider text-[#eaff3d]">
                 Splatoon Modal (トジル)
               </h3>
               <p className="text-xs text-white/50">Full-screen overlay with bounce animation and staggered content reveal</p>
@@ -1192,14 +1192,14 @@ export default function Home() {
                   >
                     <CardHeader>
                       <CardTitle>Sticker Badges</CardTitle>
-                      <CardDescription>Double-border sticker badges with custom shapes</CardDescription>
+                      <CardDescription>Ink-colored badges with offset shadows and skew</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-wrap gap-3 pt-2">
-                      <Badge>Default</Badge>
-                      <Badge variant="secondary">Secondary</Badge>
-                      <Badge variant="destructive">Destructive</Badge>
-                      <Badge variant="outline">Outline</Badge>
-                      <Badge variant="sticker">Sticker Badge</Badge>
+                      <Badge>Yellow</Badge>
+                      <Badge variant="blue">Blue</Badge>
+                      <Badge variant="red">Red</Badge>
+                      <Badge variant="green">Green</Badge>
+                      <Badge variant="sticker">Sticker</Badge>
                     </CardContent>
                   </Card>
 
@@ -1415,7 +1415,7 @@ export default function Home() {
                       <CardTitle>Ink Alerts</CardTitle>
                       <CardDescription>High contrast alert blocks with warning icons</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-4 pt-2 font-heading">
+                    <CardContent className="flex flex-col gap-4 pt-2">
                       <Alert variant="warning">
                         <Flame className="h-4 w-4 text-chaos-black" />
                         <AlertTitle>Caution</AlertTitle>
@@ -1491,7 +1491,7 @@ export default function Home() {
             <CategoryTitle
               points={<span className="inline-flex items-center gap-1 rounded-full bg-[#ff585e] px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white">NEW</span>}
             >
-              <span className="font-heading font-black text-xl uppercase tracking-wider">Category Title</span>
+              <span className="font-alt font-black text-xl uppercase tracking-wider">Category Title</span>
             </CategoryTitle>
           </div>
 

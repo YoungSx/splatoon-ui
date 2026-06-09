@@ -108,7 +108,7 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
           {/* Vertical title on left edge (visible on hover) */}
           {verticalTitle && (
             <span
-              className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none font-heading text-xs font-black uppercase tracking-wider text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none font-alt text-xs font-black uppercase tracking-wider text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
               style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
             >
               {name}

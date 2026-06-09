@@ -53,7 +53,7 @@ export function Navigation() {
     <>
       <a
         href="#main-content"
-        className="font-heading focus:border-chaos-black focus:bg-primary focus:text-primary-foreground focus:shadow-solid-sm sr-only text-sm font-black tracking-wider uppercase transition-all focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:border-2 focus:px-4 focus:py-2"
+        className="font-alt focus:border-chaos-black focus:bg-primary focus:text-primary-foreground focus:shadow-solid-sm sr-only text-sm font-black tracking-wider uppercase transition-all focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[9999] focus:border-2 focus:px-4 focus:py-2"
       >
         Skip to main content
       </a>

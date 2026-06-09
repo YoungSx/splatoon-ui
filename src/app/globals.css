@@ -4,7 +4,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ── Font Face: fooregular (Splatoon display font) ── */
+/* ── Font Face: fooregular (Splatoon heading font) ── */
 @font-face {
   font-family: 'fooregular';
   src: url('/fonts/foo-webfont.woff2') format('woff2'),
@@ -14,12 +14,32 @@
   font-display: swap;
 }
 
+/* ── Font Face: Montserrat (body text, exact from official site) ── */
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-regular.woff2') format('woff2'),
+       url('/fonts/montserrat-v24-latin-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-500.woff2') format('woff2'),
+       url('/fonts/montserrat-v24-latin-500.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
   --font-mono: var(--font-mono);
-  --font-heading: 'obviously-narrow', 'fooregular', 'Montserrat', sans-serif;
+  --font-heading: 'fooregular', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-alt: 'obviously-narrow', sans-serif;
   --font-display: 'social-gothic-rough', 'fooregular', 'Montserrat', sans-serif;
   --font-foo: 'fooregular', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -208,28 +228,29 @@
 
 /* ── Splatoon Typography (exact from real site) ── */
 @layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: 'obviously-narrow', 'fooregular', 'Montserrat', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1;
+  }
+  h3, h4 {
+    font-family: var(--font-alt);
     font-weight: 600;
-    line-height: 1.1;
+  }
+  h2 {
+    font-weight: 500;
+    text-transform: uppercase;
   }
   h1 {
     font-size: clamp(2.5rem, 5vw, 5rem);
-    font-family: 'social-gothic-rough', 'fooregular', 'Montserrat', sans-serif;
+    font-family: var(--font-heading);
     font-weight: 700;
   }
   h2 {
     font-size: clamp(1.5rem, 3vw, 3.125rem);
   }
   body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-body);
     font-size: 1.25rem;
     font-weight: 500;
     line-height: 1.6;

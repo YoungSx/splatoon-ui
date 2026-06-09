@@ -5,34 +5,35 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "group/badge inline-flex h-6 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden border-2 border-foreground px-2.5 py-0.5 text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 whitespace-nowrap font-alt font-black italic uppercase skew-x-[-2deg] transition-all focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground hover:brightness-110",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:brightness-110",
-        destructive:
-          "bg-destructive text-white hover:brightness-110",
-        outline:
-          "bg-transparent text-foreground hover:bg-foreground hover:text-background",
-        ghost:
-          "border-transparent text-foreground hover:bg-foreground/10",
-        link: "border-transparent text-primary underline-offset-4 hover:underline",
+        yellow:
+          "bg-[var(--neon-yellow)] text-[var(--chaos-black)] px-2.5 py-0.5 text-[11px] tracking-wide hover:brightness-110",
+        blue:
+          "bg-[var(--ink-blue)] text-[var(--neon-yellow)] px-2.5 py-0.5 text-[11px] tracking-wide hover:brightness-110",
+        green:
+          "bg-[var(--ink-green)] text-[var(--chaos-black)] px-2.5 py-0.5 text-[11px] tracking-wide hover:brightness-110",
+        red:
+          "bg-[var(--ink-red)] text-white px-2.5 py-0.5 text-[11px] tracking-wide hover:brightness-110",
+        purple:
+          "bg-[var(--ink-purple)] text-white px-2.5 py-0.5 text-[11px] tracking-wide hover:brightness-110",
+        monochrome:
+          "bg-[var(--chaos-black)] text-[var(--tape-white)] px-2.5 py-0.5 text-[11px] tracking-wide hover:brightness-110",
         sticker:
-          "bg-primary text-primary-foreground hover:brightness-110 rotate-[-2deg]",
+          "bg-[var(--neon-yellow)] text-[var(--chaos-black)] px-3 py-1 text-xs tracking-wide rotate-[-3deg] hover:brightness-110",
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "yellow",
     },
   }
 )
 
 function Badge({
   className,
-  variant = "default",
+  variant = "yellow",
   render,
   ...props
 }: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {

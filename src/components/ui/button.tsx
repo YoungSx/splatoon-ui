@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 import styles from "./button.module.css"
 
 const buttonVariants = cva(
-  "group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[8px] font-heading font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50",
+  "group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[8px] font-alt font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -59,7 +59,7 @@ const sizeContentLineHeightMap = {
 }
 
 const arrowButtonClassName =
-  "group/button relative inline-block shrink-0 cursor-pointer select-none bg-transparent p-0 font-heading text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
+  "group/button relative inline-block shrink-0 cursor-pointer select-none bg-transparent p-0 font-alt text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
 
 const solidButtonEffectsClassName = "active:scale-[0.98] active:translate-x-[1px] active:translate-y-[1px]"
 

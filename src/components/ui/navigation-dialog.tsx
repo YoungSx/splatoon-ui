@@ -525,7 +525,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                             )
                           }
                           className={cn(
-                            'group/nav-link font-heading relative z-[2] inline-flex items-center gap-3 py-[0.18rem] text-[2.18rem] leading-none font-semibold text-white transition-colors duration-150 md:text-[3.25rem]',
+                            'group/nav-link relative z-[2] inline-flex items-center gap-3 py-[0.18rem] text-[2.18rem] leading-none font-semibold text-white transition-colors duration-150 md:text-[3.25rem]',
                             isHighlighted && 'text-[#eaff3d]',
                             link.textClassName
                           )}
