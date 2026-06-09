@@ -9,281 +9,54 @@ import { InkSplashCanvas } from '@/components/ui/ink-splash-canvas'
 import { NavMenuButton } from '@/components/ui/nav-menu-button'
 import { Splat } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
+import { NavChevron } from './nav-chevron'
+import { navLinks, logoSplatDecorations, overlayDecorations } from './navigation-config'
+import { useSyncSelectedNavKey } from './use-sync-selected-nav-key'
+import { useNavigationMenuAnimation } from './use-navigation-menu-animation'
 
-interface NavLink {
-  label: string
-  href: string
-  isBuyNow?: boolean
-  selectedKey?: string
-  hoverSplatId?: number
-  hoverSplatColor?: string
-  hoverSplatClassName?: string
-  textClassName?: string
-}
-
-const navLinks: NavLink[] = [
-  { label: 'Buy now', href: '#buy', isBuyNow: true },
-  {
-    label: 'Home',
-    href: '#',
-    selectedKey: 'home',
-    hoverSplatId: 5,
-    hoverSplatColor: '#f2ff27',
-    hoverSplatClassName: '-left-[2.5em] top-1/2 h-[4em] w-[4em] -translate-y-[46%] rotate-[-18deg]',
-  },
-  {
-    label: 'Welcome to Splatsville',
-    href: '#world',
-    selectedKey: 'world',
-    hoverSplatId: 9,
-    hoverSplatColor: '#603bff',
-    hoverSplatClassName:
-      '-left-[2.35em] top-1/2 h-[4.2em] w-[4.2em] -translate-y-[44%] rotate-[12deg]',
-  },
-  {
-    label: 'How to play',
-    href: '#gameplay',
-    selectedKey: 'gameplay',
-    hoverSplatId: 8,
-    hoverSplatColor: '#f2ff27',
-    hoverSplatClassName:
-      '-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]',
-  },
-  {
-    label: 'Weapons & gear',
-    href: '#weapons',
-    selectedKey: 'weapons',
-    hoverSplatId: 11,
-    hoverSplatColor: '#603bff',
-    hoverSplatClassName:
-      '-left-[2.5em] top-1/2 h-[4.25em] w-[4.25em] -translate-y-[45%] rotate-[-10deg]',
-  },
-  {
-    label: 'News',
-    href: '#news',
-    selectedKey: 'news',
-    hoverSplatId: 10,
-    hoverSplatColor: '#603bff',
-    hoverSplatClassName:
-      '-left-[2.65em] top-1/2 h-[4.35em] w-[4.35em] -translate-y-[44%] -rotate-[18deg]',
-  },
-  {
-    label: 'Events',
-    href: '#events',
-    selectedKey: 'events',
-    hoverSplatId: 6,
-    hoverSplatColor: '#f2ff27',
-    hoverSplatClassName:
-      '-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]',
-  },
-  {
-    label: 'Expansion Pass',
-    href: '#expansion-pass',
-    selectedKey: 'expansion-pass',
-    hoverSplatId: 12,
-    hoverSplatColor: '#603bff',
-    hoverSplatClassName:
-      '-left-[2.55em] top-1/2 h-[4.3em] w-[4.3em] -translate-y-[44%] rotate-[16deg]',
-  },
-  {
-    label: 'Go to Splatoon Base',
-    href: 'https://splatoon.nintendo.com/base/',
-    selectedKey: 'splatoon-base',
-    hoverSplatId: 4,
-    hoverSplatColor: '#f2ff27',
-    hoverSplatClassName:
-      '-left-[2.45em] top-1/2 h-[4.15em] w-[4.15em] -translate-y-[45%] -rotate-[12deg]',
-  },
-]
-
-const logoSplatDecorations = [
-  {
-    id: 'logo-splat-yellow-left',
-    splatId: 4,
-    color: '#f2ff27',
-    className: 'absolute left-[3.5%] top-[-13%] h-[13.5rem] w-[13.5rem] rotate-[-12deg]',
-  },
-  {
-    id: 'logo-splat-purple-mid',
-    splatId: 7,
-    color: '#603bff',
-    className: 'absolute left-[30%] top-[-28%] h-[14rem] w-[14rem] rotate-[7deg]',
-  },
-  {
-    id: 'logo-splat-yellow-right',
-    splatId: 2,
-    color: '#f2ff27',
-    className: 'absolute right-[1%] top-[-9%] h-[13.75rem] w-[13.75rem] rotate-[10deg]',
-  },
-] as const
-
-const overlayDecorations = [
-  {
-    id: 'overlay-splat-left',
-    splatId: 7,
-    color: '#603bff',
-    className: 'absolute left-[-7.5%] top-[17%] h-[30rem] w-[30rem] rotate-[-21deg]',
-  },
-  {
-    id: 'overlay-splat-left-yellow',
-    splatId: 8,
-    color: '#f2ff27',
-    className: 'absolute left-[16%] top-[51%] h-[16rem] w-[16rem] rotate-[14deg]',
-  },
-  {
-    id: 'overlay-splat-right-yellow',
-    splatId: 6,
-    color: '#f2ff27',
-    className: 'absolute right-[4%] top-[56%] h-[27rem] w-[27rem] rotate-[18deg]',
-  },
-  {
-    id: 'overlay-splat-right-purple',
-    splatId: 7,
-    color: '#603bff',
-    className: 'absolute right-[19%] top-[79%] h-[13rem] w-[13rem] rotate-[14deg]',
-  },
-] as const
-
-// Animation timing constants (verified against official splatoon.nintendo.com)
-const MENU_CONTENT_ENTER_MS = 700
-const MENU_CONTENT_EXIT_MS = 400
-const MENU_CONTENT_TRANSITION_IN_EASING = 'cubic-bezier(0.51, 0, 0.9, 0.43)'
-const MENU_CONTENT_TRANSITION_OUT_EASING = 'cubic-bezier(0.25, 0.12, 0.4, 1)'
 const NAV_SPLAT_START_POSITION: [number, number] = [-0.5, 0.5]
-
-// Animation phases
-type CoverPhase = 'closed' | 'opening' | 'open' | 'closing'
-type ContentPhase = 'hidden' | 'entering' | 'visible' | 'exiting'
-type CanvasState = 'in' | 'out' | 'idle'
 
 type NavigationDialogProps = {
   isReducedMotion: boolean
 }
 
-function getCurrentSelectedNavKey() {
-  if (typeof window === 'undefined') {
-    return 'home'
-  }
-
-  const currentPath = window.location.pathname.toLowerCase()
-  const currentHash = window.location.hash.replace(/^#/, '').toLowerCase()
-  const matchedLink = navLinks.find((link) => {
-    if (!link.selectedKey) return false
-    if (currentHash) {
-      return currentHash === link.selectedKey
-    }
-    if (link.selectedKey === 'home') {
-      return currentPath === '/' || currentPath === ''
-    }
-    return currentPath.includes(link.selectedKey)
-  })
-
-  return matchedLink?.selectedKey ?? 'home'
-}
-
 export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
-  const [coverPhase, setCoverPhase] = React.useState<CoverPhase>('closed')
-  const [contentPhase, setContentPhase] = React.useState<ContentPhase>('hidden')
   const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
-  const [selectedNavKey, setSelectedNavKey] = React.useState(getCurrentSelectedNavKey)
-  const [openCount, setOpenCount] = React.useState(0)
+  const selectedNavKey = useSyncSelectedNavKey()
+  const {
+    coverPhase,
+    contentPhase,
+    openCount,
+    isMenuMounted,
+    isMenuPressed,
+    isContentInteractive,
+    canvasState,
+    contentTransitionClass,
+    openMenu: openMenuBase,
+    closeMenu: closeMenuBase,
+    handleOpenChange: handleOpenChangeBase,
+    handleCanvasComplete,
+  } = useNavigationMenuAnimation({ isReducedMotion })
 
-  const animationTimersRef = React.useRef<number[]>([])
-
-  const isMenuMounted = coverPhase !== 'closed'
-  const isMenuPressed = coverPhase === 'opening' || coverPhase === 'open'
-  const isContentInteractive = contentPhase === 'visible'
-
-  // Keep the completed opening frame mounted while the menu is open, matching
-  // the official nav transition before it switches to the closing tween.
-  const canvasState: CanvasState =
-    coverPhase === 'opening' || coverPhase === 'open' ? 'in' :
-    coverPhase === 'closing' ? 'out' :
-    'idle'
-
-  const clearAnimationTimers = React.useCallback(() => {
-    animationTimersRef.current.forEach((timer) => window.clearTimeout(timer))
-    animationTimersRef.current = []
-  }, [])
-
-  React.useEffect(() => {
-    return () => {
-      clearAnimationTimers()
-    }
-  }, [clearAnimationTimers])
-
-  // Sync selected nav key with URL changes
-  React.useEffect(() => {
-    const syncSelectedNavKey = () => {
-      setSelectedNavKey(getCurrentSelectedNavKey())
-    }
-
-    window.addEventListener('hashchange', syncSelectedNavKey)
-    window.addEventListener('popstate', syncSelectedNavKey)
-
-    return () => {
-      window.removeEventListener('hashchange', syncSelectedNavKey)
-      window.removeEventListener('popstate', syncSelectedNavKey)
-    }
-  }, [])
-
-  // Open menu handler
   const openMenu = React.useCallback(() => {
     setActiveNavLabel(null)
+    openMenuBase()
+  }, [openMenuBase])
 
-    if (isReducedMotion) {
-      setCoverPhase('open')
-      setContentPhase('visible')
-      return
-    }
-
-    setOpenCount(Math.round(10000 * Math.random()))
-    setCoverPhase('opening')
-    setContentPhase('hidden')
-  }, [isReducedMotion])
-
-  // Close menu handler
   const closeMenu = React.useCallback(() => {
-    clearAnimationTimers()
     setActiveNavLabel(null)
+    closeMenuBase()
+  }, [closeMenuBase])
 
-    if (isReducedMotion) {
-      setContentPhase('hidden')
-      setCoverPhase('closed')
-      return
-    }
-
-    // Official nav generates a fresh transition count for closing as well.
-    // The shader still starts from progress=1, but the closing wave uses its
-    // own noise seed instead of reusing the opening one.
-    setOpenCount(Math.round(10000 * Math.random()))
-    setCoverPhase('closing')
-
-    if (contentPhase === 'entering' || contentPhase === 'visible') {
-      setContentPhase('exiting')
-      const timer = window.setTimeout(() => {
-        setContentPhase('hidden')
-      }, MENU_CONTENT_EXIT_MS)
-      animationTimersRef.current.push(timer)
-      return
-    }
-  }, [clearAnimationTimers, contentPhase, isReducedMotion])
-
-  // Handle open state changes from DialogPrimitive
   const handleOpenChange = React.useCallback(
     (nextOpen: boolean) => {
       if (nextOpen) {
-        if (coverPhase === 'closed' || coverPhase === 'closing') {
-          openMenu()
-        }
-        return
-      }
-
-      if (coverPhase === 'opening' || coverPhase === 'open') {
+        openMenu()
+      } else {
         closeMenu()
       }
     },
-    [closeMenu, coverPhase, openMenu]
+    [openMenu, closeMenu]
   )
 
   // Navigate and close
@@ -298,40 +71,6 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
     },
     [closeMenu]
   )
-
-  // Canvas animation complete handler
-  const handleCanvasComplete = React.useCallback(() => {
-    if (coverPhase === 'opening') {
-      clearAnimationTimers()
-      setCoverPhase('open')
-      setContentPhase('entering')
-      const timer = window.setTimeout(() => {
-        setContentPhase('visible')
-      }, MENU_CONTENT_ENTER_MS)
-      animationTimersRef.current.push(timer)
-      return
-    }
-
-    if (coverPhase === 'closing') {
-      setCoverPhase('closed')
-      setContentPhase('hidden')
-    }
-  }, [clearAnimationTimers, coverPhase])
-
-  // Content transition classes.
-  // Official: content hidden until ink splash covers screen, then instantly visible.
-  // No fade-in on container — ink splash canvas handles the visual reveal.
-  // Only on exit: content fades out (200ms) before ink retracts.
-  const contentTransitionClass = React.useMemo(() => {
-    if (contentPhase === 'hidden') {
-      return 'opacity-0 pointer-events-none'
-    }
-    if (contentPhase === 'exiting') {
-      return 'transition-opacity duration-200 opacity-0 pointer-events-none'
-    }
-    // entering / visible: instantly visible, ink splash has covered the screen
-    return 'opacity-100 pointer-events-auto'
-  }, [contentPhase])
 
   return (
     <DialogPrimitive.Root
@@ -531,20 +270,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                           )}
                         >
                           <span className="relative inline-block">{link.label}</span>
-                          <svg
-                            data-nav-chevron="true"
-                            aria-hidden="true"
-                            viewBox="0 0 7 12"
-                            className="mt-[0.22em] h-[1.1rem] w-[0.65rem] shrink-0 text-current transition-transform duration-200 ease-out md:h-[1.35rem] md:w-[0.8rem]"
-                            style={{
-                              transform: isHighlighted ? 'translateX(5px)' : 'translateX(0px)',
-                            }}
-                          >
-                            <path
-                              d="M0,11.23.12,11l.32-.47.3-.12-.16-.35.18-.49.4-.21L1.09,9l.23-.35.26-.21.32-.21L2,7.84l.2-.38v-.3l.47-.47-.05-.38L3,6.08l-.19-.77,0-.26-.26-.3-.1-.31-.42-.25,0-.38-.32-.23L1.5,3.25l0-.32-.05-.26L1,2.37.94,2,.66,1.76.51,1.41.23,1.08.3.66.14.41,0,.13l.7,0L1,.08l.14.14L1.68,0,2,.12,2.21,0l.66.21.26,0h.42l.33.14L4.3.69l0,.38.29.27.14.4L5,2l.07.37,0,.14L5.48,3l.07.09.42.3.1.33L6,4.07l.24.33.42.25,0,.35.1.4.16.47-.11.42-.21.33L6.41,7,6.2,7.2,6,7.6,6,7.93l-.28.31-.3.3,0,.19-.16.37L5,9.43l-.18.14-.23.33-.21.38.09.42-.3.33,0,.18-.66.24-.39.1-.52.09,0-.09-.5-.09-.46.07-.26.09-.4,0-.39-.07-.45.17L0,11.23Z"
-                              fill="currentColor"
-                            />
-                          </svg>
+                          <NavChevron isHighlighted={isHighlighted} />
                         </a>
                       </li>
                     )
