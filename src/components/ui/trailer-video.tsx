@@ -344,11 +344,10 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
           />
         )}
 
-        {/* ── Backdrop — official: transparent, canvas IS the background */}
+        {/* ── Backdrop — transparent; ink splash canvas at z-100 IS the visual overlay */}
         {isModalMounted && (
           <DialogPrimitive.Backdrop
             className="fixed inset-0 z-50"
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }}
             onClick={handleClose}
           />
         )}
