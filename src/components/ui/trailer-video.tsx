@@ -10,6 +10,14 @@ import navStyles from '@/components/ui/nav-menu-button.module.css'
 import photoStyles from './styled-photo.module.css'
 
 // ─────────────────────────────────────────────────────────────
+// Animation Constants (matches official defaults)
+// ─────────────────────────────────────────────────────────────
+
+const CLOSE_DELAY = 1200   // official default closeDelay
+const DURATION_IN = 700    // official default durationIn
+const DURATION_OUT = CLOSE_DELAY - 200  // official: durationOut = closeDelay - 200
+
+// ─────────────────────────────────────────────────────────────
 // TrailerVideo Context
 // ─────────────────────────────────────────────────────────────
 
@@ -232,11 +240,6 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
       img.onload = () => { preloadedBgRef.current = img }
       img.src = '/_images/backgrounds/camo-black-2x.webp'
     }, [])
-
-    // ── Constants (matches official defaults) ──────────────────────
-    const CLOSE_DELAY = 1200  // official default closeDelay
-    const DURATION_IN = 700   // official default durationIn
-    const DURATION_OUT = CLOSE_DELAY - 200  // official: durationOut = closeDelay - 200
 
     const isModalMounted = open || modalActive || modalHeadingOut
 
