@@ -1,5 +1,6 @@
+/* Banner Divider — full-width colorful strip divider (matches official splatoon.nintendo.com) */
+
 .bannerDivider {
-  --total-width: 110vw;
   background-position: 50%;
   background-repeat: repeat-x;
   background-size: auto 100%;
@@ -7,7 +8,7 @@
   left: -5vw;
   position: absolute;
   width: 110vw;
-  z-index: 2;
+  z-index: 20;
 }
 
 @media screen and (min-width: 640px) {
@@ -28,56 +29,111 @@
   }
 }
 
+/* Rotation — official uses ~1 degree alternating */
+.rotateUp {
+  transform: rotate(1deg);
+}
+.rotateDown {
+  transform: rotate(-1deg);
+}
+
+/* Design patterns */
 .banner-divider--design1 {
   background-image: url("/_images/banners/banner-design1.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-design1.png") 1x, url("/_images/banners/banner-design1-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-design1.png") 1x, url("/_images/banners/banner-design1-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--design1 {
+    background-image: url("/_images/banners/banner-design1-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-design1-medium-up.png") 1x, url("/_images/banners/banner-design1-medium-up-2x.png") 2x);
+  }
 }
 
 .banner-divider--design2 {
   background-image: url("/_images/banners/banner-design2.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-design2.png") 1x, url("/_images/banners/banner-design2-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-design2.png") 1x, url("/_images/banners/banner-design2-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--design2 {
+    background-image: url("/_images/banners/banner-design2-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-design2-medium-up.png") 1x, url("/_images/banners/banner-design2-medium-up-2x.png") 2x);
+  }
 }
 
 .banner-divider--design3 {
   background-image: url("/_images/banners/banner-design3.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-design3.png") 1x, url("/_images/banners/banner-design3-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-design3.png") 1x, url("/_images/banners/banner-design3-2x.png") 2x);
 }
+@media screen and (min-width: 640px) {
+  .banner-divider--design3 {
+    background-image: url("/_images/banners/banner-design3-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-design3-medium-up.png") 1x, url("/_images/banners/banner-design3-medium-up-2x.png") 2x);
+  }
+}
 
+/* Solid color variants */
 .banner-divider--yellow {
   background-image: url("/_images/banners/banner-yellow.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-yellow.png") 1x, url("/_images/banners/banner-yellow-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-yellow.png") 1x, url("/_images/banners/banner-yellow-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--yellow {
+    background-image: url("/_images/banners/banner-yellow-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-yellow-medium-up.png") 1x, url("/_images/banners/banner-yellow-medium-up-2x.png") 2x);
+  }
 }
 
 .banner-divider--blue {
   background-image: url("/_images/banners/banner-blue.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-blue.png") 1x, url("/_images/banners/banner-blue-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-blue.png") 1x, url("/_images/banners/banner-blue-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--blue {
+    background-image: url("/_images/banners/banner-blue-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-blue-medium-up.png") 1x, url("/_images/banners/banner-blue-medium-up-2x.png") 2x);
+  }
 }
 
 .banner-divider--green {
   background-image: url("/_images/banners/banner-green.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-green.png") 1x, url("/_images/banners/banner-green-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-green.png") 1x, url("/_images/banners/banner-green-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--green {
+    background-image: url("/_images/banners/banner-green-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-green-medium-up.png") 1x, url("/_images/banners/banner-green-medium-up-2x.png") 2x);
+  }
 }
 
 .banner-divider--purple {
   background-image: url("/_images/banners/banner-purple.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-purple.png") 1x, url("/_images/banners/banner-purple-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-purple.png") 1x, url("/_images/banners/banner-purple-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--purple {
+    background-image: url("/_images/banners/banner-purple-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-purple-medium-up.png") 1x, url("/_images/banners/banner-purple-medium-up-2x.png") 2x);
+  }
 }
 
 .banner-divider--orange {
   background-image: url("/_images/banners/banner-orange.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-orange.png") 1x, url("/_images/banners/banner-orange-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-orange.png") 1x, url("/_images/banners/banner-orange-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--orange {
+    background-image: url("/_images/banners/banner-orange-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-orange-medium-up.png") 1x, url("/_images/banners/banner-orange-medium-up-2x.png") 2x);
+  }
 }
 
 .banner-divider--red {
   background-image: url("/_images/banners/banner-red.png");
-  background-image: -webkit-image-set(url("/_images/banners/banner-red.png") 1x, url("/_images/banners/banner-red-2x.png") 2x);
   background-image: image-set(url("/_images/banners/banner-red.png") 1x, url("/_images/banners/banner-red-2x.png") 2x);
+}
+@media screen and (min-width: 640px) {
+  .banner-divider--red {
+    background-image: url("/_images/banners/banner-red-medium-up.png");
+    background-image: image-set(url("/_images/banners/banner-red-medium-up.png") 1x, url("/_images/banners/banner-red-medium-up-2x.png") 2x);
+  }
 }

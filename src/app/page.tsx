@@ -36,6 +36,7 @@ import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gall
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
 import { StyledPhoto, StyledPhotoTape } from '@/components/ui/styled-photo'
 import { Divider } from '@/components/ui/divider'
+import { BannerDivider } from '@/components/ui/banner-divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
 import { Loader } from '@/components/ui/loader'
@@ -143,7 +144,7 @@ function PageTransitionDemo() {
 
   const current = pageContent[demoPage]
 
-  return (      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 transition-colors duration-300">
+  return (      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative transition-colors duration-300">
       <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
           <HeadingTape color="green" className="mb-4 text-center">
@@ -217,7 +218,7 @@ function SplatoonTitleDemo() {
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
 
   return (
-    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative overflow-hidden transition-colors duration-300">
       <InView direction="up" rootMargin="-50px">
       <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
         <HeadingTape color="purple" className="mb-4 text-center">
@@ -388,7 +389,7 @@ export default function Home() {
          SECTION 1: HERO HEADER + INK TRAIL (Interactive cursor effect)
          ──────────────────────────────────────────────────────── */}
       <InkTrailCanvas colors={['#eaff3d', '#603bff', '#ff585e', '#00c8b4', '#fa5a00']}>
-        <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300">
+        <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300 pattern-chip-white">
           <div className="flex flex-col items-center gap-3 text-center z-10">
             <Badge variant="sticker">
               <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
@@ -420,7 +421,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-24 px-6 relative z-10 transition-colors duration-300 overflow-hidden flex flex-col items-center">
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-24 px-6 relative transition-colors duration-300 flex flex-col items-center">
         {/* Decorative Splats */}
         <div className="absolute top-10 left-10 text-splat-red opacity-80 mix-blend-multiply dark:mix-blend-normal">
           <svg viewBox="0 0 100 100" className="w-32 h-32 fill-current">
@@ -456,8 +457,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Divider between Trailer and PageTransition */}
-      <div className="w-full h-12 relative z-10 bg-white dark:bg-[#0d0d0d] transition-colors duration-300" />
+      {/* Banner divider: Trailer → PageTransition */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design1" rotate="up" className="top-0" />
+        <BannerDivider variant="green" rotate="down" className="top-[35px] md:top-[45px]" />
+      </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: PAGE TRANSITION (WebGL Ink Splash)
@@ -467,7 +471,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 5: TYPOGRAPHY & CHARACTER (SplatoonTitle + 3D Parallax + WaveCanvas)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
         <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
           <HeadingTape color="purple" className="mb-4 text-center">
@@ -518,8 +522,11 @@ export default function Home() {
         </InView>
       </section>
 
+      {/* Sand-texture container: 3D Parallax + Cards & Weapons */}
+      <div className="bg-[#f5f0e8] dark:bg-[#0d0d0d] pattern-camo-white transition-colors duration-300">
+
       {/* 3D Character Parallax — merged into Typography section */}
-      <section className="bg-[#f5f0e8] dark:bg-[#1e1b15] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
+      <section className="text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative">
         <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-4xl mx-auto space-y-12">
           <HeadingTape>3D Character Parallax</HeadingTape>
@@ -566,7 +573,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 3: CARDS & WEAPONS
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+      <section className="text-chaos-black dark:text-white py-20 px-6 relative">
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           {/* WeaponCard grid — FASHION section style */}
           <InView direction="up" rootMargin="-50px">
@@ -637,13 +644,18 @@ export default function Home() {
           </InView>
         </div>
       </section>
+      </div>{/* end sand-texture container */}
 
-      <Divider variant="wave" />
+      {/* Banner divider: Cards & Weapons → Game Modes */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design2" rotate="up" className="top-0" />
+        <BannerDivider variant="green" rotate="down" className="top-[35px] md:top-[45px]" />
+      </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 4: GAME MODES & NEWS (GridNewsCard + Card plain)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
+      <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 transition-colors duration-300 pattern-circles-green">
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           {/* Game Modes */}
           <InView direction="up" rootMargin="-50px">
@@ -748,12 +760,16 @@ export default function Home() {
         </div>
       </section>
 
-      <Divider variant="wave" />
+      {/* Banner divider: Game Modes → Buttons */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design3" rotate="down" className="top-0" />
+        <BannerDivider variant="yellow" rotate="up" className="top-[35px] md:top-[45px]" />
+      </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+      <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative transition-colors duration-300">
         <div className="absolute top-4 left-4 text-[#603bff] opacity-40">
           <svg viewBox="0 0 100 100" className="w-32 h-32 fill-current">
             <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
@@ -836,12 +852,16 @@ export default function Home() {
         </div>
       </section>
 
-      <Divider variant="wave" />
+      {/* Banner divider: Buttons → Overlays */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design1" rotate="up" className="top-0" />
+        <BannerDivider variant="purple" rotate="down" className="top-[35px] md:top-[45px]" />
+      </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#1e1b15] text-white py-20 px-6 relative z-10 overflow-hidden">
+      <section className="bg-[#0d0d0d] text-white py-20 px-6 pattern-camo-black">
         <div className="absolute top-6 right-6 text-[#a51ee1] opacity-20">
           <svg viewBox="0 0 100 100" className="w-24 h-24 fill-current">
             <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
@@ -1004,23 +1024,16 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Slanted Transition Divider 2B: Character Showcase to Tags Section */}
-      <div className="w-full h-12 relative z-10 -mt-1 bg-[#f5f0e8] dark:bg-[#1e1b15]">
-        <svg
-          viewBox="0 0 1440 60"
-          fill="none"
-          preserveAspectRatio="none"
-          className="w-full h-full text-white dark:text-[#0d0d0d] fill-current transition-colors duration-300"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0,60 L1440,0 L1440,60 Z" />
-        </svg>
+      {/* Banner divider: Overlays → Apparel Tags */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design2" rotate="down" className="top-0" />
+        <BannerDivider variant="green" rotate="up" className="top-[35px] md:top-[45px]" />
       </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
         <InteractiveSplatter />
         <div className="w-full max-w-4xl space-y-16 relative z-10">
           {/* Sub-Section 1: Apparel Tags */}
@@ -1400,7 +1413,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 3.5: OFFICIAL REPLICA COMPONENTS
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#111111] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
+      <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300">
         <div className="w-full max-w-6xl space-y-12">
           <HeadingTape>Official Replica Components</HeadingTape>
           <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
@@ -1492,15 +1505,16 @@ export default function Home() {
       </div>
     </section>
 
-      {/* Slanted Transition Divider 3: Components to Gallery Section */}
-      <div className="w-full relative z-20 bg-white dark:bg-[#0d0d0d]">
-        <Divider variant="wave" color="custom" customColor="#603bff" />
+      {/* Banner divider: Apparel Tags → Gallery */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design3" rotate="up" className="top-0" />
+        <BannerDivider variant="yellow" rotate="down" className="top-[35px] md:top-[45px]" />
       </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 4: GALLERY CAROUSEL
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#603bff] text-white py-16 px-6 flex flex-col items-center relative z-10 overflow-hidden">
+      <section className="bg-[#603bff] text-white py-16 px-6 flex flex-col items-center relative pattern-tapes-purple">
         {/* Full height ripped borders */}
         <Divider variant="rip-left" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
         <Divider variant="rip-right" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
@@ -1517,17 +1531,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Slanted Transition Divider 4: Gallery to Progress Section */}
-      <div className="w-full relative z-20 bg-[#603bff]">
-        <Divider variant="wave" color="custom" customColor="#1e1b15" direction="down" />
+      {/* Banner divider: Gallery → Progress */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design1" rotate="down" className="top-0" />
+        <BannerDivider variant="purple" rotate="up" className="top-[35px] md:top-[45px]" />
       </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 5: INK PROGRESS BAR
          ──────────────────────────────────────────────────────── */}
       <section
-        className="relative z-10 flex flex-col items-center overflow-hidden px-6 py-16 text-white"
-        style={{ backgroundColor: "#1e1b15" }}
+        className="relative flex flex-col items-center px-6 py-16 text-white pattern-camo-black"
+        style={{ backgroundColor: "#0d0d0d" }}
       >
         <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "48rem" }}>
           <div className="text-center">

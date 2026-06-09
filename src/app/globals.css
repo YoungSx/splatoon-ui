@@ -591,6 +591,76 @@
   opacity: 0.3;
 }
 
+/* ── Section Background Patterns ── */
+/* These utility classes add a repeating pattern texture on top of the section's background color.
+   The pattern images are semi-transparent PNGs that tile/repeat. */
+
+.pattern-camo-black {
+  background-image: url("/_images/backgrounds/camo-black.png");
+  background-image: image-set(url("/_images/backgrounds/camo-black.png") 1x, url("/_images/backgrounds/camo-black-2x.png") 2x);
+}
+
+.pattern-camo-green {
+  background-image: url("/_images/backgrounds/camo-green.png");
+  background-image: image-set(url("/_images/backgrounds/camo-green.png") 1x, url("/_images/backgrounds/camo-green-2x.png") 2x);
+}
+
+.pattern-camo-purple {
+  background-image: url("/_images/backgrounds/camo-purple.png");
+  background-image: image-set(url("/_images/backgrounds/camo-purple.png") 1x, url("/_images/backgrounds/camo-purple-2x.png") 2x);
+}
+
+.pattern-camo-orange {
+  background-image: url("/_images/backgrounds/camo-orange.png");
+  background-image: image-set(url("/_images/backgrounds/camo-orange.png") 1x, url("/_images/backgrounds/camo-orange-2x.png") 2x);
+}
+
+.pattern-camo-red {
+  background-image: url("/_images/backgrounds/camo-red.png");
+  background-image: image-set(url("/_images/backgrounds/camo-red.png") 1x, url("/_images/backgrounds/camo-red-2x.png") 2x);
+}
+
+.pattern-camo-white {
+  background-image: url("/_images/backgrounds/camo-white.png");
+  background-image: image-set(url("/_images/backgrounds/camo-white.png") 1x, url("/_images/backgrounds/camo-white-2x.png") 2x);
+}
+
+.pattern-octo-black {
+  background-image: url("/_images/backgrounds/octo-black.png");
+  background-image: image-set(url("/_images/backgrounds/octo-black.png") 1x, url("/_images/backgrounds/octo-black-2x.png") 2x);
+}
+
+.pattern-circles-green {
+  background-image: url("/_images/backgrounds/circles-green.png");
+  background-image: image-set(url("/_images/backgrounds/circles-green.png") 1x, url("/_images/backgrounds/circles-green-2x.png") 2x);
+}
+
+.pattern-chip-white {
+  background-image: url("/_images/backgrounds/chip-white.png");
+  background-image: image-set(url("/_images/backgrounds/chip-white.png") 1x, url("/_images/backgrounds/chip-white-2x.png") 2x);
+}
+
+.pattern-monsters-black {
+  background-image: url("/_images/backgrounds/monsters-black.png");
+  background-image: image-set(url("/_images/backgrounds/monsters-black.png") 1x, url("/_images/backgrounds/monsters-black-2x.png") 2x);
+  background-size: 50%;
+}
+
+.pattern-tapes-black {
+  background-image: url("/_images/backgrounds/tapes-black.jpg");
+  background-image: image-set(url("/_images/backgrounds/tapes-black.jpg") 1x, url("/_images/backgrounds/tapes-black-2x.jpg") 2x);
+}
+
+.pattern-tapes-green {
+  background-image: url("/_images/backgrounds/tapes-green.jpg");
+  background-image: image-set(url("/_images/backgrounds/tapes-green.jpg") 1x, url("/_images/backgrounds/tapes-green-2x.jpg") 2x);
+}
+
+.pattern-tapes-purple {
+  background-image: url("/_images/backgrounds/tapes-purple.jpg");
+  background-image: image-set(url("/_images/backgrounds/tapes-purple.jpg") 1x, url("/_images/backgrounds/tapes-purple-2x.jpg") 2x);
+}
+
 /* ── Reduced Motion ── */
 @media (prefers-reduced-motion: reduce) {
   *,
