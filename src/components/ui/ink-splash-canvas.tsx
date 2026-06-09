@@ -217,7 +217,7 @@ export function InkSplashCanvas({
       gl.deleteBuffer(positionBuffer)
       gl.deleteBuffer(uvBuffer)
     }
-  }, [count])
+  }, [])
 
   // Background texture loading — async image load with module-level cache
   useBackgroundTexture({
@@ -291,7 +291,7 @@ export function InkSplashCanvas({
     return () => {
       cancelAnimationFrame(renderLoopRef.current)
     }
-  }, [count, drawFrame])
+  }, [drawFrame])
 
   // ─────────────────────────────────────────────────────────────
   // Progress tween
