@@ -35,6 +35,12 @@ export interface InkSplashCanvasProps {
    * The official navigation overlay leaves this unset so the ink stays flat black.
    */
   background?: string
+  /**
+   * Pre-loaded image element for the background texture.
+   * When provided, skips async Image() loading — texture uploads synchronously on mount.
+   * Use this to avoid the first-play flash where the shader falls back to solid color.
+   */
+  preloadedBackground?: HTMLImageElement | null
   /** Called when animation completes */
   onComplete?: () => void
   /** Additional CSS class */
@@ -271,6 +277,13 @@ const OFFICIAL_START_POSITIONS: [number, number][] = [
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Background image cache (module-level, survives re-renders and GL context resets)
+// Prevents first-play flash where shader falls back to solid color.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const bgImageCache = new Map<string, HTMLImageElement>()
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Component
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -282,6 +295,7 @@ export function InkSplashCanvas({
   count = 0,
   startPosition,
   background,
+  preloadedBackground,
   onComplete,
   className,
 }: InkSplashCanvasProps) {
@@ -431,14 +445,19 @@ export function InkSplashCanvas({
 
   // ─────────────────────────────────────────────────────────────
   // Background texture loading (async, watches `background` prop)
+  // When `preloadedBackground` is provided, uploads synchronously.
+  // Uses module-level cache to avoid first-play flash.
   // Matches official: creates GL texture, loads image, sets ready flag
   // ─────────────────────────────────────────────────────────────
 
   React.useEffect(() => {
     const gl = glRef.current
-    if (!gl || !background) {
+    if (!gl) return
+
+    const imageSource = preloadedBackground ?? background
+    if (!imageSource) {
       bgReadyRef.current = false
-      if (gl && uniformsRef.current.u_background_ready) {
+      if (uniformsRef.current.u_background_ready) {
         gl.uniform1i(uniformsRef.current.u_background_ready, 0)
       }
       return
@@ -449,16 +468,10 @@ export function InkSplashCanvas({
 
     gl.activeTexture(gl.TEXTURE0)
     gl.bindTexture(gl.TEXTURE_2D, bgTexture)
-    // Placeholder 1x1 pixel while image loads
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
-      new Uint8Array([0, 0, 0, 255]))
     gl.uniform1i(uniformsRef.current.u_background, 0)
 
-    let cancelled = false
-    const img = new Image()
-    img.crossOrigin = 'anonymous'
-    img.onload = () => {
-      if (cancelled || !validRef.current) return
+    const uploadTexture = (img: TexImageSource) => {
+      if (!validRef.current) return
       gl.activeTexture(gl.TEXTURE0)
       gl.bindTexture(gl.TEXTURE_2D, bgTexture)
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img)
@@ -469,14 +482,53 @@ export function InkSplashCanvas({
       gl.uniform1i(uniformsRef.current.u_background_ready, 1)
       bgReadyRef.current = true
     }
-    img.src = background
+
+    // Pre-loaded HTMLImageElement — upload synchronously (no flash)
+    if (preloadedBackground && preloadedBackground.complete) {
+      uploadTexture(preloadedBackground)
+      return () => {
+        gl.deleteTexture(bgTexture)
+        bgReadyRef.current = false
+      }
+    }
+
+    // String URL — check module-level cache first
+    if (typeof imageSource === 'string') {
+      const cached = bgImageCache.get(imageSource)
+      if (cached && cached.complete) {
+        uploadTexture(cached)
+        return () => {
+          gl.deleteTexture(bgTexture)
+          bgReadyRef.current = false
+        }
+      }
+
+      // Not cached yet — async load, populate cache for next play
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
+        new Uint8Array([0, 0, 0, 255]))
+
+      let cancelled = false
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.onload = () => {
+        if (cancelled || !validRef.current) return
+        bgImageCache.set(imageSource, img)
+        uploadTexture(img)
+      }
+      img.src = imageSource
+
+      return () => {
+        cancelled = true
+        gl.deleteTexture(bgTexture)
+        bgReadyRef.current = false
+      }
+    }
 
     return () => {
-      cancelled = true
       gl.deleteTexture(bgTexture)
       bgReadyRef.current = false
     }
-  }, [background, count])
+  }, [background, preloadedBackground, count])
 
   // ─────────────────────────────────────────────────────────────
   // Draw a single frame

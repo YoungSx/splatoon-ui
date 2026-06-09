@@ -222,6 +222,16 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
     const animFrameRef = React.useRef<number>(0)
     const closeTimerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
     const splashCountRef = React.useRef(Math.round(10000 * Math.random()))
+    const preloadedBgRef = React.useRef<HTMLImageElement | null>(null)
+
+    // ── Preload ink splash background on mount ─────────────────
+    // Avoids first-play flash where shader falls back to solid color
+    React.useEffect(() => {
+      const img = new Image()
+      img.crossOrigin = 'anonymous'
+      img.onload = () => { preloadedBgRef.current = img }
+      img.src = '/_images/backgrounds/camo-black-2x.webp'
+    }, [])
 
     // ── Constants (matches official defaults) ──────────────────────
     const CLOSE_DELAY = 1200  // official default closeDelay
@@ -328,6 +338,7 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
             durationOut={DURATION_OUT}
             color="#00c8b4"
             background="/_images/backgrounds/camo-black-2x.webp"
+            preloadedBackground={preloadedBgRef.current}
             count={splashCountRef.current}
             startPosition={splashStartPos}
           />

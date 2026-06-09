@@ -36,7 +36,17 @@ import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gall
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
 import { StyledPhoto, StyledPhotoTape } from '@/components/ui/styled-photo'
 import { Divider } from '@/components/ui/divider'
+import { Carousel } from '@/components/ui/carousel'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
+import { InkTrailCanvas } from '@/components/ui/ink-trail'
+import {
+  CardStackCarouselScene,
+  CardStackCarouselContent,
+  CardStackCarouselItem,
+  CardStackCarouselNext,
+  CardStackCarouselPrevious,
+  CardStackCarouselIndicators,
+} from '@/components/ui/card-stack-carousel'
 import { Loader } from '@/components/ui/loader'
 import { IconButton } from '@/components/ui/icon-button'
 import {
@@ -291,50 +301,6 @@ const WEAPON_CARDS = [
   { name: 'Splatana Stamper', section: 'Splatana', image: '/official/nav-fashion-image.png' },
 ]
 
-function WeaponCardDemo() {
-  return (
-    <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
-      <InView direction="up" rootMargin="-50px">
-      <div className="w-full max-w-5xl mx-auto space-y-8 relative z-10">
-        <HeadingTape color="yellow" className="mb-4 text-center">
-          Weapon Cards
-        </HeadingTape>
-        <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-          FASHION 区域风格 — 官方 bouncy easing + 图片导航卡片
-        </p>
-
-        {/* Official FASHION title */}
-        <div className="text-center">
-          <SplatoonTitle variant="section" section="fashion" size="lg">
-            Fashion
-          </SplatoonTitle>
-        </div>
-
-        {/* Weapon cards grid */}
-        <div className="flex flex-wrap justify-center gap-4">
-          {WEAPON_CARDS.map((weapon) => (
-            <WeaponCard
-              key={weapon.name}
-              name={weapon.name}
-              section={weapon.section}
-              image={weapon.image}
-              size="md"
-            />
-          ))}
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-3">
-          <Badge variant="default">FASHION Style</Badge>
-          <Badge variant="secondary">Bouncy Easing</Badge>
-          <Badge variant="outline">Official Images</Badge>
-          <Badge variant="ghost">Hover Effects</Badge>
-        </div>
-      </div>
-      </InView>
-    </section>
-  )
-}
-
 // ── Splatoon Gallery Demo ───────────────────────────────────────────────────
 
 const GALLERY_ITEMS: GalleryItem[] = [
@@ -382,32 +348,9 @@ const GALLERY_ITEMS: GalleryItem[] = [
   },
 ]
 
-function SplatoonGalleryDemo() {
-  return (
-    <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
-      <InView direction="up" rootMargin="-50px">
-      <div className="w-full max-w-6xl mx-auto relative z-10">
-        <SplatoonGallery
-          items={GALLERY_ITEMS}
-          title="Artwork Gallery"
-          columns={3}
-          hover
-        />
-
-        <div className="flex flex-wrap justify-center gap-3 mt-8">
-          <Badge variant="default">Official Assets</Badge>
-          <Badge variant="secondary">Grid Layout</Badge>
-          <Badge variant="outline">Hover Effects</Badge>
-          <Badge variant="ghost">Responsive</Badge>
-        </div>
-      </div>
-      </InView>
-    </section>
-  )
-}
-
 export default function Home() {
   const [reducedMotion, setReducedMotion] = React.useState(false)
+  const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
 
   const toggleTheme = React.useCallback(() => {
     const root = window.document.documentElement
@@ -451,79 +394,37 @@ export default function Home() {
       </div>
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 1: HERO HEADER (Self-Adapting Theme - bg-white/bg-[#0d0d0d])
+         SECTION 1: HERO HEADER + INK TRAIL (Interactive cursor effect)
          ──────────────────────────────────────────────────────── */}
-      <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300">
-        <div className="flex flex-col items-center gap-3 text-center z-10">
-          <Badge variant="sticker">
-            <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
-            Component Library
-          </Badge>
-          <h1 className="-skew-x-6 font-heading text-5xl md:text-6xl font-black uppercase tracking-wider text-chaos-black dark:text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)] dark:drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
-            Splatoon UI
-          </h1>
-          <p className="max-w-md text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base">
-            1:1 Replica Component Library inspired by Splatoon 3
-          </p>
-        </div>
+      <InkTrailCanvas colors={['#eaff3d', '#603bff', '#ff585e', '#00c8b4', '#fa5a00']}>
+        <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300">
+          <div className="flex flex-col items-center gap-3 text-center z-10">
+            <Badge variant="sticker">
+              <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
+              Component Library
+            </Badge>
+            <h1 className="-skew-x-6 font-heading text-5xl md:text-6xl font-black uppercase tracking-wider text-chaos-black dark:text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)] dark:drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
+              Splatoon UI
+            </h1>
+            <p className="max-w-md text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base">
+              1:1 Replica Component Library inspired by Splatoon 3
+            </p>
+            <Button variant="yellow">
+              Browse Components
+            </Button>
+          </div>
 
-        {/* Marquee Tape (Neon Yellow Warning Tape) */}
-        <Marquee speed={25} variant="tape" className="z-10 w-full max-w-4xl">
-          <MarqueeItem>Splat Zones</MarqueeItem>
-          <MarqueeItem>Tower Control</MarqueeItem>
-          <MarqueeItem>Rainmaker</MarqueeItem>
-          <MarqueeItem>Clam Blitz</MarqueeItem>
-          <MarqueeItem>Turf War</MarqueeItem>
-          <MarqueeItem>Salmon Run</MarqueeItem>
-        </Marquee>
-      </header>
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 1.2: INK UP THE SPLATLANDS (World Section)
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
-        <div className="absolute top-8 right-8 text-[#eaff3d] opacity-60 mix-blend-multiply dark:mix-blend-normal">
-          <svg viewBox="0 0 100 100" className="w-40 h-40 fill-current">
-            <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
-          </svg>
-        </div>
-        <div className="absolute bottom-6 left-6 text-[#a51ee1] opacity-50 mix-blend-multiply dark:mix-blend-normal">
-          <svg viewBox="0 0 100 100" className="w-28 h-28 fill-current">
-            <path d="M50 90 C 80 85, 90 60, 80 35 C 70 10, 30 15, 20 40 C 10 65, 20 95, 50 90 Z"/>
-          </svg>
-        </div>
-        <div className="w-full max-w-5xl mx-auto flex flex-col items-center relative z-10 space-y-10">
-          <InView direction="up" rootMargin="-50px">
-            <HeadingTape color="orange" className="text-center">
-              Ink Up the Splatlands
-            </HeadingTape>
-          </InView>
-          <InView direction="up" rootMargin="-50px" delay={1}>
-            <div className="grid md:grid-cols-2 gap-10 items-center">
-              <div className="space-y-4">
-                <p className="text-sm font-medium leading-relaxed text-chaos-black/75 dark:text-white/75">
-                  Welcome to the Splatlands — a sun-scorched desert region where fierce Inklings and Octolings
-                  gather to compete in the most chaotic turf battles yet. The sprawling city of Splatsville serves
-                  as the hub for all things ink warfare, fashion, and underground culture.
-                </p>
-                <p className="text-sm font-medium leading-relaxed text-chaos-black/75 dark:text-white/75">
-                  From the dusty battlefields to the neon-lit shopping district, every corner of the Splatlands
-                  pulses with energy and rivalry. Are you ready to claim your turf?
-                </p>
-              </div>
-              <div className="rounded-xl overflow-hidden border-[3px] border-chaos-black dark:border-white/20 shadow-soft-splat-md">
-                <img
-                  src="/official/hero-image.png"
-                  alt="The Splatlands"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </InView>
-        </div>
-      </section>
-
-      <Divider variant="wave" />
+          {/* Marquee Tape (Neon Yellow Warning Tape) */}
+          <Marquee speed={25} variant="tape" className="z-10 w-full max-w-4xl">
+            <MarqueeItem>Splat Zones</MarqueeItem>
+            <MarqueeItem>Tower Control</MarqueeItem>
+            <MarqueeItem>Rainmaker</MarqueeItem>
+            <MarqueeItem>Clam Blitz</MarqueeItem>
+            <MarqueeItem>Turf War</MarqueeItem>
+            <MarqueeItem>Salmon Run</MarqueeItem>
+          </Marquee>
+        </header>
+      </InkTrailCanvas>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
@@ -550,10 +451,12 @@ export default function Home() {
 
           <InView direction="up" rootMargin="-50px" delay={2}>
             <TrailerVideo>
-              <TrailerVideoThumbnail 
-                src="/_images/screenshots/video-trailer.jpg" 
+              <TrailerVideoThumbnail
+                src="/_images/screenshots/video-trailer.jpg"
                 alt="Splatoon 3 Trailer"
                 className="w-full max-w-2xl"
+                blobColor="#000000"
+                blobSize={180}
               />
               {/* The official trailer uses N4mKx-H4b0U */}
               <TrailerVideoContent videoId="N4mKx-H4b0U" title="Splatoon 3 - Announcement Trailer" />
@@ -571,393 +474,60 @@ export default function Home() {
       <PageTransitionDemo />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 1.7: SPLATOON TITLE (Typography Component)
+         SECTION 5: TYPOGRAPHY & CHARACTER (SplatoonTitle + 3D Parallax + WaveCanvas)
          ──────────────────────────────────────────────────────── */}
-      <SplatoonTitleDemo />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 1.6: WEAPON CARDS (FASHION Section Style)
-         ──────────────────────────────────────────────────────── */}
-      <WeaponCardDemo />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 1.8: 11 WEAPON TYPES GRID
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative z-10 overflow-hidden transition-colors duration-300">
         <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="blue" className="text-center">
-              11 Weapon Types
-            </HeadingTape>
-            <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-              From rapid-fire Shooters to blade-swinging Splatanas, every weapon class brings a unique playstyle to the battlefield.
-            </p>
-            <InViewStagger rootMargin="-30px">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3">
-                {[
-                  { name: 'Shooters', desc: 'Reliable all-rounders with steady ink output.', accent: '#eaff3d' },
-                  { name: 'Blasters', desc: 'Explosive shots that deal splash damage.', accent: '#ff585e' },
-                  { name: 'Rollers', desc: 'Paint massive areas with sweeping ink rolls.', accent: '#fa5a00' },
-                  { name: 'Chargers', desc: 'Long-range precision sniper weapons.', accent: '#603bff' },
-                  { name: 'Sloshers', desc: 'Arc-splash buckets that lob ink over cover.', accent: '#a51ee1' },
-                  { name: 'Splatlings', desc: 'Charge-up gatling guns with high fire rate.', accent: '#00c8b4' },
-                  { name: 'Dualies', desc: 'Dual-wield pistols with dodge-roll bursts.', accent: '#eaff3d' },
-                  { name: 'Brellas', desc: 'Shotgun-umbrella hybrids with deployable shields.', accent: '#ff585e' },
-                  { name: 'Brushes', desc: 'Fast melee ink brushes for stealth flanks.', accent: '#fa5a00' },
-                  { name: 'Stringers', desc: 'Tri-shot bows with charge-and-release mechanics.', accent: '#603bff' },
-                  { name: 'Splatanas', desc: 'Blade weapons that slash ink projectiles.', accent: '#a51ee1' },
-                ].map((weapon) => (
-                  <Card
-                    key={weapon.name}
-                    variant="plain"
-                    className="p-4 space-y-2 hover:scale-[1.02] transition-transform"
-                  >
-                    <div className="h-1.5 w-12 rounded-full" style={{ backgroundColor: weapon.accent }} />
-                    <h3 className="font-heading text-sm font-black uppercase tracking-wider">
-                      {weapon.name}
-                    </h3>
-                    <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
-                      {weapon.desc}
-                    </p>
-                  </Card>
-                ))}
-              </div>
-            </InViewStagger>
-          </div>
-        </InView>
-      </section>
-
-      <Divider variant="wave" />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 1.9: GAME MODES
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
-        <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="green" className="text-center">
-              Game Modes
-            </HeadingTape>
-            <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-              From casual turf painting to intense ranked objectives and cooperative Salmon Run — there is a mode for every playstyle.
-            </p>
-            <InViewStagger rootMargin="-30px">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  { name: 'Turf War', desc: 'Paint the most ground in 3 minutes. The quintessential Splatoon experience.', color: '#eaff3d', text: '#0d0d0d' },
-                  { name: 'Splat Zones', desc: 'Control a designated zone with your ink to earn points and win.', color: '#603bff', text: '#ffffff' },
-                  { name: 'Tower Control', desc: 'Ride a moving tower through enemy territory to score.', color: '#00c8b4', text: '#0d0d0d' },
-                  { name: 'Rainmaker', desc: 'Carry the Rainmaker weapon to the enemy goal to win.', color: '#fa5a00', text: '#ffffff' },
-                  { name: 'Clam Blitz', desc: 'Collect clams, score touchdowns at the enemy basket.', color: '#a51ee1', text: '#ffffff' },
-                  { name: 'Salmon Run', desc: 'Team up to defeat waves of Salmonids and collect Golden Eggs.', color: '#ff585e', text: '#ffffff' },
-                ].map((mode) => (
-                  <Card
-                    key={mode.name}
-                    variant="plain"
-                    plainStyle="colored"
-                    className="overflow-hidden"
-                  >
-                    <div className="h-2" style={{ backgroundColor: mode.color }} />
-                    <div className="bg-white dark:bg-[#1a1a1a] p-5 space-y-2 transition-colors duration-300">
-                      <h3 className="font-heading text-base font-black uppercase tracking-wider">
-                        {mode.name}
-                      </h3>
-                      <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
-                        {mode.desc}
-                      </p>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </InViewStagger>
-          </div>
-        </InView>
-      </section>
-
-      <Divider variant="wave" />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 1.10: GET THE GAME (Purchase CTA)
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
-        <div className="absolute top-4 left-4 text-[#603bff] opacity-40">
-          <svg viewBox="0 0 100 100" className="w-32 h-32 fill-current">
-            <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
-          </svg>
-        </div>
-        <div className="w-full max-w-3xl mx-auto flex flex-col items-center relative z-10 space-y-8 text-center">
-          <InView direction="up" rootMargin="-50px">
-            <HeadingTape color="yellow" className="text-center">
-              Get the Game
-            </HeadingTape>
-          </InView>
-          <InView direction="up" rootMargin="-50px" delay={1}>
-            <div className="space-y-6">
-              <h3 className="text-3xl md:text-4xl font-black uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]">
-                Splatoon 3
-              </h3>
-              <p className="text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base max-w-md mx-auto">
-                Dive into the Splatlands and experience the most chaotic ink battles yet. Available now on Nintendo Switch.
-              </p>
-              <div className="inline-block bg-[#0d0d0d] dark:bg-[#eaff3d] text-[#eaff3d] dark:text-[#0d0d0d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] dark:border-[#eaff3d] font-heading text-2xl font-black">
-                $59.99
-              </div>
-              <div className="pt-2">
-                <Button variant="blue">
-                  Buy Now
-                </Button>
-              </div>
-            </div>
-          </InView>
-        </div>
-      </section>
-
-      <Divider variant="wave" />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 1.10b: HARDWARE SHOWCASE (Play Anywhere)
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
-        <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="purple" className="text-center">
-              Play Anywhere
-            </HeadingTape>
-            <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-              Nintendo Switch lets you take Splatoon 3 wherever you go — on the big screen, at the table, or on the move.
-            </p>
-            <InViewStagger rootMargin="-30px">
-              <div className="grid sm:grid-cols-3 gap-4">
-                {[
-                  { mode: 'TV Mode', desc: 'Play on the big screen with the Switch docked. Best for local multiplayer and full immersion.', icon: '📺' },
-                  { mode: 'Tabletop Mode', desc: 'Flip the kickstand and play with Joy-Cons detached. Great for on-the-go co-op.', icon: '🎮' },
-                  { mode: 'Handheld Mode', desc: 'Take Splatoon 3 anywhere in portable mode. Full game in the palm of your hands.', icon: '🕹️' },
-                ].map((item) => (
-                  <Card
-                    key={item.mode}
-                    variant="plain"
-                    plainStyle="cream"
-                    className="p-6 text-center space-y-3"
-                  >
-                    <div className="text-4xl">{item.icon}</div>
-                    <h3 className="font-heading text-base font-black uppercase tracking-wider">
-                      {item.mode}
-                    </h3>
-                    <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </Card>
-                ))}
-              </div>
-            </InViewStagger>
-          </div>
-        </InView>
-      </section>
-
-      {/* Slanted Transition Divider 1: Header to News Feed */}
-      <div className="w-full h-12 relative z-10 -mt-1 bg-white dark:bg-[#0d0d0d]">
-        <svg
-          viewBox="0 0 1440 60"
-          fill="none"
-          preserveAspectRatio="none"
-          className="w-full h-full text-[#f5f0e8] dark:text-[#151515] fill-current transition-colors duration-300"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0,60 L1440,0 L1440,60 Z" />
-        </svg>
-      </div>
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 2: NEWS FEED (Adapting Theme - bg-[#f5f0e8]/bg-[#111111])
-
-      {/* Slanted Transition Divider 1: Header to News Feed */}
-      <div className="w-full h-12 relative z-10 -mt-1 bg-white dark:bg-[#0d0d0d]">
-        <svg
-          viewBox="0 0 1440 60"
-          fill="none"
-          preserveAspectRatio="none"
-          className="w-full h-full text-[#f5f0e8] dark:text-[#151515] fill-current transition-colors duration-300"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0,60 L1440,0 L1440,60 Z" />
-        </svg>
-      </div>
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 2: NEWS FEED (Adapting Theme - bg-[#f5f0e8]/bg-[#111111])
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-12 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
-        <InteractiveSplatter />
-        <InView direction="up" rootMargin="-50px">
-        <div className="w-full max-w-4xl mx-auto space-y-8 relative z-10">
-          <HeadingTape>Polaroid News Card</HeadingTape>
-          <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
-            Unified component matching the official Splatoon news feed. Features curved SVG edges, official staple/tape assets, hover animation, and surface variants.
+        <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
+          <HeadingTape color="purple" className="mb-4 text-center">
+            Splatoon Titles
+          </HeadingTape>
+          <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+            使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
           </p>
 
-          {/* Cards Grid — unified GridNewsCard with staggered animation */}
-          <InViewStagger rootMargin="-30px">
-          <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 pt-6">
-            {/* News Card 1: title + action convenience props */}
-            <GridNewsCard
-              image={
-                <div className="h-full w-full bg-[#603bff] flex items-center justify-center">
-                  <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#eaff3d] fill-current">
-                    <path d="M50,10 C40,25 35,40 35,60 C35,70 40,80 50,85 C60,80 65,70 65,60 C65,40 60,25 50,10 Z M35,60 C25,65 15,55 10,70 C20,70 25,65 35,60 Z M65,60 C75,65 85,55 90,70 C80,70 75,65 65,60 Z" />
-                    <circle cx="45" cy="55" r="4" fill="black" />
-                    <circle cx="55" cy="55" r="4" fill="black" />
-                  </svg>
+          <div className="space-y-8">
+            <div className="text-center">
+              <SplatoonTitle variant="logo" size="xl" animate>
+                Splatoon Logo
+              </SplatoonTitle>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {['story', 'character', 'world'].map((section) => (
+                <div
+                  key={section}
+                  className="relative group cursor-pointer"
+                  onMouseEnter={() => setHoveredSection(section)}
+                  onMouseLeave={() => setHoveredSection(null)}
+                >
+                  <div className="aspect-[3/4] overflow-hidden rounded-lg mb-4">
+                    <img
+                      src={`/official/nav-${section}-image.png`}
+                      alt={section}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <SplatoonTitle variant="section" section={section} size="md">
+                      {section.charAt(0).toUpperCase() + section.slice(1)}
+                    </SplatoonTitle>
+                  </div>
                 </div>
-              }
-              title="Beginner Basics for Splatoon 3: Choosing the right weapons"
-              action={
-                <Button size="sm" variant="arrow">
-                  Read
-                </Button>
-              }
-            />
-
-            {/* News Card 2: title + action convenience props */}
-            <GridNewsCard
-              image={
-                <div className="h-full w-full bg-[#fa5a00] flex items-center justify-center">
-                  <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#603bff] fill-current">
-                    <path d="M50,15 C30,15 20,35 20,55 C20,70 30,85 50,85 C70,85 80,70 80,55 C80,35 70,15 50,15 Z" />
-                    <circle cx="42" cy="45" r="6" fill="#fa5a00" />
-                    <circle cx="58" cy="45" r="6" fill="#fa5a00" />
-                    <circle cx="42" cy="45" r="3" fill="black" />
-                    <circle cx="58" cy="45" r="3" fill="black" />
-                  </svg>
-                </div>
-              }
-              title="Beginner Basics for Splatoon 3: Choosing the right gear"
-              action={
-                <Button size="sm" variant="arrow">
-                  Read
-                </Button>
-              }
-            />
-
-            {/* News Card 3: dark surface + custom children */}
-            <GridNewsCard
-              surface="dark"
-              showTape={false}
-              image={
-                <div className="h-full w-full bg-[#0d0d0d] flex items-center justify-center">
-                  <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#ff585e] fill-current">
-                    <path d="M50,10 L15,80 L85,80 Z M50,30 L50,55 M50,65 L50,72" stroke="currentColor" strokeWidth="8" strokeLinecap="round" fill="none" />
-                  </svg>
-                </div>
-              }
-            >
-              <div className="space-y-3 p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-[0.35em] text-white/60">Danger Alert</p>
-                <h4 className="text-xl font-black text-white">Salmon Run Max</h4>
-                <p className="text-sm text-white/80">
-                  Golden Eggs demand is surging! Watch out for Coho Salmon and horror-boros.
-                </p>
-                <Button size="sm" variant="arrow">
-                  Read
-                </Button>
-              </div>
-            </GridNewsCard>
+              ))}
+            </div>
           </div>
-          </InViewStagger>
+
+          <div className="flex flex-wrap justify-center gap-3">
+            <Badge variant="default">Official Assets</Badge>
+            <Badge variant="secondary">3 Variants</Badge>
+            <Badge variant="outline">Hover Effects</Badge>
+            <Badge variant="ghost">Image + Text</Badge>
+          </div>
         </div>
-      </InView>
-      </section>
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 2.1: TWO-COLUMN GAMEPLAY CARDS
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
-        <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="yellow" className="text-center">
-              Gameplay Features
-            </HeadingTape>
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#603bff] text-white">
-                <div className="p-8 space-y-4">
-                  <div className="h-1.5 w-16 rounded-full bg-[#eaff3d]" />
-                  <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
-                    Turf War
-                  </h3>
-                  <p className="text-sm font-medium text-white/80 leading-relaxed">
-                    The signature Splatoon mode. Two teams of four have three minutes to ink as much territory as
-                    possible. The team that covers more ground wins. Simple to learn, impossible to master.
-                  </p>
-                </div>
-              </Card>
-              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#ff585e] text-white">
-                <div className="p-8 space-y-4">
-                  <div className="h-1.5 w-16 rounded-full bg-[#eaff3d]" />
-                  <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
-                    Salmon Run
-                  </h3>
-                  <p className="text-sm font-medium text-white/80 leading-relaxed">
-                    Team up with three other players to survive waves of Salmonid enemies. Collect Golden Eggs,
-                    defeat bosses, and earn exclusive gear from Grizzco Industries.
-                  </p>
-                </div>
-              </Card>
-            </div>
-          </div>
         </InView>
       </section>
 
-      <Divider variant="wave" />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 2.2: TURF WAR EXPLANATION
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
-        <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="red" className="text-center">
-              Turf War
-            </HeadingTape>
-            <div className="grid md:grid-cols-2 gap-10 items-center">
-              <div className="space-y-4">
-                <p className="text-sm font-medium leading-relaxed text-chaos-black/75 dark:text-white/75">
-                  Turf War is the heart of Splatoon. In this 4v4 mode, your goal is simple: cover more of the
-                  map with your team's ink than the opposing team covers with theirs.
-                </p>
-                <p className="text-sm font-medium leading-relaxed text-chaos-black/75 dark:text-white/75">
-                  Transform into a squid to swim through your ink at high speed, recharge your ink tank, and
-                  ambush opponents. Every weapon, every sub, and every special ability ties back to one core
-                  strategy: ink more, ink faster, ink smarter.
-                </p>
-              </div>
-              <div className="rounded-xl overflow-hidden border-[3px] border-chaos-black dark:border-white/20 bg-[#603bff]/20 dark:bg-[#603bff]/10 aspect-video flex items-center justify-center transition-colors duration-300">
-                <div className="text-center space-y-2">
-                  <div className="text-5xl">🎮</div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-chaos-black/50 dark:text-white/50">
-                    Gameplay Screenshot
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </InView>
-      </section>
-
-      {/* Slanted Transition Divider 2A: News Feed to Character Showcase Section */}
-      <div className="w-full h-12 relative z-10 -mt-1 bg-[#f5f0e8] dark:bg-[#151515]">
-        <svg
-          viewBox="0 0 1440 60"
-          fill="none"
-          preserveAspectRatio="none"
-          className="w-full h-full text-[#f5f0e8] dark:text-[#1e1b15] fill-current transition-colors duration-300"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path d="M0,0 L1440,60 L0,60 Z" />
-        </svg>
-      </div>
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 2.5: 3D CHARACTER PARALLAX SHOWCASE (bg-[#f5f0e8] / bg-[#1e1b15])
-         ──────────────────────────────────────────────────────── */}
+      {/* 3D Character Parallax — merged into Typography section */}
       <section className="bg-[#f5f0e8] dark:bg-[#1e1b15] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative z-10 transition-colors duration-300">
         <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-4xl mx-auto space-y-12">
@@ -965,11 +535,7 @@ export default function Home() {
           <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
             Interactive 3D layer perspective card using framer-motion springs. Hover or move your cursor to interact.
           </p>
-
-          {/* Grid Content */}
           <div className="grid gap-12 md:grid-cols-2 items-center">
-            
-            {/* Left Column: 3D Parallax Showcase Card */}
             <div className="flex justify-center items-center">
               <div className="w-full max-w-[340px] aspect-[3/4] relative">
                 <CharacterShowcase
@@ -978,18 +544,15 @@ export default function Home() {
                 />
               </div>
             </div>
-
-            {/* Right Column: Description */}
             <div className="space-y-6">
               <div className="space-y-2">
                 <h3 className="text-2xl font-black uppercase tracking-wide text-chaos-black dark:text-[#eaff3d]">
                   Tactile 3D Depth
                 </h3>
                 <p className="text-sm font-medium text-chaos-black/75 dark:text-white/75 leading-relaxed">
-                  Hover or move your cursor over the character card to see layers respond with spring-based 3D rotations. Each layer sits at a different depth, creating a tactile parallax effect inspired by Splatoon&apos;s visual style.
+                  Hover or move your cursor over the character card to see layers respond with spring-based 3D rotations.
                 </p>
               </div>
-
               <div className="flex items-center gap-4">
                 <Button
                   variant={reducedMotion ? "destructive" : "yellow"}
@@ -1004,192 +567,480 @@ export default function Home() {
                 </span>
               </div>
             </div>
-            
           </div>
         </div>
-      </InView>
+        </InView>
       </section>
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 2.6: SQUID/HUMAN TRANSFORMATION (Swim & Splat)
+         SECTION 3: CARDS & WEAPONS (CardStackCarousel + grids)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
-        <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="green" className="text-center">
-              Swim &amp; Splat
-            </HeadingTape>
-            <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-              Inklings and Octolings can switch between humanoid and squid forms at will — a mechanic that defines every battle.
-            </p>
-            <div className="grid md:grid-cols-2 gap-6">
-              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#603bff] text-white p-8 space-y-4">
-                <div className="h-1.5 w-16 rounded-full bg-[#00c8b4]" />
-                <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
-                  Squid Form
-                </h3>
-                <p className="text-sm font-medium text-white/80 leading-relaxed">
-                  Dive into your team's ink and become a squid. Move at high speed through inked surfaces, swim
-                  up walls, recharge your ink tank, and hide from enemies. Ink becomes your highway.
-                </p>
-              </Card>
-              <Card variant="plain" plainStyle="colored" className="overflow-hidden bg-[#eaff3d] text-chaos-black p-8 space-y-4">
-                <div className="h-1.5 w-16 rounded-full bg-[#a51ee1]" />
-                <h3 className="font-heading text-2xl font-black uppercase tracking-wider">
-                  Kid Form
-                </h3>
-                <p className="text-sm font-medium text-chaos-black/75 leading-relaxed">
-                  Pop out of the ink in humanoid form to attack, use sub weapons, and activate specials.
-                  You paint the battlefield in kid form and traverse it as a squid.
-                </p>
-              </Card>
+      <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+        <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
+          {/* CardStackCarousel — physics-based stacked card swipe */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <HeadingTape color="yellow" className="text-center">
+                Card Stack Carousel
+              </HeadingTape>
+              <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+                Physics-driven card deck — drag or swipe to flip through weapons with spring dynamics.
+              </p>
+              <Carousel>
+                <CardStackCarouselScene>
+                  <CardStackCarouselContent>
+                    {WEAPON_CARDS.map((weapon, i) => (
+                      <CardStackCarouselItem key={weapon.name} data-index={i}>
+                        <WeaponCard
+                          name={weapon.name}
+                          section={weapon.section}
+                          image={weapon.image}
+                          size="lg"
+                        />
+                      </CardStackCarouselItem>
+                    ))}
+                  </CardStackCarouselContent>
+                  <div className="flex items-center justify-center gap-4 mt-4">
+                    <CardStackCarouselPrevious />
+                    <CardStackCarouselIndicators />
+                    <CardStackCarouselNext />
+                  </div>
+                </CardStackCarouselScene>
+              </Carousel>
             </div>
-          </div>
-        </InView>
-      </section>
+          </InView>
 
-      <Divider variant="wave" />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 2.7: EDITIONS (Product Info / Pricing)
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
-        <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="yellow" className="text-center">
-              Editions
-            </HeadingTape>
-            <InViewStagger rootMargin="-30px">
-              <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <Card variant="plain" className="p-6 space-y-4 text-center">
-                  <div className="h-1.5 w-12 rounded-full bg-[#603bff] mx-auto" />
-                  <h3 className="font-heading text-lg font-black uppercase tracking-wider">
-                    Standard Edition
-                  </h3>
-                  <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
-                    The full base game with all launch content, stages, weapons, and modes.
-                  </p>
-                  <div className="font-heading text-2xl font-black text-[#603bff] dark:text-[#eaff3d]">
-                    $59.99
-                  </div>
-                </Card>
-                <Card variant="plain" className="border-[#eaff3d] dark:border-[#eaff3d]/50 p-6 space-y-4 text-center relative overflow-hidden">
-                  <div className="absolute top-3 right-3 bg-[#ff585e] text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
-                    Special
-                  </div>
-                  <div className="h-1.5 w-12 rounded-full bg-[#eaff3d] mx-auto" />
-                  <h3 className="font-heading text-lg font-black uppercase tracking-wider">
-                    Expansion Pass
-                  </h3>
-                  <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
-                    Includes the Side Order DLC, Inkopolis Plaza, and exclusive gear sets.
-                  </p>
-                  <div className="font-heading text-2xl font-black text-chaos-black dark:text-[#eaff3d]">
-                    $24.99
-                  </div>
-                </Card>
+          {/* WeaponCard grid — FASHION section style */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <HeadingTape color="blue" className="text-center">
+                Weapon Cards
+              </HeadingTape>
+              <div className="text-center">
+                <SplatoonTitle variant="section" section="fashion" size="lg">
+                  Fashion
+                </SplatoonTitle>
               </div>
-            </InViewStagger>
-          </div>
-        </InView>
-      </section>
-
-      <Divider variant="wave" />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 2.8: GEAR / CLOTHING SYSTEM
-         ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
-        <InView direction="up" rootMargin="-50px">
-          <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
-            <HeadingTape color="purple" className="text-center">
-              Gear Up
-            </HeadingTape>
-            <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-              Every piece of gear comes with unique abilities that boost your performance in battle. Mix and match to create the perfect loadout.
-            </p>
-            <InViewStagger rootMargin="-30px">
-              <div className="grid sm:grid-cols-3 gap-4">
-                {[
-                  { name: 'Headgear', desc: 'Hats, helmets, and visors with ability slots for ink resistance, special charge, and more.', accent: '#eaff3d' },
-                  { name: 'Clothing', desc: 'T-shirts, hoodies, and jackets that grant abilities like ink saver, quick respawn, and swim speed.', accent: '#603bff' },
-                  { name: 'Shoes', desc: 'Sneakers and boots with abilities like ink resistance, stealth jump, and object shredder.', accent: '#00c8b4' },
-                ].map((gear) => (
-                  <Card
-                    key={gear.name}
-                    variant="plain"
-                    plainStyle="cream"
-                    className="p-6 text-center space-y-3"
-                  >
-                    <div className="h-1.5 w-12 rounded-full mx-auto" style={{ backgroundColor: gear.accent }} />
-                    <h3 className="font-heading text-base font-black uppercase tracking-wider">
-                      {gear.name}
-                    </h3>
-                    <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
-                      {gear.desc}
-                    </p>
-                  </Card>
+              <div className="flex flex-wrap justify-center gap-4">
+                {WEAPON_CARDS.map((weapon) => (
+                  <WeaponCard
+                    key={weapon.name}
+                    name={weapon.name}
+                    section={weapon.section}
+                    image={weapon.image}
+                    size="md"
+                  />
                 ))}
               </div>
-            </InViewStagger>
-            <p className="text-center text-xs font-medium text-chaos-black/50 dark:text-white/50">
-              Each gear piece has a primary ability and up to three secondary ability slots unlocked through battle experience.
-            </p>
-          </div>
-        </InView>
+            </div>
+          </InView>
+
+          {/* 11 Weapon Types grid */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <HeadingTape color="green" className="text-center">
+                11 Weapon Types
+              </HeadingTape>
+              <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+                From rapid-fire Shooters to blade-swinging Splatanas, every weapon class brings a unique playstyle.
+              </p>
+              <InViewStagger rootMargin="-30px">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {[
+                    { name: 'Shooters', desc: 'Reliable all-rounders with steady ink output.', accent: '#eaff3d' },
+                    { name: 'Blasters', desc: 'Explosive shots that deal splash damage.', accent: '#ff585e' },
+                    { name: 'Rollers', desc: 'Paint massive areas with sweeping ink rolls.', accent: '#fa5a00' },
+                    { name: 'Chargers', desc: 'Long-range precision sniper weapons.', accent: '#603bff' },
+                    { name: 'Sloshers', desc: 'Arc-splash buckets that lob ink over cover.', accent: '#a51ee1' },
+                    { name: 'Splatlings', desc: 'Charge-up gatling guns with high fire rate.', accent: '#00c8b4' },
+                    { name: 'Dualies', desc: 'Dual-wield pistols with dodge-roll bursts.', accent: '#eaff3d' },
+                    { name: 'Brellas', desc: 'Shotgun-umbrella hybrids with deployable shields.', accent: '#ff585e' },
+                    { name: 'Brushes', desc: 'Fast melee ink brushes for stealth flanks.', accent: '#fa5a00' },
+                    { name: 'Stringers', desc: 'Tri-shot bows with charge-and-release mechanics.', accent: '#603bff' },
+                    { name: 'Splatanas', desc: 'Blade weapons that slash ink projectiles.', accent: '#a51ee1' },
+                  ].map((weapon) => (
+                    <Card
+                      key={weapon.name}
+                      variant="plain"
+                      className="p-4 space-y-2 hover:scale-[1.02] transition-transform"
+                    >
+                      <div className="h-1.5 w-12 rounded-full" style={{ backgroundColor: weapon.accent }} />
+                      <h3 className="font-heading text-sm font-black uppercase tracking-wider">
+                        {weapon.name}
+                      </h3>
+                      <p className="text-xs font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
+                        {weapon.desc}
+                      </p>
+                    </Card>
+                  ))}
+                </div>
+              </InViewStagger>
+            </div>
+          </InView>
+        </div>
       </section>
 
       <Divider variant="wave" />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 2.9: SPLATFEST
+         SECTION 4: GAME MODES & NEWS (GridNewsCard + Card plain)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
-        <div className="absolute top-6 right-6 text-[#a51ee1] opacity-30">
+      <section className="bg-[#f5f0e8] dark:bg-[#151515] text-chaos-black dark:text-white py-20 px-6 relative z-10 transition-colors duration-300">
+        <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
+          {/* Game Modes */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <HeadingTape color="green" className="text-center">
+                Game Modes
+              </HeadingTape>
+              <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+                From casual turf painting to intense ranked objectives and cooperative Salmon Run.
+              </p>
+              <InViewStagger rootMargin="-30px">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { name: 'Turf War', desc: 'Paint the most ground in 3 minutes. The quintessential Splatoon experience.', color: '#eaff3d', text: '#0d0d0d' },
+                    { name: 'Splat Zones', desc: 'Control a designated zone with your ink to earn points and win.', color: '#603bff', text: '#ffffff' },
+                    { name: 'Tower Control', desc: 'Ride a moving tower through enemy territory to score.', color: '#00c8b4', text: '#0d0d0d' },
+                    { name: 'Rainmaker', desc: 'Carry the Rainmaker weapon to the enemy goal to win.', color: '#fa5a00', text: '#ffffff' },
+                    { name: 'Clam Blitz', desc: 'Collect clams, score touchdowns at the enemy basket.', color: '#a51ee1', text: '#ffffff' },
+                    { name: 'Salmon Run', desc: 'Team up to defeat waves of Salmonids and collect Golden Eggs.', color: '#ff585e', text: '#ffffff' },
+                  ].map((mode) => (
+                    <Card
+                      key={mode.name}
+                      variant="plain"
+                      plainStyle="colored"
+                      className="overflow-hidden"
+                    >
+                      <div className="h-2" style={{ backgroundColor: mode.color }} />
+                      <div className="bg-white dark:bg-[#1a1a1a] p-5 space-y-2 transition-colors duration-300">
+                        <h3 className="font-heading text-base font-black uppercase tracking-wider">
+                          {mode.name}
+                        </h3>
+                        <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 leading-relaxed">
+                          {mode.desc}
+                        </p>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              </InViewStagger>
+            </div>
+          </InView>
+
+          {/* Polaroid News Cards */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <HeadingTape className="text-center">Polaroid News Card</HeadingTape>
+              <p className="text-center text-sm font-medium text-chaos-black/60 dark:text-white/60 max-w-xl mx-auto">
+                Unified component matching the official Splatoon news feed. Curved SVG edges, staple/tape assets, hover animation.
+              </p>
+              <InViewStagger rootMargin="-30px">
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 pt-4">
+                  <GridNewsCard
+                    image={
+                      <div className="h-full w-full bg-[#603bff] flex items-center justify-center">
+                        <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#eaff3d] fill-current">
+                          <path d="M50,10 C40,25 35,40 35,60 C35,70 40,80 50,85 C60,80 65,70 65,60 C65,40 60,25 50,10 Z M35,60 C25,65 15,55 10,70 C20,70 25,65 35,60 Z M65,60 C75,65 85,55 90,70 C80,70 75,65 65,60 Z" />
+                          <circle cx="45" cy="55" r="4" fill="black" />
+                          <circle cx="55" cy="55" r="4" fill="black" />
+                        </svg>
+                      </div>
+                    }
+                    title="Beginner Basics: Choosing the right weapons"
+                    action={<Button size="sm" variant="arrow">Read</Button>}
+                  />
+                  <GridNewsCard
+                    image={
+                      <div className="h-full w-full bg-[#fa5a00] flex items-center justify-center">
+                        <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#603bff] fill-current">
+                          <path d="M50,15 C30,15 20,35 20,55 C20,70 30,85 50,85 C70,85 80,70 80,55 C80,35 70,15 50,15 Z" />
+                          <circle cx="42" cy="45" r="6" fill="#fa5a00" />
+                          <circle cx="58" cy="45" r="6" fill="#fa5a00" />
+                          <circle cx="42" cy="45" r="3" fill="black" />
+                          <circle cx="58" cy="45" r="3" fill="black" />
+                        </svg>
+                      </div>
+                    }
+                    title="Beginner Basics: Choosing the right gear"
+                    action={<Button size="sm" variant="arrow">Read</Button>}
+                  />
+                  <GridNewsCard
+                    surface="dark"
+                    showTape={false}
+                    image={
+                      <div className="h-full w-full bg-[#0d0d0d] flex items-center justify-center">
+                        <svg viewBox="0 0 100 100" className="w-24 h-24 text-[#ff585e] fill-current">
+                          <path d="M50,10 L15,80 L85,80 Z M50,30 L50,55 M50,65 L50,72" stroke="currentColor" strokeWidth="8" strokeLinecap="round" fill="none" />
+                        </svg>
+                      </div>
+                    }
+                  >
+                    <div className="space-y-3 p-4 text-center">
+                      <p className="text-xs font-black uppercase tracking-[0.35em] text-white/60">Danger Alert</p>
+                      <h4 className="text-xl font-black text-white">Salmon Run Max</h4>
+                      <p className="text-sm text-white/80">Golden Eggs demand is surging! Watch out for Coho Salmon and horror-boros.</p>
+                      <Button size="sm" variant="arrow">Read</Button>
+                    </div>
+                  </GridNewsCard>
+                </div>
+              </InViewStagger>
+            </div>
+          </InView>
+        </div>
+      </section>
+
+      <Divider variant="wave" />
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative z-10 overflow-hidden transition-colors duration-300">
+        <div className="absolute top-4 left-4 text-[#603bff] opacity-40">
+          <svg viewBox="0 0 100 100" className="w-32 h-32 fill-current">
+            <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
+          </svg>
+        </div>
+        <div className="w-full max-w-5xl mx-auto flex flex-col items-center relative z-10 space-y-16 text-center">
+          {/* Purchase CTA */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <HeadingTape color="yellow" className="text-center">
+                Get the Game
+              </HeadingTape>
+              <h3 className="text-3xl md:text-4xl font-black uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]">
+                Splatoon 3
+              </h3>
+              <p className="text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base max-w-md mx-auto">
+                Dive into the Splatlands and experience the most chaotic ink battles yet.
+              </p>
+              <div className="inline-block bg-[#0d0d0d] dark:bg-[#eaff3d] text-[#eaff3d] dark:text-[#0d0d0d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] dark:border-[#eaff3d] font-heading text-2xl font-black">
+                $59.99
+              </div>
+              <div className="flex flex-wrap justify-center gap-3 pt-2">
+                <Button variant="blue">Buy Now</Button>
+                <Button variant="blue">
+                  Add to Wishlist
+                </Button>
+                <a href="#trailer-section-title">
+                  <Button variant="arrow">Watch Trailer</Button>
+                </a>
+              </div>
+            </div>
+          </InView>
+
+          {/* Button Variant Showcase */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <HeadingTape color="blue" className="text-center">
+                Button Variants
+              </HeadingTape>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button variant="yellow">Yellow</Button>
+                <Button variant="blue">Blue</Button>
+                <Button variant="destructive">Red</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="arrow">Arrow</Button>
+              </div>
+            </div>
+          </InView>
+
+          {/* Editions */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6 w-full max-w-2xl mx-auto">
+              <HeadingTape color="yellow" className="text-center">
+                Editions
+              </HeadingTape>
+              <InViewStagger rootMargin="-30px">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <Card variant="plain" className="p-6 space-y-4 text-center bg-white dark:bg-[#222]">
+                    <div className="h-1.5 w-12 rounded-full bg-[#603bff] mx-auto" />
+                    <h3 className="font-heading text-lg font-black uppercase tracking-wider">Standard Edition</h3>
+                    <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
+                      The full base game with all launch content, stages, weapons, and modes.
+                    </p>
+                    <div className="font-heading text-2xl font-black text-[#603bff] dark:text-[#eaff3d]">$59.99</div>
+                  </Card>
+                  <Card variant="plain" className="border-[#eaff3d] dark:border-[#eaff3d]/50 p-6 space-y-4 text-center relative overflow-hidden bg-white dark:bg-[#222]">
+                    <div className="absolute top-3 right-3 bg-[#ff585e] text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">Special</div>
+                    <div className="h-1.5 w-12 rounded-full bg-[#eaff3d] mx-auto" />
+                    <h3 className="font-heading text-lg font-black uppercase tracking-wider">Expansion Pass</h3>
+                    <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
+                      Includes the Side Order DLC, Inkopolis Plaza, and exclusive gear sets.
+                    </p>
+                    <div className="font-heading text-2xl font-black text-chaos-black dark:text-[#eaff3d]">$24.99</div>
+                  </Card>
+                </div>
+              </InViewStagger>
+            </div>
+          </InView>
+        </div>
+      </section>
+
+      <Divider variant="wave" />
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-[#1e1b15] text-white py-20 px-6 relative z-10 overflow-hidden">
+        <div className="absolute top-6 right-6 text-[#a51ee1] opacity-20">
           <svg viewBox="0 0 100 100" className="w-24 h-24 fill-current">
             <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
           </svg>
         </div>
-        <div className="w-full max-w-5xl mx-auto space-y-10 relative z-10">
+        <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           <InView direction="up" rootMargin="-50px">
-            <HeadingTape color="red" className="text-center">
-              Splatfest
-            </HeadingTape>
+            <div className="text-center space-y-4">
+              <HeadingTape color="red">Overlays & Dialogs</HeadingTape>
+              <p className="text-white/60 text-sm font-medium max-w-xl mx-auto">
+                Modal dialogs, side drawers, contextual popovers, and the official JP feature page modal system.
+              </p>
+            </div>
           </InView>
-          <InView direction="up" rootMargin="-50px" delay={1}>
-            <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
-              Splatfests are limited-time festival events where players choose a side and battle for their team. The whole city transforms into a neon-lit party.
-            </p>
+
+          {/* Dialog demos */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-4">
+                <h3 className="font-heading text-lg font-black uppercase tracking-wider text-[#eaff3d]">
+                  Graffiti Dialogs
+                </h3>
+                <p className="text-xs text-white/50">Paper-tear modal with rotation and caution sticker tape</p>
+                <div className="flex flex-wrap gap-3">
+                  <Dialog>
+                    <DialogTriggerButton variant="yellow" theme="dark-yellow">Yellow Dialog</DialogTriggerButton>
+                    <DialogContent surface="paper" hasTape={true} tapeText="ALERT!" tapeColor="yellow">
+                      <DialogHeader>
+                        <DialogTitle>Splatfest Incoming!</DialogTitle>
+                        <DialogDescription>The next Splatfest battle is starting soon. Select your team!</DialogDescription>
+                      </DialogHeader>
+                      <div className="py-4">
+                        <p className="font-bold text-chaos-black/80">Choose your side:</p>
+                        <div className="flex gap-3 mt-2">
+                          <Button size="sm" variant="blue" theme="light-blue">Team Water</Button>
+                          <Button size="sm" variant="orange" theme="dark-purpleOrange">Team Fire</Button>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+
+                  <Dialog>
+                    <DialogTriggerButton variant="blue" theme="light-blue">Blue Dialog</DialogTriggerButton>
+                    <DialogContent surface="cream" hasTape={true} tapeText="EVENT INFO" tapeColor="blue" tapePosition="event">
+                      <DialogHeader>
+                        <DialogTitle>Big Run Event</DialogTitle>
+                        <DialogDescription>Salmonids are invading Wahoo World! Team up to defend.</DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+
+                  <Dialog>
+                    <DialogTriggerButton variant="destructive" theme="light-red">Danger Dialog</DialogTriggerButton>
+                    <DialogContent surface="danger" hasTape={true} tapeText="DANGER!" tapeColor="red">
+                      <DialogHeader>
+                        <DialogTitle className="text-white">Connection Lost</DialogTitle>
+                        <DialogDescription className="text-white/80">Disconnected from battle lobby.</DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </div>
+
+              {/* Sheet + Popover */}
+              <div className="space-y-4">
+                <h3 className="font-heading text-lg font-black uppercase tracking-wider text-[#00c8b4]">
+                  Drawers & Popovers
+                </h3>
+                <p className="text-xs text-white/50">Side sheets, contextual menus and alerts</p>
+                <div className="flex flex-wrap gap-3">
+                  <Sheet>
+                    <SheetTriggerButton variant="green" theme="light-green">Right Drawer</SheetTriggerButton>
+                    <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black border-l-[3px] border-chaos-black">
+                      <SheetHeader>
+                        <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
+                        <SheetDescription>Match statistics, gear catalog, and lobby features.</SheetDescription>
+                      </SheetHeader>
+                      <div className="space-y-4 py-4">
+                        <div className="scrap-panel-tight border-2 border-chaos-black bg-white p-3 pt-6">
+                          <h4 className="font-bold text-sm">Last Battle Result</h4>
+                          <p className="text-xs text-muted-foreground mt-1">Turf War - Wahoo World</p>
+                          <p className="inline-block bg-chaos-black px-2 py-0.5 text-xs font-black text-[#eaff3d] [transform:rotate(-2deg)]">VICTORY</p>
+                        </div>
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+
+                  <Popover>
+                    <PopoverTriggerButton variant="outline" theme="yellow">Popover</PopoverTriggerButton>
+                    <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs border-2 border-chaos-black bg-white p-4 pt-6 text-chaos-black">
+                      <PopoverHeader>
+                        <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>
+                        <PopoverDescription className="text-xs">Corporate sponsorship details.</PopoverDescription>
+                      </PopoverHeader>
+                      <div className="py-2 text-xs">
+                        <p>Recruiting part-time workers to collect Golden Eggs.</p>
+                        <p className="font-bold text-[#ff585e] mt-1.5">Hazard pay included!</p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+            </div>
           </InView>
-          <InView direction="up" rootMargin="-50px" delay={2}>
-            <div className="max-w-2xl mx-auto">
-              <Card variant="plain" plainStyle="colored" className="overflow-hidden">
-                <div className="grid grid-cols-2">
-                  <div className="bg-[#603bff] text-white p-8 text-center space-y-3">
-                    <div className="text-4xl">🌊</div>
-                    <h3 className="font-heading text-xl font-black uppercase tracking-wider">
-                      Team Water
-                    </h3>
-                    <p className="text-sm font-medium text-white/80">
-                      Cool, calm, and unstoppable. Water covers everything.
-                    </p>
-                  </div>
-                  <div className="bg-[#fa5a00] text-white p-8 text-center space-y-3">
-                    <div className="text-4xl">🔥</div>
-                    <h3 className="font-heading text-xl font-black uppercase tracking-wider">
-                      Team Fire
-                    </h3>
-                    <p className="text-sm font-medium text-white/80">
-                      Hot, fierce, and blazing. Fire consumes all.
-                    </p>
-                  </div>
-                </div>
-                <div className="bg-chaos-black dark:bg-white text-white dark:text-chaos-black p-4 text-center">
-                  <p className="font-heading text-sm font-black uppercase tracking-wider">
-                    Choose your side. Battle for glory.
-                  </p>
-                </div>
-              </Card>
+
+          {/* SplatoonModal */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-4">
+              <h3 className="font-heading text-lg font-black uppercase tracking-wider text-[#eaff3d]">
+                Splatoon Modal (トジル)
+              </h3>
+              <p className="text-xs text-white/50">Full-screen overlay with bounce animation and staggered content reveal</p>
+              <div className="flex flex-wrap gap-3">
+                <SplatoonModal>
+                  <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#eaff3d] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-chaos-black border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
+                    Open Splatoon Modal
+                  </SplatoonModalTrigger>
+                  <SplatoonModalPortal>
+                    <SplatoonModalBody>
+                      <div className="text-center space-y-4">
+                        <h2 className="font-heading text-2xl font-black uppercase tracking-wider">About Splatoon</h2>
+                        <p className="text-sm text-chaos-black/70 dark:text-white/70 max-w-sm mx-auto">
+                          Turf War is a 4v4 team battle mode where the goal is to cover the most ground with your team's ink.
+                        </p>
+                        <div className="grid grid-cols-2 gap-3 pt-2">
+                          <div className="rounded-lg bg-[#603bff] p-3 text-center text-xs font-black uppercase tracking-wider text-white">Turf War</div>
+                          <div className="rounded-lg bg-[#ff585e] p-3 text-center text-xs font-black uppercase tracking-wider text-white">Splat Zones</div>
+                          <div className="rounded-lg bg-[#00c8b4] p-3 text-center text-xs font-black uppercase tracking-wider text-chaos-black">Tower Control</div>
+                          <div className="rounded-lg bg-[#a51ee1] p-3 text-center text-xs font-black uppercase tracking-wider text-white">Rainmaker</div>
+                        </div>
+                      </div>
+                      <SplatoonModalCloseButton label="トジル" />
+                    </SplatoonModalBody>
+                  </SplatoonModalPortal>
+                </SplatoonModal>
+
+                <SplatoonModal>
+                  <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#603bff] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-white border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
+                    Staggered Content
+                  </SplatoonModalTrigger>
+                  <SplatoonModalPortal>
+                    <SplatoonModalBody>
+                      <div className="text-center mb-4">
+                        <h2 className="font-heading text-2xl font-black uppercase tracking-wider">Weapon Types</h2>
+                      </div>
+                      <SplatoonModalStagger className="space-y-3">
+                        <div className="rounded-lg bg-[#eaff3d] p-3 text-sm font-black text-chaos-black">Shooters — Rapid-fire ink weapons</div>
+                        <div className="rounded-lg bg-[#603bff] p-3 text-sm font-black text-white">Rollers — Cover ground quickly</div>
+                        <div className="rounded-lg bg-[#ff585e] p-3 text-sm font-black text-white">Chargers — Long-range precision</div>
+                        <div className="rounded-lg bg-[#00c8b4] p-3 text-sm font-black text-chaos-black">Sloshers — Throw ink in arcs</div>
+                        <div className="rounded-lg bg-[#a51ee1] p-3 text-sm font-black text-white">Splatlings — Charged rapid-fire</div>
+                      </SplatoonModalStagger>
+                      <SplatoonModalCloseButton label="トジル" />
+                    </SplatoonModalBody>
+                  </SplatoonModalPortal>
+                </SplatoonModal>
+              </div>
             </div>
           </InView>
         </div>
@@ -1303,10 +1154,9 @@ export default function Home() {
 
             <Tabs defaultValue="preview" className="w-full">
               {/* TabsList rendering our high-fidelity Skewed Tab Triggers! */}
-              <TabsList className="grid w-full grid-cols-3 gap-6 max-w-2xl mx-auto mb-10">
+              <TabsList className="grid w-full grid-cols-2 gap-6 max-w-xl mx-auto mb-10">
                 <TabsTrigger value="preview">Buttons & Badges</TabsTrigger>
                 <TabsTrigger value="forms">Form Fields & Alerts</TabsTrigger>
-                <TabsTrigger value="dialogs">Graffiti Dialogs</TabsTrigger>
               </TabsList>
 
               {/* Content Panel 1: Buttons & Badges */}
@@ -1580,236 +1430,6 @@ export default function Home() {
                           Connection to multiplayer server has been lost.
                         </AlertDescription>
                       </Alert>
-                    </CardContent>
-                  </Card>
-                </div>
-              </TabsContent>
-
-              {/* Content Panel 3: Overlays & Popups */}
-              <TabsContent value="dialogs" className="outline-none">
-                <div className="grid gap-8 md:grid-cols-2">
-                  {/* Default Dialog Card */}
-                  <Card
-                    variant="news"
-                    surface="cream"
-                  >
-                    <CardHeader>
-                      <CardTitle>Graffiti Dialogs</CardTitle>
-                      <CardDescription>Paper-tear modal with rotation and caution sticker tape</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-wrap gap-4 pt-2">
-                      <Dialog>
-                        <DialogTriggerButton variant="yellow" theme="dark-yellow">
-                          Open Yellow Dialog
-                        </DialogTriggerButton>
-                        <DialogContent surface="paper" hasTape={true} tapeText="ALERT!" tapeColor="yellow">
-                          <DialogHeader>
-                            <DialogTitle>Splatfest Incoming!</DialogTitle>
-                            <DialogDescription>
-                              The next Splatfest battle is starting soon. Select your team in the lobby!
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="py-4">
-                            <p className="font-bold text-chaos-black/80">Choose your side:</p>
-                            <div className="flex gap-3 mt-2">
-                              <Button size="sm" variant="blue" theme="light-blue">
-                                Team Water
-                              </Button>
-                              <Button size="sm" variant="orange" theme="dark-purpleOrange">
-                                Team Fire
-                              </Button>
-                              <Button size="sm" variant="green" theme="light-green">
-                                Team Grass
-                              </Button>
-                            </div>
-                          </div>
-                          <DialogFooter>
-                            <Button size="sm" variant="ghost">Learn More</Button>
-                          </DialogFooter>
-                        </DialogContent>
-                      </Dialog>
-
-                      <Dialog>
-                        <DialogTriggerButton variant="blue" theme="light-blue">
-                          Open Blue Dialog
-                        </DialogTriggerButton>
-                        <DialogContent surface="cream" hasTape={true} tapeText="EVENT INFO" tapeColor="blue" tapePosition="event">
-                          <DialogHeader>
-                            <DialogTitle>Big Run Event</DialogTitle>
-                            <DialogDescription>
-                              Salmonids are invading Wahoo World! Team up with your squad to defend the city.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="py-4">
-                            <p className="font-medium text-chaos-black/75">
-                              Golden Egg quotas have been increased. High-hazard level rewards are active.
-                            </p>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    </CardContent>
-                  </Card>
-
-                  {/* Danger Dialog & Drawers/Popovers Card */}
-                  <Card
-                    variant="news"
-                    surface="cream"
-                  >
-                    <CardHeader>
-                      <CardTitle>Drawers & Popovers</CardTitle>
-                      <CardDescription>Side sheets, contextual menus and alerts</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-wrap gap-4 pt-2">
-                      <Dialog>
-                        <DialogTriggerButton variant="destructive" theme="light-red">
-                          Open Danger Dialog
-                        </DialogTriggerButton>
-                        <DialogContent surface="danger" hasTape={true} tapeText="DANGER!" tapeColor="red">
-                          <DialogHeader>
-                            <DialogTitle className="text-white">Connection Lost</DialogTitle>
-                            <DialogDescription className="text-white/80">
-                              You have been disconnected from the battle lobby. Please check your internet connection.
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="py-2">
-                            <p className="text-sm font-semibold text-white/90">
-                              Error Code: 2318-0502. Game stats will not be recorded.
-                            </p>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-
-                      <Sheet>
-                        <SheetTriggerButton variant="green" theme="light-green">
-                          Open Right Drawer
-                        </SheetTriggerButton>
-                        <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black border-l-[3px] border-chaos-black">
-                          <SheetHeader>
-                            <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
-                            <SheetDescription>
-                              Access your match statistics, gear catalog, and online lobby features.
-                            </SheetDescription>
-                          </SheetHeader>
-                          <div className="space-y-4 py-4">
-                            <div className="scrap-panel-tight border-2 border-chaos-black bg-white p-3 pt-6">
-                              <h4 className="font-bold text-sm">Last Battle Result</h4>
-                              <p className="text-xs text-muted-foreground mt-1">Turf War - Wahoo World</p>
-                              <p className="inline-block bg-chaos-black px-2 py-0.5 text-xs font-black text-[#eaff3d] [transform:rotate(-2deg)]">
-                                VICTORY
-                              </p>
-                            </div>
-                            <div className="scrap-panel-tight border-2 border-chaos-black bg-white p-3 pt-6">
-                              <h4 className="font-bold text-sm">Active Catalog</h4>
-                              <p className="text-xs text-muted-foreground mt-1">Sizzle Season 2026</p>
-                              <div className="w-full bg-muted h-2 mt-2 overflow-hidden border border-chaos-black">
-                                <div className="bg-[#603bff] h-full" style={{ width: '45%', height: '8px' }} />
-                              </div>
-                            </div>
-                          </div>
-                          <SheetFooter>
-                            <Button size="sm" variant="yellow" theme="dark-yellow">
-                              Refresh Data
-                            </Button>
-                          </SheetFooter>
-                        </SheetContent>
-                      </Sheet>
-
-                      <Popover>
-                        <PopoverTriggerButton variant="outline" theme="yellow">
-                          Open Popover
-                        </PopoverTriggerButton>
-                        <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs border-2 border-chaos-black bg-white p-4 pt-6 text-chaos-black">
-                          <PopoverHeader>
-                            <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>
-                            <PopoverDescription className="text-xs">
-                              Corporate sponsorship details & job requirements.
-                            </PopoverDescription>
-                          </PopoverHeader>
-                          <div className="py-2 text-xs">
-                            <p>We are currently recruiting part-time workers to collect Golden Eggs in remote ocean zones.</p>
-                            <p className="font-bold text-[#ff585e] mt-1.5">No experience needed. Hazard pay included!</p>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
-                    </CardContent>
-                  </Card>
-
-                  {/* SplatoonModal — Official JP Feature Page Modal */}
-                  <Card
-                    variant="news"
-                    surface="cream"
-                    className="md:col-span-2"
-                  >
-                    <CardHeader>
-                      <CardTitle>Splatoon Modal (トジル)</CardTitle>
-                      <CardDescription>Full-screen overlay with bounce animation and staggered content reveal — from the official JP feature page</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-wrap gap-4 pt-2">
-                      <SplatoonModal>
-                        <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#eaff3d] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-chaos-black border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
-                          Open Splatoon Modal
-                        </SplatoonModalTrigger>
-                        <SplatoonModalPortal>
-                          <SplatoonModalBody>
-                            <div className="text-center space-y-4">
-                              <h2 className="font-heading text-2xl font-black uppercase tracking-wider">
-                                About Splatoon
-                              </h2>
-                              <p className="text-sm text-chaos-black/70 dark:text-white/70 max-w-sm mx-auto">
-                                Turf War is a 4v4 team battle mode where the goal is to cover the most ground with your team's ink.
-                              </p>
-                              <div className="grid grid-cols-2 gap-3 pt-2">
-                                <div className="rounded-lg bg-[#603bff] p-3 text-center text-xs font-black uppercase tracking-wider text-white">
-                                  Turf War
-                                </div>
-                                <div className="rounded-lg bg-[#ff585e] p-3 text-center text-xs font-black uppercase tracking-wider text-white">
-                                  Splat Zones
-                                </div>
-                                <div className="rounded-lg bg-[#00c8b4] p-3 text-center text-xs font-black uppercase tracking-wider text-chaos-black">
-                                  Tower Control
-                                </div>
-                                <div className="rounded-lg bg-[#a51ee1] p-3 text-center text-xs font-black uppercase tracking-wider text-white">
-                                  Rainmaker
-                                </div>
-                              </div>
-                            </div>
-                            <SplatoonModalCloseButton label="トジル" />
-                          </SplatoonModalBody>
-                        </SplatoonModalPortal>
-                      </SplatoonModal>
-
-                      <SplatoonModal>
-                        <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#603bff] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-white border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
-                          With Staggered Content
-                        </SplatoonModalTrigger>
-                        <SplatoonModalPortal>
-                          <SplatoonModalBody>
-                            <div className="text-center mb-4">
-                              <h2 className="font-heading text-2xl font-black uppercase tracking-wider">
-                                Weapon Types
-                              </h2>
-                            </div>
-                            <SplatoonModalStagger className="space-y-3">
-                              <div className="rounded-lg bg-[#eaff3d] p-3 text-sm font-black text-chaos-black">
-                                Shooters — Rapid-fire ink weapons
-                              </div>
-                              <div className="rounded-lg bg-[#603bff] p-3 text-sm font-black text-white">
-                                Rollers — Cover ground quickly
-                              </div>
-                              <div className="rounded-lg bg-[#ff585e] p-3 text-sm font-black text-white">
-                                Chargers — Long-range precision
-                              </div>
-                              <div className="rounded-lg bg-[#00c8b4] p-3 text-sm font-black text-chaos-black">
-                                Sloshers — Throw ink in arcs
-                              </div>
-                              <div className="rounded-lg bg-[#a51ee1] p-3 text-sm font-black text-white">
-                                Splatlings — Charged rapid-fire
-                              </div>
-                            </SplatoonModalStagger>
-                            <SplatoonModalCloseButton label="トジル" />
-                          </SplatoonModalBody>
-                        </SplatoonModalPortal>
-                      </SplatoonModal>
                     </CardContent>
                   </Card>
                 </div>
