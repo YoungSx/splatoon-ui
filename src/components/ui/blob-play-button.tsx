@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { blobVertexShader, blobFragmentShader } from '@/lib/shaders/blob-shaders'
 import { cn } from '@/lib/utils'
+import { createShader, createProgram, hexToRgb } from './webgl-utils'
 
 // ── CSS Custom Properties (matches official :root variables) ──
 // --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43)
@@ -16,18 +17,6 @@ interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   hexColor?: string
   /** Container width in px — official uses 40% of parent button */
   blobSize?: number
-}
-
-// Convert hex to rgb for WebGL uniform
-function hexToRgb(hex: string): [number, number, number] {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  return result
-    ? [
-        parseInt(result[1], 16) / 255,
-        parseInt(result[2], 16) / 255,
-        parseInt(result[3], 16) / 255,
-      ]
-    : [0, 0, 0]
 }
 
 export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonProps>(
@@ -48,18 +37,6 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
 
       validRef.current = true
 
-      const createShader = (type: number, source: string) => {
-        const shader = gl.createShader(type)
-        if (!shader) return null
-        gl.shaderSource(shader, source)
-        gl.compileShader(shader)
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-          gl.deleteShader(shader)
-          return null
-        }
-        return shader
-      }
-
       // Adapt fragment shader for WebGL2 if needed
       const isWebGL2 = typeof WebGL2RenderingContext !== 'undefined' && gl instanceof WebGL2RenderingContext
       let fragSrc = blobFragmentShader
@@ -71,16 +48,12 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
           .replace(/gl_FragColor/g, 'outColor')}`
       }
 
-      const vertexShader = createShader(gl.VERTEX_SHADER, vertSrc)
-      const fragmentShader = createShader(gl.FRAGMENT_SHADER, fragSrc)
+      const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertSrc)
+      const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragSrc)
       if (!vertexShader || !fragmentShader) return
 
-      const program = gl.createProgram()
+      const program = createProgram(gl, vertexShader, fragmentShader)
       if (!program) return
-      gl.attachShader(program, vertexShader)
-      gl.attachShader(program, fragmentShader)
-      gl.linkProgram(program)
-      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return
 
       gl.useProgram(program)
 
