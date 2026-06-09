@@ -40,7 +40,7 @@
 
 /* Red variant */
 .red {
-  background: #ff505e;
+  background: #ff585e;
   color: #0d0d0d;
 }
 
@@ -70,6 +70,17 @@
 .title {
   padding: 8px 16px 16px;
   text-transform: none;
+}
+
+/* Dark mode: add border so black variant doesn't merge with dark background */
+:global(.dark) .container {
+  border: 1px solid #333;
+}
+
+/* Dark mode: lighten tape SVGs for visibility */
+:global(.dark) .container::before,
+:global(.dark) .container::after {
+  filter: invert(0.15);
 }
 
 @media screen and (min-width: 1024px) {

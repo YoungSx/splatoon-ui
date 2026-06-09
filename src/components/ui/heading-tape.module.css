@@ -41,12 +41,32 @@
 }
 
 .headingTapeText {
-  background: var(--color-white);
+  background: var(--ht-bg, var(--color-white));
+  color: var(--ht-text, #0d0d0d);
   border-radius: 10px;
   display: inline-block;
   padding: calc(var(--base-space, 8px) * 2) 40px;
   text-align: center;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
+
+/* Dark mode: default (no color) variant */
+:global(.dark) .headingTapeText {
+  --ht-bg: var(--color-black-alt, #1a1a1a);
+  --ht-text: var(--color-white, #fff);
+}
+
+/* Color variants */
+.yellow { --ht-bg: #eaff3d; --ht-text: #0d0d0d; }
+.blue   { --ht-bg: #603bff; --ht-text: #ffffff; }
+.green  { --ht-bg: #00c8b4; --ht-text: #0d0d0d; }
+.purple { --ht-bg: #a51ee1; --ht-text: #ffffff; }
+.orange { --ht-bg: #fa5a00; --ht-text: #ffffff; }
+.red    { --ht-bg: #ff585e; --ht-text: #ffffff; }
 
 @media screen and (min-width: 640px) {
   .headingTapeText {

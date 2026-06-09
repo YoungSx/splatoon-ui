@@ -26,7 +26,8 @@
 }
 
 .text {
-  background: var(--color-white);
+  background: var(--color-card, var(--color-white));
+  color: var(--color-card-foreground, #0d0d0d);
   border-radius: 10px;
   display: inline-block;
   padding: calc(var(--base-space, 8px) * 2) 40px calc(var(--base-space, 8px) * 3);
