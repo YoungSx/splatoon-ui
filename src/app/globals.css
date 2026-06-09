@@ -80,26 +80,26 @@
   --secondary-foreground: #ffffff;
   --muted: #f5f5f5;
   --muted-foreground: #555555;
-  --accent: #af50ff;
+  --accent: #a51ee1;
   --accent-foreground: #ffffff;
-  --destructive: #ff505e;
+  --destructive: #ff585e;
   --border: #cccccc;
   --input: #cccccc;
   --ring: #eaff3d;
   --chart-1: #eaff3d;
   --chart-2: #603bff;
-  --chart-3: #ff505e;
-  --chart-4: #ff9750;
-  --chart-5: #6af7ce;
+  --chart-3: #ff585e;
+  --chart-4: #fa5a00;
+  --chart-5: #00c8b4;
   --radius: 8px;
 
   /* Splatoon brand tokens (exact from site) */
   --neon-yellow: #eaff3d;
   --ink-blue: #603bff;
-  --ink-purple: #af50ff;
-  --ink-green: #6af7ce;
-  --ink-orange: #ff9750;
-  --ink-red: #ff505e;
+  --ink-purple: #a51ee1;
+  --ink-green: #00c8b4;
+  --ink-orange: #fa5a00;
+  --ink-red: #ff585e;
   --desert-sand: #f5f0e8;
   --chaos-black: #0d0d0d;
   --tape-white: #ffffff;
@@ -111,10 +111,10 @@
   --color-white: #fff;
   --color-yellow: #eaff3d;
   --color-blue: #603bff;
-  --color-purple: #af50ff;
-  --color-green: #6af7ce;
-  --color-orange: #ff9750;
-  --color-red: #ff505e;
+  --color-purple: #a51ee1;
+  --color-green: #00c8b4;
+  --color-orange: #fa5a00;
+  --color-red: #ff585e;
   --color-grey-100: #ccc;
   --color-grey-200: #888;
   --color-grey-300: #555;
@@ -150,24 +150,24 @@
   --secondary-foreground: #ffffff;
   --muted: #222222;
   --muted-foreground: #888888;
-  --accent: #af50ff;
+  --accent: #a51ee1;
   --accent-foreground: #ffffff;
-  --destructive: #ff505e;
+  --destructive: #ff585e;
   --border: #333333;
   --input: #333333;
   --ring: #eaff3d;
   --chart-1: #eaff3d;
   --chart-2: #603bff;
-  --chart-3: #ff505e;
-  --chart-4: #ff9750;
-  --chart-5: #6af7ce;
+  --chart-3: #ff585e;
+  --chart-4: #fa5a00;
+  --chart-5: #00c8b4;
 
   --neon-yellow: #eaff3d;
   --ink-blue: #603bff;
-  --ink-purple: #af50ff;
-  --ink-green: #6af7ce;
-  --ink-orange: #ff9750;
-  --ink-red: #ff505e;
+  --ink-purple: #a51ee1;
+  --ink-green: #00c8b4;
+  --ink-orange: #fa5a00;
+  --ink-red: #ff585e;
   --desert-sand: #1a1a1a;
   --chaos-black: #0d0d0d;
   --tape-white: #222222;
@@ -179,10 +179,10 @@
   --color-white: #fff;
   --color-yellow: #eaff3d;
   --color-blue: #603bff;
-  --color-purple: #af50ff;
-  --color-green: #6af7ce;
-  --color-orange: #ff9750;
-  --color-red: #ff505e;
+  --color-purple: #a51ee1;
+  --color-green: #00c8b4;
+  --color-orange: #fa5a00;
+  --color-red: #ff585e;
 
   --sidebar: #111111;
   --sidebar-foreground: #ffffff;
@@ -459,6 +459,75 @@
 }
 .stagger-6 {
   animation-delay: 0.3s;
+}
+
+/* ── Combined Tape/Sticker Animations ── */
+@keyframes peel-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-20deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.08) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-peel-in {
+  animation: peel-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tape-slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%) rotate(-5deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(5%) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+.animate-tape-slide-in-left {
+  animation: tape-slide-in-left 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes tape-slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(100%) rotate(5deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-5%) rotate(-1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotate(0deg);
+  }
+}
+
+.animate-tape-slide-in-right {
+  animation: tape-slide-in-right 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Play-state triggers for .in-view parent */
+.in-view .animate-peel-in {
+  animation-play-state: running;
+}
+.in-view .animate-tape-slide-in-left {
+  animation-play-state: running;
+}
+.in-view .animate-tape-slide-in-right {
+  animation-play-state: running;
 }
 
 /* ── Wavy Divider ── */

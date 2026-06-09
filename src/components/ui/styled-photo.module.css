@@ -88,7 +88,7 @@
   position: absolute;
   width: 44px;
   height: 44px;
-  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ffd36f 30%, #ff505e 60%, #d94752 100%);
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #ffd36f 30%, #ff585e 60%, #d94752 100%);
   border-radius: 1rem;
   transform: rotate(var(--decoration-rotation));
   z-index: 1;

@@ -33,10 +33,10 @@ export interface InteractiveSplatterProps extends React.HTMLAttributes<HTMLDivEl
 const DEFAULT_COLORS = [
   "#eaff3d", // Neon Yellow
   "#603bff", // Ink Blue
-  "#ff505e", // Salmon Pink
-  "#6af7ce", // Neon Green
-  "#af50ff", // Neon Purple
-  "#ff9750", // Neon Orange
+  "#ff585e", // Salmon Pink
+  "#00c8b4", // Neon Green
+  "#a51ee1", // Neon Purple
+  "#fa5a00", // Neon Orange
 ]
 
 /**

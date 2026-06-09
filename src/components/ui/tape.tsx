@@ -22,9 +22,9 @@ function Tape({
 }: TapeProps) {
   const stickerColorMap = {
     yellow: { bg: "#eaff3d", text: "#0d0d0d" },
-    red: { bg: "#ff505e", text: "#ffffff" },
+    red: { bg: "#ff585e", text: "#ffffff" },
     blue: { bg: "#603bff", text: "#eaff3d" },
-    green: { bg: "#6af7ce", text: "#0d0d0d" },
+    green: { bg: "#00c8b4", text: "#0d0d0d" },
   }
 
   const colors = stickerColorMap[color] || stickerColorMap.yellow
@@ -33,8 +33,17 @@ function Tape({
   // Render SVG content based on variant
   const renderSvg = () => {
     switch (variant) {
-      case "torn":
       case "sticker-9":
+        return (
+          <img
+            src="/official/tape/sticker-9.png"
+            srcSet="/official/tape/sticker-9.png 1x, /official/tape/sticker-9-2x.png 2x"
+            alt=""
+            className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
+            draggable={false}
+          />
+        )
+      case "torn":
         return (
           <svg
             viewBox="0 0 96 31"
@@ -43,7 +52,7 @@ function Tape({
             className="w-full h-auto drop-shadow-[2px_2px_2px_rgba(0,0,0,0.3)]"
           >
             <path
-              d="M 4,1.5 
+              d="M 4,1.5
                Q 27,0.5 48,1.2 Q 70,0.5 92,1.5
                L 93,3 L 91.5,4.5 L 94,6 L 92,7.5 L 94.5,9 L 92.5,11 L 95,12.5 L 93,14 L 95.5,15.5 L 93.5,17 L 95,18.5 L 93,20 L 94.5,22 L 92.5,23.5 L 94,25 L 92,26.5 L 93.5,28 L 91,29.5
                Q 70,30.5 48,29.2 Q 26,30 4,29.5
@@ -51,24 +60,12 @@ function Tape({
                Z"
               fill={colors.bg}
             />
-            {/* Right logo - Brand signature */}
             <g fill={colors.text}>
               <path
                 d="M74,7 h4.5 c1.5,0 2.5,0.8 2.5,1.8 v0.2 c0,0.8 -0.6,1.4 -1.5,1.6 c1,0.2 1.7,0.8 1.7,1.7 v0.2 c0,1 -1,1.8 -2.5,1.8 h-4.7 z M76.5,8.8 v2.2 h1.8 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z M76.5,12.5 v2.2 h2 c0.3,0 0.5,-0.2 0.5,-0.5 v-1.2 c0,-0.3 -0.2,-0.5 -0.5,-0.5 z"
               />
-              <text
-                x="73"
-                y="26"
-                fontFamily="monospace"
-                fontWeight="900"
-                fontSize="4.5"
-                letterSpacing="0.2"
-              >
-                VALK
-              </text>
+              <text x="73" y="26" fontFamily="monospace" fontWeight="900" fontSize="4.5" letterSpacing="0.2">VALK</text>
             </g>
-
-            {/* Left logo / shapes */}
             <g fill={colors.text}>
               <rect x="11" y="9" width="3" height="13" />
               <circle cx="21" cy="15" r="5" stroke={colors.text} strokeWidth="1.8" fill="none" />
@@ -78,8 +75,6 @@ function Tape({
               <rect x="36" y="20" width="5.5" height="1" />
               <rect x="46" y="20" width="5.5" height="1" />
             </g>
-
-            {/* Main content: text or stripes */}
             <g fill={colors.text}>
               {displayText && displayText !== "NEWS!" && displayText !== "8W-157" ? (
                 <text
@@ -480,7 +475,7 @@ function InkSplat({
 }: InkSplatProps) {
   const colorMap = {
     blue: "#4100FF",
-    yellow: "#E3FF00",
+    yellow: "#eaff3d",
     red: "#DC2626",
     green: "#10B981",
     pink: "#FF0080",
@@ -541,7 +536,7 @@ function WavyDivider({
   const colorMap = {
     pink: "#FF0080",
     cyan: "#00E5FF",
-    yellow: "#E3FF00",
+    yellow: "#eaff3d",
     green: "#10B981",
   }
   const fillColor = colorMap[color]

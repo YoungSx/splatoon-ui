@@ -13,6 +13,13 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -27,6 +34,8 @@ export interface GalleryItem {
   image: string
   /** Section/category */
   section?: string
+  /** Numeric badge (2 or 3) for Splatoon 2/3 items */
+  numberBadge?: 2 | 3
   /** Link URL */
   href?: string
 }
@@ -40,6 +49,28 @@ export interface SplatoonGalleryProps extends React.ComponentProps<'div'> {
   hover?: boolean
   /** Grid columns */
   columns?: 2 | 3 | 4
+}
+
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+/** Map of number badge values to their official image paths */
+const NUMBER_BADGE_IMAGES: Record<number, string> = {
+  2: '/official/gallery/number2.png',
+  3: '/official/gallery/number3.png',
+}
+
+/** Try to extract a Splatoon number (2 or 3) from section or title */
+function detectNumberBadge(item: GalleryItem): number | undefined {
+  if (item.numberBadge) return item.numberBadge
+  const section = (item.section ?? '').trim()
+  const text = `${section} ${item.title ?? ''}`.toLowerCase()
+  // Exact section match (e.g. section="2" or section="Splatoon 3")
+  if (/^splatoon\s*3$/.test(section) || /^3$/.test(section)) return 3
+  if (/^splatoon\s*2$/.test(section) || /^2$/.test(section)) return 2
+  // Title contains explicit Splatoon version
+  if (/\bsplatoon\s*3\b/.test(text)) return 3
+  if (/\bsplatoon\s*2\b/.test(text)) return 2
+  return undefined
 }
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -56,6 +87,39 @@ export const SplatoonGallery = React.forwardRef<HTMLDivElement, SplatoonGalleryP
     },
     ref,
   ) {
+    const [selectedItem, setSelectedItem] = React.useState<GalleryItem | null>(null)
+
+    React.useEffect(() => {
+      function onHashChange() {
+        const hash = window.location.hash.slice(1)
+        if (!hash) {
+          setSelectedItem(null)
+          return
+        }
+        const match = items.find((item) => item.id === hash)
+        if (match) {
+          setSelectedItem(match)
+        }
+      }
+
+      onHashChange()
+      window.addEventListener('hashchange', onHashChange)
+      return () => window.removeEventListener('hashchange', onHashChange)
+    }, [items])
+
+    function handleOpenChange(open: boolean) {
+      if (!open) {
+        setSelectedItem(null)
+        history.replaceState(null, '', window.location.pathname + window.location.search)
+      }
+    }
+
+    function handleItemClick(e: React.MouseEvent<HTMLAnchorElement>, item: GalleryItem) {
+      if (item.href) return
+      e.preventDefault()
+      window.location.hash = item.id
+    }
+
     const gridCols = {
       2: 'grid-cols-1 md:grid-cols-2',
       3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
@@ -85,7 +149,8 @@ export const SplatoonGallery = React.forwardRef<HTMLDivElement, SplatoonGalleryP
           {items.map((item, index) => (
             <a
               key={item.id}
-              href={item.href || '#'}
+              href={item.href || `#${item.id}`}
+              onClick={(e) => handleItemClick(e, item)}
               className={cn(
                 'group relative block overflow-hidden rounded-lg',
                 'transition-all duration-300',
@@ -128,17 +193,61 @@ export const SplatoonGallery = React.forwardRef<HTMLDivElement, SplatoonGalleryP
                 </div>
               </div>
 
-              {/* Section badge */}
-              {item.section && (
-                <div className="absolute top-3 left-3">
-                  <span className="inline-block px-2 py-1 text-[10px] font-black uppercase tracking-widest bg-black/70 text-white rounded">
-                    {item.section}
-                  </span>
+              {/* Section badge + number badge */}
+              {(item.section || detectNumberBadge(item)) && (
+                <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                  {item.section && (
+                    <span className="inline-block px-2 py-1 text-[10px] font-black uppercase tracking-widest bg-black/70 text-white rounded">
+                      {item.section}
+                    </span>
+                  )}
+                  {(() => {
+                    const num = detectNumberBadge(item)
+                    return num && NUMBER_BADGE_IMAGES[num] ? (
+                      <img
+                        src={NUMBER_BADGE_IMAGES[num]}
+                        alt={`Splatoon ${num}`}
+                        className="w-6 h-6 object-contain drop-shadow-md"
+                      />
+                    ) : null
+                  })()}
                 </div>
               )}
             </a>
           ))}
         </div>
+
+        {/* Hash-routed detail modal */}
+        <Dialog open={!!selectedItem} onOpenChange={handleOpenChange}>
+          <DialogContent className="max-w-2xl">
+            {selectedItem && (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="text-xl font-black uppercase tracking-wider">
+                    {selectedItem.title}
+                  </DialogTitle>
+                  {selectedItem.section && (
+                    <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      {selectedItem.section}
+                    </span>
+                  )}
+                </DialogHeader>
+                <div className="mt-4">
+                  <img
+                    src={selectedItem.image}
+                    alt={selectedItem.title}
+                    className="w-full rounded-lg object-cover"
+                  />
+                </div>
+                {selectedItem.description && (
+                  <DialogDescription className="mt-4 text-base">
+                    {selectedItem.description}
+                  </DialogDescription>
+                )}
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     )
   },

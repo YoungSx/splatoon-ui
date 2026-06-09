@@ -21,11 +21,11 @@ const waveDividerStyle = {
 } as const
 
 const colorMap = {
-  black: "#181818",
+  black: "#0d0d0d",
   white: "#F4F4F4",
-  sand: "#EAD6B8",
-  yellow: "#E3FF00",
-  blue: "#4100FF",
+  sand: "#f5f0e8",
+  yellow: "#eaff3d",
+  blue: "#603bff",
   custom: "currentColor",
 }
 

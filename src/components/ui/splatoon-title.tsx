@@ -44,6 +44,9 @@ const SIZE_CLASSES: Record<SplatoonTitleSize, string> = {
   '2xl': 'h-48',
 }
 
+/** Sections without dedicated hover images — use CSS filter as fallback */
+const FILTER_HOVER_SECTIONS = new Set(['music', 'gallery', 'history'])
+
 const SECTION_IMAGES: Record<string, { title: string; hover: string }> = {
   story: {
     title: '/official/nav-story.png',
@@ -59,7 +62,7 @@ const SECTION_IMAGES: Record<string, { title: string; hover: string }> = {
   },
   fashion: {
     title: '/official/nav-fashion.png',
-    hover: '/official/nav-fashion.png',
+    hover: '/official/nav-fashion-hover.png',
   },
   music: {
     title: '/official/nav-music.png',
@@ -137,6 +140,8 @@ export const SplatoonTitle = React.forwardRef<HTMLDivElement, SplatoonTitleProps
 
     // Section variant: use official section title images
     if (variant === 'section' && sectionImages) {
+      const usesFilterFallback = section ? FILTER_HOVER_SECTIONS.has(section) : false
+
       return (
         <div
           ref={ref}
@@ -157,6 +162,11 @@ export const SplatoonTitle = React.forwardRef<HTMLDivElement, SplatoonTitleProps
               'object-contain transition-all duration-300',
               SIZE_CLASSES[size],
             )}
+            style={
+              usesFilterFallback && isHovered
+                ? { filter: 'brightness(1.2) saturate(1.3)' }
+                : undefined
+            }
           />
         </div>
       )

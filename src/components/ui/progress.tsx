@@ -26,13 +26,13 @@ const sizeHeights = {
 } as const satisfies Record<ProgressSize, string>
 
 const variantPalette = {
-  yellow: "#E3FF00",
-  blue: "#4100FF",
-  green: "#11D87A",
-  purple: "#AF50FF",
-  orange: "#FA5A00",
-  red: "#E60012",
-  black: "#181818",
+  yellow: "#eaff3d",
+  blue: "#603bff",
+  green: "#00c8b4",
+  purple: "#a51ee1",
+  orange: "#fa5a00",
+  red: "#ff585e",
+  black: "#0d0d0d",
   white: "#F4F4F4",
 } as const satisfies Record<ProgressVariant, string>
 
@@ -105,10 +105,13 @@ const Progress = React.forwardRef<
                 style={{ fill: "currentColor" }}
                 aria-hidden="true"
               >
-                <path d="M0,0 Q18,15 12,30 T24,60 T9,85 T18,100 L0,100 Z" />
-                <circle cx="20" cy="20" r="3.5" />
-                <circle cx="26" cy="45" r="4.5" />
-                <circle cx="22" cy="75" r="2.5" />
+                <path d="M0,0 C6,4 18,10 14,22 C10,34 22,38 18,52 C14,66 26,70 16,82 C10,90 20,96 18,100 L0,100 Z" />
+                <circle cx="21" cy="18" r="4" />
+                <circle cx="27" cy="40" r="5.5" />
+                <circle cx="18" cy="55" r="2.5" />
+                <circle cx="25" cy="70" r="3.5" />
+                <circle cx="30" cy="60" r="2" />
+                <circle cx="14" cy="88" r="3" />
               </svg>
             </div>
           ) : null}

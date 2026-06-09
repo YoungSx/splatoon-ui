@@ -84,7 +84,7 @@ export function TrailerVideo({ children, open: controlledOpen, onOpenChange, ...
 interface TrailerVideoThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   src: string
   alt?: string
-  /** Blob color — official default is #6af7ce (green) */
+  /** Blob color — official default is #00c8b4 (green) */
   blobColor?: string
   /** Blob display size in px (official renders at ~40% of container) */
   blobSize?: number
@@ -326,7 +326,7 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
             state={canvasState}
             durationIn={DURATION_IN}
             durationOut={DURATION_OUT}
-            color="#6af7ce"
+            color="#00c8b4"
             background="/_images/backgrounds/camo-black-2x.webp"
             count={splashCountRef.current}
             startPosition={splashStartPos}

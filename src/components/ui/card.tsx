@@ -28,7 +28,7 @@ const newsSurfaceVariants = cva("flex h-full flex-col pt-0 px-8 pb-6 relative z-
     surface: {
       paper: "bg-white text-[#0d0d0d]",
       cream: "bg-[#f5f0e8] text-[#0d0d0d]",
-      danger: "bg-[#ff505e] text-white",
+      danger: "bg-[#ff585e] text-white",
     },
   },
   defaultVariants: {
@@ -38,10 +38,12 @@ const newsSurfaceVariants = cva("flex h-full flex-col pt-0 px-8 pb-6 relative z-
 
 type NewsSurface = NonNullable<VariantProps<typeof newsSurfaceVariants>["surface"]>
 
+const STAGGER_ROTATIONS = ['4deg', '-3deg', '2deg', '0deg']
+
 const newsSurfaceFillMap = {
   paper: { light: "#ffffff", dark: "#ffffff" },
   cream: { light: "#f5f0e8", dark: "#f5f0e8" },
-  danger: { light: "#ff505e", dark: "#ff505e" },
+  danger: { light: "#ff585e", dark: "#ff585e" },
 } as const satisfies Record<NewsSurface, { light: string; dark: string }>
 
 export interface CardProps extends React.ComponentProps<"div"> {
@@ -50,6 +52,10 @@ export interface CardProps extends React.ComponentProps<"div"> {
   paperFasteners?: boolean
   paperLabel?: PaperLabelConfig
   surface?: NewsSurface
+  /** Show sticker-9 overlay decoration (news variant only) */
+  showSticker9?: boolean
+  /** Index for built-in rotation stagger (news variant only) */
+  staggerIndex?: number
   // For tag variant
   tagTheme?: "yellow" | "blue" | "purple" | "orange" | "green"
   tagRotation?: string
@@ -58,9 +64,9 @@ export interface CardProps extends React.ComponentProps<"div"> {
 const tagThemeMap = {
   yellow: "text-[#eaff3d] text-[#0d0d0d]",
   blue: "text-[#603bff] text-[#ffffff]",
-  purple: "text-[#af50ff] text-[#ffffff]",
-  orange: "text-[#ff9750] text-[#ffffff]",
-  green: "text-[#6af7ce] text-[#0d0d0d]",
+  purple: "text-[#a51ee1] text-[#ffffff]",
+  orange: "text-[#fa5a00] text-[#ffffff]",
+  green: "text-[#00c8b4] text-[#0d0d0d]",
 }
 
 interface PaperCardFrameProps {
@@ -70,6 +76,8 @@ interface PaperCardFrameProps {
   surface: NewsSurface
   paperLabel?: PaperLabelConfig
   paperFasteners: boolean
+  showSticker9?: boolean
+  staggerIndex?: number
   children: React.ReactNode
   forwardedRef?: React.ForwardedRef<HTMLDivElement>
   props?: Omit<React.ComponentProps<"div">, "children" | "className">
@@ -82,6 +90,8 @@ function PaperCardFrame({
   surface,
   paperLabel,
   paperFasteners,
+  showSticker9,
+  staggerIndex,
   children,
   forwardedRef,
   props,
@@ -90,9 +100,14 @@ function PaperCardFrame({
   const svgFills = newsSurfaceFillMap[surface]
   const { style: propStyle, ...restProps } = props ?? {}
 
+  const staggerTransform = staggerIndex !== undefined
+    ? `rotate(${STAGGER_ROTATIONS[staggerIndex % 4]})`
+    : undefined
+
   const cardStyle = {
     "--card-svg-fill": svgFills.light,
     "--card-svg-fill-dark": svgFills.dark,
+    ...(staggerTransform ? { transform: staggerTransform } : {}),
     ...propStyle,
   } as React.CSSProperties
 
@@ -104,6 +119,7 @@ function PaperCardFrame({
       style={cardStyle}
       className={cn(
         "group/card relative flex h-full flex-col cursor-pointer transition-transform duration-300 [transition-timing-function:var(--ease-in-out-quart)]",
+        staggerIndex !== undefined && "hover:rotate-0 hover:scale-[1.025]",
         className
       )}
       {...restProps}
@@ -167,6 +183,16 @@ function PaperCardFrame({
           fillRule="evenodd"
         />
       </svg>
+
+      {showSticker9 && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src="/official/tape/sticker-9.png"
+          srcSet="/official/tape/sticker-9.png 1x, /official/tape/sticker-9-2x.png 2x"
+          alt=""
+          className="absolute -top-3 -right-3 w-20 h-auto pointer-events-none select-none z-20 rotate-[-8deg]"
+        />
+      )}
     </Comp>
   )
 }
@@ -180,6 +206,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       paperFasteners,
       paperLabel,
       surface = "paper",
+      showSticker9,
+      staggerIndex,
       // For tag
       tagTheme = "yellow",
       tagRotation = "2deg",
@@ -250,6 +278,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           surface={surface}
           paperLabel={paperLabel}
           paperFasteners={paperFasteners ?? false}
+          showSticker9={showSticker9}
+          staggerIndex={staggerIndex}
           forwardedRef={ref}
           props={props}
         >
@@ -266,7 +296,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-header"
       className={cn(
-        "group/card-header grid auto-rows-min items-start gap-1.5 border-b-2 border-dashed border-current/20 pb-4 group-data-[size=sm]/card:pb-3",
+        "group/card-header grid auto-rows-min items-start gap-1.5 border-b border-dashed border-current/30 pb-4 group-data-[size=sm]/card:pb-3",
         className
       )}
       {...props}
@@ -330,7 +360,7 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center justify-between border-t-2 border-dashed border-current/20 pt-4 mt-2 group-data-[size=sm]/card:pt-3 group-data-[size=sm]/card:mt-1",
+        "flex items-center justify-between border-t border-dashed border-current/30 pt-4 mt-2 group-data-[size=sm]/card:pt-3 group-data-[size=sm]/card:mt-1",
         className
       )}
       {...props}

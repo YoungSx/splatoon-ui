@@ -329,7 +329,7 @@ export const CardStackCarouselIndicators = React.forwardRef<HTMLDivElement, Reac
               className={cn(
                 "scale-100 outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-offset-2",
                 isActive
-                  ? "scale-110 bg-[var(--neon-yellow,#E3FF00)] shadow-[2px_2px_0px_var(--chaos-black,#181818)]"
+                  ? "scale-110 bg-[var(--neon-yellow,#eaff3d)] shadow-[2px_2px_0px_var(--chaos-black,#181818)]"
                   : "bg-[var(--chaos-black,#181818)]/40 hover:bg-[var(--chaos-black,#181818)]/70"
               )}
               onClick={() => {

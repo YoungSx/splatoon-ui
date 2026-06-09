@@ -31,6 +31,10 @@ export interface WeaponCardProps extends React.ComponentProps<'a'> {
   href?: string
   /** Card size */
   size?: 'sm' | 'md' | 'lg'
+  /** URL for a circular weapon category icon overlay */
+  categoryIcon?: string
+  /** Render the weapon name as vertical text on the left edge (visible on hover) */
+  verticalTitle?: boolean
 }
 
 // ─── Constants ──────────────────────────────────────────────────────────────
@@ -52,6 +56,8 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
       section,
       href = '#',
       size = 'md',
+      categoryIcon,
+      verticalTitle,
       className,
       ...props
     },
@@ -70,7 +76,7 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
           className,
         )}
         style={{
-          transitionDelay: '0.25s',
+          transitionDuration: '0.25s',
         }}
         {...props}
       >
@@ -98,6 +104,23 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
               </h3>
             </div>
           </div>
+
+          {/* Vertical title on left edge (visible on hover) */}
+          {verticalTitle && (
+            <span
+              className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none font-heading text-xs font-black uppercase tracking-wider text-white/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+              style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
+            >
+              {name}
+            </span>
+          )}
+
+          {/* Circular category icon frame */}
+          {categoryIcon && (
+            <div className="pointer-events-none absolute bottom-3 right-3 h-16 w-16 rounded-full border-3 border-chaos-black bg-white dark:bg-gray-800">
+              <img src={categoryIcon} alt="" className="h-full w-full object-contain p-1" />
+            </div>
+          )}
         </div>
 
         {/* Section label below card */}

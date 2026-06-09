@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 export function Sticker5({ className, ...props }: React.ComponentProps<"svg">) {
   // SVG paths for the orange polygon layers and white brush script
   const renderStickerContent = (strokeColor?: string, strokeWidth?: number, fillColorSpecial?: string) => {
-    const mainOrange = fillColorSpecial || "#ff505e" // Splatoon vibrant orange/red
+    const mainOrange = fillColorSpecial || "#ff585e" // Splatoon vibrant orange/red
     const scriptColor = strokeColor ? strokeColor : "#ffffff"
 
     return (
@@ -20,7 +20,7 @@ export function Sticker5({ className, ...props }: React.ComponentProps<"svg">) {
         {/* Inner Orange/Red Nested Parallelogram (creates the cut-out shape) */}
         <polygon
           points="110,22 215,22 185,58 80,58"
-          fill="#ff505e"
+          fill="#ff585e"
           stroke={strokeColor}
           strokeWidth={strokeWidth}
           opacity={strokeColor ? 1 : 0.8}
@@ -30,7 +30,7 @@ export function Sticker5({ className, ...props }: React.ComponentProps<"svg">) {
         <circle cx="238" cy="40" r="14" fill={strokeColor ? strokeColor : "#ffffff"} stroke={strokeColor} strokeWidth={strokeWidth} />
         {/* Inner smiley face details in circular mark */}
         {!strokeColor && (
-          <path d="M 233,40 Q 238,36 243,40 L 238,45 Z" fill="#ff505e" />
+          <path d="M 233,40 Q 238,36 243,40 L 238,45 Z" fill="#ff585e" />
         )}
 
         {/* White Brush Script Text: "ハaJンi" */}

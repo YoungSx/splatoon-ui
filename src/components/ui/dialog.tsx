@@ -108,7 +108,7 @@ interface DialogContentProps extends DialogPrimitive.Popup.Props {
 const surfaceFills = {
   paper: { bg: "bg-white text-[#0d0d0d]", fill: "#ffffff" },
   cream: { bg: "bg-[#f5f0e8] text-[#0d0d0d]", fill: "#f5f0e8" },
-  danger: { bg: "bg-[#ff505e] text-white", fill: "#ff505e" },
+  danger: { bg: "bg-[#ff585e] text-white", fill: "#ff585e" },
 } as const
 
 function DialogContent({

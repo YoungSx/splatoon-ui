@@ -7,12 +7,12 @@ import { cn } from '@/lib/utils'
 // ── CSS Custom Properties (matches official :root variables) ──
 // --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43)
 // --duration-factor: 1
-// --color-green: #6af7ce
+// --color-green: #00c8b4
 const EASE_BACK_OUT = 'cubic-bezier(0.21, 0.12, 0.35, 1.43)'
 
 interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   idleWobbleAmount?: number
-  /** Blob color — official default is #6af7ce (--color-green) */
+  /** Blob color — official default is #00c8b4 (--color-green) */
   hexColor?: string
   /** Container width in px — official uses 40% of parent button */
   blobSize?: number
@@ -216,7 +216,7 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
             Official: position:absolute; left:50%; top:50%;
               transform:translate(-40%,-50%) scale(var(--blob-scale));
               transition:transform 0.3s cubic-bezier(0.21,0.12,0.35,1.43);
-              color:#6af7ce; width:30%;
+              color:#00c8b4; width:30%;
         */}
         <svg
           aria-hidden="true"
@@ -225,7 +225,7 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
             position: 'absolute',
             left: '50%', top: '50%',
             width: '30%',
-            color: '#6af7ce',
+            color: '#00c8b4',
             transform: 'translate(-40%, -50%) scale(var(--blob-scale, 1))',
             transition: `transform 0.3s ${EASE_BACK_OUT}`,
           }}
