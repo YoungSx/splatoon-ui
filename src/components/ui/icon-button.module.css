@@ -1,19 +1,26 @@
 /* icon-button.module.css
-   Official splatoon.nintendo.com circular icon button system.
-   Supports size variants, color variants, and squish animation. */
+   1:1 replica of splatoon.nintendo.com icon button system.
+   Official class: .icon-button_iconButton__vRbEr */
 
-/* ── Base shell ── */
+/* ── Base shell (official) ── */
 
 .shell {
+  --size: 60px;
+  --icon-size: calc(var(--size) * 0.5);
+  --scale: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: var(--size);
   border: none;
   outline: none;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, opacity 0.2s ease;
+  overflow: hidden;
+  width: var(--size);
+  height: var(--size);
+  background-color: var(--color-primary, #00c8b4);
+  color: var(--color-primary-alt, #0d0d0d);
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   line-height: 1;
@@ -24,8 +31,11 @@
   outline-offset: 2px;
 }
 
+/* ── Disabled (official) ── */
+
 .shell:disabled,
 .shell[aria-disabled="true"] {
+  background-color: transparent;
   cursor: auto;
   opacity: 0.2;
   pointer-events: none;
@@ -34,48 +44,38 @@
 /* ── Size variants ── */
 
 .sm {
-  --icon-button-size: 40px;
-  --icon-button-icon-size: 20px;
+  --size: 40px;
 }
 
 .md {
-  --icon-button-size: 48px;
-  --icon-button-icon-size: 24px;
+  --size: 48px;
 }
 
 .lg {
-  --icon-button-size: 60px;
-  --icon-button-icon-size: 30px;
+  --size: 60px;
 }
 
-.shell {
-  width: var(--icon-button-size, 40px);
-  height: var(--icon-button-size, 40px);
-}
+/* ── Icon (official) ── */
 
 .icon {
-  width: var(--icon-button-icon-size, 20px);
-  height: var(--icon-button-icon-size, 20px);
   display: block;
-  flex-shrink: 0;
+  fill: currentcolor;
+  margin: auto;
+  position: relative;
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
 /* ── Color variants ── */
 
 .carousel {
-  background-color: #00c8b4;
-  color: #0D0D0D;
-}
-
-.carousel:disabled,
-.carousel[aria-disabled="true"] {
-  background-color: transparent;
-  color: #0D0D0D;
+  background-color: var(--color-primary, #00c8b4);
+  color: var(--color-primary-alt, #0d0d0d);
 }
 
 .primary {
-  background-color: #603bff;
-  color: #fff;
+  background-color: var(--color-blue, #603bff);
+  color: var(--color-white, #fff);
 }
 
 .ghost {
@@ -83,13 +83,9 @@
   color: currentColor;
 }
 
-.ghost:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
 .yellow {
-  background-color: #eaff3d;
-  color: #0D0D0D;
+  background-color: var(--color-yellow, #eaff3d);
+  color: var(--color-black, #0d0d0d);
 }
 
 .outline {
@@ -100,51 +96,79 @@
 
 .outline:hover {
   background-color: currentColor;
-  color: #0D0D0D;
+  color: var(--color-black, #0d0d0d);
 }
 
-/* ── Hover scale ── */
+/* ── Accent variant (official) ── */
 
-.shell:not(:disabled):not([aria-disabled="true"]):hover {
-  --scale: 1.1;
+.accent {
+  background-color: var(--color-accent, #eaff3d);
+  color: var(--color-accent-alt, #0d0d0d);
 }
 
-/* ── Squish animation (official) ── */
+/* ── Hover (official: only --scale, NO background change) ── */
+
+@media (hover: hover) {
+  .shell:not(:disabled):not([aria-disabled="true"]):hover {
+    --scale: 1.1;
+  }
+}
+
+/* ── Squish animation (official 1:1) ── */
 
 .squish {
-  animation: icon-button_squish 2s ease-out infinite;
+  animation: squish calc(var(--duration-factor, 1) * 2s) ease-out infinite;
 }
 
-/* The squish direction is controlled by --squish-direction (1 or -1) */
+/* ── Squish direction modifiers (official) ── */
 
-@keyframes icon-button_squish {
+.squishLeft {
+  --squish-direction: -1;
+}
+
+.squishRight {
+  --squish-direction: 1;
+}
+
+/* ── Keyframes (official 1:1) ── */
+
+@keyframes squish {
   0%, 100% {
-    transform: scale(calc(var(--scale, 1) * 1));
+    transform: scale(calc(var(--scale) * 1));
   }
   30% {
-    transform: scaleX(calc(var(--scale, 1) * .9)) scaleY(calc(var(--scale, 1) * 1.1)) translateX(calc(15% * var(--squish-direction, 1)));
+    transform:
+      scaleX(calc(var(--scale) * 0.9))
+      scaleY(calc(var(--scale) * 1.1))
+      translateX(calc(15% * var(--squish-direction, 1)));
   }
   45% {
-    transform: scaleX(calc(var(--scale, 1) * 1.05)) scaleY(calc(var(--scale, 1) * 1)) translateX(calc(8% * var(--squish-direction, 1)));
+    transform:
+      scaleX(calc(var(--scale) * 1.05))
+      scaleY(calc(var(--scale) * 1))
+      translateX(calc(8% * var(--squish-direction, 1)));
   }
   60% {
-    transform: scaleX(calc(var(--scale, 1) * .95)) scaleY(calc(var(--scale, 1) * 1.05)) translateX(calc(8% * var(--squish-direction, 1)));
+    transform:
+      scaleX(calc(var(--scale) * 0.95))
+      scaleY(calc(var(--scale) * 1.05))
+      translateX(calc(8% * var(--squish-direction, 1)));
   }
 }
 
-/* ── Scale-only animation (gentle pulse) ── */
-
-@keyframes icon-button_pulse {
-  0%, 100% {
-    transform: scale(calc(var(--scale, 1) * 1));
-  }
-  50% {
-    transform: scale(calc(var(--scale, 1) * 1.05));
-  }
-}
+/* ── Pulse (gentle scale-only) ── */
 
 .pulse {
-  animation: icon-button_pulse 2s ease-in-out infinite;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(calc(var(--scale) * 1));
+  }
+  50% {
+    transform: scale(calc(var(--scale) * 1.05));
+  }
 }
 
 /* ── Reduced motion ── */
