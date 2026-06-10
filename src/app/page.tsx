@@ -21,7 +21,7 @@ import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { CharacterShowcase } from '@/components/ui/character-showcase'
-import { InteractiveSplatter } from '@/components/ui/splats'
+import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
 import { TrailerVideo, TrailerVideoThumbnail, TrailerVideoContent } from '@/components/ui/trailer-video'
 import { NewsCarousel } from '@/components/ui/news-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
@@ -423,15 +423,11 @@ export default function Home() {
          ──────────────────────────────────────────────────────── */}
       <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-24 px-6 relative transition-colors duration-300 flex flex-col items-center">
         {/* Decorative Splats */}
-        <div className="absolute top-10 left-10 text-splat-red opacity-80 mix-blend-multiply dark:mix-blend-normal">
-          <svg viewBox="0 0 100 100" className="w-32 h-32 fill-current">
-            <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
-          </svg>
+        <div className="absolute top-10 left-10 text-[#ff585e] opacity-80 mix-blend-multiply dark:mix-blend-normal">
+          <Splat3 className="w-32 h-32" />
         </div>
-        <div className="absolute bottom-10 right-10 text-splat-green opacity-80 mix-blend-multiply dark:mix-blend-normal">
-          <svg viewBox="0 0 100 100" className="w-48 h-48 fill-current">
-            <path d="M50 90 C 80 85, 90 60, 80 35 C 70 10, 30 15, 20 40 C 10 65, 20 95, 50 90 Z"/>
-          </svg>
+        <div className="absolute bottom-10 right-10 text-[#00c8b4] opacity-80 mix-blend-multiply dark:mix-blend-normal">
+          <Splat3 className="w-48 h-48" />
         </div>
 
         <div className="w-full max-w-5xl flex flex-col items-center relative z-10 space-y-12">
@@ -771,9 +767,7 @@ export default function Home() {
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative transition-colors duration-300">
         <div className="absolute top-4 left-4 text-[#603bff] opacity-40">
-          <svg viewBox="0 0 100 100" className="w-32 h-32 fill-current">
-            <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
-          </svg>
+          <Splat3 className="w-32 h-32" />
         </div>
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center relative z-10 space-y-16 text-center">
           {/* Purchase CTA */}
@@ -863,9 +857,7 @@ export default function Home() {
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#0d0d0d] text-white py-20 px-6 pattern-camo-black">
         <div className="absolute top-6 right-6 text-[#a51ee1] opacity-20">
-          <svg viewBox="0 0 100 100" className="w-24 h-24 fill-current">
-            <path d="M50 10 C 20 15, 10 40, 20 65 C 30 90, 70 85, 80 60 C 90 35, 80 5, 50 10 Z"/>
-          </svg>
+          <Splat3 className="w-24 h-24" />
         </div>
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           <InView direction="up" rootMargin="-50px">
