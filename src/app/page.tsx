@@ -144,7 +144,7 @@ function PageTransitionDemo() {
 
   const current = pageContent[demoPage]
 
-  return (      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative transition-colors duration-300">
+  return (      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
       <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
           <HeadingTape color="green" className="mb-4 text-center">
@@ -218,7 +218,7 @@ function SplatoonTitleDemo() {
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
 
   return (
-    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative overflow-hidden transition-colors duration-300">
+    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative overflow-hidden transition-colors duration-300 pattern-chip-white">
       <InView direction="up" rootMargin="-50px">
       <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
         <HeadingTape color="purple" className="mb-4 text-center">
@@ -421,12 +421,12 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-24 px-6 relative transition-colors duration-300 flex flex-col items-center">
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-24 px-6 relative transition-colors duration-300 flex flex-col items-center pattern-tapes-black">
         {/* Decorative Splats */}
-        <div className="absolute top-10 left-10 text-[#ff585e] opacity-80 mix-blend-multiply dark:mix-blend-normal">
+        <div className="absolute top-10 left-10 text-[#ff585e]">
           <Splat3 className="w-32 h-32" />
         </div>
-        <div className="absolute bottom-10 right-10 text-[#00c8b4] opacity-80 mix-blend-multiply dark:mix-blend-normal">
+        <div className="absolute bottom-10 right-10 text-[#00c8b4]">
           <Splat3 className="w-48 h-48" />
         </div>
 
@@ -765,8 +765,8 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative transition-colors duration-300">
-        <div className="absolute top-4 left-4 text-[#603bff] opacity-40">
+      <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative transition-colors duration-300 pattern-octo-black">
+        <div className="absolute top-4 left-4 text-[#603bff]">
           <Splat3 className="w-32 h-32" />
         </div>
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center relative z-10 space-y-16 text-center">
@@ -856,7 +856,7 @@ export default function Home() {
          SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
          ──────────────────────────────────────────────────────── */}
       <section className="bg-[#0d0d0d] text-white py-20 px-6 pattern-camo-black">
-        <div className="absolute top-6 right-6 text-[#a51ee1] opacity-20">
+        <div className="absolute top-6 right-6 text-[#a51ee1]">
           <Splat3 className="w-24 h-24" />
         </div>
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
@@ -1405,7 +1405,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 3.5: OFFICIAL REPLICA COMPONENTS
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300">
+      <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-camo-white">
         <div className="w-full max-w-6xl space-y-12">
           <HeadingTape>Official Replica Components</HeadingTape>
           <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
