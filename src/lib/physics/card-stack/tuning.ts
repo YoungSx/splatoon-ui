@@ -87,12 +87,6 @@ export const cardStackLayoutTuning = {
   // Previous/next navigation button height.
   // Increase: taller nav hit area. Decrease: shorter button footprint.
   navButtonHeightPx: 86,
-  // Indicator pill width.
-  // Increase: wider indicators. Decrease: tighter indicator pills.
-  indicatorWidthPx: 32,
-  // Indicator pill height.
-  // Increase: thicker indicators. Decrease: slimmer indicators.
-  indicatorHeightPx: 12,
   // Maximum signed card offset that stays mounted as a primary visible neighbor.
   // Increase: more neighboring cards stay visibly active. Decrease: tighter visible stack.
   visibleOffsetLimit: 2,

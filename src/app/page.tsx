@@ -24,6 +24,9 @@ import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
 import { TrailerVideo, TrailerVideoThumbnail, TrailerVideoContent } from '@/components/ui/trailer-video'
 import { NewsCarousel } from '@/components/ui/news-carousel'
+import { WeaponsGalleryCarousel } from '@/components/ui/weapons-gallery-carousel'
+import { ShopsGalleryCarousel } from '@/components/ui/shops-gallery-carousel'
+import { MarqueeCarousel } from '@/components/ui/marquee-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
 import { GridNewsCard } from '@/components/ui/grid-news-card'
 import { HeadingTape } from '@/components/ui/heading-tape'
@@ -328,6 +331,36 @@ const GALLERY_ITEMS: GalleryItem[] = [
     image: '/official/thumnail_112.png',
     section: 'Graffiti',
   },
+]
+
+// ── Carousel Demo Data ──────────────────────────────────────────────────────
+
+const weaponsGalleryItems = [
+  { id: 'shooter', image: '/official/hero-image.png', title: 'Shooters', description: 'Reliable all-rounders with steady ink output.' },
+  { id: 'roller', image: '/official/kv-image-06.png', title: 'Rollers', description: 'Paint massive areas with sweeping ink rolls.' },
+  { id: 'charger', image: '/official/banner_4.png', title: 'Chargers', description: 'Long-range precision sniper weapons.' },
+  { id: 'slosher', image: '/official/slider_banner_1.png', title: 'Sloshers', description: 'Arc-splash buckets that lob ink over cover.' },
+  { id: 'dualies', image: '/official/slider_banner_7.png', title: 'Dualies', description: 'Dual-wield pistols with dodge-roll bursts.' },
+  { id: 'splatana', image: '/official/thumnail_112.png', title: 'Splatanas', description: 'Blade weapons that slash ink projectiles.' },
+]
+
+const shopsGalleryItems = [
+  { id: 'hotlantis', image: '/official/hero-image.png', title: 'Hotlantis', description: 'General store run by Harmony.', icon: '/official/nav-character-image.png', iconRotate: -14 },
+  { id: 'ammo-knights', image: '/official/kv-image-06.png', title: 'Ammo Knights', description: 'Weapon shop run by Sheldon.', icon: '/official/nav-fashion-image.png', iconRotate: -38 },
+  { id: 'naut-couture', image: '/official/banner_4.png', title: 'Naut Couture', description: 'Headgear shop run by Jelonzo.', icon: '/official/nav-story-image.png', iconRotate: -43 },
+  { id: 'man-o-wardrobe', image: '/official/slider_banner_1.png', title: 'Man-O\'-Wardrobe', description: 'Clothing shop run by Spyke.', icon: '/official/nav-world-image.png', iconRotate: 25 },
+  { id: 'crush-station', image: '/official/slider_banner_7.png', title: 'Crush Station', description: 'Shoe shop run by Crusty Sean.', icon: '/official/nav-character-image.png', iconRotate: 11 },
+]
+
+const marqueeItems = [
+  { id: 1, image: '/official/hero-image.png', alt: 'Gameplay 1' },
+  { id: 2, image: '/official/kv-image-06.png', alt: 'Gameplay 2' },
+  { id: 3, image: '/official/banner_4.png', alt: 'Gameplay 3' },
+  { id: 4, image: '/official/slider_banner_1.png', alt: 'Gameplay 4' },
+  { id: 5, image: '/official/slider_banner_7.png', alt: 'Gameplay 5' },
+  { id: 6, image: '/official/thumnail_112.png', alt: 'Gameplay 6' },
+  { id: 7, image: '/official/thumnail_113.png', alt: 'Gameplay 7' },
+  { id: 8, image: '/official/hero-image.png', alt: 'Gameplay 8' },
 ]
 
 export default function Home() {
@@ -641,7 +674,170 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Banner divider: Buttons → Overlays */}
+      {/* Banner divider: Buttons → IconButton */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design1" rotate="up" className="top-0" />
+        <BannerDivider variant="green" rotate="down" className="top-[35px] md:top-[45px]" />
+      </div>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-20 px-6 relative transition-colors duration-300 pattern-chip-white">
+        <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
+          <InView direction="up" rootMargin="-50px">
+            <div className="text-center space-y-4">
+              <HeadingTape color="blue">Icon Button</HeadingTape>
+              <p className="text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+                1:1 replica of splatoon.nintendo.com circular icon button — official squish animation, ink-splatter SVG arrows, theme-driven colors.
+              </p>
+            </div>
+          </InView>
+
+          {/* Official carousel arrows — the exact buttons used on splatoon.nintendo.com */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <h3 className="text-lg font-black uppercase tracking-wider text-center">Carousel Navigation</h3>
+              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">Official gallery arrows with continuous squish animation — 60px circle, no border, no shadow</p>
+              <div className="flex flex-wrap items-center justify-center gap-8">
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="lg" direction="left" animation="squish" aria-label="Previous" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Left squish</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Next" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Right squish</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="lg" disabled aria-label="Disabled" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Disabled</span>
+                </div>
+              </div>
+            </div>
+          </InView>
+
+          {/* All size variants */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <h3 className="text-lg font-black uppercase tracking-wider text-center">Size Variants</h3>
+              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">sm=40px · md=48px · lg=60px (official default)</p>
+              <div className="flex flex-wrap items-end justify-center gap-6">
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="sm" direction="right" animation="squish" aria-label="Small" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">sm 40px</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="md" direction="right" animation="squish" aria-label="Medium" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">md 48px</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Large" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">lg 60px</span>
+                </div>
+              </div>
+            </div>
+          </InView>
+
+          {/* Color variants */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <h3 className="text-lg font-black uppercase tracking-wider text-center">Color Variants</h3>
+              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">Theme-driven via --color-primary / --color-accent CSS variables</p>
+              <div className="flex flex-wrap items-center justify-center gap-5">
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Carousel" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Carousel</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="primary" size="lg" direction="right" animation="squish" aria-label="Primary" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Primary</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="yellow" size="lg" direction="right" animation="squish" aria-label="Yellow" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Yellow</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="accent" size="lg" direction="right" animation="squish" aria-label="Accent" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Accent</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="ghost" size="lg" direction="right" aria-label="Ghost" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Ghost</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="outline" size="lg" direction="right" aria-label="Outline" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Outline</span>
+                </div>
+              </div>
+            </div>
+          </InView>
+
+          {/* Animation variants */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <h3 className="text-lg font-black uppercase tracking-wider text-center">Animations</h3>
+              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">squish = official bouncy squish · pulse = gentle scale · none = static</p>
+              <div className="flex flex-wrap items-center justify-center gap-8">
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Squish" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Squish</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="primary" size="lg" direction="right" animation="pulse" aria-label="Pulse" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Pulse</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="yellow" size="lg" direction="right" animation="none" aria-label="None" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">None</span>
+                </div>
+              </div>
+            </div>
+          </InView>
+
+          {/* Custom icon examples */}
+          <InView direction="up" rootMargin="-50px">
+            <div className="space-y-6">
+              <h3 className="text-lg font-black uppercase tracking-wider text-center">Custom Icons</h3>
+              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">Pass any SVG via the icon prop — replaces built-in arrow</p>
+              <div className="flex flex-wrap items-center justify-center gap-5">
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="carousel" size="lg" aria-label="Close" icon={
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-6 w-6">
+                      <path d="M18 6L6 18M6 6l12 12" />
+                    </svg>
+                  } />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Close</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="primary" size="lg" aria-label="Play" icon={
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  } />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Play</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="yellow" size="lg" direction="up" animation="squish" aria-label="Up" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Arrow Up</span>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                  <IconButton variant="ghost" size="lg" direction="down" aria-label="Down" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Arrow Down</span>
+                </div>
+              </div>
+            </div>
+          </InView>
+
+          <div className="flex flex-wrap justify-center gap-3">
+            <Badge>60px Circle</Badge>
+            <Badge variant="blue">No Border</Badge>
+            <Badge variant="green">Squish Animation</Badge>
+            <Badge variant="monochrome">Theme Colors</Badge>
+          </div>
+        </div>
+      </section>
+
+      {/* Banner divider: IconButton → Overlays */}
       <div className="relative h-[70px] md:h-[90px] z-20">
         <BannerDivider variant="design1" rotate="up" className="top-0" />
         <BannerDivider variant="purple" rotate="down" className="top-[35px] md:top-[45px]" />
@@ -1018,52 +1214,6 @@ export default function Home() {
                     </CardContent>
                   </Card>
 
-                  {/* IconButton Demo Card */}
-                  <Card
-                    variant="news"
-                    surface="cream"
-                    className="md:col-span-2"
-                  >
-                    <CardHeader>
-                      <CardTitle>IconButton</CardTitle>
-                      <CardDescription>Official circular icon button — carousel arrows, close buttons, etc.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-wrap items-center gap-4 pt-2">
-                      <div className="flex flex-col items-center gap-2">
-                        <IconButton variant="carousel" size="sm" direction="left" animation="squish" aria-label="Previous" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Carousel sm</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <IconButton variant="carousel" size="sm" direction="right" aria-label="Next" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Carousel sm</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <IconButton variant="primary" size="md" direction="left" aria-label="Previous" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Primary md</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <IconButton variant="yellow" size="lg" direction="right" animation="squish" aria-label="Next" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Yellow lg</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <IconButton variant="ghost" size="sm" aria-label="Close" icon={
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
-                            <path d="M18 6L6 18M6 6l12 12" />
-                          </svg>
-                        } />
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Ghost X</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <IconButton variant="outline" size="md" direction="up" aria-label="Scroll up" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Outline md</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <IconButton variant="carousel" size="md" disabled aria-label="Disabled" />
-                        <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">Disabled</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-
                   {/* Loader Card — full width span in 2-col grid */}
                   <Card
                     variant="news"
@@ -1318,10 +1468,57 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Banner divider: Gallery → Progress */}
+      {/* Banner divider: Gallery → Carousel Variants */}
       <div className="relative h-[70px] md:h-[90px] z-20">
         <BannerDivider variant="design1" rotate="down" className="top-0" />
         <BannerDivider variant="purple" rotate="up" className="top-[35px] md:top-[45px]" />
+      </div>
+
+      {/* ────────────────────────────────────────────────────────
+         SECTION 4.5: CAROUSEL VARIANTS (Official carousel types)
+         ──────────────────────────────────────────────────────── */}
+      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
+        <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "64rem" }}>
+          <div className="text-center">
+            <HeadingTape color="blue">Carousel Variants</HeadingTape>
+            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-2">
+              Official carousel components from splatoon.nintendo.com/en/weapons/
+            </p>
+          </div>
+
+          {/* Weapons Gallery Carousel */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-black uppercase tracking-wider text-center">Weapons Gallery</h3>
+            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 text-center max-w-xl mx-auto">
+              Photo gallery with rotation transitions and pagination dots. Navigated sequentially with arrow controls.
+            </p>
+            <WeaponsGalleryCarousel items={weaponsGalleryItems} />
+          </div>
+
+          {/* Shops Gallery Carousel */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-black uppercase tracking-wider text-center">Shops Gallery</h3>
+            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 text-center max-w-xl mx-auto">
+              Gallery with character portrait icons as pagination. Each shop has a unique keeper icon.
+            </p>
+            <ShopsGalleryCarousel items={shopsGalleryItems} />
+          </div>
+
+          {/* Marquee Carousel */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-black uppercase tracking-wider text-center">Infinite Marquee</h3>
+            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 text-center max-w-xl mx-auto">
+              Continuous scrolling marquee with 22 gameplay screenshots. Duplicated for seamless looping.
+            </p>
+            <MarqueeCarousel items={marqueeItems} />
+          </div>
+        </div>
+      </section>
+
+      {/* Banner divider: Carousel Variants → Progress */}
+      <div className="relative h-[70px] md:h-[90px] z-20">
+        <BannerDivider variant="design2" rotate="up" className="top-0" />
+        <BannerDivider variant="green" rotate="down" className="top-[35px] md:top-[45px]" />
       </div>
 
       {/* ────────────────────────────────────────────────────────

@@ -2,10 +2,9 @@
 
 import * as React from "react"
 
-import { Carousel } from "@/components/ui/carousel"
+import { Carousel, CarouselPagination } from "@/components/ui/carousel"
 import {
   CardStackCarouselContent,
-  CardStackCarouselIndicators,
   CardStackCarouselItem,
   CardStackCarouselNext,
   CardStackCarouselPrevious,
@@ -55,7 +54,7 @@ export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
         </CardStackCarouselContent>
         <CardStackCarouselPrevious />
         <CardStackCarouselNext />
-        <CardStackCarouselIndicators />
+        <CarouselPagination />
       </CardStackCarouselScene>
     </Carousel>
   )

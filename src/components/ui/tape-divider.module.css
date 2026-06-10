@@ -1,0 +1,96 @@
+/* Tape Divider — full-width tape strip between sections (matches official splatoon.nintendo.com) */
+
+.tapeDivider {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+  pointer-events: none;
+  line-height: 0;
+}
+
+/* Primary tape strip (tape-2.png) */
+.tapePrimary {
+  background-image: url("/_images/tape-assets/tape-2.png");
+  background-image: image-set(url("/_images/tape-assets/tape-2.png") 1x, url("/_images/tape-assets/tape-2-2x.png") 2x);
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  height: 36px;
+  width: 100%;
+}
+
+/* Secondary tape strip (tape-3.png) */
+.tapeSecondary {
+  background-image: url("/_images/tape-assets/tape-3.png");
+  background-image: image-set(url("/_images/tape-assets/tape-3.png") 1x, url("/_images/tape-assets/tape-3-2x.png") 2x);
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  height: 38px;
+  width: 100%;
+}
+
+/* Primary-only: single tape strip */
+.primaryOnly .tapePrimary {
+  height: 36px;
+}
+
+/* Double: two tape strips stacked with slight offsets */
+.double .tapePrimary {
+  position: relative;
+  z-index: 1;
+}
+.double .tapeSecondary {
+  margin-top: -18px;
+  position: relative;
+  z-index: 0;
+}
+
+/* Rotation variants */
+.rotateLeft {
+  transform: rotate(-2deg);
+}
+.rotateRight {
+  transform: rotate(2deg);
+}
+.rotateStrong {
+  transform: rotate(-4deg);
+}
+
+/* Overlapped spacing — pushes next section up to overlap the tape */
+.overlap {
+  margin-top: -36px;
+  padding-top: 36px;
+}
+
+@media screen and (min-width: 640px) {
+  .tapePrimary {
+    height: 48px;
+  }
+  .tapeSecondary {
+    height: 50px;
+  }
+  .double .tapeSecondary {
+    margin-top: -24px;
+  }
+  .overlap {
+    margin-top: -48px;
+    padding-top: 48px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .tapePrimary {
+    height: 60px;
+  }
+  .tapeSecondary {
+    height: 62px;
+  }
+  .double .tapeSecondary {
+    margin-top: -30px;
+  }
+  .overlap {
+    margin-top: -60px;
+    padding-top: 60px;
+  }
+}

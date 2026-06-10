@@ -1,0 +1,126 @@
+/* Carousel Pagination — 1:1 replica of official pagination_pagination__G89bT */
+
+.pagination {
+  --gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  margin: 0 auto calc(var(--gap) * -1);
+  padding: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.item {
+  display: inline-block;
+}
+
+.item:not(:last-child) {
+  margin-right: var(--gap);
+}
+
+.item button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: block;
+  padding: 0;
+}
+
+.item:focus-visible .paginationIcon,
+.item:hover .paginationIcon {
+  transform: translateY(-5px);
+}
+
+.iconContainer {
+  display: block;
+  position: relative;
+}
+
+.paginationIcon {
+  display: block;
+  height: 28px;
+  width: 30px;
+  background: var(--chaos-black, #0d0d0d);
+  mask-image: url("/images/svg/icon-pagination.svg");
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("/images/svg/icon-pagination.svg");
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  opacity: 0.3;
+  transition: transform 0.2s ease;
+}
+
+:global(.dark) .paginationIcon {
+  background: white;
+}
+
+.paginationActive {
+  background: var(--color-primary, #00c8b4);
+  opacity: 1;
+}
+
+/* Image pagination — shops-gallery_paginationButton + shops-gallery_paginationImage */
+
+.imagePaginationButton {
+  --scale: 0;
+  position: relative;
+}
+
+.imagePaginationButton::before {
+  background-image: url("/images/svg/pagination-splat.svg");
+  background-repeat: no-repeat;
+  content: "";
+  height: 78px;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transform: translate(-35%, -35%) rotate(var(--rotate, 0deg)) scale(var(--scale));
+  transition: transform calc(var(--duration-factor, 1) * 0.1s) var(--ease-in, ease-in);
+  width: 74px;
+  z-index: 1;
+}
+
+.imagePaginationButton:focus-visible .imagePaginationImage,
+.imagePaginationButton:hover .imagePaginationImage {
+  background-clip: border-box;
+  border-color: var(--color-green);
+}
+
+.imagePaginationActive {
+  --scale: 1;
+}
+
+.imagePaginationActive .imagePaginationImage {
+  border-color: var(--color-accent) !important;
+}
+
+.imagePaginationImage {
+  --size: 90px;
+  background-clip: padding-box;
+  background-color: var(--color-green);
+  border: 4px solid transparent;
+  border-radius: 50%;
+  display: flex;
+  height: var(--size);
+  overflow: hidden;
+  position: relative;
+  width: var(--size);
+  z-index: 2;
+}
+
+.imagePaginationImage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+  transition: opacity 0.2s ease;
+}
+
+.imagePaginationActive .imagePaginationImage img {
+  opacity: 1;
+}

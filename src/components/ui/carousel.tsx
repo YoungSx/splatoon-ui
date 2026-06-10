@@ -1,11 +1,15 @@
 "use client"
 
 import * as React from "react"
+import { motion, useAnimation } from "framer-motion"
 
 import { cn } from "@/lib/utils"
+import paginationStyles from "./carousel-pagination.module.css"
 
 interface CarouselContextType {
   currentIndex: number
+  prevIndex: number
+  navigationDirection: number
   itemCount: number
   canGoPrev: boolean
   canGoNext: boolean
@@ -47,6 +51,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     ref
   ) => {
     const [currentIndex, setCurrentIndex] = React.useState(initialIndex)
+    const [prevIndex, setPrevIndex] = React.useState(initialIndex)
     const [itemCountState, setItemCount] = React.useState(0)
     const itemCount = itemCountProp ?? itemCountState
 
@@ -67,6 +72,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
           const proposed = typeof updater === "function" ? updater(resolvedPrev) : updater
           const next = clampIndex(proposed)
           if (next !== resolvedPrev) {
+            setPrevIndex(resolvedPrev)
             onIndexChange?.(next)
           }
           return next
@@ -108,9 +114,16 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       [goToNext, goToPrev, onKeyDown]
     )
 
+    const navigationDirection = React.useMemo(() => {
+      if (resolvedCurrentIndex === prevIndex) return 0
+      return prevIndex - resolvedCurrentIndex
+    }, [resolvedCurrentIndex, prevIndex])
+
     const contextValue = React.useMemo(
       () => ({
         currentIndex: resolvedCurrentIndex,
+        prevIndex,
+        navigationDirection,
         itemCount,
         canGoPrev: resolvedCurrentIndex > 0,
         canGoNext: resolvedCurrentIndex < itemCount - 1,
@@ -118,7 +131,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
         goToPrev,
         goToIndex,
       }),
-      [goToIndex, goToNext, goToPrev, itemCount, resolvedCurrentIndex]
+      [goToIndex, goToNext, goToPrev, itemCount, resolvedCurrentIndex, prevIndex, navigationDirection]
     )
 
     return (
@@ -128,11 +141,16 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
             ref={ref}
             data-slot="carousel"
             aria-roledescription="carousel"
-            className={cn("relative mx-auto w-full py-8", className)}
+            className={cn("relative mx-auto w-full", className)}
             onKeyDown={handleKeyDown}
             role={role}
             tabIndex={tabIndex}
             {...props}
+            style={{
+              "--selected": resolvedCurrentIndex,
+              "--total": itemCount,
+              ...props.style,
+            } as React.CSSProperties}
           >
             {children}
           </div>
@@ -167,15 +185,251 @@ CarouselContent.displayName = "CarouselContent"
 
 export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
   "data-index"?: number
+  fade?: boolean
+  rotateAmount?: number
 }
 
 export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ className, children, "data-index": index, ...props }, ref) => {
+  ({ className, children, "data-index": index, fade, rotateAmount, ...props }, ref) => {
+    const { currentIndex, prevIndex } = useCarousel()
+    const isActive = currentIndex === index
+    const wasActive = prevIndex === index
+    const isLeft = index !== undefined ? index < currentIndex : false
+    const isRight = index !== undefined ? index > currentIndex : false
+
+    const randomValues = React.useMemo(() => {
+      // Deterministic pseudo-random based on index to avoid SSR hydration mismatch
+      const seed = ((index ?? 0) * 2654435761) >>> 0
+      const direction = (seed & 1) === 0 ? -1 : 1
+      const fraction = ((seed >> 8) & 0xff) / 255
+      return {
+        rotateDirection: direction,
+        rotateAmount: (rotateAmount ?? 3) + 0.3 * fraction,
+      }
+    }, [rotateAmount, index])
+
+    const stateClasses = cn(
+      isActive && "gallery__item--active",
+      wasActive && "gallery__item--was-active",
+      isLeft && "gallery__item--left",
+      isRight && "gallery__item--right",
+    )
+
+    if (fade) {
+      const photoOffset = isActive ? 0 : isLeft ? -1 : 1
+
+      return (
+        <div
+          ref={ref}
+          data-slot="carousel-item"
+          data-index={index}
+          className={cn("gallery__item", stateClasses, className)}
+          style={{
+            "--active": isActive ? "1" : "0",
+            "--index-offset": String(index !== undefined ? index - currentIndex : 0),
+            "--photo-offset": String(photoOffset),
+            "--rotateDirection": String(randomValues.rotateDirection),
+            "--rotateAmount": `${randomValues.rotateAmount}deg`,
+          } as React.CSSProperties}
+          {...props}
+        >
+          {children}
+        </div>
+      )
+    }
+
     return (
-      <div ref={ref} data-slot="carousel-item" data-index={index} className={cn("relative", className)} {...props}>
+      <div
+        ref={ref}
+        data-slot="carousel-item"
+        data-index={index}
+        className={cn("relative", stateClasses, className)}
+        style={{
+          "--active": isActive ? "1" : "0",
+          "--index-offset": String(index !== undefined ? index - currentIndex : 0),
+        } as React.CSSProperties}
+        {...props}
+      >
         {children}
       </div>
     )
   }
 )
 CarouselItem.displayName = "CarouselItem"
+
+export function SwipeableGallery({ children, className }: { children: React.ReactNode; className?: string }) {
+  const { goToNext, goToPrev } = useCarousel()
+  const wrapperRef = React.useRef<HTMLDivElement>(null)
+  const state = React.useRef({ startX: 0, dx: 0, offsetting: false, scrolling: true })
+
+  const onTouchStart = React.useCallback((e: React.TouchEvent) => {
+    state.current.startX = e.touches[0].clientX
+    state.current.dx = 0
+    state.current.offsetting = false
+    state.current.scrolling = true
+  }, [])
+
+  const onTouchMove = React.useCallback((e: React.TouchEvent) => {
+    const s = state.current
+    const dx = e.touches[0].clientX - s.startX
+
+    if (!s.offsetting) {
+      const dy = Math.abs(e.touches[0].clientY - (e.target as HTMLElement).getBoundingClientRect().top)
+      if (dy > 20) return
+      if (Math.abs(dx) > 10) {
+        s.offsetting = true
+        s.scrolling = false
+        wrapperRef.current?.classList.add("gallery_dragging")
+      }
+    }
+
+    if (s.offsetting) {
+      e.preventDefault()
+      s.dx = dx
+      wrapperRef.current?.style.setProperty("--touch-offset", String(dx))
+    }
+  }, [])
+
+  const onTouchEnd = React.useCallback(() => {
+    const s = state.current
+    wrapperRef.current?.classList.remove("gallery_dragging")
+    wrapperRef.current?.style.removeProperty("--touch-offset")
+
+    if (s.offsetting && Math.abs(s.dx) > 50) {
+      if (s.dx < 0) goToNext()
+      else goToPrev()
+    }
+
+    s.startX = 0
+    s.dx = 0
+    s.offsetting = false
+    s.scrolling = true
+  }, [goToNext, goToPrev])
+
+  return (
+    <div
+      ref={wrapperRef}
+      className={className}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      {children}
+    </div>
+  )
+}
+SwipeableGallery.displayName = "SwipeableGallery"
+
+export interface CarouselPaginationProps extends React.HTMLAttributes<HTMLUListElement> {
+  labels?: string[]
+}
+
+export const CarouselPagination = React.forwardRef<HTMLUListElement, CarouselPaginationProps>(
+  ({ className, labels, ...props }, ref) => {
+    const { currentIndex, itemCount, goToIndex } = useCarousel()
+
+    return (
+      <ul
+        ref={ref}
+        data-slot="carousel-pagination"
+        className={cn(paginationStyles.pagination, className)}
+        {...props}
+      >
+        {Array.from({ length: itemCount }, (_, index) => (
+          <li key={index} className={paginationStyles.item}>
+            <button onClick={() => goToIndex(index)}>
+              <span className={paginationStyles.iconContainer}>
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    paginationStyles.paginationIcon,
+                    currentIndex === index && paginationStyles.paginationActive,
+                  )}
+                />
+                {labels?.[index] && (
+                  <span className="sr-only">{labels[index]}</span>
+                )}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    )
+  },
+)
+CarouselPagination.displayName = "CarouselPagination"
+
+export interface CarouselImagePaginationItem {
+  src: string
+  alt?: string
+  rotate?: number
+}
+
+export interface CarouselImagePaginationProps extends React.HTMLAttributes<HTMLUListElement> {
+  images: CarouselImagePaginationItem[]
+}
+
+export const CarouselImagePagination = React.forwardRef<HTMLUListElement, CarouselImagePaginationProps>(
+  ({ className, images, ...props }, ref) => {
+    const { currentIndex, goToIndex } = useCarousel()
+
+    return (
+      <ul
+        ref={ref}
+        data-slot="carousel-image-pagination"
+        className={cn(paginationStyles.pagination, className)}
+        {...props}
+      >
+        {images.map((img, index) => (
+          <li key={index} className={paginationStyles.item}>
+            <button onClick={() => goToIndex(index)}>
+              <div
+                style={{ "--rotate": `${img.rotate ?? 0}deg` } as React.CSSProperties}
+                className={cn(
+                  paginationStyles.imagePaginationButton,
+                  currentIndex === index && paginationStyles.imagePaginationActive,
+                )}
+              >
+                <div className={paginationStyles.imagePaginationImage}>
+                  <img src={img.src} alt={img.alt || ""} />
+                </div>
+              </div>
+            </button>
+          </li>
+        ))}
+      </ul>
+    )
+  },
+)
+CarouselImagePagination.displayName = "CarouselImagePagination"
+
+export function GalleryBounce({ children, className }: { children: React.ReactNode; className?: string }) {
+  const { currentIndex, prevIndex } = useCarousel()
+  const controls = useAnimation()
+
+  React.useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReduced) return
+
+    const direction = currentIndex > prevIndex ? 1 : -1
+    const startY = 100 * direction * (Math.random() > 0.5 ? -1 : 1)
+
+    controls.set({ y: startY, opacity: 1 })
+    controls.start({
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: 0.4,
+        duration: 1,
+        ease: [0.21, 1.56, 0.64, 1],
+      },
+    })
+  }, [currentIndex, prevIndex, controls])
+
+  return (
+    <motion.div className={className} animate={controls}>
+      {children}
+    </motion.div>
+  )
+}
+GalleryBounce.displayName = "GalleryBounce"
