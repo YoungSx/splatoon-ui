@@ -84,7 +84,7 @@ const ShopsGalleryItem = React.forwardRef<HTMLDivElement, ShopsGalleryItemProps>
           <div className={styles.galleryItemContent}>
             <h3 className="text-xl font-black uppercase tracking-wider">{item.title}</h3>
             {item.description && (
-              <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">{item.description}</p>
+              <p className="text-sm font-medium text-chaos-black/60">{item.description}</p>
             )}
           </div>
         </div>

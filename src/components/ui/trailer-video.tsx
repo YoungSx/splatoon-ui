@@ -390,7 +390,7 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
               {...props}
             >
               <div
-                className="relative w-full overflow-hidden bg-black border-4 border-white dark:border-[#1a1a1a]"
+                className="relative w-full overflow-hidden bg-black border-4 border-white"
                 style={{ paddingBottom: '56.25%' }}
               >
                 <iframe

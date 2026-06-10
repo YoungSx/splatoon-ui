@@ -90,8 +90,6 @@ import {
   PopoverTriggerButton,
 } from '@/components/ui/popover'
 
-const THEME_STORAGE_KEY = 'splat-theme'
-
 const homepageNewsCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
   id: item,
   paperLabel: {
@@ -146,13 +144,13 @@ function PageTransitionDemo() {
 
   const current = pageContent[demoPage]
 
-  return (      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
+  return (      <section className="bg-white text-chaos-black py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
       <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
           <HeadingTape color="green" className="mb-4 text-center">
             Page Transition
           </HeadingTape>
-          <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium">
+          <p className="text-center text-chaos-black/60 text-sm font-medium">
             WebGL ink splash screen transition — ported from official splatoon.nintendo.com shader
           </p>
 
@@ -163,7 +161,7 @@ function PageTransitionDemo() {
           durationOut={1000}
           autoReveal={false}
           onRevealed={() => setIsTransitioning(false)}
-          className="w-full h-[320px] rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 dark:border-white/15 bg-[#f5f0e8] dark:bg-[#1a1a1a] transition-colors duration-300"
+          className="w-full h-[320px] rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-[#f5f0e8] transition-colors duration-300"
         >
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center space-y-3">
@@ -171,7 +169,7 @@ function PageTransitionDemo() {
               <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider">
                 {current.title}
               </h3>
-              <p className="text-sm text-chaos-black/50 dark:text-white/50 font-medium">
+              <p className="text-sm text-chaos-black/50 font-medium">
                 {current.subtitle}
               </p>
             </div>
@@ -220,13 +218,13 @@ function SplatoonTitleDemo() {
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
 
   return (
-    <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative overflow-hidden transition-colors duration-300 pattern-chip-white">
+    <section className="bg-white text-chaos-black py-16 px-6 relative overflow-hidden transition-colors duration-300 pattern-chip-white">
       <InView direction="up" rootMargin="-50px">
       <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
         <HeadingTape color="purple" className="mb-4 text-center">
           Splatoon Titles
         </HeadingTape>
-        <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+        <p className="text-center text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
           使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
         </p>
 
@@ -367,61 +365,26 @@ export default function Home() {
   const [reducedMotion, setReducedMotion] = React.useState(false)
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
 
-  const toggleTheme = React.useCallback(() => {
-    const root = window.document.documentElement
-    const nextTheme = root.classList.contains('dark') ? 'light' : 'dark'
-    root.classList.toggle('dark', nextTheme === 'dark')
-    localStorage.setItem(THEME_STORAGE_KEY, nextTheme)
-  }, [])
-
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white overflow-x-hidden font-sans transition-colors duration-300">
-      
+    <div className="min-h-screen flex flex-col bg-white text-chaos-black overflow-x-hidden font-sans transition-colors duration-300">
+
       {/* 🦑 Navigation Header Bar */}
       <Navigation />
-
-      {/* ────────────────────────────────────────────────────────
-         FIXED FLOAT: SPLATOON THEMED THEME TOGGLER
-         ──────────────────────────────────────────────────────── */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <button
-          onClick={toggleTheme}
-          className="group/toggle relative inline-flex size-14 items-center justify-center rounded-full border-[3px] border-[#0d0d0d] bg-[#603bff] text-[#eaff3d] shadow-soft-splat-md transition-all duration-300 hover:scale-110 active:scale-95 hover:bg-[#eaff3d] hover:text-[#603bff] dark:border-white dark:bg-[#eaff3d] dark:text-[#0d0d0d] dark:hover:bg-[#603bff] dark:hover:text-white"
-          title="Toggle Ink Battle Theme"
-        >
-          {/* Squid silhouette — shown in light mode (switch to dark) */}
-          <span className="flex flex-col items-center justify-center dark:hidden">
-            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 2C8.5 2 5.5 4.5 5 8c-.3 2 .5 4 2 5.5L12 22l5-8.5c1.5-1.5 2.3-3.5 2-5.5-.5-3.5-3.5-6-7-6zm0 8.5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
-            </svg>
-            <span className="mt-0.5 text-[9px] font-black leading-none">DARK</span>
-          </span>
-          {/* Kid silhouette — shown in dark mode (switch to light) */}
-          <span className="hidden flex-col items-center justify-center dark:flex">
-            <svg className="h-5 w-5 animate-spin-slow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12 1C9 1 6.5 3 6 6c-.3 2 .3 4 1.5 5.5L12 17l4.5-5.5C17.7 10 18.3 8 18 6c-.5-3-3-5-6-5zm0 7c-.8 0-1.5-.7-1.5-1.5S11.2 5 12 5s1.5.7 1.5 1.5S12.8 8 12 8z" />
-              <circle cx="10.5" cy="5.5" r="0.5" />
-              <circle cx="13.5" cy="5.5" r="0.5" />
-            </svg>
-            <span className="mt-0.5 text-[9px] font-black leading-none">LIGHT</span>
-          </span>
-        </button>
-      </div>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 1: HERO HEADER + INK TRAIL (Interactive cursor effect)
          ──────────────────────────────────────────────────────── */}
       <InkTrailCanvas colors={['#eaff3d', '#603bff', '#ff585e', '#00c8b4', '#fa5a00']}>
-        <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white gap-6 transition-colors duration-300 pattern-chip-white">
+        <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white text-chaos-black gap-6 transition-colors duration-300 pattern-chip-white">
           <div className="flex flex-col items-center gap-3 text-center z-10">
             <Badge variant="sticker">
               <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
               Component Library
             </Badge>
-            <h1 className="-skew-x-6 font-heading text-5xl md:text-6xl font-black uppercase tracking-wider text-chaos-black dark:text-[#eaff3d] drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)] dark:drop-shadow-[3px_3px_0px_rgba(0,0,0,0.5)]">
+            <h1 className="-skew-x-6 font-heading text-5xl md:text-6xl font-black uppercase tracking-wider text-chaos-black drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]">
               Splatoon UI
             </h1>
-            <p className="max-w-md text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base">
+            <p className="max-w-md text-chaos-black/70 font-medium text-sm md:text-base">
               1:1 Replica Component Library inspired by Splatoon 3
             </p>
             <Button variant="yellow">
@@ -444,7 +407,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-24 px-6 relative transition-colors duration-300 flex flex-col items-center pattern-tapes-black">
+      <section className="bg-white text-chaos-black py-24 px-6 relative transition-colors duration-300 flex flex-col items-center pattern-tapes-black">
         {/* Decorative Splats */}
         <div className="absolute top-10 left-10 text-[#ff585e]">
           <Splat3 className="w-32 h-32" />
@@ -490,13 +453,13 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 5: TYPOGRAPHY & CHARACTER (SplatoonTitle + 3D Parallax + WaveCanvas)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
+      <section className="bg-white text-chaos-black py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
         <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
           <HeadingTape color="purple" className="mb-4 text-center">
             Splatoon Titles
           </HeadingTape>
-          <p className="text-center text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+          <p className="text-center text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
             使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
           </p>
 
@@ -542,14 +505,14 @@ export default function Home() {
       </section>
 
       {/* Sand-texture container: 3D Parallax + Cards & Weapons */}
-      <div className="bg-[#f5f0e8] dark:bg-[#0d0d0d] pattern-camo-white transition-colors duration-300">
+      <div className="bg-[#f5f0e8] pattern-camo-white transition-colors duration-300">
 
       {/* 3D Character Parallax — merged into Typography section */}
-      <section className="text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative">
+      <section className="text-chaos-black py-16 px-6 flex flex-col items-center relative">
         <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-4xl mx-auto space-y-12">
           <HeadingTape>3D Character Parallax</HeadingTape>
-          <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
+          <p className="text-sm font-medium text-chaos-black/60 mt-1">
             Interactive 3D layer perspective card using framer-motion springs. Hover or move your cursor to interact.
           </p>
           <div className="grid gap-12 md:grid-cols-2 items-center">
@@ -557,16 +520,16 @@ export default function Home() {
               <div className="w-full max-w-[340px] aspect-[3/4] relative">
                 <CharacterShowcase
                   reducedMotion={reducedMotion}
-                  boardClassName="shadow-soft-splat-lg rounded-2xl border-[3px] border-chaos-black bg-none bg-[#f5f0e8] dark:border-white dark:bg-[#1a1a1a]"
+                  boardClassName="shadow-soft-splat-lg rounded-2xl border-[3px] border-chaos-black bg-none bg-[#f5f0e8]"
                 />
               </div>
             </div>
             <div className="space-y-6">
               <div className="space-y-2">
-                <h3 className="text-2xl font-black uppercase tracking-wide text-chaos-black dark:text-[#eaff3d]">
+                <h3 className="text-2xl font-black uppercase tracking-wide text-chaos-black">
                   Tactile 3D Depth
                 </h3>
-                <p className="text-sm font-medium text-chaos-black/75 dark:text-white/75 leading-relaxed">
+                <p className="text-sm font-medium text-chaos-black/75 leading-relaxed">
                   Hover or move your cursor over the character card to see layers respond with spring-based 3D rotations.
                 </p>
               </div>
@@ -579,7 +542,7 @@ export default function Home() {
                 >
                   {reducedMotion ? "Motion: OFF" : "Motion: ON"}
                 </Button>
-                <span className="text-xs text-chaos-black/50 dark:text-white/50 font-medium">
+                <span className="text-xs text-chaos-black/50 font-medium">
                   Toggle to disable 3D rotation
                 </span>
               </div>
@@ -593,7 +556,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#eaff3d] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-20 px-6 relative transition-colors duration-300 pattern-octo-black">
+      <section className="bg-[#eaff3d] text-chaos-black py-20 px-6 relative transition-colors duration-300 pattern-octo-black">
         <div className="absolute top-4 left-4 text-[#603bff]">
           <Splat3 className="w-32 h-32" />
         </div>
@@ -607,10 +570,10 @@ export default function Home() {
               <h3 className="text-3xl md:text-4xl font-black uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]">
                 Splatoon 3
               </h3>
-              <p className="text-chaos-black/70 dark:text-white/70 font-medium text-sm md:text-base max-w-md mx-auto">
+              <p className="text-chaos-black/70 font-medium text-sm md:text-base max-w-md mx-auto">
                 Dive into the Splatlands and experience the most chaotic ink battles yet.
               </p>
-              <div className="inline-block bg-[#0d0d0d] dark:bg-[#eaff3d] text-[#eaff3d] dark:text-[#0d0d0d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] dark:border-[#eaff3d] font-alt text-2xl font-black">
+              <div className="inline-block bg-[#0d0d0d] text-[#eaff3d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] font-alt text-2xl font-black">
                 $59.99
               </div>
               <div className="flex flex-wrap justify-center gap-3 pt-2">
@@ -650,22 +613,22 @@ export default function Home() {
               </HeadingTape>
               <InViewStagger rootMargin="-30px">
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <Card variant="plain" className="p-6 space-y-4 text-center bg-white dark:bg-[#1a1a1a]">
+                  <Card variant="plain" className="p-6 space-y-4 text-center bg-white">
                     <div className="h-1.5 w-12 rounded-full bg-[#603bff] mx-auto" />
                     <h3 className="text-lg font-black uppercase tracking-wider">Standard Edition</h3>
-                    <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
+                    <p className="text-sm font-medium text-chaos-black/60">
                       The full base game with all launch content, stages, weapons, and modes.
                     </p>
-                    <div className="font-alt text-2xl font-black text-[#603bff] dark:text-[#eaff3d]">$59.99</div>
+                    <div className="font-alt text-2xl font-black text-[#603bff]">$59.99</div>
                   </Card>
-                  <Card variant="plain" className="border-[#eaff3d] dark:border-[#eaff3d]/50 p-6 space-y-4 text-center relative overflow-hidden bg-white dark:bg-[#1a1a1a]">
+                  <Card variant="plain" className="border-[#eaff3d] p-6 space-y-4 text-center relative overflow-hidden bg-white">
                     <div className="absolute top-3 right-3 bg-[#ff585e] text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">Special</div>
                     <div className="h-1.5 w-12 rounded-full bg-[#eaff3d] mx-auto" />
                     <h3 className="text-lg font-black uppercase tracking-wider">Expansion Pass</h3>
-                    <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
+                    <p className="text-sm font-medium text-chaos-black/60">
                       Includes the Side Order DLC, Inkopolis Plaza, and exclusive gear sets.
                     </p>
-                    <div className="font-alt text-2xl font-black text-chaos-black dark:text-[#eaff3d]">$24.99</div>
+                    <div className="font-alt text-2xl font-black text-chaos-black">$24.99</div>
                   </Card>
                 </div>
               </InViewStagger>
@@ -683,12 +646,12 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-20 px-6 relative transition-colors duration-300 pattern-chip-white">
+      <section className="bg-white text-chaos-black py-20 px-6 relative transition-colors duration-300 pattern-chip-white">
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           <InView direction="up" rootMargin="-50px">
             <div className="text-center space-y-4">
               <HeadingTape color="blue">Icon Button</HeadingTape>
-              <p className="text-chaos-black/60 dark:text-white/60 text-sm font-medium max-w-xl mx-auto">
+              <p className="text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
                 1:1 replica of splatoon.nintendo.com circular icon button — official squish animation, ink-splatter SVG arrows, theme-driven colors.
               </p>
             </div>
@@ -698,7 +661,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
               <h3 className="text-lg font-black uppercase tracking-wider text-center">Carousel Navigation</h3>
-              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">Official gallery arrows with continuous squish animation — 60px circle, no border, no shadow</p>
+              <p className="text-xs text-chaos-black/50 text-center">Official gallery arrows with continuous squish animation — 60px circle, no border, no shadow</p>
               <div className="flex flex-wrap items-center justify-center gap-8">
                 <div className="flex flex-col items-center gap-3">
                   <IconButton variant="carousel" size="lg" direction="left" animation="squish" aria-label="Previous" />
@@ -720,7 +683,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
               <h3 className="text-lg font-black uppercase tracking-wider text-center">Size Variants</h3>
-              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">sm=40px · md=48px · lg=60px (official default)</p>
+              <p className="text-xs text-chaos-black/50 text-center">sm=40px · md=48px · lg=60px (official default)</p>
               <div className="flex flex-wrap items-end justify-center gap-6">
                 <div className="flex flex-col items-center gap-3">
                   <IconButton variant="carousel" size="sm" direction="right" animation="squish" aria-label="Small" />
@@ -742,7 +705,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
               <h3 className="text-lg font-black uppercase tracking-wider text-center">Color Variants</h3>
-              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">Theme-driven via --color-primary / --color-accent CSS variables</p>
+              <p className="text-xs text-chaos-black/50 text-center">Theme-driven via --color-primary / --color-accent CSS variables</p>
               <div className="flex flex-wrap items-center justify-center gap-5">
                 <div className="flex flex-col items-center gap-3">
                   <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Carousel" />
@@ -776,7 +739,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
               <h3 className="text-lg font-black uppercase tracking-wider text-center">Animations</h3>
-              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">squish = official bouncy squish · pulse = gentle scale · none = static</p>
+              <p className="text-xs text-chaos-black/50 text-center">squish = official bouncy squish · pulse = gentle scale · none = static</p>
               <div className="flex flex-wrap items-center justify-center gap-8">
                 <div className="flex flex-col items-center gap-3">
                   <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Squish" />
@@ -798,7 +761,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
               <h3 className="text-lg font-black uppercase tracking-wider text-center">Custom Icons</h3>
-              <p className="text-xs text-chaos-black/50 dark:text-white/50 text-center">Pass any SVG via the icon prop — replaces built-in arrow</p>
+              <p className="text-xs text-chaos-black/50 text-center">Pass any SVG via the icon prop — replaces built-in arrow</p>
               <div className="flex flex-wrap items-center justify-center gap-5">
                 <div className="flex flex-col items-center gap-3">
                   <IconButton variant="carousel" size="lg" aria-label="Close" icon={
@@ -966,7 +929,7 @@ export default function Home() {
                     <SplatoonModalBody>
                       <div className="text-center space-y-4">
                         <h2 className="font-heading text-2xl font-black uppercase tracking-wider">About Splatoon</h2>
-                        <p className="text-sm text-chaos-black/70 dark:text-white/70 max-w-sm mx-auto">
+                        <p className="text-sm text-chaos-black/70 max-w-sm mx-auto">
                           Turf War is a 4v4 team battle mode where the goal is to cover the most ground with your team's ink.
                         </p>
                         <div className="grid grid-cols-2 gap-3 pt-2">
@@ -1016,14 +979,14 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
+      <section className="bg-white text-chaos-black py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
         <InteractiveSplatter />
         <div className="w-full max-w-4xl space-y-16 relative z-10">
           {/* Sub-Section 1: Apparel Tags */}
           <div className="space-y-8">
             <InView direction="up" rootMargin="-50px">
             <HeadingTape>Apparel Hanging Tag Card</HeadingTape>
-            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
+            <p className="text-sm font-medium text-chaos-black/60 mt-1">
               Hanging clothing-tag style container with custom clip background paths, hanger cut-outs, tilted photo layers, and integrated scotch tape.
             </p>
             </InView>
@@ -1102,7 +1065,7 @@ export default function Home() {
           {/* Sub-Section 2: Other Components Tab Showcase */}
           <div className="space-y-8">
             <HeadingTape>3. Interactive Component Showcase</HeadingTape>
-            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
+            <p className="text-sm font-medium text-chaos-black/60 mt-1">
               Toggle between the official tab switcher styles below to preview other UI elements.
             </p>
 
@@ -1350,10 +1313,10 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 3.5: OFFICIAL REPLICA COMPONENTS
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] dark:bg-[#1a1a1a] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-camo-white">
+      <section className="bg-[#f5f0e8] text-chaos-black py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-camo-white">
         <div className="w-full max-w-6xl space-y-12">
           <HeadingTape>Official Replica Components</HeadingTape>
-          <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-1">
+          <p className="text-sm font-medium text-chaos-black/60 mt-1">
             Demonstrates the newly implemented Splatoon-style UI pieces: heading tape, black tape container, styled photo, news gallery, and apparel tag card.
           </p>
 
@@ -1403,7 +1366,7 @@ export default function Home() {
             </CategoryTitle>
           </div>
 
-          <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm dark:bg-[#1a1a1a]/95">
+          <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm">
                 <NewsCardsGalleryGroup>
                   <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
                     <div className="space-y-3 p-4">
@@ -1477,11 +1440,11 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 4.5: CAROUSEL VARIANTS (Official carousel types)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#0d0d0d] text-chaos-black dark:text-white py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
+      <section className="bg-white text-chaos-black py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
         <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "64rem" }}>
           <div className="text-center">
             <HeadingTape color="blue">Carousel Variants</HeadingTape>
-            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 mt-2">
+            <p className="text-sm font-medium text-chaos-black/60 mt-2">
               Official carousel components from splatoon.nintendo.com/en/weapons/
             </p>
           </div>
@@ -1489,7 +1452,7 @@ export default function Home() {
           {/* Weapons Gallery Carousel */}
           <div className="space-y-6">
             <h3 className="text-xl font-black uppercase tracking-wider text-center">Weapons Gallery</h3>
-            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 text-center max-w-xl mx-auto">
+            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
               Photo gallery with rotation transitions and pagination dots. Navigated sequentially with arrow controls.
             </p>
             <WeaponsGalleryCarousel items={weaponsGalleryItems} />
@@ -1498,7 +1461,7 @@ export default function Home() {
           {/* Shops Gallery Carousel */}
           <div className="space-y-6">
             <h3 className="text-xl font-black uppercase tracking-wider text-center">Shops Gallery</h3>
-            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 text-center max-w-xl mx-auto">
+            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
               Gallery with character portrait icons as pagination. Each shop has a unique keeper icon.
             </p>
             <ShopsGalleryCarousel items={shopsGalleryItems} />
@@ -1507,7 +1470,7 @@ export default function Home() {
           {/* Marquee Carousel */}
           <div className="space-y-6">
             <h3 className="text-xl font-black uppercase tracking-wider text-center">Infinite Marquee</h3>
-            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60 text-center max-w-xl mx-auto">
+            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
               Continuous scrolling marquee with 22 gameplay screenshots. Duplicated for seamless looping.
             </p>
             <MarqueeCarousel items={marqueeItems} />
@@ -1573,7 +1536,7 @@ export default function Home() {
     </section>
 
       {/* Warning Marquee (Bottom Decoration) */}
-      <Marquee speed={20} variant="warning" direction="right" className="w-full border-t-2 border-b-2 border-chaos-black dark:border-white/20">
+      <Marquee speed={20} variant="warning" direction="right" className="w-full border-t-2 border-b-2 border-chaos-black">
         <MarqueeItem>Woomy!</MarqueeItem>
         <MarqueeItem>Ngyes!</MarqueeItem>
         <MarqueeItem>Booyah!</MarqueeItem>

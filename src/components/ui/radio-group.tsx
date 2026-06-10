@@ -22,7 +22,7 @@ function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "group/radio-group-item peer relative flex aspect-square size-5.5 shrink-0 rounded-full border-[3px] border-chaos-black dark:border-white bg-white dark:bg-[#1a1a1a] shadow-[2px_2px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_rgba(255,255,255,1)] transition-[transform,box-shadow,background-color] duration-150 outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-chaos-black/20 dark:focus-visible:ring-white/20 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-checked:border-chaos-black dark:data-checked:border-white data-checked:bg-[#603bff] data-checked:translate-x-[1px] data-checked:translate-y-[1px] data-checked:shadow-none",
+        "group/radio-group-item peer relative flex aspect-square size-5.5 shrink-0 rounded-full border-[3px] border-chaos-black bg-white shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-[transform,box-shadow,background-color] duration-150 outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-chaos-black/20 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-checked:border-chaos-black data-checked:bg-[#603bff] data-checked:translate-x-[1px] data-checked:translate-y-[1px] data-checked:shadow-none",
         className
       )}
       {...props}

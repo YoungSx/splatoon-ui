@@ -139,7 +139,7 @@ export const SplatoonGallery = React.forwardRef<HTMLDivElement, SplatoonGalleryP
             alt=""
             className="w-12 h-12 object-contain"
           />
-          <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black dark:text-white">
+          <h2 className="text-3xl font-black uppercase tracking-wider text-chaos-black">
             {title}
           </h2>
         </div>

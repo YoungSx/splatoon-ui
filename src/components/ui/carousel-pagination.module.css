@@ -53,10 +53,6 @@
   transition: transform 0.2s ease;
 }
 
-:global(.dark) .paginationIcon {
-  background: white;
-}
-
 .paginationActive {
   background: var(--color-primary, #00c8b4);
   opacity: 1;

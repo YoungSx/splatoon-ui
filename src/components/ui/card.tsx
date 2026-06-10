@@ -30,8 +30,8 @@ const tagThemeMap = {
 // ── Plain style classes (module-level) ──────────────────────────
 
 const plainStyleClasses = {
-  default: "bg-white dark:bg-[#151515]",
-  cream: "bg-[#f5f0e8] dark:bg-[#151515]",
+  default: "bg-white",
+  cream: "bg-[#f5f0e8]",
   colored: "",
 } satisfies Record<PlainStyle, string>
 
@@ -90,7 +90,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             data-slot="card"
             data-variant="plain"
             className={cn(
-              "rounded-xl border-[3px] border-chaos-black dark:border-white/15 transition-colors duration-300",
+              "rounded-xl border-[3px] border-chaos-black transition-colors duration-300",
               plainStyleClasses[plainStyle],
               className
             )}

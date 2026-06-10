@@ -174,7 +174,7 @@ function DialogContent({
         </svg>
 
         {/* Dialog Content body */}
-        <div className={cn("relative z-10 px-8 py-4 flex flex-col gap-4 border-l-[3px] border-r-[3px] border-chaos-black dark:border-white/20", fillInfo.bg)}>
+        <div className={cn("relative z-10 px-8 py-4 flex flex-col gap-4 border-l-[3px] border-r-[3px] border-chaos-black", fillInfo.bg)}>
           {hasTape && (
             <Tape
               variant="torn"

@@ -117,7 +117,7 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
 
           {/* Circular category icon frame */}
           {categoryIcon && (
-            <div className="pointer-events-none absolute bottom-3 right-3 h-16 w-16 rounded-full border-3 border-chaos-black bg-white dark:bg-gray-800">
+            <div className="pointer-events-none absolute bottom-3 right-3 h-16 w-16 rounded-full border-3 border-chaos-black bg-white">
               <img src={categoryIcon} alt="" className="h-full w-full object-contain p-1" />
             </div>
           )}
@@ -126,7 +126,7 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
         {/* Section label below card */}
         {section && (
           <div className="mt-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-chaos-black/60 dark:text-white/60">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-chaos-black/60">
               {section}
             </span>
           </div>

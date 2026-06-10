@@ -180,7 +180,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
         >
           {/* Card base shadow (anti-tilt dynamic shadow offset) */}
           <motion.div
-            className="absolute inset-0 w-full h-full bg-chaos-black/25 dark:bg-black/50 rounded-2xl blur-[5px]"
+            className="absolute inset-0 w-full h-full bg-chaos-black/25 rounded-2xl blur-[5px]"
             style={{
               x: isReducedMotionActive ? 0 : shadowX,
               y: isReducedMotionActive ? 0 : shadowY,
@@ -191,7 +191,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
           {/* Card background board (tweaked to remove static shadow class) */}
           <div
             className={cn(
-              "absolute inset-0 w-full h-full bg-gradient-to-br from-[#eaff3d] to-[#603bff] border-3 border-chaos-black dark:border-white rounded-2xl",
+              "absolute inset-0 w-full h-full bg-gradient-to-br from-[#eaff3d] to-[#603bff] border-3 border-chaos-black rounded-2xl",
               boardClassName
             )}
             style={{
@@ -209,7 +209,7 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
             }}
           >
             <span
-              className="text-7xl md:text-8xl font-black text-white/20 dark:text-chaos-black/35 font-display tracking-widest uppercase select-none"
+              className="text-7xl md:text-8xl font-black text-white/20 font-display tracking-widest uppercase select-none"
               style={{
                 transform: "rotate(-12deg) skewX(-12deg)",
               }}
