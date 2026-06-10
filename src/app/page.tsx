@@ -538,7 +538,7 @@ export default function Home() {
               <div className="w-full max-w-[340px] aspect-[3/4] relative">
                 <CharacterShowcase
                   reducedMotion={reducedMotion}
-                  boardClassName="shadow-soft-splat-lg rounded-2xl border-[3px] border-chaos-black bg-none bg-[#f5f0e8] dark:border-white dark:bg-[#151515]"
+                  boardClassName="shadow-soft-splat-lg rounded-2xl border-[3px] border-chaos-black bg-none bg-[#f5f0e8] dark:border-white dark:bg-[#1a1a1a]"
                 />
               </div>
             </div>
@@ -828,7 +828,7 @@ export default function Home() {
               </HeadingTape>
               <InViewStagger rootMargin="-30px">
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <Card variant="plain" className="p-6 space-y-4 text-center bg-white dark:bg-[#222]">
+                  <Card variant="plain" className="p-6 space-y-4 text-center bg-white dark:bg-[#1a1a1a]">
                     <div className="h-1.5 w-12 rounded-full bg-[#603bff] mx-auto" />
                     <h3 className="text-lg font-black uppercase tracking-wider">Standard Edition</h3>
                     <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">
@@ -836,7 +836,7 @@ export default function Home() {
                     </p>
                     <div className="font-alt text-2xl font-black text-[#603bff] dark:text-[#eaff3d]">$59.99</div>
                   </Card>
-                  <Card variant="plain" className="border-[#eaff3d] dark:border-[#eaff3d]/50 p-6 space-y-4 text-center relative overflow-hidden bg-white dark:bg-[#222]">
+                  <Card variant="plain" className="border-[#eaff3d] dark:border-[#eaff3d]/50 p-6 space-y-4 text-center relative overflow-hidden bg-white dark:bg-[#1a1a1a]">
                     <div className="absolute top-3 right-3 bg-[#ff585e] text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">Special</div>
                     <div className="h-1.5 w-12 rounded-full bg-[#eaff3d] mx-auto" />
                     <h3 className="text-lg font-black uppercase tracking-wider">Expansion Pass</h3>
@@ -1466,7 +1466,7 @@ export default function Home() {
             </CategoryTitle>
           </div>
 
-          <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm dark:bg-[#121212]/95">
+          <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm dark:bg-[#1a1a1a]/95">
                 <NewsCardsGalleryGroup>
                   <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
                     <div className="space-y-3 p-4">
