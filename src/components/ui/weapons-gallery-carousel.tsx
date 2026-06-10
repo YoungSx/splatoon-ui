@@ -29,7 +29,7 @@ export function WeaponsGalleryCarousel({ items, className, ...props }: WeaponsGa
         </WeaponsGalleryContent>
       </SwipeableGallery>
       <WeaponsGalleryControls />
-      <CarouselPagination />
+      <CarouselPagination className={styles.galleryPagination} />
     </Carousel>
   )
 }
@@ -66,21 +66,23 @@ const WeaponsGalleryItem = React.forwardRef<HTMLDivElement, WeaponsGalleryItemPr
         className={cn(styles.galleryItem, isActive && styles.galleryItemActive, className)}
         {...props}
       >
-        <div className={styles.galleryPhoto}>
-          <picture className={styles.tapeDecoration}>
-            <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.webp 1x, /_images/tape-assets/tape-2-medium-up-2x.webp 2x" />
-            <source srcSet="/_images/tape-assets/tape-2.webp 1x, /_images/tape-assets/tape-2-2x.webp 2x" />
-            <img src="/_images/tape-assets/tape-2.png" alt="" draggable={false} />
-          </picture>
-          <div className={styles.galleryImage}>
-            <img src={item.image} alt={item.title} />
+        <div className={styles.itemLayout}>
+          <div className={styles.galleryPhoto}>
+            <picture className={styles.tapeDecoration}>
+              <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.webp 1x, /_images/tape-assets/tape-2-medium-up-2x.webp 2x" />
+              <source srcSet="/_images/tape-assets/tape-2.webp 1x, /_images/tape-assets/tape-2-2x.webp 2x" />
+              <img src="/_images/tape-assets/tape-2.png" alt="" draggable={false} />
+            </picture>
+            <div className={styles.galleryImage}>
+              <img src={item.image} alt={item.title} />
+            </div>
           </div>
-        </div>
-        <div className={styles.galleryContent}>
-          <h3 className="text-xl font-black uppercase tracking-wider">{item.title}</h3>
-          {item.description && (
-            <p className="text-sm font-medium text-chaos-black/60 dark:text-white/60">{item.description}</p>
-          )}
+          <div className={styles.galleryContent}>
+            <h3 className="color-primary">{item.title}</h3>
+            {item.description && (
+              <p>{item.description}</p>
+            )}
+          </div>
         </div>
       </CarouselItem>
     )
@@ -94,24 +96,28 @@ const WeaponsGalleryControls = React.forwardRef<HTMLDivElement, React.HTMLAttrib
 
     return (
       <div ref={ref} className={cn(styles.galleryControls, className)} {...props}>
-        <IconButton
-          variant="carousel"
-          direction="left"
-          animation="squish"
-          className={styles.controlButton}
-          onClick={goToPrev}
-          disabled={!canGoPrev}
-          aria-label="Previous gallery item"
-        />
-        <IconButton
-          variant="carousel"
-          direction="right"
-          animation="squish"
-          className={styles.controlButton}
-          onClick={goToNext}
-          disabled={!canGoNext}
-          aria-label="Next gallery item"
-        />
+        <div>
+          <IconButton
+            variant="carousel"
+            direction="left"
+            animation="squish"
+            className={styles.controlButton}
+            onClick={goToPrev}
+            disabled={!canGoPrev}
+            aria-label="Previous gallery item"
+          />
+        </div>
+        <div>
+          <IconButton
+            variant="carousel"
+            direction="right"
+            animation="squish"
+            className={styles.controlButton}
+            onClick={goToNext}
+            disabled={!canGoNext}
+            aria-label="Next gallery item"
+          />
+        </div>
       </div>
     )
   }
