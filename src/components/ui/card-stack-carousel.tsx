@@ -65,10 +65,12 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
   )
 }
 
-export const CardStackCarouselContent = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof CarouselContent>
->(({ className, style, ...props }, ref) => {
+export function CardStackCarouselContent({
+  ref,
+  className,
+  style,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof CarouselContent> & { ref?: React.Ref<HTMLDivElement> }) {
   const { currentIndex } = useCarousel()
   const physicsStore = useCardStackCarouselPhysicsStore()
 
@@ -89,8 +91,7 @@ export const CardStackCarouselContent = React.forwardRef<
       {...props}
     />
   )
-})
-CardStackCarouselContent.displayName = "CardStackCarouselContent"
+}
 
 export interface CardStackCarouselItemProps extends Omit<HTMLMotionProps<"div">, "children"> {
   children?: React.ReactNode
@@ -105,8 +106,16 @@ function resolveHangerYPx(element: HTMLElement) {
   return Number.isFinite(hangerYPx) ? hangerYPx : cardStackLayout.fallbackHangerYPx
 }
 
-export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackCarouselItemProps>(
-  ({ className, children, shellClassName, shellStyle, style, "data-index": index = 0, ...props }, ref) => {
+export function CardStackCarouselItem({
+  ref,
+  className,
+  children,
+  shellClassName,
+  shellStyle,
+  style,
+  "data-index": index = 0,
+  ...props
+}: CardStackCarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { currentIndex, goToIndex, goToNext, goToPrev } = useCarousel()
     const physicsStore = useCardStackCarouselPhysicsStore()
     const sceneSnapshot = React.useSyncExternalStore(physicsStore.subscribe, physicsStore.getSnapshot, physicsStore.getSnapshot)
@@ -237,15 +246,18 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
       </div>
     )
   }
-)
-CardStackCarouselItem.displayName = "CardStackCarouselItem"
 
 interface CardStackCarouselArrowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   direction: "previous" | "next"
 }
 
-const CardStackCarouselArrow = React.forwardRef<HTMLButtonElement, CardStackCarouselArrowProps>(
-  ({ direction, className, style, ...props }, ref) => {
+function CardStackCarouselArrow({
+  ref,
+  direction,
+  className,
+  style,
+  ...props
+}: CardStackCarouselArrowProps & { ref?: React.Ref<HTMLButtonElement> }) {
     const { canGoPrev, goToPrev, canGoNext, goToNext } = useCarousel()
     const isPrev = direction === "previous"
 
@@ -274,21 +286,17 @@ const CardStackCarouselArrow = React.forwardRef<HTMLButtonElement, CardStackCaro
       </div>
     )
   }
-)
-CardStackCarouselArrow.displayName = "CardStackCarouselArrow"
 
-export const CardStackCarouselPrevious = React.forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->((props, ref) => (
-  <CardStackCarouselArrow ref={ref} direction="previous" {...props} />
-))
-CardStackCarouselPrevious.displayName = "CardStackCarouselPrevious"
+export function CardStackCarouselPrevious({
+  ref,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { ref?: React.Ref<HTMLButtonElement> }) {
+  return <CardStackCarouselArrow ref={ref} direction="previous" {...props} />
+}
 
-export const CardStackCarouselNext = React.forwardRef<
-  HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->((props, ref) => (
-  <CardStackCarouselArrow ref={ref} direction="next" {...props} />
-))
-CardStackCarouselNext.displayName = "CardStackCarouselNext"
+export function CardStackCarouselNext({
+  ref,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { ref?: React.Ref<HTMLButtonElement> }) {
+  return <CardStackCarouselArrow ref={ref} direction="next" {...props} />
+}

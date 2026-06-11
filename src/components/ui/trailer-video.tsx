@@ -99,8 +99,15 @@ interface TrailerVideoThumbnailProps extends React.ButtonHTMLAttributes<HTMLButt
   blobSize?: number
 }
 
-export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, TrailerVideoThumbnailProps>(
-  ({ src, alt = "Video thumbnail", className, blobColor = "#000000", blobSize = 160, ...props }, ref) => {
+export function TrailerVideoThumbnail({
+  ref,
+  src,
+  alt = "Video thumbnail",
+  className,
+  blobColor = "#000000",
+  blobSize = 160,
+  ...props
+}: TrailerVideoThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
     const { triggerRef } = useTrailerVideoContext()
 
     return (
@@ -196,8 +203,6 @@ export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, Trailer
       />
     )
   }
-)
-TrailerVideoThumbnail.displayName = 'TrailerVideoThumbnail'
 
 // ─────────────────────────────────────────────────────────────
 // Animated Content Modal
@@ -208,8 +213,13 @@ interface TrailerVideoContentProps extends Omit<DialogPrimitive.Popup.Props, 'ch
   title?: string
 }
 
-export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideoContentProps>(
-  ({ className, videoId, title = "YouTube video player", ...props }, ref) => {
+export function TrailerVideoContent({
+  ref,
+  className,
+  videoId,
+  title = "YouTube video player",
+  ...props
+}: TrailerVideoContentProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { open, setOpen, triggerRef } = useTrailerVideoContext()
 
     // ── State (matches official exactly) ───────────────────────────
@@ -428,5 +438,3 @@ export const TrailerVideoContent = React.forwardRef<HTMLDivElement, TrailerVideo
       </DialogPrimitive.Portal>
     )
   }
-)
-TrailerVideoContent.displayName = 'TrailerVideoContent'

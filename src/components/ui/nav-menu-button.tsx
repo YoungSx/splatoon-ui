@@ -9,8 +9,12 @@ type NavMenuButtonProps = React.ComponentProps<'button'> & {
   pressed?: boolean
 }
 
-const NavMenuButton = React.forwardRef<HTMLButtonElement, NavMenuButtonProps>(
-  ({ className, pressed = false, ...props }, ref) => {
+function NavMenuButton({
+  ref,
+  className,
+  pressed = false,
+  ...props
+}: NavMenuButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
     return (
       <button
         ref={ref}
@@ -32,8 +36,5 @@ const NavMenuButton = React.forwardRef<HTMLButtonElement, NavMenuButtonProps>(
       </button>
     )
   }
-)
-
-NavMenuButton.displayName = 'NavMenuButton'
 
 export { NavMenuButton }

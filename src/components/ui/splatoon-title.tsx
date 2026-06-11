@@ -80,21 +80,18 @@ const SECTION_IMAGES: Record<string, { title: string; hover: string }> = {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const SplatoonTitle = React.forwardRef<HTMLDivElement, SplatoonTitleProps>(
-  function SplatoonTitle(
-    {
-      variant = 'section',
-      section,
-      size = 'lg',
-      animate = false,
-      image,
-      imageHover,
-      children,
-      className,
-      ...props
-    },
-    ref,
-  ) {
+export function SplatoonTitle({
+  ref,
+  variant = 'section',
+  section,
+  size = 'lg',
+  animate = false,
+  image,
+  imageHover,
+  children,
+  className,
+  ...props
+}: SplatoonTitleProps & { ref?: React.Ref<HTMLDivElement> }) {
     const [isHovered, setIsHovered] = React.useState(false)
     const [isVisible, setIsVisible] = React.useState(!animate)
 
@@ -172,5 +169,4 @@ export const SplatoonTitle = React.forwardRef<HTMLDivElement, SplatoonTitleProps
       )
     }
 
-  },
-)
+  }

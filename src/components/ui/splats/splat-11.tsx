@@ -32,4 +32,3 @@ export function Splat11({ color = "currentColor", className, style, ...props }: 
   )
 }
 
-Splat11.displayName = "Splat11"

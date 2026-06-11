@@ -35,21 +35,18 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   onIndexChange?: (index: number) => void
 }
 
-export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
-  (
-    {
-      children,
-      className,
-      initialIndex = 0,
-      itemCount: itemCountProp,
-      onIndexChange,
-      onKeyDown,
-      role = "region",
-      tabIndex = 0,
-      ...props
-    },
-    ref
-  ) => {
+export function Carousel({
+  ref,
+  children,
+  className,
+  initialIndex = 0,
+  itemCount: itemCountProp,
+  onIndexChange,
+  onKeyDown,
+  role = "region",
+  tabIndex = 0,
+  ...props
+}: CarouselProps & { ref?: React.Ref<HTMLDivElement> }) {
     const [currentIndex, setCurrentIndex] = React.useState(initialIndex)
     const [prevIndex, setPrevIndex] = React.useState(initialIndex)
     const [itemCountState, setItemCount] = React.useState(0)
@@ -161,11 +158,13 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       </CarouselContext.Provider>
     )
   }
-)
-Carousel.displayName = "Carousel"
 
-export const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, children, ...props }, ref) => {
+export function CarouselContent({
+  ref,
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
     const setItemCount = React.useContext(CarouselCountContext)
     const childrenArray = React.Children.toArray(children).filter(React.isValidElement)
 
@@ -183,8 +182,6 @@ export const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttrib
       </div>
     )
   }
-)
-CarouselContent.displayName = "CarouselContent"
 
 export function useCarouselItemState(index: number | undefined) {
   const { currentIndex, prevIndex } = useCarousel()
@@ -200,8 +197,13 @@ export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement> 
   "data-index"?: number
 }
 
-export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ className, children, "data-index": index, ...props }, ref) => {
+export function CarouselItem({
+  ref,
+  className,
+  children,
+  "data-index": index,
+  ...props
+}: CarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { isActive, offset } = useCarouselItemState(index)
 
     return (
@@ -220,16 +222,20 @@ export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
       </div>
     )
   }
-)
-CarouselItem.displayName = "CarouselItem"
 
 export interface FadeCarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
   "data-index"?: number
   rotateAmount?: number
 }
 
-export const FadeCarouselItem = React.forwardRef<HTMLDivElement, FadeCarouselItemProps>(
-  ({ className, children, "data-index": index, rotateAmount, ...props }, ref) => {
+export function FadeCarouselItem({
+  ref,
+  className,
+  children,
+  "data-index": index,
+  rotateAmount,
+  ...props
+}: FadeCarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { isActive, isLeft, offset, currentIndex } = useCarouselItemState(index)
 
     const randomValues = React.useMemo(() => {
@@ -263,8 +269,6 @@ export const FadeCarouselItem = React.forwardRef<HTMLDivElement, FadeCarouselIte
       </div>
     )
   }
-)
-FadeCarouselItem.displayName = "FadeCarouselItem"
 
 export function SwipeableGallery({ children, className }: { children: React.ReactNode; className?: string }) {
   const { goToNext, goToPrev } = useCarousel()
@@ -325,14 +329,17 @@ export function SwipeableGallery({ children, className }: { children: React.Reac
     </div>
   )
 }
-SwipeableGallery.displayName = "SwipeableGallery"
 
 export interface CarouselPaginationProps extends React.HTMLAttributes<HTMLUListElement> {
   labels?: string[]
 }
 
-export const CarouselPagination = React.forwardRef<HTMLUListElement, CarouselPaginationProps>(
-  ({ className, labels, ...props }, ref) => {
+export function CarouselPagination({
+  ref,
+  className,
+  labels,
+  ...props
+}: CarouselPaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
     const { currentIndex, itemCount, goToIndex } = useCarousel()
 
     return (
@@ -362,9 +369,7 @@ export const CarouselPagination = React.forwardRef<HTMLUListElement, CarouselPag
         ))}
       </ul>
     )
-  },
-)
-CarouselPagination.displayName = "CarouselPagination"
+  }
 
 export interface CarouselImagePaginationItem {
   src: string
@@ -376,8 +381,12 @@ export interface CarouselImagePaginationProps extends React.HTMLAttributes<HTMLU
   images: CarouselImagePaginationItem[]
 }
 
-export const CarouselImagePagination = React.forwardRef<HTMLUListElement, CarouselImagePaginationProps>(
-  ({ className, images, ...props }, ref) => {
+export function CarouselImagePagination({
+  ref,
+  className,
+  images,
+  ...props
+}: CarouselImagePaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
     const { currentIndex, goToIndex } = useCarousel()
 
     return (
@@ -406,9 +415,7 @@ export const CarouselImagePagination = React.forwardRef<HTMLUListElement, Carous
         ))}
       </ul>
     )
-  },
-)
-CarouselImagePagination.displayName = "CarouselImagePagination"
+  }
 
 export function GalleryBounce({ children, className }: { children: React.ReactNode; className?: string }) {
   const { currentIndex, prevIndex } = useCarousel()
@@ -441,4 +448,3 @@ export function GalleryBounce({ children, className }: { children: React.ReactNo
     </motion.div>
   )
 }
-GalleryBounce.displayName = "GalleryBounce"

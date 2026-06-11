@@ -44,20 +44,17 @@ const DEFAULT_COLORS = [
  * Attach this inside any relative container. Clicking anywhere in the parent
  * container will spawn dynamic, high-fidelity Splatoon ink splats in the background.
  */
-export const InteractiveSplatter = React.forwardRef<HTMLDivElement, InteractiveSplatterProps>(
-  (
-    {
-      className,
-      maxSplats = 15,
-      minSize = 90,
-      maxSize = 180,
-      colors = DEFAULT_COLORS,
-      interactive = true,
-      splatIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      ...props
-    },
-    ref
-  ) => {
+export function InteractiveSplatter({
+  ref,
+  className,
+  maxSplats = 15,
+  minSize = 90,
+  maxSize = 180,
+  colors = DEFAULT_COLORS,
+  interactive = true,
+  splatIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  ...props
+}: InteractiveSplatterProps & { ref?: React.Ref<HTMLDivElement> }) {
     const containerRef = React.useRef<HTMLDivElement>(null)
     const [splats, setSplats] = React.useState<SplatInstance[]>([])
 
@@ -164,6 +161,3 @@ export const InteractiveSplatter = React.forwardRef<HTMLDivElement, InteractiveS
       </div>
     )
   }
-)
-
-InteractiveSplatter.displayName = "InteractiveSplatter"

@@ -1,6 +1,5 @@
 "use client"
 
-import { Slot } from "@radix-ui/react-slot"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -38,7 +37,6 @@ const plainStyleClasses = {
 // ── Card Props ──────────────────────────────────────────────────
 
 export interface CardProps extends React.ComponentProps<"div"> {
-  asChild?: boolean
   variant?: CardVariant
   paperFasteners?: boolean
   paperLabel?: PaperLabelConfig
@@ -58,34 +56,28 @@ export interface CardProps extends React.ComponentProps<"div"> {
 
 // ── Card Component ──────────────────────────────────────────────
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  (
-    {
-      className,
-      asChild = false,
-      variant = "news",
-      paperFasteners,
-      paperLabel,
-      surface = "paper",
-      showSticker9,
-      staggerIndex,
-      // For tag
-      tagTheme = "yellow",
-      tagRotation = "2deg",
-      tagBackground,
-      // For plain
-      plainStyle = "default",
-      children,
-      ...props
-    },
-    ref
-  ) => {
-    const Comp = asChild ? Slot : "div"
-
+function Card({
+  ref,
+  className,
+  variant = "news",
+  paperFasteners,
+  paperLabel,
+  surface = "paper",
+  showSticker9,
+  staggerIndex,
+  // For tag
+  tagTheme = "yellow",
+  tagRotation = "2deg",
+  tagBackground,
+  // For plain
+  plainStyle = "default",
+  children,
+  ...props
+}: CardProps & { ref?: React.Ref<HTMLDivElement> }) {
     if (variant === "plain") {
       return (
         <CardContext.Provider value={{ variant, surface }}>
-          <Comp
+          <div
             ref={ref}
             data-slot="card"
             data-variant="plain"
@@ -97,7 +89,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             {...props}
           >
             {children}
-          </Comp>
+          </div>
         </CardContext.Provider>
       )
     }
@@ -108,7 +100,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
       return (
         <CardContext.Provider value={{ variant, surface }}>
-          <Comp
+          <div
             ref={ref}
             data-slot="card"
             data-variant="tag"
@@ -131,7 +123,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             <div className="relative h-full flex flex-col justify-between gap-4 z-10 text-center">
               {children}
             </div>
-          </Comp>
+          </div>
         </CardContext.Provider>
       )
     }
@@ -139,7 +131,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
     return (
       <CardContext.Provider value={{ variant, surface }}>
         <PaperCardFrame
-          asChild={asChild}
           className={className}
           dataVariant="news"
           surface={surface}
@@ -155,8 +146,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       </CardContext.Provider>
     )
   }
-)
-Card.displayName = "Card"
 
 // ── Sub-components ──────────────────────────────────────────────
 
@@ -172,7 +161,6 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
     />
   )
 }
-CardHeader.displayName = "CardHeader"
 
 function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -186,7 +174,6 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
     />
   )
 }
-CardTitle.displayName = "CardTitle"
 
 function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -197,7 +184,6 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
     />
   )
 }
-CardDescription.displayName = "CardDescription"
 
 function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -211,7 +197,6 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
     />
   )
 }
-CardAction.displayName = "CardAction"
 
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -222,7 +207,6 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
     />
   )
 }
-CardContent.displayName = "CardContent"
 
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -236,7 +220,6 @@ function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
     />
   )
 }
-CardFooter.displayName = "CardFooter"
 
 export {
   Card,

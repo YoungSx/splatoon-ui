@@ -4,7 +4,7 @@ import * as React from "react"
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { createTriggerButton } from "@/components/ui/trigger-button"
 
 function Popover({ ...props }: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />
@@ -14,61 +14,7 @@ function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />
 }
 
-type PopoverTriggerButtonProps = Omit<PopoverPrimitive.Trigger.Props, "render" | "children"> &
-  Pick<
-    React.ComponentProps<typeof Button>,
-    | "children"
-    | "variant"
-    | "size"
-    | "theme"
-    | "hasChevron"
-    | "color"
-    | "hoverColor"
-    | "textColor"
-    | "textHoverColor"
-  >
-
-function PopoverTriggerButton({
-  children,
-  variant = "yellow",
-  size = "default",
-  theme,
-  hasChevron = true,
-  color,
-  hoverColor,
-  textColor,
-  textHoverColor,
-  ...props
-}: PopoverTriggerButtonProps) {
-  return (
-    <PopoverPrimitive.Trigger
-      data-slot="popover-trigger"
-      render={(triggerProps) => {
-        const { ref, ...buttonProps } = triggerProps as typeof triggerProps & {
-          ref?: React.Ref<HTMLButtonElement>
-        }
-
-        return (
-          <Button
-            {...buttonProps}
-            ref={ref}
-            variant={variant}
-            size={size}
-            theme={theme}
-            hasChevron={hasChevron}
-            color={color}
-            hoverColor={hoverColor}
-            textColor={textColor}
-            textHoverColor={textHoverColor}
-          >
-            {children}
-          </Button>
-        )
-      }}
-      {...props}
-    />
-  )
-}
+const PopoverTriggerButton = createTriggerButton(PopoverPrimitive.Trigger, "popover-trigger")
 
 function PopoverContent({
   className,

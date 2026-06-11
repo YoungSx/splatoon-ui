@@ -47,22 +47,19 @@ const SIZE_CLASSES = {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
-  function WeaponCard(
-    {
-      name,
-      description,
-      image,
-      section,
-      href = '#',
-      size = 'md',
-      categoryIcon,
-      verticalTitle,
-      className,
-      ...props
-    },
-    ref,
-  ) {
+export function WeaponCard({
+  ref,
+  name,
+  description,
+  image,
+  section,
+  href = '#',
+  size = 'md',
+  categoryIcon,
+  verticalTitle,
+  className,
+  ...props
+}: WeaponCardProps & { ref?: React.Ref<HTMLAnchorElement> }) {
     return (
       <a
         ref={ref}
@@ -133,5 +130,4 @@ export const WeaponCard = React.forwardRef<HTMLAnchorElement, WeaponCardProps>(
         )}
       </a>
     )
-  },
-)
+  }

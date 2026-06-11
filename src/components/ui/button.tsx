@@ -1,15 +1,15 @@
 "use client"
 
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 
+import { useDripAnimation } from "@/hooks/use-drip-animation"
 import {
-  type DripControlPoint,
-  type DripAnimationState,
-  calculateDripVisualFillDelayMs,
-} from "@/lib/drip-math"
+  type OfficialButtonColor,
+  type OfficialButtonTheme,
+  resolveButtonColors,
+} from "@/lib/resolve-button-colors"
 import { cn } from "@/lib/utils"
 import styles from "./button.module.css"
 
@@ -68,194 +68,11 @@ const arrowButtonClassName =
 
 const solidButtonEffectsClassName = "active:scale-[0.98] active:translate-x-[1px] active:translate-y-[1px]"
 
-type OfficialButtonTheme =
-  | "dark"
-  | "light"
-  | "yellow"
-  | "dark-yellow"
-  | "dark-red"
-  | "dark-purple"
-  | "dark-purpleOrange"
-  | "dark-green"
-  | "dark-blue"
-  | "light-blue"
-  | "light-green"
-  | "light-purple"
-  | "light-red"
-  | "black"
-
-type OfficialButtonColor =
-  | "yellow"
-  | "blue"
-  | "green"
-  | "purple"
-  | "orange"
-  | "red"
-  | "white"
-  | "black"
-
-interface ButtonSurfaceConfig {
-  bgColor: string
-  hoverBgColor: string
-  outlineBorderColor?: string
-}
-
-interface ButtonTextThemeConfig {
-  textColor: string
-  hoverTextColor: string
-}
-
-const officialColorVarMap: Record<OfficialButtonColor, string> = {
-  yellow: "var(--neon-yellow)",
-  blue: "var(--ink-blue)",
-  green: "var(--ink-green)",
-  purple: "var(--ink-purple)",
-  orange: "var(--ink-orange)",
-  red: "var(--ink-red)",
-  white: "#ffffff",
-  black: "var(--chaos-black)",
-}
-
-const officialVariantSurfacePresets: Record<
-  NonNullable<VariantProps<typeof buttonVariants>["variant"]>,
-  ButtonSurfaceConfig | null
-> = {
-  yellow: {
-    bgColor: officialColorVarMap.yellow,
-    hoverBgColor: officialColorVarMap.blue,
-  },
-  blue: {
-    bgColor: officialColorVarMap.blue,
-    hoverBgColor: officialColorVarMap.yellow,
-  },
-  green: {
-    bgColor: officialColorVarMap.green,
-    hoverBgColor: officialColorVarMap.red,
-  },
-  orange: {
-    bgColor: officialColorVarMap.orange,
-    hoverBgColor: officialColorVarMap.purple,
-  },
-  purple: {
-    bgColor: officialColorVarMap.purple,
-    hoverBgColor: officialColorVarMap.blue,
-  },
-  destructive: {
-    bgColor: officialColorVarMap.red,
-    hoverBgColor: officialColorVarMap.green,
-  },
-  outline: {
-    bgColor: officialColorVarMap.white,
-    hoverBgColor: officialColorVarMap.yellow,
-    outlineBorderColor: officialColorVarMap.black,
-  },
-  ghost: null,
-  arrow: null,
-}
-
-// Keep a legacy fallback for callers that only specify `variant`.
-const officialVariantFallbackTextPresets: Record<
-  NonNullable<VariantProps<typeof buttonVariants>["variant"]>,
-  ButtonTextThemeConfig | null
-> = {
-  yellow: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  blue: {
-    textColor: officialColorVarMap.white,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  green: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  orange: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  purple: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  destructive: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  outline: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  ghost: null,
-  arrow: null,
-}
-
-// These map to the official theme classes and only influence text contrast.
-const officialButtonThemeTextPresets: Record<OfficialButtonTheme, ButtonTextThemeConfig> = {
-  dark: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  light: {
-    textColor: officialColorVarMap.white,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  yellow: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  "dark-yellow": {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  "dark-red": {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  "dark-purple": {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  "dark-purpleOrange": {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  "dark-green": {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  "dark-blue": {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  "light-blue": {
-    textColor: officialColorVarMap.white,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  "light-green": {
-    textColor: officialColorVarMap.white,
-    hoverTextColor: officialColorVarMap.black,
-  },
-  "light-purple": {
-    textColor: officialColorVarMap.white,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  "light-red": {
-    textColor: officialColorVarMap.white,
-    hoverTextColor: officialColorVarMap.white,
-  },
-  black: {
-    textColor: officialColorVarMap.black,
-    hoverTextColor: officialColorVarMap.black,
-  },
-}
-
 export interface ButtonProps
   extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>,
     VariantProps<typeof buttonVariants> {
   hasChevron?: boolean
   leftIcon?: React.ReactNode
-  asChild?: boolean
   color?: OfficialButtonColor
   hoverColor?: OfficialButtonColor
   textColor?: OfficialButtonColor
@@ -267,28 +84,24 @@ type ButtonMouseEnterEvent = Parameters<NonNullable<ButtonProps["onMouseEnter"]>
 type ButtonMouseLeaveEvent = Parameters<NonNullable<ButtonProps["onMouseLeave"]>>[0]
 type ButtonClickEvent = Parameters<NonNullable<ButtonProps["onClick"]>>[0]
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className,
-      variant = "yellow",
-      size = "default",
-      children,
-      hasChevron = true,
-      leftIcon,
-      onClick,
-      onMouseEnter,
-      onMouseLeave,
-      asChild = false,
-      color,
-      hoverColor,
-      textColor,
-      textHoverColor,
-      theme,
-      ...props
-    },
-    ref
-  ) => {
+function Button({
+  ref,
+  className,
+  variant = "yellow",
+  size = "default",
+  children,
+  hasChevron = true,
+  leftIcon,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  color,
+  hoverColor,
+  textColor,
+  textHoverColor,
+  theme,
+  ...props
+}: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
     const localRef = React.useRef<HTMLButtonElement>(null)
     const setButtonRef = React.useCallback(
       (node: HTMLButtonElement | null) => {
@@ -306,140 +119,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       [ref]
     )
 
-    // Component mounting state to guard against SSR hydration mismatch
-    const [mounted, setMounted] = React.useState(false)
-    const [dimensions, setDimensions] = React.useState({ width: 100, height: 50 })
-    const [controlPoints, setControlPoints] = React.useState<DripControlPoint[]>([])
-    const [speedFactorActive, setSpeedFactorActive] = React.useState(false)
-    const [dripAnimationState, setDripAnimationState] = React.useState<DripAnimationState>("idle")
-    const pendingDripLeaveTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
-    const dripEnterStartedAtRef = React.useRef(0)
-
-    const stepSize = 30
-    const maxAmplitude = 80
     const hasDrip = variant !== "ghost" && variant !== "arrow"
-
-    React.useEffect(() => {
-      setMounted(true)
-
-      const handleResize = () => {
-        if (!localRef.current) return
-        const width = localRef.current.clientWidth
-        // 2px extra height to cover fully when clipping
-        const height = localRef.current.clientHeight + 2
-        setDimensions({ width, height })
-
-        const points: DripControlPoint[] = []
-        const count = Math.ceil(width / stepSize)
-
-        for (let r = 0; r < count; r++) {
-          const amplitude = r % 2 === 0 ? -80 : maxAmplitude
-          const y1 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
-          const y2 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
-
-          points.push({ y1, y2 })
-        }
-        setControlPoints(points)
-      }
-
-      window.addEventListener("resize", handleResize)
-      handleResize()
-
-      // Delay animation activation slightly to prevent initial load transition snap
-      const timer = setTimeout(() => {
-        setSpeedFactorActive(true)
-      }, 500)
-
-      return () => {
-        window.removeEventListener("resize", handleResize)
-        clearTimeout(timer)
-        if (pendingDripLeaveTimerRef.current) {
-          clearTimeout(pendingDripLeaveTimerRef.current)
-        }
-      }
-    }, [])
-
-    // Path generation function corresponding to the official F(index, isOut)
-    const getDripPath = React.useCallback((index: number, isOut: boolean) => {
-      if (!dimensions.width || !dimensions.height || controlPoints.length === 0) return ""
-
-      const r = index === 0 ? -8 : dimensions.height + maxAmplitude
-      let path = `M0 ${r}`
-
-      for (let o = 0; o < controlPoints.length; o++) {
-        const pt = controlPoints[o]
-        const offset = index === 0 ? 0 : isOut ? pt.y1 : pt.y2
-        const a = o * stepSize + (Math.random() * 12 - 6)
-        path += `C${a + 6} ${r + offset},${a + 24} ${r + offset},${a + stepSize} ${r}`
-      }
-
-      if (isOut) {
-        path += `L${dimensions.width} ${dimensions.height}, 0 ${dimensions.height}`
-      } else {
-        path += `L${dimensions.width} -8, 0 -8`
-      }
-      path += "Z"
-      return path
-    }, [controlPoints, dimensions.height, dimensions.width])
-
-    const dripPaths = React.useMemo(() => {
-      if (!mounted || dimensions.width <= 0) return null
-
-      return {
-        inStart: getDripPath(0, false),
-        inEnd: getDripPath(1, false),
-        outStart: getDripPath(0, true),
-        outEnd: getDripPath(1, true),
-      }
-    }, [dimensions.width, getDripPath, mounted])
-
-    const startDripEnter = React.useCallback(() => {
-      if (!hasDrip) return
-
-      if (pendingDripLeaveTimerRef.current) {
-        clearTimeout(pendingDripLeaveTimerRef.current)
-        pendingDripLeaveTimerRef.current = null
-      }
-      dripEnterStartedAtRef.current = performance.now()
-      setDripAnimationState("entering")
-    }, [hasDrip])
-
-    const startDripLeave = React.useCallback(() => {
-      if (!hasDrip) return
-
-      setDripAnimationState((current) => {
-        if (current === "entering") {
-          if (!pendingDripLeaveTimerRef.current) {
-            const elapsedSinceEnter = performance.now() - dripEnterStartedAtRef.current
-            const visualFillDelayMs = calculateDripVisualFillDelayMs(
-              dimensions.height,
-              maxAmplitude,
-              controlPoints
-            )
-            const remainingFillTime = Math.max(0, visualFillDelayMs - elapsedSinceEnter)
-            pendingDripLeaveTimerRef.current = setTimeout(() => {
-              pendingDripLeaveTimerRef.current = null
-              setDripAnimationState("leaving")
-            }, remainingFillTime)
-          }
-          return current
-        }
-
-        return current === "idle" ? current : "leaving"
-      })
-    }, [controlPoints, dimensions.height, hasDrip])
-
-    const handleDripAnimationEnd = React.useCallback(() => {
-      setDripAnimationState((current) => {
-        if (current === "entering") {
-          return "entered"
-        }
-
-        if (current === "leaving") return "idle"
-
-        return current
-      })
-    }, [])
+    const { dripAnimationState, dripStyle, startDripEnter, startDripLeave, handleDripAnimationEnd } =
+      useDripAnimation(localRef, hasDrip)
 
     const paddingKey = size
     const paddingClass = paddingKey && paddingKey in sizePaddingMap
@@ -449,23 +131,16 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ? sizeContentLineHeightMap[paddingKey as keyof typeof sizeContentLineHeightMap]
       : sizeContentLineHeightMap.default
     const variantKey = (variant ?? "yellow") as NonNullable<VariantProps<typeof buttonVariants>["variant"]>
-    const surfacePreset = officialVariantSurfacePresets[variantKey]
-    const fallbackTextPreset = officialVariantFallbackTextPresets[variantKey]
-    const themeTextPreset = theme ? officialButtonThemeTextPresets[theme] : null
 
-    const resolvedColorConfig = surfacePreset
-      ? {
-          bgColor: color ? officialColorVarMap[color] : surfacePreset.bgColor,
-          textColor: textColor
-            ? officialColorVarMap[textColor]
-            : themeTextPreset?.textColor ?? fallbackTextPreset?.textColor ?? officialColorVarMap.black,
-          hoverBgColor: hoverColor ? officialColorVarMap[hoverColor] : surfacePreset.hoverBgColor,
-          hoverTextColor: textHoverColor
-            ? officialColorVarMap[textHoverColor]
-            : themeTextPreset?.hoverTextColor ?? fallbackTextPreset?.hoverTextColor ?? officialColorVarMap.white,
-          outlineBorderColor: surfacePreset.outlineBorderColor,
-        }
-      : null
+    const resolvedColorConfig = resolveButtonColors({
+      variant: variantKey,
+      color,
+      hoverColor,
+      textColor,
+      textHoverColor,
+      theme,
+    })
+
     const colorStyle = {
       ...(resolvedColorConfig
         ? {
@@ -486,20 +161,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           }
         : {}),
     } as React.CSSProperties
-
-    const dripStyle = dripPaths
-      ? ({
-          ...(hasDrip
-            ? {
-                "--drip-in-start": `path("${dripPaths.inStart}")`,
-                "--drip-in-end": `path("${dripPaths.inEnd}")`,
-                "--drip-out-start": `path("${dripPaths.outStart}")`,
-                "--drip-out-end": `path("${dripPaths.outEnd}")`,
-                "--drip-speed-factor": speedFactorActive ? "1" : "0",
-              }
-            : {}),
-        } as React.CSSProperties)
-      : undefined
 
     const splatChevron = (
       <svg
@@ -522,10 +183,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     )
 
     const isTextChildren = typeof children === "string" || typeof children === "number"
-    const Comp = asChild ? Slot : ButtonPrimitive
 
     return (
-        <Comp
+        <ButtonPrimitive
         ref={setButtonRef}
         data-slot="button"
         data-drip-state={hasDrip ? dripAnimationState : undefined}
@@ -562,7 +222,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {hasDrip ? (
           isTextChildren ? (
             <>
-              {/* Official structure: overlay sits above a square base layer; the root provides the corner clip. */}
               <span
                 aria-hidden="true"
                 onAnimationEnd={handleDripAnimationEnd}
@@ -596,13 +255,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             </>
           ) : (
             <>
-              {/* Base surface layer keeps the root transparent, like the official button shell. */}
               <span
                 aria-hidden="true"
                 className="absolute left-0 top-0 z-10 h-full w-full bg-[var(--bg-color)]"
               />
 
-              {/* Pure Drip Liquid Background Mask Layer */}
               <span
                 aria-hidden="true"
                 onAnimationEnd={handleDripAnimationEnd}
@@ -615,7 +272,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 <span aria-hidden="true" className={styles.dripFrame} />
               </span>
 
-              {/* Unified content wrapper placed on top, transitions text colors */}
               <span className="relative z-30 flex items-center justify-center w-full h-full text-[var(--text-color)] group-hover/button:text-[var(--hover-text-color)] transition-colors duration-200">
                 <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
                   {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
@@ -639,11 +295,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             {hasChevron && size !== "icon" && splatChevron}
           </span>
         )}
-      </Comp>
+      </ButtonPrimitive>
     )
   }
-)
-
-Button.displayName = "Button"
 
 export { Button, buttonVariants }

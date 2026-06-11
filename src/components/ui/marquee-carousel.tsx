@@ -34,15 +34,18 @@ export function MarqueeCarousel({ items, className, ...props }: MarqueeCarouselP
   )
 }
 
-MarqueeCarousel.displayName = "MarqueeCarousel"
-
 interface MarqueeGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: MarqueeCarouselItem
   "data-index"?: number
 }
 
-const MarqueeGalleryItem = React.forwardRef<HTMLDivElement, MarqueeGalleryItemProps>(
-  ({ className, item, "data-index": index = 0, ...props }, ref) => {
+function MarqueeGalleryItem({
+  ref,
+  className,
+  item,
+  "data-index": index = 0,
+  ...props
+}: MarqueeGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { currentIndex } = useCarousel()
     const isActive = currentIndex === index
 
@@ -63,5 +66,3 @@ const MarqueeGalleryItem = React.forwardRef<HTMLDivElement, MarqueeGalleryItemPr
       </FadeCarouselItem>
     )
   }
-)
-MarqueeGalleryItem.displayName = "MarqueeGalleryItem"

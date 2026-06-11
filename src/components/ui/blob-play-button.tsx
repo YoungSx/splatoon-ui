@@ -19,8 +19,14 @@ interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   blobSize?: number
 }
 
-export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonProps>(
-  ({ className, idleWobbleAmount = 0.9, hexColor = '#000000', blobSize = 120, ...props }, ref) => {
+export function BlobPlayButton({
+  ref,
+  className,
+  idleWobbleAmount = 0.9,
+  hexColor = '#000000',
+  blobSize = 120,
+  ...props
+}: BlobPlayButtonProps & { ref?: React.Ref<HTMLDivElement> }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
     const animationRef = React.useRef<number>(0)
     const validRef = React.useRef<boolean>(true)
@@ -211,5 +217,3 @@ export const BlobPlayButton = React.forwardRef<HTMLDivElement, BlobPlayButtonPro
       </div>
     )
   }
-)
-BlobPlayButton.displayName = 'BlobPlayButton'

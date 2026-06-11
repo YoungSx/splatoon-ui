@@ -5,6 +5,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { createTriggerButton } from "@/components/ui/trigger-button"
 import { Tape } from "./tape"
 import { XIcon } from "lucide-react"
 
@@ -16,61 +17,7 @@ function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 }
 
-type DialogTriggerButtonProps = Omit<DialogPrimitive.Trigger.Props, "render" | "children"> &
-  Pick<
-    React.ComponentProps<typeof Button>,
-    | "children"
-    | "variant"
-    | "size"
-    | "theme"
-    | "hasChevron"
-    | "color"
-    | "hoverColor"
-    | "textColor"
-    | "textHoverColor"
-  >
-
-function DialogTriggerButton({
-  children,
-  variant = "yellow",
-  size = "default",
-  theme,
-  hasChevron = true,
-  color,
-  hoverColor,
-  textColor,
-  textHoverColor,
-  ...props
-}: DialogTriggerButtonProps) {
-  return (
-    <DialogPrimitive.Trigger
-      data-slot="dialog-trigger"
-      render={(triggerProps) => {
-        const { ref, ...buttonProps } = triggerProps as typeof triggerProps & {
-          ref?: React.Ref<HTMLButtonElement>
-        }
-
-        return (
-          <Button
-            {...buttonProps}
-            ref={ref}
-            variant={variant}
-            size={size}
-            theme={theme}
-            hasChevron={hasChevron}
-            color={color}
-            hoverColor={hoverColor}
-            textColor={textColor}
-            textHoverColor={textHoverColor}
-          >
-            {children}
-          </Button>
-        )
-      }}
-      {...props}
-    />
-  )
-}
+const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, "dialog-trigger")
 
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />

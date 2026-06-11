@@ -37,23 +37,20 @@ export interface WaveCanvasProps extends React.ComponentProps<"canvas"> {
 
 // ─── Component ───────────────────────────────────────────────────────────────
 
-const WaveCanvas = React.forwardRef<HTMLCanvasElement, WaveCanvasProps>(
-  (
-    {
-      color = "#0d0d0d",
-      height = 200,
-      interactive = true,
-      numPoints = NUM_POINTS,
-      elasticity = ELASTICITY,
-      friction = FRICTION,
-      className,
-      style,
-      ...props
-    },
-    ref,
-  ) => {
+function WaveCanvas({
+  ref,
+  color = "#0d0d0d",
+  height = 200,
+  interactive = true,
+  numPoints = NUM_POINTS,
+  elasticity = ELASTICITY,
+  friction = FRICTION,
+  className,
+  style,
+  ...props
+}: WaveCanvasProps & { ref?: React.Ref<HTMLCanvasElement> }) {
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
-    const internalRef = useMergedRef(canvasRef, ref)
+    const internalRef = useMergedRef(canvasRef, ref as React.Ref<HTMLCanvasElement>)
 
     // ── Reduced motion ───────────────────────────────────────────────────────
 
@@ -272,10 +269,7 @@ const WaveCanvas = React.forwardRef<HTMLCanvasElement, WaveCanvasProps>(
         {...props}
       />
     )
-  },
-)
-
-WaveCanvas.displayName = "WaveCanvas"
+  }
 
 export { WaveCanvas }
 

@@ -37,15 +37,18 @@ export function ShopsGalleryCarousel({ items, className, ...props }: ShopsGaller
   )
 }
 
-ShopsGalleryCarousel.displayName = "ShopsGalleryCarousel"
-
 interface ShopsGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: ShopsGalleryCarouselItem
   "data-index"?: number
 }
 
-const ShopsGalleryItem = React.forwardRef<HTMLDivElement, ShopsGalleryItemProps>(
-  ({ className, item, "data-index": index = 0, ...props }, ref) => {
+function ShopsGalleryItem({
+  ref,
+  className,
+  item,
+  "data-index": index = 0,
+  ...props
+}: ShopsGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { currentIndex } = useCarousel()
     const isActive = currentIndex === index
 
@@ -76,5 +79,3 @@ const ShopsGalleryItem = React.forwardRef<HTMLDivElement, ShopsGalleryItemProps>
       </FadeCarouselItem>
     )
   }
-)
-ShopsGalleryItem.displayName = "ShopsGalleryItem"

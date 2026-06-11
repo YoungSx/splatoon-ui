@@ -38,15 +38,18 @@ export function WeaponsGalleryCarousel({ items, className, ...props }: WeaponsGa
   )
 }
 
-WeaponsGalleryCarousel.displayName = "WeaponsGalleryCarousel"
-
 interface WeaponsGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: WeaponsGalleryCarouselItem
   "data-index"?: number
 }
 
-const WeaponsGalleryItem = React.forwardRef<HTMLDivElement, WeaponsGalleryItemProps>(
-  ({ className, item, "data-index": index = 0, ...props }, ref) => {
+function WeaponsGalleryItem({
+  ref,
+  className,
+  item,
+  "data-index": index = 0,
+  ...props
+}: WeaponsGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { currentIndex } = useCarousel()
     const isActive = currentIndex === index
 
@@ -75,5 +78,3 @@ const WeaponsGalleryItem = React.forwardRef<HTMLDivElement, WeaponsGalleryItemPr
       </FadeCarouselItem>
     )
   }
-)
-WeaponsGalleryItem.displayName = "WeaponsGalleryItem"

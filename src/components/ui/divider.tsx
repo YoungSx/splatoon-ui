@@ -29,8 +29,16 @@ const colorMap = {
   custom: "currentColor",
 }
 
-const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
-  ({ className, variant = "wave", color = "black", customColor, direction = "up", desktopOnly = false, ...props }, ref) => {
+function Divider({
+  ref,
+  className,
+  variant = "wave",
+  color = "black",
+  customColor,
+  direction = "up",
+  desktopOnly = false,
+  ...props
+}: DividerProps & { ref?: React.Ref<HTMLDivElement> }) {
     const fillColor = color === "custom" && customColor ? customColor : colorMap[color] || colorMap.black
 
     if (variant === "rip-left" || variant === "rip-right") {
@@ -117,7 +125,5 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
 
     return null
   }
-)
-Divider.displayName = "Divider"
 
 export { Divider }

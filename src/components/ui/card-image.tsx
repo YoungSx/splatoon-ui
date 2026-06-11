@@ -1,6 +1,5 @@
 "use client"
 
-import { Slot } from "@radix-ui/react-slot"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -9,13 +8,17 @@ import { CardContext } from "./card"
 export interface CardImageProps extends React.ComponentProps<"div"> {
   src?: string
   alt?: string
-  asChild?: boolean
 }
 
-export const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
-  ({ className, src, alt, asChild = false, children, ...props }, ref) => {
+export function CardImage({
+  ref,
+  className,
+  src,
+  alt,
+  children,
+  ...props
+}: CardImageProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { variant } = React.useContext(CardContext)
-    const Comp = asChild ? Slot : "div"
 
     if (variant === "tag") {
       return (
@@ -57,7 +60,7 @@ export const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
 
     // Default: news variant rotated photo
     return (
-      <Comp
+      <div
         ref={ref}
         data-slot="card-image"
         className={cn(
@@ -72,8 +75,6 @@ export const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
         ) : (
           children
         )}
-      </Comp>
+      </div>
     )
   }
-)
-CardImage.displayName = "CardImage"

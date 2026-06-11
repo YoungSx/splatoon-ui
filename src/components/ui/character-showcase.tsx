@@ -11,8 +11,14 @@ export interface CharacterShowcaseProps extends React.HTMLAttributes<HTMLDivElem
   reducedMotion?: boolean
 }
 
-export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowcaseProps>(
-  ({ className, boardClassName, children, reducedMotion: propReducedMotion = false, ...props }, ref) => {
+export function CharacterShowcase({
+  ref,
+  className,
+  boardClassName,
+  children,
+  reducedMotion: propReducedMotion = false,
+  ...props
+}: CharacterShowcaseProps & { ref?: React.Ref<HTMLDivElement> }) {
     const containerRef = React.useRef<HTMLDivElement>(null)
 
     // Declare normalized motion variables dx and dy
@@ -275,6 +281,3 @@ export const CharacterShowcase = React.forwardRef<HTMLDivElement, CharacterShowc
       </div>
     )
   }
-)
-
-CharacterShowcase.displayName = "CharacterShowcase"

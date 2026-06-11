@@ -42,24 +42,21 @@ export interface InkTrailCanvasProps extends React.ComponentProps<'div'> {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const InkTrailCanvas = React.forwardRef<HTMLDivElement, InkTrailCanvasProps>(
-  function InkTrailCanvas(
-    {
-      enabled = true,
-      colors = DEFAULT_COLORS,
-      blobSize = 18,
-      sizeVariance = 0.6,
-      spawnInterval = 16,
-      particleLifetime = 1200,
-      spawnRadius = 30,
-      initialOpacity = 0.55,
-      className,
-      style,
-      children,
-      ...props
-    },
-    ref,
-  ) {
+export function InkTrailCanvas({
+  ref,
+  enabled = true,
+  colors = DEFAULT_COLORS,
+  blobSize = 18,
+  sizeVariance = 0.6,
+  spawnInterval = 16,
+  particleLifetime = 1200,
+  spawnRadius = 30,
+  initialOpacity = 0.55,
+  className,
+  style,
+  children,
+  ...props
+}: InkTrailCanvasProps & { ref?: React.Ref<HTMLDivElement> }) {
     const containerRef = React.useRef<HTMLDivElement>(null)
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
     const poolRef = React.useRef<InkParticle[]>([])
@@ -323,5 +320,4 @@ export const InkTrailCanvas = React.forwardRef<HTMLDivElement, InkTrailCanvasPro
         {children}
       </div>
     )
-  },
-)
+  }

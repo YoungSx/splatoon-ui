@@ -103,21 +103,18 @@ function ArrowIcon({ direction }: { direction: IconButtonDirection }) {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  function IconButton(
-    {
-      variant = 'carousel',
-      size,
-      animation = 'squish',
-      direction,
-      icon,
-      className,
-      style,
-      disabled,
-      ...props
-    },
-    ref,
-  ) {
+export function IconButton({
+  ref,
+  variant = 'carousel',
+  size,
+  animation = 'squish',
+  direction,
+  icon,
+  className,
+  style,
+  disabled,
+  ...props
+}: IconButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
     // Determine squish direction from the arrow direction
     const squishDirection = direction === 'left' ? -1 : 1
 
@@ -155,5 +152,4 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         {resolvedIcon}
       </button>
     )
-  },
-)
+  }

@@ -32,7 +32,7 @@ export interface PageTransitionHandle {
 
 // ─── Props ──────────────────────────────────────────────────────────────────
 
-export interface PageTransitionProps extends React.ComponentProps<'div'> {
+export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   /** Ink color for transitions */
   inkColor?: string
   /** Duration for cover animation (ms) */
@@ -49,21 +49,18 @@ export interface PageTransitionProps extends React.ComponentProps<'div'> {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const PageTransition = React.forwardRef<PageTransitionHandle, PageTransitionProps>(
-  function PageTransition(
-    {
-      inkColor = '#000000',
-      durationIn = 700,
-      durationOut = 1000,
-      autoReveal = false,
-      onCovered,
-      onRevealed,
-      className,
-      children,
-      ...props
-    },
-    ref,
-  ) {
+export function PageTransition({
+  ref,
+  inkColor = '#000000',
+  durationIn = 700,
+  durationOut = 1000,
+  autoReveal = false,
+  onCovered,
+  onRevealed,
+  className,
+  children,
+  ...props
+}: PageTransitionProps & { ref?: React.Ref<PageTransitionHandle> }) {
     const [canvasState, setCanvasState] = React.useState<'in' | 'out' | 'idle'>('idle')
     const [covered, setCovered] = React.useState(false)
     const [transitionState, setTransitionState] = React.useState<
@@ -165,5 +162,4 @@ export const PageTransition = React.forwardRef<PageTransitionHandle, PageTransit
         />
       </div>
     )
-  },
-)
+  }

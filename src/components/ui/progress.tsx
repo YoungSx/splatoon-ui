@@ -42,24 +42,18 @@ const trackPalette = {
   transparent: "transparent",
 } as const satisfies Record<ProgressTrackVariant, string>
 
-const Progress = React.forwardRef<
-  React.ElementRef<typeof ProgressPrimitive.Root>,
-  ProgressProps
->(
-  (
-    {
-      className,
-      value = 0,
-      max = 100,
-      variant = "yellow",
-      trackVariant = "dark",
-      size = "default",
-      skewed = true,
-      splattered = true,
-      ...props
-    },
-    ref
-  ) => {
+function Progress({
+  ref,
+  className,
+  value = 0,
+  max = 100,
+  variant = "yellow",
+  trackVariant = "dark",
+  size = "default",
+  skewed = true,
+  splattered = true,
+  ...props
+}: ProgressProps & { ref?: React.Ref<React.ElementRef<typeof ProgressPrimitive.Root>> }) {
     const safeMax = max > 0 ? max : 100
     const clampedValue = Math.min(Math.max(value, 0), safeMax)
     const percentage = (clampedValue / safeMax) * 100
@@ -127,7 +121,5 @@ const Progress = React.forwardRef<
       </ProgressPrimitive.Root>
     )
   }
-)
-Progress.displayName = ProgressPrimitive.Root.displayName
 
 export { Progress }

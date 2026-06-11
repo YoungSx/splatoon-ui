@@ -75,18 +75,15 @@ function detectNumberBadge(item: GalleryItem): number | undefined {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const SplatoonGallery = React.forwardRef<HTMLDivElement, SplatoonGalleryProps>(
-  function SplatoonGallery(
-    {
-      items,
-      title = 'Gallery',
-      hover = true,
-      columns = 3,
-      className,
-      ...props
-    },
-    ref,
-  ) {
+export function SplatoonGallery({
+  ref,
+  items,
+  title = 'Gallery',
+  hover = true,
+  columns = 3,
+  className,
+  ...props
+}: SplatoonGalleryProps & { ref?: React.Ref<HTMLDivElement> }) {
     const [selectedItem, setSelectedItem] = React.useState<GalleryItem | null>(null)
 
     React.useEffect(() => {
@@ -250,5 +247,4 @@ export const SplatoonGallery = React.forwardRef<HTMLDivElement, SplatoonGalleryP
         </Dialog>
       </div>
     )
-  },
-)
+  }

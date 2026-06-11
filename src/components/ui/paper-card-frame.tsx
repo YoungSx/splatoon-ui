@@ -1,4 +1,3 @@
-import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 
@@ -84,7 +83,6 @@ function PaperCardBottomBorder({ fill }: { fill: string }) {
 // ── PaperCardFrame ──────────────────────────────────────────────
 
 interface PaperCardFrameProps {
-  asChild?: boolean
   className?: string
   dataVariant: "news"
   surface: NewsSurface
@@ -98,7 +96,6 @@ interface PaperCardFrameProps {
 }
 
 export function PaperCardFrame({
-  asChild = false,
   className,
   dataVariant,
   surface,
@@ -110,7 +107,6 @@ export function PaperCardFrame({
   forwardedRef,
   props,
 }: PaperCardFrameProps) {
-  const Comp = asChild ? Slot : "div"
   const svgFills = newsSurfaceFillMap[surface]
   const { style: propStyle, ...restProps } = props ?? {}
 
@@ -126,7 +122,7 @@ export function PaperCardFrame({
   } as React.CSSProperties
 
   return (
-    <Comp
+    <div
       ref={forwardedRef}
       data-slot="card"
       data-variant={dataVariant}
@@ -183,6 +179,6 @@ export function PaperCardFrame({
           className="absolute -top-3 -right-3 w-20 h-auto pointer-events-none select-none z-20 rotate-[-8deg]"
         />
       )}
-    </Comp>
+    </div>
   )
 }

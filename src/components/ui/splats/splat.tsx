@@ -57,4 +57,3 @@ export function Splat({ id, ...props }: SplatProps) {
   }
 }
 
-Splat.displayName = "Splat"
