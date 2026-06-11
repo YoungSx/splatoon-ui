@@ -70,7 +70,7 @@ function SplatoonModalTrigger({ children, onClick, ...props }: SplatoonModalTrig
   )
 }
 
-/* ── Overlay + Content Portal ── */
+/* ── Modal Portal (official CSS custom property-driven architecture) ── */
 function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
   const { open, setOpen, contentRef } = useSplatoonModal()
   const [mounted, setMounted] = React.useState(false)
@@ -98,24 +98,33 @@ function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
   if (!mounted) return null
 
   return createPortal(
-    <>
-      {/* Backdrop */}
+    <div
+      className={cn(styles.modal, open && styles.modalOpen)}
+      style={{
+        "--alpha": open ? 1 : 0,
+        "--scale": 1,
+        "--duration": open ? "0.6s" : "0.4s",
+        "--content-delay": open ? "0.5s" : "0s",
+        "--modal-ease": "cubic-bezier(0.35, 0.91, 0.3, 0.99)",
+        "--modal-button-ease": "cubic-bezier(0.21, 0.12, 0.35, 1.43)",
+        "--duration-factor": 1,
+      } as React.CSSProperties}
+    >
+      {/* Backdrop — no transition, background driven by --alpha */}
       <div
-        className={cn(styles.overlay, open && styles.overlayActive)}
+        className={styles.backdrop}
+        style={{ backgroundColor: `rgba(0, 0, 0, calc(0.9 * var(--alpha)))` }}
         onClick={() => setOpen(false)}
         aria-hidden="true"
       />
-      {/* Scroll container + content */}
-      <div className={cn(styles.scrollContainer, open && styles.scrollContainerActive)} onClick={() => setOpen(false)}>
-        <div
-          ref={contentRef}
-          className={cn(styles.content, open && styles.overlayActive)}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {children}
-        </div>
+      {/* Content — centered, fade-only */}
+      <div
+        ref={contentRef}
+        className={styles.content}
+      >
+        {children}
       </div>
-    </>,
+    </div>,
     document.body
   )
 }
@@ -142,13 +151,18 @@ function SplatoonModalBody({ children, className, showFrames = true, ...props }:
         </>
       )}
 
-      {/* Top-right close X */}
+      {/* Morph blob close button (official style) */}
       <button
         type="button"
         className={styles.closeButton}
         onClick={() => setOpen(false)}
         aria-label="Close"
-      />
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+          <line x1="4" y1="4" x2="16" y2="16" />
+          <line x1="16" y1="4" x2="4" y2="16" />
+        </svg>
+      </button>
 
       {children}
     </div>
@@ -203,27 +217,6 @@ function SplatoonModalStagger({ children, className, ...props }: SplatoonModalSt
   )
 }
 
-/* ── トジル (Tojiru) close button ── */
-interface SplatoonModalCloseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label?: string
-}
-
-function SplatoonModalCloseButton({ label = "トジル", className, ...props }: SplatoonModalCloseButtonProps) {
-  const { setOpen } = useSplatoonModal()
-
-  return (
-    <button
-      type="button"
-      className={cn(styles.tojiruButton, className)}
-      onClick={() => setOpen(false)}
-      {...props}
-    >
-      <span className={styles.tojiruIcon} />
-      <span>{label}</span>
-    </button>
-  )
-}
-
 /* ── Squid SVG icon (for corner frames) ── */
 function SquidIcon({ className }: { className?: string }) {
   return (
@@ -246,6 +239,5 @@ export {
   SplatoonModalPortal,
   SplatoonModalBody,
   SplatoonModalStagger,
-  SplatoonModalCloseButton,
   useSplatoonModal,
 }

@@ -254,6 +254,7 @@ export interface ButtonProps
   extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>,
     VariantProps<typeof buttonVariants> {
   hasChevron?: boolean
+  leftIcon?: React.ReactNode
   asChild?: boolean
   color?: OfficialButtonColor
   hoverColor?: OfficialButtonColor
@@ -274,6 +275,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       size = "default",
       children,
       hasChevron = true,
+      leftIcon,
       onClick,
       onMouseEnter,
       onMouseLeave,
@@ -573,6 +575,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 <span aria-hidden="true" className={styles.dripFill} />
                 <span aria-hidden="true" className={styles.dripFrame} />
                 <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
+                  {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
@@ -585,6 +588,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 )}
               >
                 <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
+                  {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
@@ -614,6 +618,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               {/* Unified content wrapper placed on top, transitions text colors */}
               <span className="relative z-30 flex items-center justify-center w-full h-full text-[var(--text-color)] group-hover/button:text-[var(--hover-text-color)] transition-colors duration-200">
                 <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
+                  {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
                 </span>
@@ -629,6 +634,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 : cn("inline-flex items-center justify-center", contentLineHeightClass)
             )}
           >
+            {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
             {children}
             {hasChevron && size !== "icon" && splatChevron}
           </span>

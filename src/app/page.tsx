@@ -49,7 +49,6 @@ import {
   SplatoonModalPortal,
   SplatoonModalBody,
   SplatoonModalStagger,
-  SplatoonModalCloseButton,
 } from '@/components/ui/splatoon-modal'
 import { InView, InViewStagger } from '@/components/ui/in-view'
 import { Progress } from '@/components/ui/progress'
@@ -387,9 +386,18 @@ export default function Home() {
             <p className="max-w-md text-chaos-black/70 font-medium text-sm md:text-base">
               1:1 Replica Component Library inspired by Splatoon 3
             </p>
-            <Button variant="yellow">
-              Browse Components
-            </Button>
+            <a href="https://github.com/YoungSx/splatoon-ui" target="_blank" rel="noopener noreferrer">
+              <Button
+                variant="yellow"
+                leftIcon={
+                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                  </svg>
+                }
+              >
+                View on GitHub
+              </Button>
+            </a>
           </div>
 
           {/* Marquee Tape (Neon Yellow Warning Tape) */}
@@ -416,14 +424,12 @@ export default function Home() {
           <Splat3 className="w-48 h-48" />
         </div>
 
-        <div className="w-full max-w-5xl flex flex-col items-center relative z-10 space-y-12">
-          <InView direction="up" rootMargin="-50px">
-            <TapeTitle color="red" id="trailer-section-title">
-              Watch the trailer
-            </TapeTitle>
-          </InView>
+        <div className="w-full max-w-5xl flex flex-col items-center">
+          <TapeTitle color="red" id="trailer-section-title">
+            Watch the trailer
+          </TapeTitle>
 
-          <InView direction="up" rootMargin="-50px" delay={2}>
+          <div>
             <TrailerVideo>
               <TrailerVideoThumbnail
                 src="/_images/screenshots/video-trailer.jpg"
@@ -435,7 +441,7 @@ export default function Home() {
               {/* The official trailer uses N4mKx-H4b0U */}
               <TrailerVideoContent videoId="N4mKx-H4b0U" title="Splatoon 3 - Announcement Trailer" />
             </TrailerVideo>
-          </InView>
+          </div>
         </div>
       </section>
 
@@ -939,7 +945,7 @@ export default function Home() {
                           <div className="rounded-lg bg-[#a51ee1] p-3 text-center text-xs font-black uppercase tracking-wider text-white">Rainmaker</div>
                         </div>
                       </div>
-                      <SplatoonModalCloseButton label="トジル" />
+
                     </SplatoonModalBody>
                   </SplatoonModalPortal>
                 </SplatoonModal>
@@ -960,7 +966,7 @@ export default function Home() {
                         <div className="rounded-lg bg-[#00c8b4] p-3 text-sm font-black text-chaos-black">Sloshers — Throw ink in arcs</div>
                         <div className="rounded-lg bg-[#a51ee1] p-3 text-sm font-black text-white">Splatlings — Charged rapid-fire</div>
                       </SplatoonModalStagger>
-                      <SplatoonModalCloseButton label="トジル" />
+
                     </SplatoonModalBody>
                   </SplatoonModalPortal>
                 </SplatoonModal>

@@ -1,76 +1,83 @@
 /* splatoon-modal.module.css
-   Matches official splatoon.nintendo.com/jp/games/feature/splatoon modal system.
-   Full-screen overlay with bounce animation, staggered content reveal,
-   and トジル (Tojiru) close button with dashed border. */
+   1:1 match with official splatoon.nintendo.com modal system.
+   CSS custom property-driven state transitions:
+   --alpha (0|1), --scale (1), --duration, --content-delay, --modal-ease, --modal-button-ease */
 
-/* ── Overlay ── */
-.overlay {
-  background-color: rgba(0, 0, 0, 0.7);
-  inset: 0;
-  opacity: 0;
+/* ── Morph blob keyframes (official 3-stop) ── */
+@keyframes morph {
+  0%, 100% {
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+  }
+  34% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+  }
+}
+
+/* ── Modal container (CSS custom properties set via inline style) ── */
+.modal {
+  color: #fff;
+  height: 100%;
+  left: 0;
   pointer-events: none;
   position: fixed;
-  transition: all 0.3s ease 0.1s;
+  top: 0;
   visibility: hidden;
-  z-index: 10000;
-}
-
-.overlayActive {
-  opacity: 1;
-  pointer-events: auto;
-  transition-delay: 0s;
-  visibility: visible;
-}
-
-/* ── Scroll container ── */
-.scrollContainer {
-  align-items: center;
-  display: flex;
-  inset: 0;
-  justify-content: center;
-  overflow-y: auto;
-  padding: 2rem;
-  pointer-events: none;
-  position: fixed;
-  visibility: hidden;
-  z-index: 10001;
-}
-
-.scrollContainerActive {
-  pointer-events: auto;
-  visibility: visible;
-}
-
-/* ── Content wrapper (bounce animation) ── */
-.content {
-  opacity: 0;
-  transform: scale(0.7);
-  transition: opacity 0.3s, transform 0.3s;
-  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   width: 100%;
-  max-width: 640px;
+  z-index: 10100;
 }
 
-.content.overlayActive {
-  opacity: 1;
-  transform: scale(1);
-  transition-delay: 0.2s;
+.modalOpen {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* ── Backdrop — no transition, background driven by JS inline style ── */
+.backdrop {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+/* ── Content wrapper — centered, fade+scale ── */
+.content {
+  left: 50%;
+  max-height: 100vh;
+  opacity: var(--alpha);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(var(--scale));
+  transition: transform var(--duration) var(--modal-ease, cubic-bezier(0.35, 0.91, 0.3, 0.99)),
+              opacity var(--duration) var(--modal-ease, cubic-bezier(0.35, 0.91, 0.3, 0.99));
+  transition-delay: var(--content-delay);
+  width: 100%;
+  z-index: 2;
 }
 
 /* ── Modal body card ── */
 .body {
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 1.25rem;
-  box-shadow: 0 0 4rem rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
+  margin: 0 auto;
+  max-width: 640px;
   padding: 2.5rem 2rem 3.5rem;
   position: relative;
+  width: calc(100% - 2rem);
 }
 
 /* ── Corner frame decorations ── */
 .frame {
+  height: 2.5rem;
   position: absolute;
   width: 2.5rem;
-  height: 2.5rem;
   z-index: 2;
 }
 
@@ -121,9 +128,9 @@
 }
 
 .frameIcon {
+  height: 1.25rem;
   position: absolute;
   width: 1.25rem;
-  height: 1.25rem;
 }
 
 .frameTopRight .frameIcon {
@@ -148,152 +155,60 @@
   transform: translateY(0);
 }
 
-/* ── トジル (Tojiru) close button ── */
-.tojiruButton {
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  font-size: 1rem;
-  font-weight: 900;
-  height: 3rem;
-  justify-content: center;
-  letter-spacing: 0.03em;
-  margin: 2rem auto 0;
-  padding: 0;
-  position: relative;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-  width: 16rem;
-}
-
-.tojiruButton:hover {
-  background-color: #e6ff2f;
-}
-
-/* Dashed border via gradient backgrounds */
-.tojiruButton::before,
-.tojiruButton::after {
-  background-position: left top, right top, right bottom, left bottom;
-  background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
-  background-size: 6px 3px, 3px 6px, 6px 3px, 3px 6px;
-  content: "";
-  display: block;
-  height: 100%;
-  left: 0;
-  pointer-events: none;
-  position: absolute;
-  top: 0;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.tojiruButton::before {
-  background-image:
-    linear-gradient(to right, #000, #000 3px, transparent 3px, transparent 6px),
-    linear-gradient(to bottom, #000, #000 3px, transparent 3px, transparent 6px),
-    linear-gradient(to left, #000, #000 3px, transparent 3px, transparent 6px),
-    linear-gradient(to top, #000, #000 3px, transparent 3px, transparent 6px);
-}
-
-.tojiruButton::after {
-  background-image:
-    linear-gradient(to right, #ff585e, #ff585e 3px, transparent 3px, transparent 6px),
-    linear-gradient(to bottom, #ff585e, #ff585e 3px, transparent 3px, transparent 6px),
-    linear-gradient(to left, #ff585e, #ff585e 3px, transparent 3px, transparent 6px),
-    linear-gradient(to top, #ff585e, #ff585e 3px, transparent 3px, transparent 6px);
-  opacity: 0;
-}
-
-.tojiruButton:hover::after {
-  opacity: 1;
-}
-
-.tojiruButton:hover::before {
-  opacity: 0;
-}
-
-/* X icon inside tojiru button */
-.tojiruIcon {
-  height: 0.75rem;
-  left: 1rem;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0.75rem;
-}
-
-.tojiruIcon::before,
-.tojiruIcon::after {
-  background-color: currentColor;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 0;
-  position: absolute;
-  top: 50%;
-  transform-origin: center;
-  width: 100%;
-}
-
-.tojiruIcon::before {
-  transform: rotate(-45deg);
-}
-
-.tojiruIcon::after {
-  transform: rotate(45deg);
-}
-
-/* ── Close X button (top-right) ── */
+/* ── Close button (morph blob, slide-in, official) ── */
 .closeButton {
-  background: none;
+  animation: morph calc(var(--duration-factor, 1) * 3s) linear infinite;
+  background-color: #eaff3d;
   border: none;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  color: #603bff;
   cursor: pointer;
-  height: 2.5rem;
-  padding: 0;
+  display: grid;
+  line-height: 0;
+  opacity: var(--alpha);
+  padding: 12px;
+  place-content: center;
   position: absolute;
-  right: 0.75rem;
-  top: 0.75rem;
-  width: 2.5rem;
-  z-index: 10;
+  right: 16px;
+  top: 20px;
+  transform: translateX(calc(200% * (1 - var(--alpha)))) scale(var(--scale)) translateZ(0);
+  transition: transform var(--duration) var(--modal-button-ease, cubic-bezier(0.21, 0.12, 0.35, 1.43)),
+              opacity var(--duration) var(--modal-button-ease, cubic-bezier(0.21, 0.12, 0.35, 1.43));
+  transition-delay: var(--content-delay);
+  z-index: 100;
 }
 
-.closeButton::before,
-.closeButton::after {
-  background-color: #000;
-  content: "";
-  display: block;
-  height: 3px;
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform-origin: center;
-  width: 1.5rem;
+.closeButton:hover {
+  transform: scale(calc(var(--scale) * 1.1));
+  transition-delay: 0s;
+  transition-duration: calc(var(--duration-factor, 1) * 0.3s);
 }
 
-.closeButton::before {
-  transform: translate(-50%, -50%) rotate(-45deg);
+.closeButton svg {
+  width: 20px;
 }
 
-.closeButton::after {
-  transform: translate(-50%, -50%) rotate(45deg);
+/* ── Scroll spacer for body content ── */
+.scrollSpacer {
+  padding: 2rem 0;
 }
 
 /* ── Responsive ── */
-@media (max-width: 640px) {
-  .scrollContainer {
-    padding: 1rem;
+@media screen and (min-width: 640px) {
+  .closeButton {
+    padding: 20px;
+    right: 32px;
+    top: 32px;
   }
 
+  .closeButton svg {
+    width: 25px;
+  }
+}
+
+@media (max-width: 640px) {
   .body {
     border-radius: 1rem;
     padding: 1.5rem 1rem 2.5rem;
-  }
-
-  .tojiruButton {
-    font-size: 0.875rem;
-    height: 2.5rem;
-    width: 12rem;
   }
 }

@@ -1,0 +1,58 @@
+/* trailer-video.module.css
+   Tape positioning matches official splatoon.nintendo.com responsive values. */
+
+/* ── Tape 1 (top-left, tape-2 image) ── */
+.tape1 {
+  left: -19px;
+  max-width: 82px;
+  pointer-events: none;
+  position: absolute;
+  top: -20px;
+  transform: rotate(-25deg);
+}
+
+/* ── Tape 2 (bottom-right, tape-3 image) ── */
+.tape2 {
+  bottom: 0;
+  max-width: 97px;
+  pointer-events: none;
+  position: absolute;
+  right: -15px;
+  transform: rotate(-24deg);
+}
+
+@media screen and (min-width: 640px) {
+  .tape1 {
+    left: -25px;
+    max-width: 133px;
+    top: -40px;
+  }
+
+  .tape2 {
+    bottom: 10px;
+    max-width: 162px;
+    right: -50px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .tape1 {
+    max-width: 166px;
+    top: -50px;
+  }
+
+  .tape2 {
+    bottom: 20px;
+    max-width: 202px;
+  }
+}
+
+@media screen and (min-width: 1144px) {
+  .tape1 {
+    left: -40px;
+  }
+
+  .tape2 {
+    right: -40px;
+  }
+}

@@ -8,6 +8,7 @@ import { InkSplashCanvas } from './ink-splash-canvas'
 import { power3In } from '@/lib/wobble-math'
 import navStyles from '@/components/ui/nav-menu-button.module.css'
 import photoStyles from './styled-photo.module.css'
+import tapeStyles from './trailer-video.module.css'
 
 // ─────────────────────────────────────────────────────────────
 // Animation Constants (matches official defaults)
@@ -154,6 +155,7 @@ export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, Trailer
                 style={{
                   '--end-rotate': '2deg',
                   '--margin-offset': '0',
+                  marginTop: 0,
                 } as React.CSSProperties}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -165,39 +167,29 @@ export const TrailerVideoThumbnail = React.forwardRef<HTMLButtonElement, Trailer
                 />
               </div>
 
-              {/* ── Tape 1 (top-left) ───────────────────────────────
-                  Official: absolute, left:-25px, top:-40px, w:133px,
-                  transform:rotate(-25deg)
+              {/* ── Tape 1 (top-left, tape-2) ──────────────────────────
+                  Official: <picture> with responsive sources + CSS module positioning.
               */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/_images/tape-assets/tape-2.png"
-                alt=""
-                className="absolute pointer-events-none"
-                style={{
-                  left: '-25px',
-                  top: '-40px',
-                  width: '133px',
-                  transform: 'rotate(-25deg)',
-                }}
-              />
+              <picture>
+                <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.webp 1x, /_images/tape-assets/tape-2-medium-up-2x.webp 2x" type="image/webp" />
+                <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.png 1x, /_images/tape-assets/tape-2-medium-up-2x.png 2x" type="image/png" />
+                <source srcSet="/_images/tape-assets/tape-2.webp 1x, /_images/tape-assets/tape-2-2x.webp 2x" type="image/webp" />
+                <source srcSet="/_images/tape-assets/tape-2.png 1x, /_images/tape-assets/tape-2-2x.png 2x" type="image/png" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/_images/tape-assets/tape-2.png" alt="" className={tapeStyles.tape1} />
+              </picture>
 
-              {/* ── Tape 2 (bottom-right) ───────────────────────────
-                  Official: absolute, right:-50px, bottom:10px, w:162px,
-                  transform:rotate(-23deg)
+              {/* ── Tape 2 (bottom-right, tape-3) ─────────────────────
+                  Official: <picture> with responsive sources + CSS module positioning.
               */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/_images/tape-assets/tape-3.png"
-                alt=""
-                className="absolute pointer-events-none"
-                style={{
-                  right: '-50px',
-                  bottom: '10px',
-                  width: '162px',
-                  transform: 'rotate(-23deg)',
-                }}
-              />
+              <picture>
+                <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-3-medium-up.webp 1x, /_images/tape-assets/tape-3-medium-up-2x.webp 2x" type="image/webp" />
+                <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-3-medium-up.png 1x, /_images/tape-assets/tape-3-medium-up-2x.png 2x" type="image/png" />
+                <source srcSet="/_images/tape-assets/tape-3.webp 1x, /_images/tape-assets/tape-3-2x.webp 2x" type="image/webp" />
+                <source srcSet="/_images/tape-assets/tape-3.png 1x, /_images/tape-assets/tape-3-2x.png 2x" type="image/png" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/_images/tape-assets/tape-3.png" alt="" className={tapeStyles.tape2} />
+              </picture>
             </button>
           )
         }}
