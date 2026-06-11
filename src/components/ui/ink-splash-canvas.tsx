@@ -260,15 +260,15 @@ export function InkSplashCanvas({
 
     // Match the OGL program state used by the official transition.
     gl.enable(gl.DEPTH_TEST)
-    gl.enable(gl.CULL_FACE)
-    gl.cullFace(gl.BACK)
-    gl.frontFace(gl.CCW)
+    // OGL defaults: cullFace=null (disabled), frontFace=CCW, depthMask=true, depthFunc=LESS
     gl.depthMask(true)
     gl.depthFunc(gl.LESS)
     gl.disable(gl.BLEND)
 
-    // OGL autoClear clears both color and depth every frame before rendering.
-    gl.clearColor(0, 0, 0, 0)
+    // Official OGL Scene sets clearColor(1,1,1,1) — white background.
+    // The shader outputs transparent black (0,0,0,0) where ink is absent,
+    // so the white clear color shows through, matching the official visual.
+    gl.clearColor(1, 1, 1, 1)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.drawArrays(gl.TRIANGLES, 0, 3)
   }, [])
