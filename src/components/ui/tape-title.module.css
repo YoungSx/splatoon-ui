@@ -68,34 +68,13 @@
 
 /* Title text — inherits font-size/weight from context per official spec */
 .title {
-  padding: 8px 16px 16px;
+  padding: 8px 20px 16px;
   text-transform: none;
 }
 
 @media screen and (min-width: 1024px) {
   .title {
-    padding: 16px 40px 24px;
+    padding: 12px 32px 20px;
   }
 }
 
-/* ── Trailer scaling: title width locks to player ratio via cqw ── */
-.scaling {
-  width: 100%;
-  container-type: inline-size;
-}
-
-.scaling .container {
-  width: 52cqw;
-  max-width: none;
-}
-
-.scaling .title {
-  padding: 2cqw 5cqw 3cqw;
-  white-space: nowrap;
-}
-
-@container (min-width: 640px) {
-  .scaling .title {
-    padding: 2cqw 5.5cqw 3.5cqw;
-  }
-}

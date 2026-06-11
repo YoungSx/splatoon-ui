@@ -425,11 +425,11 @@ export default function Home() {
         </div>
 
         <div className="max-w-3xl flex flex-col items-center">
-          <TapeTitle color="red" scaling id="trailer-section-title">
+          <TapeTitle color="red" className="w-[52%] text-center" id="trailer-section-title">
             Watch the trailer
           </TapeTitle>
 
-          <div>
+          <div className="w-full">
             <TrailerVideo>
               <TrailerVideoThumbnail
                 src="/_images/screenshots/video-trailer.jpg"

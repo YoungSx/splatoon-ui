@@ -125,7 +125,7 @@ export function TrailerVideoThumbnail({
               }}
               className={cn(
                 // Official: inline-block, relative, overflow:visible, padding:0
-                'group relative inline-block overflow-visible p-0 cursor-pointer',
+                'group relative inline-block max-w-full overflow-visible p-0 cursor-pointer',
                 className
               )}
               {...rest}
