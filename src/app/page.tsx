@@ -424,17 +424,16 @@ export default function Home() {
           <Splat3 className="w-48 h-48" />
         </div>
 
-        <div className="w-full max-w-3xl flex flex-col items-center">
+        <div className="max-w-3xl flex flex-col items-center">
           <TapeTitle color="red" id="trailer-section-title">
             Watch the trailer
           </TapeTitle>
 
-          <div className="w-full">
+          <div>
             <TrailerVideo>
               <TrailerVideoThumbnail
                 src="/_images/screenshots/video-trailer.jpg"
                 alt="Splatoon 3 Trailer"
-                className="w-full"
                 blobColor="#000000"
                 blobSize={180}
               />
