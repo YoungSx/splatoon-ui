@@ -4,6 +4,8 @@
 
 > **本项目与 Nintendo 无任何关联。** Splatoon 是 Nintendo 的注册商标。本项目是粉丝创作（fan-made），仅供非商业的同人社区使用。如果本项目侵犯了您的权益，请联系我们，我们会立即处理。
 
+**[English Version](./README_EN.md)**
+
 ## 这是什么
 
 Splatoon UI 是一套完整的 React 组件库，复刻了 [splatoon.nintendo.com](https://splatoon.nintendo.com) 的视觉语言。你可以用它快速搭建 Splatoon 风格的同人网站、Wiki、锦标赛页面、粉丝社区等。
