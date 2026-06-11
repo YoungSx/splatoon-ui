@@ -24,39 +24,13 @@ export const CardImage = React.forwardRef<HTMLDivElement, CardImageProps>(
           data-slot="card-image-tag-wrapper"
           className="relative w-full py-4 flex justify-center"
         >
-          {/* Scotch tape on top center */}
-          <svg
-            className="absolute -top-[6px] left-1/2 -translate-x-1/2 z-30 select-none pointer-events-none rotate-[-3deg] opacity-90"
-            width="100"
-            height="28"
-            viewBox="0 0 100 28"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5 6 L95 2 L93 24 L3 28 Z"
-              fill="#0d0d0d"
-              opacity="0.15"
-            />
-            <path
-              d="M3 4 L93 0 L91 22 L1 26 Z"
-              fill="#f4f4f4"
-              fillOpacity="0.65"
-              stroke="#18181b"
-              strokeWidth="1.5"
-              strokeDasharray="4 2"
-            />
-            <path
-              d="M3 4 L1.5 8 L2.5 12 L0.5 16 L2 20 L0.5 24 L1 26 Z"
-              fill="#d1d1d6"
-              fillOpacity="0.5"
-            />
-            <path
-              d="M93 0 L94.5 4 L92.5 8 L95 12 L93 16 L94.5 20 L91 22 Z"
-              fill="#d1d1d6"
-              fillOpacity="0.5"
-            />
-          </svg>
+          {/* Tape 2 decoration */}
+          <picture className="absolute -top-1.5 left-0 right-0 mx-auto z-30 select-none pointer-events-none rotate-[-3deg] w-[clamp(80px,40%,140px)]">
+            <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.webp 1x, /_images/tape-assets/tape-2-medium-up-2x.webp 2x" />
+            <source srcSet="/_images/tape-assets/tape-2.webp 1x, /_images/tape-assets/tape-2-2x.webp 2x" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/_images/tape-assets/tape-2.png" alt="" draggable={false} className="block w-full" />
+          </picture>
 
           {/* Photo Polaroid Frame */}
           <div
