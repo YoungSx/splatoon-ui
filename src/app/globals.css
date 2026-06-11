@@ -89,7 +89,7 @@
 /* Tab hover splat — ::after content must be in CSS, not Tailwind,
    because SSR HTML-encodes the quotes in content-[''] → content-[&#x27;&#x27;] */
 .tab-splat::after {
-  content: '';
+  content: ' ';
   position: absolute;
   display: block;
   height: 78px;
@@ -104,8 +104,7 @@
   pointer-events: none;
   transition: opacity 0.15s ease;
 }
-.tab-splat:hover::after,
-.tab-splat[data-active]::after {
+.tab-splat:hover::after {
   opacity: 1;
 }
 

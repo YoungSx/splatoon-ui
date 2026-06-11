@@ -4,35 +4,17 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { PaperCardFrame, type NewsSurface, type PaperLabelConfig } from "./paper-card-frame"
-import { TagHanger } from "./tag-hanger"
+import { PlainCard, type PlainStyle } from "./plain-card"
+import { TagCard, type TagTheme } from "./tag-card"
 
 // ── CardContext for variant-sharing among sub-components ────────
 
 type CardVariant = "news" | "tag" | "plain"
-type PlainStyle = "default" | "cream" | "colored"
 
 export const CardContext = React.createContext<{ variant?: CardVariant; surface?: "paper" | "cream" | "danger" }>({
   variant: "news",
   surface: "paper",
 })
-
-// ── Tag theme map ───────────────────────────────────────────────
-
-const tagThemeMap = {
-  yellow: "text-[#eaff3d] text-[#0d0d0d]",
-  blue: "text-[#603bff] text-[#ffffff]",
-  purple: "text-[#a51ee1] text-[#ffffff]",
-  orange: "text-[#fa5a00] text-[#ffffff]",
-  green: "text-[#00c8b4] text-[#0d0d0d]",
-}
-
-// ── Plain style classes (module-level) ──────────────────────────
-
-const plainStyleClasses = {
-  default: "bg-white",
-  cream: "bg-[#f5f0e8]",
-  colored: "",
-} satisfies Record<PlainStyle, string>
 
 // ── Card Props ──────────────────────────────────────────────────
 
@@ -46,7 +28,7 @@ export interface CardProps extends React.ComponentProps<"div"> {
   /** Index for built-in rotation stagger (news variant only) */
   staggerIndex?: number
   // For tag variant
-  tagTheme?: "yellow" | "blue" | "purple" | "orange" | "green"
+  tagTheme?: TagTheme
   tagRotation?: string
   /** Custom background ReactNode for tag variant (replaces built-in SVG) */
   tagBackground?: React.ReactNode
@@ -54,7 +36,7 @@ export interface CardProps extends React.ComponentProps<"div"> {
   plainStyle?: PlainStyle
 }
 
-// ── Card Component ──────────────────────────────────────────────
+// ── Card Component (thin dispatcher) ───────────────────────────
 
 function Card({
   ref,
@@ -65,87 +47,53 @@ function Card({
   surface = "paper",
   showSticker9,
   staggerIndex,
-  // For tag
-  tagTheme = "yellow",
-  tagRotation = "2deg",
+  tagTheme,
+  tagRotation,
   tagBackground,
-  // For plain
-  plainStyle = "default",
+  plainStyle,
   children,
   ...props
 }: CardProps & { ref?: React.Ref<HTMLDivElement> }) {
-    if (variant === "plain") {
-      return (
-        <CardContext.Provider value={{ variant, surface }}>
-          <div
-            ref={ref}
-            data-slot="card"
-            data-variant="plain"
-            className={cn(
-              "rounded-xl border-[3px] border-chaos-black transition-colors duration-300",
-              plainStyleClasses[plainStyle],
-              className
-            )}
-            {...props}
-          >
-            {children}
-          </div>
-        </CardContext.Provider>
-      )
-    }
+  const ctx = { variant, surface }
 
-    if (variant === "tag") {
-      const themeClasses = tagThemeMap[tagTheme] || tagThemeMap.yellow
-      const [bgColorClass, fgColorClass] = themeClasses.split(" ")
-
-      return (
-        <CardContext.Provider value={{ variant, surface }}>
-          <div
-            ref={ref}
-            data-slot="card"
-            data-variant="tag"
-            style={{
-              transform: `rotate(${tagRotation})`,
-            } as React.CSSProperties}
-            className={cn(
-              "group/card relative w-full pt-[12%] px-[6%] pb-[8%] transition-transform duration-300 ease-out hover:scale-[1.025] select-none text-center flex flex-col justify-between gap-4 z-10",
-              fgColorClass,
-              className
-            )}
-            {...props}
-          >
-            {/* Tag Hanger Background SVG */}
-            <div className={cn("absolute inset-0 w-full h-full z-0 pointer-events-none select-none", bgColorClass)}>
-              {tagBackground ?? <TagHanger />}
-            </div>
-
-            {/* Inner Content Area */}
-            <div className="relative h-full flex flex-col justify-between gap-4 z-10 text-center">
-              {children}
-            </div>
-          </div>
-        </CardContext.Provider>
-      )
-    }
-
+  if (variant === "plain") {
     return (
-      <CardContext.Provider value={{ variant, surface }}>
-        <PaperCardFrame
-          className={className}
-          dataVariant="news"
-          surface={surface}
-          paperLabel={paperLabel}
-          paperFasteners={paperFasteners ?? false}
-          showSticker9={showSticker9}
-          staggerIndex={staggerIndex}
-          forwardedRef={ref}
-          props={props}
-        >
+      <CardContext.Provider value={ctx}>
+        <PlainCard ref={ref} className={className} plainStyle={plainStyle} {...props}>
           {children}
-        </PaperCardFrame>
+        </PlainCard>
       </CardContext.Provider>
     )
   }
+
+  if (variant === "tag") {
+    return (
+      <CardContext.Provider value={ctx}>
+        <TagCard ref={ref} className={className} tagTheme={tagTheme} tagRotation={tagRotation} tagBackground={tagBackground} {...props}>
+          {children}
+        </TagCard>
+      </CardContext.Provider>
+    )
+  }
+
+  return (
+    <CardContext.Provider value={ctx}>
+      <PaperCardFrame
+        className={className}
+        dataVariant="news"
+        surface={surface}
+        paperLabel={paperLabel}
+        paperFasteners={paperFasteners ?? false}
+        showSticker9={showSticker9}
+        staggerIndex={staggerIndex}
+        forwardedRef={ref}
+        props={props}
+      >
+        {children}
+      </PaperCardFrame>
+    </CardContext.Provider>
+  )
+}
 
 // ── Sub-components ──────────────────────────────────────────────
 
