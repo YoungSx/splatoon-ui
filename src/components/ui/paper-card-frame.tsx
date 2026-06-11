@@ -20,8 +20,8 @@ export interface PaperLabelConfig {
 const newsSurfaceVariants = cva("flex h-full flex-col pt-0 px-8 pb-6 relative z-10", {
   variants: {
     surface: {
-      paper: "bg-white text-[#0d0d0d] dark:bg-[#1a1a1a] dark:text-white",
-      cream: "bg-[#f5f0e8] text-[#0d0d0d] dark:bg-[#1e1b15] dark:text-white",
+      paper: "bg-white text-[#0d0d0d]",
+      cream: "bg-[#f5f0e8] text-[#0d0d0d]",
       danger: "bg-[#ff585e] text-white",
     },
   },
