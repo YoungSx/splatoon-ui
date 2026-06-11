@@ -77,3 +77,25 @@
     padding: 16px 40px 24px;
   }
 }
+
+/* ── Trailer scaling: title width locks to player ratio via cqw ── */
+.scaling {
+  width: 100%;
+  container-type: inline-size;
+}
+
+.scaling .container {
+  width: 52cqw;
+  max-width: none;
+}
+
+.scaling .title {
+  padding: 2cqw 5cqw 3cqw;
+  white-space: nowrap;
+}
+
+@container (min-width: 640px) {
+  .scaling .title {
+    padding: 2cqw 5.5cqw 3.5cqw;
+  }
+}
