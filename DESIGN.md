@@ -265,11 +265,11 @@ All animations respect `prefers-reduced-motion: reduce` and the manual `.is-redu
 
 | Class | Shape | Usage |
 |-------|-------|-------|
-| `scrap-panel` | Angled cut corners + tape slot | Main content panels |
-| `scrap-panel-tight` | Tighter angled cuts | Compact panels |
-| `drawer-sheet` | Asymmetric angled | Drawer/sheet surfaces |
-| `field-cut` | Small cut shape | Inline content |
-| `field-cut-popup` | Popup variant | Dropdown content |
+| `scrap-panel` | Organic rounded corners + tape slot | Main content panels |
+| `scrap-panel-tight` | Tighter rounded corners | Compact panels |
+| `drawer-sheet` | Rounded on visible side | Drawer/sheet surfaces |
+| `field-cut` | Organic rounded | Inline content |
+| `field-cut-popup` | Organic rounded | Dropdown content |
 
 ## 10. Do's and Don'ts
 
@@ -307,5 +307,5 @@ All animations respect `prefers-reduced-motion: reduce` and the manual `.is-redu
 4. **Spacing in 4px steps**: All margins/padding align to 4px base unit
 5. **Easing tokens**: `--ease-out`, `--ease-back-out`, `--ease-in-out-quart`
 6. **Responsive images**: `<picture>` with webp+png, 1x+2x sources
-7. **Panel shapes**: `scrap-panel`, `field-cut` for clip-path containers
+7. **Panel shapes**: `scrap-panel`, `field-cut` for organic rounded containers
 8. **Animation**: `morph` for blobs, `splat-in` for entrances, `marquee` for scrolling

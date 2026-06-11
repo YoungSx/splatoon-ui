@@ -29,7 +29,7 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        default: "gap-3 bg-transparent p-1",
+        default: "flex-row justify-center pb-8 w-full",
         line: "gap-1 bg-transparent border-b-2 border-current/10 w-full justify-start rounded-none",
       },
     },
@@ -59,24 +59,20 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
-        "relative inline-flex h-full flex-1 items-center justify-center gap-1.5 px-6 py-2.5 text-base font-black uppercase tracking-wider whitespace-nowrap transition-all outline-none focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50 select-none",
-        // Default Skew Tab Styling (Parallelogram)
-        "skew-x-[-12deg] border-2 border-transparent bg-transparent text-current opacity-60",
-        "data-active:bg-[#eaff3d] data-active:text-[#0d0d0d] data-active:border-[#0d0d0d] data-active:opacity-100",
-        "data-active:active:translate-x-[1px] data-active:active:translate-y-[1px]",
-        "hover:opacity-100 hover:scale-[1.02]",
-        // Override for Line Variant (No Skew, Clean Text with Underline)
-        "group-data-[variant=line]/tabs-list:skew-x-0 group-data-[variant=line]/tabs-list:border-0 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent group-data-[variant=line]/tabs-list:data-active:shadow-none group-data-[variant=line]/tabs-list:data-active:text-[#603bff] group-data-[variant=line]/tabs-list:hover:text-[#603bff] group-data-[variant=line]/tabs-list:hover:opacity-100 group-data-[variant=line]/tabs-list:active:translate-x-0 group-data-[variant=line]/tabs-list:active:translate-y-0",
-        // Underline animation for line variant
-        "after:absolute after:bg-[#603bff] after:opacity-0 after:transition-all group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-2px] group-data-horizontal/tabs:after:h-[3px] group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-[2px] group-data-vertical/tabs:after:w-[3px] group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        "relative cursor-pointer select-none outline-none",
+        "font-alt text-[2.3125rem] font-bold uppercase leading-none",
+        "text-current/60 transition-colors data-active:text-[#eaff3d]",
+        "hover:text-current tab-splat",
+        "before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:bg-[#603bff] before:opacity-0 before:transition-all before:pointer-events-none",
+        "group-data-[variant=line]/tabs-list:font-heading group-data-[variant=line]/tabs-list:text-base group-data-[variant=line]/tabs-list:tracking-wider",
+        "group-data-[variant=line]/tabs-list:text-current/60 group-data-[variant=line]/tabs-list:data-active:text-[#603bff] group-data-[variant=line]/tabs-list:hover:text-[#603bff]",
+        "group-data-[variant=line]/tabs-list:data-active:before:opacity-100",
+        "group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-x-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:-right-[2px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:w-[3px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:h-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-y-0",
         className
       )}
       {...props}
     >
-      {/* Counter-skew children so the text stays upright and readable */}
-      <span className="skew-x-[12deg] group-data-[variant=line]/tabs-list:skew-x-0 flex items-center justify-center gap-1.5 w-full h-full">
-        {children}
-      </span>
+      <span className="relative z-[2]">{children}</span>
     </TabsPrimitive.Tab>
   )
 }

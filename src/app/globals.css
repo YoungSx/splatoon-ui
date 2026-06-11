@@ -81,6 +81,32 @@
   --ease-out: cubic-bezier(0.35, 0.91, 0.3, 0.99);
   --ease-in-out: cubic-bezier(0.75, 0, 0.21, 0.99);
   --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* Events tab hover splat (from official splatoon.nintendo.com) */
+  --active-splat-url: url('/_images/events/active-splat.webp');
+}
+
+/* Tab hover splat — ::after content must be in CSS, not Tailwind,
+   because SSR HTML-encodes the quotes in content-[''] → content-[&#x27;&#x27;] */
+.tab-splat::after {
+  content: '';
+  position: absolute;
+  display: block;
+  height: 78px;
+  width: 74px;
+  left: -30px;
+  top: -10px;
+  z-index: 1;
+  background-image: var(--active-splat-url);
+  background-size: 74px 78px;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+.tab-splat:hover::after,
+.tab-splat[data-active]::after {
+  opacity: 1;
 }
 
 /* ── Light Theme: Desert Wasteland (Splatsville) ── */
@@ -231,33 +257,15 @@
   }
 
   .scrap-panel {
-    clip-path: polygon(
-      0 14px,
-      16px 0,
-      calc(100% - 22px) 0,
-      100% 11px,
-      100% calc(100% - 16px),
-      calc(100% - 14px) 100%,
-      20px 100%,
-      0 calc(100% - 12px)
-    );
+    border-radius: 10px 14px 12px 16px;
   }
 
   .scrap-panel-tight {
-    clip-path: polygon(
-      0 10px,
-      12px 0,
-      calc(100% - 16px) 0,
-      100% 9px,
-      100% calc(100% - 12px),
-      calc(100% - 10px) 100%,
-      14px 100%,
-      0 calc(100% - 8px)
-    );
+    border-radius: 8px 12px 10px 14px;
   }
 
   .drawer-sheet {
-    clip-path: polygon(18px 0, 100% 0, 100% 100%, 14px 100%, 0 calc(100% - 24px), 0 22px);
+    border-radius: 0 12px 12px 0;
   }
 
   .scrap-panel::before,
@@ -290,29 +298,11 @@
   }
 
   .field-cut {
-    clip-path: polygon(
-      0 8px,
-      10px 0,
-      calc(100% - 12px) 0,
-      100% 7px,
-      100% calc(100% - 8px),
-      calc(100% - 10px) 100%,
-      12px 100%,
-      0 calc(100% - 10px)
-    );
+    border-radius: 7px 11px 8px 12px;
   }
 
   .field-cut-popup {
-    clip-path: polygon(
-      0 10px,
-      12px 0,
-      calc(100% - 12px) 0,
-      100% 9px,
-      100% calc(100% - 12px),
-      calc(100% - 11px) 100%,
-      14px 100%,
-      0 calc(100% - 10px)
-    );
+    border-radius: 8px 11px 9px 13px;
   }
 
   /* Ink splatter overlay */
