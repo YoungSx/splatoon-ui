@@ -4,6 +4,11 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Splatoon UI',
   description: 'Splatoon-inspired component library built on shadcn/ui + Radix',
+  icons: {
+    icon: '/favicons/favicon.svg',
+    shortcut: '/favicons/favicon.ico',
+    apple: '/favicons/apple-touch-icon.png',
+  },
 }
 
 export default function RootLayout({
