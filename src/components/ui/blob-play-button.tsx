@@ -158,9 +158,9 @@ export function BlobPlayButton({
           className
         )}
         style={{
-          width: blobSize,
+          width: '100%',
           height: 0,
-          paddingTop: blobSize,
+          paddingTop: '100%',
           // Official cascade: button sets 0.8, but playIconContainer overrides to 1.
           // Effective default is 1. Container hover sets 1.1.
           '--blob-scale': '1',

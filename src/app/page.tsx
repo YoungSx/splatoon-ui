@@ -424,22 +424,24 @@ export default function Home() {
           <Splat3 className="w-48 h-48" />
         </div>
 
-        <div className="max-w-3xl flex flex-col items-center">
-          <TapeTitle color="red" className="w-[52%] text-center" id="trailer-section-title">
-            Watch the trailer
-          </TapeTitle>
+        {/* Official column system: row max-width 1440px, column--8 (66.67%) / column-large--7 (58.33%) */}
+        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6">
+          <div className="flex flex-col items-center w-full mx-auto" style={{ maxWidth: 'min(58.333%, 840px)' }}>
+            <TapeTitle color="red" className="text-center" id="trailer-section-title">
+              Watch the trailer
+            </TapeTitle>
 
-          <div className="w-full">
-            <TrailerVideo>
+            <div className="w-full">
+              <TrailerVideo>
               <TrailerVideoThumbnail
                 src="/_images/screenshots/video-trailer.jpg"
                 alt="Splatoon 3 Trailer"
                 blobColor="#000000"
-                blobSize={180}
               />
               <TrailerVideoContent src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1&autoplay=1&muted=0" title="Splatoon 3 - Announcement Trailer" />
             </TrailerVideo>
           </div>
+        </div>
         </div>
       </section>
 
