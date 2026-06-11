@@ -240,68 +240,55 @@ export const CardStackCarouselItem = React.forwardRef<HTMLDivElement, CardStackC
 )
 CardStackCarouselItem.displayName = "CardStackCarouselItem"
 
+interface CardStackCarouselArrowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  direction: "previous" | "next"
+}
+
+const CardStackCarouselArrow = React.forwardRef<HTMLButtonElement, CardStackCarouselArrowProps>(
+  ({ direction, className, style, ...props }, ref) => {
+    const { canGoPrev, goToPrev, canGoNext, goToNext } = useCarousel()
+    const isPrev = direction === "previous"
+
+    return (
+      <div
+        data-slot={`card-stack-carousel-${direction}`}
+        className={cn("absolute z-50", isPrev ? styles.left : styles.right)}
+        style={{
+          [isPrev ? "left" : "right"]: "1rem",
+          top: "50%",
+          transform: "translateY(-50%)",
+        }}
+      >
+        <IconButton
+          ref={ref}
+          variant="carousel"
+          direction={isPrev ? "left" : "right"}
+          animation="squish"
+          aria-label={isPrev ? "Previous carousel item" : "Next carousel item"}
+          disabled={isPrev ? !canGoPrev : !canGoNext}
+          onClick={isPrev ? goToPrev : goToNext}
+          className={className}
+          style={style}
+          {...(props as Omit<React.ComponentPropsWithoutRef<typeof IconButton>, 'variant' | 'direction' | 'animation'>)}
+        />
+      </div>
+    )
+  }
+)
+CardStackCarouselArrow.displayName = "CardStackCarouselArrow"
+
 export const CardStackCarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, style, ...props }, ref) => {
-  const { canGoPrev, goToPrev } = useCarousel()
-
-  return (
-    <div
-      data-slot="card-stack-carousel-previous"
-      className={cn("absolute z-50", styles.left)}
-      style={{
-        left: "1rem",
-        top: "50%",
-        transform: "translateY(-50%)",
-      }}
-    >
-      <IconButton
-        ref={ref}
-        variant="carousel"
-        direction="left"
-        animation="squish"
-        aria-label="Previous carousel item"
-        disabled={!canGoPrev}
-        onClick={goToPrev}
-        className={className}
-        style={style}
-        {...(props as Omit<React.ComponentPropsWithoutRef<typeof IconButton>, 'variant' | 'direction' | 'animation'>)}
-      />
-    </div>
-  )
-})
+>((props, ref) => (
+  <CardStackCarouselArrow ref={ref} direction="previous" {...props} />
+))
 CardStackCarouselPrevious.displayName = "CardStackCarouselPrevious"
 
 export const CardStackCarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, style, ...props }, ref) => {
-  const { canGoNext, goToNext } = useCarousel()
-
-  return (
-    <div
-      data-slot="card-stack-carousel-next"
-      className={cn("absolute z-50", styles.right)}
-      style={{
-        right: "1rem",
-        top: "50%",
-        transform: "translateY(-50%)",
-      }}
-    >
-      <IconButton
-        ref={ref}
-        variant="carousel"
-        direction="right"
-        animation="squish"
-        aria-label="Next carousel item"
-        disabled={!canGoNext}
-        onClick={goToNext}
-        className={className}
-        style={style}
-        {...(props as Omit<React.ComponentPropsWithoutRef<typeof IconButton>, 'variant' | 'direction' | 'animation'>)}
-      />
-    </div>
-  )
-})
+>((props, ref) => (
+  <CardStackCarouselArrow ref={ref} direction="next" {...props} />
+))
 CardStackCarouselNext.displayName = "CardStackCarouselNext"

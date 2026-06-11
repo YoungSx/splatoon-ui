@@ -153,6 +153,9 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
             } as React.CSSProperties}
           >
             {children}
+            <div aria-live="polite" aria-atomic="true" className="sr-only">
+              Slide {resolvedCurrentIndex + 1} of {itemCount}
+            </div>
           </div>
         </CarouselCountContext.Provider>
       </CarouselContext.Provider>
@@ -183,70 +186,33 @@ export const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttrib
 )
 CarouselContent.displayName = "CarouselContent"
 
+export function useCarouselItemState(index: number | undefined) {
+  const { currentIndex, prevIndex } = useCarousel()
+  const isActive = currentIndex === index
+  const wasActive = prevIndex === index
+  const isLeft = index !== undefined ? index < currentIndex : false
+  const isRight = index !== undefined ? index > currentIndex : false
+  const offset = index !== undefined ? index - currentIndex : 0
+  return { isActive, wasActive, isLeft, isRight, offset, currentIndex }
+}
+
 export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
   "data-index"?: number
-  fade?: boolean
-  rotateAmount?: number
 }
 
 export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ className, children, "data-index": index, fade, rotateAmount, ...props }, ref) => {
-    const { currentIndex, prevIndex } = useCarousel()
-    const isActive = currentIndex === index
-    const wasActive = prevIndex === index
-    const isLeft = index !== undefined ? index < currentIndex : false
-    const isRight = index !== undefined ? index > currentIndex : false
-
-    const randomValues = React.useMemo(() => {
-      // Deterministic pseudo-random based on index to avoid SSR hydration mismatch
-      const seed = ((index ?? 0) * 2654435761) >>> 0
-      const direction = (seed & 1) === 0 ? -1 : 1
-      const fraction = ((seed >> 8) & 0xff) / 255
-      return {
-        rotateDirection: direction,
-        rotateAmount: (rotateAmount ?? 3) + 0.3 * fraction,
-      }
-    }, [rotateAmount, index])
-
-    const stateClasses = cn(
-      isActive && "gallery__item--active",
-      wasActive && "gallery__item--was-active",
-      isLeft && "gallery__item--left",
-      isRight && "gallery__item--right",
-    )
-
-    if (fade) {
-      const photoOffset = isActive ? 0 : isLeft ? -1 : 1
-
-      return (
-        <div
-          ref={ref}
-          data-slot="carousel-item"
-          data-index={index}
-          className={cn("gallery__item", stateClasses, className)}
-          style={{
-            "--active": isActive ? "1" : "0",
-            "--index-offset": String(index !== undefined ? index - currentIndex : 0),
-            "--photo-offset": String(photoOffset),
-            "--rotateDirection": String(randomValues.rotateDirection),
-            "--rotateAmount": `${randomValues.rotateAmount}deg`,
-          } as React.CSSProperties}
-          {...props}
-        >
-          {children}
-        </div>
-      )
-    }
+  ({ className, children, "data-index": index, ...props }, ref) => {
+    const { isActive, offset } = useCarouselItemState(index)
 
     return (
       <div
         ref={ref}
         data-slot="carousel-item"
         data-index={index}
-        className={cn("relative", stateClasses, className)}
+        className={cn("relative", className)}
         style={{
           "--active": isActive ? "1" : "0",
-          "--index-offset": String(index !== undefined ? index - currentIndex : 0),
+          "--index-offset": String(offset),
         } as React.CSSProperties}
         {...props}
       >
@@ -256,6 +222,49 @@ export const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
   }
 )
 CarouselItem.displayName = "CarouselItem"
+
+export interface FadeCarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  "data-index"?: number
+  rotateAmount?: number
+}
+
+export const FadeCarouselItem = React.forwardRef<HTMLDivElement, FadeCarouselItemProps>(
+  ({ className, children, "data-index": index, rotateAmount, ...props }, ref) => {
+    const { isActive, isLeft, offset, currentIndex } = useCarouselItemState(index)
+
+    const randomValues = React.useMemo(() => {
+      const seed = ((index ?? 0) * 2654435761) >>> 0
+      const direction = (seed & 1) === 0 ? -1 : 1
+      const fraction = ((seed >> 8) & 0xff) / 255
+      return {
+        rotateDirection: direction,
+        rotateAmount: (rotateAmount ?? 3) + 0.3 * fraction,
+      }
+    }, [rotateAmount, index])
+
+    const photoOffset = isActive ? 0 : isLeft ? -1 : 1
+
+    return (
+      <div
+        ref={ref}
+        data-slot="carousel-item"
+        data-index={index}
+        className={className}
+        style={{
+          "--active": isActive ? "1" : "0",
+          "--index-offset": String(offset),
+          "--photo-offset": String(photoOffset),
+          "--rotateDirection": String(randomValues.rotateDirection),
+          "--rotateAmount": `${randomValues.rotateAmount}deg`,
+        } as React.CSSProperties}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+FadeCarouselItem.displayName = "FadeCarouselItem"
 
 export function SwipeableGallery({ children, className }: { children: React.ReactNode; className?: string }) {
   const { goToNext, goToPrev } = useCarousel()
@@ -279,7 +288,6 @@ export function SwipeableGallery({ children, className }: { children: React.Reac
       if (Math.abs(dx) > 10) {
         s.offsetting = true
         s.scrolling = false
-        wrapperRef.current?.classList.add("gallery_dragging")
       }
     }
 
@@ -292,7 +300,6 @@ export function SwipeableGallery({ children, className }: { children: React.Reac
 
   const onTouchEnd = React.useCallback(() => {
     const s = state.current
-    wrapperRef.current?.classList.remove("gallery_dragging")
     wrapperRef.current?.style.removeProperty("--touch-offset")
 
     if (s.offsetting && Math.abs(s.dx) > 50) {
@@ -337,7 +344,7 @@ export const CarouselPagination = React.forwardRef<HTMLUListElement, CarouselPag
       >
         {Array.from({ length: itemCount }, (_, index) => (
           <li key={index} className={paginationStyles.item}>
-            <button onClick={() => goToIndex(index)}>
+            <button onClick={() => goToIndex(index)} aria-label={labels?.[index] ?? `Go to slide ${index + 1}`}>
               <span className={paginationStyles.iconContainer}>
                 <span
                   aria-hidden="true"
@@ -382,7 +389,7 @@ export const CarouselImagePagination = React.forwardRef<HTMLUListElement, Carous
       >
         {images.map((img, index) => (
           <li key={index} className={paginationStyles.item}>
-            <button onClick={() => goToIndex(index)}>
+            <button onClick={() => goToIndex(index)} aria-label={img.alt ? `Go to ${img.alt}` : `Go to slide ${index + 1}`}>
               <div
                 style={{ "--rotate": `${img.rotate ?? 0}deg` } as React.CSSProperties}
                 className={cn(
@@ -412,7 +419,9 @@ export function GalleryBounce({ children, className }: { children: React.ReactNo
     if (prefersReduced) return
 
     const direction = currentIndex > prevIndex ? 1 : -1
-    const startY = 100 * direction * (Math.random() > 0.5 ? -1 : 1)
+    // Deterministic pseudo-random sign based on currentIndex (matches CarouselItem pattern)
+    const randomSign = ((currentIndex * 2654435761) >>> 0) & 1 ? -1 : 1
+    const startY = 100 * direction * randomSign
 
     controls.set({ y: startY, opacity: 1 })
     controls.start({

@@ -3,21 +3,6 @@
   padding-right: calc(var(--gutter-width)*1) !important;
 }
 
-.newsCardsGallery .gallery {
-  --gap: var(--gutter-width);
-  --active-gap: 1px;
-  --duration: 0.5s;
-}
-
-.newsCardsGallery .gallery__item {
-  transform: translateX(var(--x));
-  transition: transform calc(var(--duration-factor) * var(--duration)) var(--ease-in-out);
-}
-
-.newsCardsGallery .gallery__item--active {
-  transform: translateX(var(--x));
-}
-
 .newsCardGroup {
   display: grid;
   gap: calc(var(--gutter-width)*1);
