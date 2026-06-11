@@ -438,8 +438,7 @@ export default function Home() {
                 blobColor="#000000"
                 blobSize={180}
               />
-              {/* The official trailer uses N4mKx-H4b0U */}
-              <TrailerVideoContent videoId="N4mKx-H4b0U" title="Splatoon 3 - Announcement Trailer" />
+              <TrailerVideoContent src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1&autoplay=1&muted=0" title="Splatoon 3 - Announcement Trailer" />
             </TrailerVideo>
           </div>
         </div>

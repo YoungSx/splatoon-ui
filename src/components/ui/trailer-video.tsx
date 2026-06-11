@@ -209,15 +209,15 @@ export function TrailerVideoThumbnail({
 // ─────────────────────────────────────────────────────────────
 
 interface TrailerVideoContentProps extends Omit<DialogPrimitive.Popup.Props, 'children' | 'style'> {
-  videoId: string
+  src: string
   title?: string
 }
 
 export function TrailerVideoContent({
   ref,
   className,
-  videoId,
-  title = "YouTube video player",
+  src,
+  title = "Video player",
   ...props
 }: TrailerVideoContentProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { open, setOpen, triggerRef } = useTrailerVideoContext()
@@ -397,10 +397,10 @@ export function TrailerVideoContent({
               >
                 <iframe
                   className="absolute top-0 left-0 w-full h-full"
-                  src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`}
+                  src={src}
                   title={title}
+                  scrolling="no"
                   frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 />
               </div>
