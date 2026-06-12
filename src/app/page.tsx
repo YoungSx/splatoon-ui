@@ -432,7 +432,13 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white text-chaos-black py-24 px-6 relative transition-colors duration-300 flex flex-col items-center pattern-tapes-black">
+      <Section
+        size="md"
+        bgColor="bg-white"
+        text="text-chaos-black"
+        pattern="tapes-black"
+        className="py-24 flex flex-col items-center transition-colors duration-300"
+      >
         {/* Decorative Splats */}
         <div className="absolute top-10 left-10 text-[#ff585e]">
           <Splat3 className="w-32 h-32" />
@@ -463,7 +469,7 @@ export default function Home() {
           </div>
         </div>
         </div>
-      </section>
+      </Section>
 
       {/* Banner divider: Trailer → PageTransition */}
       <BannerDivider pattern="design1" color="green" animate />

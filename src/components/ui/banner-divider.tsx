@@ -23,8 +23,6 @@ export interface BannerDividerTape {
   /** [base, medium-up] responsive top offset in px. Default varies by position. */
   offsetY?: [number, number]
   className?: string
-  /** InView animation direction. Default: "left" */
-  animDirection?: "left" | "right"
   /** InView animation delay level (0-20). Default: auto (index-based) */
   animDelay?: number
 }
@@ -56,12 +54,13 @@ const THREE_TAPES: [BannerDividerTape, BannerDividerTape, BannerDividerTape] = [
   { variant: "blue", rotate: "up", offsetY: [70, 90] },
 ]
 
-// Official logo-tape-header animation parameters per tape index
-const ANIM_PARAMS = [
-  { startX: "-100%", startY: "-50%", endX: "-50%", endY: "-25%", endRotate: "-1.5deg" },
-  { startX: "100%", startY: "-50%", endX: "-50%", endY: "-50%", endRotate: "1.5deg" },
-  { startX: "-100%", startY: "-50%", endX: "-50%", endY: "-50%", endRotate: "-2deg" },
-]
+// Official logo-tape-header per-tape CSS custom properties
+// (from https://splatoon.nintendo.com/en/gameplay/ CSS)
+const TAPE_VARS: Record<number, React.CSSProperties> = {
+  0: { "--start-x": "-100%", "--start-y": "-50%", "--end-x": "-50%", "--end-y": "-25%", "--end-rotate": "-1.5deg" } as React.CSSProperties,
+  1: { "--start-x": "100%", "--start-y": "-50%", "--end-x": "-50%", "--end-y": "-50%", "--end-rotate": "1.5deg" } as React.CSSProperties,
+  2: { "--start-x": "-100%", "--start-y": "-50%", "--end-x": "-50%", "--end-y": "-50%", "--end-rotate": "-2deg" } as React.CSSProperties,
+}
 
 function BannerDividerTapeLayer({
   variant,
@@ -69,18 +68,59 @@ function BannerDividerTapeLayer({
   offsetY,
   className,
   animate,
-  animDirection = "left",
   animDelay,
   index,
-  rootMargin,
 }: BannerDividerTape & {
   animate?: boolean
   index: number
-  rootMargin?: string
 }) {
   const [base, mediumUp] = offsetY ?? [0, 0]
+  const delay = animDelay ?? index
+
+  // Official: .banner { position: absolute; left: 50% } + CSS custom properties
+  // in-view__anim base: opacity: 0; transform: translate(var(--start-x), var(--start-y))
+  // in-view .in-view__anim: opacity: 1; transform: translate(var(--end-x), var(--end-y)) rotate(var(--end-rotate))
+  const animVars = animate ? (TAPE_VARS[index] ?? TAPE_VARS[0]) : undefined
+
+  return (
+    <div
+      aria-hidden="true"
+      className={cn(
+        animate && inViewStyles.anim,
+        styles.bannerDividerTape,
+        styles[`banner-divider--${variant}`],
+        !animate && rotate === "up" && styles.rotateUp,
+        !animate && rotate === "down" && styles.rotateDown,
+        delay > 0 && inViewStyles[`delay${delay}` as keyof typeof inViewStyles],
+        className,
+      )}
+      style={{
+        top: `${base}px`,
+        ...(mediumUp !== base
+          ? { "--banner-offset-medium": `${mediumUp}px` }
+          : {}),
+        ...animVars,
+      }}
+    />
+  )
+}
+
+export function BannerDivider({
+  pattern,
+  color,
+  tapes: tapesProp,
+  animate,
+  rootMargin,
+  className,
+  style: styleProp,
+  ...props
+}: BannerDividerProps) {
   const ref = React.useRef<HTMLDivElement>(null)
   const [isInView, setIsInView] = React.useState(false)
+  const tapes = tapesProp ?? [
+    { ...DEFAULT_TAPES[0], variant: pattern ?? DEFAULT_TAPES[0].variant },
+    { ...DEFAULT_TAPES[1], variant: color ?? DEFAULT_TAPES[1].variant },
+  ]
 
   React.useEffect(() => {
     if (!animate) return
@@ -101,83 +141,23 @@ function BannerDividerTapeLayer({
     return () => observer.disconnect()
   }, [animate, rootMargin])
 
-  const tape = (
+  return (
     <div
-      aria-hidden="true"
+      ref={animate ? ref : undefined}
       className={cn(
-        styles.bannerDivider,
-        styles[`banner-divider--${variant}`],
-        rotate === "up" && styles.rotateUp,
-        rotate === "down" && styles.rotateDown,
+        styles.bannerDividerGroup,
+        animate && isInView && inViewStyles.inView,
         className,
       )}
-      style={{
-        top: `${base}px`,
-        ...(mediumUp !== base
-          ? { "--banner-offset-medium": `${mediumUp}px` }
-          : {}),
-      }}
-    />
-  )
-
-  if (!animate) return tape
-
-  const params = ANIM_PARAMS[index] ?? ANIM_PARAMS[0]
-  const delay = animDelay ?? index
-  const directionClass = animDirection === "right" ? inViewStyles.right : inViewStyles.left
-
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        isInView && inViewStyles.inView,
-        styles.bannerAnimWrapper,
-      )}
-      style={{
-        "--start-x": params.startX,
-        "--start-y": params.startY,
-        "--end-x": params.endX,
-        "--end-y": params.endY,
-        "--end-rotate": params.endRotate,
-        "--start-rotate": "0deg",
-      } as React.CSSProperties}
+      style={styleProp}
+      {...props}
     >
-      <div
-        className={cn(
-          inViewStyles.anim,
-          directionClass,
-          delay > 0 && inViewStyles[`delay${delay}` as keyof typeof inViewStyles],
-        )}
-      >
-        {tape}
-      </div>
-    </div>
-  )
-}
-
-export function BannerDivider({
-  pattern,
-  color,
-  tapes: tapesProp,
-  animate,
-  rootMargin,
-  className,
-  ...props
-}: BannerDividerProps) {
-  const tapes = tapesProp ?? [
-    { ...DEFAULT_TAPES[0], variant: pattern ?? DEFAULT_TAPES[0].variant },
-    { ...DEFAULT_TAPES[1], variant: color ?? DEFAULT_TAPES[1].variant },
-  ]
-
-  return (
-    <div className={cn("relative", className)} {...props}>
       {tapes.map((tape, i) => (
         <BannerDividerTapeLayer
           key={i}
           {...tape}
           animate={animate}
           index={i}
-          rootMargin={rootMargin}
         />
       ))}
     </div>
