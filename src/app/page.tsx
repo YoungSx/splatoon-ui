@@ -425,9 +425,9 @@ export default function Home() {
         </div>
 
         {/* Official column system: row max-width 1440px, column--8 (66.67%) / column-large--7 (58.33%) */}
-        <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6">
-          {/* column--8 = 66.67% (mobile), column-large--7 = 58.33% (1024px+), max 840px */}
-          <div className="flex flex-col items-center w-2/3 mx-auto lg:w-[58.333%] lg:max-w-[840px]">
+        <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-3">
+          {/* column--8 falls back to width:100% on mobile (parent is not flex), column-large--7 = 58.33% (1024px+) */}
+          <div className="flex flex-col items-center mx-auto lg:w-[58.333%] lg:max-w-[840px]">
             <TapeTitle color="red" className="text-center lg:min-w-[400px]" id="trailer-section-title">
               Watch the trailer
             </TapeTitle>

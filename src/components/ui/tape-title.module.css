@@ -66,15 +66,21 @@
   background-image: url("/images/svg/right-tape-yellow.svg");
 }
 
-/* Title text — inherits font-size/weight from context per official spec */
+/* Title text — matches official .tape-title_title + .title-3,h3 */
 .title {
-  padding: 8px 20px 16px;
+  font-family: var(--font-alt);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 8px 16px 16px;
   text-transform: none;
+  white-space: nowrap;
 }
 
 @media screen and (min-width: 1024px) {
   .title {
-    padding: 12px 32px 20px;
+    font-size: 2.3125rem;
+    padding: 16px 40px 24px;
   }
 }
 
