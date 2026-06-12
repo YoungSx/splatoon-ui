@@ -29,6 +29,18 @@
   }
 }
 
+/* Animation wrapper — positions tape for InView fly-in */
+.bannerAnimWrapper {
+  position: relative;
+}
+
+/* Reduced motion: show at end position immediately (official behavior) */
+@media (prefers-reduced-motion: reduce) {
+  .bannerAnimWrapper {
+    transform: translate(var(--end-x, -50%), var(--end-y, -25%)) rotate(var(--end-rotate, 0deg)) !important;
+  }
+}
+
 /* Rotation — official uses ~1 degree alternating, origin at right-center */
 .rotateUp {
   transform: rotate(1deg);
