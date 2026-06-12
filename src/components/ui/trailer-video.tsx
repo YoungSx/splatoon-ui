@@ -97,6 +97,8 @@ interface TrailerVideoThumbnailProps extends React.ButtonHTMLAttributes<HTMLButt
   blobColor?: string
   /** Blob display size in px (official renders at ~40% of container) */
   blobSize?: number
+  /** Extra class for the image container (e.g. responsive top offset) */
+  imageClassName?: string
 }
 
 export function TrailerVideoThumbnail({
@@ -106,6 +108,7 @@ export function TrailerVideoThumbnail({
   className,
   blobColor = "#000000",
   blobSize = 160,
+  imageClassName,
   ...props
 }: TrailerVideoThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
     const { triggerRef } = useTrailerVideoContext()
@@ -135,9 +138,10 @@ export function TrailerVideoThumbnail({
                   Official: pos-absolute, width:var(--blob-size)=40%, z:10,
                   left:50%, margin:10% 0 auto, top:0,
                   transform:translate(-50%, -10%)
+                  At 640-1023px: margin-top: 0
               */}
               <div
-                className="absolute left-1/2 top-0 z-10 pointer-events-none"
+                className="absolute left-1/2 top-0 z-10 pointer-events-none sm:!mt-0 lg:!mt-[10%]"
                 style={{
                   width: '40%',
                   margin: '10% 0 auto',
@@ -158,7 +162,7 @@ export function TrailerVideoThumbnail({
                   CSS: --end-rotate:2deg, --margin-offset:6, padding:8px 6px
               */}
               <div
-                className={cn(photoStyles.photoContainer, 'border-0')}
+                className={cn(photoStyles.photoContainer, 'border-0 relative', imageClassName)}
                 style={{
                   '--end-rotate': '2deg',
                   '--margin-offset': '0',

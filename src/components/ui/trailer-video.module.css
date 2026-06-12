@@ -1,26 +1,64 @@
 /* trailer-video.module.css
-   Tape positioning uses percentages so tapes scale with the player. */
+   Tape positioning matches official home-page-contents_trailerTape1/Tape2.
+   Values are fixed px at each breakpoint, not percentages. */
 
 /* ── Tape 1 (top-left, tape-2 image) ──
-   Official at 1280px: max-width 166px / player ~740px ≈ 22%,
-   left -40px / 740px ≈ -5.4%, top -50px / 416px (16:9) ≈ -12% */
+   Base: left:-19px, top:-20px, rotate(-25deg), no max-width */
 .tape1 {
-  left: -5%;
-  max-width: 22%;
+  left: -19px;
   pointer-events: none;
   position: absolute;
-  top: -12%;
+  top: -20px;
   transform: rotate(-25deg);
 }
 
 /* ── Tape 2 (bottom-right, tape-3 image) ──
-   Official at 1280px: max-width 202px / 740px ≈ 27%,
-   right -50px / 740px ≈ -6.8%, bottom 20px / 416px ≈ 4.8% */
+   Base: bottom:0, right:-15px, rotate(-24deg), no max-width */
 .tape2 {
-  bottom: 5%;
-  max-width: 27%;
+  bottom: 0;
   pointer-events: none;
   position: absolute;
-  right: -7%;
+  right: -15px;
   transform: rotate(-24deg);
+}
+
+/* Medium screens (640-1023px) */
+@media screen and (min-width: 640px) and (max-width: 1023px) {
+  .tape1 {
+    left: -25px;
+    max-width: 133px;
+    top: -40px;
+  }
+
+  .tape2 {
+    bottom: 10px;
+    max-width: 162px;
+    right: -50px;
+  }
+}
+
+/* Large screens (1024px+) */
+@media screen and (min-width: 1024px) {
+  .tape1 {
+    left: -25px;
+    max-width: 166px;
+    top: -50px;
+  }
+
+  .tape2 {
+    bottom: 20px;
+    max-width: 202px;
+    right: -50px;
+  }
+}
+
+/* Extra-large screens (1144px+) */
+@media screen and (min-width: 1144px) {
+  .tape1 {
+    left: -40px;
+  }
+
+  .tape2 {
+    right: -40px;
+  }
 }

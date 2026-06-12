@@ -427,7 +427,8 @@ export default function Home() {
         {/* Official column system: row max-width 1440px, column--8 (66.67%) / column-large--7 (58.33%) */}
         <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-3">
           {/* column--8 falls back to width:100% on mobile (parent is not flex), column-large--7 = 58.33% (1024px+) */}
-          <div className="flex flex-col items-center mx-auto lg:w-[58.333%] lg:max-w-[840px]">
+          {/* Official introTrailerColumn: margin-top -5% at 640px+ */}
+          <div className="flex flex-col items-center mx-auto sm:-mt-[5%] lg:w-[58.333%] lg:max-w-[840px]">
             <TapeTitle color="red" className="text-center lg:min-w-[400px]" id="trailer-section-title">
               Watch the trailer
             </TapeTitle>
@@ -438,6 +439,7 @@ export default function Home() {
                 src="/_images/screenshots/video-trailer.jpg"
                 alt="Splatoon 3 Trailer"
                 blobColor="#000000"
+                imageClassName="sm:-top-8"
               />
               <TrailerVideoContent src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1&autoplay=1&muted=0" title="Splatoon 3 - Announcement Trailer" />
             </TrailerVideo>
