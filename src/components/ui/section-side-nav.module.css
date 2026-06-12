@@ -1,0 +1,111 @@
+/* ── Section Side Nav ─────────────────────────────────────────────────────── */
+
+.sidebar {
+  opacity: 0;
+  position: fixed;
+  right: var(--base-space, 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: hidden;
+  z-index: 9;
+}
+
+.sidebarShow {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--base-space, 8px) * 2);
+  position: relative;
+}
+
+.menu::before {
+  background: var(--color-purple, #603bff);
+  content: "";
+  height: 100%;
+  left: 50%;
+  margin-left: -3px;
+  position: absolute;
+  top: 0;
+  width: 6px;
+}
+
+.item {
+  --dimension: 42px;
+  --border: 4px;
+  background: var(--color-purple, #603bff);
+  border: solid var(--border) var(--color-purple, #603bff);
+  border-radius: 50%;
+  display: grid;
+  height: var(--dimension);
+  place-items: center;
+  position: relative;
+  text-decoration: none;
+  width: var(--dimension);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.item:hover {
+  transform: scale(1.1);
+}
+
+.itemActive .itemSplat {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  visibility: visible;
+}
+
+.itemSplat {
+  --width: 62px;
+  --height: 55px;
+  color: var(--color-black, #000);
+  height: var(--height);
+  left: 45%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 45%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  visibility: hidden;
+  width: var(--width);
+}
+
+.itemText {
+  font-family: var(--font-alt, "obviously-narrow", sans-serif);
+  font-weight: var(--font-weight-bold, 700);
+  position: relative;
+  top: -0.16em;
+  color: var(--color-white, #fff);
+  display: block;
+  font-size: 1.375rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.itemBackToTop {
+  --dimension: 34px;
+}
+
+.backToTopArrow {
+  --width: 13px;
+  --height: 7.69px;
+  color: var(--color-white, #fff);
+  height: var(--height);
+  transform: rotate(-180deg);
+  width: var(--width);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .item,
+  .itemSplat {
+    transition-duration: 0.01ms !important;
+  }
+}

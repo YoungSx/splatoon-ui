@@ -52,6 +52,7 @@ import {
   SplatoonModalStagger,
 } from '@/components/ui/splatoon-modal'
 import { InView, InViewStagger } from '@/components/ui/in-view'
+import { SectionSideNav } from '@/components/ui/section-side-nav'
 import { Progress } from '@/components/ui/progress'
 import { Footer } from '@/components/ui/footer'
 import {
@@ -380,12 +381,26 @@ const marqueeItems = [
 export default function Home() {
   const [reducedMotion, setReducedMotion] = React.useState(false)
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
+  const contentRef = React.useRef<HTMLDivElement>(null)
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-chaos-black overflow-x-hidden font-sans transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-white text-chaos-black overflow-x-clip font-sans transition-colors duration-300">
 
       {/* 🦑 Navigation Header Bar */}
       <Navigation />
+
+      {/* ── Section Side Nav (right-side numbered navigation) ── */}
+      <SectionSideNav
+        sections={[
+          { id: 'trailer', number: '01' },
+          { id: 'titles', number: '02' },
+          { id: 'parallax', number: '03' },
+          { id: 'game', number: '04' },
+          { id: 'overlays', number: '05' },
+          { id: 'gallery', number: '06' },
+        ]}
+        contentRef={contentRef}
+      />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 1: HERO HEADER + INK TRAIL (Interactive cursor effect)
@@ -429,10 +444,14 @@ export default function Home() {
         </header>
       </InkTrailCanvas>
 
+      {/* Content sections container — observed by SectionSideNav for visibility */}
+      <div ref={contentRef}>
+
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="trailer"
         size="md"
         bgColor="bg-white"
         text="text-chaos-black"
@@ -483,6 +502,7 @@ export default function Home() {
          SECTION 5: TYPOGRAPHY & CHARACTER (SplatoonTitle + 3D Parallax + WaveCanvas)
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="titles"
         size="md"
         bgColor="bg-white"
         text="text-chaos-black"
@@ -542,7 +562,7 @@ export default function Home() {
       </Section>
 
       {/* Sand-texture container: 3D Parallax + Cards & Weapons */}
-      <div className="bg-[#f5f0e8] pattern-camo-white transition-colors duration-300">
+      <div id="parallax" className="bg-[#f5f0e8] pattern-camo-white transition-colors duration-300">
 
       {/* 3D Character Parallax — merged into Typography section */}
       <Section
@@ -598,6 +618,7 @@ export default function Home() {
          SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="game"
         size="lg"
         bgColor="bg-[#eaff3d]"
         text="text-chaos-black"
@@ -859,6 +880,7 @@ export default function Home() {
          SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="overlays"
         size="lg"
         bgColor="bg-[#0d0d0d]"
         text="text-white"
@@ -1481,6 +1503,7 @@ export default function Home() {
          SECTION 4: GALLERY CAROUSEL
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="gallery"
         size="md"
         bgColor="bg-[#603bff]"
         text="text-white"
@@ -1619,6 +1642,7 @@ export default function Home() {
         </div>
       </div>
     </Section>
+      </div>
 
       {/* Warning Marquee (Bottom Decoration) */}
       <Marquee speed={20} variant="warning" direction="right" className="w-full border-t-2 border-b-2 border-chaos-black">
