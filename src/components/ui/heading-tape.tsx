@@ -18,7 +18,7 @@ export function HeadingTape({
   children,
   className,
   overlapTop = false,
-  marginOffset = 2,
+  marginOffset = 5,
   ...props
 }: HeadingTapeProps) {
   return (

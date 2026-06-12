@@ -30,6 +30,7 @@ import { MarqueeCarousel } from '@/components/ui/marquee-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
 import { GridNewsCard } from '@/components/ui/grid-news-card'
 import { HeadingTape } from '@/components/ui/heading-tape'
+import { Section } from '@/components/ui/section'
 import { TapeTitle } from '@/components/ui/tape-title'
 import { CategoryTitle } from '@/components/ui/category-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
@@ -143,12 +144,20 @@ function PageTransitionDemo() {
 
   const current = pageContent[demoPage]
 
-  return (      <section className="bg-white text-chaos-black py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
-      <InView direction="up" rootMargin="-50px">
-        <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
-          <HeadingTape color="green" className="mb-4 text-center">
+  return (      <Section
+        size="md"
+        bgColor="bg-white"
+        text="text-chaos-black"
+        pattern="chip-white"
+        className="transition-colors duration-300"
+        headingTape={
+          <HeadingTape color="green" className="text-center">
             Page Transition
           </HeadingTape>
+        }
+      >
+      <InView direction="up" rootMargin="-50px">
+        <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
           <p className="text-center text-chaos-black/60 text-sm font-medium">
             WebGL ink splash screen transition — ported from official splatoon.nintendo.com shader
           </p>
@@ -207,7 +216,7 @@ function PageTransitionDemo() {
         </div>
       </div>
       </InView>
-    </section>
+    </Section>
   )
 }
 
@@ -217,12 +226,20 @@ function SplatoonTitleDemo() {
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
 
   return (
-    <section className="bg-white text-chaos-black py-16 px-6 relative overflow-hidden transition-colors duration-300 pattern-chip-white">
-      <InView direction="up" rootMargin="-50px">
-      <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
-        <HeadingTape color="purple" className="mb-4 text-center">
+    <Section
+      size="md"
+      bgColor="bg-white"
+      text="text-chaos-black"
+      pattern="chip-white"
+      className="overflow-hidden transition-colors duration-300"
+      headingTape={
+        <HeadingTape color="purple" className="text-center">
           Splatoon Titles
         </HeadingTape>
+      }
+    >
+      <InView direction="up" rootMargin="-50px">
+      <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
         <p className="text-center text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
           使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
         </p>
@@ -277,7 +294,7 @@ function SplatoonTitleDemo() {
         </div>
       </div>
       </InView>
-    </section>
+    </Section>
   )
 }
 
@@ -462,12 +479,20 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 5: TYPOGRAPHY & CHARACTER (SplatoonTitle + 3D Parallax + WaveCanvas)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white text-chaos-black py-16 px-6 relative transition-colors duration-300 pattern-chip-white">
-        <InView direction="up" rootMargin="-50px">
-        <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
-          <HeadingTape color="purple" className="mb-4 text-center">
+      <Section
+        size="md"
+        bgColor="bg-white"
+        text="text-chaos-black"
+        pattern="chip-white"
+        className="transition-colors duration-300"
+        headingTape={
+          <HeadingTape color="purple" className="text-center">
             Splatoon Titles
           </HeadingTape>
+        }
+      >
+        <InView direction="up" rootMargin="-50px">
+        <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
           <p className="text-center text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
             使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
           </p>
@@ -511,16 +536,20 @@ export default function Home() {
           </div>
         </div>
         </InView>
-      </section>
+      </Section>
 
       {/* Sand-texture container: 3D Parallax + Cards & Weapons */}
       <div className="bg-[#f5f0e8] pattern-camo-white transition-colors duration-300">
 
       {/* 3D Character Parallax — merged into Typography section */}
-      <section className="text-chaos-black py-16 px-6 flex flex-col items-center relative">
+      <Section
+        size="md"
+        text="text-chaos-black"
+        className="flex flex-col items-center"
+        headingTape={<HeadingTape>3D Character Parallax</HeadingTape>}
+      >
         <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-4xl mx-auto space-y-12">
-          <HeadingTape>3D Character Parallax</HeadingTape>
           <p className="text-sm font-medium text-chaos-black/60 mt-1">
             Interactive 3D layer perspective card using framer-motion springs. Hover or move your cursor to interact.
           </p>
@@ -559,13 +588,24 @@ export default function Home() {
           </div>
         </div>
         </InView>
-      </section>
+      </Section>
       </div>{/* end sand-texture container */}
 
       {/* ────────────────────────────────────────────────────────
          SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#eaff3d] text-chaos-black py-20 px-6 relative transition-colors duration-300 pattern-octo-black">
+      <Section
+        size="lg"
+        bgColor="bg-[#eaff3d]"
+        text="text-chaos-black"
+        pattern="octo-black"
+        className="transition-colors duration-300"
+        headingTape={
+          <HeadingTape color="yellow" className="text-center">
+            Get the Game
+          </HeadingTape>
+        }
+      >
         <div className="absolute top-4 left-4 text-[#603bff]">
           <Splat3 className="w-32 h-32" />
         </div>
@@ -573,9 +613,6 @@ export default function Home() {
           {/* Purchase CTA */}
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
-              <HeadingTape color="yellow" className="text-center">
-                Get the Game
-              </HeadingTape>
               <h3 className="text-3xl md:text-4xl font-black uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]">
                 Splatoon 3
               </h3>
@@ -644,7 +681,7 @@ export default function Home() {
             </div>
           </InView>
         </div>
-      </section>
+      </Section>
 
       {/* Banner divider: Buttons → IconButton */}
       <div className="relative h-[70px] md:h-[90px] z-20">
@@ -655,11 +692,17 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white text-chaos-black py-20 px-6 relative transition-colors duration-300 pattern-chip-white">
+      <Section
+        size="lg"
+        bgColor="bg-white"
+        text="text-chaos-black"
+        pattern="chip-white"
+        className="transition-colors duration-300"
+        headingTape={<HeadingTape color="blue">Icon Button</HeadingTape>}
+      >
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           <InView direction="up" rootMargin="-50px">
             <div className="text-center space-y-4">
-              <HeadingTape color="blue">Icon Button</HeadingTape>
               <p className="text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
                 1:1 replica of splatoon.nintendo.com circular icon button — official squish animation, ink-splatter SVG arrows, theme-driven colors.
               </p>
@@ -807,7 +850,7 @@ export default function Home() {
             <Badge variant="monochrome">Theme Colors</Badge>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Banner divider: IconButton → Overlays */}
       <div className="relative h-[70px] md:h-[90px] z-20">
@@ -818,14 +861,19 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#0d0d0d] text-white py-20 px-6 pattern-camo-black">
+      <Section
+        size="lg"
+        bgColor="bg-[#0d0d0d]"
+        text="text-white"
+        pattern="camo-black"
+        headingTape={<HeadingTape color="red">Overlays & Dialogs</HeadingTape>}
+      >
         <div className="absolute top-6 right-6 text-[#a51ee1]">
           <Splat3 className="w-24 h-24" />
         </div>
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           <InView direction="up" rootMargin="-50px">
             <div className="text-center space-y-4">
-              <HeadingTape color="red">Overlays & Dialogs</HeadingTape>
               <p className="text-white/60 text-sm font-medium max-w-xl mx-auto">
                 Modal dialogs, side drawers, contextual popovers, and the official JP feature page modal system.
               </p>
@@ -977,7 +1025,7 @@ export default function Home() {
             </div>
           </InView>
         </div>
-      </section>
+      </Section>
 
       {/* Banner divider: Overlays → Apparel Tags */}
       <div className="relative h-[70px] md:h-[90px] z-20">
@@ -988,7 +1036,13 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white text-chaos-black py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
+      <Section
+        size="md"
+        bgColor="bg-white"
+        text="text-chaos-black"
+        pattern="chip-white"
+        className="flex flex-col items-center transition-colors duration-300"
+      >
         <InteractiveSplatter />
         <div className="w-full max-w-4xl space-y-16 relative z-10">
           {/* Sub-Section 1: Apparel Tags */}
@@ -1317,14 +1371,20 @@ export default function Home() {
             </Tabs>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* ────────────────────────────────────────────────────────
          SECTION 3.5: OFFICIAL REPLICA COMPONENTS
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#f5f0e8] text-chaos-black py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-camo-white">
+      <Section
+        size="md"
+        bgColor="bg-[#f5f0e8]"
+        text="text-chaos-black"
+        pattern="camo-white"
+        className="flex flex-col items-center transition-colors duration-300"
+        headingTape={<HeadingTape>Official Replica Components</HeadingTape>}
+      >
         <div className="w-full max-w-6xl space-y-12">
-          <HeadingTape>Official Replica Components</HeadingTape>
           <p className="text-sm font-medium text-chaos-black/60 mt-1">
             Demonstrates the newly implemented Splatoon-style UI pieces: heading tape, black tape container, styled photo, news gallery, and apparel tag card.
           </p>
@@ -1332,7 +1392,7 @@ export default function Home() {
           <div className="grid gap-8 xl:grid-cols-[1.5fr_1fr]">
             <div className="grid gap-6">
               <BlackTapeContainer tapeVariant="yellow" className="p-6">
-                <HeadingTape className="mb-4">
+                <HeadingTape>
                   Official Heading Tape
                 </HeadingTape>
                 <p className="text-sm font-medium">
@@ -1412,7 +1472,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
 
       {/* Banner divider: Apparel Tags → Gallery */}
       <div className="relative h-[70px] md:h-[90px] z-20">
@@ -1423,22 +1483,29 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 4: GALLERY CAROUSEL
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-[#603bff] text-white py-16 px-6 flex flex-col items-center relative pattern-tapes-purple">
-        {/* Full height ripped borders */}
-        <Divider variant="rip-left" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
-        <Divider variant="rip-right" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
-        
-        <div className="relative z-20 w-full space-y-12" style={{ maxWidth: "64rem" }}>
+      <Section
+        size="md"
+        bgColor="bg-[#603bff]"
+        text="text-white"
+        pattern="tapes-purple"
+        className="flex flex-col items-center"
+        headingTape={
           <div className="text-center">
             <HeadingTape color="yellow">3D Splat Gallery</HeadingTape>
             <p className="text-sm font-medium text-white/80 mt-2">
               Swipe or click to navigate through the overlapping Z-index carousel.
             </p>
           </div>
-
+        }
+      >
+        {/* Full height ripped borders */}
+        <Divider variant="rip-left" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
+        <Divider variant="rip-right" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
+        
+        <div className="relative z-20 w-full space-y-12" style={{ maxWidth: "64rem" }}>
           <NewsCarousel initialIndex={2} items={homepageNewsCarouselItems} />
         </div>
-      </section>
+      </Section>
 
       {/* Banner divider: Gallery → Carousel Variants */}
       <div className="relative h-[70px] md:h-[90px] z-20">
@@ -1449,14 +1516,22 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 4.5: CAROUSEL VARIANTS (Official carousel types)
          ──────────────────────────────────────────────────────── */}
-      <section className="bg-white text-chaos-black py-16 px-6 flex flex-col items-center relative transition-colors duration-300 pattern-chip-white">
-        <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "64rem" }}>
+      <Section
+        size="md"
+        bgColor="bg-white"
+        text="text-chaos-black"
+        pattern="chip-white"
+        className="flex flex-col items-center transition-colors duration-300"
+        headingTape={
           <div className="text-center">
             <HeadingTape color="blue">Carousel Variants</HeadingTape>
             <p className="text-sm font-medium text-chaos-black/60 mt-2">
               Official carousel components from splatoon.nintendo.com/en/weapons/
             </p>
           </div>
+        }
+      >
+        <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "64rem" }}>
 
           {/* Weapons Gallery Carousel */}
           <div className="space-y-6">
@@ -1485,7 +1560,7 @@ export default function Home() {
             <MarqueeCarousel items={marqueeItems} />
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* Banner divider: Carousel Variants → Progress */}
       <div className="relative h-[70px] md:h-[90px] z-20">
@@ -1496,18 +1571,22 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          SECTION 5: INK PROGRESS BAR
          ──────────────────────────────────────────────────────── */}
-      <section
-        className="relative flex flex-col items-center px-6 py-16 text-white pattern-camo-black"
+      <Section
+        size="md"
+        text="text-white"
+        pattern="camo-black"
+        className="flex flex-col items-center"
         style={{ backgroundColor: "#0d0d0d" }}
-      >
-        <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "48rem" }}>
+        headingTape={
           <div className="text-center">
             <HeadingTape color="green">Ink Progress Bar</HeadingTape>
             <p className="text-sm font-medium text-white/60 mt-2">
               SplatNet 3 style liquid physics with velocity-based splatter morphing.
             </p>
           </div>
-
+        }
+      >
+        <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "48rem" }}>
           <div className="space-y-12">
             <div className="space-y-4">
               <div className="flex justify-between items-end px-2">
@@ -1542,7 +1621,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </section>
+    </Section>
 
       {/* Warning Marquee (Bottom Decoration) */}
       <Marquee speed={20} variant="warning" direction="right" className="w-full border-t-2 border-b-2 border-chaos-black">
