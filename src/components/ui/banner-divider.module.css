@@ -8,7 +8,7 @@
   left: -5vw;
   position: absolute;
   width: 110vw;
-  z-index: 20;
+  z-index: 2;
 }
 
 @media screen and (min-width: 640px) {
@@ -29,12 +29,14 @@
   }
 }
 
-/* Rotation — official uses ~1 degree alternating */
+/* Rotation — official uses ~1 degree alternating, origin at right-center */
 .rotateUp {
   transform: rotate(1deg);
+  transform-origin: 90% 50%;
 }
 .rotateDown {
   transform: rotate(-1deg);
+  transform-origin: 90% 50%;
 }
 
 @media screen and (min-width: 640px) {

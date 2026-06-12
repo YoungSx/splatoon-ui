@@ -76,7 +76,7 @@ export function BannerDivider({
   ]
 
   return (
-    <div className={cn("relative h-[70px] md:h-[90px] z-20", className)} {...props}>
+    <div className={cn("relative h-[70px] md:h-[90px]", className)} {...props}>
       {tapes.map((tape, i) => (
         <BannerDividerTapeLayer key={i} {...tape} />
       ))}
