@@ -466,7 +466,7 @@ export default function Home() {
       </section>
 
       {/* Banner divider: Trailer → PageTransition */}
-      <BannerDivider pattern="design1" color="green" />
+      <BannerDivider pattern="design1" color="green" animate />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: PAGE TRANSITION (WebGL Ink Splash)
@@ -681,7 +681,7 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: Buttons → IconButton */}
-      <BannerDivider pattern="design1" color="green" />
+      <BannerDivider pattern="design1" color="green" animate />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
@@ -847,7 +847,7 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: IconButton → Overlays */}
-      <BannerDivider pattern="design1" color="purple" />
+      <BannerDivider pattern="design1" color="purple" animate />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
@@ -1020,6 +1020,7 @@ export default function Home() {
 
       {/* Banner divider: Overlays → Apparel Tags */}
       <BannerDivider
+        animate
         tapes={[
           { variant: "design2", rotate: "down", offsetY: [0, 0] },
           { variant: "green", rotate: "up", offsetY: [35, 45] },
@@ -1468,7 +1469,7 @@ export default function Home() {
     </Section>
 
       {/* Banner divider: Apparel Tags → Gallery */}
-      <BannerDivider pattern="design3" color="yellow" />
+      <BannerDivider pattern="design3" color="yellow" animate />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 4: GALLERY CAROUSEL
@@ -1499,6 +1500,7 @@ export default function Home() {
 
       {/* Banner divider: Gallery → Carousel Variants */}
       <BannerDivider
+        animate
         tapes={[
           { variant: "design1", rotate: "down", offsetY: [0, 0] },
           { variant: "purple", rotate: "up", offsetY: [35, 45] },
@@ -1555,7 +1557,7 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: Carousel Variants → Progress */}
-      <BannerDivider pattern="design2" color="green" />
+      <BannerDivider pattern="design2" color="green" animate />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 5: INK PROGRESS BAR
