@@ -426,12 +426,13 @@ export default function Home() {
 
         {/* Official column system: row max-width 1440px, column--8 (66.67%) / column-large--7 (58.33%) */}
         <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6">
-          <div className="flex flex-col items-center w-full mx-auto" style={{ maxWidth: 'min(58.333%, 840px)' }}>
-            <TapeTitle color="red" className="text-center" id="trailer-section-title">
+          {/* column--8 = 66.67% (mobile), column-large--7 = 58.33% (1024px+), max 840px */}
+          <div className="flex flex-col items-center w-2/3 mx-auto lg:w-[58.333%] lg:max-w-[840px]">
+            <TapeTitle color="red" className="text-center lg:min-w-[400px]" id="trailer-section-title">
               Watch the trailer
             </TapeTitle>
 
-            <div className="w-full">
+            <div className="w-full text-center">
               <TrailerVideo>
               <TrailerVideoThumbnail
                 src="/_images/screenshots/video-trailer.jpg"
