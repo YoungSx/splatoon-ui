@@ -37,6 +37,12 @@
   transform: rotate(-1deg);
 }
 
+@media screen and (min-width: 640px) {
+  .bannerDivider {
+    top: var(--banner-offset-medium, 0);
+  }
+}
+
 /* Design patterns */
 .banner-divider--design1 {
   background-image: url("/_images/banners/banner-design1.png");

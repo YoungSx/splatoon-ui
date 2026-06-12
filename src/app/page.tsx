@@ -466,10 +466,7 @@ export default function Home() {
       </section>
 
       {/* Banner divider: Trailer → PageTransition */}
-      <div className="relative h-[70px] md:h-[90px] z-20">
-        <BannerDivider variant="design1" rotate="up" className="top-0" />
-        <BannerDivider variant="green" rotate="down" className="top-[35px] md:top-[45px]" />
-      </div>
+      <BannerDivider pattern="design1" color="green" />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 1.5: PAGE TRANSITION (WebGL Ink Splash)
@@ -684,10 +681,7 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: Buttons → IconButton */}
-      <div className="relative h-[70px] md:h-[90px] z-20">
-        <BannerDivider variant="design1" rotate="up" className="top-0" />
-        <BannerDivider variant="green" rotate="down" className="top-[35px] md:top-[45px]" />
-      </div>
+      <BannerDivider pattern="design1" color="green" />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
@@ -853,10 +847,7 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: IconButton → Overlays */}
-      <div className="relative h-[70px] md:h-[90px] z-20">
-        <BannerDivider variant="design1" rotate="up" className="top-0" />
-        <BannerDivider variant="purple" rotate="down" className="top-[35px] md:top-[45px]" />
-      </div>
+      <BannerDivider pattern="design1" color="purple" />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
@@ -1028,10 +1019,12 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: Overlays → Apparel Tags */}
-      <div className="relative h-[70px] md:h-[90px] z-20">
-        <BannerDivider variant="design2" rotate="down" className="top-0" />
-        <BannerDivider variant="green" rotate="up" className="top-[35px] md:top-[45px]" />
-      </div>
+      <BannerDivider
+        tapes={[
+          { variant: "design2", rotate: "down", offsetY: [0, 0] },
+          { variant: "green", rotate: "up", offsetY: [35, 45] },
+        ]}
+      />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
@@ -1475,10 +1468,7 @@ export default function Home() {
     </Section>
 
       {/* Banner divider: Apparel Tags → Gallery */}
-      <div className="relative h-[70px] md:h-[90px] z-20">
-        <BannerDivider variant="design3" rotate="up" className="top-0" />
-        <BannerDivider variant="yellow" rotate="down" className="top-[35px] md:top-[45px]" />
-      </div>
+      <BannerDivider pattern="design3" color="yellow" />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 4: GALLERY CAROUSEL
@@ -1508,10 +1498,12 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: Gallery → Carousel Variants */}
-      <div className="relative h-[70px] md:h-[90px] z-20">
-        <BannerDivider variant="design1" rotate="down" className="top-0" />
-        <BannerDivider variant="purple" rotate="up" className="top-[35px] md:top-[45px]" />
-      </div>
+      <BannerDivider
+        tapes={[
+          { variant: "design1", rotate: "down", offsetY: [0, 0] },
+          { variant: "purple", rotate: "up", offsetY: [35, 45] },
+        ]}
+      />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 4.5: CAROUSEL VARIANTS (Official carousel types)
@@ -1563,10 +1555,7 @@ export default function Home() {
       </Section>
 
       {/* Banner divider: Carousel Variants → Progress */}
-      <div className="relative h-[70px] md:h-[90px] z-20">
-        <BannerDivider variant="design2" rotate="up" className="top-0" />
-        <BannerDivider variant="green" rotate="down" className="top-[35px] md:top-[45px]" />
-      </div>
+      <BannerDivider pattern="design2" color="green" />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 5: INK PROGRESS BAR
