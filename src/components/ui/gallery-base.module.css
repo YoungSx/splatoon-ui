@@ -54,9 +54,12 @@
 .photoFrame {
   --border-offset-x: 3px;
   --border-offset-y: 4px;
+  aspect-ratio: 16 / 9;
   display: block;
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   line-height: 0;
+  margin: 0 auto;
+  max-width: 600px;
   padding: calc(var(--border-offset-y) * 2) calc(var(--border-offset-x) * 2);
   position: relative;
   width: 100%;

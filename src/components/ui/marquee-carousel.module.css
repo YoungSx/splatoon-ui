@@ -1,8 +1,7 @@
 /* Marquee Carousel — unique overrides only (shared rules in gallery-base.module.css) */
 
-/* Photo frame — aspect-ratio and grid area specific to marquee */
+/* Photo frame — grid area specific to marquee */
 .photoFrame {
-  aspect-ratio: 16 / 9;
   grid-area: photo;
 }
 

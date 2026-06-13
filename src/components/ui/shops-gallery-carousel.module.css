@@ -1,11 +1,6 @@
 /* Shops Gallery Carousel — shops-specific overrides only */
 
-/* Photo frame — shops uses 16/9 aspect ratio (matches SVG paper) */
-.photoFrame {
-  aspect-ratio: 16 / 9;
-  margin: 0 auto;
-  max-width: 600px;
-}
+/* Photo frame — shops-specific overrides only */
 
 /* GalleryBounce — force full width in flex column layout */
 .galleryBounce {

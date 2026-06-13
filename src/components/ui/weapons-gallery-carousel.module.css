@@ -17,9 +17,8 @@
   }
 }
 
-/* Photo frame — weapons-specific aspect ratio and transform multiplier */
+/* Photo frame — weapons-specific transform multiplier */
 .photoFrame {
-  aspect-ratio: 16 / 9;
   transform: translateX(calc(100% * var(--photo-offset)))
              rotate(calc(var(--rotateDirection, 1) * var(--rotateAmount, 2deg) + var(--rotateDirection, 1) * 20deg * var(--photo-offset)));
 }
