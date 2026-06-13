@@ -80,8 +80,8 @@
   z-index: 1;
 }
 
-.imagePaginationButton:focus-visible .imagePaginationImage,
-.imagePaginationButton:hover .imagePaginationImage {
+.imagePaginationButton:not(.imagePaginationActive):focus-visible .imagePaginationImage,
+.imagePaginationButton:not(.imagePaginationActive):hover .imagePaginationImage {
   background-clip: border-box;
   border-color: var(--color-green);
 }
