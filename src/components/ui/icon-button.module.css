@@ -69,7 +69,7 @@
 /* ── Color variants ── */
 
 .carousel {
-  background-color: var(--color-primary, #00c8b4);
+  background-color: var(--color-green, #6af7ce);
   color: var(--color-primary-alt, #0d0d0d);
 }
 

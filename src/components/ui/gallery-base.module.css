@@ -8,8 +8,8 @@
   --gallery-transition-delay: calc(var(--duration-factor, 1) * 0.4s);
   --delay: 0s;
   --ease: var(--ease-back-in);
-  --controls-width: 50px;
-  --controls-padding: 40px;
+  --controls-width: 36px;
+  --controls-padding: 12px;
   --controls-scale: 1;
   --controls-spread: 0px;
   /* Override parent container spacing — gallery owns its own padding */
@@ -153,7 +153,7 @@
   height: 0;
   justify-content: space-between;
   left: 50%;
-  max-width: calc(100vw - (var(--controls-width) + var(--controls-padding, 0px) * 2) * 1.5);
+  max-width: calc(100% - (var(--controls-width) + var(--controls-padding, 0px) * 2) * 1.5);
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
