@@ -408,7 +408,7 @@ export default function Home() {
               <Zap className="mr-1 h-3.5 w-3.5 text-[#eaff3d]" />
               Component Library
             </Badge>
-            <h1 className="-skew-x-6 font-heading text-5xl md:text-6xl font-black uppercase tracking-wider text-chaos-black drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]">
+            <h1 className="font-heading text-5xl md:text-6xl font-black uppercase tracking-wider text-chaos-black drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]" style={{ transform: 'rotate(-4deg)' }}>
               Splatoon UI
             </h1>
             <p className="max-w-md text-chaos-black/70 font-medium text-sm md:text-base">
