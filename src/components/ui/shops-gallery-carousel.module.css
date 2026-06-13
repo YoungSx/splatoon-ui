@@ -15,7 +15,8 @@
   .galleryControls {
     justify-content: space-between;
   }
-  .galleryControls > * {
+  .galleryControls > :first-child,
+  .galleryControls > :nth-child(2) {
     transform: none;
   }
 }
