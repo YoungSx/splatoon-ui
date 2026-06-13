@@ -2,16 +2,19 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Carousel, CarouselContent, FadeCarouselItem, CarouselPagination, SwipeableGallery, useCarousel } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, FadeCarouselItem, CarouselPagination, SwipeableGallery, useCarouselItemState } from "@/components/ui/carousel"
 import { GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
 import baseStyles from "./gallery-base.module.css"
 import styles from "./marquee-carousel.module.css"
 
-export interface MarqueeCarouselItem {
+export interface GalleryItem {
   id: React.Key
   image: string
-  alt?: string
   className?: string
+}
+
+export interface MarqueeCarouselItem extends GalleryItem {
+  alt?: string
 }
 
 export interface MarqueeCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
@@ -54,8 +57,7 @@ export function MarqueeGalleryItem({
   "data-index": index = 0,
   ...props
 }: MarqueeGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const { currentIndex } = useCarousel()
-    const isActive = currentIndex === index
+    const { isActive } = useCarouselItemState(index)
 
     return (
       <FadeCarouselItem

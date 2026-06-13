@@ -11,7 +11,7 @@
   width: 100%;
 }
 
-/* Shops item content — opacity transitions with photo-ease */
+/* Shops item content — flex layout for photo + text */
 .galleryItemContent {
   align-items: center;
   display: flex;
@@ -19,11 +19,11 @@
   height: 100%;
   justify-content: center;
   width: 100%;
-  opacity: var(--gallery-opacity);
-  transition-delay: var(--delay);
-  transition-duration: calc(var(--duration-factor, 1) * 0.4s);
-  transition-property: opacity;
-  transition-timing-function: var(--photo-ease);
+}
+
+/* Shops item text — text container below photo */
+.galleryItemText {
+  text-align: center;
 }
 
 /* Image pagination — contained within gallery wrapper */

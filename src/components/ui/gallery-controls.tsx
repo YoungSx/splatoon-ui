@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { motion, useAnimation } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useCarousel } from "@/components/ui/carousel"
 import { IconButton } from "./icon-button"
@@ -71,5 +72,38 @@ export function GalleryControls({
       {wrapButton ? wrapButton("left", leftButton) : leftButton}
       {wrapButton ? wrapButton("right", rightButton) : rightButton}
     </div>
+  )
+}
+
+/* ── GalleryBounce — spring bounce-in animation ── */
+
+export function GalleryBounce({ children, className }: { children: React.ReactNode; className?: string }) {
+  const { currentIndex, prevIndex } = useCarousel()
+  const controls = useAnimation()
+
+  React.useEffect(() => {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    if (prefersReduced) return
+
+    const direction = currentIndex > prevIndex ? 1 : -1
+    const randomSign = ((currentIndex * 2654435761) >>> 0) & 1 ? -1 : 1
+    const startY = 100 * direction * randomSign
+
+    controls.set({ y: startY, opacity: 1 })
+    controls.start({
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: 0.4,
+        duration: 1,
+        ease: [0.21, 1.56, 0.64, 1],
+      },
+    })
+  }, [currentIndex, prevIndex, controls])
+
+  return (
+    <motion.div className={className} animate={controls}>
+      {children}
+    </motion.div>
   )
 }

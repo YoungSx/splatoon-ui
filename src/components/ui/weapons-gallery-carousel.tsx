@@ -2,17 +2,15 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Carousel, CarouselContent, FadeCarouselItem, CarouselPagination, SwipeableGallery, useCarousel } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, FadeCarouselItem, CarouselPagination, SwipeableGallery, useCarouselItemState } from "@/components/ui/carousel"
 import { GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
 import baseStyles from "./gallery-base.module.css"
 import styles from "./weapons-gallery-carousel.module.css"
+import type { GalleryItem } from "./marquee-carousel"
 
-export interface WeaponsGalleryCarouselItem {
-  id: React.Key
-  image: string
+export interface WeaponsGalleryCarouselItem extends GalleryItem {
   title: string
   description?: string
-  className?: string
 }
 
 export interface WeaponsGalleryCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
@@ -50,8 +48,7 @@ function WeaponsGalleryItem({
   "data-index": index = 0,
   ...props
 }: WeaponsGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const { currentIndex } = useCarousel()
-    const isActive = currentIndex === index
+    const { isActive } = useCarouselItemState(index)
 
     return (
       <FadeCarouselItem
@@ -61,14 +58,14 @@ function WeaponsGalleryItem({
         className={cn(baseStyles.galleryItem, isActive && baseStyles.galleryItemActive, className)}
         {...props}
       >
-        <div className={styles.itemLayout}>
+        <div className={cn(baseStyles.galleryContentFade, styles.itemLayout)}>
           <div className={cn(baseStyles.photoFrame, styles.photoFrame)}>
             <GalleryTapeDecoration />
             <div className={cn(baseStyles.photoImage, styles.photoImage)}>
               <img src={item.image} alt={item.title} />
             </div>
           </div>
-          <div className={styles.galleryContent}>
+          <div className={cn(baseStyles.galleryContentFade, styles.galleryContent)}>
             <h3 className="color-primary">{item.title}</h3>
             {item.description && (
               <p>{item.description}</p>

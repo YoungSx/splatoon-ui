@@ -17,16 +17,3 @@
 .galleryControls {
   max-width: 100%;
 }
-
-@media screen and (max-width: 639px) {
-  .galleryControls {
-    left: 0;
-    max-width: 100%;
-    transform: translateY(-50%);
-    width: 100%;
-  }
-  .galleryControls > :first-child,
-  .galleryControls > :nth-child(2) {
-    transform: none;
-  }
-}

@@ -2,21 +2,19 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { CarouselImagePagination, FadeCarouselItem, GalleryBounce, useCarousel } from "@/components/ui/carousel"
-import { GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
+import { CarouselImagePagination, FadeCarouselItem, useCarouselItemState } from "@/components/ui/carousel"
+import { GalleryBounce, GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
 import baseStyles from "./gallery-base.module.css"
 import { MarqueeCarousel } from "./marquee-carousel"
 import styles from "./shops-gallery-carousel.module.css"
 import marqueeStyles from "./marquee-carousel.module.css"
+import type { GalleryItem } from "./marquee-carousel"
 
-export interface ShopsGalleryCarouselItem {
-  id: React.Key
-  image: string
+export interface ShopsGalleryCarouselItem extends GalleryItem {
   title: string
   description?: string
   icon: string
   iconRotate?: number
-  className?: string
 }
 
 export interface ShopsGalleryCarouselProps extends React.ComponentPropsWithoutRef<typeof MarqueeCarousel> {
@@ -54,8 +52,7 @@ function ShopsGalleryItem({
   "data-index": index = 0,
   ...props
 }: ShopsGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const { currentIndex } = useCarousel()
-    const isActive = currentIndex === index
+    const { isActive } = useCarouselItemState(index)
 
     return (
       <FadeCarouselItem
@@ -65,7 +62,7 @@ function ShopsGalleryItem({
         className={cn(baseStyles.galleryItem, isActive && baseStyles.galleryItemActive, className)}
         {...props}
       >
-        <div className={styles.galleryItemContent}>
+        <div className={cn(baseStyles.galleryContentFade, styles.galleryItemContent)}>
           <GalleryBounce className={styles.galleryBounce}>
             <div className={cn(baseStyles.photoFrame, styles.photoFrame)}>
               <GalleryTapeDecoration />
@@ -74,7 +71,7 @@ function ShopsGalleryItem({
               </div>
             </div>
           </GalleryBounce>
-          <div className={styles.galleryItemContent}>
+          <div className={cn(baseStyles.galleryContentFade, styles.galleryItemText)}>
             <h3 className="text-xl font-black uppercase tracking-wider">{item.title}</h3>
             {item.description && (
               <p className="text-sm font-medium text-chaos-black/60">{item.description}</p>

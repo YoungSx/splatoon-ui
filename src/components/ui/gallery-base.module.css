@@ -159,3 +159,26 @@
 .galleryControls > :nth-child(2) {
   transform: translateX(calc(100% + var(--controls-spread))) scale(var(--controls-scale));
 }
+
+/* ── Mobile controls — full-width centered overlay ── */
+@media screen and (max-width: 639px) {
+  .galleryControls {
+    left: 0;
+    max-width: 100%;
+    transform: translateY(-50%);
+    width: 100%;
+  }
+  .galleryControls > :first-child,
+  .galleryControls > :nth-child(2) {
+    transform: none;
+  }
+}
+
+/* ── Gallery content fade — opacity transition with photo-ease ── */
+.galleryContentFade {
+  opacity: var(--gallery-opacity);
+  transition-delay: var(--delay);
+  transition-duration: calc(var(--duration-factor, 1) * 0.4s);
+  transition-property: opacity;
+  transition-timing-function: var(--photo-ease);
+}
