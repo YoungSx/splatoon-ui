@@ -392,8 +392,13 @@ export default function Home() {
         sections={[
           { id: 'trailer', number: '01' },
           { id: 'titles', number: '02' },
-          { id: 'overlays', number: '03' },
-          { id: 'gallery', number: '04' },
+          { id: 'icon-button', number: '03' },
+          { id: 'overlays', number: '04' },
+          { id: 'apparel', number: '05' },
+          { id: 'replicas', number: '06' },
+          { id: 'gallery', number: '07' },
+          { id: 'carousels', number: '08' },
+          { id: 'progress', number: '09' },
         ]}
         contentRef={contentRef}
       />
@@ -563,6 +568,7 @@ export default function Home() {
          SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="icon-button"
         size="lg"
         bgColor="bg-white"
         text="text-chaos-black"
@@ -908,6 +914,7 @@ export default function Home() {
          SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="apparel"
         size="md"
         bgColor="bg-white"
         text="text-chaos-black"
@@ -1248,6 +1255,7 @@ export default function Home() {
          SECTION 3.5: OFFICIAL REPLICA COMPONENTS
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="replicas"
         size="md"
         bgColor="bg-[#f5f0e8]"
         text="text-chaos-black"
@@ -1389,6 +1397,7 @@ export default function Home() {
          SECTION 4.5: CAROUSEL VARIANTS (Official carousel types)
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="carousels"
         size="md"
         bgColor="bg-white"
         text="text-chaos-black"
@@ -1441,6 +1450,7 @@ export default function Home() {
          SECTION 5: INK PROGRESS BAR
          ──────────────────────────────────────────────────────── */}
       <Section
+        id="progress"
         size="md"
         text="text-white"
         pattern="camo-black"
