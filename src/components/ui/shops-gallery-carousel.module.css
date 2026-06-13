@@ -3,6 +3,7 @@
 /* Photo frame — shops uses 16/9 aspect ratio (matches SVG paper) */
 .photoFrame {
   aspect-ratio: 16 / 9;
+  margin: 0 auto;
   max-width: 600px;
 }
 
