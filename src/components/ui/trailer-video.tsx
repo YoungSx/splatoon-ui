@@ -40,6 +40,7 @@ export function TrailerVideoThumbnail({
 }: TrailerVideoThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
   return (
     <DialogPrimitive.Trigger
+      data-slot="dialog-trigger"
       render={(triggerProps) => {
         const { ref: triggerRefCb, ...rest } = triggerProps as { ref?: React.Ref<HTMLButtonElement>; [key: string]: unknown }
         return (
