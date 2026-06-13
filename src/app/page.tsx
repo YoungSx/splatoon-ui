@@ -1360,14 +1360,14 @@ export default function Home() {
       <Section
         id="carousels"
         size="md"
-        bgColor="bg-white"
-        text="text-chaos-black"
-        pattern="chip-white"
+        bgColor="bg-[#603bff]"
+        text="text-white"
+        pattern="tapes-purple"
         className="flex flex-col items-center transition-colors duration-300"
         headingTape={
           <div className="text-center">
-            <HeadingTape color="blue">Carousels</HeadingTape>
-            <p className="text-sm font-medium text-chaos-black/60 mt-2">
+            <HeadingTape color="yellow">Carousels</HeadingTape>
+            <p className="text-sm font-medium text-white/80 mt-2">
               Official carousel components from splatoon.nintendo.com
             </p>
           </div>
@@ -1378,7 +1378,7 @@ export default function Home() {
           {/* 3D Splat Gallery */}
           <div className="space-y-6">
             <h3 className="text-xl font-black uppercase tracking-wider text-center">3D Splat Gallery</h3>
-            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
+            <p className="text-sm font-medium text-white/80 text-center max-w-xl mx-auto">
               Swipe or click to navigate through the overlapping Z-index carousel.
             </p>
             <NewsCarousel initialIndex={2} items={homepageNewsCarouselItems} />
@@ -1387,7 +1387,7 @@ export default function Home() {
           {/* Weapons Gallery Carousel */}
           <div className="space-y-6">
             <h3 className="text-xl font-black uppercase tracking-wider text-center">Weapons Gallery</h3>
-            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
+            <p className="text-sm font-medium text-white/80 text-center max-w-xl mx-auto">
               Photo gallery with rotation transitions and pagination dots. Navigated sequentially with arrow controls.
             </p>
             <WeaponsGalleryCarousel items={weaponsGalleryItems} />
@@ -1396,7 +1396,7 @@ export default function Home() {
           {/* Shops Gallery Carousel */}
           <div className="space-y-6">
             <h3 className="text-xl font-black uppercase tracking-wider text-center">Shops Gallery</h3>
-            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
+            <p className="text-sm font-medium text-white/80 text-center max-w-xl mx-auto">
               Gallery with character portrait icons as pagination. Each shop has a unique keeper icon.
             </p>
             <ShopsGalleryCarousel items={shopsGalleryItems} />
@@ -1405,7 +1405,7 @@ export default function Home() {
           {/* Marquee Carousel */}
           <div className="space-y-6">
             <h3 className="text-xl font-black uppercase tracking-wider text-center">Infinite Marquee</h3>
-            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
+            <p className="text-sm font-medium text-white/80 text-center max-w-xl mx-auto">
               Continuous scrolling marquee with 22 gameplay screenshots. Duplicated for seamless looping.
             </p>
             <MarqueeCarousel items={marqueeItems} />
