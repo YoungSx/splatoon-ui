@@ -9,10 +9,15 @@ import styles from "./splatoon-modal.module.css"
 /* ── Scroll lock counter (supports stacked modals) ──────────────────────── */
 
 let scrollLockCount = 0
+let scrollLockY = 0
 
 function lockScroll() {
   if (scrollLockCount === 0) {
+    scrollLockY = window.scrollY
     document.body.style.overflow = "hidden"
+    document.body.style.position = "fixed"
+    document.body.style.top = `-${scrollLockY}px`
+    document.body.style.width = "100%"
   }
   scrollLockCount++
 }
@@ -22,6 +27,10 @@ function unlockScroll() {
   if (scrollLockCount <= 0) {
     scrollLockCount = 0
     document.body.style.overflow = ""
+    document.body.style.position = ""
+    document.body.style.top = ""
+    document.body.style.width = ""
+    window.scrollTo(0, scrollLockY)
   }
 }
 
