@@ -8,8 +8,6 @@
   --gallery-transition-delay: calc(var(--duration-factor, 1) * 0.4s);
   --delay: 0s;
   --ease: var(--ease-back-in);
-  --controls-width: 36px;
-  --controls-padding: 12px;
   --controls-scale: 1;
   --controls-spread: 0px;
   /* Override parent container spacing — gallery owns its own padding */
@@ -17,20 +15,6 @@
   padding: 0 16px;
   position: relative;
   width: 100%;
-}
-
-@media screen and (min-width: 640px) {
-  .galleryWrapper {
-    --controls-width: 60px;
-    --controls-padding: 10px;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .galleryWrapper {
-    --controls-width: 86px;
-    --controls-padding: 20px;
-  }
 }
 
 /* ── Gallery grid — all items stack in one cell ── */
@@ -144,7 +128,7 @@
   }
 }
 
-/* ── Controls — centered on desktop ── */
+/* ── Controls — centered overlay ── */
 .galleryControls {
   --display-type: flex;
   align-items: center;
@@ -153,7 +137,7 @@
   height: 0;
   justify-content: space-between;
   left: 50%;
-  max-width: calc(100% - (var(--controls-width) + var(--controls-padding, 0px) * 2) * 1.5);
+  max-width: 100%;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -163,7 +147,6 @@
 
 .galleryControls > * {
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
-  padding: var(--controls-padding);
   position: relative;
 }
 
@@ -173,8 +156,4 @@
 
 .galleryControls > :nth-child(2) {
   transform: translateX(calc(100% + var(--controls-spread))) scale(var(--controls-scale));
-}
-
-.controlButton {
-  --size: var(--controls-width);
 }

@@ -6,8 +6,6 @@
   --active-gap: 1px;
   --active: 0;
   --duration: 0;
-  --controls-width: 50px;
-  --controls-padding: 40px;
   --controls-scale: 1;
   margin: 0;
   padding: 0 16px;
@@ -30,7 +28,7 @@
   height: 0;
   justify-content: space-between;
   left: 50%;
-  max-width: calc(100vw - (var(--controls-width) + var(--controls-padding, 0px) * 2) * 1.5);
+  max-width: 100%;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -40,9 +38,7 @@
 
 .controls > * {
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
-  padding: var(--controls-padding);
   position: relative;
-  width: var(--controls-width);
 }
 
 .controls > *:first-child {
@@ -51,10 +47,6 @@
 
 .controls > *:nth-child(2) {
   transform: translateX(calc(100% + var(--controls-spread, 0px))) scale(var(--controls-scale));
-}
-
-.controlButton {
-  --size: var(--controls-width);
 }
 
 .item {
@@ -75,20 +67,12 @@
 
 @media screen and (min-width: 640px) {
   .galleryWrapper {
-    --controls-width: 60px;
-    --controls-padding: 10px;
     --controls-scale: 1;
-  }
-
-  .galleryFullWidthControls .controls {
-    min-width: calc(100vw - (var(--controls-width) + var(--controls-padding, 0px) * 2) * 2);
   }
 }
 
 @media screen and (min-width: 1024px) {
   .galleryWrapper {
-    --controls-width: 86px;
-    --controls-padding: 20px;
     --controls-scale: 1;
   }
 }

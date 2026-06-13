@@ -69,8 +69,21 @@
 /* ── Color variants ── */
 
 .carousel {
+  --size: 50px;
   background-color: var(--color-green, #6af7ce);
   color: var(--color-primary-alt, #0d0d0d);
+}
+
+@media screen and (min-width: 640px) {
+  .carousel {
+    --size: 60px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .carousel {
+    --size: 86px;
+  }
 }
 
 .primary {

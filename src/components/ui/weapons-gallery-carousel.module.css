@@ -11,9 +11,6 @@
   padding-top: 0;
 }
 
-.galleryControls > * {
-  width: var(--controls-width);
-}
 
 @media screen and (max-width: 639px) {
   .galleryControls {
@@ -30,7 +27,7 @@
 
 @media screen and (min-width: 640px) {
   .galleryControls {
-    max-width: calc(50% - (var(--controls-width) + var(--controls-padding, 0px) * 2) * 0.5);
+    max-width: 50%;
   }
 }
 

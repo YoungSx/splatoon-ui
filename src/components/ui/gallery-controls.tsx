@@ -49,7 +49,6 @@ export function GalleryControls({
       variant="carousel"
       direction="left"
       animation="squish"
-      className={baseStyles.controlButton}
       onClick={goToPrev}
       disabled={!canGoPrev}
       aria-label="Previous gallery item"
@@ -61,7 +60,6 @@ export function GalleryControls({
       variant="carousel"
       direction="right"
       animation="squish"
-      className={baseStyles.controlButton}
       onClick={goToNext}
       disabled={!canGoNext}
       aria-label="Next gallery item"
