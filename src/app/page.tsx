@@ -37,7 +37,6 @@ import { SplatoonTitle } from '@/components/ui/splatoon-title'
 import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
 import { StyledPhoto, StyledPhotoTape } from '@/components/ui/styled-photo'
-import { Divider } from '@/components/ui/divider'
 import { BannerDivider } from '@/components/ui/banner-divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
@@ -396,9 +395,8 @@ export default function Home() {
           { id: 'overlays', number: '04' },
           { id: 'apparel', number: '05' },
           { id: 'replicas', number: '06' },
-          { id: 'gallery', number: '07' },
-          { id: 'carousels', number: '08' },
-          { id: 'progress', number: '09' },
+          { id: 'carousels', number: '07' },
+          { id: 'progress', number: '08' },
         ]}
         contentRef={contentRef}
       />
@@ -1353,48 +1351,11 @@ export default function Home() {
       </div>
     </Section>
 
-      {/* Banner divider: Apparel Tags → Gallery */}
+      {/* Banner divider: Apparel Tags → Carousels */}
       <BannerDivider pattern="design3" color="yellow" animate />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 4: GALLERY CAROUSEL
-         ──────────────────────────────────────────────────────── */}
-      <Section
-        id="gallery"
-        size="md"
-        bgColor="bg-[#603bff]"
-        text="text-white"
-        pattern="tapes-purple"
-        className="flex flex-col items-center"
-        headingTape={
-          <div className="text-center">
-            <HeadingTape color="yellow">3D Splat Gallery</HeadingTape>
-            <p className="text-sm font-medium text-white/80 mt-2">
-              Swipe or click to navigate through the overlapping Z-index carousel.
-            </p>
-          </div>
-        }
-      >
-        {/* Full height ripped borders */}
-        <Divider variant="rip-left" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
-        <Divider variant="rip-right" color="custom" customColor="#0d0d0d" desktopOnly className="opacity-20" />
-        
-        <div className="relative z-20 w-full space-y-12" style={{ maxWidth: "64rem" }}>
-          <NewsCarousel initialIndex={2} items={homepageNewsCarouselItems} />
-        </div>
-      </Section>
-
-      {/* Banner divider: Gallery → Carousel Variants */}
-      <BannerDivider
-        animate
-        tapes={[
-          { variant: "design1", rotate: "down", offsetY: [0, 0] },
-          { variant: "purple", rotate: "up", offsetY: [35, 45] },
-        ]}
-      />
-
-      {/* ────────────────────────────────────────────────────────
-         SECTION 4.5: CAROUSEL VARIANTS (Official carousel types)
+         SECTION 4: CAROUSELS
          ──────────────────────────────────────────────────────── */}
       <Section
         id="carousels"
@@ -1405,14 +1366,23 @@ export default function Home() {
         className="flex flex-col items-center transition-colors duration-300"
         headingTape={
           <div className="text-center">
-            <HeadingTape color="blue">Carousel Variants</HeadingTape>
+            <HeadingTape color="blue">Carousels</HeadingTape>
             <p className="text-sm font-medium text-chaos-black/60 mt-2">
-              Official carousel components from splatoon.nintendo.com/en/weapons/
+              Official carousel components from splatoon.nintendo.com
             </p>
           </div>
         }
       >
         <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "64rem" }}>
+
+          {/* 3D Splat Gallery */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-black uppercase tracking-wider text-center">3D Splat Gallery</h3>
+            <p className="text-sm font-medium text-chaos-black/60 text-center max-w-xl mx-auto">
+              Swipe or click to navigate through the overlapping Z-index carousel.
+            </p>
+            <NewsCarousel initialIndex={2} items={homepageNewsCarouselItems} />
+          </div>
 
           {/* Weapons Gallery Carousel */}
           <div className="space-y-6">
