@@ -6,34 +6,6 @@ import { cn } from "@/lib/utils"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import styles from "./splatoon-modal.module.css"
 
-/* ── Scroll lock counter (supports stacked modals) ──────────────────────── */
-
-let scrollLockCount = 0
-let scrollLockY = 0
-
-function lockScroll() {
-  if (scrollLockCount === 0) {
-    scrollLockY = window.scrollY
-    document.body.style.overflow = "hidden"
-    document.body.style.position = "fixed"
-    document.body.style.top = `-${scrollLockY}px`
-    document.body.style.width = "100%"
-  }
-  scrollLockCount++
-}
-
-function unlockScroll() {
-  scrollLockCount--
-  if (scrollLockCount <= 0) {
-    scrollLockCount = 0
-    document.body.style.overflow = ""
-    document.body.style.position = ""
-    document.body.style.top = ""
-    document.body.style.width = ""
-    window.scrollTo(0, scrollLockY)
-  }
-}
-
 /* ── Context ────────────────────────────────────────────────────────────── */
 
 interface SplatoonModalContextValue {
@@ -183,11 +155,11 @@ function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
     }
   }, [open, contentRef, triggerRef])
 
-  // Body scroll lock (stacked-modal safe)
+  // Body scroll lock (matches official splatoon.nintendo.com pattern)
   React.useEffect(() => {
     if (!open) return
-    lockScroll()
-    return unlockScroll
+    document.body.style.overflow = "hidden"
+    return () => { document.body.style.overflow = "" }
   }, [open])
 
   if (!mounted) return null
