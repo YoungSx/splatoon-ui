@@ -24,6 +24,7 @@
 /* Shops item text — text container below photo */
 .galleryItemText {
   text-align: center;
+  width: 100%;
 }
 
 /* Image pagination — contained within gallery wrapper */
