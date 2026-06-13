@@ -25,7 +25,9 @@
   border: none;
   cursor: pointer;
   display: block;
-  padding: 0;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 7px;
 }
 
 .item:focus-visible .paginationIcon,

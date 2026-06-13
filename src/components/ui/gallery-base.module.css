@@ -14,6 +14,7 @@
   margin: 0;
   padding: 0 16px;
   position: relative;
+  touch-action: pan-y;
   width: 100%;
 }
 
@@ -34,6 +35,7 @@
   transition: opacity 0s ease-in-out;
   transition-delay: var(--gallery-transition-delay);
   width: 100%;
+  will-change: opacity, transform;
   z-index: 0;
 }
 
@@ -69,6 +71,7 @@
   transition-duration: calc(var(--duration-factor, 1) * 0.4s);
   transition-property: transform;
   transition-timing-function: var(--ease);
+  will-change: transform;
 }
 
 .photoFrame::before {

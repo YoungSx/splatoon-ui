@@ -273,10 +273,11 @@ export function FadeCarouselItem({
 export function SwipeableGallery({ children, className }: { children: React.ReactNode; className?: string }) {
   const { goToNext, goToPrev } = useCarousel()
   const wrapperRef = React.useRef<HTMLDivElement>(null)
-  const state = React.useRef({ startX: 0, dx: 0, offsetting: false, scrolling: true })
+  const state = React.useRef({ startX: 0, startY: 0, dx: 0, offsetting: false, scrolling: true })
 
   const onTouchStart = React.useCallback((e: React.TouchEvent) => {
     state.current.startX = e.touches[0].clientX
+    state.current.startY = e.touches[0].clientY
     state.current.dx = 0
     state.current.offsetting = false
     state.current.scrolling = true
@@ -285,9 +286,9 @@ export function SwipeableGallery({ children, className }: { children: React.Reac
   const onTouchMove = React.useCallback((e: React.TouchEvent) => {
     const s = state.current
     const dx = e.touches[0].clientX - s.startX
+    const dy = Math.abs(e.touches[0].clientY - s.startY)
 
     if (!s.offsetting) {
-      const dy = Math.abs(e.touches[0].clientY - (e.target as HTMLElement).getBoundingClientRect().top)
       if (dy > 20) return
       if (Math.abs(dx) > 10) {
         s.offsetting = true

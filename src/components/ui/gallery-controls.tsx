@@ -82,6 +82,7 @@ export function GalleryBounce({ children, className }: { children: React.ReactNo
   const controls = useAnimation()
 
   React.useEffect(() => {
+    if (typeof window === "undefined") return
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     if (prefersReduced) return
 
