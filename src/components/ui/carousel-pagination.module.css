@@ -82,7 +82,7 @@
 
 .imagePaginationButton:not(.imagePaginationActive):focus-visible .imagePaginationImage,
 .imagePaginationButton:not(.imagePaginationActive):hover .imagePaginationImage {
-  background-clip: border-box;
+  background-color: var(--color-green);
   border-color: var(--color-green);
 }
 
@@ -96,8 +96,7 @@
 
 .imagePaginationImage {
   --size: 56px;
-  background-clip: padding-box;
-  background-color: var(--color-green);
+  background-color: transparent;
   border: 4px solid transparent;
   border-radius: 50%;
   display: flex;
