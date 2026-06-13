@@ -5,7 +5,6 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { createTriggerButton } from "@/components/ui/trigger-button"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { Tape } from "./tape"
 import { XIcon } from "lucide-react"
@@ -82,7 +81,49 @@ function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 }
 
-const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, "dialog-trigger")
+interface DialogTriggerButtonProps extends Omit<React.ComponentProps<typeof Button>, 'ref'> {
+  variant?: React.ComponentProps<typeof Button>['variant']
+  size?: React.ComponentProps<typeof Button>['size']
+  theme?: React.ComponentProps<typeof Button>['theme']
+}
+
+function DialogTriggerButton({
+  children,
+  variant = "yellow",
+  size = "default",
+  theme,
+  hasChevron = true,
+  ...props
+}: DialogTriggerButtonProps) {
+  const { triggerRef } = useDialogContext()
+
+  return (
+    <DialogPrimitive.Trigger
+      data-slot="dialog-trigger"
+      render={(triggerProps) => {
+        const { ref: triggerRefCb, ...rest } = triggerProps as { ref?: React.Ref<HTMLButtonElement>; [key: string]: unknown }
+
+        return (
+          <Button
+            {...rest}
+            ref={(node) => {
+              if (typeof triggerRefCb === 'function') triggerRefCb(node)
+              else if (triggerRefCb) (triggerRefCb as React.MutableRefObject<HTMLButtonElement | null>).current = node
+              ;(triggerRef as React.MutableRefObject<HTMLButtonElement | null>).current = node
+            }}
+            variant={variant}
+            size={size}
+            theme={theme}
+            hasChevron={hasChevron}
+          >
+            {children}
+          </Button>
+        )
+      }}
+      {...(props as Record<string, unknown>)}
+    />
+  )
+}
 
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
