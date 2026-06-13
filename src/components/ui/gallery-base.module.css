@@ -12,8 +12,9 @@
   --controls-padding: 40px;
   --controls-scale: 1;
   --controls-spread: 0px;
-  margin: 0 !important;
-  padding: 0 16px !important;
+  /* Override parent container spacing — gallery owns its own padding */
+  margin: 0;
+  padding: 0 16px;
   position: relative;
   width: 100%;
 }

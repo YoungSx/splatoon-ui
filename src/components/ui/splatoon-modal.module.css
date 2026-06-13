@@ -18,7 +18,7 @@
 
 /* ── Modal container (CSS custom properties set via inline style) ── */
 .modal {
-  color: #fff;
+  color: var(--color-white, #fff);
   height: 100%;
   left: 0;
   pointer-events: none;
@@ -63,7 +63,7 @@
 
 /* ── Modal body card ── */
 .body {
-  background-color: #fff;
+  background-color: var(--color-white, #fff);
   border-radius: 1.25rem;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
   margin: 0 auto;
@@ -158,10 +158,10 @@
 /* ── Close button (morph blob, slide-in, official) ── */
 .closeButton {
   animation: morph calc(var(--duration-factor, 1) * 3s) linear infinite;
-  background-color: #eaff3d;
+  background-color: var(--color-yellow, #eaff3d);
   border: none;
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  color: #603bff;
+  color: var(--color-blue, #603bff);
   cursor: pointer;
   display: grid;
   line-height: 0;

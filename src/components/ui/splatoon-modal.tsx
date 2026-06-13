@@ -3,13 +3,35 @@
 import * as React from "react"
 import { createPortal } from "react-dom"
 import { cn } from "@/lib/utils"
+import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import styles from "./splatoon-modal.module.css"
 
-/* ── Context ── */
+/* ── Scroll lock counter (supports stacked modals) ──────────────────────── */
+
+let scrollLockCount = 0
+
+function lockScroll() {
+  if (scrollLockCount === 0) {
+    document.body.style.overflow = "hidden"
+  }
+  scrollLockCount++
+}
+
+function unlockScroll() {
+  scrollLockCount--
+  if (scrollLockCount <= 0) {
+    scrollLockCount = 0
+    document.body.style.overflow = ""
+  }
+}
+
+/* ── Context ────────────────────────────────────────────────────────────── */
+
 interface SplatoonModalContextValue {
   open: boolean
   setOpen: (open: boolean) => void
   contentRef: React.RefObject<HTMLDivElement | null>
+  triggerRef: React.RefObject<HTMLElement | null>
 }
 
 const SplatoonModalContext = React.createContext<SplatoonModalContextValue | null>(null)
@@ -20,7 +42,8 @@ function useSplatoonModal() {
   return ctx
 }
 
-/* ── Root ── */
+/* ── Root ────────────────────────────────────────────────────────────────── */
+
 interface SplatoonModalProps {
   children: React.ReactNode
   open?: boolean
@@ -31,6 +54,7 @@ interface SplatoonModalProps {
 function SplatoonModal({ children, open: controlledOpen, onOpenChange, defaultOpen = false }: SplatoonModalProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const contentRef = React.useRef<HTMLDivElement>(null)
+  const triggerRef = React.useRef<HTMLElement | null>(null)
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = React.useCallback(
@@ -38,26 +62,28 @@ function SplatoonModal({ children, open: controlledOpen, onOpenChange, defaultOp
       onOpenChange?.(value)
       if (controlledOpen === undefined) setUncontrolledOpen(value)
     },
-    [controlledOpen, onOpenChange]
+    [controlledOpen, onOpenChange],
   )
 
   return (
-    <SplatoonModalContext.Provider value={{ open, setOpen, contentRef }}>
+    <SplatoonModalContext.Provider value={{ open, setOpen, contentRef, triggerRef }}>
       {children}
     </SplatoonModalContext.Provider>
   )
 }
 
-/* ── Trigger ── */
+/* ── Trigger ────────────────────────────────────────────────────────────── */
+
 interface SplatoonModalTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
 }
 
 function SplatoonModalTrigger({ children, onClick, ...props }: SplatoonModalTriggerProps) {
-  const { setOpen } = useSplatoonModal()
+  const { setOpen, triggerRef } = useSplatoonModal()
 
   return (
     <button
+      ref={triggerRef as React.RefObject<HTMLButtonElement>}
       type="button"
       onClick={(e) => {
         setOpen(true)
@@ -70,10 +96,23 @@ function SplatoonModalTrigger({ children, onClick, ...props }: SplatoonModalTrig
   )
 }
 
-/* ── Modal Portal (official CSS custom property-driven architecture) ── */
+/* ── Focus trap helper ──────────────────────────────────────────────────── */
+
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])',
+].join(', ')
+
+/* ── Modal Portal ────────────────────────────────────────────────────────── */
+
 function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
-  const { open, setOpen, contentRef } = useSplatoonModal()
+  const { open, setOpen, contentRef, triggerRef } = useSplatoonModal()
   const [mounted, setMounted] = React.useState(false)
+  const [isReducedMotion] = useReducedMotion()
 
   React.useEffect(() => setMounted(true), [])
 
@@ -87,15 +126,66 @@ function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
     return () => document.removeEventListener("keydown", handler)
   }, [open, setOpen])
 
-  // Lock body scroll
+  // Focus trap
   React.useEffect(() => {
     if (!open) return
-    const prev = document.body.style.overflow
-    document.body.style.overflow = "hidden"
-    return () => { document.body.style.overflow = prev }
+    const container = contentRef.current
+    if (!container) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return
+
+      const focusables = Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
+      if (focusables.length === 0) return
+
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+
+      if (e.shiftKey) {
+        if (document.activeElement === first || !container.contains(document.activeElement)) {
+          e.preventDefault()
+          last.focus()
+        }
+      } else {
+        if (document.activeElement === last || !container.contains(document.activeElement)) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [open, contentRef])
+
+  // Focus the modal content on open, restore trigger focus on close
+  React.useEffect(() => {
+    if (!open) return
+    const container = contentRef.current
+    if (!container) return
+
+    // Focus the first focusable element inside the modal
+    const firstFocusable = container.querySelector<HTMLElement>(FOCUSABLE_SELECTOR)
+    firstFocusable?.focus()
+
+    return () => {
+      // Restore focus to the trigger element
+      triggerRef.current?.focus()
+    }
+  }, [open, contentRef, triggerRef])
+
+  // Body scroll lock (stacked-modal safe)
+  React.useEffect(() => {
+    if (!open) return
+    lockScroll()
+    return unlockScroll
   }, [open])
 
   if (!mounted) return null
+
+  const reducedMotionStyle = isReducedMotion
+    ? { "--duration": "0.01ms", "--content-delay": "0s" }
+    : {}
 
   return createPortal(
     <div
@@ -108,9 +198,10 @@ function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
         "--modal-ease": "cubic-bezier(0.35, 0.91, 0.3, 0.99)",
         "--modal-button-ease": "cubic-bezier(0.21, 0.12, 0.35, 1.43)",
         "--duration-factor": 1,
-      } as React.CSSProperties}
+        ...reducedMotionStyle,
+      } as unknown as React.CSSProperties}
     >
-      {/* Backdrop — no transition, background driven by --alpha */}
+      {/* Backdrop */}
       <div
         className={styles.backdrop}
         style={{ backgroundColor: `rgba(0, 0, 0, calc(0.9 * var(--alpha)))` }}
@@ -120,16 +211,19 @@ function SplatoonModalPortal({ children }: { children: React.ReactNode }) {
       {/* Content — centered, fade-only */}
       <div
         ref={contentRef}
+        role="dialog"
+        aria-modal="true"
         className={styles.content}
       >
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   )
 }
 
-/* ── Modal Body (the white card) ── */
+/* ── Modal Body (the white card) ────────────────────────────────────────── */
+
 interface SplatoonModalBodyProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   showFrames?: boolean
@@ -169,7 +263,8 @@ function SplatoonModalBody({ children, className, showFrames = true, ...props }:
   )
 }
 
-/* ── Stagger container ── */
+/* ── Stagger container ──────────────────────────────────────────────────── */
+
 interface SplatoonModalStaggerProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
 }
@@ -217,7 +312,8 @@ function SplatoonModalStagger({ children, className, ...props }: SplatoonModalSt
   )
 }
 
-/* ── Squid SVG icon (for corner frames) ── */
+/* ── Squid SVG icon (for corner frames) ─────────────────────────────────── */
+
 function SquidIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -232,7 +328,8 @@ function SquidIcon({ className }: { className?: string }) {
   )
 }
 
-/* ── Exports ── */
+/* ── Exports ────────────────────────────────────────────────────────────── */
+
 export {
   SplatoonModal,
   SplatoonModalTrigger,

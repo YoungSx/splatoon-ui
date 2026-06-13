@@ -22,7 +22,10 @@ export interface SectionSideNavProps extends React.ComponentProps<'nav'> {
   contentRef: React.RefObject<HTMLElement | null>
 }
 
-/** Eased lerp for smooth scroll animation */
+/* ── Smooth scroll ────────────────────────────────────────────────────── */
+
+let activeScrollFrame: number | null = null
+
 function easeInOutQuad(t: number): number {
   return t < 0.5 ? 2 * t * t : (4 - 2 * t) * t - 1
 }
@@ -35,6 +38,12 @@ function scrollTo(
   targetY: number,
   prefersReducedMotion: boolean,
 ) {
+  // Cancel any in-flight scroll animation
+  if (activeScrollFrame !== null) {
+    cancelAnimationFrame(activeScrollFrame)
+    activeScrollFrame = null
+  }
+
   if (prefersReducedMotion) {
     window.scrollTo(0, targetY)
     return
@@ -53,12 +62,16 @@ function scrollTo(
     window.scrollTo(0, lerp(scrollY, targetY, eased))
 
     if (progress < 1) {
-      requestAnimationFrame(step)
+      activeScrollFrame = requestAnimationFrame(step)
+    } else {
+      activeScrollFrame = null
     }
   }
 
-  requestAnimationFrame(step)
+  activeScrollFrame = requestAnimationFrame(step)
 }
+
+/* ── Component ────────────────────────────────────────────────────────── */
 
 export function SectionSideNav({
   ref,
@@ -68,9 +81,28 @@ export function SectionSideNav({
   ...props
 }: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
   const internalRef = React.useRef<HTMLElement>(null)
-  const sidebarRef = (ref as React.RefObject<HTMLElement>) ?? internalRef
   const sectionObserverRef = React.useRef<IntersectionObserver | null>(null)
   const visibilityObserverRef = React.useRef<IntersectionObserver | null>(null)
+
+  // Callback ref — merges forwarded ref with internal ref
+  const sidebarCallbackRef = React.useCallback(
+    (node: HTMLElement | null) => {
+      (internalRef as React.MutableRefObject<HTMLElement | null>).current = node
+      if (typeof ref === 'function') ref(node)
+      else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node
+    },
+    [ref],
+  )
+
+  // Cancel in-flight scroll animation on unmount
+  React.useEffect(() => {
+    return () => {
+      if (activeScrollFrame !== null) {
+        cancelAnimationFrame(activeScrollFrame)
+        activeScrollFrame = null
+      }
+    }
+  }, [])
 
   const prefersReducedMotion = React.useCallback(
     () =>
@@ -110,8 +142,8 @@ export function SectionSideNav({
 
   // Track active section via IntersectionObserver on section anchors
   React.useEffect(() => {
-    if (sectionObserverRef.current) return
-    if (!sidebarRef.current) return
+    const sidebar = internalRef.current
+    if (!sidebar) return
 
     const sectionIds = sections.map((s) => s.id)
     const targets = sectionIds
@@ -120,10 +152,10 @@ export function SectionSideNav({
 
     if (targets.length === 0) return
 
-    sectionObserverRef.current = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const navItem = document.querySelector(
+          const navItem = sidebar.querySelector(
             `[data-section-id="${entry.target.id}"]`,
           )
           if (!navItem) return
@@ -140,46 +172,46 @@ export function SectionSideNav({
       { root: null, rootMargin: '-50% 0px -50%', threshold: 0 },
     )
 
-    targets.forEach((el) => sectionObserverRef.current!.observe(el))
+    sectionObserverRef.current = observer
+    targets.forEach((el) => observer.observe(el))
 
     return () => {
-      sectionObserverRef.current?.disconnect()
+      observer.disconnect()
       sectionObserverRef.current = null
     }
-  }, [sections, sidebarRef])
+  }, [sections])
 
   // Toggle sidebar visibility based on the content container's intersection
   // with the viewport center zone — matches official splatoon.nintendo.com:
   // the container starts below the hero, so natural hysteresis prevents jitter.
   React.useEffect(() => {
-    if (visibilityObserverRef.current) return
-    if (!sidebarRef.current) return
-
+    const sidebar = internalRef.current
     const container = contentRef.current
-    if (!container) return
+    if (!sidebar || !container) return
 
-    visibilityObserverRef.current = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          sidebarRef.current?.classList.add(styles.sidebarShow)
+          sidebar.classList.add(styles.sidebarShow)
         } else {
-          sidebarRef.current?.classList.remove(styles.sidebarShow)
+          sidebar.classList.remove(styles.sidebarShow)
         }
       },
       { root: null, rootMargin: '-50% 0px -50%', threshold: 0 },
     )
 
-    visibilityObserverRef.current.observe(container)
+    visibilityObserverRef.current = observer
+    observer.observe(container)
 
     return () => {
-      visibilityObserverRef.current?.disconnect()
+      observer.disconnect()
       visibilityObserverRef.current = null
     }
-  }, [contentRef, sidebarRef])
+  }, [contentRef])
 
   return (
     <nav
-      ref={sidebarRef}
+      ref={sidebarCallbackRef}
       data-slot="section-side-nav"
       className={cn(styles.sidebar, className)}
       aria-label="Section navigation"

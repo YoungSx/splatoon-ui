@@ -1,6 +1,6 @@
 .reducedMotion {
   align-items: center;
-  color: #fff;
+  color: var(--color-white, #fff);
   display: inline-flex;
   font-family: var(--font-alt);
   font-size: 16px;
@@ -12,7 +12,7 @@
 .reducedMotionIcon {
   --dimension: 13px;
   align-items: center;
-  border: 2px solid #eaff3d;
+  border: 2px solid var(--color-yellow, #eaff3d);
   border-radius: 50%;
   display: inline-flex;
   height: var(--dimension);

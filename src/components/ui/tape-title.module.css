@@ -40,8 +40,8 @@
 
 /* Red variant */
 .red {
-  background: #ff585e;
-  color: #0d0d0d;
+  background: var(--color-red, #ff585e);
+  color: var(--color-black, #0d0d0d);
 }
 
 .red::before {
@@ -54,8 +54,8 @@
 
 /* Yellow variant */
 .yellow {
-  background: #eaff3d;
-  color: #0d0d0d;
+  background: var(--color-yellow, #eaff3d);
+  color: var(--color-black, #0d0d0d);
 }
 
 .yellow::before {

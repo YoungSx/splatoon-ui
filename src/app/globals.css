@@ -34,7 +34,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
-  --font-mono: var(--font-mono);
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --font-heading: 'fooregular', sans-serif;
   --font-body: 'Montserrat', sans-serif;
   --font-alt: 'obviously-narrow', sans-serif;

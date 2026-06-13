@@ -3,14 +3,13 @@
 import * as React from 'react'
 
 import { NavigationDialog } from '@/components/ui/navigation-dialog'
+import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { cn } from '@/lib/utils'
 import styles from '@/components/ui/navigation.module.css'
 
-const REDUCED_MOTION_KEY = 'splat-reduced-motion'
-
 export function Navigation() {
   const [isCollapsed, setIsCollapsed] = React.useState(false)
-  const [isReducedMotion, setIsReducedMotion] = React.useState(false)
+  const [isReducedMotion, toggleReducedMotion] = useReducedMotion()
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -20,33 +19,6 @@ export function Navigation() {
     handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-
-    const syncReducedMotion = () => {
-      const storedValue = localStorage.getItem(REDUCED_MOTION_KEY)
-      const nextValue = storedValue === 'true' || (storedValue === null && mediaQuery.matches)
-      setIsReducedMotion(nextValue)
-      document.documentElement.classList.toggle('reduced-motion', nextValue)
-    }
-
-    syncReducedMotion()
-    mediaQuery.addEventListener('change', syncReducedMotion)
-
-    return () => {
-      mediaQuery.removeEventListener('change', syncReducedMotion)
-    }
-  }, [])
-
-  const toggleReducedMotion = React.useCallback(() => {
-    setIsReducedMotion((previous) => {
-      const nextValue = !previous
-      localStorage.setItem(REDUCED_MOTION_KEY, String(nextValue))
-      document.documentElement.classList.toggle('reduced-motion', nextValue)
-      return nextValue
-    })
   }, [])
 
   return (

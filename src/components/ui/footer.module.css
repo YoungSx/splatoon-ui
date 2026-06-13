@@ -5,8 +5,8 @@
 /* ── Container ── */
 
 .footer {
-  background-color: #0c0c0c;
-  color: #fff;
+  background-color: var(--color-black, #0d0d0d);
+  color: var(--color-white, #fff);
   position: relative;
   z-index: 1;
 }
@@ -48,7 +48,7 @@
 }
 
 .socialLink:hover {
-  color: #fff;
+  color: var(--color-white, #fff);
   transform: scale(1.1);
 }
 
@@ -107,7 +107,7 @@
 }
 
 .navLink:hover {
-  color: #fff;
+  color: var(--color-white, #fff);
 }
 
 /* ── Legal / Copyright ── */
@@ -142,7 +142,7 @@
 }
 
 .legalLink:hover {
-  color: #fff;
+  color: var(--color-white, #fff);
 }
 
 /* ── Nintendo branding ── */

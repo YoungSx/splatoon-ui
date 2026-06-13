@@ -32,22 +32,35 @@ export function useDripAnimation(
   React.useEffect(() => {
     setMounted(true)
 
-    const handleResize = () => {
-      if (!buttonRef.current) return
-      const width = buttonRef.current.clientWidth
-      const height = buttonRef.current.clientHeight + 2
-      setDimensions({ width, height })
-
+    const generateControlPoints = (width: number): DripControlPoint[] => {
       const points: DripControlPoint[] = []
       const count = Math.ceil(width / STEP_SIZE)
-
       for (let r = 0; r < count; r++) {
         const amplitude = r % 2 === 0 ? -80 : MAX_AMPLITUDE
         const y1 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
         const y2 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
         points.push({ y1, y2 })
       }
-      setControlPoints(points)
+      return points
+    }
+
+    // Generate control points once (stable across resizes)
+    const handleResize = () => {
+      if (!buttonRef.current) return
+      const width = buttonRef.current.clientWidth
+      const height = buttonRef.current.clientHeight + 2
+      setDimensions({ width, height })
+
+      setControlPoints((prev) => {
+        if (prev.length > 0) return prev
+        return generateControlPoints(width)
+      })
+    }
+
+    // Initial generation + measurement
+    if (buttonRef.current) {
+      const width = buttonRef.current.clientWidth
+      setControlPoints(generateControlPoints(width))
     }
 
     window.addEventListener("resize", handleResize)

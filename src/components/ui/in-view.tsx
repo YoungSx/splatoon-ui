@@ -12,6 +12,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { useInView } from '@/hooks/use-in-view'
 import styles from './in-view.module.css'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -57,28 +58,7 @@ export function InView({
   children,
   ...props
 }: InViewProps) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const [isInView, setIsInView] = React.useState(false)
-
-  React.useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true)
-          if (once) observer.unobserve(el)
-        } else if (!once) {
-          setIsInView(false)
-        }
-      },
-      { rootMargin },
-    )
-
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [rootMargin, once])
+  const [isInView, ref] = useInView<HTMLDivElement>({ rootMargin, once })
 
   // Build anim class list
   const animClasses = React.useMemo(() => {
@@ -138,28 +118,7 @@ export function InViewStagger({
   children,
   ...props
 }: InViewStaggerProps) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const [isInView, setIsInView] = React.useState(false)
-
-  React.useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true)
-          if (once) observer.unobserve(el)
-        } else if (!once) {
-          setIsInView(false)
-        }
-      },
-      { rootMargin },
-    )
-
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [rootMargin, once])
+  const [isInView, ref] = useInView<HTMLDivElement>({ rootMargin, once })
 
   return (
     <div

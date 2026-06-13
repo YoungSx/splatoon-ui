@@ -52,7 +52,7 @@ function Marquee({
         style={{ "--marquee-duration": `${speed}s` } as React.CSSProperties}
       >
         {children}
-        {children}
+        <span aria-hidden="true">{children}</span>
       </div>
     </div>
   )

@@ -30,12 +30,12 @@ const buttonVariants = cva(
         arrow: "",
       },
       size: {
-        default: "text-[22px]",
-        sm: "text-base",
-        lg: "text-[26px]",
-        icon: "size-11 p-0",
-        "icon-sm": "size-8 p-0",
-        "icon-lg": "size-14 p-0",
+        default: "text-[22px] pt-3 pb-5 px-11 leading-[24px]",
+        sm: "text-base pt-2 pb-3.5 px-6 leading-[20px]",
+        lg: "text-[26px] pt-4 pb-6.5 px-14 leading-[28px]",
+        icon: "size-11 p-0 leading-none",
+        "icon-sm": "size-8 p-0 leading-none",
+        "icon-lg": "size-14 p-0 leading-none",
       },
     },
     defaultVariants: {
@@ -44,24 +44,6 @@ const buttonVariants = cva(
     },
   }
 )
-
-const sizePaddingMap = {
-  default: "pt-3 pb-5 px-11",
-  sm: "pt-2 pb-3.5 px-6",
-  lg: "pt-4 pb-6.5 px-14",
-  icon: "p-0",
-  "icon-sm": "p-0",
-  "icon-lg": "p-0",
-}
-
-const sizeContentLineHeightMap = {
-  default: "leading-[24px]",
-  sm: "leading-[20px]",
-  lg: "leading-[28px]",
-  icon: "leading-none",
-  "icon-sm": "leading-none",
-  "icon-lg": "leading-none",
-}
 
 const arrowButtonClassName =
   "group/button relative inline-block shrink-0 cursor-pointer select-none bg-transparent p-0 font-alt text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current"
@@ -119,17 +101,17 @@ function Button({
       [ref]
     )
 
+    const dripSizeClasses = {
+      default: { padding: "pt-3 pb-5 px-11", leading: "leading-[24px]" },
+      sm: { padding: "pt-2 pb-3.5 px-6", leading: "leading-[20px]" },
+      lg: { padding: "pt-4 pb-6.5 px-14", leading: "leading-[28px]" },
+    } as const
+    const sizeDrip = dripSizeClasses[size as keyof typeof dripSizeClasses] ?? dripSizeClasses.default
+
     const hasDrip = variant !== "ghost" && variant !== "arrow"
     const { dripAnimationState, dripStyle, startDripEnter, startDripLeave, handleDripAnimationEnd } =
       useDripAnimation(localRef, hasDrip)
 
-    const paddingKey = size
-    const paddingClass = paddingKey && paddingKey in sizePaddingMap
-      ? sizePaddingMap[paddingKey as keyof typeof sizePaddingMap]
-      : sizePaddingMap.default
-    const contentLineHeightClass = paddingKey && paddingKey in sizeContentLineHeightMap
-      ? sizeContentLineHeightMap[paddingKey as keyof typeof sizeContentLineHeightMap]
-      : sizeContentLineHeightMap.default
     const variantKey = (variant ?? "yellow") as NonNullable<VariantProps<typeof buttonVariants>["variant"]>
 
     const resolvedColorConfig = resolveButtonColors({
@@ -141,31 +123,24 @@ function Button({
       theme,
     })
 
-    const colorStyle = {
-      ...(resolvedColorConfig
-        ? {
-            "--bg-color": resolvedColorConfig.bgColor,
-            "--text-color": resolvedColorConfig.textColor,
-            "--hover-bg-color": resolvedColorConfig.hoverBgColor,
-            "--hover-text-color": resolvedColorConfig.hoverTextColor,
-            ...(resolvedColorConfig.outlineBorderColor
-              ? {
-                  "--outline-border-color": resolvedColorConfig.outlineBorderColor,
-                }
-              : {}),
-          }
-        : {}),
-      ...(variant === "ghost"
-        ? {
-            boxShadow: "none",
-          }
-        : {}),
-    } as React.CSSProperties
+    const colorStyle: Record<string, string> | undefined = resolvedColorConfig
+      ? {
+          "--bg-color": resolvedColorConfig.bgColor,
+          "--text-color": resolvedColorConfig.textColor,
+          "--hover-bg-color": resolvedColorConfig.hoverBgColor,
+          "--hover-text-color": resolvedColorConfig.hoverTextColor,
+          ...(resolvedColorConfig.outlineBorderColor
+            ? { "--outline-border-color": resolvedColorConfig.outlineBorderColor }
+            : {}),
+          ...(variant === "ghost" ? { boxShadow: "none" } : {}),
+        }
+      : variant === "ghost"
+        ? { boxShadow: "none" }
+        : undefined
 
     const splatChevron = (
       <svg
         aria-hidden="true"
-        role="img"
         className={cn(
           "shrink-0 overflow-visible",
           variant === "arrow"
@@ -189,14 +164,14 @@ function Button({
         ref={setButtonRef}
         data-slot="button"
         data-drip-state={hasDrip ? dripAnimationState : undefined}
-        style={dripStyle ? ({ ...colorStyle, ...dripStyle } as React.CSSProperties) : colorStyle}
+        style={dripStyle ? ({ ...colorStyle, ...dripStyle } as React.CSSProperties) : colorStyle as React.CSSProperties}
         className={cn(
           variant === "arrow"
             ? arrowButtonClassName
             : buttonVariants({ variant, size }),
           hasDrip ? styles.dripRoot : undefined,
           variant !== "arrow" && variant !== "ghost" ? solidButtonEffectsClassName : undefined,
-          variant === "arrow" || (hasDrip && isTextChildren) ? undefined : paddingClass,
+          variant !== "arrow" && hasDrip && isTextChildren ? "p-0" : undefined,
           className
         )}
         onClick={(event) => {
@@ -227,13 +202,13 @@ function Button({
                 onAnimationEnd={handleDripAnimationEnd}
                 className={cn(
                   "absolute left-0 top-0 z-20 flex h-full w-full items-center justify-center rounded-[8px] text-[var(--hover-text-color)]",
+                  sizeDrip.padding,
                   styles.dripHoverContent,
-                  paddingClass
                 )}
               >
                 <span aria-hidden="true" className={styles.dripFill} />
                 <span aria-hidden="true" className={styles.dripFrame} />
-                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
+                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", sizeDrip.leading)}>
                   {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
@@ -243,10 +218,10 @@ function Button({
               <span
                 className={cn(
                   "flex h-full w-full items-center justify-center bg-[var(--bg-color)] text-[var(--text-color)]",
-                  paddingClass
+                  sizeDrip.padding,
                 )}
               >
-                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
+                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", sizeDrip.leading)}>
                   {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
@@ -273,7 +248,7 @@ function Button({
               </span>
 
               <span className="relative z-30 flex items-center justify-center w-full h-full text-[var(--text-color)] group-hover/button:text-[var(--hover-text-color)] transition-colors duration-200">
-                <span className={cn("relative z-10 flex items-center justify-center whitespace-nowrap", contentLineHeightClass)}>
+                <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
                   {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
                   {children}
                   {hasChevron && size !== "icon" && splatChevron}
@@ -287,7 +262,7 @@ function Button({
               "relative z-10 whitespace-nowrap",
               variant === "arrow"
                 ? "inline-block leading-[26px]"
-                : cn("inline-flex items-center justify-center", contentLineHeightClass)
+                : "inline-flex items-center justify-center"
             )}
           >
             {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}

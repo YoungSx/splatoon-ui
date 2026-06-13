@@ -25,7 +25,7 @@
   width: 100%;
 }
 
-.button > * {
+.button > *:not(.icon) {
   width: 100%;
 }
 
@@ -33,7 +33,7 @@
   height: 26px;
   margin-right: var(--base-space, 8px);
   padding-top: var(--base-space, 8px);
-  width: 20px !important;
+  width: 20px;
 }
 
 .content,

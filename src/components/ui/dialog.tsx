@@ -6,6 +6,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { createTriggerButton } from "@/components/ui/trigger-button"
+import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { Tape } from "./tape"
 import { XIcon } from "lucide-react"
 
@@ -69,23 +70,7 @@ function DialogContent({
   surface = "paper",
   ...props
 }: DialogContentProps) {
-  const [isReducedMotion, setIsReducedMotion] = React.useState(false)
-
-  React.useEffect(() => {
-    const checkRM = () => {
-      const storedRM = localStorage.getItem("splat-reduced-motion")
-      const mediaRM = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      const hasClass = document.documentElement.classList.contains("reduced-motion")
-      setIsReducedMotion(storedRM === "true" || mediaRM || hasClass)
-    }
-    checkRM()
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const listener = (e: MediaQueryListEvent) => {
-      setIsReducedMotion(e.matches || document.documentElement.classList.contains("reduced-motion"))
-    }
-    mediaQuery.addEventListener("change", listener)
-    return () => mediaQuery.removeEventListener("change", listener)
-  }, [])
+  const [isReducedMotion] = useReducedMotion()
 
   const fillInfo = surfaceFills[surface] || surfaceFills.paper
 

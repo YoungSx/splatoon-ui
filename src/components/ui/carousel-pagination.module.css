@@ -91,7 +91,7 @@
 }
 
 .imagePaginationActive .imagePaginationImage {
-  border-color: var(--color-accent) !important;
+  border-color: var(--color-accent);
 }
 
 .imagePaginationImage {

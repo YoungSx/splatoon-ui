@@ -5,7 +5,7 @@
 }
 
 .card {
-  --color-primary: var(--color-white);
+  --color-primary: var(--color-white, #fff);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -17,8 +17,8 @@
 }
 
 .cardLayout {
-  background-color: var(--color-white);
-  color: #0d0d0d;
+  background-color: var(--color-white, #fff);
+  color: var(--color-black, #0d0d0d);
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
@@ -91,8 +91,8 @@
 
 /* ── Surface: dark ── */
 .surfaceDark .cardLayout {
-  background-color: #1a1a1a;
-  color: #fff;
+  background-color: var(--color-black-alt, #0e0e0e);
+  color: var(--color-white, #fff);
 }
 
 /* ── Convenience title/subtitle ── */

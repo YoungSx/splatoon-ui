@@ -1,6 +1,6 @@
 .trigger {
   align-items: center;
-  color: #eaff3d;
+  color: var(--color-yellow, #eaff3d);
   display: grid;
   gap: 8px;
   grid-template-columns: auto 1fr;
@@ -23,7 +23,7 @@
 }
 
 .iconWrap {
-  background-color: #eaff3d;
+  background-color: var(--color-yellow, #eaff3d);
   display: grid;
   flex-shrink: 0;
   height: 48px;
@@ -47,7 +47,7 @@
   --line-w: 19px;
   --line-h: 4px;
   --line-y: calc(var(--line-h) * -1.5);
-  background-color: #603bff;
+  background-color: var(--color-blue, #603bff);
   display: block;
   height: var(--line-h);
   position: relative;
@@ -58,7 +58,7 @@
 .icon::before,
 .icon::after {
   --line-rotation: 0deg;
-  background-color: #603bff;
+  background-color: var(--color-blue, #603bff);
   content: '';
   height: 100%;
   left: 0;

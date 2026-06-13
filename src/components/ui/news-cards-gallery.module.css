@@ -1,6 +1,6 @@
-.newsCardsGallery {
-  padding-bottom: calc(var(--base-space, 8px) * 14) !important;
-  padding-right: calc(var(--gutter-width)*1) !important;
+.newsCardsGallery.newsCardsGallery {
+  padding-bottom: calc(var(--base-space, 8px) * 14);
+  padding-right: calc(var(--gutter-width)*1);
 }
 
 .newsCardGroup {

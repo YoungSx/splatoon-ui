@@ -8,8 +8,8 @@
   box-shadow: none;
   --scale: 1;
   --squish-direction: 1;
-  background-color: #00c8b4;
-  color: #0D0D0D;
+  background-color: var(--color-green, #00c8b4);
+  color: var(--color-black, #0d0d0d);
 }
 
 .left {

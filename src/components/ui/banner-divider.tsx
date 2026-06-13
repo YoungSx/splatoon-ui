@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -165,4 +167,4 @@ export function BannerDivider({
 }
 
 /** Convenience: 3-tape variant (design1 + design2 + blue) */
-BannerDivider.three = THREE_TAPES
+export const BANNER_DIVIDER_THREE_TAPES = THREE_TAPES
