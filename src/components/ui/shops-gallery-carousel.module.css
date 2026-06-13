@@ -1,22 +1,14 @@
-/* Shops Gallery Carousel — unique overrides only (shared rules in gallery-base.module.css) */
+/* Shops Gallery Carousel — shops-specific overrides only */
 
-/* Controls — centered overlay on photo */
-.galleryControls {
-  max-width: 100%;
-  padding-top: 0;
+/* Photo frame — shops uses 16/9 aspect ratio (matches SVG paper) */
+.photoFrame {
+  aspect-ratio: 16 / 9;
+  max-width: 600px;
 }
 
-@media screen and (max-width: 639px) {
-  .galleryControls {
-    left: 0;
-    max-width: 100%;
-    transform: translateY(-50%);
-    width: 100%;
-  }
-  .galleryControls > :first-child,
-  .galleryControls > :nth-child(2) {
-    transform: none;
-  }
+/* GalleryBounce — force full width in flex column layout */
+.galleryBounce {
+  width: 100%;
 }
 
 /* Shops item content — opacity transitions with photo-ease */
@@ -34,10 +26,10 @@
   transition-timing-function: var(--photo-ease);
 }
 
-/* Photo frame — shops-specific aspect ratio */
-.photoFrame {
-  aspect-ratio: 4 / 3;
-  grid-area: photo;
-  margin: 0 auto;
-  max-width: 600px;
+/* Image pagination — contained within gallery wrapper */
+.imagePagination {
+  margin: 0;
+  padding: 8px 0;
+  position: relative;
+  z-index: 10;
 }

@@ -16,20 +16,28 @@ export interface MarqueeCarouselItem {
 
 export interface MarqueeCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
   items: MarqueeCarouselItem[]
+  pagination?: React.ReactNode
+  renderItem?: (item: MarqueeCarouselItem, index: number) => React.ReactNode
 }
 
-export function MarqueeCarousel({ items, className, ...props }: MarqueeCarouselProps) {
+export function MarqueeCarousel({ items, className, pagination, renderItem, ...props }: MarqueeCarouselProps) {
   return (
     <Carousel itemCount={items.length} className={cn(baseStyles.galleryWrapper, className)} {...props}>
       <SwipeableGallery>
         <CarouselContent className={baseStyles.gallery}>
-          {items.map((item, index) => (
-            <MarqueeGalleryItem key={item.id} data-index={index} item={item} />
-          ))}
+          {items.map((item, index) =>
+            renderItem ? (
+              <React.Fragment key={item.id}>
+                {renderItem(item, index)}
+              </React.Fragment>
+            ) : (
+              <MarqueeGalleryItem key={item.id} data-index={index} item={item} />
+            )
+          )}
         </CarouselContent>
       </SwipeableGallery>
       <GalleryControls />
-      <CarouselPagination />
+      {pagination ?? <CarouselPagination />}
     </Carousel>
   )
 }
@@ -39,7 +47,7 @@ interface MarqueeGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   "data-index"?: number
 }
 
-function MarqueeGalleryItem({
+export function MarqueeGalleryItem({
   ref,
   className,
   item,

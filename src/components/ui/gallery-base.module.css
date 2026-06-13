@@ -57,7 +57,6 @@
   display: block;
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   line-height: 0;
-  overflow: visible;
   padding: calc(var(--border-offset-y) * 2) calc(var(--border-offset-x) * 2);
   position: relative;
   width: 100%;
@@ -98,14 +97,16 @@
   justify-content: center;
   overflow: hidden;
   position: relative;
-  transform: rotate(-1deg);
   width: 100%;
 }
 
 .photoImage img {
+  mask-image: url(/images/svg/styled-photo-background.svg);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
   object-fit: contain;
   width: 100%;
-  max-width: none !important;
   height: 100%;
 }
 

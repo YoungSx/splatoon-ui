@@ -2,10 +2,12 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Carousel, CarouselContent, FadeCarouselItem, CarouselImagePagination, GalleryBounce, SwipeableGallery, useCarousel } from "@/components/ui/carousel"
+import { CarouselImagePagination, FadeCarouselItem, GalleryBounce, useCarousel } from "@/components/ui/carousel"
 import { GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
 import baseStyles from "./gallery-base.module.css"
+import { MarqueeCarousel } from "./marquee-carousel"
 import styles from "./shops-gallery-carousel.module.css"
+import marqueeStyles from "./marquee-carousel.module.css"
 
 export interface ShopsGalleryCarouselItem {
   id: React.Key
@@ -17,23 +19,26 @@ export interface ShopsGalleryCarouselItem {
   className?: string
 }
 
-export interface ShopsGalleryCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
+export interface ShopsGalleryCarouselProps extends React.ComponentPropsWithoutRef<typeof MarqueeCarousel> {
   items: ShopsGalleryCarouselItem[]
 }
 
 export function ShopsGalleryCarousel({ items, className, ...props }: ShopsGalleryCarouselProps) {
   return (
-    <Carousel itemCount={items.length} className={cn(baseStyles.galleryWrapper, className)} {...props}>
-      <SwipeableGallery>
-        <CarouselContent className={baseStyles.gallery}>
-          {items.map((item, index) => (
-            <ShopsGalleryItem key={item.id} data-index={index} item={item} />
-          ))}
-        </CarouselContent>
-      </SwipeableGallery>
-      <GalleryControls className={styles.galleryControls} />
-      <CarouselImagePagination images={items.map(item => ({ src: item.icon, alt: item.title, rotate: item.iconRotate ?? 0 }))} />
-    </Carousel>
+    <MarqueeCarousel
+      items={items}
+      className={className}
+      pagination={
+        <CarouselImagePagination
+          className={styles.imagePagination}
+          images={items.map(item => ({ src: item.icon, alt: item.title, rotate: item.iconRotate ?? 0 }))}
+        />
+      }
+      renderItem={(item, index) => (
+        <ShopsGalleryItem key={item.id} data-index={index} item={item as ShopsGalleryCarouselItem} />
+      )}
+      {...props}
+    />
   )
 }
 
@@ -61,10 +66,10 @@ function ShopsGalleryItem({
         {...props}
       >
         <div className={styles.galleryItemContent}>
-          <GalleryBounce>
+          <GalleryBounce className={styles.galleryBounce}>
             <div className={cn(baseStyles.photoFrame, styles.photoFrame)}>
               <GalleryTapeDecoration />
-              <div className={cn(baseStyles.photoImage, styles.photoImage)}>
+              <div className={cn(baseStyles.photoImage, marqueeStyles.photoImage)}>
                 <img src={item.image} alt={item.title} />
               </div>
             </div>
