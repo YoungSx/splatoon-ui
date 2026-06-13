@@ -13,32 +13,20 @@
   height: 100%;
 }
 
-/* Controls — mobile: centered at bottom; desktop: overlay centered */
+/* Controls — centered overlay on photo */
 .galleryControls {
-  bottom: 0;
-  left: 0;
   max-width: 100%;
-  position: absolute;
-  top: auto;
-  transform: none;
 }
 
 @media screen and (max-width: 639px) {
   .galleryControls {
-    justify-content: space-between;
+    left: 0;
+    max-width: 100%;
+    transform: translateY(-50%);
+    width: 100%;
   }
   .galleryControls > :first-child,
   .galleryControls > :nth-child(2) {
     transform: none;
-  }
-}
-
-@media screen and (min-width: 640px) {
-  .galleryControls {
-    bottom: auto;
-    left: 50%;
-    max-width: calc(100% - (var(--controls-width) + var(--controls-padding, 0px) * 2) * 1.5);
-    top: 50%;
-    transform: translate(-50%, -50%);
   }
 }
