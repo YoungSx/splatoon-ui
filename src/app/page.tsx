@@ -392,9 +392,8 @@ export default function Home() {
         sections={[
           { id: 'trailer', number: '01' },
           { id: 'titles', number: '02' },
-          { id: 'game', number: '03' },
-          { id: 'overlays', number: '04' },
-          { id: 'gallery', number: '05' },
+          { id: 'overlays', number: '03' },
+          { id: 'gallery', number: '04' },
         ]}
         contentRef={contentRef}
       />
@@ -559,101 +558,6 @@ export default function Home() {
       </Section>
 
 
-      {/* ────────────────────────────────────────────────────────
-         SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
-         ──────────────────────────────────────────────────────── */}
-      <Section
-        id="game"
-        size="lg"
-        bgColor="bg-[#eaff3d]"
-        text="text-chaos-black"
-        pattern="octo-black"
-        className="transition-colors duration-300"
-        headingTape={
-          <HeadingTape color="yellow" className="text-center">
-            Get the Game
-          </HeadingTape>
-        }
-      >
-        <div className="absolute top-4 left-4 text-[#603bff]">
-          <Splat3 className="w-32 h-32" />
-        </div>
-        <div className="w-full max-w-5xl mx-auto flex flex-col items-center relative z-10 space-y-16 text-center">
-          {/* Purchase CTA */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-6">
-              <h3 className="text-3xl md:text-4xl font-black uppercase tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)]">
-                Splatoon 3
-              </h3>
-              <p className="text-chaos-black/70 font-medium text-sm md:text-base max-w-md mx-auto">
-                Dive into the Splatlands and experience the most chaotic ink battles yet.
-              </p>
-              <div className="inline-block bg-[#0d0d0d] text-[#eaff3d] px-8 py-3 rounded-xl border-[3px] border-[#0d0d0d] font-alt text-2xl font-black">
-                $59.99
-              </div>
-              <div className="flex flex-wrap justify-center gap-3 pt-2">
-                <Button variant="blue">Buy Now</Button>
-                <Button variant="blue">
-                  Add to Wishlist
-                </Button>
-                <a href="#trailer-section-title">
-                  <Button variant="arrow">Watch Trailer</Button>
-                </a>
-              </div>
-            </div>
-          </InView>
-
-          {/* Button Variant Showcase */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-6">
-              <HeadingTape color="blue" className="text-center">
-                Button Variants
-              </HeadingTape>
-              <div className="flex flex-wrap justify-center gap-3">
-                <Button variant="yellow">Yellow</Button>
-                <Button variant="blue">Blue</Button>
-                <Button variant="destructive">Red</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="arrow">Arrow</Button>
-              </div>
-            </div>
-          </InView>
-
-          {/* Editions */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-6 w-full max-w-2xl mx-auto">
-              <HeadingTape color="yellow" className="text-center">
-                Editions
-              </HeadingTape>
-              <InViewStagger rootMargin="-30px">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <Card variant="plain" className="p-6 space-y-4 text-center bg-white">
-                    <div className="h-1.5 w-12 rounded-full bg-[#603bff] mx-auto" />
-                    <h3 className="text-lg font-black uppercase tracking-wider">Standard Edition</h3>
-                    <p className="text-sm font-medium text-chaos-black/60">
-                      The full base game with all launch content, stages, weapons, and modes.
-                    </p>
-                    <div className="font-alt text-2xl font-black text-[#603bff]">$59.99</div>
-                  </Card>
-                  <Card variant="plain" className="border-[#eaff3d] p-6 space-y-4 text-center relative overflow-hidden bg-white">
-                    <div className="absolute top-3 right-3 bg-[#ff585e] text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">Special</div>
-                    <div className="h-1.5 w-12 rounded-full bg-[#eaff3d] mx-auto" />
-                    <h3 className="text-lg font-black uppercase tracking-wider">Expansion Pass</h3>
-                    <p className="text-sm font-medium text-chaos-black/60">
-                      Includes the Side Order DLC, Inkopolis Plaza, and exclusive gear sets.
-                    </p>
-                    <div className="font-alt text-2xl font-black text-chaos-black">$24.99</div>
-                  </Card>
-                </div>
-              </InViewStagger>
-            </div>
-          </InView>
-        </div>
-      </Section>
-
-      {/* Banner divider: Buttons → IconButton */}
-      <BannerDivider pattern="design1" color="green" animate />
 
       {/* ────────────────────────────────────────────────────────
          SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
