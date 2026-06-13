@@ -20,7 +20,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
-import { CharacterShowcase } from '@/components/ui/character-showcase'
 import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
 import { TrailerVideo, TrailerVideoThumbnail, TrailerVideoContent } from '@/components/ui/trailer-video'
 import { NewsCarousel } from '@/components/ui/news-carousel'
@@ -379,7 +378,6 @@ const marqueeItems = [
 ]
 
 export default function Home() {
-  const [reducedMotion, setReducedMotion] = React.useState(false)
   const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
 
@@ -394,10 +392,9 @@ export default function Home() {
         sections={[
           { id: 'trailer', number: '01' },
           { id: 'titles', number: '02' },
-          { id: 'parallax', number: '03' },
-          { id: 'game', number: '04' },
-          { id: 'overlays', number: '05' },
-          { id: 'gallery', number: '06' },
+          { id: 'game', number: '03' },
+          { id: 'overlays', number: '04' },
+          { id: 'gallery', number: '05' },
         ]}
         contentRef={contentRef}
       />
@@ -561,58 +558,6 @@ export default function Home() {
         </InView>
       </Section>
 
-      {/* Sand-texture container: 3D Parallax + Cards & Weapons */}
-      <div id="parallax" className="bg-[#f5f0e8] pattern-camo-white transition-colors duration-300">
-
-      {/* 3D Character Parallax — merged into Typography section */}
-      <Section
-        size="md"
-        text="text-chaos-black"
-        className="flex flex-col items-center"
-        headingTape={<HeadingTape>3D Character Parallax</HeadingTape>}
-      >
-        <InView direction="up" rootMargin="-50px">
-        <div className="w-full max-w-4xl mx-auto space-y-12">
-          <p className="text-sm font-medium text-chaos-black/60 mt-1">
-            Interactive 3D layer perspective card using framer-motion springs. Hover or move your cursor to interact.
-          </p>
-          <div className="grid gap-12 md:grid-cols-2 items-center">
-            <div className="flex justify-center items-center">
-              <div className="w-full max-w-[340px] aspect-[3/4] relative">
-                <CharacterShowcase
-                  reducedMotion={reducedMotion}
-                  boardClassName="shadow-soft-splat-lg rounded-2xl border-[3px] border-chaos-black bg-none bg-[#f5f0e8]"
-                />
-              </div>
-            </div>
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black uppercase tracking-wide text-chaos-black">
-                  Tactile 3D Depth
-                </h3>
-                <p className="text-sm font-medium text-chaos-black/75 leading-relaxed">
-                  Hover or move your cursor over the character card to see layers respond with spring-based 3D rotations.
-                </p>
-              </div>
-              <div className="flex items-center gap-4">
-                <Button
-                  variant={reducedMotion ? "destructive" : "yellow"}
-                  size="sm"
-                  onClick={() => setReducedMotion(!reducedMotion)}
-                  theme={reducedMotion ? "light-red" : "dark-yellow"}
-                >
-                  {reducedMotion ? "Motion: OFF" : "Motion: ON"}
-                </Button>
-                <span className="text-xs text-chaos-black/50 font-medium">
-                  Toggle to disable 3D rotation
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        </InView>
-      </Section>
-      </div>{/* end sand-texture container */}
 
       {/* ────────────────────────────────────────────────────────
          SECTION 6: BUTTONS & EDITIONS (Button variants + CTA)
