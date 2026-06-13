@@ -10,6 +10,7 @@
   --squish-direction: 1;
   background-color: var(--color-green, #00c8b4);
   color: var(--color-black, #0d0d0d);
+  touch-action: pan-y;
 }
 
 .left {

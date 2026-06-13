@@ -212,6 +212,7 @@ export function CardStackCarouselItem({
             }
           }}
           onDragEnd={isActive ? handleDragEnd : undefined}
+          animate={!isActive ? { x: offsetPx } : undefined}
           style={{
             x: offsetPx,
             y: deckTranslateYPx,
