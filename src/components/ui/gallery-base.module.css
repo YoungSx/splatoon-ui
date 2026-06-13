@@ -105,6 +105,7 @@
 .photoImage img {
   object-fit: contain;
   width: 100%;
+  max-width: none !important;
   height: 100%;
 }
 
