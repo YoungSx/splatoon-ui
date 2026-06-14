@@ -20,7 +20,7 @@ export function CardImage({
 }: CardImageProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { variant } = React.useContext(CardContext)
 
-    if (variant === "tag") {
+    if (variant === "rugged") {
       return (
         <div
           ref={ref}

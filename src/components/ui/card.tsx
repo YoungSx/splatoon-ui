@@ -4,15 +4,15 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { PaperCard, type NewsSurface, type PaperLabelConfig } from "./paper-card"
-import { GridNewsCard, type GridNewsCardProps } from "./grid-news-card"
-import { TagCard, type TagTheme } from "./tag-card"
+import { StapleCard, type StapleCardProps } from "./staple-card"
+import { RuggedCard, type RuggedTheme } from "./rugged-card"
 
 // ── CardContext for variant-sharing among sub-components ────────
 
-type CardVariant = "paper" | "staple" | "tag" | "rugged"
+type CardVariant = "paper" | "staple" | "rugged"
 
 export const CardContext = React.createContext<{ variant?: CardVariant; surface?: "paper" | "cream" | "danger" }>({
-  variant: "staple",
+  variant: "paper",
   surface: "paper",
 })
 
@@ -27,12 +27,12 @@ export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
   showSticker9?: boolean
   /** Index for built-in rotation stagger (staple variant only) */
   staggerIndex?: number
-  // For tag variant
-  tagTheme?: TagTheme
-  tagRotation?: string
-  /** Custom background ReactNode for tag variant (replaces built-in SVG) */
-  tagBackground?: React.ReactNode
   // For rugged variant
+  ruggedTheme?: RuggedTheme
+  ruggedRotation?: string
+  /** Custom background ReactNode for rugged variant (replaces built-in SVG) */
+  ruggedBackground?: React.ReactNode
+  // For staple variant
   /** Image/media shown in the tilted image area */
   image?: React.ReactNode
   /** Convenience: renders a title paragraph in the info area */
@@ -50,15 +50,15 @@ export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
 function Card({
   ref,
   className,
-  variant = "staple",
+  variant = "paper",
   paperFasteners,
   paperLabel,
   surface = "paper",
   showSticker9,
   staggerIndex,
-  tagTheme,
-  tagRotation,
-  tagBackground,
+  ruggedTheme,
+  ruggedRotation,
+  ruggedBackground,
   image,
   title,
   subtitle,
@@ -69,20 +69,20 @@ function Card({
 }: CardProps & { ref?: React.Ref<HTMLDivElement> }) {
   const ctx = { variant, surface }
 
-  if (variant === "tag") {
+  if (variant === "rugged") {
     return (
       <CardContext.Provider value={ctx}>
-        <TagCard ref={ref} className={className} tagTheme={tagTheme} tagRotation={tagRotation} tagBackground={tagBackground} {...props}>
+        <RuggedCard ref={ref} className={className} ruggedTheme={ruggedTheme} ruggedRotation={ruggedRotation} ruggedBackground={ruggedBackground} {...props}>
           {children}
-        </TagCard>
+        </RuggedCard>
       </CardContext.Provider>
     )
   }
 
-  if (variant === "rugged") {
+  if (variant === "staple") {
     return (
       <CardContext.Provider value={ctx}>
-        <GridNewsCard
+        <StapleCard
           className={className}
           image={image}
           title={title}
@@ -93,14 +93,12 @@ function Card({
           {...props}
         >
           {children}
-        </GridNewsCard>
+        </StapleCard>
       </CardContext.Provider>
     )
   }
 
-  // paper and staple both render PaperCard
-  const isStaple = variant === "staple"
-
+  // paper variant renders PaperCard
   return (
     <CardContext.Provider value={ctx}>
       <PaperCard
@@ -108,7 +106,7 @@ function Card({
         dataVariant="news"
         surface={surface}
         paperLabel={paperLabel}
-        paperFasteners={isStaple && (paperFasteners ?? true)}
+        paperFasteners={paperFasteners ?? false}
         showSticker9={showSticker9}
         staggerIndex={staggerIndex}
         forwardedRef={ref}

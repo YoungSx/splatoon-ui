@@ -27,7 +27,7 @@ import { WeaponsGalleryCarousel } from '@/components/ui/weapons-gallery-carousel
 import { ShopsGalleryCarousel } from '@/components/ui/shops-gallery-carousel'
 import { MarqueeCarousel } from '@/components/ui/marquee-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
-import { GridNewsCard } from '@/components/ui/grid-news-card'
+import { StapleCard } from '@/components/ui/staple-card'
 import { HeadingTape } from '@/components/ui/heading-tape'
 import { Section } from '@/components/ui/section'
 import { TapeTitle } from '@/components/ui/tape-title'
@@ -877,7 +877,7 @@ export default function Home() {
             <InViewStagger rootMargin="-30px">
             <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 pt-6">
               {/* Yellow Tag */}
-              <Card variant="tag" tagTheme="yellow" tagRotation="-2deg">
+              <Card variant="rugged" ruggedTheme="yellow" ruggedRotation="-2deg">
                 <CardHeader>
                   <CardTitle>Fit Check!</CardTitle>
                 </CardHeader>
@@ -899,7 +899,7 @@ export default function Home() {
               </Card>
 
               {/* Blue Tag */}
-              <Card variant="tag" tagTheme="blue" tagRotation="3deg">
+              <Card variant="rugged" ruggedTheme="blue" ruggedRotation="3deg">
                 <CardHeader>
                   <CardTitle>Turf War</CardTitle>
                 </CardHeader>
@@ -921,7 +921,7 @@ export default function Home() {
               </Card>
 
               {/* Purple Tag */}
-              <Card variant="tag" tagTheme="purple" tagRotation="-1deg">
+              <Card variant="rugged" ruggedTheme="purple" ruggedRotation="-1deg">
                 <CardHeader>
                   <CardTitle>Plaza Tour</CardTitle>
                 </CardHeader>
@@ -1221,36 +1221,36 @@ export default function Home() {
 
                 <CardGrid className="mt-6">
                   <CardGridGroup>
-                    <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
+                    <StapleCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
                       <div className="space-y-3 p-4">
                         <p className="text-sm uppercase tracking-[0.35em] text-[#603bff]">News Grid</p>
                         <h4 className="text-xl font-black">Official grid news card</h4>
                         <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
                       </div>
-                    </GridNewsCard>
-                    <GridNewsCard image={<div className="h-full w-full bg-[#fa5a00] flex items-center justify-center text-white">B</div>}>
+                    </StapleCard>
+                    <StapleCard image={<div className="h-full w-full bg-[#fa5a00] flex items-center justify-center text-white">B</div>}>
                       <div className="space-y-3 p-4">
                         <p className="text-sm uppercase tracking-[0.35em] text-[#fa5a00]">News Grid</p>
                         <h4 className="text-xl font-black">Secondary story block</h4>
                         <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
                       </div>
-                    </GridNewsCard>
+                    </StapleCard>
                   </CardGridGroup>
                   <CardGridGroup>
-                    <GridNewsCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
+                    <StapleCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
                       <div className="space-y-3 p-4">
                         <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
                         <h4 className="text-xl font-black">Community update</h4>
                         <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
                       </div>
-                    </GridNewsCard>
-                    <GridNewsCard image={<div className="h-full w-full bg-[#ff585e] flex items-center justify-center text-white">D</div>}>
+                    </StapleCard>
+                    <StapleCard image={<div className="h-full w-full bg-[#ff585e] flex items-center justify-center text-white">D</div>}>
                       <div className="space-y-3 p-4">
                         <p className="text-sm uppercase tracking-[0.35em] text-[#ff585e]">News Grid</p>
                         <h4 className="text-xl font-black">Event highlight</h4>
                         <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
                       </div>
-                    </GridNewsCard>
+                    </StapleCard>
                   </CardGridGroup>
                 </CardGrid>
               </BlackTapeContainer>

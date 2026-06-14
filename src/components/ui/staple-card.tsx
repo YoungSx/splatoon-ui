@@ -1,9 +1,9 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import styles from "./grid-news-card.module.css"
+import styles from "./staple-card.module.css"
 
-export interface GridNewsCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface StapleCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Image/media shown in the tilted image area */
   image?: React.ReactNode
   /** Convenience: renders a title paragraph in the info area */
@@ -20,7 +20,7 @@ export interface GridNewsCardProps extends Omit<React.HTMLAttributes<HTMLDivElem
   children?: React.ReactNode
 }
 
-export function GridNewsCard({
+export function StapleCard({
   image,
   title,
   subtitle,
@@ -30,13 +30,13 @@ export function GridNewsCard({
   className,
   children,
   ...props
-}: GridNewsCardProps) {
+}: StapleCardProps) {
   const isDark = surface === "dark"
   const svgFill = isDark ? "#1a1a1a" : "#FFF"
 
   return (
     <div
-      className={cn(styles.gridNewsCard, isDark && styles.surfaceDark, className)}
+      className={cn(styles.stapleCard, isDark && styles.surfaceDark, className)}
       {...props}
     >
       <div className={styles.card}>

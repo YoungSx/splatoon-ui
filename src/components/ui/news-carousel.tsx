@@ -10,7 +10,7 @@ import {
   CardStackCarouselPrevious,
   CardStackCarouselScene,
 } from "@/components/ui/card-stack-carousel"
-import { GridNewsCard, type GridNewsCardProps } from "@/components/ui/grid-news-card"
+import { StapleCard, type StapleCardProps } from "@/components/ui/staple-card"
 
 const newsCarouselItemShellStyle = {
   width: "clamp(16.5rem, 19vw, 23rem)",
@@ -18,7 +18,7 @@ const newsCarouselItemShellStyle = {
 
 export interface NewsCarouselItem
   extends Pick<
-    GridNewsCardProps,
+    StapleCardProps,
     "image" | "title" | "subtitle" | "action" | "surface" | "showTape"
   > {
   id: React.Key
@@ -40,7 +40,7 @@ export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
               data-index={index}
               shellStyle={newsCarouselItemShellStyle}
             >
-              <GridNewsCard
+              <StapleCard
                 className={item.cardClassName}
                 image={item.image}
                 title={item.title}
