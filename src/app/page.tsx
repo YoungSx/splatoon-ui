@@ -964,7 +964,7 @@ export default function Home() {
                 <div className="grid gap-8 md:grid-cols-2">
                   {/* Buttons Card (Adapting Card) */}
                   <Card
-                    variant="news"
+                    variant="staple"
                     surface="cream"
                   >
                     <CardHeader>
@@ -987,7 +987,7 @@ export default function Home() {
 
                   {/* Badges Card */}
                   <Card
-                    variant="news"
+                    variant="staple"
                     surface="cream"
                   >
                     <CardHeader>
@@ -1005,7 +1005,7 @@ export default function Home() {
 
                   {/* InView Demo Card */}
                   <Card
-                    variant="news"
+                    variant="staple"
                     surface="cream"
                     className="md:col-span-2"
                   >
@@ -1062,7 +1062,7 @@ export default function Home() {
 
                   {/* Loader Card — full width span in 2-col grid */}
                   <Card
-                    variant="news"
+                    variant="staple"
                     surface="cream"
                     className="md:col-span-2"
                   >
@@ -1097,7 +1097,7 @@ export default function Home() {
                 <div className="grid gap-8 md:grid-cols-2">
                   {/* Form Fields & Selection Inputs */}
                   <Card
-                    variant="news"
+                    variant="staple"
                     surface="cream"
                   >
                     <CardHeader>
@@ -1162,7 +1162,7 @@ export default function Home() {
 
                   {/* Alert Card */}
                   <Card
-                    variant="news"
+                    variant="staple"
                     surface="cream"
                   >
                     <CardHeader>
@@ -1189,6 +1189,7 @@ export default function Home() {
                 </div>
               </TabsContent>
             </Tabs>
+
           </div>
         </div>
       </Section>

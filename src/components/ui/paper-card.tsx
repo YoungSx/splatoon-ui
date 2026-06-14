@@ -80,9 +80,9 @@ function PaperCardBottomBorder({ fill }: { fill: string }) {
   )
 }
 
-// ── PaperCardFrame ──────────────────────────────────────────────
+// ── PaperCard ──────────────────────────────────────────────────
 
-interface PaperCardFrameProps {
+interface PaperCardProps {
   className?: string
   dataVariant: "news"
   surface: NewsSurface
@@ -95,7 +95,7 @@ interface PaperCardFrameProps {
   props?: Omit<React.ComponentProps<"div">, "children" | "className">
 }
 
-export function PaperCardFrame({
+export function PaperCard({
   className,
   dataVariant,
   surface,
@@ -106,7 +106,7 @@ export function PaperCardFrame({
   children,
   forwardedRef,
   props,
-}: PaperCardFrameProps) {
+}: PaperCardProps) {
   const svgFills = newsSurfaceFillMap[surface]
   const { style: propStyle, ...restProps } = props ?? {}
 

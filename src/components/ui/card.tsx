@@ -3,37 +3,46 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { PaperCardFrame, type NewsSurface, type PaperLabelConfig } from "./paper-card-frame"
-import { PlainCard, type PlainStyle } from "./plain-card"
+import { PaperCard, type NewsSurface, type PaperLabelConfig } from "./paper-card"
+import { GridNewsCard, type GridNewsCardProps } from "./grid-news-card"
 import { TagCard, type TagTheme } from "./tag-card"
 
 // ── CardContext for variant-sharing among sub-components ────────
 
-type CardVariant = "news" | "tag" | "plain"
+type CardVariant = "staple" | "tag" | "rugged"
 
 export const CardContext = React.createContext<{ variant?: CardVariant; surface?: "paper" | "cream" | "danger" }>({
-  variant: "news",
+  variant: "staple",
   surface: "paper",
 })
 
 // ── Card Props ──────────────────────────────────────────────────
 
-export interface CardProps extends React.ComponentProps<"div"> {
+export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
   variant?: CardVariant
   paperFasteners?: boolean
   paperLabel?: PaperLabelConfig
   surface?: NewsSurface
-  /** Show sticker-9 overlay decoration (news variant only) */
+  /** Show sticker-9 overlay decoration (staple variant only) */
   showSticker9?: boolean
-  /** Index for built-in rotation stagger (news variant only) */
+  /** Index for built-in rotation stagger (staple variant only) */
   staggerIndex?: number
   // For tag variant
   tagTheme?: TagTheme
   tagRotation?: string
   /** Custom background ReactNode for tag variant (replaces built-in SVG) */
   tagBackground?: React.ReactNode
-  // For plain variant
-  plainStyle?: PlainStyle
+  // For rugged variant
+  /** Image/media shown in the tilted image area */
+  image?: React.ReactNode
+  /** Convenience: renders a title paragraph in the info area */
+  title?: React.ReactNode
+  /** Convenience: renders a subtitle paragraph below the title */
+  subtitle?: React.ReactNode
+  /** Convenience: renders an action element at the bottom of info */
+  action?: React.ReactNode
+  /** Whether to show the decorative tape element at the top */
+  showTape?: boolean
 }
 
 // ── Card Component (thin dispatcher) ───────────────────────────
@@ -41,7 +50,7 @@ export interface CardProps extends React.ComponentProps<"div"> {
 function Card({
   ref,
   className,
-  variant = "news",
+  variant = "staple",
   paperFasteners,
   paperLabel,
   surface = "paper",
@@ -50,21 +59,15 @@ function Card({
   tagTheme,
   tagRotation,
   tagBackground,
-  plainStyle,
+  image,
+  title,
+  subtitle,
+  action,
+  showTape,
   children,
   ...props
 }: CardProps & { ref?: React.Ref<HTMLDivElement> }) {
   const ctx = { variant, surface }
-
-  if (variant === "plain") {
-    return (
-      <CardContext.Provider value={ctx}>
-        <PlainCard ref={ref} className={className} plainStyle={plainStyle} {...props}>
-          {children}
-        </PlainCard>
-      </CardContext.Provider>
-    )
-  }
 
   if (variant === "tag") {
     return (
@@ -76,9 +79,28 @@ function Card({
     )
   }
 
+  if (variant === "rugged") {
+    return (
+      <CardContext.Provider value={ctx}>
+        <GridNewsCard
+          className={className}
+          image={image}
+          title={title}
+          subtitle={subtitle}
+          action={action}
+          surface={surface === "danger" ? "dark" : surface === "cream" ? "white" : surface as "white" | "dark"}
+          showTape={showTape}
+          {...props}
+        >
+          {children}
+        </GridNewsCard>
+      </CardContext.Provider>
+    )
+  }
+
   return (
     <CardContext.Provider value={ctx}>
-      <PaperCardFrame
+      <PaperCard
         className={className}
         dataVariant="news"
         surface={surface}
@@ -90,7 +112,7 @@ function Card({
         props={props}
       >
         {children}
-      </PaperCardFrame>
+      </PaperCard>
     </CardContext.Provider>
   )
 }
