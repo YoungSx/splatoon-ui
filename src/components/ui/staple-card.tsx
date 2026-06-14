@@ -61,17 +61,6 @@ export function StapleCard({
               <img alt="" src="/images/news/news-staple-right.png" />
             </picture>
           </div>
-          {showTape && (
-            <div className={styles.tapeNews}>
-              <picture>
-                <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.webp 1x, /images/tape-assets/sticker-9-medium-up-2x.webp 2x" type="image/webp" />
-                <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.png 1x, /images/tape-assets/sticker-9-medium-up-2x.png 2x" type="image/png" />
-                <source srcSet="/images/tape-assets/sticker-9.webp 1x, /images/tape-assets/sticker-9-2x.webp 2x" type="image/webp" />
-                <source srcSet="/images/tape-assets/sticker-9.png 1x, /images/tape-assets/sticker-9-2x.png 2x" type="image/png" />
-                <img alt="" src="/images/tape-assets/sticker-9.png" width={96} height={31} />
-              </picture>
-            </div>
-          )}
           <div className={styles.image}>{image}</div>
           <div className={styles.info}>
             {children ?? (
@@ -83,6 +72,17 @@ export function StapleCard({
             )}
           </div>
         </div>
+        {showTape && (
+          <div className={styles.tapeNews}>
+            <picture>
+              <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.webp 1x, /images/tape-assets/sticker-9-medium-up-2x.webp 2x" type="image/webp" />
+              <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.png 1x, /images/tape-assets/sticker-9-medium-up-2x.png 2x" type="image/png" />
+              <source srcSet="/images/tape-assets/sticker-9.webp 1x, /images/tape-assets/sticker-9-2x.webp 2x" type="image/webp" />
+              <source srcSet="/images/tape-assets/sticker-9.png 1x, /images/tape-assets/sticker-9-2x.png 2x" type="image/png" />
+              <img alt="" src="/images/tape-assets/sticker-9.png" width={96} height={31} />
+            </picture>
+          </div>
+        )}
         <svg className={styles.cardBottom} viewBox="0 0 448 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M0 .826c0 9.527 5.976 17.64 14.378 20.862 2.49.955 5.184 1.5 8.01 1.5h403.223c4.635 0 8.94-1.407 12.514-3.816C444.082 15.354 448 8.548 448 .826H0Z" fill={svgFill} fillRule="evenodd"/>
         </svg>
