@@ -16,6 +16,8 @@ export interface StapleCardProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   surface?: "white" | "dark"
   /** Whether to show the decorative tape element at the top */
   showTape?: boolean
+  /** Enable hover tilt animation (default: false) */
+  hoverTilt?: boolean
   className?: string
   children?: React.ReactNode
 }
@@ -27,6 +29,7 @@ export function StapleCard({
   action,
   surface = "white",
   showTape = true,
+  hoverTilt = false,
   className,
   children,
   ...props
@@ -39,7 +42,7 @@ export function StapleCard({
       className={cn(styles.stapleCard, isDark && styles.surfaceDark, className)}
       {...props}
     >
-      <div className={styles.card}>
+      <div className={cn(styles.card, hoverTilt && styles.hoverTilt)}>
         <svg className={styles.cardTop} viewBox="0 0 448 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M253.96 23.774a4.711 4.711 0 0 1-4.693 4.328h-49.535c-.131 0-.255-.027-.384-.038-2.431-.198-4.348-2.205-4.348-4.68a4.724 4.724 0 0 1 4.732-4.716h18.204c-.006-.106-.017-.21-.017-.315 0-3.452 2.808-6.25 6.27-6.25h.62a6.26 6.26 0 0 1 5.038 2.54 6.194 6.194 0 0 1 1.233 3.71c0 .106-.01.21-.016.315H249.267c2.614 0 4.733 2.111 4.733 4.717 0 .133-.029.258-.04.389M53.446.102H9.693C4.34.102 0 4.437 0 9.782v50.044h448V9.783c0-5.346-4.338-9.68-9.693-9.68H53.445Z" fill={svgFill} fillRule="evenodd"/>
         </svg>

@@ -19,7 +19,7 @@ const newsCarouselItemShellStyle = {
 export interface NewsCarouselItem
   extends Pick<
     StapleCardProps,
-    "image" | "title" | "subtitle" | "action" | "surface" | "showTape"
+    "image" | "title" | "subtitle" | "action" | "surface" | "showTape" | "hoverTilt"
   > {
   id: React.Key
   cardClassName?: string
@@ -48,6 +48,7 @@ export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
                 action={item.action}
                 surface={item.surface}
                 showTape={item.showTape}
+                hoverTilt={item.hoverTilt}
               />
             </CardStackCarouselItem>
           ))}

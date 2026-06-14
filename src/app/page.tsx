@@ -83,6 +83,7 @@ import {
 
 const homepageNewsCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
   id: item,
+  hoverTilt: true,
   paperLabel: {
     text: `SNAP 0${item}`,
     color: item % 2 === 0 ? "yellow" as const : "blue" as const,

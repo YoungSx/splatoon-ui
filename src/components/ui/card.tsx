@@ -36,6 +36,8 @@ export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
   action?: React.ReactNode
   /** Whether to show the decorative tape element at the top */
   showTape?: boolean
+  /** Enable hover tilt animation (staple/paper variant) */
+  hoverTilt?: boolean
 }
 
 // ── Card Component (thin dispatcher) ───────────────────────────
@@ -52,6 +54,7 @@ function Card({
   subtitle,
   action,
   showTape,
+  hoverTilt,
   children,
   ...props
 }: CardProps) {
@@ -81,6 +84,7 @@ function Card({
         action={action}
         surface={surface}
         showTape={isStaple ? (showTape ?? true) : false}
+        hoverTilt={hoverTilt}
         {...props}
       >
         {children}

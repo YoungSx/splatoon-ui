@@ -37,7 +37,7 @@ export function RuggedCard({
       data-variant="rugged"
       style={{ transform: `rotate(${ruggedRotation})` } as React.CSSProperties}
       className={cn(
-        "group/card relative w-full pt-[12%] px-[6%] pb-[8%] transition-transform duration-300 ease-out hover:scale-[1.025] select-none text-center flex flex-col justify-between gap-4 z-10",
+        "group/card relative w-full pt-[12%] px-[6%] pb-[8%] select-none text-center flex flex-col justify-between gap-4 z-10",
         theme.fg,
         className
       )}

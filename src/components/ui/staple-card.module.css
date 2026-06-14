@@ -1,5 +1,4 @@
 .stapleCard {
-  cursor: pointer;
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   height: 100%;
 }
@@ -12,7 +11,7 @@
   transition: transform calc(var(--duration-factor) * .3s) var(--ease-in-out);
 }
 
-.card:hover {
+.card.hoverTilt:hover {
   transform: rotate(2deg);
 }
 
