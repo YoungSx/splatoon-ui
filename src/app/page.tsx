@@ -35,7 +35,7 @@ import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-
 import { SquidCanvasTransition, type SquidCanvasTransitionHandle } from '@/components/ui/squid-canvas-transition'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
 import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
-import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
+import { CardGrid, CardGridGroup } from '@/components/ui/card-grid'
 import { BannerDivider } from '@/components/ui/banner-divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
@@ -1212,14 +1212,14 @@ export default function Home() {
 
               <BlackTapeContainer className="p-6">
                 <HeadingTape>
-                  News Cards Gallery
+                  Card Grid
                 </HeadingTape>
                 <p className="text-sm font-medium">
                   Tape-framed section heading replicating the official Splatoon magazine layout style.
                 </p>
 
-                <NewsCardsGallery className="mt-6">
-                  <NewsCardsGalleryGroup>
+                <CardGrid className="mt-6">
+                  <CardGridGroup>
                     <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
                       <div className="space-y-3 p-4">
                         <p className="text-sm uppercase tracking-[0.35em] text-[#603bff]">News Grid</p>
@@ -1234,8 +1234,8 @@ export default function Home() {
                         <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
                       </div>
                     </GridNewsCard>
-                  </NewsCardsGalleryGroup>
-                  <NewsCardsGalleryGroup>
+                  </CardGridGroup>
+                  <CardGridGroup>
                     <GridNewsCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
                       <div className="space-y-3 p-4">
                         <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
@@ -1250,8 +1250,8 @@ export default function Home() {
                         <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
                       </div>
                     </GridNewsCard>
-                  </NewsCardsGalleryGroup>
-                </NewsCardsGallery>
+                  </CardGridGroup>
+                </CardGrid>
               </BlackTapeContainer>
       </div>
     </Section>
