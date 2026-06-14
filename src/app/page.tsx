@@ -861,7 +861,7 @@ export default function Home() {
         size="md"
         bgColor="bg-white"
         text="text-chaos-black"
-        pattern="chip-white"
+        pattern="camo-purple"
         className="flex flex-col items-center transition-colors duration-300"
       >
         <InteractiveSplatter />
