@@ -64,11 +64,11 @@ export function StapleCard({
           {showTape && (
             <div className={styles.tapeNews}>
               <picture>
-                <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.webp 1x, /images/tape-assets/sticker-9-medium-up-2x.webp 2x" width={146} height={47.5} type="image/webp" />
-                <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.png 1x, /images/tape-assets/sticker-9-medium-up-2x.png 2x" width={146} height={47.5} type="image/png" />
-                <source srcSet="/images/tape-assets/sticker-9.webp 1x, /images/tape-assets/sticker-9-2x.webp 2x" type="image/webp" width={96} height={31} />
-                <source srcSet="/images/tape-assets/sticker-9.png 1x, /images/tape-assets/sticker-9-2x.png 2x" type="image/png" width={96} height={31} />
-                <img alt="" src="/images/tape-assets/sticker-9.png" />
+                <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.webp 1x, /images/tape-assets/sticker-9-medium-up-2x.webp 2x" type="image/webp" />
+                <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.png 1x, /images/tape-assets/sticker-9-medium-up-2x.png 2x" type="image/png" />
+                <source srcSet="/images/tape-assets/sticker-9.webp 1x, /images/tape-assets/sticker-9-2x.webp 2x" type="image/webp" />
+                <source srcSet="/images/tape-assets/sticker-9.png 1x, /images/tape-assets/sticker-9-2x.png 2x" type="image/png" />
+                <img alt="" src="/images/tape-assets/sticker-9.png" width={96} height={31} />
               </picture>
             </div>
           )}

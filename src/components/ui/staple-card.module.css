@@ -55,18 +55,31 @@
   position: absolute;
   right: 0;
   top: 0;
+  display: inline-grid;
+  width: min(40%, 140px);
   transform: translate(-10%, -130%) rotate(10deg);
-  width: 45%;
   z-index: 10;
 }
 
+.tapeEvent img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .tapeNews {
-  left: 0;
   position: absolute;
   top: 0;
+  display: inline-grid;
+  width: min(40%, 140px);
   transform: translate(10%, -130%) rotate(-10deg);
-  width: 45%;
   z-index: 10;
+}
+
+.tapeNews img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .cardBottom {
