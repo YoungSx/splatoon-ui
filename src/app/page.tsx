@@ -309,7 +309,7 @@ export default function Home() {
         sections={[
           { id: 'trailer', number: '01' },
           { id: 'titles', number: '02' },
-          { id: 'icon-button', number: '03' },
+          { id: 'buttons-badges', number: '03' },
           { id: 'overlays', number: '04' },
           { id: 'apparel', number: '05' },
           { id: 'replicas', number: '06' },
@@ -480,7 +480,7 @@ export default function Home() {
          03 — Buttons & Badges
          ──────────────────────────────────────────────────────── */}
       <Section
-        id="icon-button"
+        id="buttons-badges"
         size="lg"
         bgColor="bg-white"
         text="text-chaos-black"
@@ -603,7 +603,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Banner divider: IconButton → Overlays */}
+      {/* Banner divider: Buttons & Badges → Overlays */}
       <BannerDivider pattern="design1" color="purple" animate />
 
       {/* ────────────────────────────────────────────────────────
@@ -1102,7 +1102,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Banner divider: Carousel Variants → Progress */}
+      {/* Banner divider: Carousels → Forms & Feedback */}
       <BannerDivider pattern="design2" color="green" animate />
 
       {/* ────────────────────────────────────────────────────────
