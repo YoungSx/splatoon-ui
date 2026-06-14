@@ -9,7 +9,7 @@ import { TagCard, type TagTheme } from "./tag-card"
 
 // ── CardContext for variant-sharing among sub-components ────────
 
-type CardVariant = "staple" | "tag" | "rugged"
+type CardVariant = "paper" | "staple" | "tag" | "rugged"
 
 export const CardContext = React.createContext<{ variant?: CardVariant; surface?: "paper" | "cream" | "danger" }>({
   variant: "staple",
@@ -98,6 +98,9 @@ function Card({
     )
   }
 
+  // paper and staple both render PaperCard
+  const isStaple = variant === "staple"
+
   return (
     <CardContext.Provider value={ctx}>
       <PaperCard
@@ -105,7 +108,7 @@ function Card({
         dataVariant="news"
         surface={surface}
         paperLabel={paperLabel}
-        paperFasteners={paperFasteners ?? false}
+        paperFasteners={isStaple && (paperFasteners ?? true)}
         showSticker9={showSticker9}
         staggerIndex={staggerIndex}
         forwardedRef={ref}
