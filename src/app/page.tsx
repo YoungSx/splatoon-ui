@@ -1195,10 +1195,10 @@ export default function Home() {
       <Section
         id="progress"
         size="md"
+        bgColor="bg-[#0d0d0d]"
         text="text-white"
         pattern="camo-black"
         className="flex flex-col items-center"
-        style={{ backgroundColor: "#0d0d0d" }}
         headingTape={
           <div className="text-center">
             <HeadingTape color="green">Ink Progress Bar</HeadingTape>
