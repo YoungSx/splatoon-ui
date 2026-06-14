@@ -1,0 +1,68 @@
+import * as React from 'react'
+import { cn } from '@/lib/utils'
+import navStyles from './nav-menu-button.module.css'
+import styles from './wave-button.module.css'
+
+export type WaveButtonVariant = 'yellow' | 'white' | 'ghost'
+export type WaveButtonSize = 'md' | 'lg'
+export type WaveButtonAnimation = 'morph' | 'none'
+
+export interface WaveButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  /** Visual variant — controls background color */
+  variant?: WaveButtonVariant
+  /** Button size */
+  size?: WaveButtonSize
+  /** Custom icon node. Defaults to the hamburger→X line animation. Pass null for no icon. */
+  icon?: React.ReactNode
+  /** Blob border-radius animation */
+  animation?: WaveButtonAnimation
+}
+
+const VARIANT_CLASS: Record<WaveButtonVariant, string> = {
+  yellow: styles.yellow,
+  white: styles.white,
+  ghost: styles.ghost,
+}
+
+const SIZE_CLASS: Record<WaveButtonSize, string> = {
+  md: styles.md,
+  lg: styles.lg,
+}
+
+const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(
+  function WaveButton(
+    {
+      variant = 'yellow',
+      size = 'md',
+      icon,
+      animation = 'morph',
+      className,
+      ...props
+    },
+    ref,
+  ) {
+    return (
+      <button
+        ref={ref}
+        className={cn(
+          VARIANT_CLASS[variant],
+          SIZE_CLASS[size],
+          navStyles.iconWrap,
+          animation === 'morph' && navStyles.morph,
+          navStyles.pressed,
+          'grid place-content-center cursor-pointer',
+          className,
+        )}
+        {...props}
+      >
+        {icon !== null && (
+          icon ?? (
+            <span data-menu-trigger-line="" className={navStyles.icon} />
+          )
+        )}
+      </button>
+    )
+  },
+)
+
+export { WaveButton }

@@ -7,11 +7,10 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { createTriggerButton } from "@/components/ui/trigger-button"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
-import { Tape } from "./tape"
-import { XIcon } from "lucide-react"
+
 import { InkSplashCanvas } from "./ink-splash-canvas"
 import { power3In } from "@/lib/wobble-math"
-import navStyles from "@/components/ui/nav-menu-button.module.css"
+import { WaveButton } from "./wave-button"
 
 const CLOSE_DELAY = 1200
 const DURATION_IN = 700
@@ -99,10 +98,6 @@ function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-function DialogClose({ ...props }: DialogPrimitive.Close.Props) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
-}
-
 function DialogOverlay({
   className,
   ...props
@@ -122,8 +117,6 @@ function DialogOverlay({
 interface DialogContentProps extends DialogPrimitive.Popup.Props {
   showCloseButton?: boolean
   hasTape?: boolean
-  tapeText?: string
-  tapeColor?: "yellow" | "red" | "blue" | "green"
   tapePosition?: "news" | "event"
   surface?: "paper" | "cream" | "danger"
   fullScreen?: boolean
@@ -310,11 +303,8 @@ function DialogContentFullScreen({
       )}
 
       {isModalMounted && showCloseButton && (
-        <DialogPrimitive.Close
-          className={cn(
-            navStyles.iconWrap, navStyles.morph, navStyles.pressed,
-            'fixed z-[120] cursor-pointer right-4 top-5 sm:right-8 sm:top-8',
-          )}
+        <WaveButton
+          className="fixed z-[120] right-4 top-5 sm:right-8 sm:top-8"
           style={{
             opacity: modalActive && !modalHeadingOut ? 1 : 0,
             transform: `translateX(${modalActive && !modalHeadingOut ? '0' : '200%'})`,
@@ -326,9 +316,7 @@ function DialogContentFullScreen({
             transitionDelay: modalHeadingOut ? '0s' : '0.5s',
           }}
           onClick={handleClose}
-        >
-          <span data-menu-trigger-line="" className={navStyles.icon} />
-        </DialogPrimitive.Close>
+        />
       )}
     </DialogPrimitive.Portal>
   )
@@ -341,8 +329,6 @@ function DialogContent({
   children,
   showCloseButton = true,
   hasTape = true,
-  tapeText = "ALERT!",
-  tapeColor = "yellow",
   tapePosition = "news",
   surface = "paper",
   fullScreen = false,
@@ -393,31 +379,33 @@ function DialogContent({
           />
         </svg>
 
-        <div className={cn("relative z-10 px-8 py-4 flex flex-col gap-4 border-l-[3px] border-r-[3px] border-chaos-black", fillInfo.bg)}>
-          {hasTape && (
-            <Tape
-              variant="torn"
-              color={tapeColor}
-              text={tapeText}
-              className={cn(
-                "absolute z-30 select-none pointer-events-none w-[35%] max-w-[120px]",
-                tapePosition === "news"
-                  ? "left-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(-12deg)]"
-                  : "right-6 -top-5 origin-center [transform:translate(0,-50%)_rotate(12deg)]"
-              )}
-            />
-          )}
+        {hasTape && (
+          <div
+            className={cn(
+              "absolute top-0 inline-grid z-30 select-none pointer-events-none",
+              tapePosition === "news"
+                ? "left-0 translate-x-[10px] -translate-y-[25px] -rotate-[10deg]"
+                : "right-0 -translate-x-[10px] -translate-y-[15px] rotate-[10deg]"
+            )}
+            style={{ width: 140 }}
+          >
+            <picture>
+              <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.webp 1x, /images/tape-assets/sticker-9-medium-up-2x.webp 2x" type="image/webp" />
+              <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.png 1x, /images/tape-assets/sticker-9-medium-up-2x.png 2x" type="image/png" />
+              <source srcSet="/images/tape-assets/sticker-9.webp 1x, /images/tape-assets/sticker-9-2x.webp 2x" type="image/webp" />
+              <source srcSet="/images/tape-assets/sticker-9.png 1x, /images/tape-assets/sticker-9-2x.png 2x" type="image/png" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img alt="" src="/images/tape-assets/sticker-9.png" width={96} height={31} />
+            </picture>
+          </div>
+        )}
+
+        <div className={cn("relative z-10 px-8 py-4 flex flex-col gap-4", fillInfo.bg)}>
           {children}
 
           {showCloseButton && (
             <div className="absolute -top-1 -right-3 z-50">
-              <DialogPrimitive.Close
-                data-slot="dialog-close"
-                className="inline-flex items-center justify-center bg-[#eaff3d] text-[#603bff] border-none cursor-pointer p-3 animate-[morph_3s_linear_infinite] transition-transform duration-300 ease-[cubic-bezier(0.21,0.12,0.35,1.43)] hover:scale-110"
-              >
-                <XIcon className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </DialogPrimitive.Close>
+              <WaveButton />
             </div>
           )}
         </div>
@@ -507,7 +495,6 @@ function DialogDescription({
 
 export {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,

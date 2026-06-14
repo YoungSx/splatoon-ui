@@ -1,0 +1,29 @@
+/* WaveButton variant & size classes.
+   Animation classes (morph, icon, pressed) live in nav-menu-button.module.css
+   and are shared with NavMenuButton. */
+
+/* ── Variants ── */
+
+.yellow {
+  background-color: var(--color-yellow, #eaff3d);
+}
+
+.white {
+  background-color: #ffffff;
+}
+
+.ghost {
+  background-color: transparent;
+}
+
+/* ── Sizes ── */
+
+.md {
+  height: 48px;
+  width: 48px;
+}
+
+.lg {
+  height: 64px;
+  width: 64px;
+}

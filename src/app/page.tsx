@@ -640,7 +640,7 @@ export default function Home() {
                 <div className="flex flex-wrap gap-3">
                   <Dialog>
                     <DialogTriggerButton variant="yellow" theme="dark-yellow">Yellow Dialog</DialogTriggerButton>
-                    <DialogContent surface="paper" hasTape={true} tapeText="ALERT!" tapeColor="yellow">
+                    <DialogContent surface="paper" hasTape={true}>
                       <DialogHeader>
                         <DialogTitle>Splatfest Incoming!</DialogTitle>
                         <DialogDescription>The next Splatfest battle is starting soon. Select your team!</DialogDescription>
@@ -657,7 +657,7 @@ export default function Home() {
 
                   <Dialog>
                     <DialogTriggerButton variant="blue" theme="light-blue">Blue Dialog</DialogTriggerButton>
-                    <DialogContent surface="cream" hasTape={true} tapeText="EVENT INFO" tapeColor="blue" tapePosition="event">
+                    <DialogContent surface="cream" hasTape={true} tapePosition="event">
                       <DialogHeader>
                         <DialogTitle>Big Run Event</DialogTitle>
                         <DialogDescription>Salmonids are invading Wahoo World! Team up to defend.</DialogDescription>
@@ -667,7 +667,7 @@ export default function Home() {
 
                   <Dialog>
                     <DialogTriggerButton variant="destructive" theme="light-red">Danger Dialog</DialogTriggerButton>
-                    <DialogContent surface="danger" hasTape={true} tapeText="DANGER!" tapeColor="red">
+                    <DialogContent surface="danger" hasTape={true}>
                       <DialogHeader>
                         <DialogTitle className="text-white">Connection Lost</DialogTitle>
                         <DialogDescription className="text-white/80">Disconnected from battle lobby.</DialogDescription>
