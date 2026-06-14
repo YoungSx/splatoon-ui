@@ -34,10 +34,8 @@ import { TapeTitle } from '@/components/ui/tape-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
 import { SquidMaskTransition, type SquidMaskTransitionHandle } from '@/components/ui/squid-mask-transition'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
-import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
 import { CardGrid, CardGridGroup } from '@/components/ui/card-grid'
 import { BannerDivider } from '@/components/ui/banner-divider'
-import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
 import { Loader } from '@/components/ui/loader'
 import { IconButton } from '@/components/ui/icon-button'
@@ -267,133 +265,6 @@ function PageTransitionDemo() {
   )
 }
 
-// ── Splatoon Title Demo ─────────────────────────────────────────────────────
-
-function SplatoonTitleDemo() {
-  const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
-
-  return (
-    <Section
-      size="md"
-      bgColor="bg-white"
-      text="text-chaos-black"
-      pattern="chip-white"
-      className="overflow-hidden transition-colors duration-300"
-      headingTape={
-        <HeadingTape color="purple" className="text-center">
-          Splatoon Titles
-        </HeadingTape>
-      }
-    >
-      <InView direction="up" rootMargin="-50px">
-      <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
-        <p className="text-center text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
-          使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
-        </p>
-
-        <div className="space-y-8">
-          {/* Official logo */}
-          <div className="text-center">
-            <SplatoonTitle variant="logo" size="xl" animate>
-              Splatoon Logo
-            </SplatoonTitle>
-          </div>
-
-          {/* Official section titles with content images */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {['story', 'character', 'world'].map((section) => (
-              <div
-                key={section}
-                className="relative group cursor-pointer"
-                onMouseEnter={() => setHoveredSection(section)}
-                onMouseLeave={() => setHoveredSection(null)}
-              >
-                {/* Content image */}
-                <div className="aspect-[3/4] overflow-hidden rounded-lg mb-4">
-                  <img
-                    src={`/official/nav-${section}-image.png`}
-                    alt={section}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                </div>
-
-                {/* Title image */}
-                <div className="text-center">
-                  <SplatoonTitle
-                    variant="section"
-                    section={section}
-                    size="md"
-                  >
-                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                  </SplatoonTitle>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-3">
-          <Badge>Official Assets</Badge>
-          <Badge variant="blue">3 Variants</Badge>
-          <Badge variant="green">Hover Effects</Badge>
-          <Badge variant="monochrome">Image + Text</Badge>
-        </div>
-      </div>
-      </InView>
-    </Section>
-  )
-}
-
-// ── Weapon Card Demo (FASHION Section Style) ────────────────────────────────
-
-// ── Splatoon Gallery Demo ───────────────────────────────────────────────────
-
-const GALLERY_ITEMS: GalleryItem[] = [
-  {
-    id: 'splatoon1',
-    title: 'Splatoon',
-    description: 'The original ink-based shooter that started it all.',
-    image: '/official/hero-image.png',
-    section: 'Area 1',
-  },
-  {
-    id: 'splatoon2',
-    title: 'Splatoon 2',
-    description: 'The sequel that brought Salmon Run and new weapons.',
-    image: '/official/kv-image-06.png',
-    section: 'Area 2',
-  },
-  {
-    id: 'splatoon3',
-    title: 'Splatoon 3',
-    description: 'The latest entry with Splatfest and Tri-Stringer.',
-    image: '/official/banner_4.png',
-    section: 'Area 3',
-  },
-  {
-    id: 'splatfest',
-    title: 'Splatfests',
-    description: 'Team-based festival battles with unique themes.',
-    image: '/official/slider_banner_1.png',
-    section: 'Fest',
-  },
-  {
-    id: 'event',
-    title: 'Special Events',
-    description: 'Limited-time events with exclusive rewards.',
-    image: '/official/slider_banner_7.png',
-    section: 'Event',
-  },
-  {
-    id: 'graffiti',
-    title: 'Graffiti',
-    description: 'Street art and ink graffiti from the Splatoon world.',
-    image: '/official/thumnail_112.png',
-    section: 'Graffiti',
-  },
-]
-
 // ── Carousel Demo Data ──────────────────────────────────────────────────────
 
 const weaponsGalleryItems = [
@@ -425,7 +296,6 @@ const marqueeItems = [
 ]
 
 export default function Home() {
-  const [hoveredSection, setHoveredSection] = React.useState<string | null>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
 
   return (
@@ -578,8 +448,6 @@ export default function Home() {
                 <div
                   key={section}
                   className="relative group cursor-pointer"
-                  onMouseEnter={() => setHoveredSection(section)}
-                  onMouseLeave={() => setHoveredSection(null)}
                 >
                   <div className="aspect-[3/4] overflow-hidden rounded-lg mb-4">
                     <img
