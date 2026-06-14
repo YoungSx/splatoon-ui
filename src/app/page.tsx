@@ -583,92 +583,44 @@ export default function Home() {
             </div>
           </InView>
 
-          {/* Official carousel arrows — the exact buttons used on splatoon.nintendo.com */}
+          {/* Variants + Sizes */}
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
-              <h3 className="text-lg font-black uppercase tracking-wider text-center">Carousel Navigation</h3>
-              <p className="text-xs text-chaos-black/50 text-center">Official gallery arrows with continuous squish animation — 60px circle, no border, no shadow</p>
-              <div className="flex flex-wrap items-center justify-center gap-8">
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="lg" direction="left" animation="squish" aria-label="Previous" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Left squish</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Next" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Right squish</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="lg" disabled aria-label="Disabled" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Disabled</span>
-                </div>
+              <h3 className="text-lg font-black uppercase tracking-wider text-center">Variants &amp; Sizes</h3>
+              <p className="text-xs text-chaos-black/50 text-center">6 color themes · size prop overrides variant defaults</p>
+              <div className="flex flex-wrap items-center justify-center gap-5">
+                {(['carousel', 'primary', 'yellow', 'accent', 'ghost', 'outline'] as const).map((v) => (
+                  <div key={v} className="flex flex-col items-center gap-3">
+                    <IconButton variant={v} size="lg" direction="right" animation="squish" aria-label={v} />
+                    <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">{v}</span>
+                  </div>
+                ))}
               </div>
-            </div>
-          </InView>
-
-          {/* All size variants */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-6">
-              <h3 className="text-lg font-black uppercase tracking-wider text-center">Size Variants</h3>
-              <p className="text-xs text-chaos-black/50 text-center">sm=40px · md=48px · lg=60px (official default)</p>
               <div className="flex flex-wrap items-end justify-center gap-6">
                 <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="sm" direction="right" animation="squish" aria-label="Small" />
+                  <IconButton size="sm" direction="right" animation="squish" aria-label="Small" />
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">sm 40px</span>
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="md" direction="right" animation="squish" aria-label="Medium" />
+                  <IconButton size="md" direction="right" animation="squish" aria-label="Medium" />
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">md 48px</span>
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Large" />
+                  <IconButton size="lg" direction="right" animation="squish" aria-label="Large" />
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">lg 60px</span>
                 </div>
               </div>
             </div>
           </InView>
 
-          {/* Color variants */}
+          {/* Behavior: animation, disabled, custom icon */}
           <InView direction="up" rootMargin="-50px">
             <div className="space-y-6">
-              <h3 className="text-lg font-black uppercase tracking-wider text-center">Color Variants</h3>
-              <p className="text-xs text-chaos-black/50 text-center">Theme-driven via --color-primary / --color-accent CSS variables</p>
-              <div className="flex flex-wrap items-center justify-center gap-5">
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Carousel" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Carousel</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="primary" size="lg" direction="right" animation="squish" aria-label="Primary" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Primary</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="yellow" size="lg" direction="right" animation="squish" aria-label="Yellow" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Yellow</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="accent" size="lg" direction="right" animation="squish" aria-label="Accent" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Accent</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="ghost" size="lg" direction="right" aria-label="Ghost" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Ghost</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="outline" size="lg" direction="right" aria-label="Outline" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Outline</span>
-                </div>
-              </div>
-            </div>
-          </InView>
-
-          {/* Animation variants */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-6">
-              <h3 className="text-lg font-black uppercase tracking-wider text-center">Animations</h3>
-              <p className="text-xs text-chaos-black/50 text-center">squish = official bouncy squish · pulse = gentle scale · none = static</p>
+              <h3 className="text-lg font-black uppercase tracking-wider text-center">Behavior</h3>
+              <p className="text-xs text-chaos-black/50 text-center">squish · pulse · disabled · custom icon</p>
               <div className="flex flex-wrap items-center justify-center gap-8">
                 <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="lg" direction="right" animation="squish" aria-label="Squish" />
+                  <IconButton size="lg" direction="right" animation="squish" aria-label="Squish" />
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Squish</span>
                 </div>
                 <div className="flex flex-col items-center gap-3">
@@ -676,26 +628,8 @@ export default function Home() {
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Pulse</span>
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="yellow" size="lg" direction="right" animation="none" aria-label="None" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">None</span>
-                </div>
-              </div>
-            </div>
-          </InView>
-
-          {/* Custom icon examples */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-6">
-              <h3 className="text-lg font-black uppercase tracking-wider text-center">Custom Icons</h3>
-              <p className="text-xs text-chaos-black/50 text-center">Pass any SVG via the icon prop — replaces built-in arrow</p>
-              <div className="flex flex-wrap items-center justify-center gap-5">
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="carousel" size="lg" aria-label="Close" icon={
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-6 w-6">
-                      <path d="M18 6L6 18M6 6l12 12" />
-                    </svg>
-                  } />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Close</span>
+                  <IconButton size="lg" disabled aria-label="Disabled" />
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Disabled</span>
                 </div>
                 <div className="flex flex-col items-center gap-3">
                   <IconButton variant="primary" size="lg" aria-label="Play" icon={
@@ -703,15 +637,7 @@ export default function Home() {
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   } />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Play</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="yellow" size="lg" direction="up" animation="squish" aria-label="Up" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Arrow Up</span>
-                </div>
-                <div className="flex flex-col items-center gap-3">
-                  <IconButton variant="ghost" size="lg" direction="down" aria-label="Down" />
-                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Arrow Down</span>
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Custom Icon</span>
                 </div>
               </div>
             </div>

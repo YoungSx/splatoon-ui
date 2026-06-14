@@ -55,6 +55,20 @@
   --size: 60px;
 }
 
+/* ── Explicit size override (data-size beats variant via specificity) ── */
+
+.shell[data-size="sm"] {
+  --size: 40px;
+}
+
+.shell[data-size="md"] {
+  --size: 48px;
+}
+
+.shell[data-size="lg"] {
+  --size: 60px;
+}
+
 /* ── Icon (official) ── */
 
 .icon {
