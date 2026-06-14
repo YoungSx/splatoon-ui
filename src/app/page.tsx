@@ -1212,7 +1212,7 @@ export default function Home() {
 
               <BlackTapeContainer className="p-6">
                 <HeadingTape>
-                  Official Heading Tape
+                  News Cards Gallery
                 </HeadingTape>
                 <p className="text-sm font-medium">
                   Tape-framed section heading replicating the official Splatoon magazine layout style.
