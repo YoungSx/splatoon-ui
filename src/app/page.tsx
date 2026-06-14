@@ -685,17 +685,15 @@ export default function Home() {
                 <p className="text-xs text-white/50">Immersive overlay for media content — use fullScreen prop</p>
                 <div className="flex flex-wrap gap-3">
                   <Dialog>
-                    <DialogTriggerButton variant="purple" theme="dark-purple">Open Video</DialogTriggerButton>
+                    <DialogTriggerButton variant="purple" theme="dark-purple">Open Gallery</DialogTriggerButton>
                     <DialogContent fullScreen>
-                      <div className="relative w-full overflow-hidden bg-black border-4 border-white" style={{ paddingBottom: '56.25%' }}>
-                        <iframe
-                          className="absolute top-0 left-0 w-full h-full"
-                          src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1&autoplay=0&muted=1"
-                          title="Splatoon 3 - Announcement Trailer"
-                          scrolling="no"
-                          frameBorder="0"
-                          allowFullScreen
+                      <div className="flex flex-col items-center justify-center gap-6 p-6">
+                        <img
+                          src="/images/splatoon_inkling.png"
+                          alt="Splatoon Inkling"
+                          className="w-full max-w-4xl rounded-lg"
                         />
+                        <p className="text-white/60 text-sm">Trailer screenshot — fullscreen dialog for immersive content</p>
                       </div>
                     </DialogContent>
                   </Dialog>
