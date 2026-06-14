@@ -8,8 +8,6 @@
  *
  * Usage:
  *   const ref = useRef<PageTransitionHandle>(null)
- *
- *   // To transition to a new page:
  *   await ref.current?.transitionOut()
  *   // ... swap content ...
  *   ref.current?.transitionIn()
@@ -19,33 +17,28 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { InkSplashCanvas } from './ink-splash-canvas'
 
-// ─── Handle ─────────────────im─────────────────────────────────────────────
+// ─── Handle ─────────────────────────────────────────────────────────────────
 
 export interface PageTransitionHandle {
-  /** Start the ink-cover animation (returns when covered) */
   transitionOut: (options?: { color?: string; duration?: number }) => Promise<void>
-  /** Start the ink-reveal animation */
   transitionIn: (options?: { color?: string; duration?: number }) => void
-  /** Current state */
-  readonly state: 'idle' | 'covering' | 'covered' | 'revealing'
+  readonly state: Phase
 }
 
 // ─── Props ──────────────────────────────────────────────────────────────────
 
 export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
-  /** Ink color for transitions */
   inkColor?: string
-  /** Duration for cover animation (ms) */
   durationIn?: number
-  /** Duration for reveal animation (ms) */
   durationOut?: number
-  /** Auto-reveal after covering completes (default: false) */
   autoReveal?: boolean
-  /** Callback when cover animation completes (content is hidden) */
   onCovered?: () => void
-  /** Callback when reveal animation completes (content is visible) */
   onRevealed?: () => void
 }
+
+// ─── Phase ──────────────────────────────────────────────────────────────────
+
+type Phase = 'idle' | 'covering' | 'covered' | 'revealing'
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
@@ -61,105 +54,97 @@ export function PageTransition({
   children,
   ...props
 }: PageTransitionProps & { ref?: React.Ref<PageTransitionHandle> }) {
-    const [canvasState, setCanvasState] = React.useState<'in' | 'out' | 'idle'>('idle')
-    const [covered, setCovered] = React.useState(false)
-    const [transitionState, setTransitionState] = React.useState<
-      'idle' | 'covering' | 'covered' | 'revealing'
-    >('idle')
-    const countRef = React.useRef(0)
-    const coverResolveRef = React.useRef<(() => void) | null>(null)
-    const currentColorRef = React.useRef(inkColor)
+  const [phase, setPhase] = React.useState<Phase>('idle')
+  const countRef = React.useRef(0)
+  const coverResolveRef = React.useRef<(() => void) | null>(null)
+  const currentColorRef = React.useRef(inkColor)
 
-    // ── Expose handle ──────────────────────────────────────────────────────
+  // Derived state
+  const covered = phase === 'covered'
+  const canvasState: 'in' | 'out' | 'idle' =
+    phase === 'covering' ? 'in' : phase === 'revealing' ? 'out' : 'idle'
 
-    React.useImperativeHandle(
-      ref,
-      () => ({
-        transitionOut: (options) => {
-          return new Promise<void>((resolve) => {
-            currentColorRef.current = options?.color ?? inkColor
-            coverResolveRef.current = resolve
-            countRef.current += 1
-            setTransitionState('covering')
-            setCanvasState('in')
-          })
-        },
-        transitionIn: (options) => {
+  // ── Expose handle ──────────────────────────────────────────────────────────
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      transitionOut: (options) => {
+        return new Promise<void>((resolve) => {
           currentColorRef.current = options?.color ?? inkColor
+          coverResolveRef.current = resolve
           countRef.current += 1
-          setTransitionState('revealing')
-          setCanvasState('out')
-        },
-        get state() {
-          return transitionState
-        },
-      }),
-      [inkColor, transitionState],
-    )
+          setPhase('covering')
+        })
+      },
+      transitionIn: (options) => {
+        currentColorRef.current = options?.color ?? inkColor
+        countRef.current += 1
+        setPhase('revealing')
+      },
+      get state() {
+        return phase
+      },
+    }),
+    [inkColor, phase],
+  )
 
-    // ── Handle cover complete ───────────────────────────────────────────────
+  // ── Handle cover complete ──────────────────────────────────────────────────
 
-    const handleCoverComplete = React.useCallback(() => {
-      setCovered(true)
-      setTransitionState('covered')
-      onCovered?.()
-      coverResolveRef.current?.()
-      coverResolveRef.current = null
+  const handleCoverComplete = React.useCallback(() => {
+    setPhase('covered')
+    onCovered?.()
+    coverResolveRef.current?.()
+    coverResolveRef.current = null
 
-      if (autoReveal) {
-        // Auto-start reveal after a brief pause
-        setTimeout(() => {
-          countRef.current += 1
-          setTransitionState('revealing')
-          setCanvasState('out')
-        }, 150)
-      }
-    }, [autoReveal, onCovered])
+    if (autoReveal) {
+      setTimeout(() => {
+        countRef.current += 1
+        setPhase('revealing')
+      }, 150)
+    }
+  }, [autoReveal, onCovered])
 
-    // ── Handle reveal complete ──────────────────────────────────────────────
+  // ── Handle reveal complete ─────────────────────────────────────────────────
 
-    const handleRevealComplete = React.useCallback(() => {
-      setCovered(false)
-      setTransitionState('idle')
-      setCanvasState('idle')
-      onRevealed?.()
-    }, [onRevealed])
+  const handleRevealComplete = React.useCallback(() => {
+    setPhase('idle')
+    onRevealed?.()
+  }, [onRevealed])
 
-    // ── Handle canvas state change ──────────────────────────────────────────
+  // ── Handle canvas state change ─────────────────────────────────────────────
 
-    const handleCanvasComplete = React.useCallback(() => {
-      if (transitionState === 'covering') {
-        handleCoverComplete()
-      } else if (transitionState === 'revealing') {
-        handleRevealComplete()
-      }
-    }, [transitionState, handleCoverComplete, handleRevealComplete])
+  const handleCanvasComplete = React.useCallback(() => {
+    if (phase === 'covering') {
+      handleCoverComplete()
+    } else if (phase === 'revealing') {
+      handleRevealComplete()
+    }
+  }, [phase, handleCoverComplete, handleRevealComplete])
 
-    return (
+  return (
+    <div
+      className={cn('relative w-full h-full', className)}
+      {...props}
+    >
       <div
-        className={cn('relative w-full h-full', className)}
-        {...props}
+        className={cn(
+          'w-full h-full transition-opacity',
+          covered ? 'opacity-0 pointer-events-none' : 'opacity-100',
+        )}
       >
-        {/* Page content — hidden when covered */}
-        <div
-          className={cn(
-            'w-full h-full transition-opacity',
-            covered ? 'opacity-0 pointer-events-none' : 'opacity-100',
-          )}
-        >
-          {children}
-        </div>
-
-        {/* WebGL ink splash overlay */}
-        <InkSplashCanvas
-          state={canvasState}
-          durationIn={durationIn}
-          durationOut={durationOut}
-          color={currentColorRef.current}
-          count={countRef.current}
-          onComplete={handleCanvasComplete}
-          className="pointer-events-none absolute inset-0 z-50"
-        />
+        {children}
       </div>
-    )
-  }
+
+      <InkSplashCanvas
+        state={canvasState}
+        durationIn={durationIn}
+        durationOut={durationOut}
+        color={currentColorRef.current}
+        count={countRef.current}
+        onComplete={handleCanvasComplete}
+        className="pointer-events-none absolute inset-0 z-50"
+      />
+    </div>
+  )
+}

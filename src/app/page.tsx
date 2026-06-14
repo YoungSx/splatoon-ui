@@ -33,6 +33,7 @@ import { Section } from '@/components/ui/section'
 import { TapeTitle } from '@/components/ui/tape-title'
 import { CategoryTitle } from '@/components/ui/category-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
+import { SquidCanvasTransition, type SquidCanvasTransitionHandle } from '@/components/ui/squid-canvas-transition'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
 import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
@@ -117,103 +118,158 @@ const homepageNewsCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
 // ── Page Transition Demo ────────────────────────────────────────────────────
 
 function PageTransitionDemo() {
-  const transitionRef = React.useRef<PageTransitionHandle>(null)
+  const webglRef = React.useRef<PageTransitionHandle>(null)
+  const squidRef = React.useRef<SquidCanvasTransitionHandle>(null)
+  const [variant, setVariant] = React.useState<'webgl' | 'squid'>('webgl')
   const [demoPage, setDemoPage] = React.useState<'home' | 'about' | 'weapons'>('home')
   const [isTransitioning, setIsTransitioning] = React.useState(false)
   const [inkColor, setInkColor] = React.useState('#000000')
 
-  const navigateTo = React.useCallback(async (target: 'home' | 'about' | 'weapons', color: string) => {
+  const navigateTo = React.useCallback(async (target: 'home' | 'about' | 'weapons', mode: 'webgl' | 'squid', color?: string) => {
     if (isTransitioning) return
     setIsTransitioning(true)
-    setInkColor(color)
+    setVariant(mode)
+    if (color) setInkColor(color)
 
-    // Phase 1: Cover with ink
-    await transitionRef.current?.transitionOut({ color })
-    // Phase 2: Swap content (hidden behind ink)
-    setDemoPage(target)
-    // Phase 3: Reveal (handled by autoReveal or manual)
-    transitionRef.current?.transitionIn({ color })
+    if (mode === 'webgl') {
+      await webglRef.current?.transitionOut({ color })
+      setDemoPage(target)
+      webglRef.current?.transitionIn({ color })
+    } else {
+      await squidRef.current?.transitionOut()
+      setDemoPage(target)
+      squidRef.current?.transitionIn()
+    }
   }, [isTransitioning])
 
   const pageContent: Record<string, { title: string; subtitle: string; emoji: string }> = {
-    home: { title: 'INKopolis Square', subtitle: 'The heart of Splatoon 3', emoji: '🏙️' },
-    about: { title: 'Battle Stages', subtitle: 'Where turf wars happen', emoji: '🗺️' },
-    weapons: { title: 'Weapon Shop', subtitle: 'Fresh weapons for fresh squids', emoji: '🔫' },
+    home: { title: 'INKopolis Square', subtitle: 'The heart of Splatoon 3', emoji: '\u{1F3D9}️' },
+    about: { title: 'Battle Stages', subtitle: 'Where turf wars happen', emoji: '\u{1F5FA}️' },
+    weapons: { title: 'Weapon Shop', subtitle: 'Fresh weapons for fresh squids', emoji: '\u{1F52B}' },
   }
 
   const current = pageContent[demoPage]
 
-  return (      <Section
-        size="md"
-        bgColor="bg-white"
-        text="text-chaos-black"
-        pattern="chip-white"
-        className="transition-colors duration-300"
-        headingTape={
-          <HeadingTape color="green" className="text-center">
-            Page Transition
-          </HeadingTape>
-        }
-      >
+  return (
+    <Section
+      size="md"
+      bgColor="bg-white"
+      text="text-chaos-black"
+      pattern="chip-white"
+      className="transition-colors duration-300"
+      headingTape={
+        <HeadingTape color="green" className="text-center">
+          Page Transition
+        </HeadingTape>
+      }
+    >
       <InView direction="up" rootMargin="-50px">
         <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
           <p className="text-center text-chaos-black/60 text-sm font-medium">
-            WebGL ink splash screen transition — ported from official splatoon.nintendo.com shader
+            {variant === 'webgl'
+              ? 'WebGL ink splash — ported from splatoon.nintendo.com shader'
+              : 'Canvas 2D rotating squid mask — ported from Nintendo JP Splatoon Base'}
           </p>
 
-        <PageTransition
-          ref={transitionRef}
-          inkColor={inkColor}
-          durationIn={700}
-          durationOut={1000}
-          autoReveal={false}
-          onRevealed={() => setIsTransitioning(false)}
-          className="w-full h-[320px] rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-[#f5f0e8] transition-colors duration-300"
-        >
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center space-y-3">
-              <p className="text-6xl">{current.emoji}</p>
-              <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider">
-                {current.title}
-              </h3>
-              <p className="text-sm text-chaos-black/50 font-medium">
-                {current.subtitle}
-              </p>
-            </div>
+          {/* Demo box — both components stacked, only active one visible */}
+          <div className="relative w-full h-[320px]">
+            <PageTransition
+              ref={webglRef}
+              inkColor={inkColor}
+              durationIn={700}
+              durationOut={1000}
+              autoReveal={false}
+              onRevealed={() => setIsTransitioning(false)}
+              className={`absolute inset-0 rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-[#f5f0e8] transition-all duration-300 ${
+                variant === 'webgl' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center space-y-3">
+                  <p className="text-6xl">{current.emoji}</p>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider">
+                    {current.title}
+                  </h3>
+                  <p className="text-sm text-chaos-black/50 font-medium">
+                    {current.subtitle}
+                  </p>
+                </div>
+              </div>
+            </PageTransition>
+
+            <SquidCanvasTransition
+              ref={squidRef}
+              durationIn={700}
+              durationOut={1000}
+              autoReveal={false}
+              onRevealed={() => setIsTransitioning(false)}
+              className={`absolute inset-0 rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-[#f5f0e8] transition-all duration-300 ${
+                variant === 'squid' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center space-y-3">
+                  <p className="text-6xl">{current.emoji}</p>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase tracking-wider">
+                    {current.title}
+                  </h3>
+                  <p className="text-sm text-chaos-black/50 font-medium">
+                    {current.subtitle}
+                  </p>
+                </div>
+              </div>
+            </SquidCanvasTransition>
           </div>
-        </PageTransition>
 
-        <div className="flex flex-wrap justify-center gap-3">
-          <Button
-            variant="yellow"
-            onClick={() => navigateTo('home', '#000000')}
-            disabled={isTransitioning || demoPage === 'home'}
-          >
-            🏙️ Inkopolis
-          </Button>
-          <Button
-            variant="blue"
-            onClick={() => navigateTo('about', '#603bff')}
-            disabled={isTransitioning || demoPage === 'about'}
-          >
-            🗺️ Stages
-          </Button>
-          <Button
-            variant="destructive"
-            onClick={() => navigateTo('weapons', '#ff585e')}
-            disabled={isTransitioning || demoPage === 'weapons'}
-          >
-            🔫 Weapons
-          </Button>
-        </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button
+              variant="yellow"
+              onClick={() => navigateTo('home', 'webgl', '#000000')}
+              disabled={isTransitioning || (variant === 'webgl' && demoPage === 'home')}
+            >
+              Inkopolis
+            </Button>
+            <Button
+              variant="blue"
+              onClick={() => navigateTo('about', 'webgl', '#603bff')}
+              disabled={isTransitioning || (variant === 'webgl' && demoPage === 'about')}
+            >
+              Stages
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => navigateTo('weapons', 'webgl', '#ff585e')}
+              disabled={isTransitioning || (variant === 'webgl' && demoPage === 'weapons')}
+            >
+              Weapons
+            </Button>
+            <Button
+              variant="green"
+              onClick={() => navigateTo('home', 'squid')}
+              disabled={isTransitioning || (variant === 'squid' && demoPage === 'home')}
+            >
+              Squid Canvas
+            </Button>
+          </div>
 
-        <div className="flex flex-wrap justify-center gap-3">
-          <Badge>WebGL Shader</Badge>
-          <Badge variant="blue">Simplex Noise</Badge>
-          <Badge variant="green">Ink Cover/Reveal</Badge>
-          <Badge variant="monochrome">Official Port</Badge>
+          <div className="flex flex-wrap justify-center gap-3">
+            {variant === 'webgl' ? (
+              <>
+                <Badge>WebGL Shader</Badge>
+                <Badge variant="blue">Simplex Noise</Badge>
+                <Badge variant="green">Ink Cover/Reveal</Badge>
+                <Badge variant="monochrome">Official Port</Badge>
+              </>
+            ) : (
+              <>
+                <Badge>Canvas 2D</Badge>
+                <Badge variant="blue">Rotating Mask</Badge>
+                <Badge variant="green">source-out</Badge>
+                <Badge variant="monochrome">Nintendo JP Port</Badge>
+              </>
+            )}
+          </div>
         </div>
-      </div>
       </InView>
     </Section>
   )
