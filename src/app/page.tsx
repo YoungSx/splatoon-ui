@@ -477,7 +477,7 @@ export default function Home() {
 
 
       {/* ────────────────────────────────────────────────────────
-         03 — Icon Button
+         03 — Buttons & Badges
          ──────────────────────────────────────────────────────── */}
       <Section
         id="icon-button"
@@ -486,7 +486,7 @@ export default function Home() {
         text="text-chaos-black"
         pattern="chip-white"
         className="transition-colors duration-300"
-        headingTape={<HeadingTape color="blue">Icon Button</HeadingTape>}
+        headingTape={<HeadingTape color="blue">Buttons & Badges</HeadingTape>}
       >
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
           <InView direction="up" rootMargin="-50px">
@@ -555,6 +555,43 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </InView>
+
+          {/* Drip Buttons */}
+          <InView direction="up" rootMargin="-50px">
+            <Card variant="staple" surface="white">
+              <CardHeader>
+                <CardTitle>Drip Buttons</CardTitle>
+                <CardDescription>Featuring liquid-fill math & bouncy rotational physics</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-4 pt-2">
+                <Button variant="yellow" theme="dark-yellow">Yellow</Button>
+                <Button variant="blue" theme="light-blue">Blue</Button>
+                <Button variant="green" theme="light-green">Green</Button>
+                <Button variant="orange" theme="dark-purpleOrange">Orange</Button>
+                <Button variant="purple" theme="dark-purple">Purple</Button>
+                <Button variant="destructive" theme="light-red">Alert</Button>
+                <Button variant="outline" theme="yellow">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+              </CardContent>
+            </Card>
+          </InView>
+
+          {/* Sticker Badges */}
+          <InView direction="up" rootMargin="-50px">
+            <Card variant="staple" surface="white">
+              <CardHeader>
+                <CardTitle>Sticker Badges</CardTitle>
+                <CardDescription>Ink-colored badges with offset shadows and skew</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-3 pt-2">
+                <Badge>Yellow</Badge>
+                <Badge variant="blue">Blue</Badge>
+                <Badge variant="red">Red</Badge>
+                <Badge variant="green">Green</Badge>
+                <Badge variant="sticker">Sticker</Badge>
+              </CardContent>
+            </Card>
           </InView>
 
           <div className="flex flex-wrap justify-center gap-3">
@@ -812,251 +849,144 @@ export default function Home() {
             </InViewStagger>
           </div>
 
-          {/* Sub-Section 2: Other Components Tab Showcase */}
+          {/* Sub-Section 2: Animation & Feedback */}
           <div className="space-y-8">
-            <HeadingTape>3. Interactive Component Showcase</HeadingTape>
-            <p className="text-sm font-medium text-chaos-black/60 mt-1">
-              Toggle between the official tab switcher styles below to preview other UI elements.
-            </p>
+            <HeadingTape>Animation & Feedback</HeadingTape>
 
-            <Tabs defaultValue="preview" className="w-full">
-              {/* TabsList rendering our high-fidelity Skewed Tab Triggers! */}
-              <TabsList className="grid w-full grid-cols-2 gap-6 max-w-xl mx-auto mb-10">
-                <TabsTrigger value="preview">Buttons & Badges</TabsTrigger>
-                <TabsTrigger value="forms">Form Fields & Alerts</TabsTrigger>
-              </TabsList>
-
-              {/* Content Panel 1: Buttons & Badges */}
-              <TabsContent value="preview" className="outline-none">
-                <div className="grid gap-8 md:grid-cols-2">
-                  {/* Buttons Card (Adapting Card) */}
-                  <Card
-                    variant="staple"
-                    surface="white"
-                  >
-                    <CardHeader>
-                      <CardTitle>Drip Buttons</CardTitle>
-                      <CardDescription>Featuring liquid-fill math & bouncy rotational physics</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-wrap gap-4 pt-2">
-                      <Button variant="yellow" theme="dark-yellow">Yellow</Button>
-                      <Button variant="blue" theme="light-blue">Blue</Button>
-                      <Button variant="green" theme="light-green">Green</Button>
-                      <Button variant="orange" theme="dark-purpleOrange">Orange</Button>
-                      <Button variant="purple" theme="dark-purple">Purple</Button>
-                      <Button variant="destructive" theme="light-red">Alert</Button>
-                      <Button variant="outline" theme="yellow">
-                        Outline
-                      </Button>
-                      <Button variant="ghost">Ghost</Button>
-                    </CardContent>
-                  </Card>
-
-                  {/* Badges Card */}
-                  <Card
-                    variant="staple"
-                    surface="white"
-                  >
-                    <CardHeader>
-                      <CardTitle>Sticker Badges</CardTitle>
-                      <CardDescription>Ink-colored badges with offset shadows and skew</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-wrap gap-3 pt-2">
-                      <Badge>Yellow</Badge>
-                      <Badge variant="blue">Blue</Badge>
-                      <Badge variant="red">Red</Badge>
-                      <Badge variant="green">Green</Badge>
-                      <Badge variant="sticker">Sticker</Badge>
-                    </CardContent>
-                  </Card>
-
-                  {/* InView Demo Card */}
-                  <Card
-                    variant="staple"
-                    surface="white"
-                    className="md:col-span-2"
-                  >
-                    <CardHeader>
-                      <CardTitle>InView Animation</CardTitle>
-                      <CardDescription>Official scroll-triggered animation — try scrolling down &amp; back up</CardDescription>
-                    </CardHeader>
-                    <CardContent className="pt-2">
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                        <InView direction="left" rootMargin="-50px">
-                          <div className="rounded-lg bg-[#603bff] p-4 text-center text-sm font-black uppercase tracking-wider text-white">
-                            Left
-                          </div>
-                        </InView>
-                        <InView direction="up" rootMargin="-50px" delay={1}>
-                          <div className="rounded-lg bg-[#a51ee1] p-4 text-center text-sm font-black uppercase tracking-wider text-white">
-                            Up
-                          </div>
-                        </InView>
-                        <InView direction="right" rootMargin="-50px" delay={2}>
-                          <div className="rounded-lg bg-[#ff585e] p-4 text-center text-sm font-black uppercase tracking-wider text-white">
-                            Right
-                          </div>
-                        </InView>
-                        <InView direction="pop" rootMargin="-50px" delay={1}>
-                          <div className="rounded-lg bg-[#eaff3d] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">
-                            Pop
-                          </div>
-                        </InView>
-                        <InView drop rootMargin="-50px" delay={2}>
-                          <div className="rounded-lg bg-[#00c8b4] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">
-                            Drop
-                          </div>
-                        </InView>
-                        <InView drop="slow" rootMargin="-50px" delay={3}>
-                          <div className="rounded-lg bg-[#fa5a00] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">
-                            Slow Drop
-                          </div>
-                        </InView>
+            <div className="grid gap-8 md:grid-cols-2">
+              {/* InView Demo Card */}
+              <Card variant="staple" surface="white" className="md:col-span-2">
+                <CardHeader>
+                  <CardTitle>InView Animation</CardTitle>
+                  <CardDescription>Scroll-triggered animation — try scrolling down &amp; back up</CardDescription>
+                </CardHeader>
+                <CardContent className="pt-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <InView direction="left" rootMargin="-50px">
+                      <div className="rounded-lg bg-[#603bff] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Left</div>
+                    </InView>
+                    <InView direction="up" rootMargin="-50px" delay={1}>
+                      <div className="rounded-lg bg-[#a51ee1] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Up</div>
+                    </InView>
+                    <InView direction="right" rootMargin="-50px" delay={2}>
+                      <div className="rounded-lg bg-[#ff585e] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Right</div>
+                    </InView>
+                    <InView direction="pop" rootMargin="-50px" delay={1}>
+                      <div className="rounded-lg bg-[#eaff3d] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Pop</div>
+                    </InView>
+                    <InView drop rootMargin="-50px" delay={2}>
+                      <div className="rounded-lg bg-[#00c8b4] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Drop</div>
+                    </InView>
+                    <InView drop="slow" rootMargin="-50px" delay={3}>
+                      <div className="rounded-lg bg-[#fa5a00] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Slow Drop</div>
+                    </InView>
+                  </div>
+                  <InViewStagger rootMargin="-30px" className="mt-6">
+                    {['Stagger 1', 'Stagger 2', 'Stagger 3', 'Stagger 4'].map((label, i) => (
+                      <div key={i} className="rounded-lg bg-gradient-to-r from-[#603bff] to-[#a51ee1] p-3 text-center text-sm font-black uppercase tracking-wider text-white mb-2 last:mb-0">
+                        {label}
                       </div>
+                    ))}
+                  </InViewStagger>
+                </CardContent>
+              </Card>
 
-                      <InViewStagger rootMargin="-30px" className="mt-6">
-                        {['Stagger 1', 'Stagger 2', 'Stagger 3', 'Stagger 4'].map((label, i) => (
-                          <div
-                            key={i}
-                            className="rounded-lg bg-gradient-to-r from-[#603bff] to-[#a51ee1] p-3 text-center text-sm font-black uppercase tracking-wider text-white mb-2 last:mb-0"
-                          >
-                            {label}
-                          </div>
-                        ))}
-                      </InViewStagger>
-                    </CardContent>
-                  </Card>
+              {/* Loader Card */}
+              <Card variant="staple" surface="white" className="md:col-span-2">
+                <CardHeader>
+                  <CardTitle>Loader</CardTitle>
+                  <CardDescription>CSS border spinner — 3px arc, 359deg rotation</CardDescription>
+                </CardHeader>
+                <CardContent className="flex flex-wrap items-center gap-6 pt-2">
+                  <div className="flex flex-col items-center gap-2">
+                    <Loader variant="default" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Default</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Loader variant="blue" size="1.5em" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Blue</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Loader variant="red" size="2em" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Red</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Loader variant="default" size="2em" style={{ '--color': '#00c8b4' } as React.CSSProperties} />
+                    <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Custom</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
 
-                  {/* Loader Card — full width span in 2-col grid */}
-                  <Card
-                    variant="staple"
-                    surface="white"
-                    className="md:col-span-2"
-                  >
-                    <CardHeader>
-                      <CardTitle>Loader</CardTitle>
-                      <CardDescription>Official CSS border spinner — 3px arc, 359deg rotation</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-wrap items-center gap-6 pt-2">
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader variant="default" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Default</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader variant="blue" size="1.5em" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Blue</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader variant="red" size="2em" />
-                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Red</span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader variant="default" size="2em" style={{ '--color': '#00c8b4' } as React.CSSProperties} />
-                        <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Custom</span>
-                      </div>
-                    </CardContent>
-                  </Card>
+          {/* Sub-Section 3: Tabs */}
+          <div className="space-y-8">
+            <HeadingTape>Tabs</HeadingTape>
+            <Card variant="staple" surface="white">
+              <CardHeader>
+                <CardTitle>Tab Switcher</CardTitle>
+                <CardDescription>Skewed tab triggers with ink-theme styling</CardDescription>
+              </CardHeader>
+              <CardContent className="pt-2">
+                <Tabs defaultValue="tab1" className="w-full">
+                  <TabsList className="grid w-full grid-cols-3 gap-4 max-w-md mx-auto mb-6">
+                    <TabsTrigger value="tab1">Weapons</TabsTrigger>
+                    <TabsTrigger value="tab2">Stages</TabsTrigger>
+                    <TabsTrigger value="tab3">Events</TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="tab1" className="outline-none">
+                    <div className="rounded-lg bg-[#603bff]/10 p-6 text-center">
+                      <p className="text-sm font-bold uppercase tracking-wider text-[#603bff]">Shooters, Rollers, Chargers &amp; more</p>
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="tab2" className="outline-none">
+                    <div className="rounded-lg bg-[#00c8b4]/10 p-6 text-center">
+                      <p className="text-sm font-bold uppercase tracking-wider text-[#00c8b4]">Turf War, Ranked, and Splatfest rotations</p>
+                    </div>
+                  </TabsContent>
+                  <TabsContent value="tab3" className="outline-none">
+                    <div className="rounded-lg bg-[#fa5a00]/10 p-6 text-center">
+                      <p className="text-sm font-bold uppercase tracking-wider text-[#fa5a00]">Limited-time challenges and community events</p>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Sub-Section 4: StapleCards */}
+          <div className="space-y-8">
+            <HeadingTape>Staple Card</HeadingTape>
+            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 pt-6">
+              <StapleCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
+                <div className="space-y-3 p-4">
+                  <p className="text-sm uppercase tracking-[0.35em] text-[#603bff]">News Grid</p>
+                  <h4 className="text-xl font-black">Official grid news card</h4>
+                  <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
                 </div>
-              </TabsContent>
-
-              {/* Content Panel 2: Forms & Selection */}
-              <TabsContent value="forms" className="outline-none">
-                <div className="grid gap-8 md:grid-cols-2">
-                  {/* Form Fields & Selection Inputs */}
-                  <Card
-                    variant="staple"
-                    surface="white"
-                  >
-                    <CardHeader>
-                      <CardTitle>Input & Selection</CardTitle>
-                      <CardDescription>Form controls with bold borders and ink theme accents</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-6 pt-2">
-                      <div className="space-y-1.5">
-                        <Label htmlFor="demo-input">Player Nickname</Label>
-                        <Input id="demo-input" placeholder="ENTER NICKNAME..." />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label>Battle Mode Preference</Label>
-                        <Select defaultValue="turf">
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="SELECT MODE" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="turf">Turf War</SelectItem>
-                            <SelectItem value="ranked">Ranked Battle</SelectItem>
-                            <SelectItem value="salmon">Salmon Run</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="flex flex-col gap-3">
-                        <Label>Notification Settings</Label>
-                        <div className="flex items-center gap-3">
-                          <Checkbox id="demo-checkbox-1" defaultChecked />
-                          <Label htmlFor="demo-checkbox-1" className="cursor-pointer pb-0 font-medium text-sm">
-                            Receive Splatfest reminders
-                          </Label>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Checkbox id="demo-checkbox-2" />
-                          <Label htmlFor="demo-checkbox-2" className="cursor-pointer pb-0 font-medium text-sm">
-                            Enable desktop sounds
-                          </Label>
-                        </div>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label>Weapon Class</Label>
-                        <RadioGroup defaultValue="shooter">
-                          <div className="flex items-center gap-3">
-                            <RadioGroupItem id="r1" value="shooter" />
-                            <Label htmlFor="r1" className="cursor-pointer pb-0 font-medium text-sm">Shooter</Label>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <RadioGroupItem id="r2" value="roller" />
-                            <Label htmlFor="r2" className="cursor-pointer pb-0 font-medium text-sm">Roller</Label>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <RadioGroupItem id="r3" value="charger" />
-                            <Label htmlFor="r3" className="cursor-pointer pb-0 font-medium text-sm">Charger</Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Alert Card */}
-                  <Card
-                    variant="staple"
-                    surface="white"
-                  >
-                    <CardHeader>
-                      <CardTitle>Ink Alerts</CardTitle>
-                      <CardDescription>High contrast alert blocks with warning icons</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex flex-col gap-4 pt-2">
-                      <Alert variant="warning">
-                        <Flame className="h-4 w-4 text-chaos-black" />
-                        <AlertTitle>Caution</AlertTitle>
-                        <AlertDescription>
-                          A new stage rotation is scheduled to begin in 5 minutes!
-                        </AlertDescription>
-                      </Alert>
-                      <Alert variant="destructive">
-                        <Skull className="h-4 w-4 text-white" />
-                        <AlertTitle>Critical</AlertTitle>
-                        <AlertDescription>
-                          Connection to multiplayer server has been lost.
-                        </AlertDescription>
-                      </Alert>
-                    </CardContent>
-                  </Card>
+              </StapleCard>
+              <StapleCard image={<div className="h-full w-full bg-[#fa5a00] flex items-center justify-center text-white">B</div>}>
+                <div className="space-y-3 p-4">
+                  <p className="text-sm uppercase tracking-[0.35em] text-[#fa5a00]">News Grid</p>
+                  <h4 className="text-xl font-black">Secondary story block</h4>
+                  <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
                 </div>
-              </TabsContent>
-            </Tabs>
-
+              </StapleCard>
+              <StapleCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
+                <div className="space-y-3 p-4">
+                  <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
+                  <h4 className="text-xl font-black">Community update</h4>
+                  <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
+                </div>
+              </StapleCard>
+              <StapleCard image={<div className="h-full w-full bg-[#ff585e] flex items-center justify-center text-white">D</div>}>
+                <div className="space-y-3 p-4">
+                  <p className="text-sm uppercase tracking-[0.35em] text-[#ff585e]">News Grid</p>
+                  <h4 className="text-xl font-black">Event highlight</h4>
+                  <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
+                </div>
+              </StapleCard>
+            </div>
           </div>
         </div>
       </Section>
@@ -1071,55 +1001,41 @@ export default function Home() {
         text="text-chaos-black"
         pattern="camo-white"
         className="flex flex-col items-center transition-colors duration-300"
-        headingTape={<HeadingTape>Official Replica Components</HeadingTape>}
+        headingTape={<HeadingTape>Card Grid</HeadingTape>}
       >
         <div className="w-full max-w-6xl space-y-12">
           <p className="text-sm font-medium text-chaos-black/60 mt-1">
-            Demonstrates the newly implemented Splatoon-style UI pieces: heading tape, black tape container, styled photo, news gallery, and apparel tag card.
+            Tape-framed section heading and grid layout replicating the official Splatoon magazine style.
           </p>
 
-              <BlackTapeContainer className="p-6">
-                <HeadingTape>
-                  Card Grid
-                </HeadingTape>
-                <p className="text-sm font-medium">
-                  Tape-framed section heading replicating the official Splatoon magazine layout style.
-                </p>
+          <BlackTapeContainer className="p-6">
+            <HeadingTape>Card Grid</HeadingTape>
+            <p className="text-sm font-medium">
+              Responsive card grid with automatic column wrapping and consistent spacing.
+            </p>
 
-                <CardGrid className="mt-6">
-                  <CardGridGroup>
-                    <StapleCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
-                      <div className="space-y-3 p-4">
-                        <p className="text-sm uppercase tracking-[0.35em] text-[#603bff]">News Grid</p>
-                        <h4 className="text-xl font-black">Official grid news card</h4>
-                        <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
-                      </div>
-                    </StapleCard>
-                    <StapleCard image={<div className="h-full w-full bg-[#fa5a00] flex items-center justify-center text-white">B</div>}>
-                      <div className="space-y-3 p-4">
-                        <p className="text-sm uppercase tracking-[0.35em] text-[#fa5a00]">News Grid</p>
-                        <h4 className="text-xl font-black">Secondary story block</h4>
-                        <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
-                      </div>
-                    </StapleCard>
-                  </CardGridGroup>
-                  <CardGridGroup>
-                    <StapleCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
-                      <div className="space-y-3 p-4">
-                        <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
-                        <h4 className="text-xl font-black">Community update</h4>
-                        <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
-                      </div>
-                    </StapleCard>
-                    <StapleCard image={<div className="h-full w-full bg-[#ff585e] flex items-center justify-center text-white">D</div>}>
-                      <div className="space-y-3 p-4">
-                        <p className="text-sm uppercase tracking-[0.35em] text-[#ff585e]">News Grid</p>
-                        <h4 className="text-xl font-black">Event highlight</h4>
-                        <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
-                      </div>
-                    </StapleCard>
-                  </CardGridGroup>
-                </CardGrid>
+            <CardGrid className="mt-6">
+              <CardGridGroup>
+                <div className="rounded-lg bg-[#603bff] p-6 text-center text-white">
+                  <h4 className="text-xl font-black">Grid Item A</h4>
+                  <p className="text-sm mt-2 opacity-80">Responsive grid layout</p>
+                </div>
+                <div className="rounded-lg bg-[#fa5a00] p-6 text-center text-white">
+                  <h4 className="text-xl font-black">Grid Item B</h4>
+                  <p className="text-sm mt-2 opacity-80">Automatic column wrapping</p>
+                </div>
+              </CardGridGroup>
+              <CardGridGroup>
+                <div className="rounded-lg bg-[#11d87a] p-6 text-center text-white">
+                  <h4 className="text-xl font-black">Grid Item C</h4>
+                  <p className="text-sm mt-2 opacity-80">Consistent spacing</p>
+                </div>
+                <div className="rounded-lg bg-[#ff585e] p-6 text-center text-white">
+                  <h4 className="text-xl font-black">Grid Item D</h4>
+                  <p className="text-sm mt-2 opacity-80">Magazine-style layout</p>
+                </div>
+              </CardGridGroup>
+            </CardGrid>
               </BlackTapeContainer>
       </div>
     </Section>
@@ -1190,7 +1106,7 @@ export default function Home() {
       <BannerDivider pattern="design2" color="green" animate />
 
       {/* ────────────────────────────────────────────────────────
-         08 — Progress Bar
+         08 — Forms & Feedback
          ──────────────────────────────────────────────────────── */}
       <Section
         id="progress"
@@ -1201,14 +1117,100 @@ export default function Home() {
         className="flex flex-col items-center"
         headingTape={
           <div className="text-center">
-            <HeadingTape color="green">Ink Progress Bar</HeadingTape>
+            <HeadingTape color="green">Forms & Feedback</HeadingTape>
             <p className="text-sm font-medium text-white/60 mt-2">
-              SplatNet 3 style liquid physics with velocity-based splatter morphing.
+              Form controls, alerts, and progress indicators.
             </p>
           </div>
         }
       >
         <div className="relative z-20 w-full space-y-16" style={{ maxWidth: "48rem" }}>
+
+          {/* Forms */}
+          <div className="grid gap-8 md:grid-cols-2">
+            <Card variant="staple" surface="white">
+              <CardHeader>
+                <CardTitle>Input & Selection</CardTitle>
+                <CardDescription>Form controls with bold borders and ink theme accents</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-6 pt-2">
+                <div className="space-y-1.5">
+                  <Label htmlFor="demo-input">Player Nickname</Label>
+                  <Input id="demo-input" placeholder="ENTER NICKNAME..." />
+                </div>
+                <div className="space-y-2">
+                  <Label>Battle Mode Preference</Label>
+                  <Select defaultValue="turf">
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="SELECT MODE" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="turf">Turf War</SelectItem>
+                      <SelectItem value="ranked">Ranked Battle</SelectItem>
+                      <SelectItem value="salmon">Salmon Run</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-3">
+                  <Label>Notification Settings</Label>
+                  <div className="flex items-center gap-3">
+                    <Checkbox id="demo-checkbox-1" defaultChecked />
+                    <Label htmlFor="demo-checkbox-1" className="cursor-pointer pb-0 font-medium text-sm">
+                      Receive Splatfest reminders
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Checkbox id="demo-checkbox-2" />
+                    <Label htmlFor="demo-checkbox-2" className="cursor-pointer pb-0 font-medium text-sm">
+                      Enable desktop sounds
+                    </Label>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label>Weapon Class</Label>
+                  <RadioGroup defaultValue="shooter">
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem id="r1" value="shooter" />
+                      <Label htmlFor="r1" className="cursor-pointer pb-0 font-medium text-sm">Shooter</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem id="r2" value="roller" />
+                      <Label htmlFor="r2" className="cursor-pointer pb-0 font-medium text-sm">Roller</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <RadioGroupItem id="r3" value="charger" />
+                      <Label htmlFor="r3" className="cursor-pointer pb-0 font-medium text-sm">Charger</Label>
+                    </div>
+                  </RadioGroup>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card variant="staple" surface="white">
+              <CardHeader>
+                <CardTitle>Ink Alerts</CardTitle>
+                <CardDescription>High contrast alert blocks with warning icons</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-4 pt-2">
+                <Alert variant="warning">
+                  <Flame className="h-4 w-4 text-chaos-black" />
+                  <AlertTitle>Caution</AlertTitle>
+                  <AlertDescription>
+                    A new stage rotation is scheduled to begin in 5 minutes!
+                  </AlertDescription>
+                </Alert>
+                <Alert variant="destructive">
+                  <Skull className="h-4 w-4 text-white" />
+                  <AlertTitle>Critical</AlertTitle>
+                  <AlertDescription>
+                    Connection to multiplayer server has been lost.
+                  </AlertDescription>
+                </Alert>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Progress Bars */}
           <div className="space-y-12">
             <div className="space-y-4">
               <div className="flex justify-between items-end px-2">
