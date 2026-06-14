@@ -31,7 +31,6 @@ import { GridNewsCard } from '@/components/ui/grid-news-card'
 import { HeadingTape } from '@/components/ui/heading-tape'
 import { Section } from '@/components/ui/section'
 import { TapeTitle } from '@/components/ui/tape-title'
-import { CategoryTitle } from '@/components/ui/category-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
 import { SquidCanvasTransition, type SquidCanvasTransitionHandle } from '@/components/ui/squid-canvas-transition'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
@@ -1211,8 +1210,6 @@ export default function Home() {
             Demonstrates the newly implemented Splatoon-style UI pieces: heading tape, black tape container, styled photo, news gallery, and apparel tag card.
           </p>
 
-          <div className="grid gap-8 xl:grid-cols-[1.5fr_1fr]">
-            <div className="grid gap-6">
               <BlackTapeContainer className="p-6">
                 <HeadingTape>
                   Official Heading Tape
@@ -1220,55 +1217,42 @@ export default function Home() {
                 <p className="text-sm font-medium">
                   Tape-framed section heading replicating the official Splatoon magazine layout style.
                 </p>
+
+                <NewsCardsGallery className="mt-6">
+                  <NewsCardsGalleryGroup>
+                    <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
+                      <div className="space-y-3 p-4">
+                        <p className="text-sm uppercase tracking-[0.35em] text-[#603bff]">News Grid</p>
+                        <h4 className="text-xl font-black">Official grid news card</h4>
+                        <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
+                      </div>
+                    </GridNewsCard>
+                    <GridNewsCard image={<div className="h-full w-full bg-[#fa5a00] flex items-center justify-center text-white">B</div>}>
+                      <div className="space-y-3 p-4">
+                        <p className="text-sm uppercase tracking-[0.35em] text-[#fa5a00]">News Grid</p>
+                        <h4 className="text-xl font-black">Secondary story block</h4>
+                        <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
+                      </div>
+                    </GridNewsCard>
+                  </NewsCardsGalleryGroup>
+                  <NewsCardsGalleryGroup>
+                    <GridNewsCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
+                      <div className="space-y-3 p-4">
+                        <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
+                        <h4 className="text-xl font-black">Community update</h4>
+                        <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
+                      </div>
+                    </GridNewsCard>
+                    <GridNewsCard image={<div className="h-full w-full bg-[#ff585e] flex items-center justify-center text-white">D</div>}>
+                      <div className="space-y-3 p-4">
+                        <p className="text-sm uppercase tracking-[0.35em] text-[#ff585e]">News Grid</p>
+                        <h4 className="text-xl font-black">Event highlight</h4>
+                        <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
+                      </div>
+                    </GridNewsCard>
+                  </NewsCardsGalleryGroup>
+                </NewsCardsGallery>
               </BlackTapeContainer>
-            </div>
-
-            <div className="space-y-6">
-              {/* CategoryTitle: official full-width white section heading */}
-          <div className="max-w-md mx-auto">
-            <CategoryTitle
-              points={<span className="inline-flex items-center gap-1 rounded-full bg-[#ff585e] px-3 py-1 text-[11px] font-black uppercase tracking-wider text-white">NEW</span>}
-            >
-              <span className="font-alt font-black text-xl uppercase tracking-wider">Category Title</span>
-            </CategoryTitle>
-          </div>
-
-          <NewsCardsGallery className="rounded-[2rem] bg-white/95 p-6 shadow-soft-splat-sm">
-                <NewsCardsGalleryGroup>
-                  <GridNewsCard image={<div className="h-full w-full bg-[#603bff] flex items-center justify-center text-white">A</div>}>
-                    <div className="space-y-3 p-4">
-                      <p className="text-sm uppercase tracking-[0.35em] text-[#603bff]">News Grid</p>
-                      <h4 className="text-xl font-black">Official grid news card</h4>
-                      <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
-                    </div>
-                  </GridNewsCard>
-                  <GridNewsCard image={<div className="h-full w-full bg-[#fa5a00] flex items-center justify-center text-white">B</div>}>
-                    <div className="space-y-3 p-4">
-                      <p className="text-sm uppercase tracking-[0.35em] text-[#fa5a00]">News Grid</p>
-                      <h4 className="text-xl font-black">Secondary story block</h4>
-                      <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
-                    </div>
-                  </GridNewsCard>
-                </NewsCardsGalleryGroup>
-                <NewsCardsGalleryGroup>
-                  <GridNewsCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
-                    <div className="space-y-3 p-4">
-                      <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
-                      <h4 className="text-xl font-black">Community update</h4>
-                      <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
-                    </div>
-                  </GridNewsCard>
-                  <GridNewsCard image={<div className="h-full w-full bg-[#ff585e] flex items-center justify-center text-white">D</div>}>
-                    <div className="space-y-3 p-4">
-                      <p className="text-sm uppercase tracking-[0.35em] text-[#ff585e]">News Grid</p>
-                      <h4 className="text-xl font-black">Event highlight</h4>
-                      <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
-                    </div>
-                  </GridNewsCard>
-                </NewsCardsGalleryGroup>
-              </NewsCardsGallery>
-          </div>
-        </div>
       </div>
     </Section>
 
