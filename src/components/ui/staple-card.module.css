@@ -51,27 +51,11 @@
   width: 10%;
 }
 
-.tapeEvent {
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: inline-grid;
-  width: min(40%, 140px);
-  transform: translate(-10px, -35px) rotate(10deg);
-  z-index: 10;
-}
-
-.tapeEvent img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
 .tapeNews {
   position: absolute;
   top: 0;
   display: inline-grid;
-  width: min(40%, 140px);
+  width: 140px;
   transform: translate(10px, -35px) rotate(-10deg);
   z-index: 10;
 }
