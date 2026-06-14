@@ -21,10 +21,10 @@ import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
-import { TrailerVideo, TrailerVideoThumbnail, TrailerVideoContent } from '@/components/ui/trailer-video'
+import { VideoDialog, VideoDialogThumbnail, VideoDialogContent } from '@/components/ui/video-dialog'
 import { FeedCarousel } from '@/components/ui/feed-carousel'
 import { WeaponsGalleryCarousel } from '@/components/ui/weapons-gallery-carousel'
-import { ShopsGalleryCarousel } from '@/components/ui/shops-gallery-carousel'
+import { IconPaginatedCarousel } from '@/components/ui/icon-paginated-carousel'
 import { MarqueeCarousel } from '@/components/ui/marquee-carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
 import { StapleCard } from '@/components/ui/staple-card'
@@ -32,7 +32,7 @@ import { HeadingTape } from '@/components/ui/heading-tape'
 import { Section } from '@/components/ui/section'
 import { TapeTitle } from '@/components/ui/tape-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
-import { SquidCanvasTransition, type SquidCanvasTransitionHandle } from '@/components/ui/squid-canvas-transition'
+import { SquidMaskTransition, type SquidMaskTransitionHandle } from '@/components/ui/squid-mask-transition'
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
 import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
 import { CardGrid, CardGridGroup } from '@/components/ui/card-grid'
@@ -111,7 +111,7 @@ const homepageFeedCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
 
 function PageTransitionDemo() {
   const webglRef = React.useRef<PageTransitionHandle>(null)
-  const squidRef = React.useRef<SquidCanvasTransitionHandle>(null)
+  const squidRef = React.useRef<SquidMaskTransitionHandle>(null)
   const [variant, setVariant] = React.useState<'webgl' | 'squid'>('webgl')
   const [demoPage, setDemoPage] = React.useState<'home' | 'about' | 'weapons'>('home')
   const [isTransitioning, setIsTransitioning] = React.useState(false)
@@ -167,7 +167,7 @@ function PageTransitionDemo() {
           <div className="relative w-full h-[320px]">
             <PageTransition
               ref={webglRef}
-              inkColor={inkColor}
+              color={inkColor}
               durationIn={700}
               durationOut={1000}
               autoReveal={false}
@@ -189,7 +189,7 @@ function PageTransitionDemo() {
               </div>
             </PageTransition>
 
-            <SquidCanvasTransition
+            <SquidMaskTransition
               ref={squidRef}
               durationIn={700}
               durationOut={1000}
@@ -210,7 +210,7 @@ function PageTransitionDemo() {
                   </p>
                 </div>
               </div>
-            </SquidCanvasTransition>
+            </SquidMaskTransition>
           </div>
 
           <div className="flex flex-wrap justify-center gap-3">
@@ -523,15 +523,15 @@ export default function Home() {
             </TapeTitle>
 
             <div className="w-full text-center">
-              <TrailerVideo>
-              <TrailerVideoThumbnail
+              <VideoDialog>
+              <VideoDialogThumbnail
                 src="/_images/screenshots/video-trailer.jpg"
                 alt="Splatoon 3 Trailer"
                 blobColor="#000000"
                 imageClassName="sm:-top-8"
               />
-              <TrailerVideoContent src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1&autoplay=1&muted=0" title="Splatoon 3 - Announcement Trailer" />
-            </TrailerVideo>
+              <VideoDialogContent src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1&autoplay=1&muted=0" title="Splatoon 3 - Announcement Trailer" />
+            </VideoDialog>
           </div>
         </div>
         </div>
@@ -1306,7 +1306,7 @@ export default function Home() {
             <p className="text-sm font-medium text-white/80 text-center max-w-xl mx-auto">
               Gallery with character portrait icons as pagination. Each shop has a unique keeper icon.
             </p>
-            <ShopsGalleryCarousel items={shopsGalleryItems} />
+            <IconPaginatedCarousel items={shopsGalleryItems} />
           </div>
 
           {/* Marquee Carousel */}

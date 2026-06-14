@@ -210,7 +210,7 @@ function DialogContentFullScreen({
     }, CLOSE_DELAY)
   }, [modalActive, modalHeadingOut, setOpen, triggerRef])
 
-  // Open effect — mirrors TrailerVideo's open useEffect
+  // Open effect — mirrors VideoDialog's open useEffect
   React.useEffect(() => {
     if (!open) return
 

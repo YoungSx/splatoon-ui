@@ -6,21 +6,21 @@ import { cn } from '@/lib/utils'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
 import photoStyles from './styled-photo.module.css'
-import tapeStyles from './trailer-video.module.css'
+import tapeStyles from './video-dialog.module.css'
 
-// ── TrailerVideo Root (thin wrapper around Dialog) ──
+// ── VideoDialog Root (thin wrapper around Dialog) ──
 
-interface TrailerVideoProps extends Omit<React.ComponentProps<typeof Dialog>, 'children'> {
+interface VideoDialogProps extends Omit<React.ComponentProps<typeof Dialog>, 'children'> {
   children?: React.ReactNode
 }
 
-export function TrailerVideo({ children, ...props }: TrailerVideoProps) {
+export function VideoDialog({ children, ...props }: VideoDialogProps) {
   return <Dialog {...props}>{children}</Dialog>
 }
 
 // ── Thumbnail Trigger ──
 
-interface TrailerVideoThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   src: string
   alt?: string
   blobColor?: string
@@ -28,7 +28,7 @@ interface TrailerVideoThumbnailProps extends React.ButtonHTMLAttributes<HTMLButt
   imageClassName?: string
 }
 
-export function TrailerVideoThumbnail({
+export function VideoDialogThumbnail({
   ref,
   src,
   alt = "Video thumbnail",
@@ -37,7 +37,7 @@ export function TrailerVideoThumbnail({
   blobSize = 160,
   imageClassName,
   ...props
-}: TrailerVideoThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
+}: VideoDialogThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
   return (
     <DialogPrimitive.Trigger
       data-slot="dialog-trigger"
@@ -117,17 +117,17 @@ export function TrailerVideoThumbnail({
 
 // ── Video Content (thin wrapper around DialogContent fullScreen) ──
 
-interface TrailerVideoContentProps {
+interface VideoDialogContentProps {
   src: string
   title?: string
   className?: string
 }
 
-export function TrailerVideoContent({
+export function VideoDialogContent({
   src,
   title = "Video player",
   className,
-}: TrailerVideoContentProps) {
+}: VideoDialogContentProps) {
   return (
     <DialogContent fullScreen className={className}>
       <div

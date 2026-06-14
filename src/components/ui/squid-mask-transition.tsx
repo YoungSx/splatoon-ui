@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * SquidCanvasTransition — Canvas 2D rotating squid mask transition.
+ * SquidMaskTransition — Canvas 2D rotating squid mask transition.
  *
  * Faithfully reproduces the Nintendo JP Splatoon gallery page transition:
  * a squid image rotates and scales on a canvas, then a black fill
@@ -15,7 +15,7 @@ import * as React from 'react'
 
 // ─── Handle ─────────────────────────────────────────────────────────────────
 
-export interface SquidCanvasTransitionHandle {
+export interface SquidMaskTransitionHandle {
   transitionOut: (options?: { duration?: number }) => Promise<void>
   transitionIn: (options?: { duration?: number }) => void
   readonly state: Phase
@@ -23,7 +23,7 @@ export interface SquidCanvasTransitionHandle {
 
 // ─── Props ──────────────────────────────────────────────────────────────────
 
-export interface SquidCanvasTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+export interface SquidMaskTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   durationIn?: number
   durationOut?: number
   autoReveal?: boolean
@@ -50,7 +50,7 @@ const REVEAL_END: TweenState = { rotate: 400, scale: 1 }
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export function SquidCanvasTransition({
+export function SquidMaskTransition({
   ref,
   durationIn = 700,
   durationOut = 1000,
@@ -60,7 +60,7 @@ export function SquidCanvasTransition({
   className,
   children,
   ...props
-}: SquidCanvasTransitionProps & { ref?: React.Ref<SquidCanvasTransitionHandle> }) {
+}: SquidMaskTransitionProps & { ref?: React.Ref<SquidMaskTransitionHandle> }) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const squidImgRef = React.useRef<HTMLImageElement | null>(null)
   const tweenRef = React.useRef<number>(0)

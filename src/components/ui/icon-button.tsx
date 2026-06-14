@@ -11,8 +11,8 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import styles from './icon-button.module.css'
 import {
-  splatoonCarouselArrowLeftPath,
-  splatoonCarouselArrowRightPath,
+  carouselArrowLeftPath,
+  carouselArrowRightPath,
 } from './card-stack-carousel-icons'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -59,8 +59,8 @@ const ANIMATION_CLASS: Record<IconButtonAnimation, string | null> = {
 function ArrowIcon({ direction }: { direction: IconButtonDirection }) {
   const isLeft = direction === 'left'
   const path = isLeft || direction === 'up' || direction === 'down'
-    ? splatoonCarouselArrowLeftPath
-    : splatoonCarouselArrowRightPath
+    ? carouselArrowLeftPath
+    : carouselArrowRightPath
 
   const rotation: Record<IconButtonDirection, string> = {
     left: '0deg',

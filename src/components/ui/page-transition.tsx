@@ -28,7 +28,7 @@ export interface PageTransitionHandle {
 // ─── Props ──────────────────────────────────────────────────────────────────
 
 export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
-  inkColor?: string
+  color?: string
   durationIn?: number
   durationOut?: number
   autoReveal?: boolean
@@ -44,7 +44,7 @@ type Phase = 'idle' | 'covering' | 'covered' | 'revealing'
 
 export function PageTransition({
   ref,
-  inkColor = '#000000',
+  color: inkColor = '#000000',
   durationIn = 700,
   durationOut = 1000,
   autoReveal = false,

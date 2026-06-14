@@ -6,22 +6,22 @@ import { CarouselImagePagination, FadeCarouselItem, useCarouselItemState } from 
 import { GalleryBounce, GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
 import baseStyles from "./gallery-base.module.css"
 import { MarqueeCarousel } from "./marquee-carousel"
-import styles from "./shops-gallery-carousel.module.css"
+import styles from "./icon-paginated-carousel.module.css"
 import marqueeStyles from "./marquee-carousel.module.css"
 import type { GalleryItem } from "./marquee-carousel"
 
-export interface ShopsGalleryCarouselItem extends GalleryItem {
+export interface IconPaginatedCarouselItem extends GalleryItem {
   title: string
   description?: string
   icon: string
   iconRotate?: number
 }
 
-export interface ShopsGalleryCarouselProps extends React.ComponentPropsWithoutRef<typeof MarqueeCarousel> {
-  items: ShopsGalleryCarouselItem[]
+export interface IconPaginatedCarouselProps extends React.ComponentPropsWithoutRef<typeof MarqueeCarousel> {
+  items: IconPaginatedCarouselItem[]
 }
 
-export function ShopsGalleryCarousel({ items, className, ...props }: ShopsGalleryCarouselProps) {
+export function IconPaginatedCarousel({ items, className, ...props }: IconPaginatedCarouselProps) {
   return (
     <MarqueeCarousel
       items={items}
@@ -33,25 +33,25 @@ export function ShopsGalleryCarousel({ items, className, ...props }: ShopsGaller
         />
       }
       renderItem={(item, index) => (
-        <ShopsGalleryItem key={item.id} data-index={index} item={item as ShopsGalleryCarouselItem} />
+        <IconPaginatedGalleryItem key={item.id} data-index={index} item={item as IconPaginatedCarouselItem} />
       )}
       {...props}
     />
   )
 }
 
-interface ShopsGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  item: ShopsGalleryCarouselItem
+interface IconPaginatedGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  item: IconPaginatedCarouselItem
   "data-index"?: number
 }
 
-function ShopsGalleryItem({
+function IconPaginatedGalleryItem({
   ref,
   className,
   item,
   "data-index": index = 0,
   ...props
-}: ShopsGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: IconPaginatedGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
     const { isActive } = useCarouselItemState(index)
 
     return (
