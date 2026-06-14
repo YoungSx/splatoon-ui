@@ -965,7 +965,7 @@ export default function Home() {
                   {/* Buttons Card (Adapting Card) */}
                   <Card
                     variant="staple"
-                    surface="cream"
+                    surface="white"
                   >
                     <CardHeader>
                       <CardTitle>Drip Buttons</CardTitle>
@@ -988,7 +988,7 @@ export default function Home() {
                   {/* Badges Card */}
                   <Card
                     variant="staple"
-                    surface="cream"
+                    surface="white"
                   >
                     <CardHeader>
                       <CardTitle>Sticker Badges</CardTitle>
@@ -1006,7 +1006,7 @@ export default function Home() {
                   {/* InView Demo Card */}
                   <Card
                     variant="staple"
-                    surface="cream"
+                    surface="white"
                     className="md:col-span-2"
                   >
                     <CardHeader>
@@ -1063,7 +1063,7 @@ export default function Home() {
                   {/* Loader Card — full width span in 2-col grid */}
                   <Card
                     variant="staple"
-                    surface="cream"
+                    surface="white"
                     className="md:col-span-2"
                   >
                     <CardHeader>
@@ -1098,7 +1098,7 @@ export default function Home() {
                   {/* Form Fields & Selection Inputs */}
                   <Card
                     variant="staple"
-                    surface="cream"
+                    surface="white"
                   >
                     <CardHeader>
                       <CardTitle>Input & Selection</CardTitle>
@@ -1163,7 +1163,7 @@ export default function Home() {
                   {/* Alert Card */}
                   <Card
                     variant="staple"
-                    surface="cream"
+                    surface="white"
                   >
                     <CardHeader>
                       <CardTitle>Ink Alerts</CardTitle>

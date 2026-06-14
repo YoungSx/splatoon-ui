@@ -3,7 +3,6 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { PaperCard, type NewsSurface, type PaperLabelConfig } from "./paper-card"
 import { StapleCard, type StapleCardProps } from "./staple-card"
 import { RuggedCard, type RuggedTheme } from "./rugged-card"
 
@@ -11,28 +10,22 @@ import { RuggedCard, type RuggedTheme } from "./rugged-card"
 
 type CardVariant = "paper" | "staple" | "rugged"
 
-export const CardContext = React.createContext<{ variant?: CardVariant; surface?: "paper" | "cream" | "danger" }>({
+export const CardContext = React.createContext<{ variant?: CardVariant; surface?: "white" | "dark" }>({
   variant: "paper",
-  surface: "paper",
+  surface: "white",
 })
 
 // ── Card Props ──────────────────────────────────────────────────
 
 export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
   variant?: CardVariant
-  paperFasteners?: boolean
-  paperLabel?: PaperLabelConfig
-  surface?: NewsSurface
-  /** Show sticker-9 overlay decoration (staple variant only) */
-  showSticker9?: boolean
-  /** Index for built-in rotation stagger (staple variant only) */
-  staggerIndex?: number
+  surface?: "white" | "dark"
   // For rugged variant
   ruggedTheme?: RuggedTheme
   ruggedRotation?: string
   /** Custom background ReactNode for rugged variant (replaces built-in SVG) */
   ruggedBackground?: React.ReactNode
-  // For staple variant
+  // For staple/paper variant
   /** Image/media shown in the tilted image area */
   image?: React.ReactNode
   /** Convenience: renders a title paragraph in the info area */
@@ -48,14 +41,9 @@ export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
 // ── Card Component (thin dispatcher) ───────────────────────────
 
 function Card({
-  ref,
   className,
   variant = "paper",
-  paperFasteners,
-  paperLabel,
-  surface = "paper",
-  showSticker9,
-  staggerIndex,
+  surface = "white",
   ruggedTheme,
   ruggedRotation,
   ruggedBackground,
@@ -66,54 +54,37 @@ function Card({
   showTape,
   children,
   ...props
-}: CardProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: CardProps) {
   const ctx = { variant, surface }
 
   if (variant === "rugged") {
     return (
       <CardContext.Provider value={ctx}>
-        <RuggedCard ref={ref} className={className} ruggedTheme={ruggedTheme} ruggedRotation={ruggedRotation} ruggedBackground={ruggedBackground} {...props}>
+        <RuggedCard className={className} ruggedTheme={ruggedTheme} ruggedRotation={ruggedRotation} ruggedBackground={ruggedBackground} {...props}>
           {children}
         </RuggedCard>
       </CardContext.Provider>
     )
   }
 
-  if (variant === "staple") {
-    return (
-      <CardContext.Provider value={ctx}>
-        <StapleCard
-          className={className}
-          image={image}
-          title={title}
-          subtitle={subtitle}
-          action={action}
-          surface={surface === "danger" ? "dark" : surface === "cream" ? "white" : surface as "white" | "dark"}
-          showTape={showTape}
-          {...props}
-        >
-          {children}
-        </StapleCard>
-      </CardContext.Provider>
-    )
-  }
+  // Both paper and staple render StapleCard
+  // paper = no tape, staple = with tape
+  const isStaple = variant === "staple"
 
-  // paper variant renders PaperCard
   return (
     <CardContext.Provider value={ctx}>
-      <PaperCard
+      <StapleCard
         className={className}
-        dataVariant="news"
+        image={image}
+        title={title}
+        subtitle={subtitle}
+        action={action}
         surface={surface}
-        paperLabel={paperLabel}
-        paperFasteners={paperFasteners ?? false}
-        showSticker9={showSticker9}
-        staggerIndex={staggerIndex}
-        forwardedRef={ref}
-        props={props}
+        showTape={isStaple ? (showTape ?? true) : false}
+        {...props}
       >
         {children}
-      </PaperCard>
+      </StapleCard>
     </CardContext.Provider>
   )
 }
@@ -204,4 +175,3 @@ export {
 
 export { CardImage } from "./card-image"
 export type { CardImageProps } from "./card-image"
-export type { NewsSurface, PaperLabelConfig }
