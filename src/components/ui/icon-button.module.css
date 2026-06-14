@@ -31,13 +31,11 @@
   outline-offset: 2px;
 }
 
-/* ── Disabled (official) ── */
+/* ── Disabled (official: fully hidden, preserves layout) ── */
 
 .shell:disabled,
 .shell[aria-disabled="true"] {
-  background-color: transparent;
-  cursor: auto;
-  opacity: 0.2;
+  visibility: hidden;
   pointer-events: none;
 }
 

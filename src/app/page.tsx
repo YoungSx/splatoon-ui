@@ -628,7 +628,7 @@ export default function Home() {
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Pulse</span>
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <IconButton size="lg" disabled aria-label="Disabled" />
+                  <IconButton size="lg" direction="right" disabled aria-label="Disabled" />
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Disabled</span>
                 </div>
                 <div className="flex flex-col items-center gap-3">
