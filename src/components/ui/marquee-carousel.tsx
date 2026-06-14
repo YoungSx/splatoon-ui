@@ -30,9 +30,7 @@ export function MarqueeCarousel({ items, className, pagination, renderItem, ...p
         <CarouselContent className={baseStyles.gallery}>
           {items.map((item, index) =>
             renderItem ? (
-              <React.Fragment key={item.id}>
-                {renderItem(item, index)}
-              </React.Fragment>
+              renderItem(item, index)
             ) : (
               <MarqueeGalleryItem key={item.id} data-index={index} item={item} />
             )
