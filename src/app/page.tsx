@@ -37,7 +37,6 @@ import { SquidCanvasTransition, type SquidCanvasTransitionHandle } from '@/compo
 import { SplatoonTitle } from '@/components/ui/splatoon-title'
 import { SplatoonGallery, type GalleryItem } from '@/components/ui/splatoon-gallery'
 import { NewsCardsGallery, NewsCardsGalleryGroup } from '@/components/ui/news-cards-gallery'
-import { StyledPhoto, StyledPhotoTape } from '@/components/ui/styled-photo'
 import { BannerDivider } from '@/components/ui/banner-divider'
 import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
@@ -1214,38 +1213,14 @@ export default function Home() {
 
           <div className="grid gap-8 xl:grid-cols-[1.5fr_1fr]">
             <div className="grid gap-6">
-              <BlackTapeContainer tapeVariant="yellow" className="p-6">
+              <BlackTapeContainer className="p-6">
                 <HeadingTape>
                   Official Heading Tape
                 </HeadingTape>
                 <p className="text-sm font-medium">
                   Tape-framed section heading replicating the official Splatoon magazine layout style.
                 </p>
-
-                <StyledPhoto
-                  src="/official/thumnail_113.png"
-                  alt="Styled Photo Demo"
-                  border="medium"
-                  nested
-                  className="mt-6"
-                >
-                  <StyledPhotoTape position="center" />
-                </StyledPhoto>
               </BlackTapeContainer>
-
-              <Card
-                variant="plain"
-                className="relative overflow-hidden p-6 shadow-soft-splat-sm [transform:rotate(-3deg)] hover:rotate-0 transition-transform duration-300"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#f6ff8b] via-[#ffdc4f] to-[#ff7500] opacity-30" />
-                <div className="relative z-10 space-y-4 text-center">
-                  <p className="text-xs font-black uppercase tracking-[0.35em] text-chaos-black/60">Tag Card Replica</p>
-                  <h3 className="text-2xl font-black uppercase text-[#603bff]">Gear Preview</h3>
-                  <p className="text-sm font-medium text-chaos-black/75">
-                    A hand-tagged apparel card with tilted paper geometry, custom background, and layered visual depth.
-                  </p>
-                </div>
-              </Card>
             </div>
 
             <div className="space-y-6">
