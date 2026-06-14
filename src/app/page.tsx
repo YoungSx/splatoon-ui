@@ -320,7 +320,7 @@ export default function Home() {
       />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 1: HERO HEADER + INK TRAIL (Interactive cursor effect)
+         HERO: Navigation + Ink Trail cursor effect
          ──────────────────────────────────────────────────────── */}
       <InkTrailCanvas colors={['#eaff3d', '#603bff', '#ff585e', '#00c8b4', '#fa5a00']}>
         <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white text-chaos-black gap-6 transition-colors duration-300 pattern-chip-white">
@@ -365,7 +365,7 @@ export default function Home() {
       <div ref={contentRef}>
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 1.5: TRAILER & INTRO (Official Drip Play Button)
+         01 — Trailer
          ──────────────────────────────────────────────────────── */}
       <Section
         id="trailer"
@@ -410,13 +410,11 @@ export default function Home() {
       {/* Banner divider: Trailer → PageTransition */}
       <BannerDivider pattern="design1" color="green" animate />
 
-      {/* ────────────────────────────────────────────────────────
-         SECTION 1.5: PAGE TRANSITION (WebGL Ink Splash)
-         ──────────────────────────────────────────────────────── */}
+      {/* ── Page Transition Demo (not in SideNav) ── */}
       <PageTransitionDemo />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 5: TYPOGRAPHY & CHARACTER (SplatoonTitle + 3D Parallax + WaveCanvas)
+         02 — Typography
          ──────────────────────────────────────────────────────── */}
       <Section
         id="titles"
@@ -479,7 +477,7 @@ export default function Home() {
 
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 6.5: ICON BUTTON (1:1 official replica showcase)
+         03 — Icon Button
          ──────────────────────────────────────────────────────── */}
       <Section
         id="icon-button"
@@ -572,7 +570,7 @@ export default function Home() {
       <BannerDivider pattern="design1" color="purple" animate />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 7: OVERLAYS (Dialog, Sheet, Popover, SplatoonModal)
+         04 — Overlays
          ──────────────────────────────────────────────────────── */}
       <Section
         id="overlays"
@@ -722,7 +720,7 @@ export default function Home() {
       />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 3: APPAREL TAGS & COMPONENTS (Adapting Theme - bg-white/bg-[#0d0d0d])
+         05 — Apparel Tags & Components
          ──────────────────────────────────────────────────────── */}
       <Section
         id="apparel"
@@ -1064,7 +1062,7 @@ export default function Home() {
       </Section>
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 3.5: OFFICIAL REPLICA COMPONENTS
+         06 — Card Grid
          ──────────────────────────────────────────────────────── */}
       <Section
         id="replicas"
@@ -1130,7 +1128,7 @@ export default function Home() {
       <BannerDivider pattern="design3" color="yellow" animate />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 4: CAROUSELS
+         07 — Carousels
          ──────────────────────────────────────────────────────── */}
       <Section
         id="carousels"
@@ -1192,7 +1190,7 @@ export default function Home() {
       <BannerDivider pattern="design2" color="green" animate />
 
       {/* ────────────────────────────────────────────────────────
-         SECTION 5: INK PROGRESS BAR
+         08 — Progress Bar
          ──────────────────────────────────────────────────────── */}
       <Section
         id="progress"
