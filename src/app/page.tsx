@@ -43,13 +43,6 @@ import { WaveCanvas } from '@/components/ui/wave-canvas'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
 import { Loader } from '@/components/ui/loader'
 import { IconButton } from '@/components/ui/icon-button'
-import {
-  SplatoonModal,
-  SplatoonModalTrigger,
-  SplatoonModalPortal,
-  SplatoonModalBody,
-  SplatoonModalStagger,
-} from '@/components/ui/splatoon-modal'
 import { InView, InViewStagger } from '@/components/ui/in-view'
 import { SectionSideNav } from '@/components/ui/section-side-nav'
 import { Progress } from '@/components/ui/progress'
@@ -849,60 +842,6 @@ export default function Home() {
             </div>
           </InView>
 
-          {/* SplatoonModal */}
-          <InView direction="up" rootMargin="-50px">
-            <div className="space-y-4">
-              <h3 className="text-lg font-black uppercase tracking-wider text-[#eaff3d]">
-                Splatoon Modal (トジル)
-              </h3>
-              <p className="text-xs text-white/50">Full-screen overlay with bounce animation and staggered content reveal</p>
-              <div className="flex flex-wrap gap-3">
-                <SplatoonModal>
-                  <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#eaff3d] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-chaos-black border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
-                    Open Splatoon Modal
-                  </SplatoonModalTrigger>
-                  <SplatoonModalPortal>
-                    <SplatoonModalBody>
-                      <div className="text-center space-y-4">
-                        <h2 className="font-heading text-2xl font-black uppercase tracking-wider">About Splatoon</h2>
-                        <p className="text-sm text-chaos-black/70 max-w-sm mx-auto">
-                          Turf War is a 4v4 team battle mode where the goal is to cover the most ground with your team's ink.
-                        </p>
-                        <div className="grid grid-cols-2 gap-3 pt-2">
-                          <div className="rounded-lg bg-[#603bff] p-3 text-center text-xs font-black uppercase tracking-wider text-white">Turf War</div>
-                          <div className="rounded-lg bg-[#ff585e] p-3 text-center text-xs font-black uppercase tracking-wider text-white">Splat Zones</div>
-                          <div className="rounded-lg bg-[#00c8b4] p-3 text-center text-xs font-black uppercase tracking-wider text-chaos-black">Tower Control</div>
-                          <div className="rounded-lg bg-[#a51ee1] p-3 text-center text-xs font-black uppercase tracking-wider text-white">Rainmaker</div>
-                        </div>
-                      </div>
-
-                    </SplatoonModalBody>
-                  </SplatoonModalPortal>
-                </SplatoonModal>
-
-                <SplatoonModal>
-                  <SplatoonModalTrigger className="inline-flex items-center justify-center rounded-lg bg-[#603bff] px-5 py-2.5 text-sm font-black uppercase tracking-wider text-white border-[3px] border-chaos-black shadow-soft-splat-sm hover:scale-[1.03] active:scale-[0.97] transition-transform cursor-pointer">
-                    Staggered Content
-                  </SplatoonModalTrigger>
-                  <SplatoonModalPortal>
-                    <SplatoonModalBody>
-                      <div className="text-center mb-4">
-                        <h2 className="font-heading text-2xl font-black uppercase tracking-wider">Weapon Types</h2>
-                      </div>
-                      <SplatoonModalStagger className="space-y-3">
-                        <div className="rounded-lg bg-[#eaff3d] p-3 text-sm font-black text-chaos-black">Shooters — Rapid-fire ink weapons</div>
-                        <div className="rounded-lg bg-[#603bff] p-3 text-sm font-black text-white">Rollers — Cover ground quickly</div>
-                        <div className="rounded-lg bg-[#ff585e] p-3 text-sm font-black text-white">Chargers — Long-range precision</div>
-                        <div className="rounded-lg bg-[#00c8b4] p-3 text-sm font-black text-chaos-black">Sloshers — Throw ink in arcs</div>
-                        <div className="rounded-lg bg-[#a51ee1] p-3 text-sm font-black text-white">Splatlings — Charged rapid-fire</div>
-                      </SplatoonModalStagger>
-
-                    </SplatoonModalBody>
-                  </SplatoonModalPortal>
-                </SplatoonModal>
-              </div>
-            </div>
-          </InView>
         </div>
       </Section>
 
