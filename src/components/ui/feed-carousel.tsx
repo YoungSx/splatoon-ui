@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/card-stack-carousel"
 import { StapleCard, type StapleCardProps } from "@/components/ui/staple-card"
 
-const newsCarouselItemShellStyle = {
+const feedCarouselItemShellStyle = {
   width: "clamp(16.5rem, 19vw, 23rem)",
 } satisfies React.CSSProperties
 
-export interface NewsCarouselItem
+export interface FeedCarouselItem
   extends Pick<
     StapleCardProps,
     "image" | "title" | "subtitle" | "action" | "surface" | "showTape" | "hoverTilt"
@@ -25,11 +25,11 @@ export interface NewsCarouselItem
   cardClassName?: string
 }
 
-export interface NewsCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
-  items: NewsCarouselItem[]
+export interface FeedCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
+  items: FeedCarouselItem[]
 }
 
-export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
+export function FeedCarousel({ items, ...props }: FeedCarouselProps) {
   return (
     <Carousel itemCount={items.length} {...props}>
       <CardStackCarouselScene>
@@ -38,7 +38,7 @@ export function NewsCarousel({ items, ...props }: NewsCarouselProps) {
             <CardStackCarouselItem
               key={item.id}
               data-index={index}
-              shellStyle={newsCarouselItemShellStyle}
+              shellStyle={feedCarouselItemShellStyle}
             >
               <StapleCard
                 className={item.cardClassName}

@@ -22,7 +22,7 @@ import { Zap, Skull, Flame } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
 import { TrailerVideo, TrailerVideoThumbnail, TrailerVideoContent } from '@/components/ui/trailer-video'
-import { NewsCarousel } from '@/components/ui/news-carousel'
+import { FeedCarousel } from '@/components/ui/feed-carousel'
 import { WeaponsGalleryCarousel } from '@/components/ui/weapons-gallery-carousel'
 import { ShopsGalleryCarousel } from '@/components/ui/shops-gallery-carousel'
 import { MarqueeCarousel } from '@/components/ui/marquee-carousel'
@@ -81,7 +81,7 @@ import {
   PopoverTriggerButton,
 } from '@/components/ui/popover'
 
-const homepageNewsCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
+const homepageFeedCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
   id: item,
   hoverTilt: true,
   paperLabel: {
@@ -1284,11 +1284,11 @@ export default function Home() {
 
           {/* 3D Splat Gallery */}
           <div className="space-y-6">
-            <h3 className="text-xl font-black uppercase tracking-wider text-center">3D Splat Gallery</h3>
+            <h3 className="text-xl font-black uppercase tracking-wider text-center">Feed Carousel</h3>
             <p className="text-sm font-medium text-white/80 text-center max-w-xl mx-auto">
-              Swipe or click to navigate through the overlapping Z-index carousel.
+              Swipe or click to navigate through the stacked feed cards.
             </p>
-            <NewsCarousel initialIndex={2} items={homepageNewsCarouselItems} />
+            <FeedCarousel initialIndex={2} items={homepageFeedCarouselItems} />
           </div>
 
           {/* Weapons Gallery Carousel */}
