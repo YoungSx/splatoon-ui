@@ -1,0 +1,39 @@
+/* Sheet side-position styles */
+
+.sideTop,
+.sideRight,
+.sideBottom,
+.sideLeft {
+  position: fixed;
+  z-index: 110;
+}
+
+.sideTop {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+}
+
+.sideRight {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 75%;
+  max-width: 24rem;
+}
+
+.sideBottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+}
+
+.sideLeft {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 75%;
+  max-width: 24rem;
+}

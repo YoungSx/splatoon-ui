@@ -54,6 +54,7 @@
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
@@ -129,6 +130,7 @@
   --border: #cccccc;
   --input: #cccccc;
   --ring: #eaff3d;
+  --overlay: rgb(0 0 0 / 0.9);
   --chart-1: #eaff3d;
   --chart-2: #603bff;
   --chart-3: #ff585e;

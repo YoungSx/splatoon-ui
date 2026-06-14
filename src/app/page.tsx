@@ -711,7 +711,7 @@ export default function Home() {
                 <div className="flex flex-wrap gap-3">
                   <Sheet>
                     <SheetTriggerButton variant="green" theme="light-green">Right Drawer</SheetTriggerButton>
-                    <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black border-l-[3px] border-chaos-black">
+                    <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black">
                       <SheetHeader>
                         <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
                         <SheetDescription>Match statistics, gear catalog, and lobby features.</SheetDescription>
@@ -728,7 +728,7 @@ export default function Home() {
 
                   <Popover>
                     <PopoverTriggerButton variant="outline" theme="yellow">Popover</PopoverTriggerButton>
-                    <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs border-2 border-chaos-black bg-white p-4 pt-6 text-chaos-black">
+                    <PopoverContent align="center" className="shadow-soft-splat-sm max-w-xs bg-white p-4 pt-6 text-chaos-black">
                       <PopoverHeader>
                         <PopoverTitle className="font-black">Grizzco Industries</PopoverTitle>
                         <PopoverDescription className="text-xs">Corporate sponsorship details.</PopoverDescription>

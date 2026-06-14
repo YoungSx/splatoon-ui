@@ -4,9 +4,11 @@ import * as React from "react"
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { createTriggerButton } from "@/components/ui/trigger-button"
-import { XIcon } from "lucide-react"
+import { WaveButton } from "./wave-button"
+import styles from "./sheet.module.css"
+
+// ── Sub-components (composable) ──
 
 function Sheet({ ...props }: SheetPrimitive.Root.Props) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
@@ -18,8 +20,14 @@ function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
 
 const SheetTriggerButton = createTriggerButton(SheetPrimitive.Trigger, "sheet-trigger")
 
-function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
-  return <SheetPrimitive.Close data-slot="sheet-close" {...props} />
+function SheetClose({ className, ...props }: SheetPrimitive.Close.Props) {
+  return (
+    <SheetPrimitive.Close
+      data-slot="sheet-close"
+      className={cn('cursor-pointer', className)}
+      {...props}
+    />
+  )
 }
 
 function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
@@ -31,7 +39,7 @@ function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
       className={cn(
-        "fixed inset-0 z-50 bg-black/40 transition-opacity duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 supports-backdrop-filter:backdrop-blur-sm",
+        "fixed inset-0 z-[105] bg-overlay transition-opacity duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 supports-backdrop-filter:backdrop-blur-sm",
         className
       )}
       {...props}
@@ -39,56 +47,64 @@ function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   )
 }
 
-const sidePositionStyles: Record<string, React.CSSProperties> = {
-  top: { top: 0, left: 0, right: 0, height: "auto" },
-  right: { top: 0, right: 0, bottom: 0, width: "75%", maxWidth: "24rem" },
-  bottom: { bottom: 0, left: 0, right: 0, height: "auto" },
-  left: { top: 0, left: 0, bottom: 0, width: "75%", maxWidth: "24rem" },
+// ── Low-level popup primitive (no Portal/Overlay/Close) ──
+
+type SheetSide = "top" | "right" | "bottom" | "left"
+
+const SIDE_CLASS: Record<SheetSide, string> = {
+  top: styles.sideTop,
+  right: styles.sideRight,
+  bottom: styles.sideBottom,
+  left: styles.sideLeft,
 }
 
-function SheetContent({
-  className,
-  children,
-  side = "right",
-  showCloseButton = true,
-  ...props
-}: SheetPrimitive.Popup.Props & {
-  side?: "top" | "right" | "bottom" | "left"
-  showCloseButton?: boolean
-}) {
-  return (
-    <SheetPortal>
-      <SheetOverlay />
+const SheetPopup = React.forwardRef<HTMLDivElement, SheetPrimitive.Popup.Props & {
+  side?: SheetSide
+}>(
+  function SheetPopup({ className, side = "right", ...props }, ref) {
+    return (
       <SheetPrimitive.Popup
-        data-slot="sheet-content"
+        ref={ref}
+        data-slot="sheet-popup"
         data-side={side}
-        style={{ position: "fixed", zIndex: 50, ...sidePositionStyles[side] }}
         className={cn(
-          "drawer-sheet flex flex-col gap-4 border-foreground bg-popover bg-clip-padding text-sm text-popover-foreground shadow-none transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0",
-          side === "top" && "border-b-2",
-          side === "right" && "border-l-2",
-          side === "bottom" && "border-t-2",
-          side === "left" && "border-r-2",
+          "drawer-sheet flex flex-col gap-4 bg-popover bg-clip-padding text-sm text-popover-foreground shadow-none transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0",
+          SIDE_CLASS[side],
           className
         )}
         {...props}
-      >
-        {children}
-        {showCloseButton && (
-          <div className="absolute top-3 right-3">
-            <SheetPrimitive.Close
-              data-slot="sheet-close"
-              render={<Button variant="ghost" size="icon-sm" />}
-            >
-              <XIcon />
-              <span className="sr-only">Close</span>
-            </SheetPrimitive.Close>
-          </div>
-        )}
-      </SheetPrimitive.Popup>
-    </SheetPortal>
-  )
-}
+      />
+    )
+  },
+)
+
+// ── High-level content (Portal + Overlay + Popup + Close) ──
+
+const SheetContent = React.forwardRef<HTMLDivElement, SheetPrimitive.Popup.Props & {
+  side?: SheetSide
+  showCloseButton?: boolean
+}>(
+  function SheetContent(
+    { className, children, side = "right", showCloseButton = true, ...props },
+    ref,
+  ) {
+    return (
+      <SheetPortal>
+        <SheetOverlay />
+        <SheetPopup ref={ref} className={className} side={side} {...props}>
+          {children}
+          {showCloseButton && (
+            <div className="absolute top-3 right-3">
+              <SheetPrimitive.Close render={<WaveButton />} />
+            </div>
+          )}
+        </SheetPopup>
+      </SheetPortal>
+    )
+  },
+)
+
+// ── Layout helpers ──
 
 function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -135,12 +151,15 @@ function SheetDescription({
 
 export {
   Sheet,
-  SheetTrigger,
-  SheetTriggerButton,
   SheetClose,
   SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
   SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetOverlay,
+  SheetPortal,
+  SheetPopup,
+  SheetTitle,
+  SheetTrigger,
+  SheetTriggerButton,
 }

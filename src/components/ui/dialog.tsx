@@ -106,7 +106,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/90 supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0",
+        "fixed inset-0 isolate z-50 bg-overlay supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0",
         className
       )}
       {...props}
@@ -405,7 +405,7 @@ function DialogContent({
 
           {showCloseButton && (
             <div className="absolute -top-1 -right-3 z-50">
-              <WaveButton />
+              <DialogPrimitive.Close render={<WaveButton />} />
             </div>
           )}
         </div>
