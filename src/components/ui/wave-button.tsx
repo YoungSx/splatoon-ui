@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import navStyles from './nav-menu-button.module.css'
 import styles from './wave-button.module.css'
 
 export type WaveButtonVariant = 'yellow' | 'white' | 'ghost'
@@ -47,9 +46,9 @@ const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(
         className={cn(
           VARIANT_CLASS[variant],
           SIZE_CLASS[size],
-          navStyles.iconWrap,
-          animation === 'morph' && navStyles.morph,
-          navStyles.pressed,
+          styles.iconWrap,
+          animation === 'morph' && styles.morph,
+          styles.pressed,
           'grid place-content-center cursor-pointer',
           className,
         )}
@@ -57,7 +56,7 @@ const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(
       >
         {icon !== null && (
           icon ?? (
-            <span data-menu-trigger-line="" className={navStyles.icon} />
+            <span data-menu-trigger-line="" className={styles.icon} />
           )
         )}
       </button>

@@ -1,8 +1,88 @@
-/* WaveButton variant & size classes.
-   Animation classes (morph, icon, pressed) live in nav-menu-button.module.css
-   and are shared with NavMenuButton. */
+/* WaveButton & NavMenuButton shared animation/icon classes */
 
-/* ── Variants ── */
+/* ── Shared: morph blob animation ── */
+
+.morph {
+  animation: morph calc(var(--duration-factor, 1) * 3s) linear infinite;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  transform: translateZ(0);
+}
+
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+  }
+  34% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+  }
+}
+
+/* ── Shared: icon wrap container ── */
+
+.iconWrap {
+  background-color: var(--color-yellow, #eaff3d);
+  display: grid;
+  flex-shrink: 0;
+  height: 48px;
+  place-content: center;
+  width: 48px;
+}
+
+/* ── Shared: hamburger / X icon ── */
+
+.icon {
+  --line-w: 19px;
+  --line-h: 4px;
+  --line-y: calc(var(--line-h) * -1.5);
+  background-color: var(--color-blue, #603bff);
+  display: block;
+  height: var(--line-h);
+  position: relative;
+  width: var(--line-w);
+  transition: background-color 0.1s linear;
+}
+
+.icon::before,
+.icon::after {
+  --line-rotation: 0deg;
+  background-color: var(--color-blue, #603bff);
+  content: '';
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateY(var(--line-y)) rotate(var(--line-rotation));
+  transition:
+    transform 0.25s cubic-bezier(0.21, 0.12, 0.35, 1.43),
+    background-color 0.1s linear;
+  width: 100%;
+}
+
+.icon::after {
+  --line-y: calc(var(--line-h) * 1.5);
+}
+
+/* ── Shared: pressed (X) state ── */
+
+.pressed .icon {
+  background-color: transparent;
+}
+
+.pressed .icon::before {
+  --line-y: 0px;
+  --line-rotation: 45deg;
+}
+
+.pressed .icon::after {
+  --line-y: 0px;
+  --line-rotation: -45deg;
+}
+
+/* ── WaveButton variants ── */
 
 .yellow {
   background-color: var(--color-yellow, #eaff3d);
@@ -16,7 +96,7 @@
   background-color: transparent;
 }
 
-/* ── Sizes ── */
+/* ── WaveButton sizes ── */
 
 .md {
   height: 48px;

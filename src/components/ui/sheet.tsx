@@ -20,16 +20,6 @@ function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
 
 const SheetTriggerButton = createTriggerButton(SheetPrimitive.Trigger, "sheet-trigger")
 
-function SheetClose({ className, ...props }: SheetPrimitive.Close.Props) {
-  return (
-    <SheetPrimitive.Close
-      data-slot="sheet-close"
-      className={cn('cursor-pointer', className)}
-      {...props}
-    />
-  )
-}
-
 function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
 }
@@ -151,7 +141,6 @@ function SheetDescription({
 
 export {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,

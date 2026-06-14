@@ -294,10 +294,6 @@
     top: 18px;
   }
 
-  .scrap-panel-no-slot::before {
-    display: none;
-  }
-
   .field-cut {
     border-radius: 7px 11px 8px 12px;
   }
@@ -306,21 +302,6 @@
     border-radius: 8px 11px 9px 13px;
   }
 
-  /* Ink splatter overlay */
-  .ink-splatter {
-    position: relative;
-  }
-  .ink-splatter::after {
-    content: '';
-    position: absolute;
-    inset: -10%;
-    background:
-      radial-gradient(circle at 20% 80%, var(--ink-blue) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, var(--neon-yellow) 0%, transparent 40%);
-    opacity: 0.08;
-    pointer-events: none;
-    z-index: 0;
-  }
 }
 
 /* ── Skewed heading style — like real site h1/h2 ── */
@@ -362,169 +343,6 @@
   }
 }
 
-/* ── Entrance Animations ── */
-@keyframes splat-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3) rotate(-20deg);
-  }
-  60% {
-    opacity: 0.25;
-    transform: scale(1.1) rotate(3deg);
-  }
-  100% {
-    opacity: var(--splat-opacity, 0.2);
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes slide-up-tilt {
-  from {
-    opacity: 0;
-    transform: translateY(30px) rotate(-3deg);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) rotate(var(--card-rotate, 0deg));
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.animate-splat-in {
-  animation: splat-in 0.6s var(--ease-out) both;
-}
-
-.animate-slide-up {
-  animation: slide-up-tilt 0.5s var(--ease-out) both;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.4s ease-out both;
-}
-
-/* Stagger delays for card entrance */
-.stagger-1 {
-  animation-delay: 0.05s;
-}
-.stagger-2 {
-  animation-delay: 0.1s;
-}
-.stagger-3 {
-  animation-delay: 0.15s;
-}
-.stagger-4 {
-  animation-delay: 0.2s;
-}
-.stagger-5 {
-  animation-delay: 0.25s;
-}
-.stagger-6 {
-  animation-delay: 0.3s;
-}
-
-/* ── Combined Tape/Sticker Animations ── */
-@keyframes peel-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.3) rotate(-20deg);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.08) rotate(2deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-}
-
-.animate-peel-in {
-  animation: peel-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes tape-slide-in-left {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%) rotate(-5deg);
-  }
-  60% {
-    opacity: 1;
-    transform: translateX(5%) rotate(1deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) rotate(0deg);
-  }
-}
-
-.animate-tape-slide-in-left {
-  animation: tape-slide-in-left 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes tape-slide-in-right {
-  0% {
-    opacity: 0;
-    transform: translateX(100%) rotate(5deg);
-  }
-  60% {
-    opacity: 1;
-    transform: translateX(-5%) rotate(-1deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0) rotate(0deg);
-  }
-}
-
-.animate-tape-slide-in-right {
-  animation: tape-slide-in-right 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-/* Play-state triggers for .in-view parent */
-.in-view .animate-peel-in {
-  animation-play-state: running;
-}
-.in-view .animate-tape-slide-in-left {
-  animation-play-state: running;
-}
-.in-view .animate-tape-slide-in-right {
-  animation-play-state: running;
-}
-
-/* ── Wavy Divider ── */
-.divider-wavy {
-  position: relative;
-  height: 20px;
-  overflow: hidden;
-}
-.divider-wavy::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--foreground) 0px,
-    var(--foreground) 2px,
-    transparent 2px,
-    transparent 12px
-  );
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q15 0 30 10 T60 10 T90 10 T120 10' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E");
-  mask-size: 120px 20px;
-  mask-repeat: repeat-x;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20'%3E%3Cpath d='M0 10 Q15 0 30 10 T60 10 T90 10 T120 10' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E");
-  -webkit-mask-size: 120px 20px;
-  -webkit-mask-repeat: repeat-x;
-  opacity: 0.3;
-}
-
 /* ── Section Background Patterns ── */
 /* These utility classes add a repeating pattern texture on top of the section's background color.
    The pattern images are semi-transparent PNGs that tile/repeat. */
@@ -544,40 +362,14 @@
   background-image: image-set(url("/_images/backgrounds/camo-purple.png") 1x, url("/_images/backgrounds/camo-purple-2x.png") 2x);
 }
 
-.pattern-camo-orange {
-  background-image: url("/_images/backgrounds/camo-orange.png");
-  background-image: image-set(url("/_images/backgrounds/camo-orange.png") 1x, url("/_images/backgrounds/camo-orange-2x.png") 2x);
-}
-
-.pattern-camo-red {
-  background-image: url("/_images/backgrounds/camo-red.png");
-  background-image: image-set(url("/_images/backgrounds/camo-red.png") 1x, url("/_images/backgrounds/camo-red-2x.png") 2x);
-}
-
 .pattern-camo-white {
   background-image: url("/_images/backgrounds/camo-white.png");
   background-image: image-set(url("/_images/backgrounds/camo-white.png") 1x, url("/_images/backgrounds/camo-white-2x.png") 2x);
 }
 
-.pattern-octo-black {
-  background-image: url("/_images/backgrounds/octo-black.png");
-  background-image: image-set(url("/_images/backgrounds/octo-black.png") 1x, url("/_images/backgrounds/octo-black-2x.png") 2x);
-}
-
-.pattern-circles-green {
-  background-image: url("/_images/backgrounds/circles-green.png");
-  background-image: image-set(url("/_images/backgrounds/circles-green.png") 1x, url("/_images/backgrounds/circles-green-2x.png") 2x);
-}
-
 .pattern-chip-white {
   background-image: url("/_images/backgrounds/chip-white.png");
   background-image: image-set(url("/_images/backgrounds/chip-white.png") 1x, url("/_images/backgrounds/chip-white-2x.png") 2x);
-}
-
-.pattern-monsters-black {
-  background-image: url("/_images/backgrounds/monsters-black.png");
-  background-image: image-set(url("/_images/backgrounds/monsters-black.png") 1x, url("/_images/backgrounds/monsters-black-2x.png") 2x);
-  background-size: 50%;
 }
 
 .pattern-tapes-black {
@@ -615,72 +407,4 @@
   scroll-behavior: auto !important;
 }
 
-/* ── Splatoon 3 Full Screen Menu Overlay Liquid Animations ── */
-@keyframes menu-drip-enter {
-  0% {
-    clip-path: var(--menu-drip-in-0);
-  }
-  25% {
-    clip-path: var(--menu-drip-in-25);
-  }
-  50% {
-    clip-path: var(--menu-drip-in-50);
-  }
-  75% {
-    clip-path: var(--menu-drip-in-75);
-  }
-  100% {
-    clip-path: var(--menu-drip-in-100);
-  }
-}
 
-@keyframes menu-drip-leave {
-  0% {
-    clip-path: var(--menu-drip-out-0);
-  }
-  25% {
-    clip-path: var(--menu-drip-out-25);
-  }
-  50% {
-    clip-path: var(--menu-drip-out-50);
-  }
-  75% {
-    clip-path: var(--menu-drip-out-75);
-  }
-  100% {
-    clip-path: var(--menu-drip-out-100);
-  }
-}
-
-.menu-overlay-active {
-  animation: menu-drip-enter 0.75s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-}
-
-.menu-overlay-closing {
-  animation: menu-drip-leave 0.75s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-}
-
-/* ── Splatoon 3 Sticker Tape Torn Edge ── */
-.tape-torn-edge {
-  clip-path: polygon(
-    0% 8%,
-    4% 0%,
-    96% 2%,
-    100% 10%,
-    98% 30%,
-    100% 50%,
-    97% 75%,
-    100% 95%,
-    96% 100%,
-    4% 97%,
-    0% 95%,
-    2% 70%,
-    0% 50%,
-    3% 25%
-  );
-}
-
-/* ── News cards: light mode shadow for visibility against cream background ── */
-[data-variant='news'] {
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.35));
-}

@@ -174,24 +174,26 @@ function DialogContentFullScreen({
 
     try { triggerRef?.current?.focus() } catch (_) { /* */ }
 
-    const contentEl = contentRef.current
-    if (contentEl) {
-      const duration = 700
-      const rotate = (Math.random() > 0.5 ? 1 : -1) * (20 + 10 * Math.random())
-      const startTime = performance.now()
-      const animate = (now: number) => {
-        const elapsed = now - startTime
-        const rawT = Math.min(elapsed / duration, 1)
-        const t = power3In(rawT)
+    if (!isReducedMotion) {
+      const contentEl = contentRef.current
+      if (contentEl) {
+        const duration = 700
+        const rotate = (Math.random() > 0.5 ? 1 : -1) * (20 + 10 * Math.random())
+        const startTime = performance.now()
+        const animate = (now: number) => {
+          const elapsed = now - startTime
+          const rawT = Math.min(elapsed / duration, 1)
+          const t = power3In(rawT)
 
-        contentEl.style.transform = `translateY(${t * 100}%) scale(${1 + t * (0.7 - 1)}) rotate(${t * rotate}deg)`
-        contentEl.style.opacity = String(1 - t)
+          contentEl.style.transform = `translateY(${t * 100}%) scale(${1 + t * (0.7 - 1)}) rotate(${t * rotate}deg)`
+          contentEl.style.opacity = String(1 - t)
 
-        if (rawT < 1) {
-          animFrameRef.current = requestAnimationFrame(animate)
+          if (rawT < 1) {
+            animFrameRef.current = requestAnimationFrame(animate)
+          }
         }
+        animFrameRef.current = requestAnimationFrame(animate)
       }
-      animFrameRef.current = requestAnimationFrame(animate)
     }
 
     closeTimerRef.current = setTimeout(() => {
@@ -200,8 +202,8 @@ function DialogContentFullScreen({
       setModalHeadingOut(false)
       setSplatState('ready')
       setOpen(false)
-    }, CLOSE_DELAY)
-  }, [modalActive, modalHeadingOut, setOpen, triggerRef])
+    }, isReducedMotion ? 0 : CLOSE_DELAY)
+  }, [modalActive, modalHeadingOut, isReducedMotion, setOpen, triggerRef])
 
   // Open effect — mirrors VideoDialog's open useEffect
   React.useEffect(() => {
@@ -225,10 +227,10 @@ function DialogContentFullScreen({
     const timer = setTimeout(() => {
       setModalActive(true)
       setSplatState('in')
-    }, 100)
+    }, isReducedMotion ? 0 : 100)
 
     return () => clearTimeout(timer)
-  }, [open, triggerRef])
+  }, [open, isReducedMotion, triggerRef])
 
   // Sync with Dialog open state (handle external close)
   React.useEffect(() => {
@@ -264,7 +266,7 @@ function DialogContentFullScreen({
 
       {isModalMounted && (
         <DialogPrimitive.Backdrop
-          className="fixed inset-0 z-50"
+          className="fixed inset-0 z-50 supports-backdrop-filter:backdrop-blur-sm"
           onClick={handleClose}
         />
       )}
@@ -289,9 +291,9 @@ function DialogContentFullScreen({
               opacity: modalActive ? 1 : 0,
               ...(modalHeadingOut ? {} : {
                 transitionProperty: 'transform, opacity',
-                transitionDuration: '0.6s',
+                transitionDuration: isReducedMotion ? '0s' : '0.6s',
                 transitionTimingFunction: 'ease',
-                transitionDelay: '0.5s',
+                transitionDelay: isReducedMotion ? '0s' : '0.5s',
               }),
               ...style,
             }}
@@ -303,7 +305,8 @@ function DialogContentFullScreen({
       )}
 
       {isModalMounted && showCloseButton && (
-        <WaveButton
+        <DialogPrimitive.Close
+          render={<WaveButton />}
           className="fixed z-[120] right-4 top-5 sm:right-8 sm:top-8"
           style={{
             opacity: modalActive && !modalHeadingOut ? 1 : 0,
