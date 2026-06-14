@@ -1,4 +1,7 @@
 .newsCardsGallery.newsCardsGallery {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gutter-width, 16px) * 1);
   padding-bottom: 0;
 }
 
