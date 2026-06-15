@@ -113,6 +113,16 @@
   transition-timing-function: var(--easing-fn-hide, ease);
 }
 
+/* Same-element pattern: .inView.stagger on one element (e.g. nav <ul>) */
+.inView.stagger > * {
+  opacity: var(--end-alpha, 1);
+  transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1)) rotate(var(--end-rotate, 0deg));
+  transition-delay: var(--in-view-delay, 0s);
+  transition-duration: calc(var(--duration-show, 0.4s) * var(--duration-factor, 1));
+  transition-timing-function: var(--easing-fn-show, ease);
+}
+
+/* Parent-child pattern: .inView on wrapper, .stagger on child (default InViewStagger) */
 .inView .stagger > * {
   opacity: var(--end-alpha, 1);
   transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1)) rotate(var(--end-rotate, 0deg));
@@ -121,7 +131,39 @@
   transition-timing-function: var(--easing-fn-show, ease);
 }
 
-/* Staggered child delays — 1st through 10th */
+/* Staggered child delays — same-element pattern (.inView.stagger) */
+.inView.stagger > :first-child {
+  --in-view-delay: calc((0 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(2) {
+  --in-view-delay: calc((1 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(3) {
+  --in-view-delay: calc((2 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(4) {
+  --in-view-delay: calc((3 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(5) {
+  --in-view-delay: calc((4 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(6) {
+  --in-view-delay: calc((5 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(7) {
+  --in-view-delay: calc((6 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(8) {
+  --in-view-delay: calc((7 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(9) {
+  --in-view-delay: calc((8 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+.inView.stagger > :nth-child(10) {
+  --in-view-delay: calc((9 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+}
+
+/* Staggered child delays — parent-child pattern (.inView .stagger) */
 .inView .stagger > :first-child {
   --in-view-delay: calc((0 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
 }

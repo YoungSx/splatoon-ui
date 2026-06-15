@@ -5,6 +5,7 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
 import { NavMenuButton } from '@/components/ui/nav-menu-button'
+import inViewStyles from '@/components/ui/in-view.module.css'
 import { NavChevron } from './nav-chevron'
 import type { NavLink, LinkRenderProps } from '@/components/ui/navigation-types'
 import type { ContentPhase, CanvasState } from '@/hooks/use-navigation-menu-animation'
@@ -47,7 +48,7 @@ function DefaultNavLink({
       data-nav-label={link.label}
       {...eventProps}
       className={cn(
-        'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.18rem] leading-none font-semibold text-white transition-colors duration-150 md:text-[3.25rem]',
+        'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.5rem] leading-none font-medium text-white transition-colors duration-150',
         link.textClassName
       )}
       style={isHighlighted ? { color: highlightColor } : undefined}
@@ -176,21 +177,29 @@ export function NavigationDialog({
                 {/* Logo area (render prop with contentPhase) */}
                 {logo?.(contentPhase)}
 
-                {/* CTA (e.g. Buy now button) — independent from nav links */}
-                {cta && <div className="mb-4 md:mb-5">{cta}</div>}
+                <ul
+                  className={cn(
+                    'relative flex w-full flex-col items-center gap-0',
+                    inViewStyles.stagger,
+                    inViewStyles.staggerPop,
+                    (contentPhase === 'entering' || contentPhase === 'visible') && inViewStyles.inView,
+                  )}
+                  style={{
+                    '--duration-show': '0.3s',
+                    '--in-view-stagger-amount': '0.1s',
+                  } as React.CSSProperties}
+                >
+                  {/* CTA (e.g. Buy now) — first stagger item */}
+                  {cta && (
+                    <li className="relative">
+                      <div className="mt-2 mb-1">{cta}</div>
+                    </li>
+                  )}
 
-                <ul className="relative flex w-full flex-col items-center gap-0">
-                  {navLinks.map((link, index) => {
+                  {navLinks.map((link) => {
                     const isHighlighted = activeNavLabel
                       ? activeNavLabel === link.label
                       : selectedNavKey === link.selectedKey
-
-                    // Stagger: each li starts at opacity:0, scale(0.5),
-                    // then transitions to visible with per-item delay (0.1s increments)
-                    const itemDelay = contentPhase === 'entering'
-                      ? `${(index + 1) * 100}ms`
-                      : '0s'
-                    const isItemVisible = contentPhase === 'entering' || contentPhase === 'visible'
 
                     const linkProps: LinkRenderProps = {
                       isHighlighted,
@@ -208,18 +217,7 @@ export function NavigationDialog({
                     }
 
                     return (
-                      <li
-                        key={link.label}
-                        className="relative"
-                        style={{
-                          opacity: isItemVisible ? 1 : 0,
-                          transform: isItemVisible ? 'scale(1)' : 'scale(0.5)',
-                          transitionProperty: 'opacity, transform',
-                          transitionDuration: '700ms',
-                          transitionTimingFunction: 'cubic-bezier(0.51, 0, 0.9, 0.43)',
-                          transitionDelay: itemDelay,
-                        }}
-                      >
+                      <li key={link.label} className="relative">
                         {renderLink
                           ? renderLink(link, linkProps)
                           : <DefaultNavLink link={link} highlightColor={highlightColor} {...linkProps} />}

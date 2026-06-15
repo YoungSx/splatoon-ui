@@ -107,6 +107,8 @@ export interface InViewStaggerProps extends React.HTMLAttributes<HTMLDivElement>
   rootMargin?: string
   /** Only trigger once */
   once?: boolean
+  /** Override IntersectionObserver — when provided, controls active state directly */
+  active?: boolean
   children?: React.ReactNode
 }
 
@@ -114,11 +116,13 @@ export function InViewStagger({
   variant,
   rootMargin = '0px',
   once = true,
+  active,
   className,
   children,
   ...props
 }: InViewStaggerProps) {
-  const [isInView, ref] = useInView<HTMLDivElement>({ rootMargin, once })
+  const [isInViewFromObserver, ref] = useInView<HTMLDivElement>({ rootMargin, once })
+  const isInView = active !== undefined ? active : isInViewFromObserver
 
   return (
     <div

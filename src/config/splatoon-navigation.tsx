@@ -175,8 +175,8 @@ export function renderSplatoonLink(link: SplatoonNavLink, props: LinkRenderProps
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         className={cn(
-          'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.18rem] leading-none font-semibold text-white transition-colors duration-150 md:text-[3.25rem]',
-          props.isHighlighted && 'text-[#eaff3d]',
+          'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.5rem] leading-none font-medium text-white transition-colors duration-150',
+          props.isHighlighted && 'text-[#eaff3d] -rotate-2deg',
           link.textClassName
         )}
       >
