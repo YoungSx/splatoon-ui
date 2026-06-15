@@ -50,7 +50,7 @@ function DefaultNavLink({
       data-nav-label={link.label}
       {...eventProps}
       className={cn(
-        'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.5rem] leading-none font-medium text-white transition-colors duration-150',
+        'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.5rem] leading-none font-alt font-medium text-white transition-colors duration-150',
         link.textClassName
       )}
       style={isActive ? { color: highlightColor } : undefined}
