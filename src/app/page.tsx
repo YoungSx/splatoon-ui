@@ -180,7 +180,7 @@ function PageTransitionDemo() {
               durationOut={1000}
               autoReveal={false}
               onRevealed={() => setIsTransitioning(false)}
-              className={`absolute inset-0 rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-[#f5f0e8] transition-all duration-300 ${
+              className={`absolute inset-0 rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-white transition-all duration-300 ${
                 variant === 'webgl' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
               }`}
             >
@@ -203,7 +203,7 @@ function PageTransitionDemo() {
               durationOut={1000}
               autoReveal={false}
               onRevealed={() => setIsTransitioning(false)}
-              className={`absolute inset-0 rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-[#f5f0e8] transition-all duration-300 ${
+              className={`absolute inset-0 rounded-xl overflow-hidden border-2 border-dashed border-chaos-black/20 bg-white transition-all duration-300 ${
                 variant === 'squid' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
               }`}
             >
@@ -730,7 +730,7 @@ export default function Home() {
                 <div className="flex flex-wrap gap-3">
                   <Sheet>
                     <SheetTriggerButton variant="green" theme="light-green">Right Drawer</SheetTriggerButton>
-                    <SheetContent side="right" className="shadow-soft-splat-lg bg-[#f5f0e8] p-6 pt-10 text-chaos-black">
+                    <SheetContent side="right" className="shadow-soft-splat-lg bg-white p-6 pt-10 text-chaos-black">
                       <SheetHeader>
                         <SheetTitle className="text-xl font-black">LOBBY TERMINAL</SheetTitle>
                         <SheetDescription>Match statistics, gear catalog, and lobby features.</SheetDescription>
@@ -1016,7 +1016,7 @@ export default function Home() {
       <Section
         id="replicas"
         size="md"
-        bgColor="bg-[#f5f0e8]"
+        bgColor="bg-white"
         text="text-chaos-black"
         pattern="camo-white"
         className="flex flex-col items-center transition-colors duration-300"
@@ -1252,7 +1252,7 @@ export default function Home() {
                 <h3 className="text-lg font-black uppercase text-white/80">Rank Reset</h3>
                 <span className="text-sm font-bold" style={{ color: "var(--color-nintendo-red)" }}>10%</span>
               </div>
-              <Progress value={10} variant="red" trackVariant="transparent" />
+              <Progress value={10} variant="red" trackVariant="dark" />
             </div>
             
             <div className="space-y-4">

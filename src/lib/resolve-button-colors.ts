@@ -79,7 +79,7 @@ export const officialVariantSurfacePresets: Record<
   },
   outline: {
     bgColor: officialColorVarMap.white,
-    hoverBgColor: officialColorVarMap.yellow,
+    hoverBgColor: officialColorVarMap.white,
     outlineBorderColor: officialColorVarMap.black,
   },
   ghost: null,

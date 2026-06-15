@@ -33,12 +33,12 @@ const variantPalette = {
   orange: "var(--color-orange)",
   red: "var(--color-red)",
   black: "var(--color-black)",
-  white: "#F4F4F4",
+  white: "var(--color-white)",
 } as const satisfies Record<ProgressVariant, string>
 
 const trackPalette = {
-  dark: "#181818",
-  light: "#F4F4F4",
+  dark: "var(--color-black)",
+  light: "var(--color-white)",
   transparent: "transparent",
 } as const satisfies Record<ProgressTrackVariant, string>
 
@@ -77,8 +77,8 @@ function Progress({
           backgroundColor: trackColor,
           borderStyle: "solid",
           borderWidth,
-          borderColor: "#181818",
-          ...(trackVariant !== "transparent" ? { boxShadow: "3px 3px 0px #181818" } : null),
+          borderColor: "var(--color-black)",
+          ...(trackVariant !== "transparent" ? { boxShadow: "3px 3px 0px var(--color-black)" } : null),
         }}
         {...props}
       >

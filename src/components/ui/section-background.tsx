@@ -38,7 +38,7 @@ const PATTERN_MAP: Record<Pattern, string> = {
 }
 
 export interface SectionBackgroundProps extends React.HTMLAttributes<HTMLElement> {
-  /** Solid background color (e.g. "bg-[#f5f0e8]" or "bg-white") */
+  /** Solid background color (e.g. "bg-white", "bg-black") */
   bgColor?: string
   /** Dark mode background color */
   darkBgColor?: string

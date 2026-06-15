@@ -35,7 +35,7 @@ export function StapleCard({
   ...props
 }: StapleCardProps) {
   const isDark = surface === "dark"
-  const svgFill = isDark ? "#1a1a1a" : "#FFF"
+  const svgFill = isDark ? "var(--color-black)" : "var(--color-white)"
 
   return (
     <div
