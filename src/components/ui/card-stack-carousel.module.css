@@ -8,7 +8,7 @@
   box-shadow: none;
   --scale: 1;
   --squish-direction: 1;
-  background-color: var(--color-green, #00c8b4);
+  background-color: var(--color-green, #6af7ce);
   color: var(--color-black, #0d0d0d);
   touch-action: pan-y;
 }

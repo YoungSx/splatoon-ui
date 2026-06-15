@@ -125,7 +125,7 @@ interface DialogContentProps extends DialogPrimitive.Popup.Props {
 const surfaceFills = {
   paper: { bg: "bg-white text-[#0d0d0d]", fill: "#ffffff" },
   cream: { bg: "bg-[#f5f0e8] text-[#0d0d0d]", fill: "#f5f0e8" },
-  danger: { bg: "bg-[#ff585e] text-white", fill: "#ff585e" },
+  danger: { bg: "bg-[#ff505e] text-white", fill: "#ff505e" },
 } as const
 
 // ── Full-Screen Dialog Content ──
@@ -256,7 +256,7 @@ function DialogContentFullScreen({
           state={canvasState}
           durationIn={DURATION_IN}
           durationOut={DURATION_OUT}
-          color="#00c8b4"
+          color="#6af7ce"
           background="/_images/backgrounds/camo-black-2x.webp"
           preloadedBackground={preloadedBgRef.current}
           count={splashCountRef.current}

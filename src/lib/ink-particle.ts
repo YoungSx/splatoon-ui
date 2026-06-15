@@ -45,10 +45,10 @@ export const DEFAULT_COLORS = [
   '#0d0d0d', // Chaos Black (default ink)
   '#603bff', // Ink Blue
   '#eaff3d', // Neon Yellow
-  '#ff585e', // Ink Red
-  '#00c8b4', // Ink Green
-  '#a51ee1', // Ink Purple
-  '#fa5a00', // Ink Orange
+  '#ff505e', // Ink Red
+  '#6af7ce', // Ink Green
+  '#af50ff', // Ink Purple
+  '#ff9750', // Ink Orange
 ]
 
 export const POOL_SIZE = 200

@@ -22,9 +22,9 @@ function Tape({
 }: TapeProps) {
   const stickerColorMap = {
     yellow: { bg: "#eaff3d", text: "#0d0d0d" },
-    red: { bg: "#ff585e", text: "#ffffff" },
+    red: { bg: "#ff505e", text: "#ffffff" },
     blue: { bg: "#603bff", text: "#eaff3d" },
-    green: { bg: "#00c8b4", text: "#0d0d0d" },
+    green: { bg: "#6af7ce", text: "#0d0d0d" },
   }
 
   const colors = stickerColorMap[color] || stickerColorMap.yellow

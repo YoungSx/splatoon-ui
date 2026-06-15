@@ -28,10 +28,10 @@ const sizeHeights = {
 const variantPalette = {
   yellow: "#eaff3d",
   blue: "#603bff",
-  green: "#00c8b4",
-  purple: "#a51ee1",
-  orange: "#fa5a00",
-  red: "#ff585e",
+  green: "#6af7ce",
+  purple: "#af50ff",
+  orange: "#ff9750",
+  red: "#ff505e",
   black: "#0d0d0d",
   white: "#F4F4F4",
 } as const satisfies Record<ProgressVariant, string>

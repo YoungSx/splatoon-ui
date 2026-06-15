@@ -146,9 +146,9 @@
   --secondary-foreground: #ffffff;
   --muted: #f5f5f5;
   --muted-foreground: #555555;
-  --accent: #a51ee1;
+  --accent: #af50ff;
   --accent-foreground: #ffffff;
-  --destructive: #ff585e;
+  --destructive: #ff505e;
   --border: #cccccc;
   --input: #cccccc;
   --ring: #eaff3d;
@@ -166,18 +166,18 @@
   --z-dialog-close: 120;
   --chart-1: #eaff3d;
   --chart-2: #603bff;
-  --chart-3: #ff585e;
-  --chart-4: #fa5a00;
-  --chart-5: #00c8b4;
+  --chart-3: #ff505e;
+  --chart-4: #ff9750;
+  --chart-5: #6af7ce;
   --radius: 8px;
 
   /* Splatoon brand tokens (exact from site) */
   --neon-yellow: #eaff3d;
   --ink-blue: #603bff;
-  --ink-purple: #a51ee1;
-  --ink-green: #00c8b4;
-  --ink-orange: #fa5a00;
-  --ink-red: #ff585e;
+  --ink-purple: #af50ff;
+  --ink-green: #6af7ce;
+  --ink-orange: #ff9750;
+  --ink-red: #ff505e;
   --desert-sand: #f5f0e8;
   --chaos-black: #0d0d0d;
   --tape-white: #ffffff;
@@ -189,10 +189,22 @@
   --color-white: #fff;
   --color-yellow: #eaff3d;
   --color-blue: #603bff;
-  --color-purple: #a51ee1;
-  --color-green: #00c8b4;
-  --color-orange: #fa5a00;
-  --color-red: #ff585e;
+  --color-purple: #af50ff;
+  --color-green: #6af7ce;
+  --color-orange: #ff9750;
+  --color-orange-dark: #fa5a00;
+  --color-red: #ff505e;
+  --color-brown: #7f413f;
+  --color-nintendo-red: #e60012;
+  --color-twitter: #1da1f2;
+  --color-side-order-red: #9f6a62;
+  --color-side-order-green: #58a28a;
+  --color-side-order-blue: #7e96bd;
+  --color-side-order-yellow: #c2c26e;
+  --color-side-order-purple: #a280b2;
+  --color-side-order-orange: #be9b6f;
+  --color-side-order-black: #292929;
+  --color-side-order-white: #faf8f0;
   --color-grey-100: #ccc;
   --color-grey-200: #888;
   --color-grey-300: #555;
@@ -203,6 +215,12 @@
   --ease-in: cubic-bezier(0.51, 0, 0.9, 0.43);
   --ease-back-in: cubic-bezier(0.38, -0.37, 0.83, 0.23);
   --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43);
+  --ease-out: cubic-bezier(0.35, 0.91, 0.3, 0.99);
+  --ease-in-out: cubic-bezier(0.75, 0, 0.21, 0.99);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --in-view-delay: 0s;
+  --in-view-stagger-delay: 0s;
+  --in-view-stagger-amount: 0.2s;
 
   --sidebar: #f5f5f5;
   --sidebar-foreground: #0d0d0d;

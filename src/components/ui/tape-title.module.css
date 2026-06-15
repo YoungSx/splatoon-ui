@@ -40,7 +40,7 @@
 
 /* Red variant */
 .red {
-  background: var(--color-red, #ff585e);
+  background: var(--color-red, #ff505e);
   color: var(--color-black, #0d0d0d);
 }
 

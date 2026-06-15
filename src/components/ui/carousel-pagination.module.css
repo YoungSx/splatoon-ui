@@ -56,7 +56,7 @@
 }
 
 .paginationActive {
-  background: var(--color-primary, #00c8b4);
+  background: var(--color-primary, #6af7ce);
   opacity: 1;
 }
 

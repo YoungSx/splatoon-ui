@@ -97,7 +97,7 @@ const homepageFeedCarouselItems = [1, 2, 3, 4, 5, 6].map((item) => ({
     color: item % 2 === 0 ? "yellow" as const : "blue" as const,
     placement: item % 2 === 0 ? "left" as const : "right" as const,
   },
-  mediaClassName: item % 2 === 0 ? "bg-[#603bff]" : "bg-[#fa5a00]",
+  mediaClassName: item % 2 === 0 ? "bg-[#603bff]" : "bg-[#ff9750]",
   media: (
     <span className="font-heading text-6xl font-black text-[#eaff3d]">
       {`0${item}`}
@@ -238,7 +238,7 @@ function PageTransitionDemo() {
             </Button>
             <Button
               variant="destructive"
-              onClick={() => navigateTo('weapons', 'webgl', '#ff585e')}
+              onClick={() => navigateTo('weapons', 'webgl', '#ff505e')}
               disabled={isTransitioning || (variant === 'webgl' && demoPage === 'weapons')}
             >
               Weapons
@@ -343,7 +343,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          HERO: Navigation + Ink Trail cursor effect
          ──────────────────────────────────────────────────────── */}
-      <InkTrailCanvas colors={['#eaff3d', '#603bff', '#ff585e', '#00c8b4', '#fa5a00']}>
+      <InkTrailCanvas colors={['#eaff3d', '#603bff', '#ff505e', '#6af7ce', '#ff9750']}>
         <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white text-chaos-black gap-6 transition-colors duration-300 pattern-chip-white">
           <div className="flex flex-col items-center gap-3 text-center z-10">
             <Badge variant="sticker">
@@ -397,10 +397,10 @@ export default function Home() {
         className="py-24 flex flex-col items-center transition-colors duration-300"
       >
         {/* Decorative Splats */}
-        <div className="absolute top-10 left-10 text-[#ff585e]">
+        <div className="absolute top-10 left-10 text-[#ff505e]">
           <Splat3 className="w-32 h-32" />
         </div>
-        <div className="absolute bottom-10 right-10 text-[#00c8b4]">
+        <div className="absolute bottom-10 right-10 text-[#6af7ce]">
           <Splat3 className="w-48 h-48" />
         </div>
 
@@ -638,7 +638,7 @@ export default function Home() {
         pattern="camo-black"
         headingTape={<HeadingTape color="red">Overlays & Dialogs</HeadingTape>}
       >
-        <div className="absolute top-6 right-6 text-[#a51ee1]">
+        <div className="absolute top-6 right-6 text-[#af50ff]">
           <Splat3 className="w-24 h-24" />
         </div>
         <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
@@ -700,7 +700,7 @@ export default function Home() {
 
               {/* Fullscreen Dialog */}
               <div className="space-y-4">
-                <h3 className="text-lg font-black uppercase tracking-wider text-[#a51ee1]">
+                <h3 className="text-lg font-black uppercase tracking-wider text-[#af50ff]">
                   Fullscreen Dialog
                 </h3>
                 <p className="text-xs text-white/50">Immersive overlay for media content — use fullScreen prop</p>
@@ -723,7 +723,7 @@ export default function Home() {
 
               {/* Sheet + Popover */}
               <div className="space-y-4">
-                <h3 className="text-lg font-black uppercase tracking-wider text-[#00c8b4]">
+                <h3 className="text-lg font-black uppercase tracking-wider text-[#6af7ce]">
                   Drawers & Popovers
                 </h3>
                 <p className="text-xs text-white/50">Side sheets, contextual menus and alerts</p>
@@ -754,7 +754,7 @@ export default function Home() {
                       </PopoverHeader>
                       <div className="py-2 text-xs">
                         <p>Recruiting part-time workers to collect Golden Eggs.</p>
-                        <p className="font-bold text-[#ff585e] mt-1.5">Hazard pay included!</p>
+                        <p className="font-bold text-[#ff505e] mt-1.5">Hazard pay included!</p>
                       </div>
                     </PopoverContent>
                   </Popover>
@@ -848,8 +848,8 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Plaza Tour</CardTitle>
                 </CardHeader>
-                <CardImage className="bg-[#00c8b4] flex items-center justify-center p-4">
-                  <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#a51ee1] fill-current">
+                <CardImage className="bg-[#6af7ce] flex items-center justify-center p-4">
+                  <svg viewBox="0 0 100 100" className="w-20 h-20 text-[#af50ff] fill-current">
                     <path d="M50,10 L55,25 L45,25 Z M42,25 L58,25 L55,75 L45,75 Z M35,75 L65,75 L60,95 L40,95 Z" />
                   </svg>
                 </CardImage>
@@ -885,24 +885,24 @@ export default function Home() {
                       <div className="rounded-lg bg-[#603bff] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Left</div>
                     </InView>
                     <InView direction="up" rootMargin="-50px" delay={1}>
-                      <div className="rounded-lg bg-[#a51ee1] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Up</div>
+                      <div className="rounded-lg bg-[#af50ff] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Up</div>
                     </InView>
                     <InView direction="right" rootMargin="-50px" delay={2}>
-                      <div className="rounded-lg bg-[#ff585e] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Right</div>
+                      <div className="rounded-lg bg-[#ff505e] p-4 text-center text-sm font-black uppercase tracking-wider text-white">Right</div>
                     </InView>
                     <InView direction="pop" rootMargin="-50px" delay={1}>
                       <div className="rounded-lg bg-[#eaff3d] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Pop</div>
                     </InView>
                     <InView drop rootMargin="-50px" delay={2}>
-                      <div className="rounded-lg bg-[#00c8b4] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Drop</div>
+                      <div className="rounded-lg bg-[#6af7ce] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Drop</div>
                     </InView>
                     <InView drop="slow" rootMargin="-50px" delay={3}>
-                      <div className="rounded-lg bg-[#fa5a00] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Slow Drop</div>
+                      <div className="rounded-lg bg-[#ff9750] p-4 text-center text-sm font-black uppercase tracking-wider text-chaos-black">Slow Drop</div>
                     </InView>
                   </div>
                   <InViewStagger rootMargin="-30px" className="mt-6">
                     {['Stagger 1', 'Stagger 2', 'Stagger 3', 'Stagger 4'].map((label, i) => (
-                      <div key={i} className="rounded-lg bg-gradient-to-r from-[#603bff] to-[#a51ee1] p-3 text-center text-sm font-black uppercase tracking-wider text-white mb-2 last:mb-0">
+                      <div key={i} className="rounded-lg bg-gradient-to-r from-[#603bff] to-[#af50ff] p-3 text-center text-sm font-black uppercase tracking-wider text-white mb-2 last:mb-0">
                         {label}
                       </div>
                     ))}
@@ -930,7 +930,7 @@ export default function Home() {
                     <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Red</span>
                   </div>
                   <div className="flex flex-col items-center gap-2">
-                    <Loader variant="default" size="2em" style={{ '--color': '#00c8b4' } as React.CSSProperties} />
+                    <Loader variant="default" size="2em" style={{ '--color': '#6af7ce' } as React.CSSProperties} />
                     <span className="text-[11px] font-bold uppercase tracking-wider opacity-60">Custom</span>
                   </div>
                 </CardContent>
@@ -959,13 +959,13 @@ export default function Home() {
                     </div>
                   </TabsContent>
                   <TabsContent value="tab2" className="outline-none">
-                    <div className="rounded-lg bg-[#00c8b4]/10 p-6 text-center">
-                      <p className="text-sm font-bold uppercase tracking-wider text-[#00c8b4]">Turf War, Ranked, and Splatfest rotations</p>
+                    <div className="rounded-lg bg-[#6af7ce]/10 p-6 text-center">
+                      <p className="text-sm font-bold uppercase tracking-wider text-[#6af7ce]">Turf War, Ranked, and Splatfest rotations</p>
                     </div>
                   </TabsContent>
                   <TabsContent value="tab3" className="outline-none">
-                    <div className="rounded-lg bg-[#fa5a00]/10 p-6 text-center">
-                      <p className="text-sm font-bold uppercase tracking-wider text-[#fa5a00]">Limited-time challenges and community events</p>
+                    <div className="rounded-lg bg-[#ff9750]/10 p-6 text-center">
+                      <p className="text-sm font-bold uppercase tracking-wider text-[#ff9750]">Limited-time challenges and community events</p>
                     </div>
                   </TabsContent>
                 </Tabs>
@@ -984,9 +984,9 @@ export default function Home() {
                   <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
                 </div>
               </StapleCard>
-              <StapleCard image={<div className="h-full w-full bg-[#fa5a00] flex items-center justify-center text-white">B</div>}>
+              <StapleCard image={<div className="h-full w-full bg-[#ff9750] flex items-center justify-center text-white">B</div>}>
                 <div className="space-y-3 p-4">
-                  <p className="text-sm uppercase tracking-[0.35em] text-[#fa5a00]">News Grid</p>
+                  <p className="text-sm uppercase tracking-[0.35em] text-[#ff9750]">News Grid</p>
                   <h4 className="text-xl font-black">Secondary story block</h4>
                   <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
                 </div>
@@ -998,9 +998,9 @@ export default function Home() {
                   <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
                 </div>
               </StapleCard>
-              <StapleCard image={<div className="h-full w-full bg-[#ff585e] flex items-center justify-center text-white">D</div>}>
+              <StapleCard image={<div className="h-full w-full bg-[#ff505e] flex items-center justify-center text-white">D</div>}>
                 <div className="space-y-3 p-4">
-                  <p className="text-sm uppercase tracking-[0.35em] text-[#ff585e]">News Grid</p>
+                  <p className="text-sm uppercase tracking-[0.35em] text-[#ff505e]">News Grid</p>
                   <h4 className="text-xl font-black">Event highlight</h4>
                   <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
                 </div>
@@ -1039,7 +1039,7 @@ export default function Home() {
                   <h4 className="text-xl font-black">Grid Item A</h4>
                   <p className="text-sm mt-2 opacity-80">Responsive grid layout</p>
                 </div>
-                <div className="rounded-lg bg-[#fa5a00] p-6 text-center text-white">
+                <div className="rounded-lg bg-[#ff9750] p-6 text-center text-white">
                   <h4 className="text-xl font-black">Grid Item B</h4>
                   <p className="text-sm mt-2 opacity-80">Automatic column wrapping</p>
                 </div>
@@ -1049,7 +1049,7 @@ export default function Home() {
                   <h4 className="text-xl font-black">Grid Item C</h4>
                   <p className="text-sm mt-2 opacity-80">Consistent spacing</p>
                 </div>
-                <div className="rounded-lg bg-[#ff585e] p-6 text-center text-white">
+                <div className="rounded-lg bg-[#ff505e] p-6 text-center text-white">
                   <h4 className="text-xl font-black">Grid Item D</h4>
                   <p className="text-sm mt-2 opacity-80">Magazine-style layout</p>
                 </div>

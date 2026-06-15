@@ -19,7 +19,7 @@
   overflow: hidden;
   width: var(--size);
   height: var(--size);
-  background-color: var(--color-primary, #00c8b4);
+  background-color: var(--color-primary, #6af7ce);
   color: var(--color-primary-alt, #0d0d0d);
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;

@@ -8,9 +8,9 @@ export type RuggedTheme = "yellow" | "blue" | "purple" | "orange" | "green"
 const ruggedThemeMap: Record<RuggedTheme, { bg: string; fg: string }> = {
   yellow: { bg: "text-[#eaff3d]", fg: "text-[#0d0d0d]" },
   blue: { bg: "text-[#603bff]", fg: "text-[#ffffff]" },
-  purple: { bg: "text-[#a51ee1]", fg: "text-[#ffffff]" },
-  orange: { bg: "text-[#fa5a00]", fg: "text-[#ffffff]" },
-  green: { bg: "text-[#00c8b4]", fg: "text-[#0d0d0d]" },
+  purple: { bg: "text-[#af50ff]", fg: "text-[#ffffff]" },
+  orange: { bg: "text-[#ff9750]", fg: "text-[#ffffff]" },
+  green: { bg: "text-[#6af7ce]", fg: "text-[#0d0d0d]" },
 }
 
 export interface RuggedCardProps extends React.ComponentProps<"div"> {
