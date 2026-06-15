@@ -1254,14 +1254,14 @@ export default function Home() {
                 <CardTitle>Torn Paper Alerts</CardTitle>
                 <CardDescription>Character introduction cards with torn paper effect</CardDescription>
               </CardHeader>
-              <CardContent className="flex flex-col gap-6 pt-2">
-                <TornAlert variant="inkling">
+              <CardContent className="flex w-full flex-col gap-6 pt-2">
+                <TornAlert variant="inkling" className="w-full">
                   <TornAlertTitle>This is an Inkling</TornAlertTitle>
                   <TornAlertDescription>
                     These trendy cephalopods can transform from kid to squid…and back. (Whoa.)
                   </TornAlertDescription>
                 </TornAlert>
-                <TornAlert variant="octoling">
+                <TornAlert variant="octoling" className="w-full">
                   <TornAlertTitle>… And This is an Octoling</TornAlertTitle>
                   <TornAlertDescription>
                     Same deal, different species. Play as either!

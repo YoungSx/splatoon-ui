@@ -25,7 +25,7 @@ export function TornCard({
       ref={ref}
       data-slot="card"
       data-variant="torn"
-      style={{ transform: `rotate(${tornRotation})`, padding: "calc(var(--base-space, 8px) * 6) calc(var(--base-space, 8px) * 4)" } as React.CSSProperties}
+      style={{ transform: `rotate(${tornRotation})`, padding: "calc(var(--base-space, 8px) * 6) calc(var(--base-space, 8px) * 4)", containerType: "inline-size" } as React.CSSProperties}
       className={cn(
         "group/card relative w-full select-none text-center flex flex-col justify-between gap-4 z-10 text-black",
         className
@@ -43,7 +43,7 @@ export function TornCard({
           <source srcSet="/official/save-data-bonus/tape-3.webp 1x, /official/save-data-bonus/tape-3-2x.webp 2x" type="image/webp" width={97} height={37.5} />
           <source srcSet="/official/save-data-bonus/tape-3.png 1x, /official/save-data-bonus/tape-3-2x.png 2x" type="image/png" width={97} height={37.5} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className={cn(styles.cardTape, styles.cardTapeTopRight)} alt="" src="/official/save-data-bonus/tape-3.png" />
+          <img data-tape="card" className={cn(styles.cardTape, styles.cardTapeTopRight)} alt="" src="/official/save-data-bonus/tape-3.png" />
         </picture>
       )}
 

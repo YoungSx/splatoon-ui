@@ -44,3 +44,33 @@
   top: 0;
   transform: translateY(-50%);
 }
+
+/* Alert tape: tape-2 mobile 82x36 → desktop 166x74 */
+@container (min-width: 200px) {
+  .cardTape[data-tape="alert"] {
+    content: image-set(
+      url("/official/tape-assets/tape-2-medium-up.webp") type("image/webp"),
+      url("/official/tape-assets/tape-2-medium-up.png") type("image/png")
+    );
+  }
+}
+
+/* Alert sticker: sticker-10 mobile 113x26 → desktop 225x51 */
+@container (min-width: 200px) {
+  .cardDecoration {
+    content: image-set(
+      url("/official/tape-assets/sticker-10-medium-up.webp") type("image/webp"),
+      url("/official/tape-assets/sticker-10-medium-up.png") type("image/png")
+    );
+  }
+}
+
+/* Card tape: tape-3 mobile 97x38 → desktop 202x78 */
+@container (min-width: 200px) {
+  .cardTape[data-tape="card"] {
+    content: image-set(
+      url("/official/save-data-bonus/tape-3-medium-up.webp") type("image/webp"),
+      url("/official/save-data-bonus/tape-3-medium-up.png") type("image/png")
+    );
+  }
+}

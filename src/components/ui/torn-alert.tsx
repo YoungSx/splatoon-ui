@@ -49,6 +49,7 @@ export function TornAlert({
         transform: `rotate(${config.rotation})`,
         padding: "calc(var(--base-space, 8px) * 4)",
         filter: "drop-shadow(2px 2px 2px rgba(0,0,0,.3))",
+        containerType: "inline-size",
       } as React.CSSProperties}
       className={cn(
         "group/alert relative w-full select-none text-center flex flex-col gap-4 z-10 text-chaos-black",
@@ -66,6 +67,7 @@ export function TornAlert({
           <source srcSet="/official/tape-assets/tape-2.png 1x, /official/tape-assets/tape-2-2x.png 2x" width={82} height={36} type="image/png" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            data-tape="alert"
             className={cn(styles.cardTape, config.tapePosition)}
             alt=""
             src="/official/tape-assets/tape-2.png"
