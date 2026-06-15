@@ -11,8 +11,8 @@ import { Splat } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
 import { NavChevron } from './nav-chevron'
 import { navLinks, logoSplatDecorations, overlayDecorations } from './navigation-config'
-import { useSyncSelectedNavKey } from './use-sync-selected-nav-key'
-import { useNavigationMenuAnimation } from './use-navigation-menu-animation'
+import { useSyncSelectedNavKey } from '@/hooks/use-sync-selected-nav-key'
+import { useNavigationMenuAnimation } from '@/hooks/use-navigation-menu-animation'
 
 const NAV_SPLAT_START_POSITION: [number, number] = [-0.5, 0.5]
 
@@ -94,7 +94,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
             initialFocus={false}
             finalFocus={true}
             className={cn(
-              'fixed inset-0 z-[90] h-screen w-screen overflow-hidden outline-none select-none',
+              'fixed inset-0 z-[var(--z-nav-overlay)] h-screen w-screen overflow-hidden outline-none select-none',
               coverPhase === 'closing' ? 'pointer-events-none' : 'pointer-events-auto'
             )}
           >
@@ -109,14 +109,14 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
               count={openCount}
               startPosition={NAV_SPLAT_START_POSITION}
               onComplete={handleCanvasComplete}
-              className="pointer-events-none absolute inset-0 z-[80]"
+              className="pointer-events-none absolute inset-0 z-[var(--z-nav-canvas)]"
             />
 
             <div
               data-menu-content=""
               data-phase={contentPhase}
               className={cn(
-                'absolute inset-0 z-[81] flex flex-col items-center justify-center p-6 text-white',
+                'absolute inset-0 z-[var(--z-nav-content)] flex flex-col items-center justify-center p-6 text-white',
                 contentTransitionClass,
                 isContentInteractive ? 'pointer-events-auto' : 'pointer-events-none'
               )}
@@ -127,7 +127,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                   key={splat.id}
                   id={splat.splatId}
                   color={splat.color}
-                  className={cn('pointer-events-none absolute z-[1]', splat.className)}
+                  className={cn('pointer-events-none absolute z-[var(--z-deco)]', splat.className)}
                   style={{
                     opacity: contentPhase === 'hidden' || contentPhase === 'exiting' ? 0 : 1,
                     transform: contentPhase === 'hidden' || contentPhase === 'exiting'
@@ -141,17 +141,17 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
               ))}
 
               {/* Vector Sticker 2 Red */}
-              <div className="pointer-events-none absolute top-[23.2%] left-[10.25%] z-[2] w-[13.5rem] -rotate-[27deg] select-none">
+              <div className="pointer-events-none absolute top-[23.2%] left-[10.25%] z-[var(--z-deco-fg)] w-[13.5rem] -rotate-[27deg] select-none">
                 <Sticker2Red />
               </div>
 
               {/* Vector Sticker 10 */}
-              <div className="pointer-events-none absolute top-[52.1%] right-[10.8%] z-[2] w-[14.35rem] rotate-[-7deg] select-none">
+              <div className="pointer-events-none absolute top-[52.1%] right-[10.8%] z-[var(--z-deco-fg)] w-[14.35rem] rotate-[-7deg] select-none">
                 <Sticker10 />
               </div>
 
               {/* Vector Sticker 5 */}
-              <div className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[2] w-[29.5rem] -rotate-[9deg] select-none">
+              <div className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[var(--z-deco-fg)] w-[29.5rem] -rotate-[9deg] select-none">
                 <Sticker5 />
               </div>
 
@@ -179,14 +179,14 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                       key={splat.id}
                       id={splat.splatId}
                       color={splat.color}
-                      className={cn('pointer-events-none absolute z-[1]', splat.className)}
+                      className={cn('pointer-events-none absolute z-[var(--z-deco)]', splat.className)}
                     />
                   ))}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://splatoon.nintendo.com/_images/logo/splatoon3-logo-subpage.png"
                     alt="Splatoon 3"
-                    className="pointer-events-none absolute top-[0.15rem] left-1/2 z-[2] w-[22.375rem] max-w-[78%] -translate-x-1/2 select-none"
+                    className="pointer-events-none absolute top-[0.15rem] left-1/2 z-[var(--z-deco-fg)] w-[22.375rem] max-w-[78%] -translate-x-1/2 select-none"
                   />
                 </div>
 
@@ -237,7 +237,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                             data-nav-hover-splat={link.label}
                             color={link.hoverSplatColor}
                             className={cn(
-                              'pointer-events-none absolute z-[1] opacity-0 transition-all duration-150 ease-out',
+                              'pointer-events-none absolute z-[var(--z-deco)] opacity-0 transition-all duration-150 ease-out',
                               activeNavLabel === link.label
                                 ? 'scale-100 opacity-100'
                                 : 'scale-[1.32] opacity-0',
@@ -264,7 +264,7 @@ export function NavigationDialog({ isReducedMotion }: NavigationDialogProps) {
                             )
                           }
                           className={cn(
-                            'group/nav-link relative z-[2] inline-flex items-center gap-3 py-[0.18rem] text-[2.18rem] leading-none font-semibold text-white transition-colors duration-150 md:text-[3.25rem]',
+                            'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.18rem] leading-none font-semibold text-white transition-colors duration-150 md:text-[3.25rem]',
                             isHighlighted && 'text-[#eaff3d]',
                             link.textClassName
                           )}

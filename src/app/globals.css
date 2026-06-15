@@ -131,6 +131,17 @@
   --input: #cccccc;
   --ring: #eaff3d;
   --overlay: rgb(0 0 0 / 0.9);
+
+  /* z-index scale */
+  --z-deco: 1;
+  --z-deco-fg: 2;
+  --z-nav-canvas: 80;
+  --z-nav-content: 81;
+  --z-nav-overlay: 90;
+  --z-nav: 100;
+  --z-sheet-overlay: 105;
+  --z-dialog: 110;
+  --z-dialog-close: 120;
   --chart-1: #eaff3d;
   --chart-2: #603bff;
   --chart-3: #ff585e;

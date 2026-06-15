@@ -14,7 +14,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { createParticle, initParticleBlob, drawBlob, DEFAULT_COLORS, POOL_SIZE, type InkParticle } from '@/lib/ink-particle'
 import { usePointerTracker } from '@/hooks/use-pointer-tracker'
-import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion'
+import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import styles from './ink-trail.module.css'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -61,7 +61,7 @@ export function InkTrailCanvas({
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
     const poolRef = React.useRef<InkParticle[]>([])
     const animFrameRef = React.useRef<number>(0)
-    const prefersReducedMotion = usePrefersReducedMotion()
+    const [prefersReducedMotion] = useReducedMotion()
     const lastFrameTimeRef = React.useRef<number>(0)
     // Expose a ref to trigger click bursts from outside
     const burstRef = React.useRef<(x?: number, y?: number) => void>(() => {})

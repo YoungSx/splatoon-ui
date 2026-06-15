@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { GLContext } from './webgl-utils'
+import type { GLContext } from '@/components/ui/webgl-utils'
 
 // Module-level cache — survives re-renders and GL context resets.
 // Prevents first-play flash where shader falls back to solid color.

@@ -13,7 +13,6 @@ export function createShader(gl: GLContext, type: number, source: string): WebGL
   gl.compileShader(shader)
 
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error('Shader compile error:', gl.getShaderInfoLog(shader))
     gl.deleteShader(shader)
     return null
   }
@@ -34,7 +33,6 @@ export function createProgram(
   gl.linkProgram(program)
 
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    console.error('Program link error:', gl.getProgramInfoLog(program))
     gl.deleteProgram(program)
     return null
   }

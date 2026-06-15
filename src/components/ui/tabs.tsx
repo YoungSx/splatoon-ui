@@ -72,7 +72,7 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
       )}
       {...props}
     >
-      <span className="relative z-[2]">{children}</span>
+      <span className="relative z-[var(--z-deco-fg)]">{children}</span>
     </TabsPrimitive.Tab>
   )
 }

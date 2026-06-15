@@ -40,7 +40,7 @@ export function Section({
       pattern={pattern}
       className={cn(
         paddingY,
-        "px-6 relative z-[1]",
+        "px-6 relative z-[var(--z-deco)]",
         bgColor,
         text,
         className,

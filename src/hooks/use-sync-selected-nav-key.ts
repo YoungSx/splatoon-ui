@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { navLinks } from './navigation-config'
+import { navLinks } from '@/components/ui/navigation-config'
 
 function getCurrentSelectedNavKey() {
   if (typeof window === 'undefined') {

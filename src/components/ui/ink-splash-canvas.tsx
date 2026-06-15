@@ -12,7 +12,7 @@
 import * as React from 'react'
 import { type GLContext, createShader, createProgram, hexToRgb } from './webgl-utils'
 import { getVertexShaderSource, getFragmentShaderSource } from './ink-splash-shaders'
-import { useBackgroundTexture } from './use-background-texture'
+import { useBackgroundTexture } from '@/hooks/use-background-texture'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -126,10 +126,7 @@ export function InkSplashCanvas({
     const webgl2 = canvas.getContext('webgl2', contextAttributes) as WebGL2RenderingContext | null
     const webgl1 = canvas.getContext('webgl', contextAttributes) as WebGLRenderingContext | null
     const gl: GLContext | null = webgl2 ?? webgl1
-    if (!gl) {
-      console.error('WebGL not supported')
-      return
-    }
+    if (!gl) return
 
     glRef.current = gl
 

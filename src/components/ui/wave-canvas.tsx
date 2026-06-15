@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useReducedMotion } from "@/hooks/use-reduced-motion"
 
 // ─── Physics constants (matching official splatoon.nintendo.com) ──────────────
 
@@ -54,7 +54,7 @@ function WaveCanvas({
 
     // ── Reduced motion ───────────────────────────────────────────────────────
 
-    const prefersReducedMotion = usePrefersReducedMotion()
+    const [prefersReducedMotion] = useReducedMotion()
     const shouldAnimate = interactive && !prefersReducedMotion
 
     // ── Resize handling ──────────────────────────────────────────────────────

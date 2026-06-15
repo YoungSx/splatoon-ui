@@ -32,14 +32,14 @@ export function Navigation() {
 
       <header
         className={cn(
-          'fixed top-0 right-0 left-0 z-[100] w-full bg-black text-white transition-all duration-300 select-none',
+          'fixed top-0 right-0 left-0 z-[var(--z-nav)] w-full bg-black text-white transition-all duration-300 select-none',
           isCollapsed ? 'h-[36px]' : 'h-[40px]'
         )}
       >
         <div
           aria-hidden="true"
           className={cn(
-            'pointer-events-none absolute left-0 z-[1] overflow-hidden transition-all duration-300',
+            'pointer-events-none absolute left-0 z-[var(--z-deco)] overflow-hidden transition-all duration-300',
             isCollapsed ? 'top-[35px] h-[136px] w-[224px]' : 'top-[39px] h-[140px] w-[228px]'
           )}
         >

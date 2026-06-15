@@ -252,7 +252,7 @@ function DialogContentFullScreen({
     <DialogPrimitive.Portal keepMounted>
       {isModalMounted && (
         <InkSplashCanvas
-          className="fixed inset-0 z-[100] pointer-events-none"
+          className="fixed inset-0 z-[var(--z-nav-overlay)] pointer-events-none"
           state={canvasState}
           durationIn={DURATION_IN}
           durationOut={DURATION_OUT}
@@ -272,7 +272,7 @@ function DialogContentFullScreen({
       )}
 
       {isModalMounted && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-8 pointer-events-none">
+        <div className="fixed inset-0 z-[var(--z-dialog)] flex items-center justify-center p-4 sm:p-8 pointer-events-none">
           <div
             ref={(node) => {
               contentRef.current = node
@@ -307,7 +307,7 @@ function DialogContentFullScreen({
       {isModalMounted && showCloseButton && (
         <DialogPrimitive.Close
           render={<WaveButton />}
-          className="fixed z-[120] right-4 top-5 sm:right-8 sm:top-8"
+          className="fixed z-[var(--z-dialog-close)] right-4 top-5 sm:right-8 sm:top-8"
           style={{
             opacity: modalActive && !modalHeadingOut ? 1 : 0,
             transform: `translateX(${modalActive && !modalHeadingOut ? '0' : '200%'})`,
