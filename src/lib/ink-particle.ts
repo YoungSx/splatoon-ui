@@ -24,7 +24,7 @@ export function createParticle(): InkParticle {
     y: 0,
     size: 0,
     targetSize: 0,
-    color: '#0d0d0d',
+    color: 'var(--color-black)',
     opacity: 0,
     rotation: 0,
     rotationSpeed: 0,
