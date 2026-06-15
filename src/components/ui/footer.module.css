@@ -81,7 +81,7 @@
 }
 
 .navColumn h3 {
-  font-family: var(--font-body, sans-serif);
+  font-family: var(--font-heading, sans-serif);
   font-size: 0.75rem;
   font-weight: 900;
   text-transform: uppercase;

@@ -30,7 +30,7 @@ export const navLinks: SplatoonNavLink[] = [
     href: '#',
     selectedKey: 'home',
     hoverSplatId: 5,
-    hoverSplatColor: '#f2ff27',
+    hoverSplatColor: '#eaff3d',
     hoverSplatClassName: '-left-[2.5em] top-1/2 h-[4em] w-[4em] -translate-y-[46%] rotate-[-18deg]',
   },
   {
@@ -47,7 +47,7 @@ export const navLinks: SplatoonNavLink[] = [
     href: '#gameplay',
     selectedKey: 'gameplay',
     hoverSplatId: 8,
-    hoverSplatColor: '#f2ff27',
+    hoverSplatColor: '#eaff3d',
     hoverSplatClassName:
       '-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]',
   },
@@ -74,7 +74,7 @@ export const navLinks: SplatoonNavLink[] = [
     href: '#events',
     selectedKey: 'events',
     hoverSplatId: 6,
-    hoverSplatColor: '#f2ff27',
+    hoverSplatColor: '#eaff3d',
     hoverSplatClassName:
       '-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]',
   },
@@ -92,7 +92,7 @@ export const navLinks: SplatoonNavLink[] = [
     href: 'https://splatoon.nintendo.com/base/',
     selectedKey: 'splatoon-base',
     hoverSplatId: 4,
-    hoverSplatColor: '#f2ff27',
+    hoverSplatColor: '#eaff3d',
     hoverSplatClassName:
       '-left-[2.45em] top-1/2 h-[4.15em] w-[4.15em] -translate-y-[45%] -rotate-[12deg]',
   },
@@ -104,7 +104,7 @@ const logoSplatDecorations = [
   {
     id: 'logo-splat-yellow-left',
     splatId: 4,
-    color: '#f2ff27',
+    color: '#eaff3d',
     className: 'absolute left-[3.5%] top-[-13%] h-[13.5rem] w-[13.5rem] rotate-[-12deg]',
   },
   {
@@ -116,7 +116,7 @@ const logoSplatDecorations = [
   {
     id: 'logo-splat-yellow-right',
     splatId: 2,
-    color: '#f2ff27',
+    color: '#eaff3d',
     className: 'absolute right-[1%] top-[-9%] h-[13.75rem] w-[13.75rem] rotate-[10deg]',
   },
 ] as const
@@ -131,13 +131,13 @@ const overlayDecorations = [
   {
     id: 'overlay-splat-left-yellow',
     splatId: 8,
-    color: '#f2ff27',
+    color: '#eaff3d',
     className: 'absolute left-[16%] top-[51%] h-[16rem] w-[16rem] rotate-[14deg]',
   },
   {
     id: 'overlay-splat-right-yellow',
     splatId: 6,
-    color: '#f2ff27',
+    color: '#eaff3d',
     className: 'absolute right-[4%] top-[56%] h-[27rem] w-[27rem] rotate-[18deg]',
   },
   {

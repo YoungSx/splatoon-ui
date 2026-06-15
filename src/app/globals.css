@@ -29,6 +29,30 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-600.woff2') format('woff2'),
+       url('/fonts/montserrat-v24-latin-600.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-700.woff2') format('woff2'),
+       url('/fonts/montserrat-v24-latin-700.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-900.woff2') format('woff2'),
+       url('/fonts/montserrat-v24-latin-900.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 @theme inline {
   --color-background: var(--background);
@@ -168,7 +192,7 @@
   --color-yellow: #eaff3d;
   --color-blue: #603bff;
   --color-purple: #a51ee1;
-  --color-green: #6af7ce;
+  --color-green: #00c8b4;
   --color-orange: #fa5a00;
   --color-red: #ff585e;
   --color-grey-100: #ccc;
@@ -212,11 +236,11 @@
     line-height: 1;
   }
   h3, h4 {
-    font-family: var(--font-alt);
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-weight: 700;
   }
   h2 {
-    font-weight: 500;
+    font-weight: 700;
     text-transform: uppercase;
   }
   h1 {
@@ -229,7 +253,7 @@
   }
   body {
     font-family: var(--font-body);
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 500;
     line-height: 1.6;
   }
