@@ -48,6 +48,13 @@ const SIDE_CLASS: Record<SheetSide, string> = {
   left: styles.sideLeft,
 }
 
+const CLOSE_BUTTON_CLASS: Record<SheetSide, string> = {
+  top: "top-0 left-3 -translate-y-1/2",
+  right: "left-0 top-3 -translate-x-1/2",
+  bottom: "bottom-0 left-3 translate-y-1/2",
+  left: "right-0 top-3 translate-x-1/2",
+}
+
 const SheetPopup = React.forwardRef<HTMLDivElement, SheetPrimitive.Popup.Props & {
   side?: SheetSide
 }>(
@@ -84,7 +91,7 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetPrimitive.Popup.Props
         <SheetPopup ref={ref} className={className} side={side} {...props}>
           {children}
           {showCloseButton && (
-            <div className="absolute top-3 right-3">
+            <div className={cn("absolute z-10", CLOSE_BUTTON_CLASS[side])}>
               <SheetPrimitive.Close render={<WaveButton />} />
             </div>
           )}

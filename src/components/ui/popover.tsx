@@ -62,7 +62,7 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverPrimitive.Popup.P
             ref={ref}
             data-slot="popover-content"
             className={cn(
-              "scrap-panel-tight z-50 flex w-72 origin-(--transform-origin) flex-col gap-2.5 bg-popover px-3 py-2.5 pt-6 text-sm text-popover-foreground shadow-none outline-hidden data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+              "scrap-panel-tight z-50 flex w-72 origin-(--transform-origin) flex-col gap-2.5 bg-popover px-3 py-2.5 text-sm text-popover-foreground shadow-none outline-hidden data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
               className
             )}
             {...props}
