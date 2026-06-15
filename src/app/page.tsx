@@ -991,9 +991,9 @@ export default function Home() {
                   <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
                 </div>
               </StapleCard>
-              <StapleCard image={<div className="h-full w-full bg-[#11d87a] flex items-center justify-center text-white">C</div>}>
+              <StapleCard image={<div className="h-full w-full bg-green flex items-center justify-center text-white">C</div>}>
                 <div className="space-y-3 p-4">
-                  <p className="text-sm uppercase tracking-[0.35em] text-[#11d87a]">News Grid</p>
+                  <p className="text-sm uppercase tracking-[0.35em] text-green">News Grid</p>
                   <h4 className="text-xl font-black">Community update</h4>
                   <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
                 </div>
@@ -1045,7 +1045,7 @@ export default function Home() {
                 </div>
               </CardGridGroup>
               <CardGridGroup>
-                <div className="rounded-lg bg-[#11d87a] p-6 text-center text-white">
+                <div className="rounded-lg bg-green p-6 text-center text-white">
                   <h4 className="text-xl font-black">Grid Item C</h4>
                   <p className="text-sm mt-2 opacity-80">Consistent spacing</p>
                 </div>
@@ -1242,7 +1242,7 @@ export default function Home() {
             <div className="space-y-4">
               <div className="flex justify-between items-end px-2">
                 <h3 className="text-lg font-black uppercase text-white/80">Turf War Coverage</h3>
-                <span className="text-sm font-bold" style={{ color: "#4100ff" }}>45.2%</span>
+                <span className="text-sm font-bold" style={{ color: "var(--color-blue)" }}>45.2%</span>
               </div>
               <Progress value={45} variant="blue" trackVariant="dark" size="lg" />
             </div>
@@ -1258,7 +1258,7 @@ export default function Home() {
             <div className="space-y-4">
               <div className="flex justify-between items-end px-2">
                 <h3 className="text-lg font-black uppercase text-white/80">Splatfest Team Ink</h3>
-                <span className="text-sm font-bold" style={{ color: "#11d87a" }}>92%</span>
+                <span className="text-sm font-bold" style={{ color: "var(--color-green)" }}>92%</span>
               </div>
               <Progress value={92} variant="green" trackVariant="light" />
           </div>
