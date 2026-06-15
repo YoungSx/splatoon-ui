@@ -1,78 +1,129 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { WideTornPaper } from "./wide-torn-paper"
+import styles from "./torn-card.module.css"
 
-const alertVariants = cva(
-  "group/alert scrap-panel-tight relative grid w-full gap-1 border-2 border-current/25 px-4 pt-4 pb-3 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4",
-  {
-    variants: {
-      variant: {
-        default: "bg-card text-card-foreground shadow-soft-splat-sm",
-        destructive:
-          "bg-destructive text-white shadow-soft-splat-sm *:data-[slot=alert-description]:text-white/80 *:[svg]:text-current",
-        warning:
-          "bg-primary text-primary-foreground shadow-soft-splat-sm",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
-  }
-)
+type AlertVariant = "basic" | "decorated"
 
-function Alert({
+const AlertContext = React.createContext<AlertVariant>("basic")
+
+export interface AlertProps extends React.ComponentProps<"div"> {
+  /** Card variant matching official Inkling/Octoling styles */
+  variant?: AlertVariant
+  /** Show decorative tape (default: true) */
+  showTape?: boolean
+  /** Show decorative sticker (default: true for octoling) */
+  showSticker?: boolean
+}
+
+const VARIANT_CONFIG = {
+  basic: {
+    rotation: "-1.5deg",
+    bgColor: "#efefef",
+    tapePosition: styles.cardTapeTopRight,
+    showStickerDefault: false,
+  },
+  decorated: {
+    rotation: "3deg",
+    bgColor: "#efefef",
+    tapePosition: styles.cardTapeBottomCenter,
+    showStickerDefault: true,
+  },
+} as const
+
+export function Alert({
+  ref,
   className,
-  variant,
+  variant = "basic",
+  showTape = true,
+  showSticker,
+  children,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof alertVariants>) {
+}: AlertProps & { ref?: React.Ref<HTMLDivElement> }) {
+  const config = VARIANT_CONFIG[variant]
+  const shouldShowSticker = showSticker ?? config.showStickerDefault
+
   return (
     <div
+      ref={ref}
       data-slot="alert"
       role="alert"
-      className={cn(alertVariants({ variant }), className)}
+      style={{
+        transform: `rotate(${config.rotation})`,
+        padding: "calc(var(--base-space, 8px) * 4)",
+        filter: "drop-shadow(2px 2px 2px rgba(0,0,0,.3))",
+        containerType: "inline-size",
+      } as React.CSSProperties}
+      className={cn(
+        "group/alert relative w-full select-none text-center flex flex-col gap-4 z-10 text-chaos-black",
+        className
+      )}
       {...props}
-    />
+    >
+      <div className="absolute inset-0 w-full h-full z-0 pointer-events-none select-none">
+        <WideTornPaper bgColor={config.bgColor} />
+      </div>
+
+      {showTape && (
+        <picture>
+          <source srcSet="/official/tape-assets/tape-2.webp 1x, /official/tape-assets/tape-2-2x.webp 2x" width={82} height={36} type="image/webp" />
+          <source srcSet="/official/tape-assets/tape-2.png 1x, /official/tape-assets/tape-2-2x.png 2x" width={82} height={36} type="image/png" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            data-tape="alert"
+            className={cn(styles.cardTape, config.tapePosition)}
+            alt=""
+            src="/official/tape-assets/tape-2.png"
+          />
+        </picture>
+      )}
+
+      {shouldShowSticker && (
+        <picture>
+          <source srcSet="/official/tape-assets/sticker-10.webp 1x, /official/tape-assets/sticker-10-2x.webp 2x" width={113} height={26} type="image/webp" />
+          <source srcSet="/official/tape-assets/sticker-10.png 1x, /official/tape-assets/sticker-10-2x.png 2x" width={113} height={26} type="image/png" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className={cn(styles.cardDecoration, styles.cardDecorationTopRight)}
+            alt=""
+            src="/official/tape-assets/sticker-10.png"
+          />
+        </picture>
+      )}
+
+      <AlertContext.Provider value={variant}>
+        <div className="relative z-10 flex flex-col gap-2">
+          {children}
+        </div>
+      </AlertContext.Provider>
+    </div>
   )
 }
 
-function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
+function AlertTitle({ className, ...props }: React.ComponentProps<"h2">) {
+  const variant = React.useContext(AlertContext)
   return (
-    <div
+    <h2
       data-slot="alert-title"
-      className={cn(
-        "splat-heading group-has-[>svg]/alert:col-start-2 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-current",
-        className
-      )}
+      data-variant={variant}
+      className={cn("splat-heading text-2xl", className)}
       {...props}
     />
   )
 }
 
-function AlertDescription({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function AlertDescription({ className, ...props }: React.ComponentProps<"p">) {
+  const variant = React.useContext(AlertContext)
   return (
-    <div
+    <p
       data-slot="alert-description"
-      className={cn(
-        "text-sm text-balance text-current opacity-80 md:text-pretty [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-current [&_p:not(:last-child)]:mb-4",
-        className
-      )}
+      data-variant={variant}
+      className={cn("text-sm opacity-90", className)}
       {...props}
     />
   )
 }
 
-function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="alert-action"
-      className={cn("absolute top-2 right-2", className)}
-      {...props}
-    />
-  )
-}
-
-export { Alert, AlertTitle, AlertDescription, AlertAction }
+export { AlertTitle, AlertDescription }
+export type { AlertVariant }

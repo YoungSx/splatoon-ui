@@ -17,9 +17,8 @@ import { Label } from '@/components/ui/label'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { TornAlert, TornAlertTitle, TornAlertDescription } from '@/components/ui/torn-alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
-import { Zap, Skull, Flame } from 'lucide-react'
+import { Zap } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { NavigationDialog } from '@/components/ui/navigation-dialog'
 import {
@@ -1228,45 +1227,22 @@ export default function Home() {
 
             <Card variant="staple" surface="white">
               <CardHeader>
-                <CardTitle>Ink Alerts</CardTitle>
-                <CardDescription>High contrast alert blocks with warning icons</CardDescription>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-4 pt-2">
-                <Alert variant="warning">
-                  <Flame className="h-4 w-4 text-chaos-black" />
-                  <AlertTitle>Caution</AlertTitle>
-                  <AlertDescription>
-                    A new stage rotation is scheduled to begin in 5 minutes!
-                  </AlertDescription>
-                </Alert>
-                <Alert variant="destructive">
-                  <Skull className="h-4 w-4 text-white" />
-                  <AlertTitle>Critical</AlertTitle>
-                  <AlertDescription>
-                    Connection to multiplayer server has been lost.
-                  </AlertDescription>
-                </Alert>
-              </CardContent>
-            </Card>
-
-            <Card variant="staple" surface="white">
-              <CardHeader>
                 <CardTitle>Torn Paper Alerts</CardTitle>
                 <CardDescription>Character introduction cards with torn paper effect</CardDescription>
               </CardHeader>
               <CardContent className="flex w-full flex-col gap-6 pt-2">
-                <TornAlert variant="inkling" className="w-full">
-                  <TornAlertTitle>This is an Inkling</TornAlertTitle>
-                  <TornAlertDescription>
+                <Alert variant="basic" className="w-full">
+                  <AlertTitle>This is an Inkling</AlertTitle>
+                  <AlertDescription>
                     These trendy cephalopods can transform from kid to squid…and back. (Whoa.)
-                  </TornAlertDescription>
-                </TornAlert>
-                <TornAlert variant="octoling" className="w-full">
-                  <TornAlertTitle>… And This is an Octoling</TornAlertTitle>
-                  <TornAlertDescription>
+                  </AlertDescription>
+                </Alert>
+                <Alert variant="decorated" className="w-full">
+                  <AlertTitle>… And This is an Octoling</AlertTitle>
+                  <AlertDescription>
                     Same deal, different species. Play as either!
-                  </TornAlertDescription>
-                </TornAlert>
+                  </AlertDescription>
+                </Alert>
               </CardContent>
             </Card>
           </div>
