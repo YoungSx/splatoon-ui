@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils"
 import styles from "./button.module.css"
 
 const buttonVariants = cva(
-  "group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[8px] font-alt font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50",
+  "group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[8px] font-alt font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[var(--ease-back-out)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
