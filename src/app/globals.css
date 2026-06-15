@@ -140,6 +140,15 @@
   opacity: 1;
 }
 
+/* Hide scrollbar for peek-scroll containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Light Theme: Desert Wasteland (Splatsville) ── */
 :root {
   /* Exact Splatoon site colors */

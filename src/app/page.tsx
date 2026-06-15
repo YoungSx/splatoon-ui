@@ -948,7 +948,7 @@ export default function Home() {
               </CardHeader>
               <CardContent className="pt-2">
                 <Tabs defaultValue="tab1" className="w-full">
-                  <TabsList className="grid w-full grid-cols-3 gap-4 max-w-md mx-auto mb-6">
+                  <TabsList className="w-full gap-4 sm:justify-center mb-6">
                     <TabsTrigger value="tab1">Weapons</TabsTrigger>
                     <TabsTrigger value="tab2">Stages</TabsTrigger>
                     <TabsTrigger value="tab3">Events</TabsTrigger>

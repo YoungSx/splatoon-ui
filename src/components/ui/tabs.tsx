@@ -29,12 +29,20 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        default: "flex-row justify-center pb-8 w-full",
+        default: "flex-row pb-8 w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory sm:snap-none sm:justify-center sm:overflow-visible scrollbar-hide",
         line: "gap-1 bg-transparent border-b-2 border-current/10 w-full justify-start rounded-none",
+      },
+      color: {
+        yellow: "",
+        blue: "",
+        green: "",
+        orange: "",
+        red: "",
       },
     },
     defaultVariants: {
       variant: "default",
+      color: "blue",
     },
   }
 )
@@ -42,13 +50,15 @@ const tabsListVariants = cva(
 function TabsList({
   className,
   variant = "default",
+  color = "blue",
   ...props
 }: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
       data-variant={variant}
-      className={cn(tabsListVariants({ variant }), className)}
+      data-color={color}
+      className={cn(tabsListVariants({ variant, color }), className)}
       {...props}
     />
   )
@@ -59,14 +69,29 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
-        "relative cursor-pointer select-none outline-none",
-        "font-alt text-[2.3125rem] font-bold uppercase leading-none",
-        "transition-colors data-active:text-yellow",
+        "relative cursor-pointer select-none outline-none snap-start shrink-0",
+        "font-alt text-lg sm:text-[2.3125rem] font-bold uppercase leading-none",
+        "transition-colors",
+        // Active color — resolved by parent TabsList data-color
+        "group-data-[color=yellow]/tabs-list:data-active:text-yellow",
+        "group-data-[color=blue]/tabs-list:data-active:text-blue",
+        "group-data-[color=green]/tabs-list:data-active:text-green",
+        "group-data-[color=orange]/tabs-list:data-active:text-orange",
+        "group-data-[color=red]/tabs-list:data-active:text-red",
         "tab-splat",
-        "before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:bg-blue before:opacity-0 before:transition-all before:pointer-events-none",
+        // Underline
+        "before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:opacity-0 before:transition-all before:pointer-events-none",
+        "group-data-[color=yellow]/tabs-list:before:bg-yellow",
+        "group-data-[color=blue]/tabs-list:before:bg-blue",
+        "group-data-[color=green]/tabs-list:before:bg-green",
+        "group-data-[color=orange]/tabs-list:before:bg-orange",
+        "group-data-[color=red]/tabs-list:before:bg-red",
+        // Line variant overrides
         "group-data-[variant=line]/tabs-list:font-heading group-data-[variant=line]/tabs-list:text-base group-data-[variant=line]/tabs-list:tracking-wider",
-        "group-data-[variant=line]/tabs-list:text-current/60 group-data-[variant=line]/tabs-list:data-active:text-blue group-data-[variant=line]/tabs-list:hover:text-blue",
+        "group-data-[variant=line]/tabs-list:text-current/60",
+        "group-data-[variant=line]/tabs-list:data-active:text-blue group-data-[variant=line]/tabs-list:hover:text-blue",
         "group-data-[variant=line]/tabs-list:data-active:before:opacity-100",
+        // Vertical line variant
         "group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-x-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:-right-[2px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:w-[3px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:h-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-y-0",
         className
       )}
