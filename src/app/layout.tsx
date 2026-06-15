@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      {/* External Typekit fonts (social-gothic-rough, obviously-narrow) — must use <head> for cross-origin stylesheet */}
+      {/* External Typekit font: obviously-narrow (used via --font-alt) */}
       <head>
         <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://use.typekit.net/xyd0frw.css" />

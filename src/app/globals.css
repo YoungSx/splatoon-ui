@@ -62,8 +62,6 @@
   --font-heading: 'fooregular', sans-serif;
   --font-body: 'Montserrat', sans-serif;
   --font-alt: 'obviously-narrow', sans-serif;
-  --font-display: 'social-gothic-rough', 'fooregular', 'Montserrat', sans-serif;
-  --font-foo: 'fooregular', sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
