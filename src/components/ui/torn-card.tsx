@@ -32,7 +32,7 @@ export function TornCard({
       )}
       {...props}
     >
-      <div className="absolute inset-0 w-full h-full z-0 pointer-events-none select-none text-[#efefef]">
+      <div className="absolute inset-0 w-full h-full z-0 pointer-events-none select-none text-white">
         {tornBackground ?? <WideTornPaper />}
       </div>
 

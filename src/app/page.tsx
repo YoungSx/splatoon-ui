@@ -580,7 +580,7 @@ export default function Home() {
 
           {/* Drip Buttons */}
           <InView direction="up" rootMargin="-50px">
-            <Card variant="staple" surface="white">
+            <Card variant="torn" rotation="0deg" showTape={false}>
               <CardHeader>
                 <CardTitle>Drip Buttons</CardTitle>
                 <CardDescription>Featuring liquid-fill math & bouncy rotational physics</CardDescription>
@@ -600,7 +600,7 @@ export default function Home() {
 
           {/* Sticker Badges */}
           <InView direction="up" rootMargin="-50px">
-            <Card variant="staple" surface="white">
+            <Card variant="torn" rotation="0deg" showTape={false}>
               <CardHeader>
                 <CardTitle>Sticker Badges</CardTitle>
                 <CardDescription>Ink-colored badges with offset shadows and skew</CardDescription>
@@ -800,7 +800,7 @@ export default function Home() {
             <InViewStagger rootMargin="-30px">
             <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 pt-6">
               {/* Yellow Tag */}
-              <Card variant="rugged" ruggedTheme="yellow" ruggedRotation="-2deg">
+              <Card variant="rugged" ruggedTheme="yellow" rotation="-2deg">
                 <CardHeader>
                   <CardTitle>Fit Check!</CardTitle>
                 </CardHeader>
@@ -822,7 +822,7 @@ export default function Home() {
               </Card>
 
               {/* Blue Tag */}
-              <Card variant="rugged" ruggedTheme="blue" ruggedRotation="3deg">
+              <Card variant="rugged" ruggedTheme="blue" rotation="3deg">
                 <CardHeader>
                   <CardTitle>Turf War</CardTitle>
                 </CardHeader>
@@ -844,7 +844,7 @@ export default function Home() {
               </Card>
 
               {/* Purple Tag */}
-              <Card variant="rugged" ruggedTheme="purple" ruggedRotation="-1deg">
+              <Card variant="rugged" ruggedTheme="purple" rotation="-1deg">
                 <CardHeader>
                   <CardTitle>Plaza Tour</CardTitle>
                 </CardHeader>
@@ -874,7 +874,7 @@ export default function Home() {
 
             <div className="grid gap-8 md:grid-cols-2">
               {/* InView Demo Card */}
-              <Card variant="staple" surface="white" className="md:col-span-2">
+              <Card variant="torn" rotation="0deg" showTape={false} className="md:col-span-2">
                 <CardHeader>
                   <CardTitle>InView Animation</CardTitle>
                   <CardDescription>Scroll-triggered animation — try scrolling down &amp; back up</CardDescription>
@@ -911,7 +911,7 @@ export default function Home() {
               </Card>
 
               {/* Loader Card */}
-              <Card variant="staple" surface="white" className="md:col-span-2">
+              <Card variant="torn" rotation="0deg" showTape={false} className="md:col-span-2">
                 <CardHeader>
                   <CardTitle>Loader</CardTitle>
                   <CardDescription>CSS border spinner — 3px arc, 359deg rotation</CardDescription>
@@ -941,7 +941,7 @@ export default function Home() {
           {/* Sub-Section 3: Tabs */}
           <div className="space-y-8">
             <HeadingTape>Tabs</HeadingTape>
-            <Card variant="staple" surface="white">
+            <Card variant="torn" rotation="0deg" showTape={false}>
               <CardHeader>
                 <CardTitle>Tab Switcher</CardTitle>
                 <CardDescription>Skewed tab triggers with ink-theme styling</CardDescription>
@@ -979,7 +979,7 @@ export default function Home() {
             <p className="text-sm font-medium text-chaos-black/60 mt-1">
               Wide torn-paper background variant — official Save Data Bonus card from splatoon.nintendo.com.
             </p>
-            <Card variant="torn" ruggedRotation="-1.5deg">
+            <Card variant="torn" rotation="-1.5deg">
               <div className="content-spacing">
                 <h2>Save Data Bonus</h2>
                 <p>If you have save data on your system from the Splatoon 2 game, you&apos;ll get some neat-o bonuses to help you hit the turf running.</p>

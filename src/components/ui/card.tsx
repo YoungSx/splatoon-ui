@@ -21,10 +21,11 @@ export const CardContext = React.createContext<{ variant?: CardVariant; surface?
 export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
   variant?: CardVariant
   surface?: "white" | "dark"
-  // For rugged variant
+  /** Card rotation angle (rugged/torn) */
+  rotation?: string
+  /** Theme preset (rugged only) */
   ruggedTheme?: RuggedTheme
-  ruggedRotation?: string
-  /** Custom background ReactNode for rugged variant (replaces built-in SVG) */
+  /** Custom background ReactNode (rugged/torn) */
   ruggedBackground?: React.ReactNode
   // For staple/paper/torn variant
   /** Image/media shown in the tilted image area */
@@ -48,7 +49,7 @@ function Card({
   variant = "paper",
   surface = "white",
   ruggedTheme,
-  ruggedRotation,
+  rotation,
   ruggedBackground,
   image,
   title,
@@ -66,7 +67,7 @@ function Card({
       <CardContext.Provider value={ctx}>
         <TornCard
           className={className}
-          tornRotation={ruggedRotation}
+          tornRotation={rotation}
           showTape={showTape}
           {...props}
         >
@@ -82,7 +83,7 @@ function Card({
         <RuggedCard
           className={className}
           ruggedTheme={ruggedTheme}
-          ruggedRotation={ruggedRotation}
+          ruggedRotation={rotation}
           ruggedBackground={ruggedBackground}
           {...props}
         >
