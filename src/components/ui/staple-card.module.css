@@ -1,5 +1,5 @@
 .stapleCard {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.14));
   height: 100%;
 }
 
