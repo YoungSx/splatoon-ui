@@ -29,6 +29,7 @@ export function RuggedCard({
   ...props
 }: RuggedCardProps & { ref?: React.Ref<HTMLDivElement> }) {
   const theme = ruggedThemeMap[ruggedTheme] ?? ruggedThemeMap.yellow
+  const defaultBackground = <TagHanger />
 
   return (
     <div
@@ -44,7 +45,7 @@ export function RuggedCard({
       {...props}
     >
       <div className={cn("absolute inset-0 w-full h-full z-0 pointer-events-none select-none", theme.bg)}>
-        {ruggedBackground ?? <TagHanger />}
+        {ruggedBackground ?? defaultBackground}
       </div>
 
       <div className="relative h-full flex flex-col justify-between gap-4 z-10 text-center">

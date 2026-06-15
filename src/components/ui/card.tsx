@@ -5,10 +5,11 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { StapleCard, type StapleCardProps } from "./staple-card"
 import { RuggedCard, type RuggedTheme } from "./rugged-card"
+import { TornCard } from "./torn-card"
 
 // ── CardContext for variant-sharing among sub-components ────────
 
-type CardVariant = "paper" | "staple" | "rugged"
+type CardVariant = "paper" | "staple" | "rugged" | "torn"
 
 export const CardContext = React.createContext<{ variant?: CardVariant; surface?: "white" | "dark" }>({
   variant: "paper",
@@ -25,7 +26,7 @@ export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
   ruggedRotation?: string
   /** Custom background ReactNode for rugged variant (replaces built-in SVG) */
   ruggedBackground?: React.ReactNode
-  // For staple/paper variant
+  // For staple/paper/torn variant
   /** Image/media shown in the tilted image area */
   image?: React.ReactNode
   /** Convenience: renders a title paragraph in the info area */
@@ -34,7 +35,7 @@ export interface CardProps extends Omit<React.ComponentProps<"div">, "title"> {
   subtitle?: React.ReactNode
   /** Convenience: renders an action element at the bottom of info */
   action?: React.ReactNode
-  /** Whether to show the decorative tape element at the top */
+  /** Whether to show the decorative tape element at the top (staple/torn, default: true) */
   showTape?: boolean
   /** Enable hover tilt animation (staple/paper variant) */
   hoverTilt?: boolean
@@ -60,10 +61,31 @@ function Card({
 }: CardProps) {
   const ctx = { variant, surface }
 
+  if (variant === "torn") {
+    return (
+      <CardContext.Provider value={ctx}>
+        <TornCard
+          className={className}
+          tornRotation={ruggedRotation}
+          showTape={showTape}
+          {...props}
+        >
+          {children}
+        </TornCard>
+      </CardContext.Provider>
+    )
+  }
+
   if (variant === "rugged") {
     return (
       <CardContext.Provider value={ctx}>
-        <RuggedCard className={className} ruggedTheme={ruggedTheme} ruggedRotation={ruggedRotation} ruggedBackground={ruggedBackground} {...props}>
+        <RuggedCard
+          className={className}
+          ruggedTheme={ruggedTheme}
+          ruggedRotation={ruggedRotation}
+          ruggedBackground={ruggedBackground}
+          {...props}
+        >
           {children}
         </RuggedCard>
       </CardContext.Provider>

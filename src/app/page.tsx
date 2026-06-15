@@ -973,7 +973,27 @@ export default function Home() {
             </Card>
           </div>
 
-          {/* Sub-Section 4: StapleCards */}
+          {/* Sub-Section 4: Torn Card */}
+          <div className="space-y-8">
+            <HeadingTape>Torn Paper Card</HeadingTape>
+            <p className="text-sm font-medium text-chaos-black/60 mt-1">
+              Wide torn-paper background variant — official Save Data Bonus card from splatoon.nintendo.com.
+            </p>
+            <Card variant="torn" ruggedRotation="-1.5deg">
+              <div className="content-spacing">
+                <h2>Save Data Bonus</h2>
+                <p>If you have save data on your system from the Splatoon 2 game, you&apos;ll get some neat-o bonuses to help you hit the turf running.</p>
+                <ul className="content-spacing ml-10 list-disc text-left">
+                  <li>Receive three Gold Sheldon Licenses. Give these to Sheldon to access your favorite weapon types more quickly, regardless of player level.</li>
+                  <li>Join Anarchy Battles from the get-go, regardless of player level.</li>
+                  <li>Start with a higher rank, depending on your rank in Splatoon 2.</li>
+                  <li>Get matched against players who achieved a similar skill level to you in Splatoon 2.</li>
+                </ul>
+              </div>
+            </Card>
+          </div>
+
+          {/* Sub-Section 5: StapleCards */}
           <div className="space-y-8">
             <HeadingTape>Staple Card</HeadingTape>
             <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 pt-6">
