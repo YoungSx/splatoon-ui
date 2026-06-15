@@ -316,6 +316,7 @@ export default function Home() {
         <NavigationDialog
           navLinks={navLinks}
           highlightColor="#eaff3d"
+          cta={<Button variant="yellow" size="lg" theme="dark-yellow">Buy now</Button>}
           logo={(contentPhase) => <SplatoonMenuLogo contentPhase={contentPhase} />}
           menuDecorations={<SplatoonMenuDecorations />}
           overlayDecorations={(contentPhase) => <SplatoonOverlayDecorations contentPhase={contentPhase} />}

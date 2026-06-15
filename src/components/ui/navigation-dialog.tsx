@@ -21,6 +21,7 @@ type NavigationDialogProps = {
   isReducedMotion?: boolean
   navLinks: NavLink[]
   highlightColor: string
+  cta?: React.ReactNode
   logo?: (contentPhase: ContentPhase) => React.ReactNode
   menuDecorations?: React.ReactNode
   overlayDecorations?: (contentPhase: ContentPhase) => React.ReactNode
@@ -61,6 +62,7 @@ export function NavigationDialog({
   isReducedMotion = false,
   navLinks,
   highlightColor,
+  cta,
   logo,
   menuDecorations,
   overlayDecorations,
@@ -173,6 +175,9 @@ export function NavigationDialog({
               >
                 {/* Logo area (render prop with contentPhase) */}
                 {logo?.(contentPhase)}
+
+                {/* CTA (e.g. Buy now button) — independent from nav links */}
+                {cta && <div className="mb-4 md:mb-5">{cta}</div>}
 
                 <ul className="relative flex w-full flex-col items-center gap-0">
                   {navLinks.map((link, index) => {

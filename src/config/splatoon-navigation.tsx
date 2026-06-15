@@ -4,7 +4,6 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import { Splat } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
 import { NavChevron } from '@/components/ui/nav-chevron'
@@ -15,7 +14,6 @@ import { InkSplashCanvas } from '@/components/ui/ink-splash-canvas'
 /* ── Splatoon link type ── */
 
 export interface SplatoonNavLink extends NavLink {
-  isBuyNow?: boolean
   hoverSplatId?: number
   hoverSplatColor?: string
   hoverSplatClassName?: string
@@ -24,7 +22,6 @@ export interface SplatoonNavLink extends NavLink {
 /* ── Link data ── */
 
 export const navLinks: SplatoonNavLink[] = [
-  { label: 'Buy now', href: '#buy', isBuyNow: true },
   {
     label: 'Home',
     href: '#',
@@ -151,14 +148,6 @@ const overlayDecorations = [
 /* ── Link renderer ── */
 
 export function renderSplatoonLink(link: SplatoonNavLink, props: LinkRenderProps) {
-  if (link.isBuyNow) {
-    return (
-      <Button onClick={props.onClick} variant="yellow" size="lg" theme="dark-yellow" className="mb-4 md:mb-5">
-        Buy now
-      </Button>
-    )
-  }
-
   return (
     <>
       {link.hoverSplatId ? (
