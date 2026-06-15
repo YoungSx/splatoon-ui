@@ -1,3 +1,5 @@
+import { resolveCSSColor } from './utils'
+
 // ─── Ink Particle Pool (pure data + drawing, no React) ──────────────────────
 
 export interface InkParticle {
@@ -42,13 +44,13 @@ export function initParticleBlob(blobPoints: number[]) {
 // ─── Constants ──────────────────────────────────────────────────────────────
 
 export const DEFAULT_COLORS = [
-  '#0d0d0d', // Chaos Black (default ink)
-  '#603bff', // Ink Blue
-  '#eaff3d', // Neon Yellow
-  '#ff505e', // Ink Red
-  '#6af7ce', // Ink Green
-  '#af50ff', // Ink Purple
-  '#ff9750', // Ink Orange
+  'var(--color-black)',     // Chaos Black (default ink)
+  'var(--color-blue)',      // Ink Blue
+  'var(--color-yellow)',    // Neon Yellow
+  'var(--color-red)',       // Ink Red
+  'var(--color-green)',     // Ink Green
+  'var(--color-purple)',    // Ink Purple
+  'var(--color-orange)',    // Ink Orange
 ]
 
 export const POOL_SIZE = 200
@@ -65,7 +67,7 @@ export function drawBlob(
   color: string,
 ) {
   ctx.save()
-  ctx.fillStyle = color
+  ctx.fillStyle = resolveCSSColor(color, ctx.canvas)
   ctx.translate(x, y)
   ctx.rotate(rotation)
 

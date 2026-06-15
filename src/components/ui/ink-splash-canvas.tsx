@@ -10,6 +10,7 @@
  */
 
 import * as React from 'react'
+import { resolveCSSColor } from '@/lib/utils'
 import { type GLContext, createShader, createProgram, hexToRgb } from './webgl-utils'
 import { getVertexShaderSource, getFragmentShaderSource } from './ink-splash-shaders'
 import { useBackgroundTexture } from '@/hooks/use-background-texture'
@@ -67,7 +68,7 @@ export function InkSplashCanvas({
   state,
   durationIn = 700,
   durationOut = 1000,
-  color = '#000000',
+  color = 'var(--color-true-black)',
   count = 0,
   startPosition,
   background,
@@ -242,7 +243,8 @@ export function InkSplashCanvas({
     const uniforms = uniformsRef.current
     gl.uniform2f(uniforms.u_resolution, canvas.width, canvas.height)
 
-    const [r, g, b] = colorRef.current ? hexToRgb(colorRef.current) : [1, 0, 0]
+    const resolvedColor = containerRef.current ? resolveCSSColor(colorRef.current, containerRef.current) : colorRef.current
+    const [r, g, b] = resolvedColor ? hexToRgb(resolvedColor) : [1, 0, 0]
     gl.uniform3f(uniforms.u_color, r, g, b)
 
     gl.uniform1f(uniforms.u_progress, progress)

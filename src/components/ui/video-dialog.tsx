@@ -33,7 +33,7 @@ export function VideoDialogThumbnail({
   src,
   alt = "Video thumbnail",
   className,
-  blobColor = "#000000",
+  blobColor = "var(--color-true-black)",
   blobSize = 160,
   imageClassName,
   ...props

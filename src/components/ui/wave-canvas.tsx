@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn, resolveCSSColor } from "@/lib/utils"
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 
 // ─── Physics constants (matching official splatoon.nintendo.com) ──────────────
@@ -39,7 +39,7 @@ export interface WaveCanvasProps extends React.ComponentProps<"canvas"> {
 
 function WaveCanvas({
   ref,
-  color = "#0d0d0d",
+  color = "var(--color-black)",
   height = 200,
   interactive = true,
   numPoints = NUM_POINTS,
@@ -99,6 +99,7 @@ function WaveCanvas({
 
       const ctx = canvas.getContext("2d")!
       const segWidth = canvasWidth / numPoints
+      const resolvedColor = resolveCSSColor(color, canvas)
       let running = true
 
       const render = () => {
@@ -167,7 +168,7 @@ function WaveCanvas({
         ctx.lineTo(canvasWidth, height)
         ctx.lineTo(0, height)
         ctx.closePath()
-        ctx.fillStyle = color
+        ctx.fillStyle = resolvedColor
         ctx.fill()
 
         animFrameRef.current = requestAnimationFrame(render)

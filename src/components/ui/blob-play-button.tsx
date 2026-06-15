@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { blobVertexShader, blobFragmentShader } from '@/lib/shaders/blob-shaders'
-import { cn } from '@/lib/utils'
+import { cn, resolveCSSColor } from '@/lib/utils'
 import { createShader, createProgram, hexToRgb } from './webgl-utils'
 
 // ── CSS Custom Properties (matches official :root variables) ──
@@ -23,7 +23,7 @@ export function BlobPlayButton({
   ref,
   className,
   idleWobbleAmount = 0.9,
-  hexColor = '#000000',
+  hexColor = 'var(--color-true-black)',
   blobSize = 120,
   ...props
 }: BlobPlayButtonProps & { ref?: React.Ref<HTMLDivElement> }) {
@@ -89,7 +89,8 @@ export function BlobPlayButton({
       const u_progress = gl.getUniformLocation(program, 'u_progress')
       const u_idleSpeed = gl.getUniformLocation(program, 'u_idleSpeed')
 
-      const [r, g, b] = hexToRgb(hexColor)
+      const resolvedColor = resolveCSSColor(hexColor, canvas)
+      const [r, g, b] = hexToRgb(resolvedColor)
       gl.uniform3f(u_color, r, g, b)
       gl.uniform1f(u_progress, 1.0) // blob visible at full size
       gl.uniform1f(u_seed, Math.random())

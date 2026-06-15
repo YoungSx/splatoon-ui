@@ -123,7 +123,7 @@ function PageTransitionDemo() {
   const [variant, setVariant] = React.useState<'webgl' | 'squid'>('webgl')
   const [demoPage, setDemoPage] = React.useState<'home' | 'about' | 'weapons'>('home')
   const [isTransitioning, setIsTransitioning] = React.useState(false)
-  const [inkColor, setInkColor] = React.useState('#000000')
+  const [inkColor, setInkColor] = React.useState('var(--color-true-black)')
 
   const navigateTo = React.useCallback(async (target: 'home' | 'about' | 'weapons', mode: 'webgl' | 'squid', color?: string) => {
     if (isTransitioning) return
@@ -224,21 +224,21 @@ function PageTransitionDemo() {
           <div className="flex flex-wrap justify-center gap-3">
             <Button
               variant="yellow"
-              onClick={() => navigateTo('home', 'webgl', '#000000')}
+              onClick={() => navigateTo('home', 'webgl', 'var(--color-true-black)')}
               disabled={isTransitioning || (variant === 'webgl' && demoPage === 'home')}
             >
               Inkopolis
             </Button>
             <Button
               variant="blue"
-              onClick={() => navigateTo('about', 'webgl', '#603bff')}
+              onClick={() => navigateTo('about', 'webgl', 'var(--color-blue)')}
               disabled={isTransitioning || (variant === 'webgl' && demoPage === 'about')}
             >
               Stages
             </Button>
             <Button
               variant="destructive"
-              onClick={() => navigateTo('weapons', 'webgl', '#ff505e')}
+              onClick={() => navigateTo('weapons', 'webgl', 'var(--color-red)')}
               disabled={isTransitioning || (variant === 'webgl' && demoPage === 'weapons')}
             >
               Weapons
@@ -343,7 +343,7 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          HERO: Navigation + Ink Trail cursor effect
          ──────────────────────────────────────────────────────── */}
-      <InkTrailCanvas colors={['#eaff3d', '#603bff', '#ff505e', '#6af7ce', '#ff9750']}>
+      <InkTrailCanvas colors={['var(--color-yellow)', 'var(--color-blue)', 'var(--color-red)', 'var(--color-green)', 'var(--color-orange)']}>
         <header className="relative flex flex-col items-center justify-center pt-28 md:pt-36 pb-12 px-6 bg-white text-chaos-black gap-6 transition-colors duration-300 pattern-chip-white">
           <div className="flex flex-col items-center gap-3 text-center z-10">
             <Badge variant="sticker">
@@ -418,7 +418,7 @@ export default function Home() {
               <VideoDialogThumbnail
                 src="/_images/screenshots/video-trailer.jpg"
                 alt="Splatoon 3 Trailer"
-                blobColor="#000000"
+                blobColor="var(--color-true-black)"
                 imageClassName="sm:-top-8"
               />
               <VideoDialogContent src="//player.bilibili.com/player.html?isOutside=true&aid=80433022&bvid=BV1GJ411x7h7&cid=137649199&p=1&autoplay=1&muted=0" title="Splatoon 3 - Announcement Trailer" />

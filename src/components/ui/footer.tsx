@@ -54,7 +54,7 @@ function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
 // ─── Props ────────────────────────────────────────────────────────────────
 
 export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
-  /** Wave fill color (default '#0d0d0d' — matches --color-black) */
+  /** Wave fill color (default: var(--color-black)) */
   waveColor?: string
   /** Wave height in px (default 120) */
   waveHeight?: number
@@ -63,7 +63,7 @@ export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
 // ─── Component ────────────────────────────────────────────────────────────
 
 export function Footer({
-  waveColor = '#0d0d0d',
+  waveColor = 'var(--color-black)',
   waveHeight = 120,
   className,
   ...props

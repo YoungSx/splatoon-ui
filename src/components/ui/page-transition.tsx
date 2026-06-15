@@ -44,7 +44,7 @@ type Phase = 'idle' | 'covering' | 'covered' | 'revealing'
 
 export function PageTransition({
   ref,
-  color: inkColor = '#000000',
+  color: inkColor = 'var(--color-true-black)',
   durationIn = 700,
   durationOut = 1000,
   autoReveal = false,
