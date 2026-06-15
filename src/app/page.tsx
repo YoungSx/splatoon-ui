@@ -28,6 +28,7 @@ import {
   SplatoonMenuDecorations,
   SplatoonOverlayDecorations,
   SplatoonHeaderDrip,
+  SplatoonBackgroundTransition,
 } from '@/config/splatoon-navigation'
 import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
 import { VideoDialog, VideoDialogThumbnail, VideoDialogContent } from '@/components/ui/video-dialog'
@@ -319,6 +320,7 @@ export default function Home() {
           menuDecorations={<SplatoonMenuDecorations />}
           overlayDecorations={(contentPhase) => <SplatoonOverlayDecorations contentPhase={contentPhase} />}
           renderLink={renderSplatoonLink}
+          backgroundTransition={(props) => <SplatoonBackgroundTransition {...props} />}
         />
       </Navigation>
 

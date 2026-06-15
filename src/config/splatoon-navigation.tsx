@@ -8,8 +8,9 @@ import { Button } from '@/components/ui/button'
 import { Splat } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
 import { NavChevron } from '@/components/ui/nav-chevron'
-import type { NavLink } from '@/components/ui/navigation-types'
-import type { ContentPhase } from '@/hooks/use-navigation-menu-animation'
+import type { NavLink, LinkRenderProps } from '@/components/ui/navigation-types'
+import type { ContentPhase, CanvasState } from '@/hooks/use-navigation-menu-animation'
+import { InkSplashCanvas } from '@/components/ui/ink-splash-canvas'
 
 /* ── Splatoon link type ── */
 
@@ -149,28 +150,17 @@ const overlayDecorations = [
 
 /* ── Link renderer ── */
 
-type LinkRenderProps = {
-  isHighlighted: boolean
-  onMouseEnter: () => void
-  onMouseLeave: () => void
-  onFocus: () => void
-  onBlur: () => void
-  onClick: () => void
-}
-
 export function renderSplatoonLink(link: SplatoonNavLink, props: LinkRenderProps) {
   if (link.isBuyNow) {
     return (
-      <li className="mb-4 md:mb-5">
-        <Button onClick={props.onClick} variant="yellow" size="lg" theme="dark-yellow">
-          Buy now
-        </Button>
-      </li>
+      <Button onClick={props.onClick} variant="yellow" size="lg" theme="dark-yellow" className="mb-4 md:mb-5">
+        Buy now
+      </Button>
     )
   }
 
   return (
-    <li className="relative">
+    <>
       {link.hoverSplatId ? (
         <Splat
           id={link.hoverSplatId}
@@ -204,7 +194,7 @@ export function renderSplatoonLink(link: SplatoonNavLink, props: LinkRenderProps
         <span className="relative inline-block">{link.label}</span>
         <NavChevron isHighlighted={props.isHighlighted} />
       </a>
-    </li>
+    </>
   )
 }
 
@@ -317,5 +307,32 @@ export function SplatoonHeaderDrip({ isCollapsed }: { isCollapsed: boolean }) {
         />
       </svg>
     </div>
+  )
+}
+
+/* ── Background transition (ink splash) ── */
+
+const SPLAT_START_POSITION: [number, number] = [-0.5, 0.5]
+
+export function SplatoonBackgroundTransition({
+  canvasState,
+  openCount,
+  onComplete,
+}: {
+  canvasState: CanvasState
+  openCount: number
+  onComplete: () => void
+}) {
+  return (
+    <InkSplashCanvas
+      state={canvasState}
+      durationIn={700}
+      durationOut={1000}
+      color="#000000"
+      count={openCount}
+      startPosition={SPLAT_START_POSITION}
+      onComplete={onComplete}
+      className="pointer-events-none absolute inset-0 z-[var(--z-nav-canvas)]"
+    />
   )
 }

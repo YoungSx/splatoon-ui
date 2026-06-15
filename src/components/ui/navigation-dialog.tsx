@@ -4,34 +4,28 @@ import * as React from 'react'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
-import { InkSplashCanvas } from '@/components/ui/ink-splash-canvas'
 import { NavMenuButton } from '@/components/ui/nav-menu-button'
 import { NavChevron } from './nav-chevron'
-import type { NavLink } from '@/components/ui/navigation-types'
-import type { ContentPhase } from '@/hooks/use-navigation-menu-animation'
+import type { NavLink, LinkRenderProps } from '@/components/ui/navigation-types'
+import type { ContentPhase, CanvasState } from '@/hooks/use-navigation-menu-animation'
 import { useSyncSelectedNavKey } from '@/hooks/use-sync-selected-nav-key'
 import { useNavigationMenuAnimation } from '@/hooks/use-navigation-menu-animation'
 
-const NAV_SPLAT_START_POSITION: [number, number] = [-0.5, 0.5]
-
-type LinkRenderProps = {
-  isHighlighted: boolean
-  onMouseEnter: () => void
-  onMouseLeave: () => void
-  onFocus: () => void
-  onBlur: () => void
-  onClick: () => void
+type BackgroundTransitionProps = {
+  canvasState: CanvasState
+  openCount: number
+  onComplete: () => void
 }
 
 type NavigationDialogProps = {
   isReducedMotion?: boolean
   navLinks: NavLink[]
-  highlightColor?: string
+  highlightColor: string
   logo?: (contentPhase: ContentPhase) => React.ReactNode
   menuDecorations?: React.ReactNode
   overlayDecorations?: (contentPhase: ContentPhase) => React.ReactNode
   renderLink?: (link: NavLink, props: LinkRenderProps) => React.ReactNode
-  backgroundTransition?: React.ReactNode
+  backgroundTransition: (props: BackgroundTransitionProps) => React.ReactNode
   onNavigate?: (href: string) => void
 }
 
@@ -53,9 +47,9 @@ function DefaultNavLink({
       {...eventProps}
       className={cn(
         'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.18rem] leading-none font-semibold text-white transition-colors duration-150 md:text-[3.25rem]',
-        isHighlighted && `text-[${highlightColor}]`,
         link.textClassName
       )}
+      style={isHighlighted ? { color: highlightColor } : undefined}
     >
       <span className="relative inline-block">{link.label}</span>
       <NavChevron isHighlighted={isHighlighted} />
@@ -66,7 +60,7 @@ function DefaultNavLink({
 export function NavigationDialog({
   isReducedMotion = false,
   navLinks,
-  highlightColor = '#eaff3d',
+  highlightColor,
   logo,
   menuDecorations,
   overlayDecorations,
@@ -82,7 +76,6 @@ export function NavigationDialog({
     openCount,
     isMenuMounted,
     isMenuPressed,
-    isContentInteractive,
     canvasState,
     contentTransitionClass,
     openMenu: openMenuBase,
@@ -155,27 +148,15 @@ export function NavigationDialog({
           >
             <DialogPrimitive.Close className="sr-only">Close navigation menu</DialogPrimitive.Close>
 
-            {/* Background transition (default: InkSplashCanvas) */}
-            {backgroundTransition ?? (
-              <InkSplashCanvas
-                state={canvasState}
-                durationIn={700}
-                durationOut={1000}
-                color="#000000"
-                count={openCount}
-                startPosition={NAV_SPLAT_START_POSITION}
-                onComplete={handleCanvasComplete}
-                className="pointer-events-none absolute inset-0 z-[var(--z-nav-canvas)]"
-              />
-            )}
+            {/* Background transition (render prop from consumer) */}
+            {backgroundTransition({ canvasState, openCount, onComplete: handleCanvasComplete })}
 
             <div
               data-menu-content=""
               data-phase={contentPhase}
               className={cn(
                 'absolute inset-0 z-[var(--z-nav-content)] flex flex-col items-center justify-center p-6 text-white',
-                contentTransitionClass,
-                isContentInteractive ? 'pointer-events-auto' : 'pointer-events-none'
+                contentTransitionClass
               )}
             >
               {/* Background decorations (render prop with contentPhase) */}

@@ -12,7 +12,7 @@
 .reducedMotionIcon {
   --dimension: 13px;
   align-items: center;
-  border: 2px solid var(--color-yellow, #eaff3d);
+  border: 2px solid var(--color-yellow, currentColor);
   border-radius: 50%;
   display: inline-flex;
   height: var(--dimension);
