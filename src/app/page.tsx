@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { TornAlert, TornAlertTitle, TornAlertDescription } from '@/components/ui/torn-alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
@@ -1245,6 +1246,27 @@ export default function Home() {
                     Connection to multiplayer server has been lost.
                   </AlertDescription>
                 </Alert>
+              </CardContent>
+            </Card>
+
+            <Card variant="staple" surface="white">
+              <CardHeader>
+                <CardTitle>Torn Paper Alerts</CardTitle>
+                <CardDescription>Character introduction cards with torn paper effect</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-6 pt-2">
+                <TornAlert variant="inkling">
+                  <TornAlertTitle>This is an Inkling</TornAlertTitle>
+                  <TornAlertDescription>
+                    These trendy cephalopods can transform from kid to squid…and back. (Whoa.)
+                  </TornAlertDescription>
+                </TornAlert>
+                <TornAlert variant="octoling">
+                  <TornAlertTitle>… And This is an Octoling</TornAlertTitle>
+                  <TornAlertDescription>
+                    Same deal, different species. Play as either!
+                  </TornAlertDescription>
+                </TornAlert>
               </CardContent>
             </Card>
           </div>
