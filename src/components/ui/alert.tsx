@@ -107,7 +107,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"h2">) {
     <h2
       data-slot="alert-title"
       data-variant={variant}
-      className={cn("splat-heading text-2xl", className)}
+      className={cn("splat-heading text-2xl text-blue", className)}
       {...props}
     />
   )
