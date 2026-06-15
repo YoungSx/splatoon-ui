@@ -61,11 +61,11 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
       className={cn(
         "relative cursor-pointer select-none outline-none",
         "font-alt text-[2.3125rem] font-bold uppercase leading-none",
-        "transition-colors data-active:text-[#eaff3d]",
+        "transition-colors data-active:text-yellow",
         "tab-splat",
-        "before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:bg-[#603bff] before:opacity-0 before:transition-all before:pointer-events-none",
+        "before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:bg-blue before:opacity-0 before:transition-all before:pointer-events-none",
         "group-data-[variant=line]/tabs-list:font-heading group-data-[variant=line]/tabs-list:text-base group-data-[variant=line]/tabs-list:tracking-wider",
-        "group-data-[variant=line]/tabs-list:text-current/60 group-data-[variant=line]/tabs-list:data-active:text-[#603bff] group-data-[variant=line]/tabs-list:hover:text-[#603bff]",
+        "group-data-[variant=line]/tabs-list:text-current/60 group-data-[variant=line]/tabs-list:data-active:text-blue group-data-[variant=line]/tabs-list:hover:text-blue",
         "group-data-[variant=line]/tabs-list:data-active:before:opacity-100",
         "group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-x-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:-right-[2px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:w-[3px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:h-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-y-0",
         className

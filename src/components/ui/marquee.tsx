@@ -30,7 +30,7 @@ function Marquee({
       className={cn(
         "group/marquee relative flex overflow-hidden select-none",
         "data-[variant=tape]:bg-primary data-[variant=tape]:text-primary-foreground data-[variant=tape]:border-y-2 data-[variant=tape]:border-foreground data-[variant=tape]:-rotate-[2deg]",
-        "data-[variant=warning]:bg-[repeating-linear-gradient(45deg,#eaff3d,#eaff3d_12px,#0d0d0d_12px,#0d0d0d_24px)] data-[variant=warning]:text-chaos-black data-[variant=warning]:border-y-2 data-[variant=warning]:border-foreground",
+        "data-[variant=warning]:bg-[repeating-linear-gradient(45deg,var(--color-yellow),var(--color-yellow)_12px,var(--color-black)_12px,var(--color-black)_24px)] data-[variant=warning]:text-chaos-black data-[variant=warning]:border-y-2 data-[variant=warning]:border-foreground",
         "data-[variant=default]:bg-foreground data-[variant=default]:text-background data-[variant=default]:border-y-2 data-[variant=default]:border-foreground",
         className
       )}

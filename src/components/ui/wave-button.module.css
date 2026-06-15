@@ -89,7 +89,7 @@
 }
 
 .white {
-  background-color: #ffffff;
+  background-color: var(--color-white);
 }
 
 .ghost {

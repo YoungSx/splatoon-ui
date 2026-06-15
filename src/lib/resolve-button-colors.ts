@@ -45,7 +45,7 @@ export const officialColorVarMap: Record<OfficialButtonColor, string> = {
   purple: "var(--ink-purple)",
   orange: "var(--ink-orange)",
   red: "var(--ink-red)",
-  white: "#ffffff",
+  white: "var(--color-white)",
   black: "var(--chaos-black)",
 }
 

@@ -6,11 +6,11 @@ import { TagHanger } from "./tag-hanger"
 export type RuggedTheme = "yellow" | "blue" | "purple" | "orange" | "green"
 
 const ruggedThemeMap: Record<RuggedTheme, { bg: string; fg: string }> = {
-  yellow: { bg: "text-[#eaff3d]", fg: "text-[#0d0d0d]" },
-  blue: { bg: "text-[#603bff]", fg: "text-[#ffffff]" },
-  purple: { bg: "text-[#af50ff]", fg: "text-[#ffffff]" },
-  orange: { bg: "text-[#ff9750]", fg: "text-[#ffffff]" },
-  green: { bg: "text-[#6af7ce]", fg: "text-[#0d0d0d]" },
+  yellow: { bg: "text-yellow", fg: "text-black" },
+  blue: { bg: "text-blue", fg: "text-white" },
+  purple: { bg: "text-purple", fg: "text-white" },
+  orange: { bg: "text-orange", fg: "text-white" },
+  green: { bg: "text-green", fg: "text-black" },
 }
 
 export interface RuggedCardProps extends React.ComponentProps<"div"> {

@@ -11,7 +11,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer relative flex size-5.5 shrink-0 items-center justify-center border-[3px] border-chaos-black bg-white shadow-[2px_2px_0px_rgba(0,0,0,1)] skew-x-[-10deg] transition-[transform,box-shadow,background-color] duration-150 outline-none group-has-disabled/field:opacity-50 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-chaos-black/20 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-chaos-black data-checked:bg-[#eaff3d] data-checked:text-chaos-black data-checked:translate-x-[1px] data-checked:translate-y-[1px] data-checked:shadow-none",
+        "peer relative flex size-5.5 shrink-0 items-center justify-center border-[3px] border-chaos-black bg-white shadow-[2px_2px_0px_rgba(0,0,0,1)] skew-x-[-10deg] transition-[transform,box-shadow,background-color] duration-150 outline-none group-has-disabled/field:opacity-50 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-chaos-black/20 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-chaos-black data-checked:bg-yellow data-checked:text-chaos-black data-checked:translate-x-[1px] data-checked:translate-y-[1px] data-checked:shadow-none",
         className
       )}
       {...props}

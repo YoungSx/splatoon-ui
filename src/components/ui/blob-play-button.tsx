@@ -195,7 +195,7 @@ export function BlobPlayButton({
             Official: position:absolute; left:50%; top:50%;
               transform:translate(-40%,-50%) scale(var(--blob-scale));
               transition:transform 0.3s cubic-bezier(0.21,0.12,0.35,1.43);
-              color:#6af7ce; width:30%;
+              color:var(--color-green); width:30%;
         */}
         <svg
           aria-hidden="true"
@@ -204,7 +204,7 @@ export function BlobPlayButton({
             position: 'absolute',
             left: '50%', top: '50%',
             width: '30%',
-            color: '#6af7ce',
+            color: 'var(--color-green)',
             transform: 'translate(-40%, -50%) scale(var(--blob-scale, 1))',
             transition: `transform 0.3s ${EASE_BACK_OUT}`,
           }}
