@@ -119,10 +119,6 @@
   border: 2px solid currentColor;
 }
 
-.outline:hover {
-  background-color: currentColor;
-  color: var(--color-black, #0d0d0d);
-}
 
 /* ── Accent variant (official) ── */
 
