@@ -11,6 +11,7 @@ export interface NavLink {
 
 export type LinkRenderProps = {
   isHighlighted: boolean
+  isActive: boolean
   onMouseEnter: () => void
   onMouseLeave: () => void
   onFocus: () => void

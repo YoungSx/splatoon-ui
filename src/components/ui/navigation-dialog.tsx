@@ -33,12 +33,14 @@ type NavigationDialogProps = {
 
 function DefaultNavLink({
   link,
-  isHighlighted,
+  isHighlighted: _isHighlighted,
+  isActive,
   highlightColor,
   ...eventProps
 }: {
   link: NavLink
   isHighlighted: boolean
+  isActive: boolean
   highlightColor: string
 } & LinkRenderProps) {
   return (
@@ -51,10 +53,10 @@ function DefaultNavLink({
         'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-[0.18rem] text-[2.5rem] leading-none font-medium text-white transition-colors duration-150',
         link.textClassName
       )}
-      style={isHighlighted ? { color: highlightColor } : undefined}
+      style={isActive ? { color: highlightColor } : undefined}
     >
       <span className="relative inline-block">{link.label}</span>
-      <NavChevron isHighlighted={isHighlighted} />
+      <NavChevron isHighlighted={_isHighlighted || isActive} />
     </a>
   )
 }
@@ -197,12 +199,12 @@ export function NavigationDialog({
                   )}
 
                   {navLinks.map((link) => {
-                    const isHighlighted = activeNavLabel
-                      ? activeNavLabel === link.label
-                      : selectedNavKey === link.selectedKey
+                    const isHighlighted = activeNavLabel === link.label
+                    const isActive = !activeNavLabel && selectedNavKey === link.selectedKey
 
                     const linkProps: LinkRenderProps = {
                       isHighlighted,
+                      isActive,
                       onMouseEnter: () => setActiveNavLabel(link.label),
                       onMouseLeave: () =>
                         setActiveNavLabel((current) =>
