@@ -1,9 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { navLinks } from '@/components/ui/navigation-config'
 
-function getCurrentSelectedNavKey() {
+function getCurrentSelectedNavKey(navLinks: Array<{ selectedKey?: string }>) {
   if (typeof window === 'undefined') {
     return 'home'
   }
@@ -24,12 +23,14 @@ function getCurrentSelectedNavKey() {
   return matchedLink?.selectedKey ?? 'home'
 }
 
-export function useSyncSelectedNavKey() {
-  const [selectedNavKey, setSelectedNavKey] = React.useState(getCurrentSelectedNavKey)
+export function useSyncSelectedNavKey(navLinks: Array<{ selectedKey?: string }>) {
+  const getNavKey = React.useCallback(() => getCurrentSelectedNavKey(navLinks), [navLinks])
+
+  const [selectedNavKey, setSelectedNavKey] = React.useState(getNavKey)
 
   React.useEffect(() => {
     const syncSelectedNavKey = () => {
-      setSelectedNavKey(getCurrentSelectedNavKey())
+      setSelectedNavKey(getCurrentSelectedNavKey(navLinks))
     }
 
     window.addEventListener('hashchange', syncSelectedNavKey)
@@ -39,7 +40,7 @@ export function useSyncSelectedNavKey() {
       window.removeEventListener('hashchange', syncSelectedNavKey)
       window.removeEventListener('popstate', syncSelectedNavKey)
     }
-  }, [])
+  }, [navLinks])
 
   return selectedNavKey
 }

@@ -20,6 +20,15 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap, Skull, Flame } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
+import { NavigationDialog } from '@/components/ui/navigation-dialog'
+import {
+  navLinks,
+  renderSplatoonLink,
+  SplatoonMenuLogo,
+  SplatoonMenuDecorations,
+  SplatoonOverlayDecorations,
+  SplatoonHeaderDrip,
+} from '@/config/splatoon-navigation'
 import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
 import { VideoDialog, VideoDialogThumbnail, VideoDialogContent } from '@/components/ui/video-dialog'
 import { FeedCarousel } from '@/components/ui/feed-carousel'
@@ -302,7 +311,16 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-white text-chaos-black overflow-x-clip font-sans transition-colors duration-300">
 
       {/* 🦑 Navigation Header Bar */}
-      <Navigation />
+      <Navigation headerDecoration={(isCollapsed) => <SplatoonHeaderDrip isCollapsed={isCollapsed} />}>
+        <NavigationDialog
+          navLinks={navLinks}
+          highlightColor="#eaff3d"
+          logo={(contentPhase) => <SplatoonMenuLogo contentPhase={contentPhase} />}
+          menuDecorations={<SplatoonMenuDecorations />}
+          overlayDecorations={(contentPhase) => <SplatoonOverlayDecorations contentPhase={contentPhase} />}
+          renderLink={renderSplatoonLink}
+        />
+      </Navigation>
 
       {/* ── Section Side Nav (right-side numbered navigation) ── */}
       <SectionSideNav
