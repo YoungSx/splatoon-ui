@@ -48,11 +48,15 @@
   text-decoration: none;
   width: var(--dimension);
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .item:hover {
-  transform: scale(1.1);
+  background: var(--color-black, #000);
+}
+
+.item:hover.itemActive {
+  background: var(--color-purple, #603bff);
 }
 
 .itemActive .itemSplat {
