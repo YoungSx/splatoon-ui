@@ -435,9 +435,66 @@ export default function Home() {
       {/* ── Page Transition Demo (not in SideNav) ── */}
       <PageTransitionDemo />
 
+      {/* Banner divider: PageTransition → Titles */}
+      <BannerDivider pattern="design1" color="yellow" animate />
+
       {/* ────────────────────────────────────────────────────────
-         02 — Typography
+         02 — Tape Titles & Heading Tapes
          ──────────────────────────────────────────────────────── */}
+      <Section
+        id="titles"
+        size="md"
+        bgColor="bg-white"
+        text="text-chaos-black"
+        pattern="chip-white"
+        className="transition-colors duration-300"
+        headingTape={<HeadingTape>Tape Titles & Heading Tapes</HeadingTape>}
+      >
+        <div className="w-full max-w-5xl mx-auto space-y-16 relative z-10">
+          {/* TapeTitle variants */}
+          <InView direction="up" rootMargin="-50px">
+            <Card variant="torn" rotation="0deg" showTape={false}>
+              <CardHeader>
+                <CardTitle>TapeTitle</CardTitle>
+                <CardDescription>Asymmetric SVG tape decoration with colored background — used above the video player on splatoon.nintendo.com</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap items-center justify-center gap-8">
+                  <div className="flex flex-col items-center gap-2">
+                    <TapeTitle color="black">Watch the trailer</TapeTitle>
+                    <span className="text-xs text-chaos-black/40 font-mono">color="black"</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <TapeTitle color="red">Watch the trailer</TapeTitle>
+                    <span className="text-xs text-chaos-black/40 font-mono">color="red"</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <TapeTitle color="yellow">Watch the trailer</TapeTitle>
+                    <span className="text-xs text-chaos-black/40 font-mono">color="yellow"</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </InView>
+
+          {/* HeadingTape */}
+          <InView direction="up" rootMargin="-50px">
+            <Card variant="torn" rotation="0deg" showTape={false}>
+              <CardHeader>
+                <CardTitle>HeadingTape</CardTitle>
+                <CardDescription>White background with responsive sticker decorations (sticker-8, sticker-12) — single style, used for section headings</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-center">
+                  <HeadingTape>Section Heading</HeadingTape>
+                </div>
+              </CardContent>
+            </Card>
+          </InView>
+
+        </div>
+      </Section>
+
       {/* ────────────────────────────────────────────────────────
          03 — Buttons & Badges
          ──────────────────────────────────────────────────────── */}
