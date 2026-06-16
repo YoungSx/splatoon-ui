@@ -51,12 +51,10 @@ export function Alert({
       role="alert"
       style={{
         transform: `rotate(${config.rotation})`,
-        padding: "calc(var(--base-space, 8px) * 4)",
         filter: "drop-shadow(2px 2px 2px rgba(0,0,0,.3))",
-        containerType: "inline-size",
       } as React.CSSProperties}
       className={cn(
-        "group/alert relative w-full select-none text-center flex flex-col gap-4 z-10 text-chaos-black",
+        "group/alert relative w-full select-none text-center z-10 text-chaos-black",
         className
       )}
       {...props}
@@ -65,38 +63,60 @@ export function Alert({
         <WideTornPaper bgColor={config.bgColor} />
       </div>
 
-      {showTape && (
-        <picture>
-          <source srcSet="/official/tape-assets/tape-2.webp 1x, /official/tape-assets/tape-2-2x.webp 2x" width={82} height={36} type="image/webp" />
-          <source srcSet="/official/tape-assets/tape-2.png 1x, /official/tape-assets/tape-2-2x.png 2x" width={82} height={36} type="image/png" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            data-tape="alert"
-            className={cn(styles.cardTape, config.tapePosition)}
-            alt=""
-            src="/official/tape-assets/tape-2.png"
-          />
-        </picture>
-      )}
+      <div className="@container w-full">
+        {showTape && (
+          <picture className={cn(styles.cardTape, config.tapePosition)}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.imgMobile}
+              alt=""
+              src="/official/tape-assets/tape-2.png"
+              width={82}
+              height={36}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.imgDesktop}
+              alt=""
+              src="/official/tape-assets/tape-2-medium-up.png"
+              width={166}
+              height={74}
+            />
+          </picture>
+        )}
 
-      {shouldShowSticker && (
-        <picture>
-          <source srcSet="/official/tape-assets/sticker-10.webp 1x, /official/tape-assets/sticker-10-2x.webp 2x" width={113} height={26} type="image/webp" />
-          <source srcSet="/official/tape-assets/sticker-10.png 1x, /official/tape-assets/sticker-10-2x.png 2x" width={113} height={26} type="image/png" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className={cn(styles.cardDecoration, styles.cardDecorationTopRight)}
-            alt=""
-            src="/official/tape-assets/sticker-10.png"
-          />
-        </picture>
-      )}
+        {shouldShowSticker && (
+          <picture className={cn(styles.cardDecoration, styles.cardDecorationTopRight)}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.imgMobile}
+              alt=""
+              src="/official/tape-assets/sticker-10.png"
+              width={113}
+              height={26}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className={styles.imgDesktop}
+              alt=""
+              src="/official/tape-assets/sticker-10-medium-up.png"
+              width={225}
+              height={51}
+            />
+          </picture>
+        )}
 
-      <AlertContext.Provider value={variant}>
-        <div className="relative z-10 flex flex-col gap-2">
-          {children}
+        <div
+          style={{ padding: "calc(var(--base-space, 8px) * 4)" } as React.CSSProperties}
+          className="relative z-10 flex flex-col gap-4"
+        >
+          <AlertContext.Provider value={variant}>
+            <div className="flex flex-col gap-2">
+              {children}
+            </div>
+          </AlertContext.Provider>
         </div>
-      </AlertContext.Provider>
+      </div>
     </div>
   )
 }

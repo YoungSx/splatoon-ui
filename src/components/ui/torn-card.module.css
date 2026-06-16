@@ -2,16 +2,18 @@
   --right-offset: 15%;
   --left-offset: 15%;
   --tape-translate: translateY(-50%);
-  position: absolute;
+  display: block;
   transform: var(--tape-translate) rotate(var(--tape-rotate, 0deg));
 }
 
 .cardTapeTopRight {
+  position: absolute;
   right: var(--right-offset);
   top: 0;
 }
 
 .cardTapeTopCenter {
+  position: absolute;
   left: 0;
   margin: 0 auto;
   right: 0;
@@ -19,58 +21,36 @@
 }
 
 .cardTapeBottomCenter {
-  --tape-translate: translateY(50%);
+  position: absolute;
+  --tape-translate: translate(-50%, 50%);
   bottom: 0;
-  left: 0;
-  margin: 0 auto;
-  right: 0;
+  left: 50%;
 }
 
 .cardTapeBottomLeft {
+  position: absolute;
   --tape-translate: translateY(50%);
   bottom: 0;
   left: var(--left-offset);
 }
 
 .cardDecoration {
-  position: absolute;
   z-index: 20;
   pointer-events: none;
 }
 
 .cardDecorationTopRight {
+  position: absolute;
   --right-offset: 5%;
   right: var(--right-offset);
   top: 0;
   transform: translateY(-50%);
 }
 
-/* Alert tape: tape-2 mobile 82x36 → desktop 166x74 */
-@container (min-width: 200px) {
-  .cardTape[data-tape="alert"] {
-    content: image-set(
-      url("/official/tape-assets/tape-2-medium-up.webp") type("image/webp"),
-      url("/official/tape-assets/tape-2-medium-up.png") type("image/png")
-    );
-  }
-}
+/* ── Responsive image: mobile by default, desktop at 400px container width ── */
+.imgDesktop { display: none; }
 
-/* Alert sticker: sticker-10 mobile 113x26 → desktop 225x51 */
-@container (min-width: 200px) {
-  .cardDecoration {
-    content: image-set(
-      url("/official/tape-assets/sticker-10-medium-up.webp") type("image/webp"),
-      url("/official/tape-assets/sticker-10-medium-up.png") type("image/png")
-    );
-  }
-}
-
-/* Card tape: tape-3 mobile 97x38 → desktop 202x78 */
-@container (min-width: 200px) {
-  .cardTape[data-tape="card"] {
-    content: image-set(
-      url("/official/save-data-bonus/tape-3-medium-up.webp") type("image/webp"),
-      url("/official/save-data-bonus/tape-3-medium-up.png") type("image/png")
-    );
-  }
+@container (min-width: 400px) {
+  .imgMobile { display: none; }
+  .imgDesktop { display: block; }
 }
