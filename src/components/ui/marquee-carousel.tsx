@@ -3,7 +3,8 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Carousel, CarouselContent, FadeCarouselItem, CarouselPagination, SwipeableGallery, useCarouselItemState } from "@/components/ui/carousel"
-import { GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
+import { GalleryControls } from "./gallery-controls"
+import { PhotoFrame } from "./photo-frame"
 import baseStyles from "./gallery-base.module.css"
 import styles from "./marquee-carousel.module.css"
 
@@ -65,12 +66,13 @@ export function MarqueeGalleryItem({
         className={cn(baseStyles.galleryItem, isActive && baseStyles.galleryItemActive, className)}
         {...props}
       >
-        <div className={cn(baseStyles.photoFrame, styles.photoFrame)}>
-          <GalleryTapeDecoration />
-          <div className={cn(baseStyles.photoImage, styles.photoImage)}>
-            <img src={item.image} alt={item.alt || ""} />
-          </div>
-        </div>
+        <PhotoFrame
+          variant="b"
+          gallery
+          src={item.image}
+          alt={item.alt || ""}
+          className={styles.photoFrame}
+        />
       </FadeCarouselItem>
     )
   }

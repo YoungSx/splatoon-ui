@@ -1,0 +1,233 @@
+/* PhotoFrame — unified styled-photo with tape decoration */
+
+/* ── Photo container — torn paper border ── */
+.photoFrame {
+  --border-offset-x: 3px;
+  --border-offset-y: 4px;
+  --tape-rotation: 6deg;
+  --margin-offset: 6;
+  container-type: inline-size;
+  display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  line-height: 0;
+  margin-top: calc(var(--base-space, 8px) * var(--margin-offset));
+  padding: calc(var(--border-offset-y) * 2) calc(var(--border-offset-x) * 2);
+  position: relative;
+  transform: rotate(var(--end-rotate, 0deg));
+}
+
+.photoFrame::before {
+  background-image: url(/images/svg/styled-photo-background.svg);
+  background-position: 50% center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  content: "";
+  height: calc(100% + var(--border-offset-y) * 2);
+  left: calc(var(--border-offset-x) * -1);
+  position: absolute;
+  top: calc(var(--border-offset-y) * -1);
+  width: calc(100% + var(--border-offset-x) * 2);
+  pointer-events: none;
+}
+
+/* ── Block display variant ── */
+.fillWidth {
+  display: block;
+}
+
+/* ── Nested variant ── */
+.nested {
+  max-width: 350px;
+}
+
+.nested.photoFrame {
+  --border-offset-x: 2px;
+  --border-offset-y: 3px;
+  --margin-offset: 4;
+}
+
+/* ── Border variants ── */
+.thinBorder.photoFrame,
+.photoFrame.thinBorder {
+  --border-offset-x: 2px;
+  --border-offset-y: 3px;
+}
+
+.mediumBorder.photoFrame,
+.photoFrame.mediumBorder {
+  --border-offset-x: 2px;
+  --border-offset-y: 4px;
+}
+
+/* ── Photo image ── */
+.photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ── Photo image container (gallery mode) ── */
+.photoImage {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.photoImage .photo {
+  mask-image: url(/images/svg/styled-photo-background.svg);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+
+/* ── Tape decoration ── */
+.tape {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.tapeMobile { display: block; }
+.tapeDesktop { display: none; }
+
+@container (min-width: 400px) {
+  .tapeMobile { display: none; }
+  .tapeDesktop { display: block; }
+}
+
+/* ── Tape position variants — aligns with TornCard slot logic ── */
+.tapeCenter {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(var(--tape-rotate, 6deg));
+}
+
+.tapeLeft {
+  top: 0;
+  left: var(--slot-offset, 15%);
+  transform: translateY(-50%) rotate(var(--tape-rotate, 6deg));
+}
+
+.tapeRight {
+  top: 0;
+  right: var(--slot-offset, 15%);
+  transform: translateY(-50%) rotate(var(--tape-rotate, 6deg));
+}
+
+.tapeBottomCenter {
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%) rotate(var(--tape-rotate, 6deg));
+}
+
+.tapeBottomLeft {
+  bottom: 0;
+  left: var(--slot-offset, 15%);
+  transform: translateY(50%) rotate(var(--tape-rotate, 6deg));
+}
+
+.tapeBottomRight {
+  bottom: 0;
+  right: var(--slot-offset, 15%);
+  transform: translateY(50%) rotate(var(--tape-rotate, 6deg));
+}
+
+/* ── Decoration (sticker) — aligns with TornCard slot logic ── */
+.decoration {
+  pointer-events: none;
+  position: absolute;
+  z-index: 20;
+}
+
+.decorationMobile { display: block; }
+.decorationDesktop { display: none; }
+
+@container (min-width: 400px) {
+  .decorationMobile { display: none; }
+  .decorationDesktop { display: block; }
+}
+
+.decorationBottomLeft {
+  --slot-offset: 15%;
+  bottom: 0;
+  left: var(--slot-offset);
+  transform: translateY(50%);
+}
+
+.decorationTopRight {
+  --slot-offset: 15%;
+  top: 0;
+  right: var(--slot-offset);
+  transform: translateY(-50%);
+}
+
+.decorationBottomRight {
+  --slot-offset: 15%;
+  bottom: 0;
+  right: var(--slot-offset);
+  transform: translateY(50%);
+}
+
+.decorationCenter {
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 640px) {
+  .decorationBottomLeft,
+  .decorationBottomRight {
+    --slot-offset: 15%;
+  }
+
+  .decorationTopRight {
+    --slot-offset: 15%;
+  }
+}
+
+/* ── Responsive ── */
+@media screen and (min-width: 640px) {
+  .photoFrame {
+    --border-offset-x: 4px;
+    --border-offset-y: 3px;
+  }
+}
+
+/* ── Gallery-specific overrides ── */
+.galleryFrame {
+  --border-offset-x: 3px;
+  --border-offset-y: 4px;
+  aspect-ratio: 16 / 9;
+  display: block;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  margin: 0 auto;
+  max-width: 600px;
+  width: 100%;
+  /* Carousel transition animations */
+  transform: translateX(calc(50% * var(--photo-offset)))
+             rotate(calc(var(--rotateDirection, 1) * var(--rotateAmount, 3deg) + var(--rotateDirection, 1) * 20deg * var(--photo-offset)));
+  transition-delay: var(--delay);
+  transition-duration: calc(var(--duration-factor, 1) * 0.4s);
+  transition-property: transform;
+  transition-timing-function: var(--ease);
+  will-change: transform;
+}
+
+.galleryFrame::before {
+  height: calc(100% + var(--border-offset-y) * 2);
+  left: calc(var(--border-offset-x) * -1);
+  top: calc(var(--border-offset-y) * -1);
+  width: calc(100% + var(--border-offset-x) * 2);
+}
+
+@media screen and (min-width: 640px) {
+  .galleryFrame {
+    --border-offset-x: 4px;
+    --border-offset-y: 3px;
+  }
+}

@@ -1,13 +1,17 @@
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
-import styles from "./styled-photo.module.css"
+import {
+  PhotoFrame,
+  PhotoTape,
+  PhotoDecoration,
+  type PhotoFrameProps,
+  type PhotoTapeProps,
+  type PhotoDecorationProps,
+} from "./photo-frame"
 
-export interface StyledPhotoProps extends React.HTMLAttributes<HTMLDivElement> {
-  src?: string
-  alt?: string
-  border?: "default" | "thin" | "medium"
-  nested?: boolean
+/* ── StyledPhoto — backward-compatible wrapper around PhotoFrame ── */
+
+export interface StyledPhotoProps extends Omit<PhotoFrameProps, "gallery"> {
   className?: string
   children?: React.ReactNode
 }
@@ -22,53 +26,57 @@ export function StyledPhoto({
   ...props
 }: StyledPhotoProps) {
   return (
-    <div
-      className={cn(
-        styles.photoContainer,
-        nested && styles.photoContainerNested,
-        border === "thin" && styles.thinBorder,
-        border === "medium" && styles.mediumBorder,
-        className
-      )}
+    <PhotoFrame
+      src={src}
+      alt={alt}
+      border={border}
+      nested={nested}
+      className={className}
       {...props}
     >
-      {src ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={alt ?? "Styled photo"} className={styles.photo} />
-      ) : (
-        children
-      )}
-      {src && children}
-    </div>
+      {children}
+    </PhotoFrame>
   )
 }
 
-export interface StyledPhotoTapeProps extends React.HTMLAttributes<HTMLDivElement> {
-  position?: "center" | "left" | "right"
+/* ── StyledPhotoTape — backward-compatible wrapper around PhotoTape ── */
+
+export interface StyledPhotoTapeProps extends Omit<PhotoTapeProps, "type"> {
+  className?: string
 }
 
-export function StyledPhotoTape({ position = "center", className, ...props }: StyledPhotoTapeProps) {
-  const positionClass =
-    position === "left"
-      ? styles.photoTapeLeft
-      : position === "right"
-      ? styles.photoTapeRight
-      : styles.photoTapeCenter
-
-  return <div className={cn(styles.photoTape, positionClass, className)} {...props} />
+export function StyledPhotoTape({
+  position = "center",
+  className,
+  ...props
+}: StyledPhotoTapeProps) {
+  return (
+    <PhotoTape
+      position={position}
+      type="tape-2"
+      className={className}
+      {...props}
+    />
+  )
 }
 
-export interface StyledPhotoDecorationProps extends React.HTMLAttributes<HTMLDivElement> {
-  position?: "bottomLeft" | "topRight" | "bottomRight"
+/* ── StyledPhotoDecoration — backward-compatible wrapper around PhotoDecoration ── */
+
+export interface StyledPhotoDecorationProps extends Omit<PhotoDecorationProps, "type"> {
+  className?: string
 }
 
-export function StyledPhotoDecoration({ position = "bottomLeft", className, ...props }: StyledPhotoDecorationProps) {
-  const positionClass =
-    position === "topRight"
-      ? styles.photoDecorationTopRight
-      : position === "bottomRight"
-      ? styles.photoDecorationBottomRight
-      : styles.photoDecorationBottomLeft
-
-  return <div className={cn(styles.photoDecoration, positionClass, className)} {...props} />
+export function StyledPhotoDecoration({
+  position = "bottomLeft",
+  className,
+  ...props
+}: StyledPhotoDecorationProps) {
+  return (
+    <PhotoDecoration
+      position={position}
+      type="sticker-9"
+      className={className}
+      {...props}
+    />
+  )
 }

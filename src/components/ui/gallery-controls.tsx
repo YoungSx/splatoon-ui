@@ -7,26 +7,6 @@ import { useCarousel } from "@/components/ui/carousel"
 import { IconButton } from "./icon-button"
 import baseStyles from "./gallery-base.module.css"
 
-/* ── GalleryTapeDecoration ── */
-
-export interface GalleryTapeDecorationProps extends React.HTMLAttributes<HTMLPictureElement> {
-  className?: string
-}
-
-export function GalleryTapeDecoration({
-  ref,
-  className,
-  ...props
-}: GalleryTapeDecorationProps & { ref?: React.Ref<HTMLPictureElement> }) {
-  return (
-    <picture ref={ref} className={cn(baseStyles.tapeDecoration, className)} {...props}>
-      <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.webp 1x, /_images/tape-assets/tape-2-medium-up-2x.webp 2x" />
-      <source srcSet="/_images/tape-assets/tape-2.webp 1x, /_images/tape-assets/tape-2-2x.webp 2x" />
-      <img src="/_images/tape-assets/tape-2.png" alt="" draggable={false} />
-    </picture>
-  )
-}
-
 /* ── GalleryControls ── */
 
 export interface GalleryControlsProps extends React.HTMLAttributes<HTMLDivElement> {

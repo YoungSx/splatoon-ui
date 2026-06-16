@@ -3,11 +3,11 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { CarouselImagePagination, FadeCarouselItem, useCarouselItemState } from "@/components/ui/carousel"
-import { GalleryBounce, GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
+import { GalleryBounce, GalleryControls } from "./gallery-controls"
+import { PhotoFrame } from "./photo-frame"
 import baseStyles from "./gallery-base.module.css"
 import { MarqueeCarousel } from "./marquee-carousel"
 import styles from "./icon-paginated-carousel.module.css"
-import marqueeStyles from "./marquee-carousel.module.css"
 import type { GalleryItem } from "./marquee-carousel"
 
 export interface IconPaginatedCarouselItem extends GalleryItem {
@@ -64,12 +64,13 @@ function IconPaginatedGalleryItem({
       >
         <div className={cn(baseStyles.galleryContentFade, styles.galleryItemContent)}>
           <GalleryBounce className={styles.galleryBounce}>
-            <div className={cn(baseStyles.photoFrame, styles.photoFrame)}>
-              <GalleryTapeDecoration />
-              <div className={cn(baseStyles.photoImage, marqueeStyles.photoImage)}>
-                <img src={item.image} alt={item.title} />
-              </div>
-            </div>
+            <PhotoFrame
+              variant="d"
+              gallery
+              src={item.image}
+              alt={item.title}
+              className={styles.photoFrame}
+            />
           </GalleryBounce>
           <div className={cn(baseStyles.galleryContentFade, styles.galleryItemText)}>
             <h3 className="text-xl font-black uppercase tracking-wider">{item.title}</h3>

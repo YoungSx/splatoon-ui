@@ -3,7 +3,8 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Carousel, CarouselContent, FadeCarouselItem, CarouselPagination, SwipeableGallery, useCarouselItemState } from "@/components/ui/carousel"
-import { GalleryControls, GalleryTapeDecoration } from "./gallery-controls"
+import { GalleryControls } from "./gallery-controls"
+import { PhotoFrame } from "./photo-frame"
 import baseStyles from "./gallery-base.module.css"
 import styles from "./weapons-gallery-carousel.module.css"
 import type { GalleryItem } from "./marquee-carousel"
@@ -59,12 +60,13 @@ function WeaponsGalleryItem({
         {...props}
       >
         <div className={cn(baseStyles.galleryContentFade, styles.itemLayout)}>
-          <div className={cn(baseStyles.photoFrame, styles.photoFrame)}>
-            <GalleryTapeDecoration />
-            <div className={cn(baseStyles.photoImage, styles.photoImage)}>
-              <img src={item.image} alt={item.title} />
-            </div>
-          </div>
+          <PhotoFrame
+            variant="c"
+            gallery
+            src={item.image}
+            alt={item.title}
+            className={styles.photoFrame}
+          />
           <div className={cn(baseStyles.galleryContentFade, styles.galleryContent)}>
             <h3 className="color-primary">{item.title}</h3>
             {item.description && (
