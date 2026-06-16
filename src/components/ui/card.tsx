@@ -67,7 +67,7 @@ function Card({
       <CardContext.Provider value={ctx}>
         <TornCard
           className={className}
-          tornRotation={rotation}
+          rotation={rotation}
           showTape={showTape}
           {...props}
         >

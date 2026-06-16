@@ -1231,13 +1231,13 @@ export default function Home() {
                 <CardDescription>Character introduction cards with torn paper effect</CardDescription>
               </CardHeader>
               <CardContent className="flex w-full flex-col gap-6 pt-2">
-                <Alert variant="basic" className="w-full">
+                <Alert rotation="-1.5deg" className="w-full">
                   <AlertTitle>This is an Inkling</AlertTitle>
                   <AlertDescription>
                     These trendy cephalopods can transform from kid to squid…and back. (Whoa.)
                   </AlertDescription>
                 </Alert>
-                <Alert variant="decorated" className="w-full">
+                <Alert rotation="3deg" tapePosition="bottom-center" showSticker className="w-full">
                   <AlertTitle>… And This is an Octoling</AlertTitle>
                   <AlertDescription>
                     Same deal, different species. Play as either!
