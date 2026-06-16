@@ -5,6 +5,30 @@ import { WideTornPaper } from "./wide-torn-paper"
 import styles from "./torn-card.module.css"
 
 type TornCardVariant = "a" | "b" | "c"
+type SlotPosition = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
+
+const SLOT_POSITION: Record<SlotPosition, string> = {
+  "top-left":      styles.slotTopLeft,
+  "top-center":    styles.slotTopCenter,
+  "top-right":     styles.slotTopRight,
+  "bottom-left":   styles.slotBottomLeft,
+  "bottom-center": styles.slotBottomCenter,
+  "bottom-right":  styles.slotBottomRight,
+}
+
+export interface TornCardSlotProps extends React.ComponentProps<"div"> {
+  position: SlotPosition
+}
+
+export function TornCardSlot({ position, className, ...props }: TornCardSlotProps) {
+  return (
+    <div
+      data-slot={`slot-${position}`}
+      className={cn(styles.cardSlot, SLOT_POSITION[position], className)}
+      {...props}
+    />
+  )
+}
 
 export interface TornCardProps extends React.ComponentProps<"div"> {
   variant?: TornCardVariant
@@ -59,9 +83,6 @@ export function TornCard({
   const resolvedTapePosition = tapePosition ?? config.tapePosition
   const resolvedShowSticker = showSticker ?? config.showSticker
 
-  const tapePositionClass =
-    resolvedTapePosition === "bottom-center" ? styles.cardTapeBottomCenter : styles.cardTapeTopRight
-
   return (
     <div
       ref={ref}
@@ -83,45 +104,49 @@ export function TornCard({
 
       <div className="@container w-full">
         {showTape && (
-          <picture className={cn(styles.cardTape, tapePositionClass)}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.imgMobile}
-              alt=""
-              src={config.tapeSrc.mobile}
-              width={config.tapeSize.mobile.width}
-              height={config.tapeSize.mobile.height}
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.imgDesktop}
-              alt=""
-              src={config.tapeSrc.desktop}
-              width={config.tapeSize.desktop.width}
-              height={config.tapeSize.desktop.height}
-            />
-          </picture>
+          <TornCardSlot position={resolvedTapePosition}>
+            <picture className={styles.tape}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.imgMobile}
+                alt=""
+                src={config.tapeSrc.mobile}
+                width={config.tapeSize.mobile.width}
+                height={config.tapeSize.mobile.height}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.imgDesktop}
+                alt=""
+                src={config.tapeSrc.desktop}
+                width={config.tapeSize.desktop.width}
+                height={config.tapeSize.desktop.height}
+              />
+            </picture>
+          </TornCardSlot>
         )}
 
         {resolvedShowSticker && (
-          <picture className={cn(styles.cardDecoration, styles.cardDecorationTopRight)}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.imgMobile}
-              alt=""
-              src="/official/tape-assets/sticker-10.png"
-              width={113}
-              height={26}
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className={styles.imgDesktop}
-              alt=""
-              src="/official/tape-assets/sticker-10-medium-up.png"
-              width={225}
-              height={51}
-            />
-          </picture>
+          <TornCardSlot position="top-right">
+            <picture>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.imgMobile}
+                alt=""
+                src="/official/tape-assets/sticker-10.png"
+                width={113}
+                height={26}
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className={styles.imgDesktop}
+                alt=""
+                src="/official/tape-assets/sticker-10-medium-up.png"
+                width={225}
+                height={51}
+              />
+            </picture>
+          </TornCardSlot>
         )}
 
         <div

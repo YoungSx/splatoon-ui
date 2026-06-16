@@ -1,50 +1,21 @@
-.cardTape {
-  --right-offset: 15%;
-  --left-offset: 15%;
-  --tape-translate: translateY(-50%);
-  display: block;
-  transform: var(--tape-translate) rotate(var(--tape-rotate, 0deg));
-}
-
-.cardTapeTopRight {
+/* ── Slot positioning: 6 edge positions ── */
+.cardSlot {
   position: absolute;
-  right: var(--right-offset);
-  top: 0;
-}
-
-.cardTapeTopCenter {
-  position: absolute;
-  left: 0;
-  margin: 0 auto;
-  right: 0;
-  top: 0;
-}
-
-.cardTapeBottomCenter {
-  position: absolute;
-  --tape-translate: translate(-50%, 50%);
-  bottom: 0;
-  left: 50%;
-}
-
-.cardTapeBottomLeft {
-  position: absolute;
-  --tape-translate: translateY(50%);
-  bottom: 0;
-  left: var(--left-offset);
-}
-
-.cardDecoration {
   z-index: 20;
   pointer-events: none;
 }
 
-.cardDecorationTopRight {
-  position: absolute;
-  --right-offset: 5%;
-  right: var(--right-offset);
-  top: 0;
-  transform: translateY(-50%);
+.slotTopLeft      { top: 0;    left: var(--slot-offset, 15%);   transform: translateY(-50%); }
+.slotTopCenter    { top: 0;    left: 50%;                        transform: translate(-50%, -50%); }
+.slotTopRight     { top: 0;    right: var(--slot-offset, 15%);   transform: translateY(-50%); }
+.slotBottomLeft   { bottom: 0; left: var(--slot-offset, 15%);   transform: translateY(50%); }
+.slotBottomCenter { bottom: 0; left: 50%;                        transform: translate(-50%, 50%); }
+.slotBottomRight  { bottom: 0; right: var(--slot-offset, 15%);   transform: translateY(50%); }
+
+/* ── Tape display helper ── */
+.tape {
+  display: block;
+  transform: rotate(var(--tape-rotate, 0deg));
 }
 
 /* ── Alert responsive padding: 32px mobile, 48px vertical on desktop ── */
