@@ -43,7 +43,7 @@ import { Section } from '@/components/ui/section'
 import { TapeTitle } from '@/components/ui/tape-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
 import { SquidMaskTransition, type SquidMaskTransitionHandle } from '@/components/ui/squid-mask-transition'
-import { SplatoonTitle } from '@/components/ui/splatoon-title'
+
 import { CardGrid, CardGridGroup } from '@/components/ui/card-grid'
 import { BannerDivider } from '@/components/ui/banner-divider'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
@@ -437,66 +437,6 @@ export default function Home() {
       {/* ────────────────────────────────────────────────────────
          02 — Typography
          ──────────────────────────────────────────────────────── */}
-      <Section
-        id="titles"
-        size="md"
-        bgColor="bg-white"
-        text="text-chaos-black"
-        pattern="chip-white"
-        className="transition-colors duration-300"
-        headingTape={
-          <HeadingTape color="purple" className="text-center">
-            Splatoon Titles
-          </HeadingTape>
-        }
-      >
-        <InView direction="up" rootMargin="-50px">
-        <div className="w-full max-w-5xl mx-auto space-y-12 relative z-10">
-          <p className="text-center text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
-            使用官方 Nintendo 素材的 Splatoon 标题组件 — 鼠标悬停切换图片
-          </p>
-
-          <div className="space-y-8">
-            <div className="text-center">
-              <SplatoonTitle variant="logo" size="xl" animate>
-                Splatoon Logo
-              </SplatoonTitle>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {['story', 'character', 'world'].map((section) => (
-                <div
-                  key={section}
-                  className="relative group cursor-pointer"
-                >
-                  <div className="aspect-[3/4] overflow-hidden rounded-lg mb-4">
-                    <img
-                      src={`/official/nav-${section}-image.png`}
-                      alt={section}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                  </div>
-                  <div className="text-center">
-                    <SplatoonTitle variant="section" section={section} size="md">
-                      {section.charAt(0).toUpperCase() + section.slice(1)}
-                    </SplatoonTitle>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-3">
-            <Badge>Official Assets</Badge>
-            <Badge variant="blue">3 Variants</Badge>
-            <Badge variant="green">Hover Effects</Badge>
-            <Badge variant="monochrome">Image + Text</Badge>
-          </div>
-        </div>
-        </InView>
-      </Section>
-
-
-
       {/* ────────────────────────────────────────────────────────
          03 — Buttons & Badges
          ──────────────────────────────────────────────────────── */}
