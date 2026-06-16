@@ -47,6 +47,17 @@
   transform: translateY(-50%);
 }
 
+/* ── Alert responsive padding: 32px mobile, 48px vertical on desktop ── */
+.alertContent {
+  padding: calc(var(--base-space, 8px) * 4);
+}
+
+@container (min-width: 400px) {
+  .alertContent {
+    padding: calc(var(--base-space, 8px) * 6) calc(var(--base-space, 8px) * 4);
+  }
+}
+
 /* ── Responsive image: mobile by default, desktop at 400px container width ── */
 .imgDesktop { display: none; }
 

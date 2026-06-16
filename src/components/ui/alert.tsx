@@ -107,8 +107,7 @@ export function Alert({
         )}
 
         <div
-          style={{ padding: "calc(var(--base-space, 8px) * 4)" } as React.CSSProperties}
-          className="relative z-10 flex flex-col gap-4"
+          className={cn(styles.alertContent, "relative z-10 flex flex-col gap-4")}
         >
           <AlertContext.Provider value={variant}>
             <div className="flex flex-col gap-2">
