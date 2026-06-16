@@ -931,6 +931,21 @@ export default function Home() {
                 </ul>
               </div>
             </Card>
+
+            <div className="grid gap-8 md:grid-cols-2">
+              <TornCard variant="b">
+                <TornCardTitle>This is an Inkling</TornCardTitle>
+                <TornCardDescription>
+                  These trendy cephalopods can transform from kid to squid…and back. (Whoa.)
+                </TornCardDescription>
+              </TornCard>
+              <TornCard variant="c">
+                <TornCardTitle>… And This is an Octoling</TornCardTitle>
+                <TornCardDescription>
+                  Same deal, different species. Play as either!
+                </TornCardDescription>
+              </TornCard>
+            </div>
           </div>
 
           {/* Sub-Section 5: StapleCards */}
@@ -1162,27 +1177,6 @@ export default function Home() {
                     </div>
                   </RadioGroup>
                 </div>
-              </CardContent>
-            </Card>
-
-            <Card variant="staple" surface="white">
-              <CardHeader>
-                <CardTitle>Torn Paper Alerts</CardTitle>
-                <CardDescription>Character introduction cards with torn paper effect</CardDescription>
-              </CardHeader>
-              <CardContent className="flex w-full flex-col gap-6 pt-2">
-                <TornCard variant="b" className="w-full">
-                  <TornCardTitle>This is an Inkling</TornCardTitle>
-                  <TornCardDescription>
-                    These trendy cephalopods can transform from kid to squid…and back. (Whoa.)
-                  </TornCardDescription>
-                </TornCard>
-                <TornCard variant="c" className="w-full">
-                  <TornCardTitle>… And This is an Octoling</TornCardTitle>
-                  <TornCardDescription>
-                    Same deal, different species. Play as either!
-                  </TornCardDescription>
-                </TornCard>
               </CardContent>
             </Card>
           </div>
