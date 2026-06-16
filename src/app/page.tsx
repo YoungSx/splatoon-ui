@@ -17,6 +17,7 @@ import { Label } from '@/components/ui/label'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TornCard, TornCardTitle, TornCardDescription } from '@/components/ui/torn-card'
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
@@ -1177,6 +1178,27 @@ export default function Home() {
                     </div>
                   </RadioGroup>
                 </div>
+              </CardContent>
+            </Card>
+
+            <Card variant="staple" surface="white">
+              <CardHeader>
+                <CardTitle>Alerts</CardTitle>
+                <CardDescription>Torn-paper alert cards with tape and sticker decorations</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-6 pt-2">
+                <Alert variant="default">
+                  <AlertTitle>Maintenance Notice</AlertTitle>
+                  <AlertDescription>
+                    Scheduled server maintenance on June 20th. Online services will be temporarily unavailable.
+                  </AlertDescription>
+                </Alert>
+                <Alert variant="destructive">
+                  <AlertTitle textColor="#02e754">Splatfest Ending Soon</AlertTitle>
+                  <AlertDescription textColor="#ffffffcc">
+                    The current Splatfest ends in 30 minutes. Get your final battles in now!
+                  </AlertDescription>
+                </Alert>
               </CardContent>
             </Card>
           </div>

@@ -161,21 +161,31 @@ export function TornCard({
   )
 }
 
-function TornCardTitle({ className, color = "text-blue", ...props }: React.ComponentProps<"h2"> & { color?: string }) {
+function isCssColor(value: string) {
+  return value.startsWith("#") || value.startsWith("rgb") || value.startsWith("var(") || value.startsWith("hsl")
+}
+
+function TornCardTitle({ className, textColor = "text-blue", style, ...props }: React.ComponentProps<"h2"> & { textColor?: string }) {
+  const colorStyle = textColor && isCssColor(textColor) ? { color: textColor } : undefined
+  const twClass = textColor && !isCssColor(textColor) ? textColor : ""
   return (
     <h2
       data-slot="card-title"
-      className={cn("splat-heading text-2xl", color, className)}
+      className={cn("splat-heading text-2xl", twClass, className)}
+      style={colorStyle ? { ...colorStyle, ...style } : style}
       {...props}
     />
   )
 }
 
-function TornCardDescription({ className, color, ...props }: React.ComponentProps<"p"> & { color?: string }) {
+function TornCardDescription({ className, textColor, style, ...props }: React.ComponentProps<"p"> & { textColor?: string }) {
+  const colorStyle = textColor && isCssColor(textColor) ? { color: textColor } : undefined
+  const twClass = textColor && !isCssColor(textColor) ? textColor : ""
   return (
     <p
       data-slot="card-description"
-      className={cn("text-sm opacity-90", color, className)}
+      className={cn("text-sm opacity-90", twClass, className)}
+      style={colorStyle ? { ...colorStyle, ...style } : style}
       {...props}
     />
   )

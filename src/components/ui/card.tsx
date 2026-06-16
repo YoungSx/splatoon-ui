@@ -171,7 +171,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={cn("relative z-20 flex flex-col font-medium text-[16px] text-current leading-relaxed", className)}
+      className={cn("relative z-20 w-full flex flex-col font-medium text-[16px] text-current leading-relaxed", className)}
       {...props}
     />
   )
