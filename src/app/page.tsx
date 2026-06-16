@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { TornCard, TornCardTitle, TornCardDescription } from '@/components/ui/torn-card'
 import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Zap } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
@@ -1171,18 +1171,18 @@ export default function Home() {
                 <CardDescription>Character introduction cards with torn paper effect</CardDescription>
               </CardHeader>
               <CardContent className="flex w-full flex-col gap-6 pt-2">
-                <Alert rotation="-1.5deg" className="w-full">
-                  <AlertTitle>This is an Inkling</AlertTitle>
-                  <AlertDescription>
+                <TornCard variant="b" className="w-full">
+                  <TornCardTitle>This is an Inkling</TornCardTitle>
+                  <TornCardDescription>
                     These trendy cephalopods can transform from kid to squid…and back. (Whoa.)
-                  </AlertDescription>
-                </Alert>
-                <Alert rotation="3deg" tapePosition="bottom-center" showSticker className="w-full">
-                  <AlertTitle>… And This is an Octoling</AlertTitle>
-                  <AlertDescription>
+                  </TornCardDescription>
+                </TornCard>
+                <TornCard variant="c" className="w-full">
+                  <TornCardTitle>… And This is an Octoling</TornCardTitle>
+                  <TornCardDescription>
                     Same deal, different species. Play as either!
-                  </AlertDescription>
-                </Alert>
+                  </TornCardDescription>
+                </TornCard>
               </CardContent>
             </Card>
           </div>

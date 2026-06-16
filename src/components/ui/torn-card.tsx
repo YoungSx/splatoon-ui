@@ -4,36 +4,75 @@ import { cn } from "@/lib/utils"
 import { WideTornPaper } from "./wide-torn-paper"
 import styles from "./torn-card.module.css"
 
+type TornCardVariant = "a" | "b" | "c"
+
 export interface TornCardProps extends React.ComponentProps<"div"> {
+  variant?: TornCardVariant
   rotation?: string
   background?: string
   /** Show decorative tape at the top edge (default: true) */
   showTape?: boolean
   /** Show decorative sticker (default: false) */
   showSticker?: boolean
+  /** Tape position at card edge */
+  tapePosition?: "top-right" | "bottom-center"
 }
+
+const VARIANT_CONFIG = {
+  a: {
+    rotation: "2deg",
+    tapePosition: "top-right" as const,
+    showSticker: false,
+    tapeSrc: { mobile: "/official/save-data-bonus/tape-3.png", desktop: "/official/save-data-bonus/tape-3-medium-up.png" },
+    tapeSize: { mobile: { width: 97, height: 38 }, desktop: { width: 202, height: 78 } },
+  },
+  b: {
+    rotation: "-1.5deg",
+    tapePosition: "top-right" as const,
+    showSticker: false,
+    tapeSrc: { mobile: "/official/tape-assets/tape-2.png", desktop: "/official/tape-assets/tape-2-medium-up.png" },
+    tapeSize: { mobile: { width: 82, height: 36 }, desktop: { width: 166, height: 74 } },
+  },
+  c: {
+    rotation: "3deg",
+    tapePosition: "bottom-center" as const,
+    showSticker: true,
+    tapeSrc: { mobile: "/official/tape-assets/tape-2.png", desktop: "/official/tape-assets/tape-2-medium-up.png" },
+    tapeSize: { mobile: { width: 82, height: 36 }, desktop: { width: 166, height: 74 } },
+  },
+} as const
 
 export function TornCard({
   ref,
   className,
-  rotation = "2deg",
+  variant = "a",
+  rotation,
   background = "#efefef",
   showTape = true,
-  showSticker = false,
+  showSticker,
+  tapePosition,
   children,
   ...props
 }: TornCardProps & { ref?: React.Ref<HTMLDivElement> }) {
+  const config = VARIANT_CONFIG[variant]
+  const resolvedRotation = rotation ?? config.rotation
+  const resolvedTapePosition = tapePosition ?? config.tapePosition
+  const resolvedShowSticker = showSticker ?? config.showSticker
+
+  const tapePositionClass =
+    resolvedTapePosition === "bottom-center" ? styles.cardTapeBottomCenter : styles.cardTapeTopRight
+
   return (
     <div
       ref={ref}
       data-slot="card"
-      data-variant="torn"
+      data-variant={variant}
       style={{
-        transform: `rotate(${rotation})`,
+        transform: `rotate(${resolvedRotation})`,
         filter: "drop-shadow(2px 2px 2px rgba(0,0,0,.3))",
       } as React.CSSProperties}
       className={cn(
-        "group/card relative w-full select-none text-center z-10 text-chaos-black",
+        "group/card relative w-full text-center z-10 text-chaos-black",
         className
       )}
       {...props}
@@ -44,27 +83,27 @@ export function TornCard({
 
       <div className="@container w-full">
         {showTape && (
-          <picture className={cn(styles.cardTape, styles.cardTapeTopRight)}>
+          <picture className={cn(styles.cardTape, tapePositionClass)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.imgMobile}
               alt=""
-              src="/official/save-data-bonus/tape-3.png"
-              width={97}
-              height={38}
+              src={config.tapeSrc.mobile}
+              width={config.tapeSize.mobile.width}
+              height={config.tapeSize.mobile.height}
             />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className={styles.imgDesktop}
               alt=""
-              src="/official/save-data-bonus/tape-3-medium-up.png"
-              width={202}
-              height={78}
+              src={config.tapeSrc.desktop}
+              width={config.tapeSize.desktop.width}
+              height={config.tapeSize.desktop.height}
             />
           </picture>
         )}
 
-        {showSticker && (
+        {resolvedShowSticker && (
           <picture className={cn(styles.cardDecoration, styles.cardDecorationTopRight)}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -86,30 +125,32 @@ export function TornCard({
         )}
 
         <div
-          className={cn(styles.alertContent, "relative h-full flex flex-col justify-between gap-4 z-10 text-center")}
+          className={cn(styles.alertContent, "relative z-10 flex flex-col gap-4")}
         >
-          {children}
+          <div className="flex flex-col gap-2">
+            {children}
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-function TornCardTitle({ className, ...props }: React.ComponentProps<"h2">) {
+function TornCardTitle({ className, color = "text-blue", ...props }: React.ComponentProps<"h2"> & { color?: string }) {
   return (
     <h2
       data-slot="card-title"
-      className={cn("splat-heading text-2xl text-blue", className)}
+      className={cn("splat-heading text-2xl", color, className)}
       {...props}
     />
   )
 }
 
-function TornCardDescription({ className, ...props }: React.ComponentProps<"p">) {
+function TornCardDescription({ className, color, ...props }: React.ComponentProps<"p"> & { color?: string }) {
   return (
     <p
       data-slot="card-description"
-      className={cn("text-sm opacity-90", className)}
+      className={cn("text-sm opacity-90", color, className)}
       {...props}
     />
   )
