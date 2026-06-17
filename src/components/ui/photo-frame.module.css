@@ -6,6 +6,8 @@
   --border-offset-y: 4px;
   --tape-rotation: 6deg;
   --margin-offset: 6;
+  --photo-aspect-ratio: auto;
+  aspect-ratio: var(--photo-aspect-ratio);
   container-type: inline-size;
   display: inline-block;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));

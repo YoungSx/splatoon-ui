@@ -109,7 +109,8 @@
 .galleryFrame {
   --border-offset-x: 3px;
   --border-offset-y: 4px;
-  aspect-ratio: 16 / 9;
+  --photo-aspect-ratio: 16 / 9;
+  aspect-ratio: var(--photo-aspect-ratio);
   display: block;
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   margin: 0 auto;
