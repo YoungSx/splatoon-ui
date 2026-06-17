@@ -75,7 +75,7 @@ export function VideoDialogThumbnail({
             </div>
 
             <div
-              className={cn(photoStyles.photoFrame, 'border-0 relative', imageClassName)}
+              className={cn(photoStyles.photoFrame, photoStyles.noContainer, 'border-0 relative', imageClassName)}
               style={{
                 '--end-rotate': '2deg',
                 '--margin-offset': '0',
