@@ -35,6 +35,7 @@
 /* ── Block display variant ── */
 .fillWidth {
   display: block;
+  width: 100%;
 }
 
 /* ── Nested variant ── */
