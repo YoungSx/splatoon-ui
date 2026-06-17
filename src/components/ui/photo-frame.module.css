@@ -34,7 +34,7 @@
 
 /* ── Block display variant ── */
 .fillWidth {
-  --photo-aspect-ratio: 564 / 326;
+  --photo-aspect-ratio: 16 / 9;
   display: block;
   width: 100%;
 }
