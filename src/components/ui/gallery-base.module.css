@@ -107,10 +107,7 @@
 
 /* ── Gallery photo frame — 16:9 aspect ratio + carousel animations ── */
 .galleryFrame {
-  --border-offset-x: 3px;
-  --border-offset-y: 4px;
   --photo-aspect-ratio: 16 / 9;
-  aspect-ratio: var(--photo-aspect-ratio);
   display: block;
   filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
   margin: 0 auto;
@@ -123,11 +120,4 @@
   transition-property: transform;
   transition-timing-function: var(--ease);
   will-change: transform;
-}
-
-@media screen and (min-width: 640px) {
-  .galleryFrame {
-    --border-offset-x: 4px;
-    --border-offset-y: 3px;
-  }
 }
