@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { CardContext } from "./card"
+import { StyledPhoto } from "./styled-photo"
 
 export interface CardImageProps extends React.ComponentProps<"div"> {
   src?: string
@@ -22,38 +23,19 @@ export function CardImage({
 
     if (variant === "rugged") {
       return (
-        <div
-          ref={ref}
-          data-slot="card-image-tag-wrapper"
-          className="relative w-full py-4 flex justify-center"
-        >
-          {/* Tape 2 decoration */}
-          <picture className="absolute -top-1.5 left-0 right-0 mx-auto z-30 select-none pointer-events-none rotate-[-3deg] w-[clamp(80px,40%,140px)]">
-            <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.webp 1x, /_images/tape-assets/tape-2-medium-up-2x.webp 2x" />
-            <source srcSet="/_images/tape-assets/tape-2.webp 1x, /_images/tape-assets/tape-2-2x.webp 2x" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/_images/tape-assets/tape-2.png" alt="" draggable={false} className="block w-full" />
-          </picture>
-
-          {/* Photo Polaroid Frame */}
-          <div
-            className={cn(
-              "shadow-soft-splat-sm relative z-10 w-full bg-white p-3 pb-8 text-chaos-black border-2 border-chaos-black [transform:rotate(2deg)] transition-transform duration-300 hover:rotate-0",
-              className
-            )}
+        <div className="relative w-full py-4 flex justify-center">
+          <StyledPhoto
+            ref={ref}
+            src={src}
+            alt={alt}
+            variant="b"
+            rotation="2deg"
+            fillWidth
+            className={className}
             {...props}
           >
-            {src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={src}
-                alt={alt}
-                className="w-full h-auto object-contain border-2 border-chaos-black"
-              />
-            ) : (
-              children
-            )}
-          </div>
+            {children}
+          </StyledPhoto>
         </div>
       )
     }

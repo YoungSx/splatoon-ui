@@ -802,11 +802,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Fit Check!</CardTitle>
                 </CardHeader>
-                <CardImage className="bg-blue flex items-center justify-center p-4">
-                  <svg viewBox="0 0 120 120" className="w-20 h-20 text-yellow fill-current">
-                    <path d="M60,10 L70,25 L85,20 L85,35 L100,40 L90,52 L100,68 L85,70 L85,85 L70,80 L60,95 L50,80 L35,85 L35,70 L20,68 L30,52 L20,40 L35,35 L35,20 L50,25 Z M60,40 A15,15 0 1,0 60,70 A15,15 0 1,0 60,40 Z" />
-                  </svg>
-                </CardImage>
+                <CardImage src="/official/character-inkling.png" alt="Inkling" />
                 <CardContent>
                   <p className="text-[15px] font-semibold leading-snug">
                     Make a splash with the latest street wear and battle gear from the Splatsville shopping district!
@@ -824,11 +820,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Turf War</CardTitle>
                 </CardHeader>
-                <CardImage className="bg-yellow flex items-center justify-center p-4">
-                  <svg viewBox="0 0 100 100" className="w-20 h-20 text-blue fill-current">
-                    <path d="M30,20 C10,35 15,60 30,70 C40,75 70,90 80,70 C90,50 65,45 60,30 C55,10 40,10 30,20 Z M25,45 A6,6 0 1,0 25,57 A6,6 0 1,0 25,45 Z" />
-                  </svg>
-                </CardImage>
+                <CardImage src="/official/character-octoling.png" alt="Octoling" />
                 <CardContent>
                   <p className="text-[15px] font-semibold leading-snug opacity-90">
                     Join standard turf battles to paint the desert grounds and defend your team colors online.
@@ -846,11 +838,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Plaza Tour</CardTitle>
                 </CardHeader>
-                <CardImage className="bg-green flex items-center justify-center p-4">
-                  <svg viewBox="0 0 100 100" className="w-20 h-20 text-purple fill-current">
-                    <path d="M50,10 L55,25 L45,25 Z M42,25 L58,25 L55,75 L45,75 Z M35,75 L65,75 L60,95 L40,95 Z" />
-                  </svg>
-                </CardImage>
+                <CardImage src="/official/hero-image.png" alt="Splatoon Hero" />
                 <CardContent>
                   <p className="text-[15px] font-semibold leading-snug opacity-90">
                     Unlock the expansion pass and travel back to the nostalgic Inkopolis Plaza!
