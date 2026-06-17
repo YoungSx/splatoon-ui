@@ -125,13 +125,6 @@
   will-change: transform;
 }
 
-.galleryFrame::before {
-  height: calc(100% + var(--border-offset-y) * 2);
-  left: calc(var(--border-offset-x) * -1);
-  top: calc(var(--border-offset-y) * -1);
-  width: calc(100% + var(--border-offset-x) * 2);
-}
-
 @media screen and (min-width: 640px) {
   .galleryFrame {
     --border-offset-x: 4px;
