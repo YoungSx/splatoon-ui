@@ -104,3 +104,36 @@
   transition-property: opacity;
   transition-timing-function: var(--photo-ease);
 }
+
+/* ── Gallery photo frame — 16:9 aspect ratio + carousel animations ── */
+.galleryFrame {
+  --border-offset-x: 3px;
+  --border-offset-y: 4px;
+  aspect-ratio: 16 / 9;
+  display: block;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  margin: 0 auto;
+  max-width: 600px;
+  width: 100%;
+  transform: translateX(calc(50% * var(--photo-offset)))
+             rotate(calc(var(--rotateDirection, 1) * var(--rotateAmount, 3deg) + var(--rotateDirection, 1) * 20deg * var(--photo-offset)));
+  transition-delay: var(--delay);
+  transition-duration: calc(var(--duration-factor, 1) * 0.4s);
+  transition-property: transform;
+  transition-timing-function: var(--ease);
+  will-change: transform;
+}
+
+.galleryFrame::before {
+  height: calc(100% + var(--border-offset-y) * 2);
+  left: calc(var(--border-offset-x) * -1);
+  top: calc(var(--border-offset-y) * -1);
+  width: calc(100% + var(--border-offset-x) * 2);
+}
+
+@media screen and (min-width: 640px) {
+  .galleryFrame {
+    --border-offset-x: 4px;
+    --border-offset-y: 3px;
+  }
+}

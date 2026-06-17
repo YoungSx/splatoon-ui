@@ -58,8 +58,6 @@ export interface PhotoFrameProps extends React.ComponentProps<"div"> {
   nested?: boolean
   /** Fill width (block display) */
   fillWidth?: boolean
-  /** Gallery mode (16:9 aspect ratio, centered) */
-  gallery?: boolean
 }
 
 /* ── Variant presets ── */
@@ -164,7 +162,6 @@ export function PhotoFrame({
   marginOffset,
   nested = false,
   fillWidth = false,
-  gallery = false,
   className,
   children,
   style,
@@ -189,7 +186,6 @@ export function PhotoFrame({
         styles.photoFrame,
         fillWidth && styles.fillWidth,
         nested && styles.nested,
-        gallery && styles.galleryFrame,
         resolvedBorder === "thin" && styles.thinBorder,
         resolvedBorder === "medium" && styles.mediumBorder,
         className

@@ -68,10 +68,9 @@ export function MarqueeGalleryItem({
       >
         <PhotoFrame
           variant="b"
-          gallery
           src={item.image}
           alt={item.alt || ""}
-          className={styles.photoFrame}
+          className={cn(baseStyles.galleryFrame, styles.photoFrame)}
         />
       </FadeCarouselItem>
     )

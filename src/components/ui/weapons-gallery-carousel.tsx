@@ -62,10 +62,9 @@ function WeaponsGalleryItem({
         <div className={cn(baseStyles.galleryContentFade, styles.itemLayout)}>
           <PhotoFrame
             variant="c"
-            gallery
             src={item.image}
             alt={item.title}
-            className={styles.photoFrame}
+            className={cn(baseStyles.galleryFrame, styles.photoFrame)}
           />
           <div className={cn(baseStyles.galleryContentFade, styles.galleryContent)}>
             <h3 className="color-primary">{item.title}</h3>

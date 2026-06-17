@@ -11,7 +11,7 @@ import {
 
 /* ── StyledPhoto — backward-compatible wrapper around PhotoFrame ── */
 
-export interface StyledPhotoProps extends Omit<PhotoFrameProps, "gallery"> {
+export interface StyledPhotoProps extends PhotoFrameProps {
   className?: string
   children?: React.ReactNode
 }

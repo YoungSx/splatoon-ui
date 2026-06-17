@@ -66,10 +66,9 @@ function IconPaginatedGalleryItem({
           <GalleryBounce className={styles.galleryBounce}>
             <PhotoFrame
               variant="d"
-              gallery
               src={item.image}
               alt={item.title}
-              className={styles.photoFrame}
+              className={cn(baseStyles.galleryFrame, styles.photoFrame)}
             />
           </GalleryBounce>
           <div className={cn(baseStyles.galleryContentFade, styles.galleryItemText)}>
