@@ -3,6 +3,7 @@
    Red/yellow/black background with left/right tape SVG pseudo-elements. */
 
 .container {
+  --tape-color: var(--color-true-black, #000);
   background: var(--color-black, #0d0d0d);
   color: var(--color-white, #fff);
   display: inline-block;
@@ -11,12 +12,13 @@
   z-index: 2;
 }
 
-/* Left tape SVG */
+/* Left tape */
 .container::before {
-  background-image: url("/images/svg/left-tape-black.svg");
-  background-position: 100% center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  background-color: var(--tape-color);
+  mask-image: url("/images/svg/left-tape.svg");
+  mask-position: 100% center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
   content: " ";
   height: 100%;
   left: -61px;
@@ -24,12 +26,13 @@
   width: 62px;
 }
 
-/* Right tape SVG */
+/* Right tape */
 .container::after {
-  background-image: url("/images/svg/right-tape-black.svg");
-  background-position: 0 center;
-  background-repeat: no-repeat;
-  background-size: contain;
+  background-color: var(--tape-color);
+  mask-image: url("/images/svg/right-tape.svg");
+  mask-position: 0 center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
   content: " ";
   height: 100%;
   position: absolute;
@@ -40,30 +43,16 @@
 
 /* Red variant */
 .red {
+  --tape-color: var(--color-red, #ff505e);
   background: var(--color-red, #ff505e);
   color: var(--color-black, #0d0d0d);
 }
 
-.red::before {
-  background-image: url("/images/svg/left-tape-red.svg");
-}
-
-.red::after {
-  background-image: url("/images/svg/right-tape-red.svg");
-}
-
 /* Yellow variant */
 .yellow {
+  --tape-color: var(--color-yellow, #eaff3d);
   background: var(--color-yellow, #eaff3d);
   color: var(--color-black, #0d0d0d);
-}
-
-.yellow::before {
-  background-image: url("/images/svg/left-tape-yellow.svg");
-}
-
-.yellow::after {
-  background-image: url("/images/svg/right-tape-yellow.svg");
 }
 
 /* Title text — matches official .tape-title_title + .title-3,h3 */
@@ -83,4 +72,3 @@
     padding: 16px 40px 24px;
   }
 }
-
