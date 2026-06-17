@@ -197,7 +197,7 @@ export function SectionSideNav({
           sidebar.classList.remove(styles.sidebarShow)
         }
       },
-      { root: null, rootMargin: '-50% 0px -50%', threshold: 0 },
+      { root: null, rootMargin: '0px', threshold: 0 },
     )
 
     visibilityObserverRef.current = observer

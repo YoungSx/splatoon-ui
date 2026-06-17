@@ -310,7 +310,7 @@ export default function Home() {
   const contentRef = React.useRef<HTMLDivElement>(null)
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-chaos-black overflow-x-hidden font-sans transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-white text-chaos-black font-sans transition-colors duration-300">
 
       {/* 🦑 Navigation Header Bar */}
       <Navigation headerDecoration={(isCollapsed) => <SplatoonHeaderDrip isCollapsed={isCollapsed} />}>
