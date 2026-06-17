@@ -4,7 +4,7 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { CardContext } from "./card"
-import { StyledPhoto } from "./styled-photo"
+import { PhotoFrame } from "./photo-frame"
 
 export interface CardImageProps extends React.ComponentProps<"div"> {
   src?: string
@@ -24,7 +24,7 @@ export function CardImage({
     if (variant === "rugged") {
       return (
         <div className="relative w-full py-4 flex justify-center">
-          <StyledPhoto
+          <PhotoFrame
             ref={ref}
             src={src}
             alt={alt}
@@ -35,7 +35,7 @@ export function CardImage({
             {...props}
           >
             {children}
-          </StyledPhoto>
+          </PhotoFrame>
         </div>
       )
     }

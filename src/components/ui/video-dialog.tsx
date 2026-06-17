@@ -5,7 +5,7 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 import { cn } from '@/lib/utils'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
-import photoStyles from './styled-photo.module.css'
+import photoStyles from './photo-frame.module.css'
 import tapeStyles from './video-dialog.module.css'
 
 // ── VideoDialog Root (thin wrapper around Dialog) ──
@@ -75,7 +75,7 @@ export function VideoDialogThumbnail({
             </div>
 
             <div
-              className={cn(photoStyles.photoContainer, 'border-0 relative', imageClassName)}
+              className={cn(photoStyles.photoFrame, 'border-0 relative', imageClassName)}
               style={{
                 '--end-rotate': '2deg',
                 '--margin-offset': '0',
