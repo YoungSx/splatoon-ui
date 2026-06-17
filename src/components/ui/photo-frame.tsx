@@ -5,9 +5,9 @@ import styles from "./photo-frame.module.css"
 
 /* ── PhotoFrame — unified styled-photo with tape decoration ── */
 
-type PhotoFrameVariant = "a" | "b" | "c" | "d"
+type PhotoFrameVariant = "a" | "b" | "c" | "d" | "e"
 
-interface TapeConfig {
+interface DecorationAsset {
   /** Responsive image sources */
   src: {
     mobile: string
@@ -18,21 +18,11 @@ interface TapeConfig {
     mobile: { width: number; height: number }
     desktop: { width: number; height: number }
   }
-  /** Tape rotation */
-  rotation: string
 }
 
-interface DecorationConfig {
-  /** Responsive image sources */
-  src: {
-    mobile: string
-    desktop: string
-  }
-  /** Image dimensions */
-  size: {
-    mobile: { width: number; height: number }
-    desktop: { width: number; height: number }
-  }
+interface TapeAsset extends DecorationAsset {
+  /** Tape rotation */
+  rotation: string
 }
 
 export interface PhotoFrameProps extends React.ComponentProps<"div"> {
@@ -62,7 +52,7 @@ export interface PhotoFrameProps extends React.ComponentProps<"div"> {
 
 /* ── Variant presets ── */
 
-const TAPE_CONFIG: Record<string, TapeConfig> = {
+const TAPE_CONFIG: Record<string, TapeAsset> = {
   "tape-2": {
     src: { mobile: "/_images/tape-assets/tape-2.png", desktop: "/_images/tape-assets/tape-2-medium-up.png" },
     size: { mobile: { width: 82, height: 36 }, desktop: { width: 166, height: 74 } },
@@ -73,14 +63,9 @@ const TAPE_CONFIG: Record<string, TapeConfig> = {
     size: { mobile: { width: 140, height: 35.5 }, desktop: { width: 276, height: 70 } },
     rotation: "0deg",
   },
-  "sticker-10": {
-    src: { mobile: "/_images/tape-assets/sticker-10.png", desktop: "/_images/tape-assets/sticker-10-medium-up.png" },
-    size: { mobile: { width: 113, height: 25.5 }, desktop: { width: 225, height: 50.5 } },
-    rotation: "0deg",
-  },
 }
 
-const DECORATION_CONFIG: Record<string, DecorationConfig> = {
+const DECORATION_CONFIG: Record<string, DecorationAsset> = {
   "sticker-9": {
     src: { mobile: "/_images/tape-assets/sticker-9.png", desktop: "/_images/tape-assets/sticker-9-medium-up.png" },
     size: { mobile: { width: 96, height: 31 }, desktop: { width: 146, height: 47.5 } },
@@ -228,11 +213,14 @@ const TAPE_POSITION: Record<string, string> = {
   center: styles.tapeCenter,
   left: styles.tapeLeft,
   right: styles.tapeRight,
+  bottomCenter: styles.tapeBottomCenter,
+  bottomLeft: styles.tapeBottomLeft,
+  bottomRight: styles.tapeBottomRight,
 }
 
 export interface PhotoTapeProps extends React.ComponentProps<"div"> {
   /** Tape position */
-  position?: "center" | "left" | "right"
+  position?: "center" | "left" | "right" | "bottomCenter" | "bottomLeft" | "bottomRight"
   /** Tape type */
   type?: string
 }
@@ -286,7 +274,7 @@ const DECORATION_POSITION: Record<string, string> = {
 
 export interface PhotoDecorationProps extends React.ComponentProps<"div"> {
   /** Decoration position */
-  position?: "bottomLeft" | "topRight" | "bottomRight"
+  position?: "bottomLeft" | "topRight" | "bottomRight" | "center"
   /** Decoration type */
   type?: string
 }
