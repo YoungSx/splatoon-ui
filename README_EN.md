@@ -34,7 +34,7 @@ pnpm install
 pnpm dev
 ```
 
-Open http://localhost:3000 to see it in action.
+Open http://localhost:4317 to see it in action.
 
 ## Tech Stack
 
@@ -55,9 +55,9 @@ Open http://localhost:3000 to see it in action.
 | Component | Description |
 |-----------|-------------|
 | `Button` | 6 color variants + drip animation + morph blob close button |
-| `Card` | 3 variants: news (torn paper + staples + tape), tag (hanging label), plain |
+| `Card` | 3 variants: news (torn paper + staples + tape), tag (hanging label), rugged |
+| `PhotoFrame` | Unified photo frame: torn-paper SVG + tape/sticker decoration, mask-image clipping, responsive |
 | `Dialog` | Base UI wrapper with morph blob close button |
-| `Splatoon Modal` | CSS custom property-driven modal system |
 | `Tabs` | Skewed parallelogram tabs |
 | `Input / Select / Checkbox / Radio` | Form controls |
 | `Badge` | Sticker-style labels |
@@ -81,10 +81,9 @@ Open http://localhost:3000 to see it in action.
 | `Trailer Video` | YouTube modal + WebGL ink splash transition |
 | `Ink Splash Canvas` | WebGL shader-driven ink transition effect |
 | `Card Stack Carousel` | Physics-based pendulum model card carousel |
-| `Gallery System` | Unified carousel + squid icon pagination |
+| `Gallery System` | Unified carousel (Marquee / Weapons / Shops) + squid icon pagination |
 | `InView` | IntersectionObserver scroll-triggered animations |
 | `Page Transition` | WebGL ink splash page transitions |
-| `Character Showcase` | 3D character display + ink effects |
 | `Wave Canvas` | Interactive wave canvas |
 
 ## Design System
@@ -133,8 +132,9 @@ src/
   hooks/                  # Custom hooks (useDripAnimation, etc.)
 public/
   _images/                # Backgrounds, tape assets, screenshots
+    tape-assets/          # Tape/sticker PNG assets (with @2x)
   fonts/                  # Self-hosted font files
-  images/svg/             # Decorative SVG assets
+  images/svg/             # Decorative SVG assets (torn-paper background, etc.)
 ```
 
 ## Development Commands
@@ -142,6 +142,7 @@ public/
 ```bash
 pnpm dev              # Start dev server
 pnpm build            # Production build
+pnpm start            # Start production server
 npx tsc --noEmit      # Type check
 ```
 

@@ -34,7 +34,7 @@ pnpm install
 pnpm dev
 ```
 
-打开 http://localhost:3000 查看效果。
+打开 http://localhost:4317 查看效果。
 
 ## 技术栈
 
@@ -55,9 +55,9 @@ pnpm dev
 | 组件 | 说明 |
 |------|------|
 | `Button` | 6 色变体 + drip 动画 + blob close 按钮 |
-| `Card` | 3 种变体：news（撕纸 + 钉书针 + 胶带）、tag（悬挂标签）、plain |
+| `Card` | 3 种变体：news（撕纸 + 钉书针 + 胶带）、tag（悬挂标签）、rugged |
+| `PhotoFrame` | 统一相纸容器：撕边 SVG + 胶带/贴纸装饰、mask-image 裁切、响应式 |
 | `Dialog` | Base UI 封装，morph blob 关闭按钮 |
-| `Splatoon Modal` | CSS 自定义属性驱动的模态框系统 |
 | `Tabs` | 平行四边形标签页 |
 | `Input / Select / Checkbox / Radio` | 表单控件 |
 | `Badge` | 贴纸风格标签 |
@@ -81,10 +81,9 @@ pnpm dev
 | `Trailer Video` | YouTube 模态 + WebGL 墨水飞溅过渡 |
 | `Ink Splash Canvas` | WebGL 着色器驱动的墨水过渡效果 |
 | `Card Stack Carousel` | 基于物理摆锤模型的卡片轮播 |
-| `Gallery System` | 统一轮播 + 鱿鱼图标分页 |
+| `Gallery System` | 统一轮播（Marquee / Weapons / Shops）+ 鱿鱼图标分页 |
 | `InView` | IntersectionObserver 滚动触发动画 |
 | `Page Transition` | WebGL 墨水飞溅页面过渡 |
-| `Character Showcase` | 3D 角色展示 + 墨水效果 |
 | `Wave Canvas` | 交互式波浪画布 |
 
 ## 设计系统
@@ -133,8 +132,9 @@ src/
   hooks/                  # 自定义 Hooks（useDripAnimation 等）
 public/
   _images/                # 背景、胶带素材、截图
+    tape-assets/          # 胶带/贴纸 PNG 素材（含 @2x）
   fonts/                  # 自托管字体文件
-  images/svg/             # 装饰 SVG 素材
+  images/svg/             # 装饰 SVG 素材（撕边背景等）
 ```
 
 ## 开发命令
@@ -142,6 +142,7 @@ public/
 ```bash
 pnpm dev              # 启动开发服务器
 pnpm build            # 生产构建
+pnpm start            # 启动生产服务器
 npx tsc --noEmit      # 类型检查
 ```
 
