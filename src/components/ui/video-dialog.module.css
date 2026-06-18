@@ -1,11 +1,21 @@
 /* video-dialog.module.css
    Tape positioning matches official home-page-contents_trailerTape1/Tape2.
-   Values are fixed px at each breakpoint, not percentages. */
+   Inline bleed is clamped to the available viewport gutter so decorative tape
+   never creates page-level horizontal scroll. */
+
+.tape1,
+.tape2 {
+  --trailer-tape-safe-bleed: min(
+    var(--trailer-tape-bleed),
+    max(0px, calc((100cqw - 100%) / 2 - var(--trailer-tape-tilt-guard, 0px)))
+  );
+}
 
 /* ── Tape 1 (top-left, tape-2 image) ──
    Base: left:-19px, top:-20px, rotate(-25deg), no max-width */
 .tape1 {
-  left: -19px;
+  --trailer-tape-bleed: 19px;
+  left: calc(var(--trailer-tape-safe-bleed) * -1);
   pointer-events: none;
   position: absolute;
   top: -20px;
@@ -15,50 +25,52 @@
 /* ── Tape 2 (bottom-right, tape-3 image) ──
    Base: bottom:0, right:-15px, rotate(-24deg), no max-width */
 .tape2 {
+  --trailer-tape-bleed: 15px;
+  --trailer-tape-tilt-guard: 8px;
   bottom: 0;
   pointer-events: none;
   position: absolute;
-  right: -15px;
+  right: calc(var(--trailer-tape-safe-bleed) * -1);
   transform: rotate(-24deg);
 }
 
 /* Medium screens (640-1023px) */
 @media screen and (min-width: 640px) and (max-width: 1023px) {
   .tape1 {
-    left: -25px;
+    --trailer-tape-bleed: 25px;
     max-width: 133px;
     top: -40px;
   }
 
   .tape2 {
+    --trailer-tape-bleed: 50px;
     bottom: 10px;
     max-width: 162px;
-    right: -50px;
   }
 }
 
 /* Large screens (1024px+) */
 @media screen and (min-width: 1024px) {
   .tape1 {
-    left: -25px;
+    --trailer-tape-bleed: 25px;
     max-width: 166px;
     top: -50px;
   }
 
   .tape2 {
+    --trailer-tape-bleed: 50px;
     bottom: 20px;
     max-width: 202px;
-    right: -50px;
   }
 }
 
 /* Extra-large screens (1144px+) */
 @media screen and (min-width: 1144px) {
   .tape1 {
-    left: -40px;
+    --trailer-tape-bleed: 40px;
   }
 
   .tape2 {
-    right: -40px;
+    --trailer-tape-bleed: 40px;
   }
 }

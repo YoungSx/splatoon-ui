@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { motion, useAnimation } from "framer-motion"
 
 import { cn } from "@/lib/utils"
 import paginationStyles from "./carousel-pagination.module.css"
@@ -138,7 +137,7 @@ export function Carousel({
             ref={ref}
             data-slot="carousel"
             aria-roledescription="carousel"
-            className={cn("relative mx-auto w-full overflow-x-clip", className)}
+            className={cn("relative mx-auto w-full", className)}
             onKeyDown={handleKeyDown}
             role={role}
             tabIndex={tabIndex}
@@ -158,6 +157,36 @@ export function Carousel({
       </CarouselContext.Provider>
     )
   }
+
+export function CarouselViewport({
+  ref,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
+  return (
+    <div
+      ref={ref}
+      data-slot="carousel-viewport"
+      className={cn("relative w-full overflow-x-clip", className)}
+      {...props}
+    />
+  )
+}
+
+export function CarouselBleedBoundary({
+  ref,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
+  return (
+    <div
+      ref={ref}
+      data-slot="carousel-bleed-boundary"
+      className={cn("relative left-1/2 w-[100cqw] max-w-[100cqw] -translate-x-1/2 overflow-x-clip", className)}
+      {...props}
+    />
+  )
+}
 
 export function CarouselContent({
   ref,
@@ -236,7 +265,7 @@ export function FadeCarouselItem({
   rotateAmount,
   ...props
 }: FadeCarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const { isActive, isLeft, offset, currentIndex } = useCarouselItemState(index)
+    const { isActive, isLeft, offset } = useCarouselItemState(index)
 
     const randomValues = React.useMemo(() => {
       const seed = ((index ?? 0) * 2654435761) >>> 0

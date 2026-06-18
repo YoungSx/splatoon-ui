@@ -256,6 +256,7 @@
   }
   html {
     @apply font-sans;
+    container-type: inline-size;
   }
 }
 

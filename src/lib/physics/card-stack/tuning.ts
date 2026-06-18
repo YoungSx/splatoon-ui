@@ -98,7 +98,7 @@ export const cardStackLayoutTuning = {
   deckStepWidthMultiplier: 1.08,
   // Fallback measured card width before real DOM metrics are registered.
   // Increase: larger provisional card width before measurement. Decrease: smaller provisional width.
-  fallbackCardWidthPx: 320,
+  fallbackCardWidthPx: 264,
   // Fallback measured card height before real DOM metrics are registered.
   // Increase: larger provisional card height before measurement. Decrease: smaller provisional height.
   fallbackCardHeightPx: 360,

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Carousel, CarouselPagination } from "@/components/ui/carousel"
+import { Carousel, CarouselBleedBoundary, CarouselPagination } from "@/components/ui/carousel"
 import {
   CardStackCarouselContent,
   CardStackCarouselItem,
@@ -11,6 +11,7 @@ import {
   CardStackCarouselScene,
 } from "@/components/ui/card-stack-carousel"
 import { StapleCard, type StapleCardProps } from "@/components/ui/staple-card"
+import { cn } from "@/lib/utils"
 
 const feedCarouselItemShellStyle = {
   width: "clamp(16.5rem, 19vw, 23rem)",
@@ -29,34 +30,36 @@ export interface FeedCarouselProps extends Omit<React.ComponentPropsWithoutRef<t
   items: FeedCarouselItem[]
 }
 
-export function FeedCarousel({ items, ...props }: FeedCarouselProps) {
+export function FeedCarousel({ items, className, ...props }: FeedCarouselProps) {
   return (
-    <Carousel itemCount={items.length} {...props}>
-      <CardStackCarouselScene>
-        <CardStackCarouselContent>
-          {items.map((item, index) => (
-            <CardStackCarouselItem
-              key={item.id}
-              data-index={index}
-              shellStyle={feedCarouselItemShellStyle}
-            >
-              <StapleCard
-                className={item.cardClassName}
-                image={item.image}
-                title={item.title}
-                subtitle={item.subtitle}
-                action={item.action}
-                surface={item.surface}
-                showTape={item.showTape}
-                hoverTilt={item.hoverTilt}
-              />
-            </CardStackCarouselItem>
-          ))}
-        </CardStackCarouselContent>
-        <CardStackCarouselPrevious />
-        <CardStackCarouselNext />
-        <CarouselPagination />
-      </CardStackCarouselScene>
-    </Carousel>
+    <CarouselBleedBoundary>
+      <Carousel itemCount={items.length} className={cn("max-w-none", className)} {...props}>
+        <CardStackCarouselScene>
+          <CardStackCarouselContent>
+            {items.map((item, index) => (
+              <CardStackCarouselItem
+                key={item.id}
+                data-index={index}
+                shellStyle={feedCarouselItemShellStyle}
+              >
+                <StapleCard
+                  className={item.cardClassName}
+                  image={item.image}
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  action={item.action}
+                  surface={item.surface}
+                  showTape={item.showTape}
+                  hoverTilt={item.hoverTilt}
+                />
+              </CardStackCarouselItem>
+            ))}
+          </CardStackCarouselContent>
+          <CardStackCarouselPrevious />
+          <CardStackCarouselNext />
+          <CarouselPagination />
+        </CardStackCarouselScene>
+      </Carousel>
+    </CarouselBleedBoundary>
   )
 }

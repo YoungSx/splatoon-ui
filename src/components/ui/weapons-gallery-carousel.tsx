@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Carousel, CarouselContent, FadeCarouselItem, CarouselPagination, SwipeableGallery, useCarouselItemState } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, CarouselPagination, CarouselViewport, FadeCarouselItem, SwipeableGallery, useCarouselItemState } from "@/components/ui/carousel"
 import { GalleryControls } from "./gallery-controls"
 import { PhotoFrame } from "./photo-frame"
 import baseStyles from "./gallery-base.module.css"
@@ -21,13 +21,15 @@ export interface WeaponsGalleryCarouselProps extends Omit<React.ComponentPropsWi
 export function WeaponsGalleryCarousel({ items, className, ...props }: WeaponsGalleryCarouselProps) {
   return (
     <Carousel itemCount={items.length} className={cn(baseStyles.galleryWrapper, styles.galleryWrapper, className)} {...props}>
-      <SwipeableGallery>
-        <CarouselContent className={baseStyles.gallery}>
-          {items.map((item, index) => (
-            <WeaponsGalleryItem key={item.id} data-index={index} item={item} />
-          ))}
-        </CarouselContent>
-      </SwipeableGallery>
+      <CarouselViewport>
+        <SwipeableGallery>
+          <CarouselContent className={baseStyles.gallery}>
+            {items.map((item, index) => (
+              <WeaponsGalleryItem key={item.id} data-index={index} item={item} />
+            ))}
+          </CarouselContent>
+        </SwipeableGallery>
+      </CarouselViewport>
       <GalleryControls
         className={styles.galleryControls}
         wrapButton={(direction, button) => <div>{button}</div>}

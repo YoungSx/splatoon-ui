@@ -1,8 +1,9 @@
 .blackTapeContainer {
   --tape-offset: 16px;
+  --tape-safe-bleed: min(var(--tape-offset), max(0px, calc((100cqw - 100%) / 2)));
   --tape-width: 30px;
-  margin-left: calc(var(--tape-offset) * -1);
-  margin-right: calc(var(--tape-offset) * -1);
+  margin-left: calc(var(--tape-safe-bleed) * -1);
+  margin-right: calc(var(--tape-safe-bleed) * -1);
   overflow-x: clip;
   padding: 0 var(--tape-offset);
   position: relative;
