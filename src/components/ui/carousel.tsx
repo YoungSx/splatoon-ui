@@ -138,7 +138,7 @@ export function Carousel({
             ref={ref}
             data-slot="carousel"
             aria-roledescription="carousel"
-            className={cn("relative mx-auto w-full", className)}
+            className={cn("relative mx-auto w-full overflow-x-clip", className)}
             onKeyDown={handleKeyDown}
             role={role}
             tabIndex={tabIndex}

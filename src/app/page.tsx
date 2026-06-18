@@ -1034,8 +1034,7 @@ export default function Home() {
             Tape-framed section heading and grid layout replicating the official Splatoon magazine style.
           </p>
 
-          <BlackTapeContainer className="p-6">
-            <HeadingTape>Card Grid</HeadingTape>
+          <BlackTapeContainer>
             <p className="text-sm font-medium">
               Responsive card grid with automatic column wrapping and consistent spacing.
             </p>

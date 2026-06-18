@@ -27,7 +27,9 @@ export function BlackTapeContainer({
       )}
       {...props}
     >
-      {children}
+      <div className={styles.blackTapeContainerInner}>
+        {children}
+      </div>
     </div>
   )
 }

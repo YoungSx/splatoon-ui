@@ -4,6 +4,7 @@
 /* Official: .logoTapeHeader { position: relative; z-index: 2 }
    Height comes from logo image on official site. Standalone divider: explicit responsive height. */
 .bannerDividerGroup {
+  overflow-x: clip;
   position: relative;
   z-index: 2;
   height: 47px;
