@@ -55,14 +55,14 @@ pnpm dev
 
 | 组件 | 说明 |
 |------|------|
-| `Button` | 6 色变体 + drip 动画 + 变形 blob 关闭按钮 |
+| `Button` | 6 色变体 + drip 动画 + 墨水飞溅装饰 |
 | `Card` | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
 | `PhotoFrame` | 统一相纸容器：撕边 SVG + 胶带/贴纸装饰、mask-image 裁切、响应式 |
-| `Dialog` | Base UI 封装，变形 blob 关闭按钮 |
-| `Tabs` | 倾斜平行四边形标签页 |
+| `Dialog` | Base UI 封装，WaveButton 关闭按钮 + 全屏墨水飞溅模式 |
+| `Tabs` | 墨水飞溅 hover + 颜色下划线标签页（default / line 两种变体） |
 | `Input / Select / Checkbox / Radio` | 表单控件 |
-| `Badge` | 贴纸风格标签 |
-| `Navigation` | 粘性头部 + 全屏覆盖菜单 |
+| `Badge` | 7 色倾斜标签 + 贴纸变体 |
+| `Navigation` | 固定头部（滚动折叠）+ 导航对话框 |
 
 ### 装饰组件
 
@@ -70,7 +70,7 @@ pnpm dev
 |------|------|
 | `Tape Title` | 红 / 黄 / 黑背景 + SVG 胶带装饰标题 |
 | `Banner Divider` | 波浪形分区过渡 |
-| `Marquee` | 无限滚动文本条 |
+| `Marquee` | 无限滚动内容条（default / tape / warning 变体，支持任意内容） |
 | `Ink Splat` | 12 种墨水飞溅装饰组件 + 交互式墨水生成器 |
 | `Sticker` | 装饰性贴纸 |
 | `Background Patterns` | 15 种迷彩 / 图案纹理（支持 Retina） |

@@ -55,14 +55,14 @@ Open http://localhost:4317 to see it in action.
 
 | Component | Description |
 |-----------|-------------|
-| `Button` | 6 color variants + drip animation + morphing blob close button |
+| `Button` | 6 color variants + drip animation + ink splat decorations |
 | `Card` | 4 variants: paper (torn paper), staple (staple and tape), rugged (hanging label), torn (rough edge) |
 | `PhotoFrame` | Unified photo frame: torn-paper SVG + tape/sticker decoration, mask-image clipping, responsive |
-| `Dialog` | Base UI wrapper with morphing blob close button |
-| `Tabs` | Parallelogram tabs |
+| `Dialog` | Base UI wrapper with WaveButton close button + fullscreen ink splash mode |
+| `Tabs` | Ink splat hover + color underline tabs (default / line variants) |
 | `Input / Select / Checkbox / Radio` | Form controls |
-| `Badge` | Sticker-style labels |
-| `Navigation` | Sticky header + fullscreen overlay menu |
+| `Badge` | 7 color skewed labels + sticker variant |
+| `Navigation` | Fixed header (scroll-collapse) + navigation dialog |
 
 ### Decorative Components
 
@@ -70,7 +70,7 @@ Open http://localhost:4317 to see it in action.
 |-----------|-------------|
 | `Tape Title` | Red / yellow / black background + SVG tape decoration heading |
 | `Banner Divider` | Wavy section transitions |
-| `Marquee` | Infinite scrolling text strip |
+| `Marquee` | Infinite scrolling content strip (default / tape / warning variants, supports any content) |
 | `Ink Splat` | 12 ink splat decorative components + interactive ink splat generator |
 | `Sticker` | Decorative sticker elements |
 | `Background Patterns` | 15 camouflage / pattern textures (Retina support) |
