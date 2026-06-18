@@ -1,23 +1,23 @@
 # Splatoon UI
 
-A React component library built on Splatoon's visual language, providing ready-to-use UI tools for fan creators.
+A React component library inspired by Splatoon's visual language, providing ready-to-use UI tools for fan creators.
 
-> **This project is not affiliated with Nintendo in any way.** Splatoon is a registered trademark of Nintendo. This project is fan-made and intended for non-commercial fan community use only. If this project infringes upon your rights, please contact us and we will address it immediately.
+> **This project is not affiliated with Nintendo in any way.** Splatoon is a registered trademark of Nintendo. This project is fan-made and intended for non-commercial fan community use only. If this project infringes on any rights, please contact us and we will address it immediately.
 
 **[中文版 (Chinese Version)](./README.md)**
 
-## What is this
+## About
 
-Splatoon UI is a comprehensive React component library that replicates the visual language of [splatoon.nintendo.com](https://splatoon.nintendo.com). Use it to quickly build Splatoon-style fan sites, wikis, tournament pages, fan communities, and more.
+Splatoon UI is a comprehensive React component library that reimagines the visual language of [splatoon.nintendo.com](https://splatoon.nintendo.com). Build Splatoon-style fan sites, wikis, tournament pages, and more in minutes.
 
 **Key features:**
 
-- Liquid ink drip animation buttons
-- Torn paper / tape / staple card system
+- Buttons with liquid ink drip animations
+- Card system with torn-paper, tape, and staple variants
 - WebGL ink splash transition effects
-- Physics-driven card stack carousel
-- 12 ink splat SVG decorations
-- 15 camo / pattern background textures
+- Physics-driven pendulum card stack carousel
+- 12 ink splat decorative components
+- 15 camouflage and pattern background textures (Retina support)
 - Full accessibility support (`prefers-reduced-motion`, WCAG AA contrast)
 
 ## Quick Start
@@ -43,8 +43,9 @@ Open http://localhost:4317 to see it in action.
 | Framework | Next.js 16 (App Router + Turbopack) |
 | UI Base | shadcn/ui + Base UI |
 | Styling | Tailwind CSS v4 |
-| Animation | CSS transitions + keyframes, requestAnimationFrame |
+| Animation | framer-motion + CSS transitions/keyframes |
 | WebGL | Custom ink splash shaders |
+| Icons | lucide-react |
 | Language | TypeScript (strict mode) |
 | Package Manager | pnpm |
 
@@ -54,11 +55,11 @@ Open http://localhost:4317 to see it in action.
 
 | Component | Description |
 |-----------|-------------|
-| `Button` | 6 color variants + drip animation + morph blob close button |
-| `Card` | 4 variants: paper (torn paper), staple (staples + tape), rugged (hanging label), torn (rough edge) |
+| `Button` | 6 color variants + drip animation + morphing blob close button |
+| `Card` | 4 variants: paper (torn paper), staple (staple and tape), rugged (hanging label), torn (rough edge) |
 | `PhotoFrame` | Unified photo frame: torn-paper SVG + tape/sticker decoration, mask-image clipping, responsive |
-| `Dialog` | Base UI wrapper with morph blob close button |
-| `Tabs` | Skewed parallelogram tabs |
+| `Dialog` | Base UI wrapper with morphing blob close button |
+| `Tabs` | Parallelogram tabs |
 | `Input / Select / Checkbox / Radio` | Form controls |
 | `Badge` | Sticker-style labels |
 | `Navigation` | Sticky header + fullscreen overlay menu |
@@ -70,18 +71,18 @@ Open http://localhost:4317 to see it in action.
 | `Tape Title` | Red / yellow / black background + SVG tape decoration heading |
 | `Banner Divider` | Wavy section transitions |
 | `Marquee` | Infinite scrolling text strip |
-| `Ink Splat` | 12 inline SVG ink splats + interactive spawner |
+| `Ink Splat` | 12 ink splat decorative components + interactive ink splat generator |
 | `Sticker` | Decorative sticker elements |
-| `Background Patterns` | 15 camo / pattern textures (Retina support) |
+| `Background Patterns` | 15 camouflage / pattern textures (Retina support) |
 
 ### Advanced Components
 
 | Component | Description |
 |-----------|-------------|
-| `Trailer Video` | YouTube modal + WebGL ink splash transition |
+| `Video Dialog` | YouTube modal + WebGL ink splash transition |
 | `Ink Splash Canvas` | WebGL shader-driven ink transition effect |
 | `Card Stack Carousel` | Physics-based pendulum model card carousel |
-| `Gallery System` | Unified carousel (Marquee / Weapons / Shops) + squid icon pagination |
+| `Gallery System` | Unified carousel (Marquee / Weapons / Shops) + pagination with squid icons |
 | `InView` | IntersectionObserver scroll-triggered animations |
 | `Page Transition` | WebGL ink splash page transitions |
 | `Wave Canvas` | Interactive wave canvas |
@@ -111,7 +112,7 @@ Open http://localhost:4317 to see it in action.
 
 ### Shadows
 
-Primary shadows use soft blur for general UI elevation; hard-offset solid colors are reserved for special cutout-style elements:
+Primary shadows use soft blur for general UI elevation; hard-offset solid colors are reserved for special paper-cutout-style elements:
 
 ```
 # Soft blur (primary)
@@ -131,17 +132,25 @@ shadow-solid-xl  →  8px 8px 0px
 ```
 src/
   app/                    # Next.js pages
-  components/ui/          # 110+ component files
-    splats/               # 12 ink splat SVGs
+  components/ui/          # 86 components + 32 CSS Modules
+    splats/               # 12 ink splat decorative components (TSX)
     stickers/             # Decorative stickers
   config/                 # Navigation config, etc.
-  lib/                    # Utilities (cn, wobble-math, drip-math, etc.)
+  lib/
+    utils.ts              # Utilities (cn, etc.)
+    wobble-math.ts        # Pendulum physics math
+    drip-math.ts          # Drip animation math
+    ink-particle.ts       # Ink particle system
+    physics/              # Card stack physics engine
+    shaders/              # WebGL shaders
   hooks/                  # Custom hooks (useDripAnimation, etc.)
 public/
   _images/                # Backgrounds, tape assets, screenshots
     tape-assets/          # Tape/sticker PNG assets (with @2x)
-  fonts/                  # Self-hosted font files
+  fonts/                  # Font files (fooregular, Montserrat self-hosted)
   images/svg/             # Decorative SVG assets (torn-paper background, etc.)
+  svgs/                   # General SVG assets (paper tears, waves, etc.)
+  official/               # Official assets (gallery, navi, news, etc.)
 ```
 
 ## Development Commands
@@ -166,8 +175,8 @@ This project is **fan-made** and is not affiliated with, authorized by, or endor
 - This project only uses publicly accessible web design as visual reference, and does not contain any game code, asset files, or unreleased materials
 - This project is intended for non-commercial fan community use only
 
-**If Nintendo or its authorized representatives believe this project infringes upon any rights, please contact us via GitHub Issues and we will address it immediately upon notification.**
+**If this project infringes on any rights, please contact us via GitHub Issues and we will address it immediately.**
 
 ---
 
-*This project was made by Splatoon fan community enthusiasts, dedicated to all Splatoon players.*
+*Built by Splatoon fans, dedicated to all Splatoon players.*

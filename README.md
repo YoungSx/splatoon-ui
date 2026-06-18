@@ -2,7 +2,7 @@
 
 一个基于 Splatoon 视觉风格的 React 组件库，为同人创作者提供开箱即用的 UI 工具。
 
-> **本项目与 Nintendo 无任何关联。** Splatoon 是 Nintendo 的注册商标。本项目是粉丝创作（fan-made），仅供非商业的同人社区使用。如果本项目侵犯了您的权益，请联系我们，我们会立即处理。
+> **本项目与 Nintendo 无任何关联。** Splatoon 是 Nintendo 的注册商标。本项目是粉丝创作（fan-made），仅供非商业的同人社区使用。如涉及侵权，请联系我们，我们将立即处理。
 
 **[English Version](./README_EN.md)**
 
@@ -12,13 +12,13 @@ Splatoon UI 是一套完整的 React 组件库，复刻了 [splatoon.nintendo.co
 
 **核心特色：**
 
-- 液态墨水 drip 动画按钮
-- 撕纸 / 胶带 / 钉书针 风格的卡片系统
+- 墨水滴落（drip）动画按钮
+- 撕纸、胶带、钉书针风格的卡片系统
 - WebGL 墨水飞溅过渡效果
-- 物理引擎驱动的卡片堆叠轮播
-- 12 种墨水飞溅 SVG 装饰
-- 15 种迷彩 / 图案背景纹理
-- 完整的无障碍支持（`prefers-reduced-motion`、WCAG AA 对比度）
+- 基于物理摆锤模型的卡片堆叠轮播
+- 12 种墨水飞溅装饰组件
+- 15 种迷彩/图案背景纹理（支持 Retina）
+- 完整的可访问性支持（`prefers-reduced-motion`、WCAG AA 对比度）
 
 ## 快速开始
 
@@ -43,8 +43,9 @@ pnpm dev
 | 框架 | Next.js 16 (App Router + Turbopack) |
 | UI 基座 | shadcn/ui + Base UI |
 | 样式 | Tailwind CSS v4 |
-| 动画 | CSS transitions + keyframes, requestAnimationFrame |
+| 动画 | framer-motion + CSS transitions/keyframes |
 | WebGL | 自定义墨水飞溅着色器 |
+| 图标 | lucide-react |
 | 语言 | TypeScript (strict mode) |
 | 包管理 | pnpm |
 
@@ -54,11 +55,11 @@ pnpm dev
 
 | 组件 | 说明 |
 |------|------|
-| `Button` | 6 色变体 + drip 动画 + blob close 按钮 |
+| `Button` | 6 色变体 + drip 动画 + 变形 blob 关闭按钮 |
 | `Card` | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
 | `PhotoFrame` | 统一相纸容器：撕边 SVG + 胶带/贴纸装饰、mask-image 裁切、响应式 |
-| `Dialog` | Base UI 封装，morph blob 关闭按钮 |
-| `Tabs` | 平行四边形标签页 |
+| `Dialog` | Base UI 封装，变形 blob 关闭按钮 |
+| `Tabs` | 倾斜平行四边形标签页 |
 | `Input / Select / Checkbox / Radio` | 表单控件 |
 | `Badge` | 贴纸风格标签 |
 | `Navigation` | 粘性头部 + 全屏覆盖菜单 |
@@ -70,7 +71,7 @@ pnpm dev
 | `Tape Title` | 红 / 黄 / 黑背景 + SVG 胶带装饰标题 |
 | `Banner Divider` | 波浪形分区过渡 |
 | `Marquee` | 无限滚动文本条 |
-| `Ink Splat` | 12 种内联 SVG 墨水飞溅 + 交互生成器 |
+| `Ink Splat` | 12 种墨水飞溅装饰组件 + 交互式墨水生成器 |
 | `Sticker` | 装饰性贴纸 |
 | `Background Patterns` | 15 种迷彩 / 图案纹理（支持 Retina） |
 
@@ -78,7 +79,7 @@ pnpm dev
 
 | 组件 | 说明 |
 |------|------|
-| `Trailer Video` | YouTube 模态 + WebGL 墨水飞溅过渡 |
+| `Video Dialog` | YouTube 模态 + WebGL 墨水飞溅过渡 |
 | `Ink Splash Canvas` | WebGL 着色器驱动的墨水过渡效果 |
 | `Card Stack Carousel` | 基于物理摆锤模型的卡片轮播 |
 | `Gallery System` | 统一轮播（Marquee / Weapons / Shops）+ 鱿鱼图标分页 |
@@ -111,7 +112,7 @@ pnpm dev
 
 ### 阴影
 
-主阴影使用柔和模糊（soft blur），用于通用 UI 提升感；硬偏移实色（hard offset）仅用于特殊剪纸风格元素：
+主阴影使用柔和模糊（soft blur），用于 UI 元素的层次感；硬偏移实色（hard offset）仅用于特殊剪贴画风格元素：
 
 ```
 # 柔和模糊（主用）
@@ -131,17 +132,25 @@ shadow-solid-xl  →  8px 8px 0px
 ```
 src/
   app/                    # Next.js 页面
-  components/ui/          # 110+ 组件文件
-    splats/               # 12 种墨水飞溅 SVG
+  components/ui/          # 86 个组件 + 32 个 CSS Module
+    splats/               # 12 种墨水飞溅装饰组件（TSX）
     stickers/             # 装饰贴纸
   config/                 # 导航配置等
-  lib/                    # 工具函数（cn、wobble-math、drip-math 等）
+  lib/
+    utils.ts              # 工具函数（cn 等）
+    wobble-math.ts        # 摆锤物理数学
+    drip-math.ts          # 滴落动画数学
+    ink-particle.ts       # 墨水粒子系统
+    physics/              # 卡片堆叠物理引擎
+    shaders/              # WebGL 着色器
   hooks/                  # 自定义 Hooks（useDripAnimation 等）
 public/
   _images/                # 背景、胶带素材、截图
     tape-assets/          # 胶带/贴纸 PNG 素材（含 @2x）
-  fonts/                  # 自托管字体文件
+  fonts/                  # 字体文件（fooregular、Montserrat 自托管）
   images/svg/             # 装饰 SVG 素材（撕边背景等）
+  svgs/                   # 通用 SVG 资源（纸张撕裂、波浪等）
+  official/               # 官方素材（gallery、navi、news 等）
 ```
 
 ## 开发命令
@@ -166,8 +175,8 @@ MIT
 - 本项目仅使用了公开可访问的网页设计作为视觉参考，不包含任何游戏代码、资源文件或未公开素材
 - 本项目仅供非商业的同人社区使用
 
-**如果 Nintendo 或其授权代表认为本项目存在侵权问题，请通过 GitHub Issues 联系我们，我们会在收到通知后立即处理。**
+**如本项目涉及侵权，请通过 GitHub Issues 联系我们，我们将立即处理。**
 
 ---
 
-*本项目由 Splatoon 同人社区爱好者制作，献给所有热爱 Splatoon 的玩家。*
+*由 Splatoon 同人社区爱好者制作，献给所有热爱 Splatoon 的玩家。*
