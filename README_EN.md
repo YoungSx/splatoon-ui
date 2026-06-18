@@ -17,7 +17,7 @@ Splatoon UI is a comprehensive React component library that replicates the visua
 - WebGL ink splash transition effects
 - Physics-driven card stack carousel
 - 12 ink splat SVG decorations
-- 13 camo / pattern background textures
+- 15 camo / pattern background textures
 - Full accessibility support (`prefers-reduced-motion`, WCAG AA contrast)
 
 ## Quick Start
@@ -55,7 +55,7 @@ Open http://localhost:4317 to see it in action.
 | Component | Description |
 |-----------|-------------|
 | `Button` | 6 color variants + drip animation + morph blob close button |
-| `Card` | 3 variants: news (torn paper + staples + tape), tag (hanging label), rugged |
+| `Card` | 4 variants: paper (torn paper), staple (staples + tape), rugged (hanging label), torn (rough edge) |
 | `PhotoFrame` | Unified photo frame: torn-paper SVG + tape/sticker decoration, mask-image clipping, responsive |
 | `Dialog` | Base UI wrapper with morph blob close button |
 | `Tabs` | Skewed parallelogram tabs |
@@ -72,7 +72,7 @@ Open http://localhost:4317 to see it in action.
 | `Marquee` | Infinite scrolling text strip |
 | `Ink Splat` | 12 inline SVG ink splats + interactive spawner |
 | `Sticker` | Decorative sticker elements |
-| `Background Patterns` | 13 camo / pattern textures (Retina support) |
+| `Background Patterns` | 15 camo / pattern textures (Retina support) |
 
 ### Advanced Components
 
@@ -94,10 +94,10 @@ Open http://localhost:4317 to see it in action.
 |------|-------|-------|
 | Neon Yellow | `#EAFF3D` | Primary brand, CTA |
 | Ink Blue | `#603BFF` | Secondary brand, hover |
-| Ink Purple | `#A51EE1` | Accent |
-| Neon Cyan | `#00C8B4` | Play / special controls |
-| Ink Orange | `#FA5A00` | Warm actions |
-| Ink Red | `#FF585E` | Destructive actions |
+| Ink Purple | `#AF50FF` | Accent |
+| Ink Green | `#6AF7CE` | Play / special controls |
+| Ink Orange | `#FF9750` | Warm actions |
+| Ink Red | `#FF505E` | Destructive actions |
 | Chaos Black | `#0D0D0D` | Text, shadows |
 | Desert Sand | `#F5F0E8` | Backgrounds |
 
@@ -105,19 +105,25 @@ Open http://localhost:4317 to see it in action.
 
 | Role | Font | Usage |
 |------|------|-------|
-| Display | social-gothic-rough | Hero headings |
-| Heading | fooregular | Section headings |
+| Display / Heading | fooregular | Hero and section headings |
 | Alt | obviously-narrow | Buttons, categories |
 | Body | Montserrat | Body text |
 
 ### Shadows
 
-All shadows use hard-offset solid colors (`shadow-solid`), never blur:
+Primary shadows use soft blur for general UI elevation; hard-offset solid colors are reserved for special cutout-style elements:
 
 ```
-shadow-solid-sm   →  2px 2px 0px
-shadow-solid      →  4px 4px 0px
-shadow-solid-lg   →  6px 6px 0px
+# Soft blur (primary)
+shadow-soft-splat-sm  →  0 4px 10px rgba(0,0,0,0.14)
+shadow-soft-splat-md  →  0 8px 18px rgba(0,0,0,0.16)
+shadow-soft-splat-lg  →  0 14px 30px rgba(0,0,0,0.18)
+
+# Hard offset (legacy / special cases)
+shadow-solid-sm  →  2px 2px 0px
+shadow-solid     →  4px 4px 0px
+shadow-solid-lg  →  6px 6px 0px
+shadow-solid-xl  →  8px 8px 0px
 ```
 
 ## Project Structure
@@ -125,9 +131,10 @@ shadow-solid-lg   →  6px 6px 0px
 ```
 src/
   app/                    # Next.js pages
-  components/ui/          # 90+ component files
+  components/ui/          # 110+ component files
     splats/               # 12 ink splat SVGs
     stickers/             # Decorative stickers
+  config/                 # Navigation config, etc.
   lib/                    # Utilities (cn, wobble-math, drip-math, etc.)
   hooks/                  # Custom hooks (useDripAnimation, etc.)
 public/

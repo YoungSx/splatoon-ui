@@ -17,7 +17,7 @@ Splatoon UI 是一套完整的 React 组件库，复刻了 [splatoon.nintendo.co
 - WebGL 墨水飞溅过渡效果
 - 物理引擎驱动的卡片堆叠轮播
 - 12 种墨水飞溅 SVG 装饰
-- 13 种迷彩 / 图案背景纹理
+- 15 种迷彩 / 图案背景纹理
 - 完整的无障碍支持（`prefers-reduced-motion`、WCAG AA 对比度）
 
 ## 快速开始
@@ -55,7 +55,7 @@ pnpm dev
 | 组件 | 说明 |
 |------|------|
 | `Button` | 6 色变体 + drip 动画 + blob close 按钮 |
-| `Card` | 3 种变体：news（撕纸 + 钉书针 + 胶带）、tag（悬挂标签）、rugged |
+| `Card` | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
 | `PhotoFrame` | 统一相纸容器：撕边 SVG + 胶带/贴纸装饰、mask-image 裁切、响应式 |
 | `Dialog` | Base UI 封装，morph blob 关闭按钮 |
 | `Tabs` | 平行四边形标签页 |
@@ -72,7 +72,7 @@ pnpm dev
 | `Marquee` | 无限滚动文本条 |
 | `Ink Splat` | 12 种内联 SVG 墨水飞溅 + 交互生成器 |
 | `Sticker` | 装饰性贴纸 |
-| `Background Patterns` | 13 种迷彩 / 图案纹理（支持 Retina） |
+| `Background Patterns` | 15 种迷彩 / 图案纹理（支持 Retina） |
 
 ### 高级组件
 
@@ -94,10 +94,10 @@ pnpm dev
 |------|------|------|
 | Neon Yellow | `#EAFF3D` | 主品牌色、CTA |
 | Ink Blue | `#603BFF` | 副品牌色、hover |
-| Ink Purple | `#A51EE1` | 强调色 |
-| Neon Cyan | `#00C8B4` | 播放 / 特殊控件 |
-| Ink Orange | `#FA5A00` | 暖色操作 |
-| Ink Red | `#FF585E` | 破坏性操作 |
+| Ink Purple | `#AF50FF` | 强调色 |
+| Ink Green | `#6AF7CE` | 播放 / 特殊控件 |
+| Ink Orange | `#FF9750` | 暖色操作 |
+| Ink Red | `#FF505E` | 破坏性操作 |
 | Chaos Black | `#0D0D0D` | 文本、阴影 |
 | Desert Sand | `#F5F0E8` | 背景 |
 
@@ -105,19 +105,25 @@ pnpm dev
 
 | 角色 | 字体 | 用途 |
 |------|------|------|
-| Display | social-gothic-rough | 英雄标题 |
-| Heading | fooregular | 章节标题 |
+| Display / Heading | fooregular | 英雄标题、章节标题 |
 | Alt | obviously-narrow | 按钮、分类 |
 | Body | Montserrat | 正文 |
 
 ### 阴影
 
-所有阴影使用硬偏移实色（`shadow-solid`），不用模糊阴影：
+主阴影使用柔和模糊（soft blur），用于通用 UI 提升感；硬偏移实色（hard offset）仅用于特殊剪纸风格元素：
 
 ```
-shadow-solid-sm   →  2px 2px 0px
-shadow-solid      →  4px 4px 0px
-shadow-solid-lg   →  6px 6px 0px
+# 柔和模糊（主用）
+shadow-soft-splat-sm  →  0 4px 10px rgba(0,0,0,0.14)
+shadow-soft-splat-md  →  0 8px 18px rgba(0,0,0,0.16)
+shadow-soft-splat-lg  →  0 14px 30px rgba(0,0,0,0.18)
+
+# 硬偏移（legacy / 特殊场景）
+shadow-solid-sm  →  2px 2px 0px
+shadow-solid     →  4px 4px 0px
+shadow-solid-lg  →  6px 6px 0px
+shadow-solid-xl  →  8px 8px 0px
 ```
 
 ## 项目结构
@@ -125,9 +131,10 @@ shadow-solid-lg   →  6px 6px 0px
 ```
 src/
   app/                    # Next.js 页面
-  components/ui/          # 90+ 组件文件
+  components/ui/          # 110+ 组件文件
     splats/               # 12 种墨水飞溅 SVG
     stickers/             # 装饰贴纸
+  config/                 # 导航配置等
   lib/                    # 工具函数（cn、wobble-math、drip-math 等）
   hooks/                  # 自定义 Hooks（useDripAnimation 等）
 public/
