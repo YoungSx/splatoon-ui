@@ -1,34 +1,14 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { CardSlot, type CardSlotProps } from "./card-slot"
 import { WideTornPaper } from "./wide-torn-paper"
 import styles from "./torn-card.module.css"
 
 type TornCardVariant = "a" | "b" | "c"
-type SlotPosition = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
 
-const SLOT_POSITION: Record<SlotPosition, string> = {
-  "top-left":      styles.slotTopLeft,
-  "top-center":    styles.slotTopCenter,
-  "top-right":     styles.slotTopRight,
-  "bottom-left":   styles.slotBottomLeft,
-  "bottom-center": styles.slotBottomCenter,
-  "bottom-right":  styles.slotBottomRight,
-}
-
-export interface TornCardSlotProps extends React.ComponentProps<"div"> {
-  position: SlotPosition
-}
-
-export function TornCardSlot({ position, className, ...props }: TornCardSlotProps) {
-  return (
-    <div
-      data-slot={`slot-${position}`}
-      className={cn(styles.cardSlot, SLOT_POSITION[position], className)}
-      {...props}
-    />
-  )
-}
+export { CardSlot as TornCardSlot }
+export type { CardSlotProps as TornCardSlotProps }
 
 export interface TornCardProps extends React.ComponentProps<"div"> {
   variant?: TornCardVariant
@@ -104,7 +84,7 @@ export function TornCard({
 
       <div className="@container w-full">
         {showTape && (
-          <TornCardSlot position={resolvedTapePosition}>
+          <CardSlot position={resolvedTapePosition}>
             <picture className={styles.tape}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -123,11 +103,11 @@ export function TornCard({
                 height={config.tapeSize.desktop.height}
               />
             </picture>
-          </TornCardSlot>
+          </CardSlot>
         )}
 
         {resolvedShowSticker && (
-          <TornCardSlot position="top-right">
+          <CardSlot position="top-right">
             <picture>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -146,7 +126,7 @@ export function TornCard({
                 height={51}
               />
             </picture>
-          </TornCardSlot>
+          </CardSlot>
         )}
 
         <div

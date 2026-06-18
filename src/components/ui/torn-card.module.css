@@ -1,17 +1,3 @@
-/* ── Slot positioning: 6 edge positions ── */
-.cardSlot {
-  position: absolute;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.slotTopLeft      { top: 0;    left: var(--slot-offset, 15%);   transform: translateY(-50%); }
-.slotTopCenter    { top: 0;    left: 50%;                        transform: translate(-50%, -50%); }
-.slotTopRight     { top: 0;    right: var(--slot-offset, 15%);   transform: translateY(-50%); }
-.slotBottomLeft   { bottom: 0; left: var(--slot-offset, 15%);   transform: translateY(50%); }
-.slotBottomCenter { bottom: 0; left: 50%;                        transform: translate(-50%, 50%); }
-.slotBottomRight  { bottom: 0; right: var(--slot-offset, 15%);   transform: translateY(50%); }
-
 /* ── Tape display helper ── */
 .tape {
   display: block;

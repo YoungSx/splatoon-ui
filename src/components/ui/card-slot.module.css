@@ -1,0 +1,5 @@
+.cardSlot {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+}

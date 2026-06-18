@@ -4,7 +4,6 @@
 }
 
 .card {
-  --color-primary: var(--color-white, #fff);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -52,19 +51,16 @@
   width: 10%;
 }
 
-.tapeNews {
-  position: absolute;
-  top: 0;
-  display: inline-grid;
-  width: 140px;
-  transform: translate(10px, -35px) rotate(-10deg);
-  z-index: 10;
+.tape {
+  display: block;
 }
 
-.tapeNews img {
-  display: block;
-  width: 100%;
-  height: auto;
+/* ── Responsive image: mobile by default, desktop at 400px container width ── */
+.imgDesktop { display: none; }
+
+@container (min-width: 400px) {
+  .imgMobile { display: none; }
+  .imgDesktop { display: block; }
 }
 
 .cardBottom {

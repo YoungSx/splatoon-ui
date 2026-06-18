@@ -997,7 +997,7 @@ export default function Home() {
           {/* Sub-Section 5: StapleCards */}
           <div className="space-y-8">
             <HeadingTape>Staple Card</HeadingTape>
-            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 pt-6">
+            <div className="grid gap-12 md:grid-cols-2 pt-6">
               <StapleCard image={<div className="h-full w-full bg-blue flex items-center justify-center text-white">A</div>}>
                 <div className="space-y-3 p-4">
                   <p className="text-sm uppercase tracking-[0.35em] text-blue">News Grid</p>
@@ -1010,20 +1010,6 @@ export default function Home() {
                   <p className="text-sm uppercase tracking-[0.35em] text-orange">News Grid</p>
                   <h4 className="text-xl font-black">Secondary story block</h4>
                   <p className="text-sm text-chaos-black/75">Perfect for promotional events, limited-launch updates, and seasonal feed cards.</p>
-                </div>
-              </StapleCard>
-              <StapleCard image={<div className="h-full w-full bg-green flex items-center justify-center text-white">C</div>}>
-                <div className="space-y-3 p-4">
-                  <p className="text-sm uppercase tracking-[0.35em] text-green">News Grid</p>
-                  <h4 className="text-xl font-black">Community update</h4>
-                  <p className="text-sm text-chaos-black/75">A modular news card layout for official announcement galleries.</p>
-                </div>
-              </StapleCard>
-              <StapleCard image={<div className="h-full w-full bg-red flex items-center justify-center text-white">D</div>}>
-                <div className="space-y-3 p-4">
-                  <p className="text-sm uppercase tracking-[0.35em] text-red">News Grid</p>
-                  <h4 className="text-xl font-black">Event highlight</h4>
-                  <p className="text-sm text-chaos-black/75">Designed to mimic the official Splatoon news gallery grid style.</p>
                 </div>
               </StapleCard>
             </div>
@@ -1168,7 +1154,7 @@ export default function Home() {
 
           {/* Forms */}
           <div className="grid gap-8 md:grid-cols-2">
-            <Card variant="staple" surface="white">
+            <Card variant="paper" surface="white">
               <CardHeader>
                 <CardTitle>Input & Selection</CardTitle>
                 <CardDescription>Form controls with bold borders and ink theme accents</CardDescription>
@@ -1226,7 +1212,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card variant="staple" surface="white">
+            <Card variant="paper" surface="white">
               <CardHeader>
                 <CardTitle>Alerts</CardTitle>
                 <CardDescription>Torn-paper alert cards with tape and sticker decorations</CardDescription>
