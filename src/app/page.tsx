@@ -54,11 +54,11 @@ import { InView, InViewStagger } from '@/components/ui/in-view'
 import { SectionSideNav } from '@/components/ui/section-side-nav'
 import { Progress } from '@/components/ui/progress'
 import { Footer } from '@/components/ui/footer'
+import { GitHubMark } from '@/components/ui/github-mark'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTriggerButton,
@@ -79,7 +79,6 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetFooter,
 } from '@/components/ui/sheet'
 import {
   Popover,
@@ -168,8 +167,8 @@ function PageTransitionDemo() {
         <div className="w-full max-w-5xl mx-auto space-y-6 relative z-10">
           <p className="text-center text-chaos-black/60 text-sm font-medium">
             {variant === 'webgl'
-              ? 'WebGL ink splash — ported from splatoon.nintendo.com shader'
-              : 'Canvas 2D rotating squid mask — ported from Nintendo JP Splatoon Base'}
+              ? 'WebGL ink splash — shader-inspired ink cover and reveal'
+              : 'Canvas 2D rotating squid mask — fan-made transition study'}
           </p>
 
           {/* Demo box — both components stacked, only active one visible */}
@@ -259,14 +258,14 @@ function PageTransitionDemo() {
                 <Badge>WebGL Shader</Badge>
                 <Badge variant="blue">Simplex Noise</Badge>
                 <Badge variant="green">Ink Cover/Reveal</Badge>
-                <Badge variant="monochrome">Official Port</Badge>
+                <Badge variant="monochrome">Shader Study</Badge>
               </>
             ) : (
               <>
                 <Badge>Canvas 2D</Badge>
                 <Badge variant="blue">Rotating Mask</Badge>
                 <Badge variant="green">source-out</Badge>
-                <Badge variant="monochrome">Nintendo JP Port</Badge>
+                <Badge variant="monochrome">Mask Study</Badge>
               </>
             )}
           </div>
@@ -306,6 +305,12 @@ const marqueeItems = [
   { id: 8, image: '/official/hero-image.png', alt: 'Gameplay 8' },
 ]
 
+const githubCtaClassName =
+  "group/button relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-blue px-11 pt-3 pb-5 font-alt text-[22px] font-black uppercase leading-[24px] tracking-wider text-white transition-[transform,box-shadow,background-color,color] duration-300 ease-[var(--ease-back-out)] hover:bg-yellow hover:text-chaos-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow active:translate-x-[1px] active:translate-y-[1px] active:scale-[0.98]"
+
+const githubMenuCtaClassName =
+  "group/button relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-yellow px-14 pt-4 pb-6.5 font-alt text-[26px] font-black uppercase leading-[28px] tracking-wider text-chaos-black transition-[transform,box-shadow,background-color,color] duration-300 ease-[var(--ease-back-out)] hover:bg-blue hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow active:translate-x-[1px] active:translate-y-[1px] active:scale-[0.98]"
+
 export default function Home() {
   const contentRef = React.useRef<HTMLDivElement>(null)
 
@@ -317,7 +322,19 @@ export default function Home() {
         <NavigationDialog
           navLinks={navLinks}
           highlightColor="var(--color-yellow)"
-          cta={<Button variant="yellow" size="lg" theme="dark-yellow">Buy now</Button>}
+          cta={
+            <a
+              href="https://github.com/YoungSx/splatoon-ui"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={githubMenuCtaClassName}
+              aria-label="View Splatoon UI on GitHub"
+            >
+              <GitHubMark className="mr-2 h-5 w-5" />
+              GitHub
+              <span aria-hidden="true" className="ml-2">›</span>
+            </a>
+          }
           logo={(contentPhase) => <SplatoonMenuLogo contentPhase={contentPhase} />}
           menuDecorations={<SplatoonMenuDecorations />}
           overlayDecorations={(contentPhase) => <SplatoonOverlayDecorations contentPhase={contentPhase} />}
@@ -326,6 +343,7 @@ export default function Home() {
         />
       </Navigation>
 
+      <main id="main-content" className="flex-1 outline-none" tabIndex={-1}>
       {/* ── Section Side Nav (right-side numbered navigation) ── */}
       <SectionSideNav
         sections={[
@@ -355,19 +373,18 @@ export default function Home() {
               Splatoon UI
             </h1>
             <p className="max-w-md text-chaos-black/70 font-medium text-sm md:text-base">
-              1:1 Replica Component Library inspired by Splatoon 3
+              Fan-made React components for ink-heavy Splatoon-inspired sites
             </p>
-            <a href="https://github.com/YoungSx/splatoon-ui" target="_blank" rel="noopener noreferrer">
-              <Button
-                variant="blue"
-                leftIcon={
-                  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                  </svg>
-                }
-              >
-                View on GitHub
-              </Button>
+            <a
+              href="https://github.com/YoungSx/splatoon-ui"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={githubCtaClassName}
+              aria-label="View Splatoon UI on GitHub"
+            >
+              <GitHubMark className="mr-2 h-4 w-4" />
+              View GitHub
+              <span aria-hidden="true" className="ml-2">›</span>
             </a>
           </div>
 
@@ -456,21 +473,21 @@ export default function Home() {
             <Card variant="torn" rotation="0deg" showTape={false}>
               <CardHeader>
                 <CardTitle>TapeTitle</CardTitle>
-                <CardDescription>Asymmetric SVG tape decoration with colored background — used above the video player on splatoon.nintendo.com</CardDescription>
+                <CardDescription>Asymmetric SVG tape decoration with colored background — built for loud fan-site section labels.</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap items-center justify-center gap-8">
                   <div className="flex flex-col items-center gap-2">
                     <TapeTitle color="black">Watch the trailer</TapeTitle>
-                    <span className="text-xs text-chaos-black/40 font-mono">color="black"</span>
+                    <span className="text-xs text-chaos-black/40 font-mono">{'color="black"'}</span>
                   </div>
                   <div className="flex flex-col items-center gap-2">
                     <TapeTitle color="red">Watch the trailer</TapeTitle>
-                    <span className="text-xs text-chaos-black/40 font-mono">color="red"</span>
+                    <span className="text-xs text-chaos-black/40 font-mono">{'color="red"'}</span>
                   </div>
                   <div className="flex flex-col items-center gap-2">
                     <TapeTitle color="yellow">Watch the trailer</TapeTitle>
-                    <span className="text-xs text-chaos-black/40 font-mono">color="yellow"</span>
+                    <span className="text-xs text-chaos-black/40 font-mono">{'color="yellow"'}</span>
                   </div>
                 </div>
               </CardContent>
@@ -511,7 +528,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="text-center space-y-4">
               <p className="text-chaos-black/60 text-sm font-medium max-w-xl mx-auto">
-                1:1 replica of splatoon.nintendo.com circular icon button — official squish animation, ink-splatter SVG arrows, theme-driven colors.
+                Squishy circular icon button with ink-splatter SVG arrows and theme-driven colors.
               </p>
             </div>
           </InView>
@@ -643,7 +660,7 @@ export default function Home() {
           <InView direction="up" rootMargin="-50px">
             <div className="text-center space-y-4">
               <p className="text-white/60 text-sm font-medium max-w-xl mx-auto">
-                Modal dialogs, side drawers, contextual popovers, and the official JP feature page modal system.
+                Modal dialogs, side drawers, contextual popovers, and fan-made full-screen ink splash patterns.
               </p>
             </div>
           </InView>
@@ -963,7 +980,7 @@ export default function Home() {
           <div className="space-y-8">
             <HeadingTape>Torn Paper Card</HeadingTape>
             <p className="text-sm font-medium text-chaos-black/60 mt-1">
-              Wide torn-paper background variant — official Save Data Bonus card from splatoon.nintendo.com.
+              Wide torn-paper background variant for dense announcement cards.
             </p>
             <Card variant="torn" rotation="-1.5deg">
               <div className="content-spacing">
@@ -1001,7 +1018,7 @@ export default function Home() {
               <StapleCard image={<div className="h-full w-full bg-blue flex items-center justify-center text-white">A</div>}>
                 <div className="space-y-3 p-4">
                   <p className="text-sm uppercase tracking-[0.35em] text-blue">News Grid</p>
-                  <h4 className="text-xl font-black">Official grid news card</h4>
+                  <h4 className="text-xl font-black">Grid news card</h4>
                   <p className="text-sm text-chaos-black/75">Built using the new grid card layout with corner staples and tape accents.</p>
                 </div>
               </StapleCard>
@@ -1031,7 +1048,7 @@ export default function Home() {
       >
         <div className="w-full max-w-6xl space-y-12">
           <p className="text-sm font-medium text-chaos-black/60 mt-1">
-            Tape-framed section heading and grid layout replicating the official Splatoon magazine style.
+            Tape-framed section heading and grid layout for energetic magazine-style fan pages.
           </p>
 
           <BlackTapeContainer>
@@ -1082,7 +1099,7 @@ export default function Home() {
           <div className="text-center">
             <HeadingTape color="yellow">Carousels</HeadingTape>
             <p className="text-sm font-medium text-white/80 mt-2">
-              Official carousel components from splatoon.nintendo.com
+              Carousel components tuned for ink-heavy galleries and fan portals.
             </p>
           </div>
         }
@@ -1279,8 +1296,8 @@ export default function Home() {
         <MarqueeItem>Stay Fresh!</MarqueeItem>
         <MarqueeItem>Splashdown!</MarqueeItem>
       </Marquee>
+      </main>
 
-      {/* Official Splatoon Footer */}
       <Footer />
     </div>
   )

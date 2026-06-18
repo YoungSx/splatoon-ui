@@ -85,9 +85,9 @@ export const navLinks: SplatoonNavLink[] = [
       '-left-[2.55em] top-1/2 h-[4.3em] w-[4.3em] -translate-y-[44%] rotate-[16deg]',
   },
   {
-    label: 'Go to Splatoon Base',
-    href: 'https://splatoon.nintendo.com/base/',
-    selectedKey: 'splatoon-base',
+    label: 'Open GitHub',
+    href: 'https://github.com/YoungSx/splatoon-ui',
+    selectedKey: 'github',
     hoverSplatId: 4,
     hoverSplatColor: 'var(--color-yellow)',
     hoverSplatClassName:
@@ -213,12 +213,14 @@ export function SplatoonMenuLogo({ contentPhase }: { contentPhase: ContentPhase 
           className={cn('pointer-events-none absolute z-[var(--z-deco)]', splat.className)}
         />
       ))}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="https://splatoon.nintendo.com/_images/logo/splatoon3-logo-subpage.png"
-        alt="Splatoon 3"
-        className="pointer-events-none absolute top-[0.15rem] left-1/2 z-[var(--z-deco-fg)] w-[22.375rem] max-w-[78%] -translate-x-1/2 select-none"
-      />
+      <div className="pointer-events-none absolute top-[1.2rem] left-1/2 z-[var(--z-deco-fg)] flex -translate-x-1/2 -rotate-2 select-none flex-col items-center text-center">
+        <span className="font-heading text-[clamp(3rem,11vw,6.5rem)] leading-none text-white drop-shadow-[5px_5px_0_var(--color-black)]">
+          Splatoon UI
+        </span>
+        <span className="-mt-1 inline-block bg-yellow px-4 py-1 font-alt text-sm font-black uppercase tracking-wider text-chaos-black md:text-base">
+          Fan-made component kit
+        </span>
+      </div>
     </div>
   )
 }

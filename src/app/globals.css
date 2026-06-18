@@ -31,24 +31,21 @@
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/fonts/montserrat-v24-latin-600.woff2') format('woff2'),
-       url('/fonts/montserrat-v24-latin-600.woff') format('woff');
+  src: url('/fonts/montserrat-v24-latin-600.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/fonts/montserrat-v24-latin-700.woff2') format('woff2'),
-       url('/fonts/montserrat-v24-latin-700.woff') format('woff');
+  src: url('/fonts/montserrat-v24-latin-700.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/fonts/montserrat-v24-latin-900.woff2') format('woff2'),
-       url('/fonts/montserrat-v24-latin-900.woff') format('woff');
+  src: url('/fonts/montserrat-v24-latin-900.woff2') format('woff2');
   font-weight: 900;
   font-style: normal;
   font-display: swap;

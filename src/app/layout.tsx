@@ -2,8 +2,41 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Splatoon UI',
-  description: 'Splatoon-inspired component library built on shadcn/ui + Radix',
+  title: {
+    default: 'Splatoon UI',
+    template: '%s | Splatoon UI',
+  },
+  description:
+    'Fan-made React component library for ink-heavy Splatoon-inspired sites, built with Next.js, Tailwind CSS, and shadcn-style primitives.',
+  applicationName: 'Splatoon UI',
+  authors: [{ name: 'YoungSx', url: 'https://github.com/YoungSx' }],
+  creator: 'YoungSx',
+  keywords: [
+    'Splatoon UI',
+    'React component library',
+    'Next.js components',
+    'Tailwind CSS',
+    'fan-made UI',
+    'ink animation',
+  ],
+  category: 'developer tools',
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: 'Splatoon UI',
+    description:
+      'Fan-made React component library for ink-heavy Splatoon-inspired sites.',
+    type: 'website',
+    siteName: 'Splatoon UI',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Splatoon UI',
+    description:
+      'Fan-made React component library for ink-heavy Splatoon-inspired sites.',
+  },
   icons: {
     icon: '/favicons/favicon.svg',
     shortcut: '/favicons/favicon.ico',
