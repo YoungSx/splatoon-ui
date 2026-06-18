@@ -3,10 +3,13 @@
    Red/yellow/black background with left/right tape SVG pseudo-elements. */
 
 .container {
+  --tape-title-left-bleed: 61px;
+  --tape-title-right-bleed: 59px;
   --tape-color: var(--color-true-black, #000);
   background: var(--color-black, #0d0d0d);
   color: var(--color-white, #fff);
   display: inline-block;
+  margin-inline: var(--tape-title-left-bleed) var(--tape-title-right-bleed);
   position: relative;
   transform: rotate(-4deg);
   z-index: 2;

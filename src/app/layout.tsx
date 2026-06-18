@@ -1,5 +1,13 @@
 import type { Metadata } from 'next'
+import localFont from 'next/font/local'
 import './globals.css'
+
+const obviouslyNarrow = localFont({
+  src: '../../public/fonts/obviously-narrow-600.woff2',
+  variable: '--font-obviously-narrow',
+  weight: '600',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: {
@@ -50,12 +58,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      {/* External Typekit font: obviously-narrow (used via --font-alt) */}
-      <head>
-        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://use.typekit.net/xyd0frw.css" />
-      </head>
+    <html lang="en" className={`h-full antialiased ${obviouslyNarrow.variable}`}>
       <body className="min-h-full flex flex-col font-body">
         {children}
       </body>

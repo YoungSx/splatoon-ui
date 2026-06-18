@@ -58,7 +58,7 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   --font-heading: 'fooregular', sans-serif;
   --font-body: 'Montserrat', sans-serif;
-  --font-alt: 'obviously-narrow', sans-serif;
+  --font-alt: var(--font-obviously-narrow), 'obviously-narrow', sans-serif;
   /* Brand colors — registered for Tailwind utilities (bg-yellow, text-blue, etc.) */
   --color-yellow: #eaff3d;
   --color-blue: #603bff;
