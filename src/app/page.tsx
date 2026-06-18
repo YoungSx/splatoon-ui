@@ -305,12 +305,6 @@ const marqueeItems = [
   { id: 8, image: '/official/hero-image.png', alt: 'Gameplay 8' },
 ]
 
-const githubCtaClassName =
-  "group/button relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-blue px-11 pt-3 pb-5 font-alt text-[22px] font-black uppercase leading-[24px] tracking-wider text-white transition-[transform,box-shadow,background-color,color] duration-300 ease-[var(--ease-back-out)] hover:bg-yellow hover:text-chaos-black focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow active:translate-x-[1px] active:translate-y-[1px] active:scale-[0.98]"
-
-const githubMenuCtaClassName =
-  "group/button relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[8px] bg-yellow px-14 pt-4 pb-6.5 font-alt text-[26px] font-black uppercase leading-[28px] tracking-wider text-chaos-black transition-[transform,box-shadow,background-color,color] duration-300 ease-[var(--ease-back-out)] hover:bg-blue hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow active:translate-x-[1px] active:translate-y-[1px] active:scale-[0.98]"
-
 export default function Home() {
   const contentRef = React.useRef<HTMLDivElement>(null)
 
@@ -323,17 +317,22 @@ export default function Home() {
           navLinks={navLinks}
           highlightColor="var(--color-yellow)"
           cta={
-            <a
-              href="https://github.com/YoungSx/splatoon-ui"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={githubMenuCtaClassName}
-              aria-label="View Splatoon UI on GitHub"
+            <Button
+              variant="yellow"
+              size="lg"
+              theme="dark-yellow"
+              leftIcon={<GitHubMark className="h-5 w-5" />}
+              render={
+                <a
+                  href="https://github.com/YoungSx/splatoon-ui"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View Splatoon UI on GitHub"
+                />
+              }
             >
-              <GitHubMark className="mr-2 h-5 w-5" />
               GitHub
-              <span aria-hidden="true" className="ml-2">›</span>
-            </a>
+            </Button>
           }
           logo={(contentPhase) => <SplatoonMenuLogo contentPhase={contentPhase} />}
           menuDecorations={<SplatoonMenuDecorations />}
@@ -375,17 +374,20 @@ export default function Home() {
             <p className="max-w-md text-chaos-black/70 font-medium text-sm md:text-base">
               Fan-made React components for ink-heavy Splatoon-inspired sites
             </p>
-            <a
-              href="https://github.com/YoungSx/splatoon-ui"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={githubCtaClassName}
-              aria-label="View Splatoon UI on GitHub"
+            <Button
+              variant="blue"
+              leftIcon={<GitHubMark className="h-4 w-4" />}
+              render={
+                <a
+                  href="https://github.com/YoungSx/splatoon-ui"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="View Splatoon UI on GitHub"
+                />
+              }
             >
-              <GitHubMark className="mr-2 h-4 w-4" />
               View GitHub
-              <span aria-hidden="true" className="ml-2">›</span>
-            </a>
+            </Button>
           </div>
 
           {/* Marquee Tape (Neon Yellow Warning Tape) */}

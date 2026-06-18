@@ -18,7 +18,7 @@ export interface DripStyle {
 }
 
 export function useDripAnimation(
-  buttonRef: React.RefObject<HTMLButtonElement | null>,
+  buttonRef: React.RefObject<HTMLElement | null>,
   enabled: boolean
 ) {
   const [mounted, setMounted] = React.useState(false)

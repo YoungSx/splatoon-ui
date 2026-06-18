@@ -84,15 +84,6 @@ export const navLinks: SplatoonNavLink[] = [
     hoverSplatClassName:
       '-left-[2.55em] top-1/2 h-[4.3em] w-[4.3em] -translate-y-[44%] rotate-[16deg]',
   },
-  {
-    label: 'Open GitHub',
-    href: 'https://github.com/YoungSx/splatoon-ui',
-    selectedKey: 'github',
-    hoverSplatId: 4,
-    hoverSplatColor: 'var(--color-yellow)',
-    hoverSplatClassName:
-      '-left-[2.45em] top-1/2 h-[4.15em] w-[4.15em] -translate-y-[45%] -rotate-[12deg]',
-  },
 ]
 
 /* ── Decoration data ── */

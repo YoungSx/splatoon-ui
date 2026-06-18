@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { GitHubMark } from './github-mark'
 import { WaveCanvas } from './wave-canvas'
@@ -15,10 +16,6 @@ export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const projectLinks = [
-  {
-    label: 'GitHub',
-    href: 'https://github.com/YoungSx/splatoon-ui',
-  },
   {
     label: 'Issues',
     href: 'https://github.com/YoungSx/splatoon-ui/issues',
@@ -50,18 +47,25 @@ export function Footer({
         </div>
 
         <div className={styles.projectActions}>
-          <a
-            href="https://github.com/YoungSx/splatoon-ui"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.primaryLink}
+          <Button
+            variant="yellow"
+            size="sm"
+            theme="dark-yellow"
+            leftIcon={<GitHubMark className="h-4 w-4" />}
+            render={
+              <a
+                href="https://github.com/YoungSx/splatoon-ui"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View Splatoon UI on GitHub"
+              />
+            }
           >
-            <GitHubMark />
             GitHub
-          </a>
+          </Button>
 
           <div className={styles.linkRow} aria-label="Project links">
-            {projectLinks.slice(1).map((link) => (
+            {projectLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}

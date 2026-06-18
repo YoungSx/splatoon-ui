@@ -82,11 +82,13 @@ function Button({
   textColor,
   textHoverColor,
   theme,
+  render,
+  nativeButton,
   ...props
-}: ButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
-    const localRef = React.useRef<HTMLButtonElement>(null)
+}: ButtonProps & { ref?: React.Ref<HTMLElement> }) {
+    const localRef = React.useRef<HTMLElement>(null)
     const setButtonRef = React.useCallback(
-      (node: HTMLButtonElement | null) => {
+      (node: HTMLElement | null) => {
         localRef.current = node
 
         if (typeof ref === "function") {
@@ -95,7 +97,7 @@ function Button({
         }
 
         if (ref) {
-          ;(ref as React.MutableRefObject<HTMLButtonElement | null>).current = node
+          ;(ref as React.MutableRefObject<HTMLElement | null>).current = node
         }
       },
       [ref]
@@ -158,10 +160,21 @@ function Button({
     )
 
     const isTextChildren = typeof children === "string" || typeof children === "number"
+    const isAnchorRender =
+      React.isValidElement(render) && typeof render.type === "string" && render.type === "a"
+    const shouldRenderNativeButton = nativeButton ?? !isAnchorRender
+    const renderWithLinkRole =
+      isAnchorRender && (render.props as React.AnchorHTMLAttributes<HTMLAnchorElement>).role == null
+        ? React.cloneElement(render as React.ReactElement<React.AnchorHTMLAttributes<HTMLAnchorElement>>, {
+            role: "link",
+          })
+        : render
 
     return (
         <ButtonPrimitive
         ref={setButtonRef}
+        render={renderWithLinkRole}
+        nativeButton={shouldRenderNativeButton}
         data-slot="button"
         data-drip-state={hasDrip ? dripAnimationState : undefined}
         style={dripStyle ? ({ ...colorStyle, ...dripStyle } as React.CSSProperties) : colorStyle as React.CSSProperties}

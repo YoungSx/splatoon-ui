@@ -85,7 +85,6 @@ export function NavigationDialog({
     contentTransitionClass,
     openMenu: openMenuBase,
     closeMenu: closeMenuBase,
-    handleOpenChange: handleOpenChangeBase,
     handleCanvasComplete,
   } = useNavigationMenuAnimation({ isReducedMotion })
 
@@ -193,8 +192,11 @@ export function NavigationDialog({
                 >
                   {/* CTA (e.g. Buy now) — first stagger item */}
                   {cta && (
-                    <li className="relative">
-                      <div className="mt-2 mb-1">{cta}</div>
+                    <li
+                      data-menu-cta=""
+                      className="relative z-20 mt-4 mb-8 flex justify-center"
+                    >
+                      {cta}
                     </li>
                   )}
 

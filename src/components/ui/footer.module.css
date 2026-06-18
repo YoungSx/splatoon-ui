@@ -74,35 +74,6 @@
   }
 }
 
-.primaryLink {
-  align-items: center;
-  background: var(--color-yellow, #eaff3d);
-  border-radius: 8px;
-  color: var(--color-black, #0d0d0d);
-  display: inline-flex;
-  font-family: var(--font-alt, sans-serif);
-  font-size: 1.25rem;
-  font-weight: 900;
-  gap: 0.5rem;
-  letter-spacing: 0.08em;
-  line-height: 1;
-  padding: 0.9rem 1.35rem 1rem;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.primaryLink:hover {
-  background: var(--color-blue, #603bff);
-  color: var(--color-white, #fff);
-  transform: translateY(-2px) rotate(-1deg);
-}
-
-.primaryLink svg {
-  height: 1.1rem;
-  width: 1.1rem;
-}
-
 .linkRow {
   align-items: center;
   display: flex;
