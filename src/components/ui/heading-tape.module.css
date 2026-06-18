@@ -1,9 +1,11 @@
 /* Heading Tape — 1:1 match of official splatoon.nintendo.com */
 
 .headingTapeSection {
+  container-type: inline-size;
   display: flex;
   justify-content: center;
   margin-bottom: calc(var(--base-space, 8px) * var(--margin-offset, 2));
+  min-inline-size: 0;
   position: relative;
   width: 100%;
 }
@@ -13,35 +15,61 @@
 }
 
 .headingTapeContainer {
+  position: relative;
   transform: rotate(-3deg);
   width: fit-content;
 }
 
-.headingTapeStickers {
+.headingTapeDecorations {
   height: 100%;
   left: 0;
+  pointer-events: none;
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 0;
 }
 
-.headingTapeStickers picture {
+.headingTapeDecoration {
   display: block;
+  inline-size: var(--heading-tape-decoration-inline-size, 100%);
+  max-inline-size: var(--heading-tape-decoration-max-inline-size, 100%);
+  position: absolute;
 }
 
-.headingTapeSticker1 {
-  bottom: -17px;
-  left: -19px;
-  position: absolute;
-  transform: rotate(-2deg);
+.decorationTopLeft {
+  left: var(--heading-tape-decoration-inline-offset, -19px);
+  top: var(--heading-tape-decoration-block-offset, -15px);
+  transform: rotate(var(--heading-tape-decoration-rotate, 0deg));
 }
 
-.headingTapeSticker2 {
-  position: absolute;
-  right: -17px;
-  top: -15px;
-  transform: rotate(1deg);
+.decorationTopRight {
+  right: var(--heading-tape-decoration-inline-offset, -17px);
+  top: var(--heading-tape-decoration-block-offset, -15px);
+  transform: rotate(var(--heading-tape-decoration-rotate, 0deg));
+}
+
+.decorationBottomLeft {
+  bottom: var(--heading-tape-decoration-block-offset, -17px);
+  left: var(--heading-tape-decoration-inline-offset, -19px);
+  transform: rotate(var(--heading-tape-decoration-rotate, 0deg));
+}
+
+.decorationBottomRight {
+  bottom: var(--heading-tape-decoration-block-offset, -17px);
+  right: var(--heading-tape-decoration-inline-offset, -17px);
+  transform: rotate(var(--heading-tape-decoration-rotate, 0deg));
+}
+
+.headingTapeDecorationImage {
+  block-size: auto;
+  display: block;
+  inline-size: auto;
+  max-inline-size: 100%;
+}
+
+.headingTapeDecorationImageDesktop {
+  display: none;
 }
 
 .headingTapeText {
@@ -52,8 +80,10 @@
   font-family: var(--font-heading, inherit);
   font-size: 1.875rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   line-height: 1;
+  max-inline-size: 100%;
+  overflow-wrap: break-word;
   padding: calc(var(--base-space, 8px) * 2) 40px;
   position: relative;
   text-align: center;
@@ -64,13 +94,23 @@
 /* Theme-independent: tape is always white, regardless of light/dark mode */
 
 
-@media screen and (min-width: 640px) {
+@container (min-width: 640px) {
+  .headingTapeDecorationImageMobile {
+    display: none;
+  }
+
+  .headingTapeDecorationImageDesktop {
+    display: block;
+  }
+}
+
+@container (min-width: 640px) {
   .headingTapeText {
     padding: calc(var(--base-space, 8px) * 2) 60px;
   }
 }
 
-@media screen and (min-width: 1024px) {
+@container (min-width: 1024px) {
   .headingTapeText {
     font-size: 3.125rem;
   }
