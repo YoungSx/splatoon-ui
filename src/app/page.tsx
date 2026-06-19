@@ -120,7 +120,6 @@ function createDemoEmbed(label: string) {
 }
 
 const demoVideoEmbed = createDemoEmbed('Splatoon UI')
-const BANNER_DIVIDER_BOTTOM_SAFE_AREA = 'clamp(5rem, 6vw, 8rem)'
 
 function FeedCardImage({ asset }: { asset: ImageAsset }) {
   return (
@@ -240,7 +239,7 @@ function PageTransitionDemo() {
       text="text-chaos-black"
       pattern="chip-white"
       className="transition-colors duration-300"
-      bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}
+
       headingTape={
         <HeadingTape color="green" className="text-center">
           Page Transition
@@ -503,8 +502,8 @@ export default function Home() {
             bgColor="bg-white"
             text="text-chaos-black"
             pattern="tapes-black"
-            className="flex flex-col items-center py-24 transition-colors duration-300"
-            bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}
+            className="flex flex-col items-center py-24 pb-[clamp(7rem,8vw,10rem)] transition-colors duration-300"
+      
           >
             {/* Decorative Splats */}
             <div className="text-red absolute top-10 left-10">
@@ -635,7 +634,7 @@ export default function Home() {
             text="text-chaos-black"
             pattern="chip-white"
             className="transition-colors duration-300"
-            bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}
+      
             headingTape={<HeadingTape color="blue">Buttons & Badges</HeadingTape>}
           >
             <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
@@ -843,7 +842,7 @@ export default function Home() {
             bgColor="bg-black"
             text="text-white"
             pattern="camo-black"
-            bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}
+      
             headingTape={<HeadingTape color="red">Overlays & Dialogs</HeadingTape>}
           >
             <div className="text-purple absolute top-6 right-6">
@@ -1373,7 +1372,7 @@ export default function Home() {
             text="text-chaos-black"
             pattern="camo-white"
             className="flex flex-col items-center transition-colors duration-300"
-            bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}
+      
             headingTape={<HeadingTape>Card Grid</HeadingTape>}
           >
             <div className="w-full max-w-6xl space-y-12">
@@ -1500,7 +1499,7 @@ export default function Home() {
             text="text-white"
             pattern="tapes-purple"
             className="flex flex-col items-center transition-colors duration-300"
-            bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}
+      
             headingTape={
               <div className="text-center">
                 <HeadingTape color="yellow">Carousels</HeadingTape>
