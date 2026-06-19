@@ -7,6 +7,8 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   size?: 'md' | 'lg'
   /** Pass a HeadingTape element to auto-increase padding for sticker overflow */
   headingTape?: React.ReactNode
+  /** Extra block-end space inside the section for following overlay decorations. */
+  bottomSafeArea?: React.CSSProperties['blockSize']
   /** Optional pattern texture overlay */
   pattern?: Pattern
   /** Tailwind background class (e.g. "bg-white") */
@@ -21,6 +23,7 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 export function Section({
   size = 'md',
   headingTape,
+  bottomSafeArea,
   pattern,
   bgColor,
   text,
@@ -54,6 +57,16 @@ export function Section({
     >
       {headingTape}
       {children}
+      {bottomSafeArea ? (
+        <div
+          aria-hidden="true"
+          data-slot="section-bottom-safe-area"
+          style={{
+            blockSize: typeof bottomSafeArea === 'number' ? `${bottomSafeArea}px` : bottomSafeArea,
+            flex: '0 0 auto',
+          }}
+        />
+      ) : null}
     </SectionBackground>
   )
 }

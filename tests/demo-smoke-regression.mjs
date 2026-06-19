@@ -3,6 +3,7 @@ import { chromium } from 'playwright'
 const demoUrl = process.env.DEMO_URL ?? 'http://localhost:4317'
 const viewports = [
   { name: 'desktop', width: 1280, height: 900 },
+  { name: 'wide-desktop', width: 1440, height: 900 },
   { name: 'short-desktop', width: 1280, height: 720 },
   { name: 'mobile', width: 375, height: 812 },
 ]
@@ -167,6 +168,45 @@ async function collectSectionSideNavState(page) {
   })
 }
 
+async function collectTrailerDividerState(page) {
+  return page.evaluate(() => {
+    const trailer = document.getElementById('trailer')
+    const trigger = trailer?.querySelector('[data-slot="dialog-trigger"]')
+    const divider = trailer?.nextElementSibling
+
+    if (!trailer || !trigger || !divider?.matches('[data-slot="banner-divider"]')) {
+      return null
+    }
+
+    const triggerVisualBottom = [trigger, ...trigger.querySelectorAll('*')]
+      .filter((element) => {
+        const style = window.getComputedStyle(element)
+        const rect = element.getBoundingClientRect()
+        return (
+          style.display !== 'none' &&
+          style.visibility !== 'hidden' &&
+          Number(style.opacity) !== 0 &&
+          rect.width > 0 &&
+          rect.height > 0
+        )
+      })
+      .reduce(
+        (bottom, element) => Math.max(bottom, element.getBoundingClientRect().bottom + scrollY),
+        0
+      )
+
+    const dividerVisualTop = [...divider.querySelectorAll('[aria-hidden="true"]')]
+      .map((element) => element.getBoundingClientRect().top + scrollY)
+      .reduce((top, value) => Math.min(top, value), Number.POSITIVE_INFINITY)
+
+    return {
+      triggerVisualBottom,
+      dividerVisualTop,
+      gap: dividerVisualTop - triggerVisualBottom,
+    }
+  })
+}
+
 async function collectImageIssues(page) {
   return page.evaluate(() =>
     [...document.images]
@@ -252,6 +292,13 @@ async function runViewport(browser, viewport) {
     assert(
       sectionSideNav.top >= sectionSideNav.fixedTopChromeBottom - 1,
       `${viewport.name}: section side nav overlaps fixed top chrome: ${JSON.stringify(sectionSideNav)}`
+    )
+
+    const trailerDivider = await collectTrailerDividerState(page)
+    assert(trailerDivider, `${viewport.name}: trailer divider state could not be measured`)
+    assert(
+      trailerDivider.gap >= 16,
+      `${viewport.name}: trailer media overlaps following banner divider: ${JSON.stringify(trailerDivider)}`
     )
 
     const layoutIssues = await collectLayoutIssues(page)

@@ -3,9 +3,13 @@ import path from 'node:path'
 
 const root = process.cwd()
 const componentPath = path.join(root, 'src', 'components', 'ui', 'banner-divider.tsx')
+const sectionPath = path.join(root, 'src', 'components', 'ui', 'section.tsx')
+const pagePath = path.join(root, 'src', 'app', 'page.tsx')
 const cssPath = path.join(root, 'src', 'components', 'ui', 'banner-divider.module.css')
 
 const component = fs.readFileSync(componentPath, 'utf8')
+const section = fs.readFileSync(sectionPath, 'utf8')
+const page = fs.readFileSync(pagePath, 'utf8')
 const css = fs.readFileSync(cssPath, 'utf8')
 
 function block(selector) {
@@ -24,6 +28,7 @@ const checks = [
     pass:
       component.includes("layout = 'overlay'") &&
       component.includes("layout?: 'overlay' | 'spacer'") &&
+      component.includes('data-slot="banner-divider"') &&
       component.includes('data-layout={layout}') &&
       hasDeclaration('.bannerDividerGroup', 'block-size: 0;') &&
       !/^\s*height:\s*47px;/m.test(block('.bannerDividerGroup')),
@@ -52,6 +57,14 @@ const checks = [
     pass:
       hasDeclaration('.bannerDividerGroup', 'pointer-events: none;') &&
       hasDeclaration('.bannerDividerViewport', 'pointer-events: none;'),
+  },
+  {
+    name: 'Sections can reserve internal safe area before overlay dividers',
+    pass:
+      section.includes('bottomSafeArea?:') &&
+      section.includes('data-slot="section-bottom-safe-area"') &&
+      page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&
+      page.includes('bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}'),
   },
 ]
 

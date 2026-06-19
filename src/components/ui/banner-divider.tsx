@@ -182,6 +182,7 @@ export function BannerDivider({
         } as React.CSSProperties
       }
       {...props}
+      data-slot="banner-divider"
       data-layout={layout}
     >
       <div
