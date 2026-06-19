@@ -47,8 +47,12 @@ export function VideoDialogThumbnail({
   blobSize = 160,
   imageClassName,
   loading = 'lazy',
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
   ...props
 }: VideoDialogThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
+  const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : `Open video: ${alt}`)
+
   return (
     <DialogPrimitive.Trigger
       data-slot="dialog-trigger"
@@ -71,6 +75,8 @@ export function VideoDialogThumbnail({
             )}
             {...rest}
             {...props}
+            aria-label={resolvedAriaLabel}
+            aria-labelledby={ariaLabelledBy}
           >
             <div
               className="pointer-events-none absolute top-0 left-1/2 z-10 sm:!mt-0 lg:!mt-[10%]"

@@ -19,6 +19,15 @@ const checks = [
       component.includes('loading?: React.ComponentProps'),
   },
   {
+    name: 'VideoDialog thumbnail trigger exposes an accessible name by default',
+    pass:
+      component.includes("'aria-label': ariaLabel") &&
+      component.includes("'aria-labelledby': ariaLabelledBy") &&
+      component.includes('Open video: ${alt}') &&
+      component.includes('aria-label={resolvedAriaLabel}') &&
+      component.includes('aria-labelledby={ariaLabelledBy}'),
+  },
+  {
     name: 'VideoDialog decorative thumbnail tapes come from the shared official asset registry',
     pass:
       component.includes("import { TapePicture } from './tape-picture'") &&
@@ -48,6 +57,7 @@ const checks = [
       page.includes('showcaseMediaAssets.trailerThumbnail.src') &&
       page.includes('width={showcaseMediaAssets.trailerThumbnail.width}') &&
       page.includes('height={showcaseMediaAssets.trailerThumbnail.height}') &&
+      page.includes('aria-label="Open Splatoon UI demo reel"') &&
       page.includes('loading="eager"'),
   },
 ]

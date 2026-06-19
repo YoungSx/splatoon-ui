@@ -63,6 +63,7 @@ const checks = [
     name: 'feed carousel demo uses curated event and showcase images',
     pass:
       page.includes('function FeedCardImage') &&
+      page.includes("const FEED_CARD_MEDIA_ASPECT_RATIO = '558 / 313'") &&
       page.includes('const homepageFeedCarouselItems = [') &&
       requiredPageAssetRefs.every((entry) => page.includes(entry)) &&
       page.includes('image: <FeedCardImage') &&
@@ -77,6 +78,20 @@ const checks = [
       !page.includes('mediaClassName') &&
       !page.includes('paperLabel') &&
       !page.includes('media: <span'),
+  },
+  {
+    name: 'feed carousel item CTAs keep the reference-style arrow treatment consistently',
+    pass:
+      page.includes('<Button size="sm" variant="arrow">Read</Button>') &&
+      !page.includes('index % 2') &&
+      !page.includes("variant={index % 2 === 0 ? 'arrow' : 'blue'}"),
+  },
+  {
+    name: 'feed carousel item media keeps a stable shared aspect ratio',
+    pass:
+      page.includes('aspectRatio: FEED_CARD_MEDIA_ASPECT_RATIO') &&
+      page.includes("style={{ objectFit: 'cover' }}") &&
+      page.includes('className="block w-full overflow-hidden"'),
   },
   {
     name: 'feed carousel local media files are valid images',

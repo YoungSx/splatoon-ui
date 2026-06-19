@@ -127,18 +127,26 @@ type FeedCardImageAsset = {
   height: number
 }
 
+const FEED_CARD_MEDIA_ASPECT_RATIO = '558 / 313'
+
 function FeedCardImage({ asset }: { asset: FeedCardImageAsset }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- curated public demo artwork is rendered inside a transformed card shell.
-    <img
-      src={asset.src}
-      alt={asset.alt}
-      width={asset.width}
-      height={asset.height}
-      className="h-full w-full object-cover"
-      loading="eager"
-      draggable={false}
-    />
+    <span
+      className="block w-full overflow-hidden"
+      style={{ aspectRatio: FEED_CARD_MEDIA_ASPECT_RATIO }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- curated public demo artwork is rendered inside a transformed card shell. */}
+      <img
+        src={asset.src}
+        alt={asset.alt}
+        width={asset.width}
+        height={asset.height}
+        className="h-full w-full"
+        style={{ objectFit: 'cover' }}
+        loading="eager"
+        draggable={false}
+      />
+    </span>
   )
 }
 
@@ -179,15 +187,13 @@ const homepageFeedCarouselItems = [
     title: 'Graffiti Note',
     subtitle: 'Graphic panel artwork for compact updates.',
   },
-].map((item, index) => ({
+].map((item) => ({
   ...item,
   hoverTilt: true,
   action: (
     <>
       <p className="text-chaos-black/60 text-sm font-bold">Curated media-backed demo card</p>
-      <Button size="sm" variant={index % 2 === 0 ? 'arrow' : 'blue'}>
-        Read
-      </Button>
+      <Button size="sm" variant="arrow">Read</Button>
     </>
   ),
 }))
@@ -534,6 +540,7 @@ export default function Home() {
                     <VideoDialogThumbnail
                       src={showcaseMediaAssets.trailerThumbnail.src}
                       alt={showcaseMediaAssets.trailerThumbnail.alt}
+                      aria-label="Open Splatoon UI demo reel"
                       width={showcaseMediaAssets.trailerThumbnail.width}
                       height={showcaseMediaAssets.trailerThumbnail.height}
                       loading="eager"
