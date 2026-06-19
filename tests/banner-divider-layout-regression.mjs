@@ -47,7 +47,7 @@ const checks = [
       hasDeclaration('.bannerDividerViewport', 'position: absolute;') &&
       hasDeclaration(
         '.bannerDividerViewport',
-        'top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -1));'
+        'top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -0.5));'
       ) &&
       hasDeclaration('.bannerDividerViewport', 'overflow-x: clip;') &&
       hasDeclaration('.bannerDividerViewport', 'overflow-y: visible;'),
@@ -59,12 +59,13 @@ const checks = [
       hasDeclaration('.bannerDividerViewport', 'pointer-events: none;'),
   },
   {
-    name: 'Sections can reserve internal safe area before overlay dividers',
+    name: 'Divider clearance belongs to section padding, not the Section API',
     pass:
-      section.includes('bottomSafeArea?:') &&
-      section.includes('data-slot="section-bottom-safe-area"') &&
-      page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&
-      page.includes('bottomSafeArea={BANNER_DIVIDER_BOTTOM_SAFE_AREA}'),
+      !section.includes('bottomSafeArea') &&
+      !section.includes('section-bottom-safe-area') &&
+      !page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&
+      !page.includes('bottomSafeArea=') &&
+      (page.match(/pb-\[clamp\(7\.5rem,8\.5vw,10\.5rem\)\]/g) ?? []).length === 6,
   },
 ]
 

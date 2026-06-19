@@ -27,7 +27,7 @@
   overflow-y: visible;
   pointer-events: none;
   position: absolute;
-  top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -1));
+  top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -0.5));
   z-index: 0;
 }
 
