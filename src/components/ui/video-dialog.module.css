@@ -11,7 +11,7 @@
 .tape2 {
   --trailer-tape-safe-bleed: min(
     var(--trailer-tape-bleed),
-    max(0px, calc((100cqw - 100%) / 2 - var(--trailer-tape-tilt-guard, 0px)))
+    max(0px, calc((100vw - 100cqw) / 2 - var(--trailer-tape-tilt-guard, 0px)))
   );
 }
 
@@ -21,7 +21,6 @@
   --trailer-tape-bleed: 19px;
   left: calc(var(--trailer-tape-safe-bleed) * -1);
   top: -20px;
-  transform: rotate(-25deg);
 }
 
 /* ── Tape 2 (bottom-right, tape-3 image) ──
@@ -31,13 +30,20 @@
   --trailer-tape-tilt-guard: 8px;
   bottom: 0;
   right: calc(var(--trailer-tape-safe-bleed) * -1);
-  transform: rotate(-24deg);
 }
 
 .tapeImage {
   display: block;
   height: auto;
   width: 100%;
+}
+
+.tape1 .tapeImage {
+  transform: rotate(-25deg);
+}
+
+.tape2 .tapeImage {
+  transform: rotate(-24deg);
 }
 
 .tapeMobile {
@@ -106,7 +112,7 @@
   }
 }
 
-@container (min-width: 1144px) {
+@container (min-width: 760px) {
   .tape1 {
     --trailer-tape-bleed: 40px;
   }

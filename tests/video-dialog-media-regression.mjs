@@ -54,8 +54,14 @@ const checks = [
       component.includes('mobilePictureClassName={tapeStyles.tapeMobile}') &&
       component.includes('desktopPictureClassName={tapeStyles.tapeDesktop}') &&
       css.includes('container-type: inline-size;') &&
+      css.includes('100vw - 100cqw') &&
       css.includes('@container (min-width: 400px)') &&
       css.includes('@container (min-width: 640px)') &&
+      css.includes('@container (min-width: 760px)') &&
+      css.includes('transform: rotate(-25deg);') &&
+      css.includes('transform: rotate(-24deg);') &&
+      css.includes('--trailer-tape-bleed: 50px;') &&
+      css.includes('--trailer-tape-bleed: 40px;') &&
       css.includes('inline-size: 166px;') &&
       css.includes('inline-size: 202px;') &&
       !css.includes('@media screen'),
