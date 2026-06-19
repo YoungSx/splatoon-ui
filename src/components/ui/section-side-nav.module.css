@@ -2,11 +2,12 @@
 
 .sidebar {
   --section-side-nav-fit-scale: 1;
+  --section-side-nav-center-y: 50%;
   --section-side-nav-max-block-size: none;
   opacity: 0;
   position: fixed;
   right: var(--base-space, 8px);
-  top: 50%;
+  top: var(--section-side-nav-center-y);
   transform: translateY(-50%) scale(var(--section-side-nav-fit-scale));
   transform-origin: right center;
   transition:

@@ -20,6 +20,10 @@ export interface SectionSideNavProps extends React.ComponentProps<'nav'> {
    *  is tied to this element's viewport intersection — exactly matching the
    *  Splatoon UI section navigation implementation. */
   contentRef: React.RefObject<HTMLElement | null>
+  /** Height, in CSS pixels, reserved for fixed chrome above the nav. */
+  topInset?: number
+  /** Minimum distance, in CSS pixels, between the nav and usable viewport edges. */
+  viewportMargin?: number
 }
 
 /* ── Smooth scroll ────────────────────────────────────────────────────── */
@@ -29,12 +33,14 @@ const SIDE_NAV_VIEWPORT_MARGIN = 24
 const SIDE_NAV_MIN_SCALE = 0.58
 
 interface SideNavFitState {
+  centerY: number | null
   scale: number
   maxBlockSize: number
   needsScroll: boolean
 }
 
 const defaultSideNavFitState: SideNavFitState = {
+  centerY: null,
   scale: 1,
   maxBlockSize: 0,
   needsScroll: false,
@@ -90,6 +96,8 @@ export function SectionSideNav({
   contentRef,
   className,
   style,
+  topInset = 0,
+  viewportMargin = SIDE_NAV_VIEWPORT_MARGIN,
   ...props
 }: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
   const internalRef = React.useRef<HTMLElement>(null)
@@ -161,23 +169,30 @@ export function SectionSideNav({
     const naturalHeight = menu.scrollHeight
     if (naturalHeight <= 0) return
 
-    const availableHeight = Math.max(window.innerHeight - SIDE_NAV_VIEWPORT_MARGIN * 2, 0)
+    const safeTopInset = Math.max(0, topInset)
+    const safeViewportMargin = Math.max(0, viewportMargin)
+    const topBoundary = safeTopInset + safeViewportMargin
+    const bottomBoundary = Math.max(window.innerHeight - safeViewportMargin, topBoundary)
+    const availableHeight = Math.max(bottomBoundary - topBoundary, 0)
+    const centerY = topBoundary + availableHeight / 2
     const rawScale = availableHeight / naturalHeight
     const scale = Math.min(1, Math.max(SIDE_NAV_MIN_SCALE, rawScale))
     const nextFitState = {
+      centerY: Number(centerY.toFixed(2)),
       scale: Number(scale.toFixed(4)),
       maxBlockSize: Math.round(availableHeight / scale),
       needsScroll: rawScale < SIDE_NAV_MIN_SCALE,
     }
 
     setFitState((current) =>
+      current.centerY === nextFitState.centerY &&
       current.scale === nextFitState.scale &&
       current.maxBlockSize === nextFitState.maxBlockSize &&
       current.needsScroll === nextFitState.needsScroll
         ? current
         : nextFitState
     )
-  }, [])
+  }, [topInset, viewportMargin])
 
   React.useEffect(() => {
     updateSidebarFit()
@@ -271,10 +286,13 @@ export function SectionSideNav({
     () =>
       ({
         '--section-side-nav-fit-scale': fitState.scale,
+        ...(fitState.centerY === null
+          ? {}
+          : { '--section-side-nav-center-y': `${fitState.centerY}px` }),
         '--section-side-nav-max-block-size': `${fitState.maxBlockSize}px`,
         ...style,
       }) as React.CSSProperties,
-    [fitState.maxBlockSize, fitState.scale, style]
+    [fitState.centerY, fitState.maxBlockSize, fitState.scale, style]
   )
 
   return (

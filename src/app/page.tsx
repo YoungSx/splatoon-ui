@@ -418,6 +418,7 @@ export default function Home() {
       <main id="main-content" className="flex-1 outline-none" tabIndex={-1}>
         {/* ── Section Side Nav (right-side numbered navigation) ── */}
         <SectionSideNav
+          topInset={40}
           sections={[
             { id: 'trailer', number: '01' },
             { id: 'titles', number: '02' },

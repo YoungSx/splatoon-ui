@@ -140,6 +140,19 @@ async function collectSectionSideNavState(page) {
 
     const style = window.getComputedStyle(sidebar)
     const rect = sidebar.getBoundingClientRect()
+    const fixedTopChromeBottom = [...document.body.querySelectorAll('*')]
+      .filter((element) => !sidebar.contains(element) && element !== sidebar)
+      .filter((element) => {
+        const elementStyle = window.getComputedStyle(element)
+        const elementRect = element.getBoundingClientRect()
+        return (
+          elementStyle.position === 'fixed' &&
+          elementRect.top <= 1 &&
+          elementRect.bottom > 0 &&
+          elementRect.width >= window.innerWidth * 0.5
+        )
+      })
+      .reduce((bottom, element) => Math.max(bottom, element.getBoundingClientRect().bottom), 0)
 
     return {
       display: style.display,
@@ -147,6 +160,7 @@ async function collectSectionSideNavState(page) {
       visibility: style.visibility,
       top: rect.top,
       bottom: rect.bottom,
+      fixedTopChromeBottom,
       width: rect.width,
       height: rect.height,
     }
@@ -234,6 +248,10 @@ async function runViewport(browser, viewport) {
     assert(
       sectionSideNav.top >= -1 && sectionSideNav.bottom <= viewport.height + 1,
       `${viewport.name}: section side nav exceeds viewport height: ${JSON.stringify(sectionSideNav)}`
+    )
+    assert(
+      sectionSideNav.top >= sectionSideNav.fixedTopChromeBottom - 1,
+      `${viewport.name}: section side nav overlaps fixed top chrome: ${JSON.stringify(sectionSideNav)}`
     )
 
     const layoutIssues = await collectLayoutIssues(page)

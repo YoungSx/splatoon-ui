@@ -97,7 +97,9 @@ const checks = [
       sectionSideNav.includes('SIDE_NAV_VIEWPORT_MARGIN') &&
       sectionSideNav.includes('SIDE_NAV_MIN_SCALE') &&
       sectionSideNavCss.includes('--section-side-nav-fit-scale') &&
+      sectionSideNavCss.includes('--section-side-nav-center-y') &&
       sideNavHasDeclaration('.sidebar', 'transform-origin: right center;') &&
+      sideNavHasDeclaration('.sidebar', 'top: var(--section-side-nav-center-y);') &&
       sideNavHasDeclaration(
         '.sidebar',
         'transform: translateY(-50%) scale(var(--section-side-nav-fit-scale));'
@@ -111,6 +113,7 @@ const checks = [
     name: 'Demo sections reserve a mobile safe area for the fixed reference-style sidebar',
     pass:
       section.includes('var(--section-side-nav-safe-area,0px)') &&
+      page.includes('topInset={40}') &&
       page.includes('[--section-side-nav-safe-area:3.5rem]') &&
       page.includes('sm:[--section-side-nav-safe-area:5.5rem]') &&
       page.includes('lg:[--section-side-nav-safe-area:0px]'),
