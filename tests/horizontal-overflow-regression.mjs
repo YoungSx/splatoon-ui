@@ -5,6 +5,7 @@ const root = process.cwd()
 const cssPath = path.join(root, 'src', 'components', 'ui', 'heading-tape.module.css')
 const pagePath = path.join(root, 'src', 'app', 'page.tsx')
 const sectionPath = path.join(root, 'src', 'components', 'ui', 'section.tsx')
+const sectionSideNavPath = path.join(root, 'src', 'components', 'ui', 'section-side-nav.tsx')
 const sectionSideNavCssPath = path.join(
   root,
   'src',
@@ -15,6 +16,7 @@ const sectionSideNavCssPath = path.join(
 const css = fs.readFileSync(cssPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
 const section = fs.readFileSync(sectionPath, 'utf8')
+const sectionSideNav = fs.readFileSync(sectionSideNavPath, 'utf8')
 const sectionSideNavCss = fs.readFileSync(sectionSideNavCssPath, 'utf8')
 
 function block(selector) {
@@ -86,6 +88,23 @@ const checks = [
       ) &&
       /@media \(min-width:\s*1024px\)\s*{[^}]*\.sidebar\s*{[^}]*right:\s*calc\(var\(--base-space,\s*8px\) \* 5\);/s.test(
         sectionSideNavCss
+      ),
+  },
+  {
+    name: 'SectionSideNav fits dense menus inside short viewport heights',
+    pass:
+      sectionSideNav.includes('ResizeObserver') &&
+      sectionSideNav.includes('SIDE_NAV_VIEWPORT_MARGIN') &&
+      sectionSideNav.includes('SIDE_NAV_MIN_SCALE') &&
+      sectionSideNavCss.includes('--section-side-nav-fit-scale') &&
+      sideNavHasDeclaration('.sidebar', 'transform-origin: right center;') &&
+      sideNavHasDeclaration(
+        '.sidebar',
+        'transform: translateY(-50%) scale(var(--section-side-nav-fit-scale));'
+      ) &&
+      sideNavHasDeclaration(
+        ".sidebar[data-overflow='scroll']",
+        'max-block-size: var(--section-side-nav-max-block-size);'
       ),
   },
   {

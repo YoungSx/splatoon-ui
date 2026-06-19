@@ -25,6 +25,20 @@ export interface SectionSideNavProps extends React.ComponentProps<'nav'> {
 /* ── Smooth scroll ────────────────────────────────────────────────────── */
 
 let activeScrollFrame: number | null = null
+const SIDE_NAV_VIEWPORT_MARGIN = 24
+const SIDE_NAV_MIN_SCALE = 0.58
+
+interface SideNavFitState {
+  scale: number
+  maxBlockSize: number
+  needsScroll: boolean
+}
+
+const defaultSideNavFitState: SideNavFitState = {
+  scale: 1,
+  maxBlockSize: 0,
+  needsScroll: false,
+}
 
 function easeInOutQuad(t: number): number {
   return t < 0.5 ? 2 * t * t : (4 - 2 * t) * t - 1
@@ -75,11 +89,13 @@ export function SectionSideNav({
   sections,
   contentRef,
   className,
+  style,
   ...props
 }: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
   const internalRef = React.useRef<HTMLElement>(null)
   const sectionObserverRef = React.useRef<IntersectionObserver | null>(null)
   const visibilityObserverRef = React.useRef<IntersectionObserver | null>(null)
+  const [fitState, setFitState] = React.useState<SideNavFitState>(defaultSideNavFitState)
 
   // Callback ref — merges forwarded ref with internal ref
   const sidebarCallbackRef = React.useCallback(
@@ -136,6 +152,53 @@ export function SectionSideNav({
     },
     [prefersReducedMotion]
   )
+
+  const updateSidebarFit = React.useCallback(() => {
+    const sidebar = internalRef.current
+    const menu = sidebar?.querySelector(`.${styles.menu}`) as HTMLElement | null
+    if (!menu) return
+
+    const naturalHeight = menu.scrollHeight
+    if (naturalHeight <= 0) return
+
+    const availableHeight = Math.max(window.innerHeight - SIDE_NAV_VIEWPORT_MARGIN * 2, 0)
+    const rawScale = availableHeight / naturalHeight
+    const scale = Math.min(1, Math.max(SIDE_NAV_MIN_SCALE, rawScale))
+    const nextFitState = {
+      scale: Number(scale.toFixed(4)),
+      maxBlockSize: Math.round(availableHeight / scale),
+      needsScroll: rawScale < SIDE_NAV_MIN_SCALE,
+    }
+
+    setFitState((current) =>
+      current.scale === nextFitState.scale &&
+      current.maxBlockSize === nextFitState.maxBlockSize &&
+      current.needsScroll === nextFitState.needsScroll
+        ? current
+        : nextFitState
+    )
+  }, [])
+
+  React.useEffect(() => {
+    updateSidebarFit()
+
+    const sidebar = internalRef.current
+    const menu = sidebar?.querySelector(`.${styles.menu}`) as HTMLElement | null
+    if (!menu) return
+
+    const resizeObserver =
+      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateSidebarFit)
+
+    resizeObserver?.observe(menu)
+    window.addEventListener('resize', updateSidebarFit)
+    window.visualViewport?.addEventListener('resize', updateSidebarFit)
+
+    return () => {
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', updateSidebarFit)
+      window.visualViewport?.removeEventListener('resize', updateSidebarFit)
+    }
+  }, [sections.length, updateSidebarFit])
 
   // Track active section via IntersectionObserver on section anchors
   React.useEffect(() => {
@@ -204,12 +267,24 @@ export function SectionSideNav({
     }
   }, [contentRef])
 
+  const sidebarStyle = React.useMemo(
+    () =>
+      ({
+        '--section-side-nav-fit-scale': fitState.scale,
+        '--section-side-nav-max-block-size': `${fitState.maxBlockSize}px`,
+        ...style,
+      }) as React.CSSProperties,
+    [fitState.maxBlockSize, fitState.scale, style]
+  )
+
   return (
     <nav
       ref={sidebarCallbackRef}
       data-slot="section-side-nav"
+      data-overflow={fitState.needsScroll ? 'scroll' : undefined}
       className={cn(styles.sidebar, className)}
       aria-label="Section navigation"
+      style={sidebarStyle}
       {...props}
     >
       <ul className={styles.menu}>

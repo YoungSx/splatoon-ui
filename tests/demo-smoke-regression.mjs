@@ -3,6 +3,7 @@ import { chromium } from 'playwright'
 const demoUrl = process.env.DEMO_URL ?? 'http://localhost:4317'
 const viewports = [
   { name: 'desktop', width: 1280, height: 900 },
+  { name: 'short-desktop', width: 1280, height: 720 },
   { name: 'mobile', width: 375, height: 812 },
 ]
 
@@ -144,6 +145,8 @@ async function collectSectionSideNavState(page) {
       display: style.display,
       opacity: Number(style.opacity),
       visibility: style.visibility,
+      top: rect.top,
+      bottom: rect.bottom,
       width: rect.width,
       height: rect.height,
     }
@@ -227,6 +230,10 @@ async function runViewport(browser, viewport) {
         sectionSideNav.width > 0 &&
         sectionSideNav.height > 0,
       `${viewport.name}: section side nav is not visible: ${JSON.stringify(sectionSideNav)}`
+    )
+    assert(
+      sectionSideNav.top >= -1 && sectionSideNav.bottom <= viewport.height + 1,
+      `${viewport.name}: section side nav exceeds viewport height: ${JSON.stringify(sectionSideNav)}`
     )
 
     const layoutIssues = await collectLayoutIssues(page)

@@ -1,16 +1,30 @@
 /* ── Section Side Nav ─────────────────────────────────────────────────────── */
 
 .sidebar {
+  --section-side-nav-fit-scale: 1;
+  --section-side-nav-max-block-size: none;
   opacity: 0;
   position: fixed;
   right: var(--base-space, 8px);
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) scale(var(--section-side-nav-fit-scale));
+  transform-origin: right center;
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
   visibility: hidden;
   z-index: 9;
+}
+
+.sidebar[data-overflow='scroll'] {
+  max-block-size: var(--section-side-nav-max-block-size);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.sidebar[data-overflow='scroll']::-webkit-scrollbar {
+  display: none;
 }
 
 .sidebarShow {
