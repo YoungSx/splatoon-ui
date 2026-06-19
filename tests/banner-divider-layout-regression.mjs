@@ -65,7 +65,7 @@ const checks = [
       !section.includes('section-bottom-safe-area') &&
       !page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&
       !page.includes('bottomSafeArea=') &&
-      (page.match(/pb-\[clamp\(7\.5rem,8\.5vw,10\.5rem\)\]/g) ?? []).length === 6,
+      (page.match(/pb-\[clamp\(8rem,10vw,11\.5rem\)\]/g) ?? []).length === 6,
   },
 ]
 

@@ -3,6 +3,10 @@
    Inline bleed is clamped to the available viewport gutter so decorative tape
    never creates page-level horizontal scroll. */
 
+.thumbnailTrigger {
+  container-type: inline-size;
+}
+
 .tape1,
 .tape2 {
   --trailer-tape-safe-bleed: min(
@@ -12,60 +16,97 @@
 }
 
 /* ── Tape 1 (top-left, tape-2 image) ──
-   Base: left:-19px, top:-20px, rotate(-25deg), no max-width */
+   Base: left:-19px, top:-20px, rotate(-25deg) */
 .tape1 {
   --trailer-tape-bleed: 19px;
   left: calc(var(--trailer-tape-safe-bleed) * -1);
-  pointer-events: none;
-  position: absolute;
   top: -20px;
   transform: rotate(-25deg);
 }
 
 /* ── Tape 2 (bottom-right, tape-3 image) ──
-   Base: bottom:0, right:-15px, rotate(-24deg), no max-width */
+   Base: bottom:0, right:-15px, rotate(-24deg) */
 .tape2 {
   --trailer-tape-bleed: 15px;
   --trailer-tape-tilt-guard: 8px;
   bottom: 0;
-  pointer-events: none;
-  position: absolute;
   right: calc(var(--trailer-tape-safe-bleed) * -1);
   transform: rotate(-24deg);
 }
 
-/* Medium screens (640-1023px) */
-@media screen and (min-width: 640px) and (max-width: 1023px) {
+.tapeImage {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.tapeMobile {
+  display: block;
+}
+
+.tapeDesktop {
+  display: none;
+}
+
+.tape1 .tapeMobile {
+  inline-size: 82px;
+}
+
+.tape2 .tapeMobile {
+  inline-size: 97px;
+}
+
+@container (min-width: 400px) {
+  .tapeMobile {
+    display: none;
+  }
+
+  .tapeDesktop {
+    display: block;
+  }
+}
+
+@container (min-width: 400px) and (max-width: 639px) {
   .tape1 {
     --trailer-tape-bleed: 25px;
-    max-width: 133px;
     top: -40px;
+  }
+
+  .tape1 .tapeDesktop {
+    inline-size: 133px;
   }
 
   .tape2 {
     --trailer-tape-bleed: 50px;
     bottom: 10px;
-    max-width: 162px;
+  }
+
+  .tape2 .tapeDesktop {
+    inline-size: 162px;
   }
 }
 
-/* Large screens (1024px+) */
-@media screen and (min-width: 1024px) {
+@container (min-width: 640px) {
   .tape1 {
     --trailer-tape-bleed: 25px;
-    max-width: 166px;
     top: -50px;
+  }
+
+  .tape1 .tapeDesktop {
+    inline-size: 166px;
   }
 
   .tape2 {
     --trailer-tape-bleed: 50px;
     bottom: 20px;
-    max-width: 202px;
+  }
+
+  .tape2 .tapeDesktop {
+    inline-size: 202px;
   }
 }
 
-/* Extra-large screens (1144px+) */
-@media screen and (min-width: 1144px) {
+@container (min-width: 1144px) {
   .tape1 {
     --trailer-tape-bleed: 40px;
   }

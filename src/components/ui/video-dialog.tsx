@@ -5,8 +5,9 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 import { cn } from '@/lib/utils'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
+import { CardSlot } from './card-slot'
 import photoStyles from './photo-frame.module.css'
-import { TapePicture } from './tape-picture'
+import { TapeResponsivePictures } from './tape-picture'
 import tapeStyles from './video-dialog.module.css'
 
 // ── VideoDialog Root (thin wrapper around Dialog) ──
@@ -70,7 +71,8 @@ export function VideoDialogThumbnail({
               else if (ref) ref.current = node
             }}
             className={cn(
-              'group relative inline-block cursor-pointer overflow-visible p-0',
+              tapeStyles.thumbnailTrigger,
+              'group relative block w-full cursor-pointer overflow-visible p-0',
               className
             )}
             {...rest}
@@ -98,6 +100,7 @@ export function VideoDialogThumbnail({
               className={cn(
                 photoStyles.photoFrame,
                 photoStyles.noContainer,
+                photoStyles.fillWidth,
                 'relative border-0',
                 imageClassName
               )}
@@ -123,8 +126,22 @@ export function VideoDialogThumbnail({
               />
             </div>
 
-            <TapePicture asset="tape-2" className={tapeStyles.tape1} fill={false} />
-            <TapePicture asset="tape-3" className={tapeStyles.tape2} fill={false} />
+            <CardSlot className={tapeStyles.tape1}>
+              <TapeResponsivePictures
+                asset="tape-2"
+                mobilePictureClassName={tapeStyles.tapeMobile}
+                desktopPictureClassName={tapeStyles.tapeDesktop}
+                imageClassName={tapeStyles.tapeImage}
+              />
+            </CardSlot>
+            <CardSlot className={tapeStyles.tape2}>
+              <TapeResponsivePictures
+                asset="tape-3"
+                mobilePictureClassName={tapeStyles.tapeMobile}
+                desktopPictureClassName={tapeStyles.tapeDesktop}
+                imageClassName={tapeStyles.tapeImage}
+              />
+            </CardSlot>
           </button>
         )
       }}

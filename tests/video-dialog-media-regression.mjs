@@ -3,9 +3,11 @@ import path from 'node:path'
 
 const root = process.cwd()
 const componentPath = path.join(root, 'src', 'components', 'ui', 'video-dialog.tsx')
+const cssPath = path.join(root, 'src', 'components', 'ui', 'video-dialog.module.css')
 const pagePath = path.join(root, 'src', 'app', 'page.tsx')
 
 const component = fs.readFileSync(componentPath, 'utf8')
+const css = fs.readFileSync(cssPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
 
 const checks = [
@@ -28,13 +30,35 @@ const checks = [
       component.includes('aria-labelledby={ariaLabelledBy}'),
   },
   {
+    name: 'VideoDialog thumbnail trigger and media frame establish a stable container',
+    pass:
+      component.includes('tapeStyles.thumbnailTrigger') &&
+      component.includes("'group relative block w-full cursor-pointer overflow-visible p-0'") &&
+      component.includes('photoStyles.fillWidth'),
+  },
+  {
     name: 'VideoDialog decorative thumbnail tapes come from the shared official asset registry',
     pass:
-      component.includes("import { TapePicture } from './tape-picture'") &&
+      component.includes("import { CardSlot } from './card-slot'") &&
+      component.includes("import { TapeResponsivePictures } from './tape-picture'") &&
       component.includes('asset="tape-2"') &&
       component.includes('asset="tape-3"') &&
       !component.includes('/_images/tape-assets/tape-2') &&
       !component.includes('/_images/tape-assets/tape-3'),
+  },
+  {
+    name: 'VideoDialog decorative thumbnail tapes use container-query slots',
+    pass:
+      component.includes('<CardSlot className={tapeStyles.tape1}>') &&
+      component.includes('<CardSlot className={tapeStyles.tape2}>') &&
+      component.includes('mobilePictureClassName={tapeStyles.tapeMobile}') &&
+      component.includes('desktopPictureClassName={tapeStyles.tapeDesktop}') &&
+      css.includes('container-type: inline-size;') &&
+      css.includes('@container (min-width: 400px)') &&
+      css.includes('@container (min-width: 640px)') &&
+      css.includes('inline-size: 166px;') &&
+      css.includes('inline-size: 202px;') &&
+      !css.includes('@media screen'),
   },
   {
     name: 'VideoDialogContent supports native mp4/webm playback without forcing iframe embeds',
