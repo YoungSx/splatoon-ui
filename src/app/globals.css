@@ -5,26 +5,29 @@
 /* ── Font Face: fooregular (Splatoon heading font) ── */
 @font-face {
   font-family: 'fooregular';
-  src: url('/fonts/foo-webfont.woff2') format('woff2'),
-       url('/fonts/foo-webfont.woff') format('woff');
+  src:
+    url('/fonts/foo-webfont.woff2') format('woff2'),
+    url('/fonts/foo-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* ── Font Face: Montserrat (body text, exact from official site) ── */
+/* ── Font Face: Montserrat (body text) ── */
 @font-face {
   font-family: 'Montserrat';
-  src: url('/fonts/montserrat-v24-latin-regular.woff2') format('woff2'),
-       url('/fonts/montserrat-v24-latin-regular.woff') format('woff');
+  src:
+    url('/fonts/montserrat-v24-latin-regular.woff2') format('woff2'),
+    url('/fonts/montserrat-v24-latin-regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Montserrat';
-  src: url('/fonts/montserrat-v24-latin-500.woff2') format('woff2'),
-       url('/fonts/montserrat-v24-latin-500.woff') format('woff');
+  src:
+    url('/fonts/montserrat-v24-latin-500.woff2') format('woff2'),
+    url('/fonts/montserrat-v24-latin-500.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -55,7 +58,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-body);
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
   --font-heading: 'fooregular', sans-serif;
   --font-body: 'Montserrat', sans-serif;
   --font-alt: var(--font-obviously-narrow), 'obviously-narrow', sans-serif;
@@ -111,8 +115,11 @@
   --ease-in-out: cubic-bezier(0.75, 0, 0.21, 0.99);
   --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
 
-  /* Events tab hover splat (from official splatoon.nintendo.com) */
-  --active-splat-url: url('/_images/events/active-splat.webp');
+  /* Events tab hover splat */
+  --active-splat-url: image-set(
+    url('/_images/events/active-splat.webp') 1x,
+    url('/_images/events/active-splat-2x.webp') 2x
+  );
 }
 
 /* Tab hover splat — ::after content must be in CSS, not Tailwind,
@@ -146,7 +153,7 @@
   display: none;
 }
 
-/* ── Light Theme: Desert Wasteland (Splatsville) ── */
+/* ── Light Theme: Desert Wasteland ── */
 :root {
   /* Exact Splatoon site colors */
   --background: #ffffff;
@@ -197,7 +204,7 @@
   --chaos-black: #0d0d0d;
   --tape-white: #ffffff;
 
-  /* Official Splatoon site CSS custom properties */
+  /* Splatoon UI CSS custom properties */
   --color-true-black: #000;
   --color-black: #0d0d0d;
   --color-black-alt: #0e0e0e;
@@ -262,12 +269,16 @@
 
 /* ── Splatoon Typography (exact from real site) ── */
 @layer base {
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-heading);
     font-weight: 700;
     line-height: 1;
   }
-  h3, h4 {
+  h3,
+  h4 {
     font-family: var(--font-heading);
     font-weight: 700;
   }
@@ -293,7 +304,7 @@
 
 /* ── Splatoon Utilities ── */
 @layer utilities {
-  /* Soft depth used for generic UI. Official pages lean on light elevation, not global hard offset shadows. */
+  /* Soft depth used for generic UI; hard offset shadows are reserved for paper-cutout accents. */
   .shadow-soft-splat-sm {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14);
   }
@@ -343,7 +354,6 @@
   .field-cut-popup {
     border-radius: 8px 11px 9px 13px;
   }
-
 }
 
 /* ── Skewed heading style — like real site h1/h2 ── */
@@ -372,9 +382,10 @@
   }
 }
 
-/* ── Morph blob animation (official 3-stop from splatoon.nintendo.com) ── */
+/* ── Morph blob animation ── */
 @keyframes morph {
-  0%, 100% {
+  0%,
+  100% {
     border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
   }
   34% {
@@ -390,43 +401,67 @@
    The pattern images are semi-transparent PNGs that tile/repeat. */
 
 .pattern-camo-black {
-  background-image: url("/_images/backgrounds/camo-black.png");
-  background-image: image-set(url("/_images/backgrounds/camo-black.png") 1x, url("/_images/backgrounds/camo-black-2x.png") 2x);
+  background-image: url('/_images/backgrounds/camo-black.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-black.png') 1x,
+    url('/_images/backgrounds/camo-black-2x.png') 2x
+  );
 }
 
 .pattern-camo-green {
-  background-image: url("/_images/backgrounds/camo-green.png");
-  background-image: image-set(url("/_images/backgrounds/camo-green.png") 1x, url("/_images/backgrounds/camo-green-2x.png") 2x);
+  background-image: url('/_images/backgrounds/camo-green.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-green.png') 1x,
+    url('/_images/backgrounds/camo-green-2x.png') 2x
+  );
 }
 
 .pattern-camo-purple {
-  background-image: url("/_images/backgrounds/camo-purple.png");
-  background-image: image-set(url("/_images/backgrounds/camo-purple.png") 1x, url("/_images/backgrounds/camo-purple-2x.png") 2x);
+  background-image: url('/_images/backgrounds/camo-purple.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-purple.png') 1x,
+    url('/_images/backgrounds/camo-purple-2x.png') 2x
+  );
 }
 
 .pattern-camo-white {
-  background-image: url("/_images/backgrounds/camo-white.png");
-  background-image: image-set(url("/_images/backgrounds/camo-white.png") 1x, url("/_images/backgrounds/camo-white-2x.png") 2x);
+  background-image: url('/_images/backgrounds/camo-white.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-white.png') 1x,
+    url('/_images/backgrounds/camo-white-2x.png') 2x
+  );
 }
 
 .pattern-chip-white {
-  background-image: url("/_images/backgrounds/chip-white.png");
-  background-image: image-set(url("/_images/backgrounds/chip-white.png") 1x, url("/_images/backgrounds/chip-white-2x.png") 2x);
+  background-image: url('/_images/backgrounds/chip-white.png');
+  background-image: image-set(
+    url('/_images/backgrounds/chip-white.png') 1x,
+    url('/_images/backgrounds/chip-white-2x.png') 2x
+  );
 }
 
 .pattern-tapes-black {
-  background-image: url("/_images/backgrounds/tapes-black.jpg");
-  background-image: image-set(url("/_images/backgrounds/tapes-black.jpg") 1x, url("/_images/backgrounds/tapes-black-2x.jpg") 2x);
+  background-image: url('/_images/backgrounds/tapes-black.jpg');
+  background-image: image-set(
+    url('/_images/backgrounds/tapes-black.jpg') 1x,
+    url('/_images/backgrounds/tapes-black-2x.jpg') 2x
+  );
 }
 
 .pattern-tapes-green {
-  background-image: url("/_images/backgrounds/tapes-green.jpg");
-  background-image: image-set(url("/_images/backgrounds/tapes-green.jpg") 1x, url("/_images/backgrounds/tapes-green-2x.jpg") 2x);
+  background-image: url('/_images/backgrounds/tapes-green.jpg');
+  background-image: image-set(
+    url('/_images/backgrounds/tapes-green.jpg') 1x,
+    url('/_images/backgrounds/tapes-green-2x.jpg') 2x
+  );
 }
 
 .pattern-tapes-purple {
-  background-image: url("/_images/backgrounds/tapes-purple.jpg");
-  background-image: image-set(url("/_images/backgrounds/tapes-purple.jpg") 1x, url("/_images/backgrounds/tapes-purple-2x.jpg") 2x);
+  background-image: url('/_images/backgrounds/tapes-purple.jpg');
+  background-image: image-set(
+    url('/_images/backgrounds/tapes-purple.jpg') 1x,
+    url('/_images/backgrounds/tapes-purple-2x.jpg') 2x
+  );
 }
 
 /* ── Reduced Motion ── */
@@ -448,5 +483,3 @@
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
-
-

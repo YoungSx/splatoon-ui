@@ -31,54 +31,63 @@ export const navLinks: SplatoonNavLink[] = [
     hoverSplatClassName: '-left-[2.5em] top-1/2 h-[4em] w-[4em] -translate-y-[46%] rotate-[-18deg]',
   },
   {
-    label: 'Welcome to Splatsville',
-    href: '#world',
-    selectedKey: 'world',
+    label: 'Demo reel',
+    href: '#trailer',
+    selectedKey: 'trailer',
     hoverSplatId: 9,
     hoverSplatColor: 'var(--color-blue)',
     hoverSplatClassName:
       '-left-[2.35em] top-1/2 h-[4.2em] w-[4.2em] -translate-y-[44%] rotate-[12deg]',
   },
   {
-    label: 'How to play',
-    href: '#gameplay',
-    selectedKey: 'gameplay',
+    label: 'Titles',
+    href: '#titles',
+    selectedKey: 'titles',
     hoverSplatId: 8,
     hoverSplatColor: 'var(--color-yellow)',
     hoverSplatClassName:
       '-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]',
   },
   {
-    label: 'Weapons & gear',
-    href: '#weapons',
-    selectedKey: 'weapons',
+    label: 'Buttons & badges',
+    href: '#buttons-badges',
+    selectedKey: 'buttons-badges',
     hoverSplatId: 11,
     hoverSplatColor: 'var(--color-blue)',
     hoverSplatClassName:
       '-left-[2.5em] top-1/2 h-[4.25em] w-[4.25em] -translate-y-[45%] rotate-[-10deg]',
   },
   {
-    label: 'News',
-    href: '#news',
-    selectedKey: 'news',
+    label: 'Overlays',
+    href: '#overlays',
+    selectedKey: 'overlays',
     hoverSplatId: 10,
     hoverSplatColor: 'var(--color-blue)',
     hoverSplatClassName:
       '-left-[2.65em] top-1/2 h-[4.35em] w-[4.35em] -translate-y-[44%] -rotate-[18deg]',
   },
   {
-    label: 'Events',
-    href: '#events',
-    selectedKey: 'events',
+    label: 'Card grid',
+    href: '#card-grid',
+    selectedKey: 'card-grid',
     hoverSplatId: 6,
     hoverSplatColor: 'var(--color-yellow)',
     hoverSplatClassName:
       '-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]',
   },
   {
-    label: 'Expansion Pass',
-    href: '#expansion-pass',
-    selectedKey: 'expansion-pass',
+    label: 'Carousels',
+    href: '#carousels',
+    selectedKey: 'carousels',
+    hoverSplatId: 3,
+    hoverSplatColor: 'var(--color-blue)',
+    hoverSplatClassName:
+      '-left-[2.45em] top-1/2 h-[4.1em] w-[4.1em] -translate-y-[44%] -rotate-[12deg]',
+  },
+  {
+    label: 'Forms & feedback',
+    href: '#progress',
+    selectedKey: 'progress',
     hoverSplatId: 12,
     hoverSplatColor: 'var(--color-blue)',
     hoverSplatClassName:
@@ -148,9 +157,7 @@ export function renderSplatoonLink(link: SplatoonNavLink, props: LinkRenderProps
           color={link.hoverSplatColor}
           className={cn(
             'pointer-events-none absolute z-[var(--z-deco)] opacity-0 transition-all duration-150 ease-out',
-            props.isHighlighted
-              ? 'scale-100 opacity-100'
-              : 'scale-[1.32] opacity-0',
+            props.isHighlighted ? 'scale-100 opacity-100' : 'scale-[1.32] opacity-0',
             link.hoverSplatClassName
           )}
         />
@@ -166,7 +173,7 @@ export function renderSplatoonLink(link: SplatoonNavLink, props: LinkRenderProps
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         className={cn(
-          'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-3 px-8 text-[2.5rem] leading-none font-alt font-medium text-white transition-colors duration-150',
+          'group/nav-link font-alt relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 px-8 py-3 text-[2.5rem] leading-none font-medium text-white transition-colors duration-150',
           (props.isHighlighted || props.isActive) && 'text-yellow',
           props.isActive && '-rotate-2deg',
           link.textClassName
@@ -204,11 +211,11 @@ export function SplatoonMenuLogo({ contentPhase }: { contentPhase: ContentPhase 
           className={cn('pointer-events-none absolute z-[var(--z-deco)]', splat.className)}
         />
       ))}
-      <div className="pointer-events-none absolute top-[1.2rem] left-1/2 z-[var(--z-deco-fg)] flex -translate-x-1/2 -rotate-2 select-none flex-col items-center text-center">
+      <div className="pointer-events-none absolute top-[1.2rem] left-1/2 z-[var(--z-deco-fg)] flex -translate-x-1/2 -rotate-2 flex-col items-center text-center select-none">
         <span className="font-heading text-[clamp(3rem,11vw,6.5rem)] leading-none text-white drop-shadow-[5px_5px_0_var(--color-black)]">
           Splatoon UI
         </span>
-        <span className="-mt-1 inline-block bg-yellow px-4 py-1 font-alt text-sm font-black uppercase tracking-wider text-chaos-black md:text-base">
+        <span className="bg-yellow font-alt text-chaos-black -mt-1 inline-block px-4 py-1 text-sm font-black tracking-wider uppercase md:text-base">
           Fan-made component kit
         </span>
       </div>
@@ -221,17 +228,17 @@ export function SplatoonMenuLogo({ contentPhase }: { contentPhase: ContentPhase 
 export function SplatoonMenuDecorations() {
   return (
     <>
-      {/* Vector Sticker 2 Red */}
+      {/* Sticker 2 Red */}
       <div className="pointer-events-none absolute top-[23.2%] left-[10.25%] z-[var(--z-deco-fg)] w-[13.5rem] -rotate-[27deg] select-none">
         <Sticker2Red />
       </div>
 
-      {/* Vector Sticker 10 */}
+      {/* Sticker 10 */}
       <div className="pointer-events-none absolute top-[52.1%] right-[10.8%] z-[var(--z-deco-fg)] w-[14.35rem] rotate-[-7deg] select-none">
         <Sticker10 />
       </div>
 
-      {/* Vector Sticker 5 */}
+      {/* Sticker 5 */}
       <div className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[var(--z-deco-fg)] w-[29.5rem] -rotate-[9deg] select-none">
         <Sticker5 />
       </div>
@@ -254,9 +261,7 @@ export function SplatoonOverlayDecorations({ contentPhase }: { contentPhase: Con
           className={cn('pointer-events-none absolute z-[var(--z-deco)]', splat.className)}
           style={{
             opacity: isVisible ? 1 : 0,
-            transform: isVisible
-              ? 'scale(1) translate(0, 0)'
-              : 'scale(0.8) translate(0, 10%)',
+            transform: isVisible ? 'scale(1) translate(0, 0)' : 'scale(0.8) translate(0, 10%)',
             transitionProperty: 'opacity, transform',
             transitionDuration: '0.4s',
             transitionDelay: isVisible ? `${0.5 + i * 0.1}s` : '0s',

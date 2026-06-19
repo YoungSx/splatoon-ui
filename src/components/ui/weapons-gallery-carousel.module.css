@@ -5,7 +5,7 @@
   --controls-spread: 30px;
 }
 
-/* Controls — centered overlay on photo (matches official gallery_fullWidthControls) */
+/* Controls — centered overlay on photo */
 .galleryControls {
   max-width: 100%;
   padding-top: 0;
@@ -20,7 +20,12 @@
 /* Photo frame — weapons-specific transform multiplier */
 .photoFrame {
   transform: translateX(calc(100% * var(--photo-offset)))
-             rotate(calc(var(--rotateDirection, 1) * var(--rotateAmount, 2deg) + var(--rotateDirection, 1) * 20deg * var(--photo-offset)));
+    rotate(
+      calc(
+        var(--rotateDirection, 1) * var(--rotateAmount, 2deg) + var(--rotateDirection, 1) * 20deg *
+          var(--photo-offset)
+      )
+    );
 }
 
 /* Item layout — two columns on desktop, stacked on mobile */

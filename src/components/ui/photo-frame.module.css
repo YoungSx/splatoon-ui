@@ -19,11 +19,11 @@
 }
 
 .photoFrame::before {
-  background-image: url(/images/svg/styled-photo-background.svg);
+  background-image: url('/_images/svg/styled-photo-background.svg');
   background-position: 50% center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  content: "";
+  content: '';
   height: calc(100% + var(--border-offset-y) * 2);
   left: calc(var(--border-offset-x) * -1);
   position: absolute;
@@ -65,7 +65,7 @@
 
 /* ── Photo image ── */
 .photo {
-  mask-image: url(/images/svg/styled-photo-background.svg);
+  mask-image: url('/_images/svg/styled-photo-background.svg');
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: 100% 100%;
@@ -87,12 +87,20 @@
   pointer-events: none;
 }
 
-.tapeMobile { display: block; }
-.tapeDesktop { display: none; }
+.tapeMobile {
+  display: block;
+}
+.tapeDesktop {
+  display: none;
+}
 
 @container (min-width: 400px) {
-  .tapeMobile { display: none; }
-  .tapeDesktop { display: block; }
+  .tapeMobile {
+    display: none;
+  }
+  .tapeDesktop {
+    display: block;
+  }
 }
 
 /* ── Tape position variants — aligns with TornCard slot logic ── */
@@ -139,12 +147,20 @@
   z-index: 20;
 }
 
-.decorationMobile { display: block; }
-.decorationDesktop { display: none; }
+.decorationMobile {
+  display: block;
+}
+.decorationDesktop {
+  display: none;
+}
 
 @container (min-width: 400px) {
-  .decorationMobile { display: none; }
-  .decorationDesktop { display: block; }
+  .decorationMobile {
+    display: none;
+  }
+  .decorationDesktop {
+    display: block;
+  }
 }
 
 .decorationBottomLeft {
@@ -192,4 +208,3 @@
     --border-offset-y: 3px;
   }
 }
-

@@ -1,6 +1,6 @@
 /* ──────────────────────────────────────────────
    Ink Splash Canvas — GLSL Shader Sources
-   Faithfully ported from official splatoon.nintendo.com
+   Ink splash shader program used by Splatoon UI transitions.
    ────────────────────────────────────────────── */
 
 type GLContext = WebGLRenderingContext | WebGL2RenderingContext
@@ -23,7 +23,7 @@ void main() {
 
 // ── Fragment Shader ──────────────────────────────────────────────────────────
 // Simplex noise + 3-layer ink splash rendering
-// Ported verbatim from official site's chunk 732 (module 7732)
+// Simplex noise helpers adapted for the transition shader.
 
 const fragmentShaderSource = `
 

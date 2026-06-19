@@ -1,13 +1,12 @@
 'use client'
 
 /**
- * InView — Official Splatoon scroll-triggered animation system.
+ * InView — scroll-triggered animation helper.
  *
  * Uses IntersectionObserver to add `.in-view` class to the wrapper,
  * triggering CSS transitions on child `.anim` elements.
  *
- * Official CSS: `.in-view__anim`, `.in-view__stagger`, etc.
- * https://splatoon.nintendo.com
+ * CSS modules provide `.anim`, `.stagger`, and directional transition classes.
  */
 
 import * as React from 'react'
@@ -18,7 +17,27 @@ import styles from './in-view.module.css'
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export type InViewDirection = 'left' | 'right' | 'up' | 'up-min' | 'down' | 'pop'
-export type InViewDelay = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
+export type InViewDelay =
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16
+  | 17
+  | 18
+  | 19
+  | 20
 
 export interface InViewProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Animation direction */
@@ -38,12 +57,12 @@ export interface InViewProps extends React.HTMLAttributes<HTMLDivElement> {
 // ─── Direction-to-CSS map ──────────────────────────────────────────────────
 
 const DIRECTION_CLASS: Record<InViewDirection, string> = {
-  'left': styles.left,
-  'right': styles.right,
-  'up': styles.up,
+  left: styles.left,
+  right: styles.right,
+  up: styles.up,
   'up-min': styles.upMin,
-  'down': styles.down,
-  'pop': styles.pop,
+  down: styles.down,
+  pop: styles.pop,
 }
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -83,17 +102,8 @@ export function InView({
   }, [direction, drop, delay])
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        isInView && styles.inView,
-        className,
-      )}
-      {...props}
-    >
-      <div className={cn(animClasses)}>
-        {children}
-      </div>
+    <div ref={ref} className={cn(isInView && styles.inView, className)} {...props}>
+      <div className={cn(animClasses)}>{children}</div>
     </div>
   )
 }
@@ -125,19 +135,14 @@ export function InViewStagger({
   const isInView = active !== undefined ? active : isInViewFromObserver
 
   return (
-    <div
-      ref={ref}
-      className={cn(
-        isInView && styles.inView,
-        className,
-      )}
-      {...props}
-    >
-      <div className={cn(
-        styles.stagger,
-        variant === 'up-min' && styles.staggerUpMin,
-        variant === 'pop' && styles.staggerPop,
-      )}>
+    <div ref={ref} className={cn(isInView && styles.inView, className)} {...props}>
+      <div
+        className={cn(
+          styles.stagger,
+          variant === 'up-min' && styles.staggerUpMin,
+          variant === 'pop' && styles.staggerPop
+        )}
+      >
         {children}
       </div>
     </div>

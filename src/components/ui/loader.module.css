@@ -1,33 +1,49 @@
 /* loader.module.css
-   Matches official splatoon.nintendo.com loader component exactly.
-   CSS border spinner with 3px transparent right edge.
-   Uses 359deg rotation to avoid animation reset glitch. */
+   Splatoon UI loader component.
+   Image-backed squid loader with an ink-color backing chip. */
 
 .loader {
-  --color: currentcolor;
+  --color: var(--color-true-black, #000);
   --size: 1em;
-  animation: rotate-360 1s linear infinite;
-  border-radius: 50%;
-  border: 3px solid var(--color);
-  border-right-color: transparent;
-  display: inline-block;
-  height: var(--size);
+  --loader-shadow: rgb(0 0 0 / 0.35);
+  block-size: var(--size);
+  border-radius: 999px;
+  display: inline-grid;
+  inline-size: var(--size);
+  line-height: 0;
   margin: auto;
+  place-items: center;
   vertical-align: middle;
-  width: var(--size);
 }
 
-/* Official variants: named CSS colors */
 .blue {
-  --color: blue;
+  --color: var(--color-blue, #603bff);
 }
 
 .red {
-  --color: red;
+  --color: var(--color-red, #ff505e);
 }
 
-@keyframes rotate-360 {
-  to {
-    transform: rotate(359deg);
-  }
+.surface {
+  background: var(--color);
+  block-size: 100%;
+  border-radius: inherit;
+  box-shadow:
+    0 0 0 max(2px, calc(var(--size) * 0.08)) var(--color),
+    calc(var(--size) * 0.12) calc(var(--size) * 0.14) 0 var(--loader-shadow);
+  box-sizing: border-box;
+  display: grid;
+  inline-size: 100%;
+  overflow: hidden;
+  padding: max(2px, calc(var(--size) * 0.12));
+  place-items: center;
+  transform: rotate(-5deg);
+}
+
+.image {
+  block-size: 100%;
+  inline-size: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
 }

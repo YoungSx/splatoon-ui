@@ -1,0 +1,121 @@
+.callout {
+  background: var(--color-black, #0d0d0d);
+  border: 3px solid var(--color-black, #0d0d0d);
+  border-radius: 8px;
+  color: var(--color-white, #fff);
+  overflow: hidden;
+  position: relative;
+}
+
+.background {
+  block-size: 100%;
+  filter: saturate(1.18) contrast(1.05);
+  inline-size: 100%;
+  inset: 0;
+  object-fit: cover;
+  opacity: 0.32;
+  position: absolute;
+  transform: scale(1.08) rotate(-1deg);
+}
+
+.content {
+  display: grid;
+  gap: clamp(18px, 4vw, 30px);
+  grid-template-columns: minmax(0, 1fr);
+  padding: clamp(18px, 4vw, 30px);
+  position: relative;
+  z-index: 1;
+}
+
+.mediaFrame {
+  aspect-ratio: 382 / 215;
+  background: var(--color-white, #fff);
+  border: 4px solid var(--color-white, #fff);
+  box-shadow: 8px 10px 0 rgb(0 0 0 / 0.35);
+  position: relative;
+  transform: rotate(-1.5deg);
+}
+
+.media {
+  block-size: 100%;
+  display: block;
+  inline-size: 100%;
+  object-fit: cover;
+}
+
+.iconBadge {
+  align-items: center;
+  background: var(--color-yellow, #eaff3d);
+  border: 3px solid var(--color-black, #0d0d0d);
+  border-radius: 999px;
+  box-shadow: 4px 5px 0 rgb(0 0 0 / 0.35);
+  display: flex;
+  inline-size: clamp(46px, 12vw, 64px);
+  justify-content: center;
+  padding: 7px;
+  position: absolute;
+  right: -14px;
+  top: -18px;
+  transform: rotate(8deg);
+}
+
+.iconBadge img {
+  block-size: auto;
+  display: block;
+  inline-size: 100%;
+}
+
+.body {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-inline-size: 0;
+}
+
+.eyebrow {
+  color: var(--color-yellow, #eaff3d);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(1.875rem, 7vw, 3.25rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 0.9;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.description {
+  color: rgb(255 255 255 / 0.82);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
+  max-inline-size: 34rem;
+}
+
+.action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-block-start: 8px;
+}
+
+@media (min-width: 760px) {
+  .content {
+    align-items: center;
+    grid-template-columns: minmax(260px, 0.95fr) minmax(0, 1fr);
+  }
+
+  .mediaFrame {
+    transform: rotate(-2deg);
+  }
+}

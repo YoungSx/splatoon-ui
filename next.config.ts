@@ -1,6 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: process.cwd(),
+  },
   allowedDevOrigins: ['100.*.*.*', 'ui.s8p.io'],
   async headers() {
     return [
@@ -13,8 +16,8 @@ const nextConfig: NextConfig = {
           { key: 'Surrogate-Control', value: 'no-store' },
         ],
       },
-    ];
+    ]
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

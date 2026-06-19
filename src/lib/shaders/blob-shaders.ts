@@ -1,8 +1,8 @@
 /**
- * Blob play button shaders — ported from official splatoon.nintendo.com
+ * Blob play button shaders for the Splatoon UI demo.
  * chunk 566 (SimplexBlobRenderer).
  *
- * The official approach: fullscreen triangle + fragment shader noise alpha mask.
+ * Uses a fullscreen triangle plus fragment shader noise alpha mask.
  * No vertex deformation — all wobble is in the fragment shader.
  */
 

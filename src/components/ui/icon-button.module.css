@@ -1,8 +1,7 @@
 /* icon-button.module.css
-   1:1 replica of splatoon.nintendo.com icon button system.
-   Official class: .icon-button_iconButton__vRbEr */
+   Circular icon button system for Splatoon UI controls. */
 
-/* ── Base shell (official) ── */
+/* ── Base shell ── */
 
 .shell {
   --size: 60px;
@@ -31,10 +30,10 @@
   outline-offset: 2px;
 }
 
-/* ── Disabled (official: fully hidden, preserves layout) ── */
+/* ── Disabled: fully hidden, preserves layout ── */
 
 .shell:disabled,
-.shell[aria-disabled="true"] {
+.shell[aria-disabled='true'] {
   visibility: hidden;
   pointer-events: none;
 }
@@ -55,19 +54,19 @@
 
 /* ── Explicit size override (data-size beats variant via specificity) ── */
 
-.shell[data-size="sm"] {
+.shell[data-size='sm'] {
   --size: 40px;
 }
 
-.shell[data-size="md"] {
+.shell[data-size='md'] {
   --size: 48px;
 }
 
-.shell[data-size="lg"] {
+.shell[data-size='lg'] {
   --size: 60px;
 }
 
-/* ── Icon (official) ── */
+/* ── Icon ── */
 
 .icon {
   display: block;
@@ -119,29 +118,28 @@
   border: 2px solid currentColor;
 }
 
-
-/* ── Accent variant (official) ── */
+/* ── Accent variant ── */
 
 .accent {
   background-color: var(--color-accent, #eaff3d);
   color: var(--color-accent-alt, #0d0d0d);
 }
 
-/* ── Hover (official: only --scale, NO background change) ── */
+/* ── Hover: only --scale, no background change ── */
 
 @media (hover: hover) {
-  .shell:not(:disabled):not([aria-disabled="true"]):hover {
+  .shell:not(:disabled):not([aria-disabled='true']):hover {
     --scale: 1.1;
   }
 }
 
-/* ── Squish animation (official 1:1) ── */
+/* ── Squish animation ── */
 
 .squish {
   animation: squish calc(var(--duration-factor, 1) * 2s) ease-out infinite;
 }
 
-/* ── Squish direction modifiers (official) ── */
+/* ── Squish direction modifiers ── */
 
 .squishLeft {
   --squish-direction: -1;
@@ -151,28 +149,23 @@
   --squish-direction: 1;
 }
 
-/* ── Keyframes (official 1:1) ── */
+/* ── Keyframes ── */
 
 @keyframes squish {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(calc(var(--scale) * 1));
   }
   30% {
-    transform:
-      scaleX(calc(var(--scale) * 0.9))
-      scaleY(calc(var(--scale) * 1.1))
+    transform: scaleX(calc(var(--scale) * 0.9)) scaleY(calc(var(--scale) * 1.1))
       translateX(calc(15% * var(--squish-direction, 1)));
   }
   45% {
-    transform:
-      scaleX(calc(var(--scale) * 1.05))
-      scaleY(calc(var(--scale) * 1))
+    transform: scaleX(calc(var(--scale) * 1.05)) scaleY(calc(var(--scale) * 1))
       translateX(calc(8% * var(--squish-direction, 1)));
   }
   60% {
-    transform:
-      scaleX(calc(var(--scale) * 0.95))
-      scaleY(calc(var(--scale) * 1.05))
+    transform: scaleX(calc(var(--scale) * 0.95)) scaleY(calc(var(--scale) * 1.05))
       translateX(calc(8% * var(--squish-direction, 1)));
   }
 }
@@ -184,7 +177,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(calc(var(--scale) * 1));
   }
   50% {

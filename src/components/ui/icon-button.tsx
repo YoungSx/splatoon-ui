@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * IconButton — circular icon button following splatoon.nintendo.com design.
+ * IconButton — circular icon button for Splatoon UI controls.
  *
  * Variants control color; size is explicit override (default varies by variant).
  * Pass `size` to force a specific dimension regardless of variant defaults.
@@ -10,10 +10,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import styles from './icon-button.module.css'
-import {
-  carouselArrowLeftPath,
-  carouselArrowRightPath,
-} from './card-stack-carousel-icons'
+import { carouselArrowLeftPath, carouselArrowRightPath } from './card-stack-carousel-icons'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -22,7 +19,10 @@ export type IconButtonSize = 'sm' | 'md' | 'lg'
 export type IconButtonAnimation = 'squish' | 'pulse' | 'none'
 export type IconButtonDirection = 'left' | 'right' | 'up' | 'down'
 
-export interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+export interface IconButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'children'
+> {
   variant?: IconButtonVariant
   /** Explicit size override. When omitted, variant determines default size. */
   size?: IconButtonSize
@@ -54,13 +54,14 @@ const ANIMATION_CLASS: Record<IconButtonAnimation, string | null> = {
   none: null,
 }
 
-// ─── Built-in arrow paths (official ink-splatter SVG) ───────────────────────
+// ─── Built-in arrow paths ───────────────────────────────────────────────────
 
 function ArrowIcon({ direction }: { direction: IconButtonDirection }) {
   const isLeft = direction === 'left'
-  const path = isLeft || direction === 'up' || direction === 'down'
-    ? carouselArrowLeftPath
-    : carouselArrowRightPath
+  const path =
+    isLeft || direction === 'up' || direction === 'down'
+      ? carouselArrowLeftPath
+      : carouselArrowRightPath
 
   const rotation: Record<IconButtonDirection, string> = {
     left: '0deg',
@@ -84,46 +85,46 @@ function ArrowIcon({ direction }: { direction: IconButtonDirection }) {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  function IconButton(
-    {
-      variant = 'primary',
-      size,
-      animation = 'squish',
-      direction,
-      icon,
-      className,
-      style,
-      disabled,
-      ...props
-    },
-    ref,
-  ) {
-    const squishDirection = direction === 'left' ? -1 : 1
-    const resolvedIcon = icon ?? (direction ? <ArrowIcon direction={direction} /> : null)
+export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
+  {
+    variant = 'primary',
+    size,
+    animation = 'squish',
+    direction,
+    icon,
+    className,
+    style,
+    disabled,
+    ...props
+  },
+  ref
+) {
+  const squishDirection = direction === 'left' ? -1 : 1
+  const resolvedIcon = icon ?? (direction ? <ArrowIcon direction={direction} /> : null)
 
-    return (
-      <button
-        ref={ref}
-        type="button"
-        disabled={disabled}
-        data-size={size}
-        className={cn(
-          styles.shell,
-          VARIANT_CLASS[variant],
-          size && SIZE_CLASS[size],
-          ANIMATION_CLASS[animation],
-          animation === 'squish' && (direction === 'left' ? styles.squishLeft : styles.squishRight),
-          className,
-        )}
-        style={{
+  return (
+    <button
+      ref={ref}
+      type="button"
+      disabled={disabled}
+      data-size={size}
+      className={cn(
+        styles.shell,
+        VARIANT_CLASS[variant],
+        size && SIZE_CLASS[size],
+        ANIMATION_CLASS[animation],
+        animation === 'squish' && (direction === 'left' ? styles.squishLeft : styles.squishRight),
+        className
+      )}
+      style={
+        {
           '--squish-direction': squishDirection,
           ...style,
-        } as React.CSSProperties}
-        {...props}
-      >
-        {resolvedIcon}
-      </button>
-    )
-  }
-)
+        } as React.CSSProperties
+      }
+      {...props}
+    >
+      {resolvedIcon}
+    </button>
+  )
+})

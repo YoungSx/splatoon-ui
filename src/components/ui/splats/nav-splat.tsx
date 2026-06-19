@@ -8,10 +8,7 @@ import { cn } from '@/lib/utils'
  * Ported from official splatoon.nintendo.com `icon-gallery-nav-splat` symbol.
  * ViewBox: 0 0 156 136
  */
-export function NavSplat({
-  className,
-  ...props
-}: React.SVGProps<SVGSVGElement>) {
+export function NavSplat({ className, ...props }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       viewBox="0 0 156 136"

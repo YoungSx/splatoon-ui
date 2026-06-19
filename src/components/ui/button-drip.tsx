@@ -6,13 +6,13 @@ import styles from "./button-drip.module.css"
 export interface ButtonDripProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: React.ReactNode
   hoverText?: React.ReactNode
-  useAccentColors?: boolean
+  accentColors?: boolean
 }
 
 export function ButtonDrip({
   icon,
   hoverText,
-  useAccentColors,
+  accentColors,
   className,
   children,
   type = "button",
@@ -21,7 +21,7 @@ export function ButtonDrip({
   return (
     <button
       type={type}
-      className={cn(styles.button, useAccentColors && styles.useAccentColors, className)}
+      className={cn(styles.button, accentColors && styles.accentColors, className)}
       {...props}
     >
       <span className={styles.content}>

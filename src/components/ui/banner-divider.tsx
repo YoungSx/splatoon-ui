@@ -1,23 +1,23 @@
 'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
-import inViewStyles from "./in-view.module.css"
-import styles from "./banner-divider.module.css"
+import { cn } from '@/lib/utils'
+import inViewStyles from './in-view.module.css'
+import styles from './banner-divider.module.css'
 
 export type BannerDividerVariant =
-  | "design1"
-  | "design2"
-  | "design3"
-  | "yellow"
-  | "blue"
-  | "green"
-  | "purple"
-  | "orange"
-  | "red"
+  | 'design1'
+  | 'design2'
+  | 'design3'
+  | 'yellow'
+  | 'blue'
+  | 'green'
+  | 'purple'
+  | 'orange'
+  | 'red'
 
-export type BannerDividerRotation = "up" | "down"
+export type BannerDividerRotation = 'up' | 'down'
 
 export interface BannerDividerTape {
   variant: BannerDividerVariant
@@ -39,29 +39,46 @@ export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement>
    * Use for custom stacking or 3+ layer dividers.
    */
   tapes?: BannerDividerTape[]
-  /** Enable InView fly-in animation on each tape (official logo-tape-header behavior). */
+  /** Enable InView fly-in animation on each tape. */
   animate?: boolean
   /** Root margin for InView IntersectionObserver. */
   rootMargin?: string
 }
 
 const DEFAULT_TAPES: [BannerDividerTape, BannerDividerTape] = [
-  { variant: "design1", rotate: "up", offsetY: [0, 0] },
-  { variant: "green", rotate: "down", offsetY: [35, 45] },
+  { variant: 'design1', rotate: 'up', offsetY: [0, 0] },
+  { variant: 'green', rotate: 'down', offsetY: [35, 45] },
 ]
 
 const THREE_TAPES: [BannerDividerTape, BannerDividerTape, BannerDividerTape] = [
-  { variant: "design1", rotate: "up", offsetY: [0, 0] },
-  { variant: "design2", rotate: "down", offsetY: [35, 45] },
-  { variant: "blue", rotate: "up", offsetY: [70, 90] },
+  { variant: 'design1', rotate: 'up', offsetY: [0, 0] },
+  { variant: 'design2', rotate: 'down', offsetY: [35, 45] },
+  { variant: 'blue', rotate: 'up', offsetY: [70, 90] },
 ]
 
-// Official logo-tape-header per-tape CSS custom properties
-// (from https://splatoon.nintendo.com/en/gameplay/ CSS)
+// Per-tape CSS custom properties used by the divider strips.
 const TAPE_VARS: Record<number, React.CSSProperties> = {
-  0: { "--start-x": "-100%", "--start-y": "-50%", "--end-x": "-50%", "--end-y": "-25%", "--end-rotate": "-1.5deg" } as React.CSSProperties,
-  1: { "--start-x": "100%", "--start-y": "-50%", "--end-x": "-50%", "--end-y": "-50%", "--end-rotate": "1.5deg" } as React.CSSProperties,
-  2: { "--start-x": "-100%", "--start-y": "-50%", "--end-x": "-50%", "--end-y": "-50%", "--end-rotate": "-2deg" } as React.CSSProperties,
+  0: {
+    '--start-x': '-100%',
+    '--start-y': '-50%',
+    '--end-x': '-50%',
+    '--end-y': '-25%',
+    '--end-rotate': '-1.5deg',
+  } as React.CSSProperties,
+  1: {
+    '--start-x': '100%',
+    '--start-y': '-50%',
+    '--end-x': '-50%',
+    '--end-y': '-50%',
+    '--end-rotate': '1.5deg',
+  } as React.CSSProperties,
+  2: {
+    '--start-x': '-100%',
+    '--start-y': '-50%',
+    '--end-x': '-50%',
+    '--end-y': '-50%',
+    '--end-rotate': '-2deg',
+  } as React.CSSProperties,
 }
 
 function BannerDividerTapeLayer({
@@ -79,7 +96,7 @@ function BannerDividerTapeLayer({
   const [base, mediumUp] = offsetY ?? [0, 0]
   const delay = animDelay ?? index
 
-  // Official: .banner { position: absolute; left: 50% } + CSS custom properties
+  // Centered absolute banner strip plus CSS custom properties.
   // in-view__anim base: opacity: 0; transform: translate(var(--start-x), var(--start-y))
   // in-view .in-view__anim: opacity: 1; transform: translate(var(--end-x), var(--end-y)) rotate(var(--end-rotate))
   const animVars = animate ? (TAPE_VARS[index] ?? TAPE_VARS[0]) : undefined
@@ -91,16 +108,14 @@ function BannerDividerTapeLayer({
         animate && inViewStyles.anim,
         styles.bannerDividerTape,
         styles[`banner-divider--${variant}`],
-        !animate && rotate === "up" && styles.rotateUp,
-        !animate && rotate === "down" && styles.rotateDown,
+        !animate && rotate === 'up' && styles.rotateUp,
+        !animate && rotate === 'down' && styles.rotateDown,
         delay > 0 && inViewStyles[`delay${delay}` as keyof typeof inViewStyles],
-        className,
+        className
       )}
       style={{
         top: `${base}px`,
-        ...(mediumUp !== base
-          ? { "--banner-offset-medium": `${mediumUp}px` }
-          : {}),
+        ...(mediumUp !== base ? { '--banner-offset-medium': `${mediumUp}px` } : {}),
         ...animVars,
       }}
     />
@@ -136,7 +151,7 @@ export function BannerDivider({
           observer.unobserve(el)
         }
       },
-      { rootMargin: rootMargin ?? "0px" },
+      { rootMargin: rootMargin ?? '0px' }
     )
 
     observer.observe(el)
@@ -149,18 +164,13 @@ export function BannerDivider({
       className={cn(
         styles.bannerDividerGroup,
         animate && isInView && inViewStyles.inView,
-        className,
+        className
       )}
       style={styleProp}
       {...props}
     >
       {tapes.map((tape, i) => (
-        <BannerDividerTapeLayer
-          key={i}
-          {...tape}
-          animate={animate}
-          index={i}
-        />
+        <BannerDividerTapeLayer key={i} {...tape} animate={animate} index={i} />
       ))}
     </div>
   )

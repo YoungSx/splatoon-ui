@@ -12,7 +12,7 @@
 .blackTapeContainer::before,
 .blackTapeContainer::after {
   background-repeat: repeat-y;
-  content: "";
+  content: '';
   height: 100%;
   position: absolute;
   top: 0;
@@ -21,13 +21,13 @@
 }
 
 .blackTapeContainer::before {
-  background-image: url(/images/svg/left-black-tape-container.svg);
+  background-image: url('/_images/svg/left-black-tape-container.svg');
   background-position: calc(100% - 1px) top;
   left: 0;
 }
 
 .blackTapeContainer::after {
-  background-image: url(/images/svg/right-black-tape-container.svg);
+  background-image: url('/_images/svg/right-black-tape-container.svg');
   background-position: 1px top;
   right: 0;
 }
@@ -43,11 +43,11 @@
 }
 
 .tapeYellow::before {
-  background-image: url(/images/svg/left-yellow-tape-container.svg);
+  background-image: url('/_images/svg/left-yellow-tape-container.svg');
 }
 
 .tapeYellow::after {
-  background-image: url(/images/svg/right-yellow-tape-container.svg);
+  background-image: url('/_images/svg/right-yellow-tape-container.svg');
 }
 
 .noVerticalPadding .blackTapeContainerInner {

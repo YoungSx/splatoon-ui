@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
-import paginationStyles from "./carousel-pagination.module.css"
+import { cn } from '@/lib/utils'
+import paginationStyles from './carousel-pagination.module.css'
 
 interface CarouselContextType {
   currentIndex: number
@@ -23,7 +23,7 @@ const CarouselCountContext = React.createContext<(count: number) => void>(() => 
 export function useCarousel() {
   const context = React.useContext(CarouselContext)
   if (!context) {
-    throw new Error("useCarousel must be used within a Carousel")
+    throw new Error('useCarousel must be used within a Carousel')
   }
   return context
 }
@@ -42,121 +42,123 @@ export function Carousel({
   itemCount: itemCountProp,
   onIndexChange,
   onKeyDown,
-  role = "region",
+  role = 'region',
   tabIndex = 0,
   ...props
 }: CarouselProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const [currentIndex, setCurrentIndex] = React.useState(initialIndex)
-    const [prevIndex, setPrevIndex] = React.useState(initialIndex)
-    const [itemCountState, setItemCount] = React.useState(0)
-    const itemCount = itemCountProp ?? itemCountState
+  const [currentIndex, setCurrentIndex] = React.useState(initialIndex)
+  const [prevIndex, setPrevIndex] = React.useState(initialIndex)
+  const [itemCountState, setItemCount] = React.useState(0)
+  const itemCount = itemCountProp ?? itemCountState
 
-    const clampIndex = React.useCallback(
-      (value: number) => {
-        if (itemCount <= 0) return 0
-        return Math.max(0, Math.min(value, itemCount - 1))
-      },
-      [itemCount]
-    )
+  const clampIndex = React.useCallback(
+    (value: number) => {
+      if (itemCount <= 0) return 0
+      return Math.max(0, Math.min(value, itemCount - 1))
+    },
+    [itemCount]
+  )
 
-    const resolvedCurrentIndex = clampIndex(currentIndex)
+  const resolvedCurrentIndex = clampIndex(currentIndex)
 
-    const commitIndex = React.useCallback(
-      (updater: number | ((prev: number) => number)) => {
-        setCurrentIndex((prev) => {
-          const resolvedPrev = clampIndex(prev)
-          const proposed = typeof updater === "function" ? updater(resolvedPrev) : updater
-          const next = clampIndex(proposed)
-          if (next !== resolvedPrev) {
-            setPrevIndex(resolvedPrev)
-            onIndexChange?.(next)
-          }
-          return next
-        })
-      },
-      [clampIndex, onIndexChange]
-    )
-
-    const goToNext = React.useCallback(() => {
-      commitIndex((prev) => prev + 1)
-    }, [commitIndex])
-
-    const goToPrev = React.useCallback(() => {
-      commitIndex((prev) => prev - 1)
-    }, [commitIndex])
-
-    const goToIndex = React.useCallback(
-      (index: number) => {
-        commitIndex(index)
-      },
-      [commitIndex]
-    )
-
-    const handleKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLDivElement>) => {
-        onKeyDown?.(event)
-        if (event.defaultPrevented) return
-
-        if (event.key === "ArrowRight") {
-          event.preventDefault()
-          goToNext()
+  const commitIndex = React.useCallback(
+    (updater: number | ((prev: number) => number)) => {
+      setCurrentIndex((prev) => {
+        const resolvedPrev = clampIndex(prev)
+        const proposed = typeof updater === 'function' ? updater(resolvedPrev) : updater
+        const next = clampIndex(proposed)
+        if (next !== resolvedPrev) {
+          setPrevIndex(resolvedPrev)
+          onIndexChange?.(next)
         }
+        return next
+      })
+    },
+    [clampIndex, onIndexChange]
+  )
 
-        if (event.key === "ArrowLeft") {
-          event.preventDefault()
-          goToPrev()
-        }
-      },
-      [goToNext, goToPrev, onKeyDown]
-    )
+  const goToNext = React.useCallback(() => {
+    commitIndex((prev) => prev + 1)
+  }, [commitIndex])
 
-    const navigationDirection = React.useMemo(() => {
-      if (resolvedCurrentIndex === prevIndex) return 0
-      return prevIndex - resolvedCurrentIndex
-    }, [resolvedCurrentIndex, prevIndex])
+  const goToPrev = React.useCallback(() => {
+    commitIndex((prev) => prev - 1)
+  }, [commitIndex])
 
-    const contextValue = React.useMemo(
-      () => ({
-        currentIndex: resolvedCurrentIndex,
-        prevIndex,
-        navigationDirection,
-        itemCount,
-        canGoPrev: resolvedCurrentIndex > 0,
-        canGoNext: resolvedCurrentIndex < itemCount - 1,
-        goToNext,
-        goToPrev,
-        goToIndex,
-      }),
-      [goToIndex, goToNext, goToPrev, itemCount, resolvedCurrentIndex, prevIndex, navigationDirection]
-    )
+  const goToIndex = React.useCallback(
+    (index: number) => {
+      commitIndex(index)
+    },
+    [commitIndex]
+  )
 
-    return (
-      <CarouselContext.Provider value={contextValue}>
-        <CarouselCountContext.Provider value={setItemCount}>
-          <div
-            ref={ref}
-            data-slot="carousel"
-            aria-roledescription="carousel"
-            className={cn("relative mx-auto w-full", className)}
-            onKeyDown={handleKeyDown}
-            role={role}
-            tabIndex={tabIndex}
-            {...props}
-            style={{
-              "--selected": resolvedCurrentIndex,
-              "--total": itemCount,
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event)
+      if (event.defaultPrevented) return
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        goToNext()
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        goToPrev()
+      }
+    },
+    [goToNext, goToPrev, onKeyDown]
+  )
+
+  const navigationDirection = React.useMemo(() => {
+    if (resolvedCurrentIndex === prevIndex) return 0
+    return prevIndex - resolvedCurrentIndex
+  }, [resolvedCurrentIndex, prevIndex])
+
+  const contextValue = React.useMemo(
+    () => ({
+      currentIndex: resolvedCurrentIndex,
+      prevIndex,
+      navigationDirection,
+      itemCount,
+      canGoPrev: resolvedCurrentIndex > 0,
+      canGoNext: resolvedCurrentIndex < itemCount - 1,
+      goToNext,
+      goToPrev,
+      goToIndex,
+    }),
+    [goToIndex, goToNext, goToPrev, itemCount, resolvedCurrentIndex, prevIndex, navigationDirection]
+  )
+
+  return (
+    <CarouselContext.Provider value={contextValue}>
+      <CarouselCountContext.Provider value={setItemCount}>
+        <div
+          ref={ref}
+          data-slot="carousel"
+          aria-roledescription="carousel"
+          className={cn('relative mx-auto w-full', className)}
+          onKeyDown={handleKeyDown}
+          role={role}
+          tabIndex={tabIndex}
+          {...props}
+          style={
+            {
+              '--selected': resolvedCurrentIndex,
+              '--total': itemCount,
               ...props.style,
-            } as React.CSSProperties}
-          >
-            {children}
-            <div aria-live="polite" aria-atomic="true" className="sr-only">
-              Slide {resolvedCurrentIndex + 1} of {itemCount}
-            </div>
+            } as React.CSSProperties
+          }
+        >
+          {children}
+          <div aria-live="polite" aria-atomic="true" className="sr-only">
+            Slide {resolvedCurrentIndex + 1} of {itemCount}
           </div>
-        </CarouselCountContext.Provider>
-      </CarouselContext.Provider>
-    )
-  }
+        </div>
+      </CarouselCountContext.Provider>
+    </CarouselContext.Provider>
+  )
+}
 
 export function CarouselViewport({
   ref,
@@ -167,7 +169,7 @@ export function CarouselViewport({
     <div
       ref={ref}
       data-slot="carousel-viewport"
-      className={cn("relative w-full overflow-x-clip", className)}
+      className={cn('relative w-full overflow-x-clip', className)}
       {...props}
     />
   )
@@ -182,7 +184,10 @@ export function CarouselBleedBoundary({
     <div
       ref={ref}
       data-slot="carousel-bleed-boundary"
-      className={cn("relative left-1/2 w-[100cqw] max-w-[100cqw] -translate-x-1/2 overflow-x-clip", className)}
+      className={cn(
+        'relative left-1/2 w-[100cqw] max-w-[100cqw] -translate-x-1/2 overflow-x-clip',
+        className
+      )}
       {...props}
     />
   )
@@ -194,23 +199,28 @@ export function CarouselContent({
   children,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
-    const setItemCount = React.useContext(CarouselCountContext)
-    const childrenArray = React.Children.toArray(children).filter(React.isValidElement)
+  const setItemCount = React.useContext(CarouselCountContext)
+  const childrenArray = React.Children.toArray(children).filter(React.isValidElement)
 
-    React.useEffect(() => {
-      setItemCount(childrenArray.length)
-    }, [childrenArray.length, setItemCount])
+  React.useEffect(() => {
+    setItemCount(childrenArray.length)
+  }, [childrenArray.length, setItemCount])
 
-    return (
-      <div ref={ref} data-slot="carousel-content" className={cn("relative w-full", className)} {...props}>
-        {childrenArray.map((child, index) =>
-          React.cloneElement(child as React.ReactElement<{ "data-index"?: number }>, {
-            "data-index": index,
-          })
-        )}
-      </div>
-    )
-  }
+  return (
+    <div
+      ref={ref}
+      data-slot="carousel-content"
+      className={cn('relative w-full', className)}
+      {...props}
+    >
+      {childrenArray.map((child, index) =>
+        React.cloneElement(child as React.ReactElement<{ 'data-index'?: number }>, {
+          'data-index': index,
+        })
+      )}
+    </div>
+  )
+}
 
 export function useCarouselItemState(index: number | undefined) {
   const { currentIndex, prevIndex } = useCarousel()
@@ -223,37 +233,39 @@ export function useCarouselItemState(index: number | undefined) {
 }
 
 export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  "data-index"?: number
+  'data-index'?: number
 }
 
 export function CarouselItem({
   ref,
   className,
   children,
-  "data-index": index,
+  'data-index': index,
   ...props
 }: CarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const { isActive, offset } = useCarouselItemState(index)
+  const { isActive, offset } = useCarouselItemState(index)
 
-    return (
-      <div
-        ref={ref}
-        data-slot="carousel-item"
-        data-index={index}
-        className={cn("relative", className)}
-        style={{
-          "--active": isActive ? "1" : "0",
-          "--index-offset": String(offset),
-        } as React.CSSProperties}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  }
+  return (
+    <div
+      ref={ref}
+      data-slot="carousel-item"
+      data-index={index}
+      className={cn('relative', className)}
+      style={
+        {
+          '--active': isActive ? '1' : '0',
+          '--index-offset': String(offset),
+        } as React.CSSProperties
+      }
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
 
 export interface FadeCarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  "data-index"?: number
+  'data-index'?: number
   rotateAmount?: number
 }
 
@@ -261,45 +273,53 @@ export function FadeCarouselItem({
   ref,
   className,
   children,
-  "data-index": index,
+  'data-index': index,
   rotateAmount,
   ...props
 }: FadeCarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const { isActive, isLeft, offset } = useCarouselItemState(index)
+  const { isActive, isLeft, offset } = useCarouselItemState(index)
 
-    const randomValues = React.useMemo(() => {
-      const seed = ((index ?? 0) * 2654435761) >>> 0
-      const direction = (seed & 1) === 0 ? -1 : 1
-      const fraction = ((seed >> 8) & 0xff) / 255
-      return {
-        rotateDirection: direction,
-        rotateAmount: (rotateAmount ?? 3) + 0.3 * fraction,
+  const randomValues = React.useMemo(() => {
+    const seed = ((index ?? 0) * 2654435761) >>> 0
+    const direction = (seed & 1) === 0 ? -1 : 1
+    const fraction = ((seed >> 8) & 0xff) / 255
+    return {
+      rotateDirection: direction,
+      rotateAmount: (rotateAmount ?? 3) + 0.3 * fraction,
+    }
+  }, [rotateAmount, index])
+
+  const photoOffset = isActive ? 0 : isLeft ? -1 : 1
+
+  return (
+    <div
+      ref={ref}
+      data-slot="carousel-item"
+      data-index={index}
+      className={className}
+      style={
+        {
+          '--active': isActive ? '1' : '0',
+          '--index-offset': String(offset),
+          '--photo-offset': String(photoOffset),
+          '--rotateDirection': String(randomValues.rotateDirection),
+          '--rotateAmount': `${randomValues.rotateAmount}deg`,
+        } as React.CSSProperties
       }
-    }, [rotateAmount, index])
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
 
-    const photoOffset = isActive ? 0 : isLeft ? -1 : 1
-
-    return (
-      <div
-        ref={ref}
-        data-slot="carousel-item"
-        data-index={index}
-        className={className}
-        style={{
-          "--active": isActive ? "1" : "0",
-          "--index-offset": String(offset),
-          "--photo-offset": String(photoOffset),
-          "--rotateDirection": String(randomValues.rotateDirection),
-          "--rotateAmount": `${randomValues.rotateAmount}deg`,
-        } as React.CSSProperties}
-        {...props}
-      >
-        {children}
-      </div>
-    )
-  }
-
-export function SwipeableGallery({ children, className }: { children: React.ReactNode; className?: string }) {
+export function SwipeableGallery({
+  children,
+  className,
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
   const { goToNext, goToPrev } = useCarousel()
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const state = React.useRef({ startX: 0, startY: 0, dx: 0, offsetting: false, scrolling: true })
@@ -328,13 +348,13 @@ export function SwipeableGallery({ children, className }: { children: React.Reac
     if (s.offsetting) {
       e.preventDefault()
       s.dx = dx
-      wrapperRef.current?.style.setProperty("--touch-offset", String(dx))
+      wrapperRef.current?.style.setProperty('--touch-offset', String(dx))
     }
   }, [])
 
   const onTouchEnd = React.useCallback(() => {
     const s = state.current
-    wrapperRef.current?.style.removeProperty("--touch-offset")
+    wrapperRef.current?.style.removeProperty('--touch-offset')
 
     if (s.offsetting && Math.abs(s.dx) > 50) {
       if (s.dx < 0) goToNext()
@@ -370,36 +390,37 @@ export function CarouselPagination({
   labels,
   ...props
 }: CarouselPaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
-    const { currentIndex, itemCount, goToIndex } = useCarousel()
+  const { currentIndex, itemCount, goToIndex } = useCarousel()
 
-    return (
-      <ul
-        ref={ref}
-        data-slot="carousel-pagination"
-        className={cn(paginationStyles.pagination, className)}
-        {...props}
-      >
-        {Array.from({ length: itemCount }, (_, index) => (
-          <li key={index} className={paginationStyles.item}>
-            <button onClick={() => goToIndex(index)} aria-label={labels?.[index] ?? `Go to slide ${index + 1}`}>
-              <span className={paginationStyles.iconContainer}>
-                <span
-                  aria-hidden="true"
-                  className={cn(
-                    paginationStyles.paginationIcon,
-                    currentIndex === index && paginationStyles.paginationActive,
-                  )}
-                />
-                {labels?.[index] && (
-                  <span className="sr-only">{labels[index]}</span>
+  return (
+    <ul
+      ref={ref}
+      data-slot="carousel-pagination"
+      className={cn(paginationStyles.pagination, className)}
+      {...props}
+    >
+      {Array.from({ length: itemCount }, (_, index) => (
+        <li key={index} className={paginationStyles.item}>
+          <button
+            onClick={() => goToIndex(index)}
+            aria-label={labels?.[index] ?? `Go to slide ${index + 1}`}
+          >
+            <span className={paginationStyles.iconContainer}>
+              <span
+                aria-hidden="true"
+                className={cn(
+                  paginationStyles.paginationIcon,
+                  currentIndex === index && paginationStyles.paginationActive
                 )}
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+              />
+              {labels?.[index] && <span className="sr-only">{labels[index]}</span>}
+            </span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export interface CarouselImagePaginationItem {
   src: string
@@ -417,32 +438,36 @@ export function CarouselImagePagination({
   images,
   ...props
 }: CarouselImagePaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
-    const { currentIndex, goToIndex } = useCarousel()
+  const { currentIndex, goToIndex } = useCarousel()
 
-    return (
-      <ul
-        ref={ref}
-        data-slot="carousel-image-pagination"
-        className={cn(paginationStyles.pagination, className)}
-        {...props}
-      >
-        {images.map((img, index) => (
-          <li key={index} className={paginationStyles.item}>
-            <button onClick={() => goToIndex(index)} aria-label={img.alt ? `Go to ${img.alt}` : `Go to slide ${index + 1}`}>
-              <div
-                style={{ "--rotate": `${img.rotate ?? 0}deg` } as React.CSSProperties}
-                className={cn(
-                  paginationStyles.imagePaginationButton,
-                  currentIndex === index && paginationStyles.imagePaginationActive,
-                )}
-              >
-                <div className={paginationStyles.imagePaginationImage}>
-                  <img src={img.src} alt={img.alt || ""} />
-                </div>
+  return (
+    <ul
+      ref={ref}
+      data-slot="carousel-image-pagination"
+      className={cn(paginationStyles.pagination, className)}
+      {...props}
+    >
+      {images.map((img, index) => (
+        <li key={index} className={paginationStyles.item}>
+          <button
+            onClick={() => goToIndex(index)}
+            aria-label={img.alt ? `Go to ${img.alt}` : `Go to slide ${index + 1}`}
+          >
+            <div
+              style={{ '--rotate': `${img.rotate ?? 0}deg` } as React.CSSProperties}
+              className={cn(
+                paginationStyles.imagePaginationButton,
+                currentIndex === index && paginationStyles.imagePaginationActive
+              )}
+            >
+              <div className={paginationStyles.imagePaginationImage}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- small data/static thumbnails inside reusable pagination controls */}
+                <img src={img.src} alt={img.alt || ''} />
               </div>
-            </button>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+            </div>
+          </button>
+        </li>
+      ))}
+    </ul>
+  )
+}

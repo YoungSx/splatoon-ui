@@ -3,15 +3,15 @@
 /**
  * SquidMaskTransition — Canvas 2D rotating squid mask transition.
  *
- * Faithfully reproduces the Nintendo JP Splatoon gallery page transition:
+ * Canvas 2D rotating squid mask transition:
  * a squid image rotates and scales on a canvas, then a black fill
  * with source-out compositing covers/reveals the page.
  *
- * Original asset: /jp/character/splatoon/images/common/ika.png (438×481)
- * Original code: commonJS.js — GSAP timeline animating lt.rotate/lt.scale
+ * The local mask asset is read from the shared squid asset registry.
  */
 
 import * as React from 'react'
+import { squidImageAssets } from './squid-assets'
 
 // ─── Handle ─────────────────────────────────────────────────────────────────
 
@@ -35,7 +35,7 @@ export interface SquidMaskTransitionProps extends Omit<React.ComponentProps<'div
 
 type Phase = 'idle' | 'covering' | 'covered' | 'revealing'
 
-// ─── Animation config (from original commonJS.js) ───────────────────────────
+// ─── Animation config ───────────────────────────────────────────────────────
 
 interface TweenState {
   rotate: number
@@ -73,11 +73,11 @@ export function SquidMaskTransition({
   const covered = phase === 'covered'
   const canvasVisible = phase !== 'idle'
 
-  // ── Load original ika.png ──────────────────────────────────────────────────
+  // ── Load configured mask asset ─────────────────────────────────────────────
 
   React.useEffect(() => {
     const img = new Image()
-    img.src = '/_images/squid/ika.png'
+    img.src = squidImageAssets.mask.src
     img.onload = () => {
       squidImgRef.current = img
     }
@@ -138,7 +138,13 @@ export function SquidMaskTransition({
 
     ctx.save()
     ctx.rotate((tween.rotate * Math.PI) / 180)
-    ctx.drawImage(img, -img.width / 2 * scale, -img.height / 2 * scale, img.width * scale, img.height * scale)
+    ctx.drawImage(
+      img,
+      (-img.width / 2) * scale,
+      (-img.height / 2) * scale,
+      img.width * scale,
+      img.height * scale
+    )
     ctx.restore()
 
     ctx.globalCompositeOperation = 'source-out'
@@ -153,12 +159,7 @@ export function SquidMaskTransition({
   // ── Transition animation ──────────────────────────────────────────────────
 
   const runTransition = React.useCallback(
-    (
-      start: TweenState,
-      end: TweenState,
-      duration: number,
-      onComplete: () => void,
-    ) => {
+    (start: TweenState, end: TweenState, duration: number, onComplete: () => void) => {
       cancelAnimationFrame(tweenRef.current)
       let startTime: number | null = null
 
@@ -184,7 +185,7 @@ export function SquidMaskTransition({
 
       tweenRef.current = requestAnimationFrame(animate)
     },
-    [drawFrame],
+    [drawFrame]
   )
 
   // ── Expose handle ─────────────────────────────────────────────────────────
@@ -224,7 +225,7 @@ export function SquidMaskTransition({
         return phase
       },
     }),
-    [phase, durationIn, durationOut, autoReveal, onCovered, onRevealed, runTransition],
+    [phase, durationIn, durationOut, autoReveal, onCovered, onRevealed, runTransition]
   )
 
   // ── Cleanup ───────────────────────────────────────────────────────────────
@@ -234,10 +235,10 @@ export function SquidMaskTransition({
   }, [])
 
   return (
-    <div className={`relative w-full h-full ${className ?? ''}`} {...props}>
+    <div className={`relative h-full w-full ${className ?? ''}`} {...props}>
       <div
-        className={`w-full h-full transition-opacity ${
-          covered ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        className={`h-full w-full transition-opacity ${
+          covered ? 'pointer-events-none opacity-0' : 'opacity-100'
         }`}
       >
         {children}

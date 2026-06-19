@@ -1,12 +1,9 @@
 'use client'
 
 /**
- * SplatoonTitle — Official Splatoon image-based heading.
- *
- * Uses official Nintendo Splatoon assets:
- * - `logo` variant: official logo image
- * - `section` variant: official section title images (story/character/world/fashion/music/gallery/history)
- *
+ * SplatoonTitle — image-capable heading for the Splatoon UI demo.
+ * Pass custom image assets when a bitmap title is needed; otherwise the
+ * component renders an accessible text fallback.
  */
 
 import * as React from 'react'
@@ -20,7 +17,7 @@ export type SplatoonTitleSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 export interface SplatoonTitleProps extends React.ComponentProps<'div'> {
   /** Title variant */
   variant?: SplatoonTitleVariant
-  /** Section name for official images (story, character, world, fashion, music, gallery, history) */
+  /** Optional section key used for text fallback labels */
   section?: string
   /** Title size */
   size?: SplatoonTitleSize
@@ -44,38 +41,14 @@ const SIZE_CLASSES: Record<SplatoonTitleSize, string> = {
   '2xl': 'h-48',
 }
 
-/** Sections without dedicated hover images — use CSS filter as fallback */
-const FILTER_HOVER_SECTIONS = new Set(['music', 'gallery', 'history'])
-
-const SECTION_IMAGES: Record<string, { title: string; hover: string }> = {
-  story: {
-    title: '/official/nav-story.png',
-    hover: '/official/nav-story-hover.png',
-  },
-  character: {
-    title: '/official/nav-character.png',
-    hover: '/official/nav-character-hover.png',
-  },
-  world: {
-    title: '/official/nav-world.png',
-    hover: '/official/nav-world-hover.png',
-  },
-  fashion: {
-    title: '/official/nav-fashion.png',
-    hover: '/official/nav-fashion-hover.png',
-  },
-  music: {
-    title: '/official/nav-music.png',
-    hover: '/official/nav-music.png',
-  },
-  gallery: {
-    title: '/official/nav-gallery.png',
-    hover: '/official/nav-gallery.png',
-  },
-  history: {
-    title: '/official/nav-history.png',
-    hover: '/official/nav-history.png',
-  },
+const SECTION_LABELS: Record<string, string> = {
+  story: 'Story',
+  character: 'Characters',
+  world: 'World',
+  fashion: 'Fashion',
+  music: 'Music',
+  gallery: 'Gallery',
+  history: 'History',
 }
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -92,81 +65,66 @@ export function SplatoonTitle({
   className,
   ...props
 }: SplatoonTitleProps & { ref?: React.Ref<HTMLDivElement> }) {
-    const [isHovered, setIsHovered] = React.useState(false)
-    const [isVisible, setIsVisible] = React.useState(!animate)
+  const [isHovered, setIsHovered] = React.useState(false)
+  const [isVisible, setIsVisible] = React.useState(!animate)
 
-    React.useEffect(() => {
-      if (animate) {
-        const timer = setTimeout(() => setIsVisible(true), 100)
-        return () => clearTimeout(timer)
-      }
-    }, [animate])
-
-    // Determine image sources
-    const sectionImages = section ? SECTION_IMAGES[section] : null
-    const titleImage = image || sectionImages?.title || '/images/splatoon-logo-official.png'
-    const hoverImage = imageHover || sectionImages?.hover || titleImage
-
-    // Logo variant: use official logo
-    if (variant === 'logo') {
-      return (
-        <div
-          ref={ref}
-          className={cn(
-            'relative inline-block',
-            animate && 'transition-all duration-700 ease-out',
-            animate && (isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'),
-            className,
-          )}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          {...props}
-        >
-          <img
-            src={titleImage}
-            alt={typeof children === 'string' ? children : 'Splatoon'}
-            className={cn(
-              'object-contain transition-transform duration-300',
-              SIZE_CLASSES[size],
-              isHovered && 'scale-105',
-            )}
-          />
-        </div>
-      )
+  React.useEffect(() => {
+    if (animate) {
+      const timer = setTimeout(() => setIsVisible(true), 100)
+      return () => clearTimeout(timer)
     }
+  }, [animate])
 
-    // Section variant: use official section title images
-    if (variant === 'section' && sectionImages) {
-      const usesFilterFallback = section ? FILTER_HOVER_SECTIONS.has(section) : false
+  const titleImage = image
+  const hoverImage = imageHover || titleImage
+  const fallbackLabel =
+    typeof children === 'string'
+      ? children
+      : section
+        ? (SECTION_LABELS[section] ?? section)
+        : 'Splatoon UI'
 
-      return (
-        <div
-          ref={ref}
+  if (titleImage) {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'relative inline-block',
+          animate && 'transition-all duration-700 ease-out',
+          animate && (isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'),
+          className
+        )}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        {...props}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- optional caller-provided title art, not a page LCP image */}
+        <img
+          src={isHovered ? hoverImage : titleImage}
+          alt={fallbackLabel}
           className={cn(
-            'relative inline-block cursor-pointer',
-            animate && 'transition-all duration-700 ease-out',
-            animate && (isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'),
-            className,
+            'object-contain transition-all duration-300',
+            SIZE_CLASSES[size],
+            isHovered && 'scale-105'
           )}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          {...props}
-        >
-          <img
-            src={isHovered ? hoverImage : titleImage}
-            alt={typeof children === 'string' ? children : section}
-            className={cn(
-              'object-contain transition-all duration-300',
-              SIZE_CLASSES[size],
-            )}
-            style={
-              usesFilterFallback && isHovered
-                ? { filter: 'brightness(1.2) saturate(1.3)' }
-                : undefined
-            }
-          />
-        </div>
-      )
-    }
-
+        />
+      </div>
+    )
   }
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        'font-heading relative inline-block font-black tracking-wider uppercase',
+        animate && 'transition-all duration-700 ease-out',
+        animate && (isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'),
+        variant === 'logo' ? 'text-5xl md:text-7xl' : 'text-4xl md:text-6xl',
+        className
+      )}
+      {...props}
+    >
+      {fallbackLabel}
+    </div>
+  )
+}

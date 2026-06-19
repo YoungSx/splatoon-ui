@@ -1,21 +1,21 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { Splat1 } from "./splat-1"
-import { Splat2 } from "./splat-2"
-import { Splat3 } from "./splat-3"
-import { Splat4 } from "./splat-4"
-import { Splat5 } from "./splat-5"
-import { Splat6 } from "./splat-6"
-import { Splat7 } from "./splat-7"
-import { Splat8 } from "./splat-8"
-import { Splat9 } from "./splat-9"
-import { Splat10 } from "./splat-10"
-import { Splat11 } from "./splat-11"
-import { Splat12 } from "./splat-12"
+import * as React from 'react'
+import { Splat1 } from './splat-1'
+import { Splat2 } from './splat-2'
+import { Splat3 } from './splat-3'
+import { Splat4 } from './splat-4'
+import { Splat5 } from './splat-5'
+import { Splat6 } from './splat-6'
+import { Splat7 } from './splat-7'
+import { Splat8 } from './splat-8'
+import { Splat9 } from './splat-9'
+import { Splat10 } from './splat-10'
+import { Splat11 } from './splat-11'
+import { Splat12 } from './splat-12'
 
-export interface SplatProps extends Omit<React.SVGProps<SVGSVGElement>, "id"> {
-  /** The official splat ID (1 to 12) */
+export interface SplatProps extends Omit<React.SVGProps<SVGSVGElement>, 'id'> {
+  /** Bundled splat ID (1 to 12) */
   id: number
   /** CSS color value or CSS variable */
   color?: string
@@ -56,4 +56,3 @@ export function Splat({ id, ...props }: SplatProps) {
       return null
   }
 }
-

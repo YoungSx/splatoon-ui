@@ -55,9 +55,9 @@ export function PageTransition({
   ...props
 }: PageTransitionProps & { ref?: React.Ref<PageTransitionHandle> }) {
   const [phase, setPhase] = React.useState<Phase>('idle')
-  const countRef = React.useRef(0)
+  const [transitionCount, setTransitionCount] = React.useState(0)
+  const [transitionColor, setTransitionColor] = React.useState(inkColor)
   const coverResolveRef = React.useRef<(() => void) | null>(null)
-  const currentColorRef = React.useRef(inkColor)
 
   // Derived state
   const covered = phase === 'covered'
@@ -71,22 +71,22 @@ export function PageTransition({
     () => ({
       transitionOut: (options) => {
         return new Promise<void>((resolve) => {
-          currentColorRef.current = options?.color ?? inkColor
+          setTransitionColor(options?.color ?? inkColor)
           coverResolveRef.current = resolve
-          countRef.current += 1
+          setTransitionCount((count) => count + 1)
           setPhase('covering')
         })
       },
       transitionIn: (options) => {
-        currentColorRef.current = options?.color ?? inkColor
-        countRef.current += 1
+        setTransitionColor(options?.color ?? inkColor)
+        setTransitionCount((count) => count + 1)
         setPhase('revealing')
       },
       get state() {
         return phase
       },
     }),
-    [inkColor, phase],
+    [inkColor, phase]
   )
 
   // ── Handle cover complete ──────────────────────────────────────────────────
@@ -99,7 +99,7 @@ export function PageTransition({
 
     if (autoReveal) {
       setTimeout(() => {
-        countRef.current += 1
+        setTransitionCount((count) => count + 1)
         setPhase('revealing')
       }, 150)
     }
@@ -123,14 +123,11 @@ export function PageTransition({
   }, [phase, handleCoverComplete, handleRevealComplete])
 
   return (
-    <div
-      className={cn('relative w-full h-full', className)}
-      {...props}
-    >
+    <div className={cn('relative h-full w-full', className)} {...props}>
       <div
         className={cn(
-          'w-full h-full transition-opacity',
-          covered ? 'opacity-0 pointer-events-none' : 'opacity-100',
+          'h-full w-full transition-opacity',
+          covered ? 'pointer-events-none opacity-0' : 'opacity-100'
         )}
       >
         {children}
@@ -140,8 +137,8 @@ export function PageTransition({
         state={canvasState}
         durationIn={durationIn}
         durationOut={durationOut}
-        color={currentColorRef.current}
-        count={countRef.current}
+        color={transitionColor}
+        count={transitionCount}
         onComplete={handleCanvasComplete}
         className="pointer-events-none absolute inset-0 z-50"
       />

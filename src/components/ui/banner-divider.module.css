@@ -1,8 +1,8 @@
-/* Banner Divider — matches official splatoon.nintendo.com structure */
+/* Banner Divider */
 
 /* ── Group wrapper (observer target) ── */
-/* Official: .logoTapeHeader { position: relative; z-index: 2 }
-   Height comes from logo image on official site. Standalone divider: explicit responsive height. */
+/* Header wrapper keeps the divider above surrounding sections.
+   Standalone divider: explicit responsive height. */
 .bannerDividerGroup {
   overflow-x: clip;
   position: relative;
@@ -29,7 +29,7 @@
 }
 
 /* ── Tape element (animated) ── */
-/* Official: .banner { left: 50%; position: absolute } — no margin-left.
+/* Banner strip uses centered absolute positioning without margin-left.
    Positioning is entirely via CSS custom properties (--start-x, --end-x) in .anim transform. */
 .bannerDividerTape {
   background-position: 50%;
@@ -92,7 +92,7 @@
   }
 }
 
-/* ── Rotation — official uses ~1 degree alternating, origin at right-center ── */
+/* ── Rotation: alternating 1 degree strips, origin at right-center ── */
 .rotateUp {
   transform: rotate(1deg);
   transform-origin: 90% 50%;
@@ -104,101 +104,155 @@
 
 /* ── Design patterns ── */
 .banner-divider--design1 {
-  background-image: url("/_images/banners/banner-design1.png");
-  background-image: image-set(url("/_images/banners/banner-design1.png") 1x, url("/_images/banners/banner-design1-2x.png") 2x);
+  background-image: url('/_images/banners/banner-design1.png');
+  background-image: image-set(
+    url('/_images/banners/banner-design1.png') 1x,
+    url('/_images/banners/banner-design1-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--design1 {
-    background-image: url("/_images/banners/banner-design1-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-design1-medium-up.png") 1x, url("/_images/banners/banner-design1-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-design1-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-design1-medium-up.png') 1x,
+      url('/_images/banners/banner-design1-medium-up-2x.png') 2x
+    );
   }
 }
 
 .banner-divider--design2 {
-  background-image: url("/_images/banners/banner-design2.png");
-  background-image: image-set(url("/_images/banners/banner-design2.png") 1x, url("/_images/banners/banner-design2-2x.png") 2x);
+  background-image: url('/_images/banners/banner-design2.png');
+  background-image: image-set(
+    url('/_images/banners/banner-design2.png') 1x,
+    url('/_images/banners/banner-design2-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--design2 {
-    background-image: url("/_images/banners/banner-design2-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-design2-medium-up.png") 1x, url("/_images/banners/banner-design2-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-design2-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-design2-medium-up.png') 1x,
+      url('/_images/banners/banner-design2-medium-up-2x.png') 2x
+    );
   }
 }
 
 .banner-divider--design3 {
-  background-image: url("/_images/banners/banner-design3.png");
-  background-image: image-set(url("/_images/banners/banner-design3.png") 1x, url("/_images/banners/banner-design3-2x.png") 2x);
+  background-image: url('/_images/banners/banner-design3.png');
+  background-image: image-set(
+    url('/_images/banners/banner-design3.png') 1x,
+    url('/_images/banners/banner-design3-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--design3 {
-    background-image: url("/_images/banners/banner-design3-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-design3-medium-up.png") 1x, url("/_images/banners/banner-design3-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-design3-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-design3-medium-up.png') 1x,
+      url('/_images/banners/banner-design3-medium-up-2x.png') 2x
+    );
   }
 }
 
 /* ── Solid color variants ── */
 .banner-divider--yellow {
-  background-image: url("/_images/banners/banner-yellow.png");
-  background-image: image-set(url("/_images/banners/banner-yellow.png") 1x, url("/_images/banners/banner-yellow-2x.png") 2x);
+  background-image: url('/_images/banners/banner-yellow.png');
+  background-image: image-set(
+    url('/_images/banners/banner-yellow.png') 1x,
+    url('/_images/banners/banner-yellow-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--yellow {
-    background-image: url("/_images/banners/banner-yellow-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-yellow-medium-up.png") 1x, url("/_images/banners/banner-yellow-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-yellow-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-yellow-medium-up.png') 1x,
+      url('/_images/banners/banner-yellow-medium-up-2x.png') 2x
+    );
   }
 }
 
 .banner-divider--blue {
-  background-image: url("/_images/banners/banner-blue.png");
-  background-image: image-set(url("/_images/banners/banner-blue.png") 1x, url("/_images/banners/banner-blue-2x.png") 2x);
+  background-image: url('/_images/banners/banner-blue.png');
+  background-image: image-set(
+    url('/_images/banners/banner-blue.png') 1x,
+    url('/_images/banners/banner-blue-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--blue {
-    background-image: url("/_images/banners/banner-blue-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-blue-medium-up.png") 1x, url("/_images/banners/banner-blue-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-blue-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-blue-medium-up.png') 1x,
+      url('/_images/banners/banner-blue-medium-up-2x.png') 2x
+    );
   }
 }
 
 .banner-divider--green {
-  background-image: url("/_images/banners/banner-green.png");
-  background-image: image-set(url("/_images/banners/banner-green.png") 1x, url("/_images/banners/banner-green-2x.png") 2x);
+  background-image: url('/_images/banners/banner-green.png');
+  background-image: image-set(
+    url('/_images/banners/banner-green.png') 1x,
+    url('/_images/banners/banner-green-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--green {
-    background-image: url("/_images/banners/banner-green-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-green-medium-up.png") 1x, url("/_images/banners/banner-green-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-green-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-green-medium-up.png') 1x,
+      url('/_images/banners/banner-green-medium-up-2x.png') 2x
+    );
   }
 }
 
 .banner-divider--purple {
-  background-image: url("/_images/banners/banner-purple.png");
-  background-image: image-set(url("/_images/banners/banner-purple.png") 1x, url("/_images/banners/banner-purple-2x.png") 2x);
+  background-image: url('/_images/banners/banner-purple.png');
+  background-image: image-set(
+    url('/_images/banners/banner-purple.png') 1x,
+    url('/_images/banners/banner-purple-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--purple {
-    background-image: url("/_images/banners/banner-purple-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-purple-medium-up.png") 1x, url("/_images/banners/banner-purple-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-purple-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-purple-medium-up.png') 1x,
+      url('/_images/banners/banner-purple-medium-up-2x.png') 2x
+    );
   }
 }
 
 .banner-divider--orange {
-  background-image: url("/_images/banners/banner-orange.png");
-  background-image: image-set(url("/_images/banners/banner-orange.png") 1x, url("/_images/banners/banner-orange-2x.png") 2x);
+  background-image: url('/_images/banners/banner-orange.png');
+  background-image: image-set(
+    url('/_images/banners/banner-orange.png') 1x,
+    url('/_images/banners/banner-orange-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--orange {
-    background-image: url("/_images/banners/banner-orange-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-orange-medium-up.png") 1x, url("/_images/banners/banner-orange-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-orange-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-orange-medium-up.png') 1x,
+      url('/_images/banners/banner-orange-medium-up-2x.png') 2x
+    );
   }
 }
 
 .banner-divider--red {
-  background-image: url("/_images/banners/banner-red.png");
-  background-image: image-set(url("/_images/banners/banner-red.png") 1x, url("/_images/banners/banner-red-2x.png") 2x);
+  background-image: url('/_images/banners/banner-red.png');
+  background-image: image-set(
+    url('/_images/banners/banner-red.png') 1x,
+    url('/_images/banners/banner-red-2x.png') 2x
+  );
 }
 @media screen and (min-width: 640px) {
   .banner-divider--red {
-    background-image: url("/_images/banners/banner-red-medium-up.png");
-    background-image: image-set(url("/_images/banners/banner-red-medium-up.png") 1x, url("/_images/banners/banner-red-medium-up-2x.png") 2x);
+    background-image: url('/_images/banners/banner-red-medium-up.png');
+    background-image: image-set(
+      url('/_images/banners/banner-red-medium-up.png') 1x,
+      url('/_images/banners/banner-red-medium-up-2x.png') 2x
+    );
   }
 }

@@ -1,4 +1,4 @@
-/* Tape Divider — full-width tape strip between sections (matches official splatoon.nintendo.com) */
+/* Tape Divider — full-width tape strip between sections */
 
 .tapeDivider {
   position: relative;
@@ -10,8 +10,11 @@
 
 /* Primary tape strip (tape-2.png) */
 .tapePrimary {
-  background-image: url("/_images/tape-assets/tape-2.png");
-  background-image: image-set(url("/_images/tape-assets/tape-2.png") 1x, url("/_images/tape-assets/tape-2-2x.png") 2x);
+  background-image: url('/_images/tape-assets/tape-2.png');
+  background-image: image-set(
+    url('/_images/tape-assets/tape-2.png') 1x,
+    url('/_images/tape-assets/tape-2-2x.png') 2x
+  );
   background-position: center;
   background-repeat: repeat-x;
   background-size: auto 100%;
@@ -21,8 +24,11 @@
 
 /* Secondary tape strip (tape-3.png) */
 .tapeSecondary {
-  background-image: url("/_images/tape-assets/tape-3.png");
-  background-image: image-set(url("/_images/tape-assets/tape-3.png") 1x, url("/_images/tape-assets/tape-3-2x.png") 2x);
+  background-image: url('/_images/tape-assets/tape-3.png');
+  background-image: image-set(
+    url('/_images/tape-assets/tape-3.png') 1x,
+    url('/_images/tape-assets/tape-3-2x.png') 2x
+  );
   background-position: center;
   background-repeat: repeat-x;
   background-size: auto 100%;

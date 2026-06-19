@@ -1,5 +1,5 @@
 /* tape-title.module.css
-   Matches official splatoon.nintendo.com tape-title component.
+   Tape-title component styles.
    Red/yellow/black background with left/right tape SVG pseudo-elements. */
 
 .container {
@@ -18,11 +18,11 @@
 /* Left tape */
 .container::before {
   background-color: var(--tape-color);
-  mask-image: url("/images/svg/left-tape.svg");
+  mask-image: url('/_images/svg/left-tape.svg');
   mask-position: 100% center;
   mask-repeat: no-repeat;
   mask-size: contain;
-  content: " ";
+  content: ' ';
   height: 100%;
   left: -61px;
   position: absolute;
@@ -32,11 +32,11 @@
 /* Right tape */
 .container::after {
   background-color: var(--tape-color);
-  mask-image: url("/images/svg/right-tape.svg");
+  mask-image: url('/_images/svg/right-tape.svg');
   mask-position: 0 center;
   mask-repeat: no-repeat;
   mask-size: contain;
-  content: " ";
+  content: ' ';
   height: 100%;
   position: absolute;
   right: -58px;
@@ -58,7 +58,7 @@
   color: var(--color-black, #0d0d0d);
 }
 
-/* Title text — matches official .tape-title_title + .title-3,h3 */
+/* Title text */
 .title {
   font-family: var(--font-alt);
   font-weight: 600;

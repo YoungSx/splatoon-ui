@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from 'react'
+import { cn } from '@/lib/utils'
 
 export interface Splat4Props extends React.SVGProps<SVGSVGElement> {
   /** CSS color value or CSS variable e.g. "var(--color-yellow)" */
@@ -9,16 +9,16 @@ export interface Splat4Props extends React.SVGProps<SVGSVGElement> {
 }
 
 /**
- * Official Splatoon 3 #splat-4 ink splat shape.
+ * Ink splat decorative shape #4.
  * ViewBox: 0 0 271 286
  */
-export function Splat4({ color = "currentColor", className, style, ...props }: Splat4Props) {
+export function Splat4({ color = 'currentColor', className, style, ...props }: Splat4Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 271 286"
       aria-hidden="true"
-      className={cn("overflow-visible", className)}
+      className={cn('overflow-visible', className)}
       style={{ color, ...style }}
       {...props}
     >
@@ -31,4 +31,3 @@ export function Splat4({ color = "currentColor", className, style, ...props }: S
     </svg>
   )
 }
-

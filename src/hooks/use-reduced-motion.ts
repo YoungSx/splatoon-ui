@@ -1,6 +1,30 @@
 import * as React from 'react'
 
 const STORAGE_KEY = 'splat-reduced-motion'
+const CHANGE_EVENT = 'splat-reduced-motion-change'
+
+function getReducedMotionSnapshot() {
+  if (typeof window === 'undefined') return false
+
+  const stored = localStorage.getItem(STORAGE_KEY)
+  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  return stored === 'true' || (stored === null && mediaQuery.matches)
+}
+
+function subscribeToReducedMotion(onStoreChange: () => void) {
+  if (typeof window === 'undefined') return () => {}
+
+  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  mediaQuery.addEventListener('change', onStoreChange)
+  window.addEventListener('storage', onStoreChange)
+  window.addEventListener(CHANGE_EVENT, onStoreChange)
+
+  return () => {
+    mediaQuery.removeEventListener('change', onStoreChange)
+    window.removeEventListener('storage', onStoreChange)
+    window.removeEventListener(CHANGE_EVENT, onStoreChange)
+  }
+}
 
 /**
  * Unified reduced-motion detection.
@@ -10,39 +34,21 @@ const STORAGE_KEY = 'splat-reduced-motion'
  * can key off it without JS coupling.
  */
 export function useReducedMotion(): [boolean, () => void] {
-  const mediaQuery = React.useMemo(
-    () => typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)') : null,
-    [],
+  const value = React.useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    () => false
   )
 
-  const [value, setValue] = React.useState(false)
-
   React.useEffect(() => {
-    if (!mediaQuery) return
-
-    const stored = localStorage.getItem(STORAGE_KEY)
-    const initial = stored === 'true' || (stored === null && mediaQuery.matches)
-    setValue(initial)
-    document.documentElement.classList.toggle('reduced-motion', initial)
-
-    const onChange = () => {
-      const stored = localStorage.getItem(STORAGE_KEY)
-      const next = stored === 'true' || (stored === null && mediaQuery.matches)
-      setValue(next)
-      document.documentElement.classList.toggle('reduced-motion', next)
-    }
-
-    mediaQuery.addEventListener('change', onChange)
-    return () => mediaQuery.removeEventListener('change', onChange)
-  }, [mediaQuery])
+    document.documentElement.classList.toggle('reduced-motion', value)
+  }, [value])
 
   const toggle = React.useCallback(() => {
-    setValue((prev) => {
-      const next = !prev
-      localStorage.setItem(STORAGE_KEY, String(next))
-      document.documentElement.classList.toggle('reduced-motion', next)
-      return next
-    })
+    const next = !getReducedMotionSnapshot()
+    localStorage.setItem(STORAGE_KEY, String(next))
+    document.documentElement.classList.toggle('reduced-motion', next)
+    window.dispatchEvent(new Event(CHANGE_EVENT))
   }, [])
 
   return [value, toggle]

@@ -1,16 +1,18 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
+import * as React from 'react'
+import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { createTriggerButton } from "@/components/ui/trigger-button"
-import { useReducedMotion } from "@/hooks/use-reduced-motion"
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { createTriggerButton } from '@/components/ui/trigger-button'
+import { useReducedMotion } from '@/hooks/use-reduced-motion'
 
-import { InkSplashCanvas } from "./ink-splash-canvas"
-import { power3In } from "@/lib/wobble-math"
-import { WaveButton } from "./wave-button"
+import { InkSplashCanvas } from './ink-splash-canvas'
+import { PaperTearEdge } from './paper-tear-edge'
+import { TapePicture } from './tape-picture'
+import { power3In } from '@/lib/wobble-math'
+import { WaveButton } from './wave-button'
 
 const CLOSE_DELAY = 1200
 const DURATION_IN = 700
@@ -36,7 +38,10 @@ function useDialogContext() {
 
 // ── Dialog Root ──
 
-interface DialogProps extends Omit<DialogPrimitive.Root.Props, 'open' | 'onOpenChange' | 'children'> {
+interface DialogProps extends Omit<
+  DialogPrimitive.Root.Props,
+  'open' | 'onOpenChange' | 'children'
+> {
   open?: boolean
   onOpenChange?: (open: boolean) => void
   children?: React.ReactNode
@@ -80,9 +85,7 @@ function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: Dial
         onOpenChange={handleOpenChange}
         {...props}
       >
-        <div ref={rootRef}>
-          {children}
-        </div>
+        <div ref={rootRef}>{children}</div>
       </DialogPrimitive.Root>
     </DialogContext.Provider>
   )
@@ -92,21 +95,18 @@ function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
 }
 
-const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, "dialog-trigger")
+const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, 'dialog-trigger')
 
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-function DialogOverlay({
-  className,
-  ...props
-}: DialogPrimitive.Backdrop.Props) {
+function DialogOverlay({ className, ...props }: DialogPrimitive.Backdrop.Props) {
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-overlay supports-backdrop-filter:backdrop-blur-sm data-open:animate-in data-open:fade-in-0",
+        'bg-overlay data-open:animate-in data-open:fade-in-0 fixed inset-0 isolate z-50 supports-backdrop-filter:backdrop-blur-sm',
         className
       )}
       {...props}
@@ -117,15 +117,15 @@ function DialogOverlay({
 interface DialogContentProps extends DialogPrimitive.Popup.Props {
   showCloseButton?: boolean
   hasTape?: boolean
-  tapePosition?: "news" | "event"
-  surface?: "paper" | "cream" | "danger"
+  tapePosition?: 'news' | 'event'
+  surface?: 'paper' | 'cream' | 'danger'
   fullScreen?: boolean
 }
 
 const surfaceFills = {
-  paper: { bg: "bg-white text-black", fill: "var(--color-white)" },
-  cream: { bg: "bg-white text-black", fill: "var(--color-white)" },
-  danger: { bg: "bg-red text-white", fill: "var(--color-red)" },
+  paper: { bg: 'bg-white text-black', fill: 'var(--color-white)' },
+  cream: { bg: 'bg-white text-black', fill: 'var(--color-white)' },
+  danger: { bg: 'bg-red text-white', fill: 'var(--color-red)' },
 } as const
 
 // ── Full-Screen Dialog Content ──
@@ -150,16 +150,20 @@ function DialogContentFullScreen({
   const [modalHeadingOut, setModalHeadingOut] = React.useState(false)
   const [splatState, setSplatState] = React.useState<'ready' | 'in' | 'out'>('ready')
   const [splashStartPos, setSplashStartPos] = React.useState<[number, number]>([0, 0])
+  const [splashCount, setSplashCount] = React.useState(0)
+  const [preloadedBg, setPreloadedBg] = React.useState<HTMLImageElement | null>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
   const animFrameRef = React.useRef<number>(0)
   const closeTimerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
-  const splashCountRef = React.useRef(Math.round(10000 * Math.random()))
-  const preloadedBgRef = React.useRef<HTMLImageElement | null>(null)
+  const openFrameRef = React.useRef<number>(0)
+  const externalCloseTimerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
 
   React.useEffect(() => {
     const img = new Image()
     img.crossOrigin = 'anonymous'
-    img.onload = () => { preloadedBgRef.current = img }
+    img.onload = () => {
+      setPreloadedBg(img)
+    }
     img.src = '/_images/backgrounds/camo-black-2x.webp'
   }, [])
 
@@ -170,9 +174,13 @@ function DialogContentFullScreen({
 
     setSplatState('out')
     setModalHeadingOut(true)
-    splashCountRef.current += 1
+    setSplashCount((count) => count + 1)
 
-    try { triggerRef?.current?.focus() } catch (_) { /* */ }
+    try {
+      triggerRef?.current?.focus()
+    } catch {
+      /* Focus restore is best-effort for transient dialog triggers. */
+    }
 
     if (!isReducedMotion) {
       const contentEl = contentRef.current
@@ -196,13 +204,16 @@ function DialogContentFullScreen({
       }
     }
 
-    closeTimerRef.current = setTimeout(() => {
-      cancelAnimationFrame(animFrameRef.current)
-      setModalActive(false)
-      setModalHeadingOut(false)
-      setSplatState('ready')
-      setOpen(false)
-    }, isReducedMotion ? 0 : CLOSE_DELAY)
+    closeTimerRef.current = setTimeout(
+      () => {
+        cancelAnimationFrame(animFrameRef.current)
+        setModalActive(false)
+        setModalHeadingOut(false)
+        setSplatState('ready')
+        setOpen(false)
+      },
+      isReducedMotion ? 0 : CLOSE_DELAY
+    )
   }, [modalActive, modalHeadingOut, isReducedMotion, setOpen, triggerRef])
 
   // Open effect — mirrors VideoDialog's open useEffect
@@ -211,55 +222,74 @@ function DialogContentFullScreen({
 
     // Cancel any in-progress close animation
     clearTimeout(closeTimerRef.current)
+    clearTimeout(externalCloseTimerRef.current)
     cancelAnimationFrame(animFrameRef.current)
-    setModalHeadingOut(false)
+    cancelAnimationFrame(openFrameRef.current)
 
-    splashCountRef.current += 1
+    openFrameRef.current = requestAnimationFrame(() => {
+      setModalHeadingOut(false)
+      setSplashCount((count) => count + 1)
 
-    const btn = triggerRef?.current
-    if (btn) {
-      const rect = btn.getBoundingClientRect()
-      const cx = rect.left + rect.width / 2
-      const cy = rect.top + rect.height / 2
-      setSplashStartPos([(cx / window.innerWidth) - 0.5, 0.5 - (cy / window.innerHeight)])
+      const btn = triggerRef?.current
+      if (btn) {
+        const rect = btn.getBoundingClientRect()
+        const cx = rect.left + rect.width / 2
+        const cy = rect.top + rect.height / 2
+        setSplashStartPos([cx / window.innerWidth - 0.5, 0.5 - cy / window.innerHeight])
+      }
+    })
+
+    const timer = setTimeout(
+      () => {
+        setModalActive(true)
+        setSplatState('in')
+      },
+      isReducedMotion ? 0 : 100
+    )
+
+    return () => {
+      cancelAnimationFrame(openFrameRef.current)
+      clearTimeout(timer)
     }
-
-    const timer = setTimeout(() => {
-      setModalActive(true)
-      setSplatState('in')
-    }, isReducedMotion ? 0 : 100)
-
-    return () => clearTimeout(timer)
   }, [open, isReducedMotion, triggerRef])
 
   // Sync with Dialog open state (handle external close)
   React.useEffect(() => {
     if (!open && modalActive && !modalHeadingOut) {
-      handleClose()
+      externalCloseTimerRef.current = setTimeout(handleClose, 0)
     }
+    return () => clearTimeout(externalCloseTimerRef.current)
   }, [open, modalActive, modalHeadingOut, handleClose])
 
-  React.useEffect(() => () => {
-    clearTimeout(closeTimerRef.current)
-    cancelAnimationFrame(animFrameRef.current)
-  }, [])
+  React.useEffect(
+    () => () => {
+      clearTimeout(closeTimerRef.current)
+      clearTimeout(externalCloseTimerRef.current)
+      cancelAnimationFrame(animFrameRef.current)
+      cancelAnimationFrame(openFrameRef.current)
+    },
+    []
+  )
 
-  const canvasState = splatState === 'out' ? 'out' as const
-    : splatState === 'ready' ? 'idle' as const
-    : 'in' as const
+  const canvasState =
+    splatState === 'out'
+      ? ('out' as const)
+      : splatState === 'ready'
+        ? ('idle' as const)
+        : ('in' as const)
 
   return (
     <DialogPrimitive.Portal keepMounted>
       {isModalMounted && (
         <InkSplashCanvas
-          className="fixed inset-0 z-[var(--z-nav-overlay)] pointer-events-none"
+          className="pointer-events-none fixed inset-0 z-[var(--z-nav-overlay)]"
           state={canvasState}
           durationIn={DURATION_IN}
           durationOut={DURATION_OUT}
           color="var(--color-green)"
           background="/_images/backgrounds/camo-black-2x.webp"
-          preloadedBackground={preloadedBgRef.current}
-          count={splashCountRef.current}
+          preloadedBackground={preloadedBg}
+          count={splashCount}
           startPosition={splashStartPos}
         />
       )}
@@ -272,29 +302,31 @@ function DialogContentFullScreen({
       )}
 
       {isModalMounted && (
-        <div className="fixed inset-0 z-[var(--z-dialog)] flex items-center justify-center p-4 sm:p-8 pointer-events-none">
+        <div className="pointer-events-none fixed inset-0 z-[var(--z-dialog)] flex items-center justify-center p-4 sm:p-8">
           <div
             ref={(node) => {
               contentRef.current = node
               if (typeof ref === 'function') ref(node as HTMLDivElement)
-              else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node as HTMLDivElement
+              else if (ref)
+                (ref as React.MutableRefObject<HTMLDivElement | null>).current =
+                  node as HTMLDivElement
             }}
             className={cn(
-              "relative w-full max-w-[1000px] overflow-visible outline-none pointer-events-auto",
+              'pointer-events-auto relative w-full max-w-[1000px] overflow-visible outline-none',
               className
             )}
             style={{
               transformOrigin: 'center center',
-              transform: modalActive
-                ? 'scale(1) translateY(0)'
-                : 'scale(0.7) translateY(20%)',
+              transform: modalActive ? 'scale(1) translateY(0)' : 'scale(0.7) translateY(20%)',
               opacity: modalActive ? 1 : 0,
-              ...(modalHeadingOut ? {} : {
-                transitionProperty: 'transform, opacity',
-                transitionDuration: isReducedMotion ? '0s' : '0.6s',
-                transitionTimingFunction: 'ease',
-                transitionDelay: isReducedMotion ? '0s' : '0.5s',
-              }),
+              ...(modalHeadingOut
+                ? {}
+                : {
+                    transitionProperty: 'transform, opacity',
+                    transitionDuration: isReducedMotion ? '0s' : '0.6s',
+                    transitionTimingFunction: 'ease',
+                    transitionDelay: isReducedMotion ? '0s' : '0.5s',
+                  }),
               ...style,
             }}
             {...props}
@@ -307,7 +339,7 @@ function DialogContentFullScreen({
       {isModalMounted && showCloseButton && (
         <DialogPrimitive.Close
           render={<WaveButton />}
-          className="fixed z-[var(--z-dialog-close)] right-4 top-5 sm:right-8 sm:top-8"
+          className="fixed top-5 right-4 z-[var(--z-dialog-close)] sm:top-8 sm:right-8"
           style={{
             opacity: modalActive && !modalHeadingOut ? 1 : 0,
             transform: `translateX(${modalActive && !modalHeadingOut ? '0' : '200%'})`,
@@ -332,8 +364,8 @@ function DialogContent({
   children,
   showCloseButton = true,
   hasTape = true,
-  tapePosition = "news",
-  surface = "paper",
+  tapePosition = 'news',
+  surface = 'paper',
   fullScreen = false,
   ...props
 }: DialogContentProps) {
@@ -360,50 +392,35 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "shadow-soft-splat-lg fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
           isReducedMotion
-            ? "origin-center [transform:translate(-50%,-50%)]"
-            : "origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]",
+            ? 'origin-center [transform:translate(-50%,-50%)]'
+            : 'origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]',
           className
         )}
         {...props}
       >
-        <svg
-          aria-hidden="true"
-          className="relative z-10 mb-[-2px] w-full pointer-events-none select-none"
-          style={{ fill: fillInfo.fill }}
-          viewBox="0 0 448 60"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M253.96 23.774a4.711 4.711 0 0 1-4.693 4.328h-49.535c-.131 0-.255-.027-.384-.038-2.431-.198-4.348-2.205-4.348-4.68a4.724 4.724 0 0 1 4.732-4.716h18.204c-.006-.106-.017-.21-.017-.315 0-3.452 2.808-6.25 6.27-6.25h.62a6.26 6.26 0 0 1 5.038 2.54 6.194 6.194 0 0 1 1.233 3.71c0 .106-.01.21-.016.315H249.267c2.614 0 4.733 2.111 4.733 4.717 0 .133-.029.258-.04.389M53.446.102H9.693C4.34.102 0 4.437 0 9.782v50.044h448V9.783c0-5.346-4.338-9.68-9.693-9.68H53.445Z"
-            fillRule="evenodd"
-          />
-        </svg>
+        <PaperTearEdge
+          edge="top"
+          color={fillInfo.fill}
+          className="pointer-events-none relative z-10 mb-[-2px] w-full select-none"
+        />
 
         {hasTape && (
           <div
             className={cn(
-              "absolute top-0 inline-grid z-30 select-none pointer-events-none",
-              tapePosition === "news"
-                ? "left-0 translate-x-[10px] -translate-y-[25px] -rotate-[10deg]"
-                : "right-0 -translate-x-[10px] -translate-y-[15px] rotate-[10deg]"
+              'pointer-events-none absolute top-0 z-30 inline-grid select-none',
+              tapePosition === 'news'
+                ? 'left-0 translate-x-[10px] -translate-y-[25px] -rotate-[10deg]'
+                : 'right-0 -translate-x-[10px] -translate-y-[15px] rotate-[10deg]'
             )}
             style={{ width: 140 }}
           >
-            <picture>
-              <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.webp 1x, /images/tape-assets/sticker-9-medium-up-2x.webp 2x" type="image/webp" />
-              <source media="(min-width: 640px)" srcSet="/images/tape-assets/sticker-9-medium-up.png 1x, /images/tape-assets/sticker-9-medium-up-2x.png 2x" type="image/png" />
-              <source srcSet="/images/tape-assets/sticker-9.webp 1x, /images/tape-assets/sticker-9-2x.webp 2x" type="image/webp" />
-              <source srcSet="/images/tape-assets/sticker-9.png 1x, /images/tape-assets/sticker-9-2x.png 2x" type="image/png" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img alt="" src="/images/tape-assets/sticker-9.png" width={96} height={31} />
-            </picture>
+            <TapePicture asset="sticker-9" fill={false} />
           </div>
         )}
 
-        <div className={cn("relative z-10 px-8 py-4 flex flex-col gap-4", fillInfo.bg)}>
+        <div className={cn('relative z-10 flex flex-col gap-4 px-8 py-4', fillInfo.bg)}>
           {children}
 
           {showCloseButton && (
@@ -413,31 +430,19 @@ function DialogContent({
           )}
         </div>
 
-        <svg
-          aria-hidden="true"
-          className="relative z-10 mt-[-2px] w-full pointer-events-none select-none"
-          style={{ fill: fillInfo.fill }}
-          viewBox="0 0 448 24"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 .826c0 9.527 5.976 17.64 14.378 20.862 2.49.955 5.184 1.5 8.01 1.5h403.223c4.635 0 8.94-1.407 12.514-3.816C444.082 15.354 448 8.548 448 .826H0Z"
-            fillRule="evenodd"
-          />
-        </svg>
+        <PaperTearEdge
+          edge="bottom"
+          color={fillInfo.fill}
+          className="pointer-events-none relative z-10 mt-[-2px] w-full select-none"
+        />
       </DialogPrimitive.Popup>
     </DialogPortal>
   )
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
+function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div
-      data-slot="dialog-header"
-      className={cn("flex flex-col gap-1.5", className)}
-      {...props}
-    />
+    <div data-slot="dialog-header" className={cn('flex flex-col gap-1.5', className)} {...props} />
   )
 }
 
@@ -446,23 +451,21 @@ function DialogFooter({
   showCloseButton = false,
   children,
   ...props
-}: React.ComponentProps<"div"> & {
+}: React.ComponentProps<'div'> & {
   showCloseButton?: boolean
 }) {
   return (
     <div
       data-slot="dialog-footer"
       className={cn(
-        "-mx-8 -mb-4 mt-2 flex flex-col-reverse gap-2 border-t-2 border-dashed border-foreground/15 bg-foreground/5 p-4 sm:flex-row sm:justify-end sm:gap-4",
+        'border-foreground/15 bg-foreground/5 -mx-8 mt-2 -mb-4 flex flex-col-reverse gap-2 border-t-2 border-dashed p-4 sm:flex-row sm:justify-end sm:gap-4',
         className
       )}
       {...props}
     >
       {children}
       {showCloseButton && (
-        <DialogPrimitive.Close
-          render={<Button variant="outline" theme="yellow" />}
-        >
+        <DialogPrimitive.Close render={<Button variant="outline" theme="yellow" />}>
           Close
         </DialogPrimitive.Close>
       )}
@@ -474,23 +477,20 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("splat-skew text-2xl font-black uppercase tracking-wider text-current", className)}
+      className={cn(
+        'splat-skew text-2xl font-black tracking-wider text-current uppercase',
+        className
+      )}
       {...props}
     />
   )
 }
 
-function DialogDescription({
-  className,
-  ...props
-}: DialogPrimitive.Description.Props) {
+function DialogDescription({ className, ...props }: DialogPrimitive.Description.Props) {
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn(
-        "text-sm font-medium opacity-85 leading-relaxed",
-        className
-      )}
+      className={cn('text-sm leading-relaxed font-medium opacity-85', className)}
       {...props}
     />
   )

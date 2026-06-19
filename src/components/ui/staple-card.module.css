@@ -8,7 +8,7 @@
   flex-direction: column;
   height: 100%;
   position: relative;
-  transition: transform calc(var(--duration-factor) * .3s) var(--ease-in-out);
+  transition: transform calc(var(--duration-factor) * 0.3s) var(--ease-in-out);
 }
 
 .card.hoverTilt:hover {
@@ -21,7 +21,8 @@
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
-  padding: calc(var(--base-space, 8px) * 0) calc(var(--base-space, 8px) * 4) calc(var(--base-space, 8px) * 3) calc(var(--base-space, 8px) * 4);
+  padding: calc(var(--base-space, 8px) * 0) calc(var(--base-space, 8px) * 4)
+    calc(var(--base-space, 8px) * 3) calc(var(--base-space, 8px) * 4);
   position: relative;
 }
 
@@ -55,12 +56,24 @@
   display: block;
 }
 
+.tapeImage {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
 /* ── Responsive image: mobile by default, desktop at 400px container width ── */
-.imgDesktop { display: none; }
+.imgDesktop {
+  display: none;
+}
 
 @container (min-width: 400px) {
-  .imgMobile { display: none; }
-  .imgDesktop { display: block; }
+  .imgMobile {
+    display: none;
+  }
+  .imgDesktop {
+    display: block;
+  }
 }
 
 .cardBottom {

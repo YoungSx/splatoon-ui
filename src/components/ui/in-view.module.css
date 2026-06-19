@@ -1,11 +1,11 @@
 /* in-view.module.css
-   Exact replica of official splatoon.nintendo.com in-view animation system.
-   https://splatoon.nintendo.com — scroll-triggered CSS transitions. */
+   Splatoon UI scroll-triggered CSS transitions. */
 
 /* ── Base animation class ── */
 .anim {
   opacity: var(--start-alpha, 0);
-  transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(var(--start-scale, 1)) rotate(var(--start-rotate, 0deg));
+  transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(var(--start-scale, 1))
+    rotate(var(--start-rotate, 0deg));
   transition-delay: 0s;
   transition-duration: calc(var(--duration-hide, 0.4s) * var(--duration-factor, 1));
   transition-property: transform, opacity;
@@ -15,7 +15,8 @@
 /* ── When parent has .in-view, animate in ── */
 .inView .anim {
   opacity: var(--end-alpha, 1);
-  transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1)) rotate(var(--end-rotate, 0deg));
+  transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1))
+    rotate(var(--end-rotate, 0deg));
   transition-delay: var(--in-view-delay, 0s);
   transition-duration: calc(var(--duration-show, 0.4s) * var(--duration-factor, 1));
   transition-timing-function: var(--easing-fn-show, ease);
@@ -78,26 +79,66 @@
 }
 
 /* ── Delay variants — 1 through 20 ── */
-.delay1 { --in-view-delay: calc(0.1 * 1s * var(--duration-factor, 1)); }
-.delay2 { --in-view-delay: calc(0.2 * 1s * var(--duration-factor, 1)); }
-.delay3 { --in-view-delay: calc(0.3 * 1s * var(--duration-factor, 1)); }
-.delay4 { --in-view-delay: calc(0.4 * 1s * var(--duration-factor, 1)); }
-.delay5 { --in-view-delay: calc(0.5 * 1s * var(--duration-factor, 1)); }
-.delay6 { --in-view-delay: calc(0.6 * 1s * var(--duration-factor, 1)); }
-.delay7 { --in-view-delay: calc(0.7 * 1s * var(--duration-factor, 1)); }
-.delay8 { --in-view-delay: calc(0.8 * 1s * var(--duration-factor, 1)); }
-.delay9 { --in-view-delay: calc(0.9 * 1s * var(--duration-factor, 1)); }
-.delay10 { --in-view-delay: calc(1.0 * 1s * var(--duration-factor, 1)); }
-.delay11 { --in-view-delay: calc(1.1 * 1s * var(--duration-factor, 1)); }
-.delay12 { --in-view-delay: calc(1.2 * 1s * var(--duration-factor, 1)); }
-.delay13 { --in-view-delay: calc(1.3 * 1s * var(--duration-factor, 1)); }
-.delay14 { --in-view-delay: calc(1.4 * 1s * var(--duration-factor, 1)); }
-.delay15 { --in-view-delay: calc(1.5 * 1s * var(--duration-factor, 1)); }
-.delay16 { --in-view-delay: calc(1.6 * 1s * var(--duration-factor, 1)); }
-.delay17 { --in-view-delay: calc(1.7 * 1s * var(--duration-factor, 1)); }
-.delay18 { --in-view-delay: calc(1.8 * 1s * var(--duration-factor, 1)); }
-.delay19 { --in-view-delay: calc(1.9 * 1s * var(--duration-factor, 1)); }
-.delay20 { --in-view-delay: calc(2.0 * 1s * var(--duration-factor, 1)); }
+.delay1 {
+  --in-view-delay: calc(0.1 * 1s * var(--duration-factor, 1));
+}
+.delay2 {
+  --in-view-delay: calc(0.2 * 1s * var(--duration-factor, 1));
+}
+.delay3 {
+  --in-view-delay: calc(0.3 * 1s * var(--duration-factor, 1));
+}
+.delay4 {
+  --in-view-delay: calc(0.4 * 1s * var(--duration-factor, 1));
+}
+.delay5 {
+  --in-view-delay: calc(0.5 * 1s * var(--duration-factor, 1));
+}
+.delay6 {
+  --in-view-delay: calc(0.6 * 1s * var(--duration-factor, 1));
+}
+.delay7 {
+  --in-view-delay: calc(0.7 * 1s * var(--duration-factor, 1));
+}
+.delay8 {
+  --in-view-delay: calc(0.8 * 1s * var(--duration-factor, 1));
+}
+.delay9 {
+  --in-view-delay: calc(0.9 * 1s * var(--duration-factor, 1));
+}
+.delay10 {
+  --in-view-delay: calc(1 * 1s * var(--duration-factor, 1));
+}
+.delay11 {
+  --in-view-delay: calc(1.1 * 1s * var(--duration-factor, 1));
+}
+.delay12 {
+  --in-view-delay: calc(1.2 * 1s * var(--duration-factor, 1));
+}
+.delay13 {
+  --in-view-delay: calc(1.3 * 1s * var(--duration-factor, 1));
+}
+.delay14 {
+  --in-view-delay: calc(1.4 * 1s * var(--duration-factor, 1));
+}
+.delay15 {
+  --in-view-delay: calc(1.5 * 1s * var(--duration-factor, 1));
+}
+.delay16 {
+  --in-view-delay: calc(1.6 * 1s * var(--duration-factor, 1));
+}
+.delay17 {
+  --in-view-delay: calc(1.7 * 1s * var(--duration-factor, 1));
+}
+.delay18 {
+  --in-view-delay: calc(1.8 * 1s * var(--duration-factor, 1));
+}
+.delay19 {
+  --in-view-delay: calc(1.9 * 1s * var(--duration-factor, 1));
+}
+.delay20 {
+  --in-view-delay: calc(2 * 1s * var(--duration-factor, 1));
+}
 
 /* ── Stagger system ── */
 .stagger {
@@ -106,7 +147,8 @@
 
 .stagger > * {
   opacity: var(--start-alpha, 0);
-  transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(var(--start-scale, 1)) rotate(var(--start-rotate, 0deg));
+  transform: translate(var(--start-x, 0), var(--start-y, 0)) scale(var(--start-scale, 1))
+    rotate(var(--start-rotate, 0deg));
   transition-delay: 0s;
   transition-duration: calc(var(--duration-hide, 0.4s) * var(--duration-factor, 1));
   transition-property: transform, opacity;
@@ -116,7 +158,8 @@
 /* Same-element pattern: .inView.stagger on one element (e.g. nav <ul>) */
 .inView.stagger > * {
   opacity: var(--end-alpha, 1);
-  transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1)) rotate(var(--end-rotate, 0deg));
+  transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1))
+    rotate(var(--end-rotate, 0deg));
   transition-delay: var(--in-view-delay, 0s);
   transition-duration: calc(var(--duration-show, 0.4s) * var(--duration-factor, 1));
   transition-timing-function: var(--easing-fn-show, ease);
@@ -125,7 +168,8 @@
 /* Parent-child pattern: .inView on wrapper, .stagger on child (default InViewStagger) */
 .inView .stagger > * {
   opacity: var(--end-alpha, 1);
-  transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1)) rotate(var(--end-rotate, 0deg));
+  transform: translate(var(--end-x, 0), var(--end-y, 0)) scale(var(--end-scale, 1))
+    rotate(var(--end-rotate, 0deg));
   transition-delay: var(--in-view-delay, 0s);
   transition-duration: calc(var(--duration-show, 0.4s) * var(--duration-factor, 1));
   transition-timing-function: var(--easing-fn-show, ease);
@@ -133,66 +177,126 @@
 
 /* Staggered child delays — same-element pattern (.inView.stagger) */
 .inView.stagger > :first-child {
-  --in-view-delay: calc((0 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (0 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(2) {
-  --in-view-delay: calc((1 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (1 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(3) {
-  --in-view-delay: calc((2 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (2 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(4) {
-  --in-view-delay: calc((3 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (3 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(5) {
-  --in-view-delay: calc((4 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (4 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(6) {
-  --in-view-delay: calc((5 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (5 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(7) {
-  --in-view-delay: calc((6 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (6 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(8) {
-  --in-view-delay: calc((7 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (7 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(9) {
-  --in-view-delay: calc((8 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (8 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView.stagger > :nth-child(10) {
-  --in-view-delay: calc((9 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (9 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 
 /* Staggered child delays — parent-child pattern (.inView .stagger) */
 .inView .stagger > :first-child {
-  --in-view-delay: calc((0 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (0 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(2) {
-  --in-view-delay: calc((1 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (1 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(3) {
-  --in-view-delay: calc((2 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (2 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(4) {
-  --in-view-delay: calc((3 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (3 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(5) {
-  --in-view-delay: calc((4 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (4 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(6) {
-  --in-view-delay: calc((5 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (5 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(7) {
-  --in-view-delay: calc((6 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (6 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(8) {
-  --in-view-delay: calc((7 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (7 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(9) {
-  --in-view-delay: calc((8 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (8 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 .inView .stagger > :nth-child(10) {
-  --in-view-delay: calc((9 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) * var(--duration-factor, 1));
+  --in-view-delay: calc(
+    (9 * var(--in-view-stagger-amount, 0.2s) + var(--in-view-stagger-delay, 0s)) *
+      var(--duration-factor, 1)
+  );
 }
 
 /* ── Stagger direction variants ── */

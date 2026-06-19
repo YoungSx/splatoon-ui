@@ -89,7 +89,7 @@
   }
 }
 
-.useAccentColors {
+.accentColors {
   --bg-color: var(--color-accent);
   --text-color: var(--color-accent-alt);
   --hover-bg-color: var(--color-primary);

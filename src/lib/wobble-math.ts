@@ -43,8 +43,7 @@ export const randomRange = (min: number, max: number) => {
 }
 
 /**
- * Splatoon specific: Generates a random rotation for the modal drop animation.
- * Follows the official logic: (Math.random() > 0.5 ? 1 : -1) * (20 + 10 * Math.random())
+ * Generates a random rotation for the modal drop animation.
  */
 export const getSplatRandomRotation = () => {
   const sign = Math.random() > 0.5 ? 1 : -1

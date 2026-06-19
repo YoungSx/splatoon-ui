@@ -4,9 +4,11 @@ import path from 'node:path'
 const root = process.cwd()
 const cssPath = path.join(root, 'src', 'components', 'ui', 'button.module.css')
 const buttonPath = path.join(root, 'src', 'components', 'ui', 'button.tsx')
+const dripHookPath = path.join(root, 'src', 'hooks', 'use-drip-animation.ts')
 
 const css = fs.readFileSync(cssPath, 'utf8')
 const button = fs.readFileSync(buttonPath, 'utf8')
+const dripHook = fs.readFileSync(dripHookPath, 'utf8')
 
 const checks = [
   {
@@ -28,10 +30,10 @@ const checks = [
   {
     name: 'button computes the early-leave trigger from the generated drip path instead of a fixed guessed delay',
     pass:
-      button.includes('calculateDripVisualFillDelayMs') &&
-      button.includes('pendingDripLeaveTimerRef') &&
-      !button.includes('const dripVisualFillDelayMs = 600') &&
-      !button.includes('return "leaving"'),
+      dripHook.includes('calculateDripVisualFillDelayMs') &&
+      dripHook.includes('pendingDripLeaveTimerRef') &&
+      !dripHook.includes('const dripVisualFillDelayMs = 600') &&
+      !dripHook.includes('return "leaving"'),
   },
   {
     name: 'entered state holds the hover terminal frame instead of inheriting the default leave animation',
@@ -41,7 +43,11 @@ const checks = [
   },
   {
     name: 'button does not capture the live overlay clip-path and alter the original drip paths',
-    pass: !button.includes('getComputedStyle') && !button.includes('clipPath'),
+    pass:
+      !button.includes('getComputedStyle') &&
+      !button.includes('clipPath') &&
+      !dripHook.includes('getComputedStyle') &&
+      !dripHook.includes('clipPath'),
   },
 ]
 

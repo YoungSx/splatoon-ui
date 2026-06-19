@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-// Animation timing constants (verified against official splatoon.nintendo.com)
+// Animation timing constants for the navigation overlay.
 const MENU_CONTENT_ENTER_MS = 700
 const MENU_CONTENT_EXIT_MS = 400
 
@@ -38,9 +38,11 @@ export function useNavigationMenuAnimation({ isReducedMotion }: UseNavigationMen
   const isContentInteractive = contentPhase === 'visible'
 
   const canvasState: CanvasState =
-    coverPhase === 'opening' || coverPhase === 'open' ? 'in' :
-    coverPhase === 'closing' ? 'out' :
-    'idle'
+    coverPhase === 'opening' || coverPhase === 'open'
+      ? 'in'
+      : coverPhase === 'closing'
+        ? 'out'
+        : 'idle'
 
   const openMenu = React.useCallback(() => {
     if (isReducedMotion) {

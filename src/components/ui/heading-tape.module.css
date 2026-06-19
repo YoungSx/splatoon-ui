@@ -1,4 +1,4 @@
-/* Heading Tape — 1:1 match of official splatoon.nintendo.com */
+/* Heading Tape */
 
 .headingTapeSection {
   container-type: inline-size;
@@ -91,8 +91,13 @@
   z-index: 1;
 }
 
-/* Theme-independent: tape is always white, regardless of light/dark mode */
+.compact .headingTapeText {
+  border-radius: 8px;
+  font-size: 1.375rem;
+  padding: calc(var(--base-space, 8px) * 1.25) 24px;
+}
 
+/* Theme-independent: tape is always white, regardless of light/dark mode */
 
 @container (min-width: 640px) {
   .headingTapeDecorationImageMobile {
@@ -108,10 +113,19 @@
   .headingTapeText {
     padding: calc(var(--base-space, 8px) * 2) 60px;
   }
+
+  .compact .headingTapeText {
+    font-size: 2rem;
+    padding: calc(var(--base-space, 8px) * 1.5) 36px;
+  }
 }
 
 @container (min-width: 1024px) {
   .headingTapeText {
     font-size: 3.125rem;
+  }
+
+  .compact .headingTapeText {
+    font-size: 2.5rem;
   }
 }

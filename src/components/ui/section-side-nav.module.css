@@ -6,7 +6,9 @@
   right: var(--base-space, 8px);
   top: 50%;
   transform: translateY(-50%);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   visibility: hidden;
   z-index: 9;
 }
@@ -26,7 +28,7 @@
 
 .menu::before {
   background: var(--color-purple, #603bff);
-  content: "";
+  content: '';
   height: 100%;
   left: 50%;
   margin-left: -3px;
@@ -76,13 +78,15 @@
   position: absolute;
   top: 45%;
   transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
   visibility: hidden;
   width: var(--width);
 }
 
 .itemText {
-  font-family: var(--font-alt, "obviously-narrow", sans-serif);
+  font-family: var(--font-alt, 'obviously-narrow', sans-serif);
   font-weight: var(--font-weight-bold, 700);
   position: relative;
   top: -0.16em;
@@ -111,5 +115,12 @@
   .item,
   .itemSplat {
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .sidebar {
+    display: none;
+    pointer-events: none;
   }
 }

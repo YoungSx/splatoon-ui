@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import * as React from 'react'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
 import photoStyles from './photo-frame.module.css'
+import { TapePicture } from './tape-picture'
 import tapeStyles from './video-dialog.module.css'
 
 // ── VideoDialog Root (thin wrapper around Dialog) ──
@@ -23,26 +24,39 @@ export function VideoDialog({ children, ...props }: VideoDialogProps) {
 interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   src: string
   alt?: string
+  width?: number
+  height?: number
+  srcSet?: string
+  sizes?: string
   blobColor?: string
   blobSize?: number
   imageClassName?: string
+  loading?: React.ComponentProps<'img'>['loading']
 }
 
 export function VideoDialogThumbnail({
   ref,
   src,
-  alt = "Video thumbnail",
+  alt = 'Video thumbnail',
+  width,
+  height,
+  srcSet,
+  sizes,
   className,
-  blobColor = "var(--color-true-black)",
+  blobColor = 'var(--color-true-black)',
   blobSize = 160,
   imageClassName,
+  loading = 'lazy',
   ...props
 }: VideoDialogThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
   return (
     <DialogPrimitive.Trigger
       data-slot="dialog-trigger"
       render={(triggerProps) => {
-        const { ref: triggerRefCb, ...rest } = triggerProps as { ref?: React.Ref<HTMLButtonElement>; [key: string]: unknown }
+        const { ref: triggerRefCb, ...rest } = triggerProps as {
+          ref?: React.Ref<HTMLButtonElement>
+          [key: string]: unknown
+        }
         return (
           <button
             ref={(node) => {
@@ -52,14 +66,14 @@ export function VideoDialogThumbnail({
               else if (ref) ref.current = node
             }}
             className={cn(
-              'group relative inline-block overflow-visible p-0 cursor-pointer',
+              'group relative inline-block cursor-pointer overflow-visible p-0',
               className
             )}
             {...rest}
             {...props}
           >
             <div
-              className="absolute left-1/2 top-0 z-10 pointer-events-none sm:!mt-0 lg:!mt-[10%]"
+              className="pointer-events-none absolute top-0 left-1/2 z-10 sm:!mt-0 lg:!mt-[10%]"
               style={{
                 width: '40%',
                 margin: '10% 0 auto',
@@ -75,39 +89,36 @@ export function VideoDialogThumbnail({
             </div>
 
             <div
-              className={cn(photoStyles.photoFrame, photoStyles.noContainer, 'border-0 relative', imageClassName)}
-              style={{
-                '--end-rotate': '2deg',
-                '--margin-offset': '0',
-                marginTop: 0,
-              } as React.CSSProperties}
+              className={cn(
+                photoStyles.photoFrame,
+                photoStyles.noContainer,
+                'relative border-0',
+                imageClassName
+              )}
+              style={
+                {
+                  '--end-rotate': '2deg',
+                  '--margin-offset': '0',
+                  marginTop: 0,
+                } as React.CSSProperties
+              }
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
+              {/* eslint-disable-next-line @next/next/no-img-element -- component accepts arbitrary thumbnail sources */}
               <img
                 src={src}
+                srcSet={srcSet}
+                sizes={sizes}
                 alt={alt}
+                width={width}
+                height={height}
+                loading={loading}
                 className={photoStyles.photo}
                 style={{ width: '100%', height: 'auto', display: 'block' }}
               />
             </div>
 
-            <picture>
-              <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.webp 1x, /_images/tape-assets/tape-2-medium-up-2x.webp 2x" type="image/webp" />
-              <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-2-medium-up.png 1x, /_images/tape-assets/tape-2-medium-up-2x.png 2x" type="image/png" />
-              <source srcSet="/_images/tape-assets/tape-2.webp 1x, /_images/tape-assets/tape-2-2x.webp 2x" type="image/webp" />
-              <source srcSet="/_images/tape-assets/tape-2.png 1x, /_images/tape-assets/tape-2-2x.png 2x" type="image/png" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/_images/tape-assets/tape-2.png" alt="" className={tapeStyles.tape1} />
-            </picture>
-
-            <picture>
-              <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-3-medium-up.webp 1x, /_images/tape-assets/tape-3-medium-up-2x.webp 2x" type="image/webp" />
-              <source media="(min-width: 640px)" srcSet="/_images/tape-assets/tape-3-medium-up.png 1x, /_images/tape-assets/tape-3-medium-up-2x.png 2x" type="image/png" />
-              <source srcSet="/_images/tape-assets/tape-3.webp 1x, /_images/tape-assets/tape-3-2x.webp 2x" type="image/webp" />
-              <source srcSet="/_images/tape-assets/tape-3.png 1x, /_images/tape-assets/tape-3-2x.png 2x" type="image/png" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/_images/tape-assets/tape-3.png" alt="" className={tapeStyles.tape2} />
-            </picture>
+            <TapePicture asset="tape-2" className={tapeStyles.tape1} fill={false} />
+            <TapePicture asset="tape-3" className={tapeStyles.tape2} fill={false} />
           </button>
         )
       }}
@@ -117,31 +128,101 @@ export function VideoDialogThumbnail({
 
 // ── Video Content (thin wrapper around DialogContent fullScreen) ──
 
+type VideoDialogContentMode = 'iframe' | 'video'
+
+export interface VideoDialogVideoSource {
+  src: string
+  type?: string
+}
+
+export interface VideoDialogTrack {
+  src: string
+  kind?: React.ComponentProps<'track'>['kind']
+  srcLang?: string
+  label?: string
+  default?: boolean
+}
+
 interface VideoDialogContentProps {
   src: string
   title?: string
   className?: string
+  mode?: VideoDialogContentMode
+  sources?: VideoDialogVideoSource[]
+  tracks?: VideoDialogTrack[]
+  poster?: string
+  autoPlay?: boolean
+  controls?: boolean
+  loop?: boolean
+  muted?: boolean
+  playsInline?: boolean
+  preload?: React.ComponentProps<'video'>['preload']
 }
 
 export function VideoDialogContent({
   src,
-  title = "Video player",
+  title = 'Video player',
   className,
+  mode = 'iframe',
+  sources,
+  tracks,
+  poster,
+  autoPlay = false,
+  controls = true,
+  loop = false,
+  muted = false,
+  playsInline = true,
+  preload = 'none',
 }: VideoDialogContentProps) {
+  const resolvedSources = sources?.length ? sources : [{ src }]
+
   return (
     <DialogContent fullScreen className={className}>
       <div
-        className="relative w-full overflow-hidden bg-black border-4 border-white"
+        className="relative w-full overflow-hidden border-4 border-white bg-black"
         style={{ paddingBottom: '56.25%' }}
       >
-        <iframe
-          className="absolute top-0 left-0 w-full h-full"
-          src={src}
-          title={title}
-          scrolling="no"
-          frameBorder="0"
-          allowFullScreen
-        />
+        {mode === 'video' ? (
+          <video
+            className="absolute top-0 left-0 h-full w-full"
+            poster={poster}
+            title={title}
+            autoPlay={autoPlay}
+            controls={controls}
+            loop={loop}
+            muted={muted}
+            playsInline={playsInline}
+            preload={preload}
+          >
+            {resolvedSources.map((source) => (
+              <source
+                key={`${source.src}-${source.type ?? 'auto'}`}
+                src={source.src}
+                type={source.type}
+              />
+            ))}
+            {tracks?.map((track) => (
+              <track
+                key={`${track.src}-${track.srcLang ?? 'und'}-${track.label ?? 'track'}`}
+                src={track.src}
+                kind={track.kind}
+                srcLang={track.srcLang}
+                label={track.label}
+                default={track.default}
+              />
+            ))}
+            Your browser does not support the video tag.
+          </video>
+        ) : (
+          <iframe
+            className="absolute top-0 left-0 h-full w-full"
+            src={src}
+            title={title}
+            scrolling="no"
+            frameBorder="0"
+            allowFullScreen
+          />
+        )}
       </div>
     </DialogContent>
   )

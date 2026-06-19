@@ -8,7 +8,7 @@
 
 ## 这是什么
 
-Splatoon UI 是一套完整的 React 组件库，复刻了 [splatoon.nintendo.com](https://splatoon.nintendo.com) 的视觉语言。你可以用它快速搭建 Splatoon 风格的同人网站、Wiki、锦标赛页面、粉丝社区等。
+Splatoon UI 是一套完整的 React 组件库，基于 Splatoon 系列鲜艳、高对比、墨水感的视觉语言做了前端组件化整理。你可以用它快速搭建 Splatoon 风格的同人网站、Wiki、锦标赛页面、粉丝社区等。
 
 **核心特色：**
 
@@ -38,77 +38,77 @@ pnpm dev
 
 ## 技术栈
 
-| 层级 | 技术 |
-|------|------|
-| 框架 | Next.js 16 (App Router + Turbopack) |
-| UI 基座 | shadcn/ui + Base UI |
-| 样式 | Tailwind CSS v4 |
-| 动画 | framer-motion + CSS transitions/keyframes |
-| WebGL | 自定义墨水飞溅着色器 |
-| 图标 | lucide-react |
-| 语言 | TypeScript (strict mode) |
-| 包管理 | pnpm |
+| 层级    | 技术                                      |
+| ------- | ----------------------------------------- |
+| 框架    | Next.js 16 (App Router + Turbopack)       |
+| UI 基座 | shadcn/ui + Base UI                       |
+| 样式    | Tailwind CSS v4                           |
+| 动画    | framer-motion + CSS transitions/keyframes |
+| WebGL   | 自定义墨水飞溅着色器                      |
+| 图标    | lucide-react                              |
+| 语言    | TypeScript (strict mode)                  |
+| 包管理  | pnpm                                      |
 
 ## 组件清单
 
 ### 核心组件
 
-| 组件 | 说明 |
-|------|------|
-| `Button` | 6 色变体 + drip 动画 + 墨水飞溅装饰 |
-| `Card` | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
-| `PhotoFrame` | 统一相纸容器：撕边 SVG + 胶带/贴纸装饰、mask-image 裁切、响应式 |
-| `Dialog` | Base UI 封装，WaveButton 关闭按钮 + 全屏墨水飞溅模式 |
-| `Tabs` | 墨水飞溅 hover + 颜色下划线标签页（default / line 两种变体） |
-| `Input / Select / Checkbox / Radio` | 表单控件 |
-| `Badge` | 7 色倾斜标签 + 贴纸变体 |
-| `Navigation` | 固定头部（滚动折叠）+ 导航对话框 |
+| 组件                                | 说明                                                                                 |
+| ----------------------------------- | ------------------------------------------------------------------------------------ |
+| `Button`                            | 6 色变体 + drip 动画 + 墨水飞溅装饰                                                  |
+| `Card`                              | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
+| `PhotoFrame`                        | 统一相纸容器：撕边 SVG + 胶带/贴纸装饰、mask-image 裁切、响应式                      |
+| `Dialog`                            | Base UI 封装，WaveButton 关闭按钮 + 全屏墨水飞溅模式                                 |
+| `Tabs`                              | 墨水飞溅 hover + 颜色下划线标签页（default / line 两种变体）                         |
+| `Input / Select / Checkbox / Radio` | 表单控件                                                                             |
+| `Badge`                             | 7 色倾斜标签 + 贴纸变体                                                              |
+| `Navigation`                        | 固定头部（滚动折叠）+ 导航对话框                                                     |
 
 ### 装饰组件
 
-| 组件 | 说明 |
-|------|------|
-| `Tape Title` | 红 / 黄 / 黑背景 + SVG 胶带装饰标题 |
-| `Banner Divider` | 波浪形分区过渡 |
-| `Marquee` | 无限滚动内容条（default / tape / warning 变体，支持任意内容） |
-| `Ink Splat` | 12 种墨水飞溅装饰组件 + 交互式墨水生成器 |
-| `Sticker` | 装饰性贴纸 |
-| `Background Patterns` | 15 种迷彩 / 图案纹理（支持 Retina） |
+| 组件                  | 说明                                                          |
+| --------------------- | ------------------------------------------------------------- |
+| `Tape Title`          | 红 / 黄 / 黑背景 + SVG 胶带装饰标题                           |
+| `Banner Divider`      | 波浪形分区过渡                                                |
+| `Marquee`             | 无限滚动内容条（default / tape / warning 变体，支持任意内容） |
+| `Ink Splat`           | 12 种墨水飞溅装饰组件 + 交互式墨水生成器                      |
+| `Sticker`             | 装饰性贴纸                                                    |
+| `Background Patterns` | 15 种迷彩 / 图案纹理（支持 Retina）                           |
 
 ### 高级组件
 
-| 组件 | 说明 |
-|------|------|
-| `Video Dialog` | YouTube 模态 + WebGL 墨水飞溅过渡 |
-| `Ink Splash Canvas` | WebGL 着色器驱动的墨水过渡效果 |
-| `Card Stack Carousel` | 基于物理摆锤模型的卡片轮播 |
-| `Gallery System` | 统一轮播（Marquee / Weapons / Shops）+ 鱿鱼图标分页 |
-| `InView` | IntersectionObserver 滚动触发动画 |
-| `Page Transition` | WebGL 墨水飞溅页面过渡 |
-| `Wave Canvas` | 交互式波浪画布 |
+| 组件                  | 说明                                                |
+| --------------------- | --------------------------------------------------- |
+| `Video Dialog`        | YouTube 模态 + WebGL 墨水飞溅过渡                   |
+| `Ink Splash Canvas`   | WebGL 着色器驱动的墨水过渡效果                      |
+| `Card Stack Carousel` | 基于物理摆锤模型的卡片轮播                          |
+| `Gallery System`      | 统一轮播（Marquee / Weapons / Shops）+ 鱿鱼图标分页 |
+| `InView`              | IntersectionObserver 滚动触发动画                   |
+| `Page Transition`     | WebGL 墨水飞溅页面过渡                              |
+| `Wave Canvas`         | 交互式波浪画布                                      |
 
 ## 设计系统
 
 ### 颜色
 
-| 名称 | 色值 | 用途 |
-|------|------|------|
-| Neon Yellow | `#EAFF3D` | 主品牌色、CTA |
-| Ink Blue | `#603BFF` | 副品牌色、hover |
-| Ink Purple | `#AF50FF` | 强调色 |
-| Ink Green | `#6AF7CE` | 播放 / 特殊控件 |
-| Ink Orange | `#FF9750` | 暖色操作 |
-| Ink Red | `#FF505E` | 破坏性操作 |
-| Chaos Black | `#0D0D0D` | 文本、阴影 |
-| Desert Sand | `#F5F0E8` | 背景 |
+| 名称        | 色值      | 用途            |
+| ----------- | --------- | --------------- |
+| Neon Yellow | `#EAFF3D` | 主品牌色、CTA   |
+| Ink Blue    | `#603BFF` | 副品牌色、hover |
+| Ink Purple  | `#AF50FF` | 强调色          |
+| Ink Green   | `#6AF7CE` | 播放 / 特殊控件 |
+| Ink Orange  | `#FF9750` | 暖色操作        |
+| Ink Red     | `#FF505E` | 破坏性操作      |
+| Chaos Black | `#0D0D0D` | 文本、阴影      |
+| Desert Sand | `#F5F0E8` | 背景            |
 
 ### 字体
 
-| 角色 | 字体 | 用途 |
-|------|------|------|
-| Display / Heading | fooregular | 英雄标题、章节标题 |
-| Alt | obviously-narrow | 按钮、分类 |
-| Body | Montserrat | 正文 |
+| 角色              | 字体             | 用途               |
+| ----------------- | ---------------- | ------------------ |
+| Display / Heading | fooregular       | 英雄标题、章节标题 |
+| Alt               | obviously-narrow | 按钮、分类         |
+| Body              | Montserrat       | 正文               |
 
 ### 阴影
 
@@ -147,10 +147,9 @@ src/
 public/
   _images/                # 背景、胶带素材、截图
     tape-assets/          # 胶带/贴纸 PNG 素材（含 @2x）
+    svg/                  # 装饰 SVG 素材（撕边背景等）
   fonts/                  # 字体文件（fooregular、Montserrat 自托管）
-  images/svg/             # 装饰 SVG 素材（撕边背景等）
   svgs/                   # 通用 SVG 资源（纸张撕裂、波浪等）
-  official/               # 官方素材（gallery、navi、news 等）
 ```
 
 ## 开发命令
@@ -160,7 +159,18 @@ pnpm dev              # 启动开发服务器
 pnpm build            # 生产构建
 pnpm start            # 启动生产服务器
 npx tsc --noEmit      # 类型检查
+pnpm reference:crawl  # 从 sitemap 生成官网参考资源 manifest（输出到 scratch/）
+pnpm reference:crawl:all  # 抓取英文 locale 的全部 sitemap 页面
+pnpm reference:crawl:all-locales  # 抓取 sitemap 中全部 locale 页面（独立输出目录）
+pnpm reference:analyze    # 将 manifest 映射为组件资产候选清单
+pnpm reference:analyze:all-locales # 分析全部 locale 的 manifest
+pnpm reference:analyze:videos # 去重并归档官方远程 mp4 候选
 ```
+
+如需下载 manifest 中的参考资源，使用 `pnpm reference:crawl:download`。下载结果仍在
+`scratch/`，需要人工筛选、重命名和确认用途后再迁入可发布资源目录。
+全 locale 抓取会写入 `scratch/splatoon-reference-all-locales/`，避免覆盖默认英文参考报告。
+视频分析只输出远程候选清单到 scratch，不会把 mp4 二进制复制到可发布目录。
 
 ## 许可证
 
@@ -179,4 +189,4 @@ MIT
 
 ---
 
-*由 Splatoon 同人社区爱好者制作，献给所有热爱 Splatoon 的玩家。*
+_由 Splatoon 同人社区爱好者制作，献给所有热爱 Splatoon 的玩家。_

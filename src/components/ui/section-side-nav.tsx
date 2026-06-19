@@ -18,7 +18,7 @@ export interface SectionSideNavProps extends React.ComponentProps<'nav'> {
   sections: SectionNavItem[]
   /** Ref to the content container wrapping all sections. Sidebar visibility
    *  is tied to this element's viewport intersection — exactly matching the
-   *  official splatoon.nintendo.com implementation. */
+   *  Splatoon UI section navigation implementation. */
   contentRef: React.RefObject<HTMLElement | null>
 }
 
@@ -34,10 +34,7 @@ function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t
 }
 
-function scrollTo(
-  targetY: number,
-  prefersReducedMotion: boolean,
-) {
+function scrollTo(targetY: number, prefersReducedMotion: boolean) {
   // Cancel any in-flight scroll animation
   if (activeScrollFrame !== null) {
     cancelAnimationFrame(activeScrollFrame)
@@ -51,7 +48,7 @@ function scrollTo(
 
   const scrollY = window.scrollY
   const distance = Math.abs(targetY - scrollY)
-  const duration = Math.min(distance / 5000 * 1000, 2000)
+  const duration = Math.min((distance / 5000) * 1000, 2000)
   let startTime: number | null = null
 
   function step(timestamp: number) {
@@ -87,11 +84,11 @@ export function SectionSideNav({
   // Callback ref — merges forwarded ref with internal ref
   const sidebarCallbackRef = React.useCallback(
     (node: HTMLElement | null) => {
-      (internalRef as React.MutableRefObject<HTMLElement | null>).current = node
+      ;(internalRef as React.MutableRefObject<HTMLElement | null>).current = node
       if (typeof ref === 'function') ref(node)
       else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node
     },
-    [ref],
+    [ref]
   )
 
   // Cancel in-flight scroll animation on unmount
@@ -108,7 +105,7 @@ export function SectionSideNav({
     () =>
       document.documentElement.classList.contains('reduced-motion') ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-    [],
+    []
   )
 
   const scrollToTop = React.useCallback(() => {
@@ -137,7 +134,7 @@ export function SectionSideNav({
       const targetY = anchor.getBoundingClientRect().top + window.scrollY
       scrollTo(targetY, prefersReducedMotion())
     },
-    [prefersReducedMotion],
+    [prefersReducedMotion]
   )
 
   // Track active section via IntersectionObserver on section anchors
@@ -155,9 +152,7 @@ export function SectionSideNav({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          const navItem = sidebar.querySelector(
-            `[data-section-id="${entry.target.id}"]`,
-          )
+          const navItem = sidebar.querySelector(`[data-section-id="${entry.target.id}"]`)
           if (!navItem) return
 
           if (entry.isIntersecting) {
@@ -169,7 +164,7 @@ export function SectionSideNav({
           }
         })
       },
-      { root: null, rootMargin: '-50% 0px -50%', threshold: 0 },
+      { root: null, rootMargin: '-50% 0px -50%', threshold: 0 }
     )
 
     sectionObserverRef.current = observer
@@ -182,7 +177,7 @@ export function SectionSideNav({
   }, [sections])
 
   // Toggle sidebar visibility based on the content container's intersection
-  // with the viewport center zone — matches official splatoon.nintendo.com:
+  // with the viewport center zone:
   // the container starts below the hero, so natural hysteresis prevents jitter.
   React.useEffect(() => {
     const sidebar = internalRef.current
@@ -197,7 +192,7 @@ export function SectionSideNav({
           sidebar.classList.remove(styles.sidebarShow)
         }
       },
-      { root: null, rootMargin: '0px', threshold: 0 },
+      { root: null, rootMargin: '0px', threshold: 0 }
     )
 
     visibilityObserverRef.current = observer
