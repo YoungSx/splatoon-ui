@@ -1,39 +1,49 @@
-"use client"
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 
-import { Carousel, CarouselBleedBoundary, CarouselPagination } from "@/components/ui/carousel"
+import { Carousel, CarouselBleedBoundary, CarouselPagination } from '@/components/ui/carousel'
 import {
   CardStackCarouselContent,
   CardStackCarouselItem,
   CardStackCarouselNext,
   CardStackCarouselPrevious,
   CardStackCarouselScene,
-} from "@/components/ui/card-stack-carousel"
-import { StapleCard, type StapleCardProps } from "@/components/ui/staple-card"
-import { cn } from "@/lib/utils"
+} from '@/components/ui/card-stack-carousel'
+import { StapleCard, type StapleCardProps } from '@/components/ui/staple-card'
+import { cn } from '@/lib/utils'
 
 const feedCarouselItemShellStyle = {
-  width: "clamp(16.5rem, 19vw, 23rem)",
+  width: 'clamp(16.5rem, 19vw, 23rem)',
 } satisfies React.CSSProperties
 
-export interface FeedCarouselItem
-  extends Pick<
-    StapleCardProps,
-    "image" | "title" | "subtitle" | "action" | "surface" | "showTape" | "hoverTilt"
-  > {
+const DEFAULT_FEED_CAROUSEL_MEDIA_ASPECT_RATIO = '558 / 313'
+
+export interface FeedCarouselItem extends Pick<
+  StapleCardProps,
+  'image' | 'title' | 'subtitle' | 'action' | 'surface' | 'showTape' | 'hoverTilt'
+> {
   id: React.Key
   cardClassName?: string
 }
 
-export interface FeedCarouselProps extends Omit<React.ComponentPropsWithoutRef<typeof Carousel>, "children"> {
+export interface FeedCarouselProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof Carousel>,
+  'children'
+> {
   items: FeedCarouselItem[]
+  mediaAspectRatio?: React.CSSProperties['aspectRatio'] | false
 }
 
-export function FeedCarousel({ items, className, ...props }: FeedCarouselProps) {
+export function FeedCarousel({
+  items,
+  className,
+  mediaAspectRatio = DEFAULT_FEED_CAROUSEL_MEDIA_ASPECT_RATIO,
+  ...props
+}: FeedCarouselProps) {
   return (
     <CarouselBleedBoundary>
-      <Carousel itemCount={items.length} className={cn("max-w-none", className)} {...props}>
+      <Carousel itemCount={items.length} className={cn('max-w-none', className)} {...props}>
         <CardStackCarouselScene>
           <CardStackCarouselContent>
             {items.map((item, index) => (
@@ -44,7 +54,19 @@ export function FeedCarousel({ items, className, ...props }: FeedCarouselProps) 
               >
                 <StapleCard
                   className={item.cardClassName}
-                  image={item.image}
+                  image={
+                    mediaAspectRatio ? (
+                      <span
+                        data-slot="feed-carousel-media"
+                        className="block w-full overflow-hidden"
+                        style={{ aspectRatio: mediaAspectRatio }}
+                      >
+                        {item.image}
+                      </span>
+                    ) : (
+                      item.image
+                    )
+                  }
                   title={item.title}
                   subtitle={item.subtitle}
                   action={item.action}

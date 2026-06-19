@@ -6,12 +6,12 @@ const charactersDir = path.join(root, 'public', '_images', 'characters')
 const registryPath = path.join(root, 'src', 'components', 'ui', 'character-assets.ts')
 const pagePath = path.join(root, 'src', 'app', 'page.tsx')
 const analyzerPath = path.join(root, 'scripts', 'analyze-splatoon-reference.mjs')
-const uiIndexPath = path.join(root, 'src', 'components', 'ui', 'index.ts')
+const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
 const analyzer = fs.readFileSync(analyzerPath, 'utf8')
-const uiIndex = fs.readFileSync(uiIndexPath, 'utf8')
+const serverEntry = fs.readFileSync(serverEntryPath, 'utf8')
 
 const requiredAssets = [
   'char-2.png',
@@ -87,7 +87,7 @@ const checks = [
   },
   {
     name: 'server-safe UI entrypoint exports character asset metadata',
-    pass: uiIndex.includes("export * from './character-assets'"),
+    pass: serverEntry.includes("export * from './character-assets'"),
   },
 ]
 

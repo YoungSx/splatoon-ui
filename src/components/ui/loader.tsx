@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { AssetImage } from './asset-image'
 import { squidImageAssets } from './squid-assets'
 import styles from './loader.module.css'
 
@@ -49,15 +50,7 @@ export function Loader({
       {...props}
     >
       <span className={styles.surface} aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element -- animated public GIF is served from the curated asset registry. */}
-        <img
-          src={asset.src}
-          alt=""
-          width={asset.width}
-          height={asset.height}
-          className={styles.image}
-          draggable={false}
-        />
+        <AssetImage asset={asset} className={styles.image} decorative />
       </span>
       <span className="sr-only">{resolvedLabel}</span>
     </span>

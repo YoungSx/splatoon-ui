@@ -54,8 +54,10 @@ const checks = [
   {
     name: 'FeedCarousel component consumes the image field that the demo data provides',
     pass:
-      feedCarousel.includes('"image"') &&
-      feedCarousel.includes('image={item.image}') &&
+      /['"]image['"]\s*\|\s*['"]title['"]\s*\|\s*['"]subtitle['"]\s*\|\s*['"]action['"]/.test(
+        feedCarousel
+      ) &&
+      feedCarousel.includes('{item.image}') &&
       feedCarousel.includes('title={item.title}') &&
       feedCarousel.includes('subtitle={item.subtitle}'),
   },
@@ -63,11 +65,12 @@ const checks = [
     name: 'feed carousel demo uses curated event and showcase images',
     pass:
       page.includes('function FeedCardImage') &&
-      page.includes("const FEED_CARD_MEDIA_ASPECT_RATIO = '558 / 313'") &&
+      page.includes("import { AssetImage, type ImageAsset } from '@/components/ui/asset-image'") &&
       page.includes('const homepageFeedCarouselItems = [') &&
       requiredPageAssetRefs.every((entry) => page.includes(entry)) &&
       page.includes('image: <FeedCardImage') &&
-      page.includes('loading="eager"'),
+      page.includes('loading="eager"') &&
+      page.includes('<AssetImage'),
   },
   {
     name: 'feed carousel demo no longer uses number tiles or non-consumed media fields',
@@ -82,16 +85,23 @@ const checks = [
   {
     name: 'feed carousel item CTAs keep the reference-style arrow treatment consistently',
     pass:
-      page.includes('<Button size="sm" variant="arrow">Read</Button>') &&
+      /<Button\s+size="sm"\s+variant="arrow">\s*Read\s*<\/Button>/.test(page) &&
       !page.includes('index % 2') &&
       !page.includes("variant={index % 2 === 0 ? 'arrow' : 'blue'}"),
   },
   {
     name: 'feed carousel item media keeps a stable shared aspect ratio',
     pass:
-      page.includes('aspectRatio: FEED_CARD_MEDIA_ASPECT_RATIO') &&
+      /const DEFAULT_FEED_CAROUSEL_MEDIA_ASPECT_RATIO = ['"]558 \/ 313['"]/.test(feedCarousel) &&
+      /mediaAspectRatio\?: React\.CSSProperties\[['"]aspectRatio['"]\] \| false/.test(
+        feedCarousel
+      ) &&
+      feedCarousel.includes('mediaAspectRatio = DEFAULT_FEED_CAROUSEL_MEDIA_ASPECT_RATIO') &&
+      feedCarousel.includes('data-slot="feed-carousel-media"') &&
+      feedCarousel.includes('style={{ aspectRatio: mediaAspectRatio }}') &&
+      !page.includes('FEED_CARD_MEDIA_ASPECT_RATIO') &&
       page.includes("style={{ objectFit: 'cover' }}") &&
-      page.includes('className="block w-full overflow-hidden"'),
+      feedCarousel.includes('className="block w-full overflow-hidden"'),
   },
   {
     name: 'feed carousel local media files are valid images',

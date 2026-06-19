@@ -58,6 +58,7 @@ import { SectionSideNav } from '@/components/ui/section-side-nav'
 import { Progress } from '@/components/ui/progress'
 import { Footer } from '@/components/ui/footer'
 import { GitHubMark } from '@/components/ui/github-mark'
+import { AssetImage, type ImageAsset } from '@/components/ui/asset-image'
 import { pageTransitionCharacterAssets } from '@/components/ui/character-assets'
 import { EventCallout } from '@/components/ui/event-callout'
 import { eventImageAssets } from '@/components/ui/event-assets'
@@ -120,33 +121,14 @@ function createDemoEmbed(label: string) {
 
 const demoVideoEmbed = createDemoEmbed('Splatoon UI')
 
-type FeedCardImageAsset = {
-  src: string
-  alt: string
-  width: number
-  height: number
-}
-
-const FEED_CARD_MEDIA_ASPECT_RATIO = '558 / 313'
-
-function FeedCardImage({ asset }: { asset: FeedCardImageAsset }) {
+function FeedCardImage({ asset }: { asset: ImageAsset }) {
   return (
-    <span
-      className="block w-full overflow-hidden"
-      style={{ aspectRatio: FEED_CARD_MEDIA_ASPECT_RATIO }}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element -- curated public demo artwork is rendered inside a transformed card shell. */}
-      <img
-        src={asset.src}
-        alt={asset.alt}
-        width={asset.width}
-        height={asset.height}
-        className="h-full w-full"
-        style={{ objectFit: 'cover' }}
-        loading="eager"
-        draggable={false}
-      />
-    </span>
+    <AssetImage
+      asset={asset}
+      className="h-full w-full"
+      style={{ objectFit: 'cover' }}
+      loading="eager"
+    />
   )
 }
 
@@ -193,7 +175,9 @@ const homepageFeedCarouselItems = [
   action: (
     <>
       <p className="text-chaos-black/60 text-sm font-bold">Curated media-backed demo card</p>
-      <Button size="sm" variant="arrow">Read</Button>
+      <Button size="sm" variant="arrow">
+        Read
+      </Button>
     </>
   ),
 }))

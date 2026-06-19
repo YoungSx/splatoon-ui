@@ -3,10 +3,12 @@ import path from 'node:path'
 
 const root = process.cwd()
 const componentRoot = path.join(root, 'src', 'components', 'ui')
-const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'index.ts')
+const indexEntryPath = path.join(root, 'src', 'components', 'ui', 'index.ts')
+const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
 const clientEntryPath = path.join(root, 'src', 'components', 'ui', 'client.ts')
 const packagePath = path.join(root, 'package.json')
 
+const indexEntry = fs.readFileSync(indexEntryPath, 'utf8')
 const serverEntry = fs.readFileSync(serverEntryPath, 'utf8')
 const clientEntry = fs.readFileSync(clientEntryPath, 'utf8')
 const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
@@ -65,6 +67,7 @@ const clientOnlyModules = [
 ]
 
 const requiredServerExports = [
+  './asset-image',
   './character-assets',
   './event-assets',
   './event-callout',
@@ -91,10 +94,41 @@ const requiredClientExports = [
   './video-dialog',
 ]
 
+const staticSvgFiles = [
+  path.join(componentRoot, 'splats', 'splat.tsx'),
+  path.join(componentRoot, 'splats', 'splat-1.tsx'),
+  path.join(componentRoot, 'splats', 'splat-2.tsx'),
+  path.join(componentRoot, 'splats', 'splat-3.tsx'),
+  path.join(componentRoot, 'splats', 'splat-4.tsx'),
+  path.join(componentRoot, 'splats', 'splat-5.tsx'),
+  path.join(componentRoot, 'splats', 'splat-6.tsx'),
+  path.join(componentRoot, 'splats', 'splat-7.tsx'),
+  path.join(componentRoot, 'splats', 'splat-8.tsx'),
+  path.join(componentRoot, 'splats', 'splat-9.tsx'),
+  path.join(componentRoot, 'splats', 'splat-10.tsx'),
+  path.join(componentRoot, 'splats', 'splat-11.tsx'),
+  path.join(componentRoot, 'splats', 'splat-12.tsx'),
+  path.join(componentRoot, 'splats', 'nav-splat.tsx'),
+  path.join(componentRoot, 'icons', 'nav-arrow-down.tsx'),
+]
+
 const checks = [
   {
     name: 'package identity remains Splatoon UI compatible',
     pass: packageJson.name === 'splatoon-ui',
+  },
+  {
+    name: 'package exports declare explicit server, client, and stylesheet entrypoints',
+    pass:
+      packageJson.exports?.['.']?.import === './src/components/ui/server.ts' &&
+      packageJson.exports?.['.']?.types === './src/components/ui/server.ts' &&
+      packageJson.exports?.['./server']?.import === './src/components/ui/server.ts' &&
+      packageJson.exports?.['./client']?.import === './src/components/ui/client.ts' &&
+      packageJson.exports?.['./styles.css'] === './src/app/globals.css',
+  },
+  {
+    name: 'default UI entrypoint forwards to the explicit server-safe entrypoint',
+    pass: indexEntry.trim() === "export * from './server'",
   },
   {
     name: 'server-safe UI entrypoint does not create a client component boundary',
@@ -108,11 +142,16 @@ const checks = [
     pass: serverMarkedRuntimeFiles.length === 0,
   },
   {
+    name: 'static SVG and icon primitives remain server-safe',
+    pass: staticSvgFiles.every(
+      (filePath) => !firstCodeLine(fs.readFileSync(filePath, 'utf8')).includes('use client')
+    ),
+  },
+  {
     name: 'ButtonDrip public props avoid hook-like naming',
-    pass:
-      !fs
-        .readFileSync(path.join(componentRoot, 'button-drip.tsx'), 'utf8')
-        .includes('useAccentColors'),
+    pass: !fs
+      .readFileSync(path.join(componentRoot, 'button-drip.tsx'), 'utf8')
+      .includes('useAccentColors'),
   },
   {
     name: 'server-safe UI entrypoint exposes shared presentational assets and primitives',

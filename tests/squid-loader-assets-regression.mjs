@@ -8,14 +8,14 @@ const loaderPath = path.join(root, 'src', 'components', 'ui', 'loader.tsx')
 const loaderCssPath = path.join(root, 'src', 'components', 'ui', 'loader.module.css')
 const squidMaskPath = path.join(root, 'src', 'components', 'ui', 'squid-mask-transition.tsx')
 const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const uiIndexPath = path.join(root, 'src', 'components', 'ui', 'index.ts')
+const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const loader = fs.readFileSync(loaderPath, 'utf8')
 const loaderCss = fs.readFileSync(loaderCssPath, 'utf8')
 const squidMask = fs.readFileSync(squidMaskPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
-const uiIndex = fs.readFileSync(uiIndexPath, 'utf8')
+const serverEntry = fs.readFileSync(serverEntryPath, 'utf8')
 
 function hasNoHttpErrorPayload(filePath) {
   const buffer = fs.readFileSync(filePath)
@@ -70,9 +70,11 @@ const checks = [
   {
     name: 'Loader renders the image-backed squid glyph instead of a CSS border spinner',
     pass:
+      loader.includes("import { AssetImage } from './asset-image'") &&
       loader.includes('squidImageAssets.loader') &&
-      loader.includes('<img') &&
+      loader.includes('<AssetImage') &&
       loader.includes('role="status"') &&
+      !loader.includes('<img') &&
       !loader.includes('border spinner') &&
       !loaderCss.includes('border-right-color') &&
       !loaderCss.includes('rotate(359deg)') &&
@@ -92,7 +94,7 @@ const checks = [
   },
   {
     name: 'server-safe UI entrypoint exports squid asset metadata',
-    pass: uiIndex.includes("export * from './squid-assets'"),
+    pass: serverEntry.includes("export * from './squid-assets'"),
   },
 ]
 

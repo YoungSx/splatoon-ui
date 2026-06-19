@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 import { Splat1 } from './splat-1'
 import { Splat2 } from './splat-2'

@@ -6,12 +6,12 @@ const publicImagesDir = path.join(root, 'public', '_images')
 const registryPath = path.join(root, 'src', 'components', 'ui', 'showcase-assets.ts')
 const pagePath = path.join(root, 'src', 'app', 'page.tsx')
 const analyzerPath = path.join(root, 'scripts', 'analyze-splatoon-reference.mjs')
-const uiIndexPath = path.join(root, 'src', 'components', 'ui', 'index.ts')
+const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
 const analyzer = fs.readFileSync(analyzerPath, 'utf8')
-const uiIndex = fs.readFileSync(uiIndexPath, 'utf8')
+const serverEntry = fs.readFileSync(serverEntryPath, 'utf8')
 
 const requiredAssets = [
   'screenshots/video-trailer.jpg',
@@ -90,7 +90,7 @@ const checks = [
   },
   {
     name: 'server-safe UI entrypoint exports showcase asset metadata',
-    pass: uiIndex.includes("export * from './showcase-assets'"),
+    pass: serverEntry.includes("export * from './showcase-assets'"),
   },
 ]
 

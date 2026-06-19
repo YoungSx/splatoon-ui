@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { AssetImage } from './asset-image'
 import { eventImageAssets, type EventImageAsset } from './event-assets'
 import styles from './event-callout.module.css'
 
@@ -29,39 +30,16 @@ export function EventCallout({
 }: EventCalloutProps) {
   return (
     <article className={cn(styles.callout, className)} {...props}>
-      {/* eslint-disable-next-line @next/next/no-img-element -- curated public event artwork is rendered at fixed intrinsic dimensions. */}
-      <img
-        className={styles.background}
-        src={background.src}
-        alt=""
-        width={background.width}
-        height={background.height}
-        loading="lazy"
-        aria-hidden="true"
-        draggable={false}
-      />
+      <AssetImage asset={background} className={styles.background} loading="lazy" decorative />
       <div className={styles.content}>
         <div className={styles.mediaFrame}>
-          {/* eslint-disable-next-line @next/next/no-img-element -- component accepts curated public event artwork with known dimensions. */}
-          <img
+          <AssetImage
+            asset={media}
             className={styles.media}
-            src={media.src}
-            alt={media.alt}
-            width={media.width}
-            height={media.height}
             loading={mediaPriority ? 'eager' : 'lazy'}
-            draggable={false}
           />
           <span className={styles.iconBadge} aria-hidden="true">
-            {/* eslint-disable-next-line @next/next/no-img-element -- tiny decorative badge uses the original public PNG. */}
-            <img
-              src={icon.src}
-              alt=""
-              width={icon.width}
-              height={icon.height}
-              loading="lazy"
-              draggable={false}
-            />
+            <AssetImage asset={icon} loading="lazy" decorative />
           </span>
         </div>
 

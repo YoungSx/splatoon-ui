@@ -7,13 +7,13 @@ const registryPath = path.join(root, 'src', 'components', 'ui', 'event-assets.ts
 const calloutPath = path.join(root, 'src', 'components', 'ui', 'event-callout.tsx')
 const calloutCssPath = path.join(root, 'src', 'components', 'ui', 'event-callout.module.css')
 const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const uiIndexPath = path.join(root, 'src', 'components', 'ui', 'index.ts')
+const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const callout = fs.readFileSync(calloutPath, 'utf8')
 const calloutCss = fs.readFileSync(calloutCssPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
-const uiIndex = fs.readFileSync(uiIndexPath, 'utf8')
+const serverEntry = fs.readFileSync(serverEntryPath, 'utf8')
 
 const requiredAssets = [
   ['big-run-callout.jpg', 'jpg', 382, 215],
@@ -82,14 +82,16 @@ const checks = [
       ),
   },
   {
-    name: 'EventCallout renders official media, background, and badge assets with fixed-ratio layout',
+    name: 'EventCallout renders media, background, and badge assets through shared AssetImage',
     pass:
+      callout.includes("import { AssetImage } from './asset-image'") &&
       callout.includes('eventImageAssets.bigRunCallout') &&
       callout.includes('eventImageAssets.splatnetNextPage') &&
       callout.includes('eventImageAssets.goldenEgg') &&
       callout.includes('className={styles.mediaFrame}') &&
       callout.includes('<article') &&
-      callout.includes('<img') &&
+      callout.includes('<AssetImage') &&
+      !callout.includes('<img') &&
       calloutCss.includes('aspect-ratio: 382 / 215;') &&
       calloutCss.includes('@media (min-width: 760px)'),
   },
@@ -109,8 +111,9 @@ const checks = [
   {
     name: 'server-safe UI entrypoint exports event assets and callout component',
     pass:
-      uiIndex.includes("export * from './event-assets'") &&
-      uiIndex.includes("export * from './event-callout'"),
+      serverEntry.includes("export * from './event-assets'") &&
+      serverEntry.includes("export * from './asset-image'") &&
+      serverEntry.includes("export * from './event-callout'"),
   },
 ]
 
