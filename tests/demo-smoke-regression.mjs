@@ -132,6 +132,24 @@ async function collectLayoutIssues(page) {
   })
 }
 
+async function collectSectionSideNavState(page) {
+  return page.evaluate(() => {
+    const sidebar = document.querySelector('[data-slot="section-side-nav"]')
+    if (!sidebar) return null
+
+    const style = window.getComputedStyle(sidebar)
+    const rect = sidebar.getBoundingClientRect()
+
+    return {
+      display: style.display,
+      opacity: Number(style.opacity),
+      visibility: style.visibility,
+      width: rect.width,
+      height: rect.height,
+    }
+  })
+}
+
 async function collectImageIssues(page) {
   return page.evaluate(() =>
     [...document.images]
@@ -182,6 +200,8 @@ async function runViewport(browser, viewport) {
 
     await scrollThroughPage(page)
     await page.waitForLoadState('networkidle')
+    await page.evaluate(() => window.scrollTo(0, Math.floor(window.innerHeight * 1.1)))
+    await page.waitForTimeout(250)
 
     const bodyText = await page.locator('body').innerText()
     const presentForbiddenCopy = forbiddenCopy.filter((copy) => bodyText.includes(copy))
@@ -196,6 +216,17 @@ async function runViewport(browser, viewport) {
     assert(
       (await trigger.count()) === 1,
       `${viewport.name}: expected one accessible video dialog trigger`
+    )
+
+    const sectionSideNav = await collectSectionSideNavState(page)
+    assert(sectionSideNav, `${viewport.name}: section side nav was not rendered`)
+    assert(
+      sectionSideNav.display !== 'none' &&
+        sectionSideNav.visibility === 'visible' &&
+        sectionSideNav.opacity > 0.9 &&
+        sectionSideNav.width > 0 &&
+        sectionSideNav.height > 0,
+      `${viewport.name}: section side nav is not visible: ${JSON.stringify(sectionSideNav)}`
     )
 
     const layoutIssues = await collectLayoutIssues(page)

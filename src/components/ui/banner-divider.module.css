@@ -1,30 +1,55 @@
 /* Banner Divider */
 
-/* ── Group wrapper (observer target) ── */
-/* Header wrapper keeps the divider above surrounding sections.
-   Standalone divider: explicit responsive height. */
+/* ── Group wrapper ── */
+/* Default overlay mode mirrors the reference: the visible tapes are absolute
+   decoration across a section edge and do not reserve document flow height. */
 .bannerDividerGroup {
-  overflow-x: clip;
+  --banner-divider-height: 47px;
+  --banner-divider-stack-offset: var(--banner-divider-max-offset, 0px);
+  --banner-divider-viewport-height: calc(
+    var(--banner-divider-height) + var(--banner-divider-stack-offset)
+  );
+  block-size: 0;
+  isolation: isolate;
+  pointer-events: none;
   position: relative;
   z-index: 2;
-  height: 47px;
+}
+
+.bannerDividerGroupSpacer {
+  block-size: var(--banner-divider-height);
+}
+
+.bannerDividerViewport {
+  block-size: var(--banner-divider-viewport-height);
+  inset-inline: 0;
+  overflow-x: clip;
+  overflow-y: visible;
+  pointer-events: none;
+  position: absolute;
+  top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -1));
+  z-index: 0;
 }
 
 @media screen and (min-width: 640px) {
   .bannerDividerGroup {
-    height: 65px;
+    --banner-divider-height: 65px;
+    --banner-divider-stack-offset: var(
+      --banner-divider-max-offset-medium,
+      var(--banner-divider-max-offset, 0px)
+    );
   }
 }
 
 @media screen and (min-width: 1024px) {
   .bannerDividerGroup {
-    height: 90px;
+    --banner-divider-height: 90px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .bannerDividerGroup {
-    height: 110px;
+    --banner-divider-height: 110px;
   }
 }
 
@@ -39,7 +64,7 @@
   left: 50%;
   position: absolute;
   width: 110vw;
-  z-index: 2;
+  z-index: 0;
 }
 
 @media screen and (min-width: 640px) {

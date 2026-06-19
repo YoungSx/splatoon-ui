@@ -1,10 +1,10 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
-import { type Pattern, SectionBackground } from "./section-background"
+import * as React from 'react'
+import { cn } from '@/lib/utils'
+import { type Pattern, SectionBackground } from './section-background'
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   /** Base size — controls vertical padding. `md` = 64px, `lg` = 80px */
-  size?: "md" | "lg"
+  size?: 'md' | 'lg'
   /** Pass a HeadingTape element to auto-increase padding for sticker overflow */
   headingTape?: React.ReactNode
   /** Optional pattern texture overlay */
@@ -14,25 +14,29 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   /** Tailwind text color class (e.g. "text-chaos-black") */
   text?: string
   /** Render as "section" or "div" */
-  as?: "section" | "div"
+  as?: 'section' | 'div'
   style?: React.CSSProperties
 }
 
 export function Section({
-  size = "md",
+  size = 'md',
   headingTape,
   pattern,
   bgColor,
   text,
-  as = "section",
+  as = 'section',
   className,
   children,
   style,
   ...props
 }: SectionProps) {
   const paddingY = headingTape
-    ? size === "lg" ? "py-28" : "py-24"
-    : size === "lg" ? "py-20" : "py-16"
+    ? size === 'lg'
+      ? 'py-28'
+      : 'py-24'
+    : size === 'lg'
+      ? 'py-20'
+      : 'py-16'
 
   return (
     <SectionBackground
@@ -40,10 +44,10 @@ export function Section({
       pattern={pattern}
       className={cn(
         paddingY,
-        "px-6 relative z-[var(--z-deco)]",
+        'relative z-[var(--z-deco)] pr-[calc(1.5rem+var(--section-side-nav-safe-area,0px))] pl-6',
         bgColor,
         text,
-        className,
+        className
       )}
       style={style}
       {...props}

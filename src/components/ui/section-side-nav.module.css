@@ -118,9 +118,41 @@
   }
 }
 
-@media (max-width: 1023.98px) {
+@media (min-width: 640px) {
   .sidebar {
-    display: none;
-    pointer-events: none;
+    right: calc(var(--base-space, 8px) * 2);
+  }
+
+  .menu {
+    gap: calc(var(--base-space, 8px) * 4);
+  }
+
+  .item {
+    --dimension: 60px;
+    --border: 6px;
+  }
+
+  .itemSplat {
+    --width: 81px;
+    --height: 72px;
+  }
+
+  .itemText {
+    font-size: 1.75rem;
+  }
+
+  .itemBackToTop {
+    --dimension: 44px;
+  }
+
+  .backToTopArrow {
+    --width: 20px;
+    --height: 11.82px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    right: calc(var(--base-space, 8px) * 5);
   }
 }

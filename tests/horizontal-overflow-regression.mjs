@@ -3,6 +3,8 @@ import path from 'node:path'
 
 const root = process.cwd()
 const cssPath = path.join(root, 'src', 'components', 'ui', 'heading-tape.module.css')
+const pagePath = path.join(root, 'src', 'app', 'page.tsx')
+const sectionPath = path.join(root, 'src', 'components', 'ui', 'section.tsx')
 const sectionSideNavCssPath = path.join(
   root,
   'src',
@@ -11,6 +13,8 @@ const sectionSideNavCssPath = path.join(
   'section-side-nav.module.css'
 )
 const css = fs.readFileSync(cssPath, 'utf8')
+const page = fs.readFileSync(pagePath, 'utf8')
+const section = fs.readFileSync(sectionPath, 'utf8')
 const sectionSideNavCss = fs.readFileSync(sectionSideNavCssPath, 'utf8')
 
 function block(selector) {
@@ -21,6 +25,16 @@ function block(selector) {
 
 function hasDeclaration(selector, declaration) {
   return block(selector).includes(declaration)
+}
+
+function sideNavBlock(selector) {
+  const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const match = sectionSideNavCss.match(new RegExp(`${escapedSelector}\\s*{(?<body>[^}]*)}`, 's'))
+  return match?.groups?.body ?? ''
+}
+
+function sideNavHasDeclaration(selector, declaration) {
+  return sideNavBlock(selector).includes(declaration)
 }
 
 const checks = [
@@ -53,11 +67,34 @@ const checks = [
       !/\.compact\s+\.headingTapeText\s*{[^}]*white-space:\s*nowrap/s.test(css),
   },
   {
-    name: 'SectionSideNav hides below desktop width so it cannot cover mobile content',
+    name: 'SectionSideNav remains visible on mobile like the reference gallery sidebar',
     pass:
-      /@media \(max-width:\s*1023\.98px\)\s*{[^}]*\.sidebar\s*{[^}]*display:\s*none;/s.test(
+      sideNavHasDeclaration('.sidebar', 'position: fixed;') &&
+      sideNavHasDeclaration('.sidebar', 'right: var(--base-space, 8px);') &&
+      !/@media \(max-width:\s*1023\.98px\)\s*{[^}]*\.sidebar\s*{[^}]*display:\s*none;/s.test(
         sectionSideNavCss
-      ) && sectionSideNavCss.includes('pointer-events: none;'),
+      ),
+  },
+  {
+    name: 'SectionSideNav scales to the reference tablet and desktop dimensions',
+    pass:
+      /@media \(min-width:\s*640px\)\s*{[^]*?\.item\s*{[^}]*--dimension:\s*60px;[^}]*--border:\s*6px;/s.test(
+        sectionSideNavCss
+      ) &&
+      /@media \(min-width:\s*640px\)\s*{[^]*?\.itemSplat\s*{[^}]*--width:\s*81px;[^}]*--height:\s*72px;/s.test(
+        sectionSideNavCss
+      ) &&
+      /@media \(min-width:\s*1024px\)\s*{[^}]*\.sidebar\s*{[^}]*right:\s*calc\(var\(--base-space,\s*8px\) \* 5\);/s.test(
+        sectionSideNavCss
+      ),
+  },
+  {
+    name: 'Demo sections reserve a mobile safe area for the fixed reference-style sidebar',
+    pass:
+      section.includes('var(--section-side-nav-safe-area,0px)') &&
+      page.includes('[--section-side-nav-safe-area:3.5rem]') &&
+      page.includes('sm:[--section-side-nav-safe-area:5.5rem]') &&
+      page.includes('lg:[--section-side-nav-safe-area:0px]'),
   },
 ]
 

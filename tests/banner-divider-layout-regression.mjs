@@ -1,0 +1,68 @@
+import fs from 'node:fs'
+import path from 'node:path'
+
+const root = process.cwd()
+const componentPath = path.join(root, 'src', 'components', 'ui', 'banner-divider.tsx')
+const cssPath = path.join(root, 'src', 'components', 'ui', 'banner-divider.module.css')
+
+const component = fs.readFileSync(componentPath, 'utf8')
+const css = fs.readFileSync(cssPath, 'utf8')
+
+function block(selector) {
+  const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const match = css.match(new RegExp(`${escapedSelector}\\s*{(?<body>[^}]*)}`, 's'))
+  return match?.groups?.body ?? ''
+}
+
+function hasDeclaration(selector, declaration) {
+  return block(selector).includes(declaration)
+}
+
+const checks = [
+  {
+    name: 'BannerDivider defaults to an overlay layout instead of reserving vertical page space',
+    pass:
+      component.includes("layout = 'overlay'") &&
+      component.includes("layout?: 'overlay' | 'spacer'") &&
+      component.includes('data-layout={layout}') &&
+      hasDeclaration('.bannerDividerGroup', 'block-size: 0;') &&
+      !/^\s*height:\s*47px;/m.test(block('.bannerDividerGroup')),
+  },
+  {
+    name: 'BannerDivider keeps a spacer opt-in for intentional occupied layouts',
+    pass:
+      component.includes("layout === 'spacer' && styles.bannerDividerGroupSpacer") &&
+      hasDeclaration('.bannerDividerGroupSpacer', 'block-size: var(--banner-divider-height);'),
+  },
+  {
+    name: 'BannerDivider visual layer remains absolutely positioned and animated independently',
+    pass:
+      component.includes('ref={animate ? ref : undefined}') &&
+      component.includes('styles.bannerDividerViewport') &&
+      hasDeclaration('.bannerDividerViewport', 'position: absolute;') &&
+      hasDeclaration(
+        '.bannerDividerViewport',
+        'top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -1));'
+      ) &&
+      hasDeclaration('.bannerDividerViewport', 'overflow-x: clip;') &&
+      hasDeclaration('.bannerDividerViewport', 'overflow-y: visible;'),
+  },
+  {
+    name: 'BannerDivider decoration cannot intercept section interactions',
+    pass:
+      hasDeclaration('.bannerDividerGroup', 'pointer-events: none;') &&
+      hasDeclaration('.bannerDividerViewport', 'pointer-events: none;'),
+  },
+]
+
+const failed = checks.filter((check) => !check.pass)
+
+if (failed.length > 0) {
+  console.error('BannerDivider layout checks failed:')
+  for (const check of failed) {
+    console.error(`- ${check.name}`)
+  }
+  process.exit(1)
+}
+
+console.log('BannerDivider layout checks passed.')

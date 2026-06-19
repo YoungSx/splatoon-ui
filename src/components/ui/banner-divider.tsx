@@ -43,6 +43,12 @@ export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement>
   animate?: boolean
   /** Root margin for InView IntersectionObserver. */
   rootMargin?: string
+  /**
+   * Overlay matches the reference behavior: the divider paints across the section edge
+   * without reserving document flow height. Use spacer only when a layout intentionally
+   * needs the divider to occupy vertical space.
+   */
+  layout?: 'overlay' | 'spacer'
 }
 
 const DEFAULT_TAPES: [BannerDividerTape, BannerDividerTape] = [
@@ -128,6 +134,7 @@ export function BannerDivider({
   tapes: tapesProp,
   animate,
   rootMargin,
+  layout = 'overlay',
   className,
   style: styleProp,
   ...props
@@ -138,6 +145,8 @@ export function BannerDivider({
     { ...DEFAULT_TAPES[0], variant: pattern ?? DEFAULT_TAPES[0].variant },
     { ...DEFAULT_TAPES[1], variant: color ?? DEFAULT_TAPES[1].variant },
   ]
+  const maxBaseOffset = Math.max(0, ...tapes.map((tape) => tape.offsetY?.[0] ?? 0))
+  const maxMediumOffset = Math.max(0, ...tapes.map((tape) => tape.offsetY?.[1] ?? 0))
 
   React.useEffect(() => {
     if (!animate) return
@@ -160,18 +169,29 @@ export function BannerDivider({
 
   return (
     <div
-      ref={animate ? ref : undefined}
       className={cn(
         styles.bannerDividerGroup,
-        animate && isInView && inViewStyles.inView,
+        layout === 'spacer' && styles.bannerDividerGroupSpacer,
         className
       )}
-      style={styleProp}
+      style={
+        {
+          '--banner-divider-max-offset': `${maxBaseOffset}px`,
+          '--banner-divider-max-offset-medium': `${maxMediumOffset}px`,
+          ...styleProp,
+        } as React.CSSProperties
+      }
       {...props}
+      data-layout={layout}
     >
-      {tapes.map((tape, i) => (
-        <BannerDividerTapeLayer key={i} {...tape} animate={animate} index={i} />
-      ))}
+      <div
+        ref={animate ? ref : undefined}
+        className={cn(styles.bannerDividerViewport, animate && isInView && inViewStyles.inView)}
+      >
+        {tapes.map((tape, i) => (
+          <BannerDividerTapeLayer key={i} {...tape} animate={animate} index={i} />
+        ))}
+      </div>
     </div>
   )
 }

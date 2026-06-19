@@ -487,7 +487,10 @@ export default function Home() {
         </InkTrailCanvas>
 
         {/* Content sections container — observed by SectionSideNav for visibility */}
-        <div ref={contentRef}>
+        <div
+          ref={contentRef}
+          className="[--section-side-nav-safe-area:3.5rem] sm:[--section-side-nav-safe-area:5.5rem] lg:[--section-side-nav-safe-area:0px]"
+        >
           {/* ────────────────────────────────────────────────────────
          01 — Trailer
          ──────────────────────────────────────────────────────── */}
