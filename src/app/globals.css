@@ -183,9 +183,12 @@
   --z-nav-content: 81;
   --z-nav-overlay: 90;
   --z-nav: 100;
-  --z-sheet-overlay: 105;
-  --z-dialog: 110;
-  --z-dialog-close: 120;
+  --z-floating: 130;
+  --z-sheet-overlay: 200;
+  --z-sheet: 210;
+  --z-dialog-overlay: 200;
+  --z-dialog: 210;
+  --z-dialog-close: 220;
   --chart-1: #eaff3d;
   --chart-2: #603bff;
   --chart-3: #ff505e;

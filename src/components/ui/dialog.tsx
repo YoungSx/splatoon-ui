@@ -121,7 +121,7 @@ function DialogOverlay({ className, ...props }: DialogPrimitive.Backdrop.Props) 
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        'bg-overlay data-open:animate-in data-open:fade-in-0 fixed inset-0 isolate z-50 supports-backdrop-filter:backdrop-blur-sm',
+        'bg-overlay data-open:animate-in data-open:fade-in-0 fixed inset-0 isolate z-[var(--z-dialog-overlay)] supports-backdrop-filter:backdrop-blur-sm',
         className
       )}
       {...props}
@@ -300,7 +300,7 @@ function DialogContentFullScreen({
     <DialogPrimitive.Portal keepMounted>
       {isModalMounted && (
         <InkSplashCanvas
-          className="pointer-events-none fixed inset-0 z-[var(--z-nav-overlay)]"
+          className="pointer-events-none fixed inset-0 z-[var(--z-dialog-overlay)]"
           state={canvasState}
           durationIn={DURATION_IN}
           durationOut={DURATION_OUT}
@@ -314,7 +314,7 @@ function DialogContentFullScreen({
 
       {isModalMounted && (
         <DialogPrimitive.Backdrop
-          className="fixed inset-0 z-50 supports-backdrop-filter:backdrop-blur-sm"
+          className="fixed inset-0 z-[var(--z-dialog-overlay)]"
           onClick={handleClose}
         />
       )}
@@ -410,7 +410,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 z-50 flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
+          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 z-[var(--z-dialog)] flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
           isReducedMotion
             ? 'origin-center [transform:translate(-50%,-50%)]'
             : 'origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]',

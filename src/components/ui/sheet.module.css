@@ -5,7 +5,7 @@
 .sideBottom,
 .sideLeft {
   position: fixed;
-  z-index: 110;
+  z-index: var(--z-sheet);
 }
 
 .sideTop {
