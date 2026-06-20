@@ -924,8 +924,8 @@ export default function Home() {
                         </DialogTriggerButton>
                         <DialogContent surface="danger" hasTape={true}>
                           <DialogHeader>
-                            <DialogTitle className="text-white">Destructive State</DialogTitle>
-                            <DialogDescription className="text-white/80">
+                            <DialogTitle>Destructive State</DialogTitle>
+                            <DialogDescription>
                               High-emphasis surface for errors, removals, and blocking feedback.
                             </DialogDescription>
                           </DialogHeader>

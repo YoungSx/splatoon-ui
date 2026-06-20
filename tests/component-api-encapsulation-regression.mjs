@@ -88,6 +88,16 @@ const checks = [
       !dialog.includes('PaperTearEdge'),
   },
   {
+    name: 'Dialog danger surface owns title and description colors instead of demo overrides',
+    pass:
+      dialog.includes('DialogSurfaceContext') &&
+      dialog.includes("surface === 'danger' ? { color: '#02e754' }") &&
+      dialog.includes("surface === 'danger' ? { color: '#ffffffcc' }") &&
+      demoPage.includes('<DialogContent surface="danger"') &&
+      !demoPage.includes('<DialogTitle className="text-white">Destructive State</DialogTitle>') &&
+      !demoPage.includes('<DialogDescription className="text-white/80">'),
+  },
+  {
     name: 'AssetImage exposes reusable fit/fill media props consumed by the demo feed',
     pass:
       assetImage.includes('fit?: React.CSSProperties') &&

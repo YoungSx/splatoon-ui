@@ -18,6 +18,7 @@ import { WaveButton } from './wave-button'
 const CLOSE_DELAY = motionTokens.dialogCloseDelayMs
 const DURATION_IN = motionTokens.dialogDurationInMs
 const DURATION_OUT = CLOSE_DELAY - 200
+type DialogSurface = 'paper' | 'cream' | 'danger'
 
 // ── Dialog Context (for fullScreen lifecycle management) ──
 
@@ -29,6 +30,7 @@ interface DialogContextValue {
 }
 
 const DialogContext = React.createContext<DialogContextValue | null>(null)
+const DialogSurfaceContext = React.createContext<DialogSurface>('paper')
 
 function useDialogContext() {
   const context = React.useContext(DialogContext)
@@ -133,7 +135,7 @@ interface DialogContentProps extends DialogPrimitive.Popup.Props {
   showCloseButton?: boolean
   hasTape?: boolean
   tapePosition?: 'news' | 'event'
-  surface?: 'paper' | 'cream' | 'danger'
+  surface?: DialogSurface
   fullScreen?: boolean
 }
 
@@ -436,7 +438,7 @@ function DialogContent({
           tone={fillInfo.tone}
           contentClassName={cn('flex flex-col gap-4 px-8 py-4', fillInfo.bg)}
         >
-          {children}
+          <DialogSurfaceContext.Provider value={surface}>{children}</DialogSurfaceContext.Provider>
 
           {showCloseButton && (
             <div className="absolute -top-1 -right-3 z-50">
@@ -482,7 +484,10 @@ function DialogFooter({
   )
 }
 
-function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
+function DialogTitle({ className, style, ...props }: DialogPrimitive.Title.Props) {
+  const surface = React.useContext(DialogSurfaceContext)
+  const surfaceStyle = surface === 'danger' ? { color: '#02e754' } : undefined
+
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
@@ -490,16 +495,21 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
         'splat-skew text-2xl font-black tracking-wider text-current uppercase',
         className
       )}
+      style={{ ...surfaceStyle, ...style }}
       {...props}
     />
   )
 }
 
-function DialogDescription({ className, ...props }: DialogPrimitive.Description.Props) {
+function DialogDescription({ className, style, ...props }: DialogPrimitive.Description.Props) {
+  const surface = React.useContext(DialogSurfaceContext)
+  const surfaceStyle = surface === 'danger' ? { color: '#ffffffcc' } : undefined
+
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
       className={cn('text-sm leading-relaxed font-medium opacity-85', className)}
+      style={{ ...surfaceStyle, ...style }}
       {...props}
     />
   )
