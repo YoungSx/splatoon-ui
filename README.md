@@ -204,6 +204,7 @@ pnpm install
 pnpm typecheck
 pnpm build:package
 pnpm pack:dry-run
+pnpm test:package-consumer
 pnpm changeset
 pnpm version
 pnpm publish --access public

@@ -74,12 +74,13 @@
     "reference:analyze:videos": "node scripts/analyze-splatoon-videos.mjs",
     "reference:analyze:videos:probe": "node scripts/analyze-splatoon-videos.mjs --probe",
     "test:demo-smoke": "node tests/demo-smoke-regression.mjs",
+    "test:package-consumer": "node tests/package-consumer-smoke.mjs",
     "typecheck": "tsc --noEmit",
     "changeset": "changeset",
     "version": "changeset version",
     "pack:dry-run": "npm pack --dry-run",
     "prepack": "npm run build:package",
-    "release": "pnpm typecheck && pnpm build:package && pnpm pack:dry-run"
+    "release": "pnpm typecheck && node tests/ui-entrypoints-regression.mjs && node tests/package-publish-regression.mjs && pnpm build:package && pnpm pack:dry-run && pnpm test:package-consumer"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

@@ -51,7 +51,9 @@ const checks = [
       packageJson.scripts?.['build:package']?.includes('tsup') &&
       packageJson.scripts?.['build:package']?.includes('build-package-styles') &&
       packageJson.scripts?.['pack:dry-run'] === 'npm pack --dry-run' &&
-      packageJson.scripts?.release?.includes('pack:dry-run'),
+      packageJson.scripts?.['test:package-consumer'] === 'node tests/package-consumer-smoke.mjs' &&
+      packageJson.scripts?.release?.includes('pack:dry-run') &&
+      packageJson.scripts?.release?.includes('test:package-consumer'),
   },
   {
     name: 'CSS files are marked as side-effectful for bundlers',
@@ -62,7 +64,8 @@ const checks = [
     pass:
       fs.existsSync(path.join(root, 'tsup.config.ts')) &&
       fs.existsSync(path.join(root, 'tsconfig.package.json')) &&
-      fs.existsSync(path.join(root, 'scripts', 'build-package-styles.mjs')),
+      fs.existsSync(path.join(root, 'scripts', 'build-package-styles.mjs')) &&
+      fs.existsSync(path.join(root, 'tests', 'package-consumer-smoke.mjs')),
   },
 ]
 
