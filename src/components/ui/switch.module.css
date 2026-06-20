@@ -1,7 +1,9 @@
 .root {
   --switch-width: 9.25rem;
-  --switch-height: 1.875rem;
   --switch-track-height: 1.18rem;
+  --switch-border-width: 2px;
+  --switch-padding-x: 0.1875rem;
+  --switch-padding-y: 0.0625rem;
   --switch-accent: var(--color-yellow);
   --switch-ink: var(--color-true-black);
   --switch-surface: var(--color-true-black);
@@ -16,17 +18,20 @@
   position: relative;
   display: inline-flex;
   width: fit-content;
-  height: var(--switch-height);
+  height: calc(
+    var(--switch-track-height) + (var(--switch-padding-y) * 2) +
+      (var(--switch-border-width) * 2)
+  );
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--switch-ink);
+  border: var(--switch-border-width) solid var(--switch-ink);
   border-radius: 0.3125rem;
   background: var(--switch-surface);
   color: var(--switch-ink);
   cursor: pointer;
   outline: none;
-  padding: 0.0625rem 0.1875rem;
+  padding: var(--switch-padding-y) var(--switch-padding-x);
   touch-action: manipulation;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -45,16 +50,16 @@
 
 .root[data-size='sm'] {
   --switch-width: 7.5rem;
-  --switch-height: 1.625rem;
   --switch-track-height: 0.96rem;
-  padding: 0.0625rem 0.15625rem;
+  --switch-padding-x: 0.15625rem;
+  --switch-padding-y: 0.0625rem;
 }
 
 .root[data-size='lg'] {
   --switch-width: 11rem;
-  --switch-height: 2.1875rem;
   --switch-track-height: 1.4rem;
-  padding: 0.09375rem 0.25rem;
+  --switch-padding-x: 0.25rem;
+  --switch-padding-y: 0.09375rem;
 }
 
 .root[data-color='green'] {
