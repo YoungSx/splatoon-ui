@@ -18,7 +18,6 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TornCard, TornCardTitle, TornCardDescription } from '@/components/ui/torn-card'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
-import { Marquee, MarqueeItem } from '@/components/ui/marquee'
 import { Play, Zap } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { NavigationDialog } from '@/components/ui/navigation-dialog'
@@ -495,16 +494,6 @@ export default function Home() {
                 View GitHub
               </Button>
             </div>
-
-            {/* Marquee Tape (Neon Yellow Warning Tape) */}
-            <Marquee speed={25} variant="tape" className="z-10 w-full max-w-4xl">
-              <MarqueeItem>Hero Kits</MarqueeItem>
-              <MarqueeItem>Dialog Lab</MarqueeItem>
-              <MarqueeItem>Gallery Tools</MarqueeItem>
-              <MarqueeItem>Form States</MarqueeItem>
-              <MarqueeItem>Motion Tests</MarqueeItem>
-              <MarqueeItem>Pattern Sets</MarqueeItem>
-            </Marquee>
           </header>
         </InkTrailCanvas>
 
@@ -1718,19 +1707,6 @@ export default function Home() {
           </Section>
         </div>
 
-        {/* Warning Marquee (Bottom Decoration) */}
-        <Marquee
-          speed={20}
-          variant="warning"
-          direction="right"
-          className="border-chaos-black w-full border-t-2 border-b-2"
-        >
-          <MarqueeItem>Ship Bold!</MarqueeItem>
-          <MarqueeItem>Ink The UI!</MarqueeItem>
-          <MarqueeItem>Review States!</MarqueeItem>
-          <MarqueeItem>Stay Sharp!</MarqueeItem>
-          <MarqueeItem>Motion Ready!</MarqueeItem>
-        </Marquee>
       </main>
 
       <Footer />
