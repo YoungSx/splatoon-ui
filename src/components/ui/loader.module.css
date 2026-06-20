@@ -47,3 +47,45 @@
   pointer-events: none;
   user-select: none;
 }
+
+.sprite {
+  block-size: 100%;
+  display: block;
+  inline-size: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.morphSprite {
+  animation: loaderMorphSprite var(--loader-sprite-duration) steps(64, end) infinite;
+  background-image: var(--loader-sprite-url);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  background-size: 6400% 100%;
+}
+
+.swimSprite {
+  animation: loaderSwimSprite var(--loader-sprite-duration) steps(31, end) infinite;
+  background-color: var(--color);
+  mask-image: var(--loader-sprite-url);
+  mask-position: 0 0;
+  mask-repeat: no-repeat;
+  mask-size: 3100% 100%;
+  -webkit-mask-image: var(--loader-sprite-url);
+  -webkit-mask-position: 0 0;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 3100% 100%;
+}
+
+@keyframes loaderMorphSprite {
+  to {
+    background-position-x: calc(var(--size) * -64);
+  }
+}
+
+@keyframes loaderSwimSprite {
+  to {
+    mask-position: calc(var(--size) * -31) 0;
+    -webkit-mask-position: calc(var(--size) * -31) 0;
+  }
+}

@@ -379,6 +379,7 @@ const marqueeItems = weaponMarqueeItems
 const loaderDemoItems: Array<{
   label: string
   variant?: React.ComponentProps<typeof Loader>['variant']
+  animation?: React.ComponentProps<typeof Loader>['animation']
   size?: string
   style?: React.CSSProperties
 }> = [
@@ -391,6 +392,8 @@ const loaderDemoItems: Array<{
     size: '2em',
     style: { '--color': 'var(--color-green)' } as React.CSSProperties,
   },
+  { label: 'Morph', animation: 'morph', size: '2.25em' },
+  { label: 'Swim Blue', animation: 'swim', variant: 'blue', size: '2.25em' },
 ]
 
 export default function Home() {
@@ -1187,13 +1190,18 @@ export default function Home() {
                         Local squid glyph asset with ink-color backing
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-4">
-                      {loaderDemoItems.map(({ label, variant, size, style }) => (
+                    <CardContent className="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-3 lg:grid-cols-6">
+                      {loaderDemoItems.map(({ label, variant, animation, size, style }) => (
                         <div
                           key={label}
                           className="grid min-h-24 grid-rows-[1fr_auto] place-items-center gap-2 px-2 py-3 text-center"
                         >
-                          <Loader variant={variant} size={size} style={style} />
+                          <Loader
+                            variant={variant}
+                            animation={animation}
+                            size={size}
+                            style={style}
+                          />
                           <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
                             {label}
                           </span>

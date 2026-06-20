@@ -53,32 +53,51 @@ const checks = [
   {
     name: 'squid loader and mask assets are valid local media files',
     pass:
-      hasValidGifSignature('loader_ika.gif', 516, 567) && hasValidPngSignature('ika.png', 438, 481),
+      hasValidGifSignature('loader_ika.gif', 516, 567) &&
+      hasValidPngSignature('ika.png', 438, 481) &&
+      hasValidPngSignature('loader-morph-sprite.png', 8320, 130) &&
+      hasValidPngSignature('loader-swim-sprite.png', 4030, 130),
   },
   {
     name: 'squid asset registry centralizes loader and mask metadata',
     pass:
       registry.includes("const SQUID_ASSET_BASE = '/_images/squid'") &&
       registry.includes('squidImageAssets') &&
+      registry.includes('squidSpriteAssets') &&
       registry.includes('loader_ika.gif') &&
       registry.includes('ika.png') &&
+      registry.includes('loader-morph-sprite.png') &&
+      registry.includes('loader-swim-sprite.png') &&
       registry.includes('width: 516') &&
       registry.includes('height: 567') &&
       registry.includes('width: 438') &&
-      registry.includes('height: 481'),
+      registry.includes('height: 481') &&
+      registry.includes('frames: 64') &&
+      registry.includes('frames: 31') &&
+      registry.includes('durationMs: 2667') &&
+      registry.includes('durationMs: 2067') &&
+      registry.includes('182952.png') &&
+      registry.includes('182953.png'),
   },
   {
     name: 'Loader renders the image-backed squid glyph instead of a CSS border spinner',
     pass:
       loader.includes("import { AssetImage } from './asset-image'") &&
       loader.includes('squidImageAssets.loader') &&
+      loader.includes('squidSpriteAssets.loaderMorph') &&
+      loader.includes('squidSpriteAssets.loaderSwim') &&
+      loader.includes("animation?: LoaderAnimation") &&
+      loader.includes("'--loader-sprite-duration'") &&
       loader.includes('<AssetImage') &&
       loader.includes('role="status"') &&
       !loader.includes('<img') &&
       !loader.includes('border spinner') &&
       !loaderCss.includes('border-right-color') &&
       !loaderCss.includes('rotate(359deg)') &&
-      !loaderCss.includes('@keyframes rotate-360'),
+      !loaderCss.includes('@keyframes rotate-360') &&
+      loaderCss.includes('steps(64, end)') &&
+      loaderCss.includes('steps(31, end)') &&
+      loaderCss.includes('mask-image: var(--loader-sprite-url)'),
   },
   {
     name: 'SquidMaskTransition reads the mask asset from the shared registry',
@@ -90,6 +109,8 @@ const checks = [
     name: 'demo copy describes the local image-backed loader',
     pass:
       page.includes('Local squid glyph asset with ink-color backing') &&
+      page.includes("animation: 'morph'") &&
+      page.includes("animation: 'swim'") &&
       !page.includes('CSS border spinner'),
   },
   {
