@@ -13,6 +13,8 @@ type SwitchColor = "yellow" | "green" | "blue" | "orange"
 export interface SwitchProps extends SwitchPrimitive.Root.Props {
   color?: SwitchColor
   fillImageHref?: string
+  offLabel?: React.ReactNode
+  onLabel?: React.ReactNode
   size?: SwitchSize
 }
 
@@ -21,6 +23,8 @@ function Switch({
   className,
   color = "yellow",
   fillImageHref = "/_images/backgrounds/camo-green.png",
+  offLabel = "OFF",
+  onLabel = "ON",
   size = "default",
   ...props
 }: SwitchProps & { ref?: React.Ref<HTMLElement> }) {
@@ -42,8 +46,8 @@ function Switch({
           rightActiveClassName={cn(styles.trackFillImage, styles.rightActiveImage)}
           rightInactiveClassName={cn(styles.trackFillImage, styles.rightInactiveImage)}
         />
-        <span className={cn(styles.stateLabel, styles.onLabel)}>ON</span>
-        <span className={cn(styles.stateLabel, styles.offLabel)}>OFF</span>
+        <span className={cn(styles.stateLabel, styles.onLabel)}>{onLabel}</span>
+        <span className={cn(styles.stateLabel, styles.offLabel)}>{offLabel}</span>
       </span>
     </SwitchPrimitive.Root>
   )

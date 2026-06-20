@@ -1632,7 +1632,7 @@ export default function Home() {
                         >
                           Salmon run mode
                         </Label>
-                        <Switch id="demo-switch-2" color="green" />
+                        <Switch id="demo-switch-2" color="green" onLabel="RUN" offLabel="OFF" />
                       </div>
                       <div className="flex items-center justify-between gap-4 opacity-80">
                         <Label

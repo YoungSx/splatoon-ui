@@ -26,7 +26,7 @@
   color: var(--switch-ink);
   cursor: pointer;
   outline: none;
-  padding: 0.125rem 0.375rem;
+  padding: 0.0625rem 0.1875rem;
   touch-action: manipulation;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -47,14 +47,14 @@
   --switch-width: 7.5rem;
   --switch-height: 1.625rem;
   --switch-track-height: 0.96rem;
-  padding: 0.125rem 0.3125rem;
+  padding: 0.0625rem 0.15625rem;
 }
 
 .root[data-size='lg'] {
   --switch-width: 11rem;
   --switch-height: 2.1875rem;
   --switch-track-height: 1.4rem;
-  padding: 0.1875rem 0.5rem;
+  padding: 0.09375rem 0.25rem;
 }
 
 .root[data-color='green'] {
