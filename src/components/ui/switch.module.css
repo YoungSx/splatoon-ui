@@ -1,0 +1,150 @@
+.root {
+  --switch-width: 9.25rem;
+  --switch-height: 1.875rem;
+  --switch-track-height: 1.18rem;
+  --switch-accent: var(--color-yellow);
+  --switch-ink: var(--color-true-black);
+  --switch-surface: var(--color-true-black);
+  --switch-label-active: var(--switch-ink);
+  --switch-label-inactive: var(--color-white);
+  --switch-label-shadow: 1px 1px 0 var(--switch-ink);
+  --switch-on-label-color: var(--switch-label-inactive);
+  --switch-on-label-shadow: var(--switch-label-shadow);
+  --switch-off-label-color: var(--switch-label-active);
+  --switch-off-label-shadow: none;
+
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  height: var(--switch-height);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--switch-ink);
+  border-radius: 0.3125rem;
+  background: var(--switch-surface);
+  color: var(--switch-ink);
+  cursor: pointer;
+  outline: none;
+  padding: 0.125rem 0.375rem;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.root[data-checked] {
+  --switch-on-label-color: var(--switch-label-active);
+  --switch-on-label-shadow: none;
+  --switch-off-label-color: var(--switch-label-inactive);
+  --switch-off-label-shadow: var(--switch-label-shadow);
+}
+
+.root[data-size='sm'] {
+  --switch-width: 7.5rem;
+  --switch-height: 1.625rem;
+  --switch-track-height: 0.96rem;
+  padding: 0.125rem 0.3125rem;
+}
+
+.root[data-size='lg'] {
+  --switch-width: 11rem;
+  --switch-height: 2.1875rem;
+  --switch-track-height: 1.4rem;
+  padding: 0.1875rem 0.5rem;
+}
+
+.root[data-color='green'] {
+  --switch-accent: var(--color-salmon-run-green);
+}
+
+.root[data-color='blue'] {
+  --switch-accent: var(--color-blue);
+}
+
+.root[data-color='orange'] {
+  --switch-accent: var(--color-orange);
+}
+
+.root:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--switch-accent) 72%, white);
+  outline-offset: 0.1875rem;
+}
+
+.root[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.track {
+  position: relative;
+  display: block;
+  width: var(--switch-width);
+  height: var(--switch-track-height);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.trackSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.trackFillImage {
+  opacity: 0;
+}
+
+.leftInactiveImage,
+.rightActiveImage {
+  opacity: 1;
+}
+
+.root[data-checked] .leftActiveImage,
+.root[data-checked] .rightInactiveImage {
+  opacity: 1;
+}
+
+.root[data-checked] .leftInactiveImage,
+.root[data-checked] .rightActiveImage {
+  opacity: 0;
+}
+
+.stateLabel {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 46%;
+  transform: translateY(-50%);
+  font-family: var(--font-blitz-main), var(--font-heading), sans-serif;
+  font-size: calc(var(--switch-track-height) * 0.64);
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.onLabel {
+  left: 1.5%;
+  color: var(--switch-on-label-color);
+  text-shadow: var(--switch-on-label-shadow);
+}
+
+.offLabel {
+  right: 1.5%;
+  color: var(--switch-off-label-color);
+  text-shadow: var(--switch-off-label-shadow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition-duration: 1ms;
+  }
+}

@@ -78,6 +78,7 @@ import {
 } from '@/components/ui/dialog'
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Switch } from '@/components/ui/switch'
 import {
   Select,
   SelectContent,
@@ -1611,6 +1612,36 @@ export default function Home() {
                         >
                           Enable desktop sounds
                         </Label>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <Label>Switch Controls</Label>
+                      <div className="flex items-center justify-between gap-4">
+                        <Label
+                          htmlFor="demo-switch-1"
+                          className="cursor-pointer pb-0 text-sm font-medium"
+                        >
+                          Ink sync
+                        </Label>
+                        <Switch id="demo-switch-1" defaultChecked />
+                      </div>
+                      <div className="flex items-center justify-between gap-4">
+                        <Label
+                          htmlFor="demo-switch-2"
+                          className="cursor-pointer pb-0 text-sm font-medium"
+                        >
+                          Salmon run mode
+                        </Label>
+                        <Switch id="demo-switch-2" color="green" />
+                      </div>
+                      <div className="flex items-center justify-between gap-4 opacity-80">
+                        <Label
+                          htmlFor="demo-switch-3"
+                          className="cursor-not-allowed pb-0 text-sm font-medium"
+                        >
+                          Locked option
+                        </Label>
+                        <Switch id="demo-switch-3" size="sm" disabled />
                       </div>
                     </div>
                     <div className="space-y-2">
