@@ -120,6 +120,11 @@ Buttons use a CSS `clip-path` drip fill animation with asymmetric enter/leave tr
 - Each button mounts with a random spray tilt (`1.5deg–2.5deg`) via `--hover-rotate`
 - Active state: `translate-x-[3px] translate-y-[3px]` with shadow collapse for 3D press feedback
 
+#### Button Group
+`ButtonGroup` is a low-level action layout primitive. It groups existing `Button` instances inside a compact ink-black shell while preserving each child button's drip animation, focus state, and native button semantics. It does not manage selection state.
+
+Future todo: add a `SegmentedControl` for one-of-many selection. It may reuse ButtonGroup-like or Switch-like visual appearances, but the semantic contract should remain radio/segmented control rather than expanding `Switch` beyond boolean on/off.
+
 #### Morph Blob Close Button
 Modal close buttons use a 3-stop `border-radius` blob animation (`morph` keyframes, 3s linear infinite) with `#EAFF3D` background and `#603BFF` icon.
 

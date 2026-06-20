@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
+import { ButtonGroup, ButtonGroupItem } from '@/components/ui/button-group'
 import {
   Card,
   CardContent,
@@ -812,6 +813,55 @@ export default function Home() {
                       Outline
                     </Button>
                     <Button variant="ghost">Ghost</Button>
+                  </CardContent>
+                </Card>
+              </InView>
+
+              {/* Button Groups */}
+              <InView direction="up" rootMargin="-50px">
+                <Card variant="torn" rotation="0deg" showTape={false}>
+                  <CardHeader>
+                    <CardTitle>Button Groups</CardTitle>
+                    <CardDescription>
+                      Grouped actions that preserve each button&apos;s liquid-fill animation
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid gap-5 pt-2">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <ButtonGroup aria-label="Battle queue actions">
+                        <ButtonGroupItem size="sm" variant="yellow" theme="dark-yellow">
+                          Turf
+                        </ButtonGroupItem>
+                        <ButtonGroupItem size="sm" variant="blue" theme="light-blue">
+                          Ranked
+                        </ButtonGroupItem>
+                        <ButtonGroupItem size="sm" variant="green" theme="light-green">
+                          Salmon
+                        </ButtonGroupItem>
+                      </ButtonGroup>
+                      <ButtonGroup density="compact" aria-label="Catalog filters">
+                        <ButtonGroupItem size="sm" variant="outline" theme="yellow">
+                          New
+                        </ButtonGroupItem>
+                        <ButtonGroupItem size="sm" variant="outline" theme="yellow">
+                          Hot
+                        </ButtonGroupItem>
+                        <ButtonGroupItem size="sm" variant="outline" theme="yellow">
+                          Saved
+                        </ButtonGroupItem>
+                      </ButtonGroup>
+                    </div>
+                    <ButtonGroup fullWidth aria-label="Loadout actions">
+                      <ButtonGroupItem size="sm" variant="purple" theme="dark-purple">
+                        Gear
+                      </ButtonGroupItem>
+                      <ButtonGroupItem size="sm" variant="orange" theme="dark-purpleOrange">
+                        Weapons
+                      </ButtonGroupItem>
+                      <ButtonGroupItem size="sm" variant="destructive" theme="light-red">
+                        Reset
+                      </ButtonGroupItem>
+                    </ButtonGroup>
                   </CardContent>
                 </Card>
               </InView>

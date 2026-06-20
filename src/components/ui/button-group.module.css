@@ -1,0 +1,81 @@
+.root {
+  --button-group-padding: 0.25rem;
+  --button-group-radius: 0.5rem;
+  --button-group-item-radius: calc(var(--button-group-radius) - var(--button-group-padding));
+  --button-group-separator-width: 2px;
+  --button-group-surface: var(--color-true-black);
+
+  align-items: center;
+  background: var(--button-group-surface);
+  border: 2px solid var(--color-true-black);
+  border-radius: var(--button-group-radius);
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  justify-content: flex-start;
+  padding: var(--button-group-padding);
+  width: fit-content;
+}
+
+.root[data-orientation='vertical'] {
+  align-items: stretch;
+  flex-direction: column;
+}
+
+.root[data-density='compact'] {
+  --button-group-padding: 0.1875rem;
+}
+
+.root[data-density='spacious'] {
+  --button-group-padding: 0.375rem;
+}
+
+.root[data-full-width='true'] {
+  width: 100%;
+}
+
+.item {
+  --button-radius: 0;
+
+  min-width: 0;
+}
+
+.root[data-orientation='horizontal'] .item:first-child {
+  --button-radius: var(--button-group-item-radius) 0 0 var(--button-group-item-radius);
+}
+
+.root[data-orientation='horizontal'] .item:last-child {
+  --button-radius: 0 var(--button-group-item-radius) var(--button-group-item-radius) 0;
+}
+
+.root[data-orientation='horizontal'] .item:only-child {
+  --button-radius: var(--button-group-item-radius);
+}
+
+.root[data-orientation='horizontal'] .item + .item {
+  box-shadow: inset var(--button-group-separator-width) 0 0 var(--color-true-black);
+}
+
+.root[data-orientation='vertical'] .item:first-child {
+  --button-radius: var(--button-group-item-radius) var(--button-group-item-radius) 0 0;
+}
+
+.root[data-orientation='vertical'] .item:last-child {
+  --button-radius: 0 0 var(--button-group-item-radius) var(--button-group-item-radius);
+}
+
+.root[data-orientation='vertical'] .item:only-child {
+  --button-radius: var(--button-group-item-radius);
+}
+
+.root[data-orientation='vertical'] .item + .item {
+  box-shadow: inset 0 var(--button-group-separator-width) 0 var(--color-true-black);
+}
+
+.root[data-full-width='true'] .item {
+  flex: 1 1 0;
+}
+
+.root[data-orientation='vertical'][data-full-width='true'] .item {
+  width: 100%;
+}

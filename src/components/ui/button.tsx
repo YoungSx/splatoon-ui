@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils'
 import styles from './button.module.css'
 
 const buttonVariants = cva(
-  'group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[8px] font-alt font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[var(--ease-back-out)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50',
+  'group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[var(--button-radius,8px)] font-alt font-black uppercase tracking-wider transition-[transform,box-shadow] ease-[var(--ease-back-out)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -223,7 +223,7 @@ function Button({
               aria-hidden="true"
               onAnimationEnd={handleDripAnimationEnd}
               className={cn(
-                'absolute top-0 left-0 z-20 flex h-full w-full items-center justify-center rounded-[8px] text-[var(--hover-text-color)]',
+                'absolute top-0 left-0 z-20 flex h-full w-full items-center justify-center rounded-[var(--button-radius,8px)] text-[var(--hover-text-color)]',
                 sizeDrip.padding,
                 styles.dripHoverContent
               )}
@@ -271,7 +271,7 @@ function Button({
               aria-hidden="true"
               onAnimationEnd={handleDripAnimationEnd}
               className={cn(
-                'absolute top-0 left-0 z-20 h-full w-full rounded-[8px]',
+                'absolute top-0 left-0 z-20 h-full w-full rounded-[var(--button-radius,8px)]',
                 styles.dripHoverContent
               )}
             >
