@@ -131,6 +131,11 @@ await import('splatoon-ui/package.json', { with: { type: 'json' } })
 )
 
 run('npm', ['install', '--silent'], { cwd: consumerDir })
+
+if (fs.existsSync(path.join(consumerDir, 'node_modules', 'shadcn'))) {
+  throw new Error('Consumer install should not include the shadcn CLI package.')
+}
+
 run('npx', ['tsc', '--noEmit'], { cwd: consumerDir })
 run('node', ['runtime.mjs'], { cwd: consumerDir })
 

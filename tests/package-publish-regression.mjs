@@ -46,6 +46,10 @@ const checks = [
     ),
   },
   {
+    name: 'shadcn CLI stays out of published runtime dependencies',
+    pass: !packageJson.dependencies?.shadcn && Boolean(packageJson.devDependencies?.shadcn),
+  },
+  {
     name: 'package build and dry-run scripts are available',
     pass:
       packageJson.scripts?.['build:package']?.includes('tsup') &&
@@ -66,6 +70,10 @@ const checks = [
       fs.existsSync(path.join(root, 'tsconfig.package.json')) &&
       fs.existsSync(path.join(root, 'scripts', 'build-package-styles.mjs')) &&
       fs.existsSync(path.join(root, 'tests', 'package-consumer-smoke.mjs')),
+  },
+  {
+    name: 'stale initial release changeset has been consumed',
+    pass: !fs.existsSync(path.join(root, '.changeset', 'initial-release.md')),
   },
 ]
 
