@@ -1655,8 +1655,8 @@ export default function Home() {
                       </AlertDescription>
                     </Alert>
                     <Alert variant="destructive">
-                      <AlertTitle textColor="#02e754">Action Required</AlertTitle>
-                      <AlertDescription textColor="#ffffffcc">
+                      <AlertTitle textColor="var(--danger-surface-title)">Action Required</AlertTitle>
+                      <AlertDescription textColor="var(--danger-surface-description)">
                         Destructive alerts keep contrast high for validation failures and critical
                         component states.
                       </AlertDescription>

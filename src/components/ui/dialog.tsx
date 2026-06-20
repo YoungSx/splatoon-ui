@@ -18,7 +18,8 @@ import { WaveButton } from './wave-button'
 const CLOSE_DELAY = motionTokens.dialogCloseDelayMs
 const DURATION_IN = motionTokens.dialogDurationInMs
 const DURATION_OUT = CLOSE_DELAY - 200
-const DANGER_SURFACE_TITLE_COLOR = '#4CE753'
+const DANGER_SURFACE_TITLE_COLOR = 'var(--danger-surface-title)'
+const DANGER_SURFACE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'
 const DIALOG_Z_INDEX = {
   overlay: 200,
   content: 210,
@@ -518,7 +519,8 @@ function DialogTitle({ className, style, ...props }: DialogPrimitive.Title.Props
 
 function DialogDescription({ className, style, ...props }: DialogPrimitive.Description.Props) {
   const surface = React.useContext(DialogSurfaceContext)
-  const surfaceStyle = surface === 'danger' ? { color: '#ffffffcc' } : undefined
+  const surfaceStyle =
+    surface === 'danger' ? { color: DANGER_SURFACE_DESCRIPTION_COLOR } : undefined
 
   return (
     <DialogPrimitive.Description
