@@ -5,7 +5,6 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { createTriggerButton } from '@/components/ui/trigger-button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 
 import { InkSplashCanvas } from './ink-splash-canvas'
@@ -24,6 +23,7 @@ interface DialogContextValue {
   open: boolean
   setOpen: (open: boolean) => void
   triggerRef: React.RefObject<HTMLButtonElement | null>
+  registerTrigger: (node: HTMLButtonElement | null) => void
 }
 
 const DialogContext = React.createContext<DialogContextValue | null>(null)
@@ -49,18 +49,14 @@ interface DialogProps extends Omit<
 
 function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: DialogProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false)
-  const triggerRef = React.useRef<HTMLButtonElement>(null)
-  const rootRef = React.useRef<HTMLDivElement>(null)
+  const triggerRef = React.useRef<HTMLButtonElement | null>(null)
 
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen
 
-  // Auto-capture trigger element from DOM
-  React.useEffect(() => {
-    if (!rootRef.current) return
-    const trigger = rootRef.current.querySelector<HTMLButtonElement>('[data-slot="dialog-trigger"]')
-    if (trigger) triggerRef.current = trigger
-  })
+  const registerTrigger = React.useCallback((node: HTMLButtonElement | null) => {
+    triggerRef.current = node
+  }, [])
 
   const handleOpenChange = React.useCallback(
     (newOpen: boolean) => {
@@ -73,8 +69,8 @@ function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: Dial
   )
 
   const contextValue = React.useMemo(
-    () => ({ open: isOpen, setOpen: handleOpenChange, triggerRef }),
-    [isOpen, handleOpenChange]
+    () => ({ open: isOpen, setOpen: handleOpenChange, triggerRef, registerTrigger }),
+    [isOpen, handleOpenChange, registerTrigger]
   )
 
   return (
@@ -85,17 +81,104 @@ function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: Dial
         onOpenChange={handleOpenChange}
         {...props}
       >
-        <div ref={rootRef}>{children}</div>
+        {children}
       </DialogPrimitive.Root>
     </DialogContext.Provider>
   )
 }
 
-function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
+  if (!ref) return
+  if (typeof ref === 'function') {
+    ref(value)
+    return
+  }
+  ref.current = value
 }
 
-const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, 'dialog-trigger')
+function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
+  return (value: T | null) => {
+    refs.forEach((ref) => assignRef(ref, value))
+  }
+}
+
+function DialogTrigger({
+  ref,
+  ...props
+}: DialogPrimitive.Trigger.Props & { ref?: React.Ref<HTMLButtonElement> }) {
+  const { registerTrigger } = useDialogContext()
+
+  return (
+    <DialogPrimitive.Trigger
+      ref={mergeRefs(registerTrigger, ref)}
+      data-slot="dialog-trigger"
+      {...props}
+    />
+  )
+}
+
+type DialogTriggerButtonProps = Omit<
+  DialogPrimitive.Trigger.Props,
+  'render' | 'children'
+> &
+  Pick<
+    React.ComponentProps<typeof Button>,
+    | 'children'
+    | 'variant'
+    | 'size'
+    | 'theme'
+    | 'hasChevron'
+    | 'color'
+    | 'hoverColor'
+    | 'textColor'
+    | 'textHoverColor'
+  >
+
+function DialogTriggerButton({
+  ref,
+  children,
+  variant = 'yellow',
+  size = 'default',
+  theme,
+  hasChevron = true,
+  color,
+  hoverColor,
+  textColor,
+  textHoverColor,
+  ...props
+}: DialogTriggerButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
+  const { registerTrigger } = useDialogContext()
+
+  return (
+    <DialogPrimitive.Trigger
+      data-slot="dialog-trigger"
+      render={(triggerProps) => {
+        const { ref: triggerRef, ...buttonProps } = triggerProps as {
+          ref?: React.Ref<HTMLButtonElement>
+          [key: string]: unknown
+        }
+
+        return (
+          <Button
+            {...buttonProps}
+            ref={mergeRefs(registerTrigger, triggerRef, ref)}
+            variant={variant}
+            size={size}
+            theme={theme}
+            hasChevron={hasChevron}
+            color={color}
+            hoverColor={hoverColor}
+            textColor={textColor}
+            textHoverColor={textHoverColor}
+          >
+            {children}
+          </Button>
+        )
+      }}
+      {...props}
+    />
+  )
+}
 
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />

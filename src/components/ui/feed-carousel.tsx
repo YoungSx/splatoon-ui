@@ -13,10 +13,6 @@ import {
 import { StapleCard, type StapleCardProps } from '@/components/ui/staple-card'
 import { cn } from '@/lib/utils'
 
-const feedCarouselItemShellStyle = {
-  width: 'clamp(16.5rem, 19vw, 23rem)',
-} satisfies React.CSSProperties
-
 const DEFAULT_FEED_CAROUSEL_MEDIA_ASPECT_RATIO = '558 / 313'
 
 export interface FeedCarouselItem extends Pick<
@@ -50,7 +46,7 @@ export function FeedCarousel({
               <CardStackCarouselItem
                 key={item.id}
                 data-index={index}
-                shellStyle={feedCarouselItemShellStyle}
+                itemLayout="feed"
               >
                 <StapleCard
                   className={item.cardClassName}

@@ -1,9 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 import { cn } from '@/lib/utils'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
 import { CardSlot } from './card-slot'
 import photoStyles from './photo-frame.module.css'
@@ -55,8 +54,7 @@ export function VideoDialogThumbnail({
   const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : `Open video: ${alt}`)
 
   return (
-    <DialogPrimitive.Trigger
-      data-slot="dialog-trigger"
+    <DialogTrigger
       render={(triggerProps) => {
         const { ref: triggerRefCb, ...rest } = triggerProps as {
           ref?: React.Ref<HTMLButtonElement>

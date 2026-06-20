@@ -74,9 +74,15 @@ const checks = [
       tapePicture.includes('srcSet={desktopImage.webpSrcSet}'),
   },
   {
-    name: 'Tape official variants are image-backed instead of hand-drawn SVG switch cases',
+    name: 'Tape public variants are image-backed instead of hand-drawn SVG fallbacks',
     pass:
       tapeComponent.includes('TapePicture') &&
+      tapeComponent.includes('export type TapeVariant = TapeImageVariant') &&
+      !tapeComponent.includes('TapeUtilityVariant') &&
+      !tapeComponent.includes('renderUtilitySvg') &&
+      !tapeComponent.includes('<svg') &&
+      !tapeComponent.includes('VALK') &&
+      !tapeComponent.includes('ALERT!') &&
       !tapeComponent.includes("case 'tape-1'") &&
       !tapeComponent.includes("case 'tape-2'") &&
       !tapeComponent.includes("case 'tape-3'") &&

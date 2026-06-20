@@ -59,13 +59,16 @@ const checks = [
       hasDeclaration('.bannerDividerViewport', 'pointer-events: none;'),
   },
   {
-    name: 'Divider clearance belongs to section padding, not the Section API',
+    name: 'Divider clearance is expressed through the Section overlay API instead of page padding patches',
     pass:
+      section.includes("bottomOverlayClearance?: 'none' | 'banner-divider'") &&
+      section.includes("bottomOverlayClearance === 'banner-divider'") &&
       !section.includes('bottomSafeArea') &&
       !section.includes('section-bottom-safe-area') &&
       !page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&
       !page.includes('bottomSafeArea=') &&
-      (page.match(/pb-\[clamp\(8rem,10vw,11\.5rem\)\]/g) ?? []).length === 6,
+      !page.includes('pb-[clamp(8rem,10vw,11.5rem)]') &&
+      (page.match(/bottomOverlayClearance="banner-divider"/g) ?? []).length === 7,
   },
 ]
 

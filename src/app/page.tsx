@@ -238,7 +238,8 @@ function PageTransitionDemo() {
       bgColor="bg-white"
       text="text-chaos-black"
       pattern="chip-white"
-      className="pb-[clamp(8rem,10vw,11.5rem)] transition-colors duration-300"
+      bottomOverlayClearance="banner-divider"
+      className="transition-colors duration-300"
       headingTape={
         <HeadingTape color="green" className="text-center">
           Page Transition
@@ -501,7 +502,8 @@ export default function Home() {
             bgColor="bg-white"
             text="text-chaos-black"
             pattern="tapes-black"
-            className="flex flex-col items-center py-24 pb-[clamp(8rem,10vw,11.5rem)] transition-colors duration-300"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center py-24 transition-colors duration-300"
           >
             {/* Decorative Splats */}
             <div className="text-red absolute top-10 left-10">
@@ -631,7 +633,8 @@ export default function Home() {
             bgColor="bg-white"
             text="text-chaos-black"
             pattern="chip-white"
-            className="pb-[clamp(8rem,10vw,11.5rem)] transition-colors duration-300"
+            bottomOverlayClearance="banner-divider"
+            className="transition-colors duration-300"
             headingTape={<HeadingTape color="blue">Buttons & Badges</HeadingTape>}
           >
             <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
@@ -839,7 +842,7 @@ export default function Home() {
             bgColor="bg-black"
             text="text-white"
             pattern="camo-black"
-            className="pb-[clamp(8rem,10vw,11.5rem)]"
+            bottomOverlayClearance="banner-divider"
             headingTape={<HeadingTape color="red">Overlays & Dialogs</HeadingTape>}
           >
             <div className="text-purple absolute top-6 right-6">
@@ -1036,6 +1039,7 @@ export default function Home() {
             bgColor="bg-white"
             text="text-chaos-black"
             pattern="camo-purple"
+            bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"
           >
             <InteractiveSplatter />
@@ -1368,7 +1372,8 @@ export default function Home() {
             bgColor="bg-white"
             text="text-chaos-black"
             pattern="camo-white"
-            className="flex flex-col items-center pb-[clamp(8rem,10vw,11.5rem)] transition-colors duration-300"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center transition-colors duration-300"
             headingTape={<HeadingTape>Card Grid</HeadingTape>}
           >
             <div className="w-full max-w-6xl space-y-12">
@@ -1494,7 +1499,8 @@ export default function Home() {
             bgColor="bg-blue"
             text="text-white"
             pattern="tapes-purple"
-            className="flex flex-col items-center pb-[clamp(8rem,10vw,11.5rem)] transition-colors duration-300"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center transition-colors duration-300"
             headingTape={
               <div className="text-center">
                 <HeadingTape color="yellow">Carousels</HeadingTape>

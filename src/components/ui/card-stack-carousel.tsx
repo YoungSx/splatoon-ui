@@ -36,6 +36,12 @@ const FALLBACK_GEOMETRY: CardSwingGeometry = createCardSwingGeometry({
 })
 
 const ZERO_CARD_STATE: CardStackCarouselCardState = createZeroCardState(FALLBACK_GEOMETRY)
+type CardStackCarouselItemLayout = "default" | "feed"
+
+const CARD_STACK_ITEM_WIDTH: Record<CardStackCarouselItemLayout, React.CSSProperties["width"]> = {
+  default: undefined,
+  feed: "clamp(16.5rem, 19vw, 23rem)",
+}
 
 function radiansToDegrees(value: number) {
   return value * (180 / Math.PI)
@@ -95,7 +101,11 @@ export function CardStackCarouselContent({
 
 export interface CardStackCarouselItemProps extends Omit<HTMLMotionProps<"div">, "children"> {
   children?: React.ReactNode
+  itemLayout?: CardStackCarouselItemLayout
+  itemWidth?: React.CSSProperties["width"]
+  /** @deprecated Use itemLayout or itemWidth instead. */
   shellClassName?: string
+  /** @deprecated Use itemLayout or itemWidth instead. */
   shellStyle?: React.CSSProperties
   "data-index"?: number
 }
@@ -110,6 +120,8 @@ export function CardStackCarouselItem({
   ref,
   className,
   children,
+  itemLayout = "default",
+  itemWidth,
   shellClassName,
   shellStyle,
   style,
@@ -135,6 +147,7 @@ export function CardStackCarouselItem({
     const deckScale = 1
     const deckRotateDeg = 0
     const deckZIndex = 50 - Math.round(Math.abs(continuousOffset))
+    const resolvedItemWidth = itemWidth ?? CARD_STACK_ITEM_WIDTH[itemLayout]
 
     React.useEffect(() => {
       if (!swingRef.current) return
@@ -195,7 +208,10 @@ export function CardStackCarouselItem({
       <div
         data-slot="card-stack-item-shell"
         className={cn("pointer-events-none absolute inset-0 m-auto flex w-full items-center justify-center", shellClassName)}
-        style={shellStyle}
+        style={{
+          ...(resolvedItemWidth ? { width: resolvedItemWidth } : {}),
+          ...shellStyle,
+        }}
       >
         <motion.div
           ref={ref}

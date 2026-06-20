@@ -104,6 +104,13 @@ const checks = [
       feedCarousel.includes('className="block w-full overflow-hidden"'),
   },
   {
+    name: 'feed carousel uses a card-stack layout preset instead of leaking shell styles',
+    pass:
+      feedCarousel.includes('itemLayout="feed"') &&
+      !feedCarousel.includes('feedCarouselItemShellStyle') &&
+      !feedCarousel.includes('shellStyle='),
+  },
+  {
     name: 'feed carousel local media files are valid images',
     pass: requiredLocalAssets.every(hasValidImageSignature),
   },

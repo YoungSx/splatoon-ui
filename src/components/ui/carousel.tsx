@@ -19,6 +19,7 @@ interface CarouselContextType {
 
 const CarouselContext = React.createContext<CarouselContextType | null>(null)
 const CarouselCountContext = React.createContext<(count: number) => void>(() => {})
+const CarouselItemIndexContext = React.createContext<number | undefined>(undefined)
 
 export function useCarousel() {
   const context = React.useContext(CarouselContext)
@@ -29,6 +30,9 @@ export function useCarousel() {
 }
 
 export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
+  index?: number
+  defaultIndex?: number
+  /** @deprecated Use defaultIndex for uncontrolled carousels. */
   initialIndex?: number
   itemCount?: number
   onIndexChange?: (index: number) => void
@@ -38,6 +42,8 @@ export function Carousel({
   ref,
   children,
   className,
+  index,
+  defaultIndex,
   initialIndex = 0,
   itemCount: itemCountProp,
   onIndexChange,
@@ -46,10 +52,13 @@ export function Carousel({
   tabIndex = 0,
   ...props
 }: CarouselProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const [currentIndex, setCurrentIndex] = React.useState(initialIndex)
-  const [prevIndex, setPrevIndex] = React.useState(initialIndex)
+  const resolvedDefaultIndex = defaultIndex ?? initialIndex
+  const isControlled = index !== undefined
+  const [uncontrolledIndex, setUncontrolledIndex] = React.useState(resolvedDefaultIndex)
+  const [prevIndex, setPrevIndex] = React.useState(index ?? resolvedDefaultIndex)
   const [itemCountState, setItemCount] = React.useState(0)
   const itemCount = itemCountProp ?? itemCountState
+  const lastControlledIndexRef = React.useRef(index)
 
   const clampIndex = React.useCallback(
     (value: number) => {
@@ -59,22 +68,32 @@ export function Carousel({
     [itemCount]
   )
 
-  const resolvedCurrentIndex = clampIndex(currentIndex)
+  const resolvedCurrentIndex = clampIndex(isControlled ? index : uncontrolledIndex)
+
+  React.useEffect(() => {
+    if (!isControlled) return
+
+    const previous = lastControlledIndexRef.current
+    if (previous !== undefined && previous !== index) {
+      setPrevIndex(clampIndex(previous))
+    }
+    lastControlledIndexRef.current = index
+  }, [clampIndex, index, isControlled])
 
   const commitIndex = React.useCallback(
     (updater: number | ((prev: number) => number)) => {
-      setCurrentIndex((prev) => {
-        const resolvedPrev = clampIndex(prev)
-        const proposed = typeof updater === 'function' ? updater(resolvedPrev) : updater
-        const next = clampIndex(proposed)
-        if (next !== resolvedPrev) {
-          setPrevIndex(resolvedPrev)
-          onIndexChange?.(next)
-        }
-        return next
-      })
+      const resolvedPrev = clampIndex(isControlled ? index : uncontrolledIndex)
+      const proposed = typeof updater === 'function' ? updater(resolvedPrev) : updater
+      const next = clampIndex(proposed)
+      if (next === resolvedPrev) return
+
+      setPrevIndex(resolvedPrev)
+      if (!isControlled) {
+        setUncontrolledIndex(next)
+      }
+      onIndexChange?.(next)
     },
-    [clampIndex, onIndexChange]
+    [clampIndex, index, isControlled, onIndexChange, uncontrolledIndex]
   )
 
   const goToNext = React.useCallback(() => {
@@ -200,11 +219,31 @@ export function CarouselContent({
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
   const setItemCount = React.useContext(CarouselCountContext)
-  const childrenArray = React.Children.toArray(children).filter(React.isValidElement)
+  const childrenArray = React.Children.toArray(children)
+  const itemCount = childrenArray.filter(React.isValidElement).length
 
   React.useEffect(() => {
-    setItemCount(childrenArray.length)
-  }, [childrenArray.length, setItemCount])
+    setItemCount(itemCount)
+  }, [itemCount, setItemCount])
+  const indexedChildren = childrenArray.reduce<{ items: React.ReactNode[]; itemIndex: number }>(
+    (acc, child) => {
+      if (!React.isValidElement(child)) {
+        return { items: [...acc.items, child], itemIndex: acc.itemIndex }
+      }
+
+      const index = acc.itemIndex
+      return {
+        items: [
+          ...acc.items,
+          <CarouselItemIndexContext.Provider key={child.key ?? index} value={index}>
+            {child}
+          </CarouselItemIndexContext.Provider>,
+        ],
+        itemIndex: index + 1,
+      }
+    },
+    { items: [], itemIndex: 0 }
+  ).items
 
   return (
     <div
@@ -213,23 +252,21 @@ export function CarouselContent({
       className={cn('relative w-full', className)}
       {...props}
     >
-      {childrenArray.map((child, index) =>
-        React.cloneElement(child as React.ReactElement<{ 'data-index'?: number }>, {
-          'data-index': index,
-        })
-      )}
+      {indexedChildren}
     </div>
   )
 }
 
 export function useCarouselItemState(index: number | undefined) {
   const { currentIndex, prevIndex } = useCarousel()
-  const isActive = currentIndex === index
-  const wasActive = prevIndex === index
-  const isLeft = index !== undefined ? index < currentIndex : false
-  const isRight = index !== undefined ? index > currentIndex : false
-  const offset = index !== undefined ? index - currentIndex : 0
-  return { isActive, wasActive, isLeft, isRight, offset, currentIndex }
+  const contextIndex = React.useContext(CarouselItemIndexContext)
+  const resolvedIndex = index ?? contextIndex
+  const isActive = currentIndex === resolvedIndex
+  const wasActive = prevIndex === resolvedIndex
+  const isLeft = resolvedIndex !== undefined ? resolvedIndex < currentIndex : false
+  const isRight = resolvedIndex !== undefined ? resolvedIndex > currentIndex : false
+  const offset = resolvedIndex !== undefined ? resolvedIndex - currentIndex : 0
+  return { isActive, wasActive, isLeft, isRight, offset, currentIndex, index: resolvedIndex }
 }
 
 export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -243,13 +280,13 @@ export function CarouselItem({
   'data-index': index,
   ...props
 }: CarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const { isActive, offset } = useCarouselItemState(index)
+  const { isActive, offset, index: resolvedIndex } = useCarouselItemState(index)
 
   return (
     <div
       ref={ref}
       data-slot="carousel-item"
-      data-index={index}
+      data-index={resolvedIndex}
       className={cn('relative', className)}
       style={
         {
@@ -277,17 +314,17 @@ export function FadeCarouselItem({
   rotateAmount,
   ...props
 }: FadeCarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const { isActive, isLeft, offset } = useCarouselItemState(index)
+  const { isActive, isLeft, offset, index: resolvedIndex } = useCarouselItemState(index)
 
   const randomValues = React.useMemo(() => {
-    const seed = ((index ?? 0) * 2654435761) >>> 0
+    const seed = ((resolvedIndex ?? 0) * 2654435761) >>> 0
     const direction = (seed & 1) === 0 ? -1 : 1
     const fraction = ((seed >> 8) & 0xff) / 255
     return {
       rotateDirection: direction,
       rotateAmount: (rotateAmount ?? 3) + 0.3 * fraction,
     }
-  }, [rotateAmount, index])
+  }, [rotateAmount, resolvedIndex])
 
   const photoOffset = isActive ? 0 : isLeft ? -1 : 1
 
@@ -295,7 +332,7 @@ export function FadeCarouselItem({
     <div
       ref={ref}
       data-slot="carousel-item"
-      data-index={index}
+      data-index={resolvedIndex}
       className={className}
       style={
         {

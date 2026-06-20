@@ -101,9 +101,9 @@ export function SectionSideNav({
   ...props
 }: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
   const internalRef = React.useRef<HTMLElement>(null)
-  const sectionObserverRef = React.useRef<IntersectionObserver | null>(null)
-  const visibilityObserverRef = React.useRef<IntersectionObserver | null>(null)
   const [fitState, setFitState] = React.useState<SideNavFitState>(defaultSideNavFitState)
+  const [activeSectionIds, setActiveSectionIds] = React.useState<string[]>([])
+  const [isVisible, setIsVisible] = React.useState(false)
 
   // Callback ref — merges forwarded ref with internal ref
   const sidebarCallbackRef = React.useCallback(
@@ -217,9 +217,6 @@ export function SectionSideNav({
 
   // Track active section via IntersectionObserver on section anchors
   React.useEffect(() => {
-    const sidebar = internalRef.current
-    if (!sidebar) return
-
     const sectionIds = sections.map((s) => s.id)
     const targets = sectionIds
       .map((id) => document.getElementById(id))
@@ -229,28 +226,33 @@ export function SectionSideNav({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          const navItem = sidebar.querySelector(`[data-section-id="${entry.target.id}"]`)
-          if (!navItem) return
+        setActiveSectionIds((current) => {
+          const next = new Set(current)
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              next.add(entry.target.id)
+            } else {
+              next.delete(entry.target.id)
+            }
+          })
 
-          if (entry.isIntersecting) {
-            navItem.classList.add(styles.itemActive)
-            navItem.setAttribute('aria-current', 'true')
-          } else if (navItem.classList.contains(styles.itemActive)) {
-            navItem.classList.remove(styles.itemActive)
-            navItem.removeAttribute('aria-current')
+          const orderedNext = sectionIds.filter((id) => next.has(id))
+          if (
+            orderedNext.length === current.length &&
+            orderedNext.every((id, index) => id === current[index])
+          ) {
+            return current
           }
+          return orderedNext
         })
       },
       { root: null, rootMargin: '-50% 0px -50%', threshold: 0 }
     )
 
-    sectionObserverRef.current = observer
     targets.forEach((el) => observer.observe(el))
 
     return () => {
       observer.disconnect()
-      sectionObserverRef.current = null
     }
   }, [sections])
 
@@ -258,27 +260,20 @@ export function SectionSideNav({
   // with the viewport center zone:
   // the container starts below the hero, so natural hysteresis prevents jitter.
   React.useEffect(() => {
-    const sidebar = internalRef.current
     const container = contentRef.current
-    if (!sidebar || !container) return
+    if (!container) return
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          sidebar.classList.add(styles.sidebarShow)
-        } else {
-          sidebar.classList.remove(styles.sidebarShow)
-        }
+        setIsVisible(entry.isIntersecting)
       },
       { root: null, rootMargin: '0px', threshold: 0 }
     )
 
-    visibilityObserverRef.current = observer
     observer.observe(container)
 
     return () => {
       observer.disconnect()
-      visibilityObserverRef.current = null
     }
   }, [contentRef])
 
@@ -300,7 +295,7 @@ export function SectionSideNav({
       ref={sidebarCallbackRef}
       data-slot="section-side-nav"
       data-overflow={fitState.needsScroll ? 'scroll' : undefined}
-      className={cn(styles.sidebar, className)}
+      className={cn(styles.sidebar, isVisible && styles.sidebarShow, className)}
       aria-label="Section navigation"
       style={sidebarStyle}
       {...props}
@@ -315,19 +310,23 @@ export function SectionSideNav({
             <NavArrowDown className={styles.backToTopArrow} />
           </button>
         </li>
-        {sections.map(({ id, number }) => (
-          <li key={id}>
-            <a
-              className={styles.item}
-              data-section-id={id}
-              onClick={scrollToSection}
-              href={`#${id}`}
-            >
-              <NavSplat className={styles.itemSplat} />
-              <span className={styles.itemText}>{number}</span>
-            </a>
-          </li>
-        ))}
+        {sections.map(({ id, number }) => {
+          const isActive = activeSectionIds.includes(id)
+          return (
+            <li key={id}>
+              <a
+                className={cn(styles.item, isActive && styles.itemActive)}
+                data-section-id={id}
+                onClick={scrollToSection}
+                href={`#${id}`}
+                aria-current={isActive ? 'true' : undefined}
+              >
+                <NavSplat className={styles.itemSplat} />
+                <span className={styles.itemText}>{number}</span>
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </nav>
   )

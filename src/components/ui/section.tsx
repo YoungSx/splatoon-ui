@@ -15,6 +15,8 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   text?: string
   /** Render as "section" or "div" */
   as?: 'section' | 'div'
+  /** Reserve content-safe space for decorative overlays painted across the section edge. */
+  bottomOverlayClearance?: 'none' | 'banner-divider'
   style?: React.CSSProperties
 }
 
@@ -25,6 +27,7 @@ export function Section({
   bgColor,
   text,
   as = 'section',
+  bottomOverlayClearance = 'none',
   className,
   children,
   style,
@@ -47,7 +50,8 @@ export function Section({
         'relative z-[var(--z-deco)] pr-[calc(1.5rem+var(--section-side-nav-safe-area,0px))] pl-6',
         bgColor,
         text,
-        className
+        className,
+        bottomOverlayClearance === 'banner-divider' && 'pb-[clamp(8rem,10vw,11.5rem)]'
       )}
       style={style}
       {...props}
