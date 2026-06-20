@@ -9,6 +9,8 @@ const readmeEnPath = path.join(root, 'README_EN.md')
 const componentSourceFiles = [
   path.join(root, 'src', 'components', 'ui', 'dialog.tsx'),
   path.join(root, 'src', 'components', 'ui', 'staple-card.tsx'),
+  path.join(root, 'src', 'components', 'ui', 'media-decoration.tsx'),
+  path.join(root, 'src', 'components', 'ui', 'paper-surface.tsx'),
 ]
 const newsAssetsPath = path.join(root, 'src', 'components', 'ui', 'news-assets.ts')
 const paperTearEdgePath = path.join(root, 'src', 'components', 'ui', 'paper-tear-edge.tsx')
@@ -116,6 +118,7 @@ const checks = [
   {
     name: 'dialog and StapleCard use the shared tape asset registry instead of legacy /images paths',
     pass:
+      source.includes('MediaDecoration') &&
       source.includes('TapePicture') &&
       !source.includes('/images/tape-assets/') &&
       !source.includes('/images/news/'),
@@ -165,6 +168,7 @@ const checks = [
   {
     name: 'dialog and StapleCard share canonical paper tear edge masks instead of duplicate inline paths',
     pass:
+      source.includes('PaperSurface') &&
       source.includes('PaperTearEdge') &&
       paperTearEdge.includes('/_images/svg/paper-tear-up.svg') &&
       paperTearEdge.includes('/_images/svg/paper-tear-down.svg') &&

@@ -18,7 +18,10 @@ function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
 }
 
-const SheetTriggerButton = createTriggerButton(SheetPrimitive.Trigger, "sheet-trigger")
+const SheetTriggerButton = createTriggerButton(
+  SheetPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>,
+  "sheet-trigger"
+)
 
 function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />

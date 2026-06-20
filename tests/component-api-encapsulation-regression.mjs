@@ -7,12 +7,18 @@ const componentRoot = path.join(root, 'src', 'components', 'ui')
 const carousel = fs.readFileSync(path.join(componentRoot, 'carousel.tsx'), 'utf8')
 const dialog = fs.readFileSync(path.join(componentRoot, 'dialog.tsx'), 'utf8')
 const videoDialog = fs.readFileSync(path.join(componentRoot, 'video-dialog.tsx'), 'utf8')
+const stapleCard = fs.readFileSync(path.join(componentRoot, 'staple-card.tsx'), 'utf8')
+const tornCard = fs.readFileSync(path.join(componentRoot, 'torn-card.tsx'), 'utf8')
+const photoFrame = fs.readFileSync(path.join(componentRoot, 'photo-frame.tsx'), 'utf8')
 const cardStackCarousel = fs.readFileSync(
   path.join(componentRoot, 'card-stack-carousel.tsx'),
   'utf8'
 )
 const feedCarousel = fs.readFileSync(path.join(componentRoot, 'feed-carousel.tsx'), 'utf8')
 const section = fs.readFileSync(path.join(componentRoot, 'section.tsx'), 'utf8')
+const assetImage = fs.readFileSync(path.join(componentRoot, 'asset-image.tsx'), 'utf8')
+const triggerButton = fs.readFileSync(path.join(componentRoot, 'trigger-button.tsx'), 'utf8')
+const demoPage = fs.readFileSync(path.join(root, 'src', 'app', 'page.tsx'), 'utf8')
 
 const checks = [
   {
@@ -35,7 +41,10 @@ const checks = [
     name: 'Dialog trigger registration is ref-based and does not query the DOM tree',
     pass:
       dialog.includes('registerTrigger') &&
-      dialog.includes('mergeRefs(registerTrigger') &&
+      dialog.includes('createTriggerButton') &&
+      triggerButton.includes('useRegisterRef') &&
+      triggerButton.includes('mergeRefs(registerRef, triggerRef, ref)') &&
+      !triggerButton.includes('no-explicit-any') &&
       !dialog.includes('querySelector<HTMLButtonElement>') &&
       !dialog.includes('[data-slot="dialog-trigger"]'),
   },
@@ -50,7 +59,7 @@ const checks = [
     name: 'CardStackCarousel exposes semantic item layout presets for higher-level components',
     pass:
       cardStackCarousel.includes('itemLayout?: CardStackCarouselItemLayout') &&
-      cardStackCarousel.includes('feed: "clamp(16.5rem, 19vw, 23rem)"') &&
+      cardStackCarousel.includes('feed: layoutTokens.feedCarouselItemWidth') &&
       feedCarousel.includes('itemLayout="feed"') &&
       !feedCarousel.includes('shellStyle='),
   },
@@ -59,7 +68,41 @@ const checks = [
     pass:
       section.includes('bottomOverlayClearance') &&
       section.includes("bottomOverlayClearance === 'banner-divider'") &&
-      section.includes('pb-[clamp(8rem,10vw,11.5rem)]'),
+      section.includes('pb-[var(--section-overlay-clearance)]') &&
+      section.includes('layoutTokens.bannerDividerClearance'),
+  },
+  {
+    name: 'Card decorations use the shared MediaDecoration abstraction',
+    pass:
+      stapleCard.includes('MediaDecoration') &&
+      tornCard.includes('MediaDecoration') &&
+      photoFrame.includes('MediaDecoration') &&
+      videoDialog.includes('MediaDecoration'),
+  },
+  {
+    name: 'Paper-style surfaces share PaperSurface instead of rebuilding tear edges',
+    pass:
+      dialog.includes('PaperSurface') &&
+      stapleCard.includes('PaperSurface') &&
+      !stapleCard.includes('PaperTearEdge') &&
+      !dialog.includes('PaperTearEdge'),
+  },
+  {
+    name: 'AssetImage exposes reusable fit/fill media props consumed by the demo feed',
+    pass:
+      assetImage.includes('fit?: React.CSSProperties') &&
+      assetImage.includes('fill?: boolean') &&
+      demoPage.includes('<AssetImage') &&
+      demoPage.includes('fit="cover"') &&
+      !demoPage.includes("style={{ objectFit: 'cover' }}"),
+  },
+  {
+    name: 'Demo page uses demo layout primitives for repeated content groups',
+    pass:
+      demoPage.includes('DemoContent') &&
+      demoPage.includes('DemoExampleGroup') &&
+      !demoPage.includes("style={{ maxWidth: '64rem' }}") &&
+      !demoPage.includes("style={{ maxWidth: '48rem' }}"),
   },
 ]
 

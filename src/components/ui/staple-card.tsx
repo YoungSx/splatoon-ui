@@ -2,9 +2,8 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { newsStapleAssets } from './news-assets'
-import { PaperTearEdge } from './paper-tear-edge'
-import { TapePicture } from './tape-picture'
-import { CardSlot } from './card-slot'
+import { MediaDecoration } from './media-decoration'
+import { PaperSurface } from './paper-surface'
 import styles from './staple-card.module.css'
 
 /* ── Variant config ── */
@@ -61,7 +60,6 @@ export function StapleCard({
   const config = VARIANT_CONFIG[variant]
   const resolvedShowTape = showTape ?? config.showTape
   const isDark = surface === 'dark'
-  const paperFill = isDark ? 'var(--color-black)' : 'var(--color-white)'
 
   return (
     <div
@@ -71,8 +69,12 @@ export function StapleCard({
       {...props}
     >
       <div className={cn(styles.card, '@container', hoverTilt && styles.hoverTilt)}>
-        <PaperTearEdge edge="top" color={paperFill} className={styles.cardTop} />
-        <div className={styles.cardLayout}>
+        <PaperSurface
+          tone={isDark ? 'black' : 'white'}
+          topEdgeClassName={styles.cardTop}
+          bottomEdgeClassName={styles.cardBottom}
+          contentClassName={styles.cardLayout}
+        >
           <div className={styles.stapleLeft}>
             <picture>
               <img
@@ -119,24 +121,21 @@ export function StapleCard({
               </>
             )}
           </div>
-        </div>
+        </PaperSurface>
         {resolvedShowTape && (
-          <CardSlot
+          <MediaDecoration
             position="top-left"
             className={styles.tape}
+            asset="sticker-9"
+            responsive={false}
+            media="(min-width: 400px)"
+            imageClassName={styles.tapeImage}
             style={{
               left: '25%',
               transform: 'translate(-50%, -50%) rotate(-10deg)',
             }}
-          >
-            <TapePicture
-              asset="sticker-9"
-              className={styles.tapeImage}
-              media="(min-width: 400px)"
-            />
-          </CardSlot>
+          />
         )}
-        <PaperTearEdge edge="bottom" color={paperFill} className={styles.cardBottom} />
       </div>
     </div>
   )

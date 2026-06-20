@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 
+import { useInView } from '@/hooks/use-in-view'
 import { cn } from '@/lib/utils'
 import inViewStyles from './in-view.module.css'
 import styles from './banner-divider.module.css'
@@ -139,33 +140,17 @@ export function BannerDivider({
   style: styleProp,
   ...props
 }: BannerDividerProps) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const [isInView, setIsInView] = React.useState(false)
+  const [isInView, ref] = useInView<HTMLDivElement>({
+    rootMargin: rootMargin ?? '0px',
+    once: true,
+    disabled: !animate,
+  })
   const tapes = tapesProp ?? [
     { ...DEFAULT_TAPES[0], variant: pattern ?? DEFAULT_TAPES[0].variant },
     { ...DEFAULT_TAPES[1], variant: color ?? DEFAULT_TAPES[1].variant },
   ]
   const maxBaseOffset = Math.max(0, ...tapes.map((tape) => tape.offsetY?.[0] ?? 0))
   const maxMediumOffset = Math.max(0, ...tapes.map((tape) => tape.offsetY?.[1] ?? 0))
-
-  React.useEffect(() => {
-    if (!animate) return
-    const el = ref.current
-    if (!el) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true)
-          observer.unobserve(el)
-        }
-      },
-      { rootMargin: rootMargin ?? '0px' }
-    )
-
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [animate, rootMargin])
 
   return (
     <div

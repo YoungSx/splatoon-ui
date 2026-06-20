@@ -16,7 +16,10 @@ function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />
 }
 
-const PopoverTriggerButton = createTriggerButton(PopoverPrimitive.Trigger, "popover-trigger")
+const PopoverTriggerButton = createTriggerButton(
+  PopoverPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>,
+  "popover-trigger"
+)
 
 function PopoverPortal({ ...props }: PopoverPrimitive.Portal.Props) {
   return <PopoverPrimitive.Portal data-slot="popover-portal" {...props} />

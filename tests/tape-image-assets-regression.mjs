@@ -12,6 +12,7 @@ const registryConsumerPaths = [
   path.join(root, 'src', 'components', 'ui', 'torn-card.tsx'),
   path.join(root, 'src', 'components', 'ui', 'video-dialog.tsx'),
   path.join(root, 'src', 'components', 'ui', 'staple-card.tsx'),
+  path.join(root, 'src', 'components', 'ui', 'media-decoration.tsx'),
 ]
 
 const tapeAssets = fs.readFileSync(tapeAssetsPath, 'utf8')
@@ -107,6 +108,7 @@ const checks = [
     pass:
       registryConsumers.includes('TapePicture') &&
       registryConsumers.includes('TapeResponsivePictures') &&
+      registryConsumers.includes('MediaDecoration') &&
       !registryConsumers.includes('/_images/tape-assets/tape-2') &&
       !registryConsumers.includes('/_images/tape-assets/tape-3') &&
       !registryConsumers.includes('/_images/tape-assets/tape-5') &&

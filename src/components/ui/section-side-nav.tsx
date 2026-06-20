@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { useElementSize } from '@/hooks/use-element-size'
 import { NavSplat } from './splats/nav-splat'
 import { NavArrowDown } from './icons/nav-arrow-down'
 import styles from './section-side-nav.module.css'
@@ -101,6 +102,7 @@ export function SectionSideNav({
   ...props
 }: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
   const internalRef = React.useRef<HTMLElement>(null)
+  const [menuRef, menuSize] = useElementSize<HTMLUListElement>()
   const [fitState, setFitState] = React.useState<SideNavFitState>(defaultSideNavFitState)
   const [activeSectionIds, setActiveSectionIds] = React.useState<string[]>([])
   const [isVisible, setIsVisible] = React.useState(false)
@@ -162,8 +164,7 @@ export function SectionSideNav({
   )
 
   const updateSidebarFit = React.useCallback(() => {
-    const sidebar = internalRef.current
-    const menu = sidebar?.querySelector(`.${styles.menu}`) as HTMLElement | null
+    const menu = menuRef.current
     if (!menu) return
 
     const naturalHeight = menu.scrollHeight
@@ -192,28 +193,19 @@ export function SectionSideNav({
         ? current
         : nextFitState
     )
-  }, [topInset, viewportMargin])
+  }, [menuRef, topInset, viewportMargin])
 
   React.useEffect(() => {
     updateSidebarFit()
 
-    const sidebar = internalRef.current
-    const menu = sidebar?.querySelector(`.${styles.menu}`) as HTMLElement | null
-    if (!menu) return
-
-    const resizeObserver =
-      typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(updateSidebarFit)
-
-    resizeObserver?.observe(menu)
     window.addEventListener('resize', updateSidebarFit)
     window.visualViewport?.addEventListener('resize', updateSidebarFit)
 
     return () => {
-      resizeObserver?.disconnect()
       window.removeEventListener('resize', updateSidebarFit)
       window.visualViewport?.removeEventListener('resize', updateSidebarFit)
     }
-  }, [sections.length, updateSidebarFit])
+  }, [menuSize.height, sections.length, updateSidebarFit])
 
   // Track active section via IntersectionObserver on section anchors
   React.useEffect(() => {
@@ -300,7 +292,7 @@ export function SectionSideNav({
       style={sidebarStyle}
       {...props}
     >
-      <ul className={styles.menu}>
+      <ul ref={menuRef} className={styles.menu}>
         <li>
           <button
             onClick={scrollToTop}

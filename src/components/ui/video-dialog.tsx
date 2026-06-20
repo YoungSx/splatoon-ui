@@ -4,9 +4,8 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
-import { CardSlot } from './card-slot'
+import { MediaDecoration } from './media-decoration'
 import photoStyles from './photo-frame.module.css'
-import { TapeResponsivePictures } from './tape-picture'
 import tapeStyles from './video-dialog.module.css'
 
 // ── VideoDialog Root (thin wrapper around Dialog) ──
@@ -124,22 +123,20 @@ export function VideoDialogThumbnail({
               />
             </div>
 
-            <CardSlot className={tapeStyles.tape1}>
-              <TapeResponsivePictures
-                asset="tape-2"
-                mobilePictureClassName={tapeStyles.tapeMobile}
-                desktopPictureClassName={tapeStyles.tapeDesktop}
-                imageClassName={tapeStyles.tapeImage}
-              />
-            </CardSlot>
-            <CardSlot className={tapeStyles.tape2}>
-              <TapeResponsivePictures
-                asset="tape-3"
-                mobilePictureClassName={tapeStyles.tapeMobile}
-                desktopPictureClassName={tapeStyles.tapeDesktop}
-                imageClassName={tapeStyles.tapeImage}
-              />
-            </CardSlot>
+            <MediaDecoration
+              asset="tape-2"
+              className={tapeStyles.tape1}
+              mobilePictureClassName={tapeStyles.tapeMobile}
+              desktopPictureClassName={tapeStyles.tapeDesktop}
+              imageClassName={tapeStyles.tapeImage}
+            />
+            <MediaDecoration
+              asset="tape-3"
+              className={tapeStyles.tape2}
+              mobilePictureClassName={tapeStyles.tapeMobile}
+              desktopPictureClassName={tapeStyles.tapeDesktop}
+              imageClassName={tapeStyles.tapeImage}
+            />
           </button>
         )
       }}

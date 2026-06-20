@@ -5,16 +5,18 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { createTriggerButton, mergeRefs } from '@/components/ui/trigger-button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 
 import { InkSplashCanvas } from './ink-splash-canvas'
-import { PaperTearEdge } from './paper-tear-edge'
-import { TapePicture } from './tape-picture'
+import { MediaDecoration } from './media-decoration'
+import { PaperSurface, type PaperSurfaceTone } from './paper-surface'
 import { power3In } from '@/lib/wobble-math'
+import { motionTokens } from '@/lib/ui-tokens'
 import { WaveButton } from './wave-button'
 
-const CLOSE_DELAY = 1200
-const DURATION_IN = 700
+const CLOSE_DELAY = motionTokens.dialogCloseDelayMs
+const DURATION_IN = motionTokens.dialogDurationInMs
 const DURATION_OUT = CLOSE_DELAY - 200
 
 // ── Dialog Context (for fullScreen lifecycle management) ──
@@ -87,21 +89,6 @@ function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: Dial
   )
 }
 
-function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
-  if (!ref) return
-  if (typeof ref === 'function') {
-    ref(value)
-    return
-  }
-  ref.current = value
-}
-
-function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
-  return (value: T | null) => {
-    refs.forEach((ref) => assignRef(ref, value))
-  }
-}
-
 function DialogTrigger({
   ref,
   ...props
@@ -117,68 +104,13 @@ function DialogTrigger({
   )
 }
 
-type DialogTriggerButtonProps = Omit<
-  DialogPrimitive.Trigger.Props,
-  'render' | 'children'
-> &
-  Pick<
-    React.ComponentProps<typeof Button>,
-    | 'children'
-    | 'variant'
-    | 'size'
-    | 'theme'
-    | 'hasChevron'
-    | 'color'
-    | 'hoverColor'
-    | 'textColor'
-    | 'textHoverColor'
-  >
-
-function DialogTriggerButton({
-  ref,
-  children,
-  variant = 'yellow',
-  size = 'default',
-  theme,
-  hasChevron = true,
-  color,
-  hoverColor,
-  textColor,
-  textHoverColor,
-  ...props
-}: DialogTriggerButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
-  const { registerTrigger } = useDialogContext()
-
-  return (
-    <DialogPrimitive.Trigger
-      data-slot="dialog-trigger"
-      render={(triggerProps) => {
-        const { ref: triggerRef, ...buttonProps } = triggerProps as {
-          ref?: React.Ref<HTMLButtonElement>
-          [key: string]: unknown
-        }
-
-        return (
-          <Button
-            {...buttonProps}
-            ref={mergeRefs(registerTrigger, triggerRef, ref)}
-            variant={variant}
-            size={size}
-            theme={theme}
-            hasChevron={hasChevron}
-            color={color}
-            hoverColor={hoverColor}
-            textColor={textColor}
-            textHoverColor={textHoverColor}
-          >
-            {children}
-          </Button>
-        )
-      }}
-      {...props}
-    />
-  )
-}
+const DialogTriggerButton = createTriggerButton(
+  DialogPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>,
+  'dialog-trigger',
+  {
+    useRegisterRef: () => useDialogContext().registerTrigger,
+  }
+)
 
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
@@ -205,10 +137,13 @@ interface DialogContentProps extends DialogPrimitive.Popup.Props {
   fullScreen?: boolean
 }
 
-const surfaceFills = {
-  paper: { bg: 'bg-white text-black', fill: 'var(--color-white)' },
-  cream: { bg: 'bg-white text-black', fill: 'var(--color-white)' },
-  danger: { bg: 'bg-red text-white', fill: 'var(--color-red)' },
+const surfaceFills: Record<
+  NonNullable<DialogContentProps['surface']>,
+  { bg: string; tone: PaperSurfaceTone }
+> = {
+  paper: { bg: 'bg-white text-black', tone: 'white' },
+  cream: { bg: 'bg-white text-black', tone: 'white' },
+  danger: { bg: 'bg-red text-white', tone: 'red' },
 } as const
 
 // ── Full-Screen Dialog Content ──
@@ -483,14 +418,10 @@ function DialogContent({
         )}
         {...props}
       >
-        <PaperTearEdge
-          edge="top"
-          color={fillInfo.fill}
-          className="pointer-events-none relative z-10 mb-[-2px] w-full select-none"
-        />
-
         {hasTape && (
-          <div
+          <MediaDecoration
+            asset="sticker-9"
+            responsive={false}
             className={cn(
               'pointer-events-none absolute top-0 z-30 inline-grid select-none',
               tapePosition === 'news'
@@ -498,12 +429,13 @@ function DialogContent({
                 : 'right-0 -translate-x-[10px] -translate-y-[15px] rotate-[10deg]'
             )}
             style={{ width: 140 }}
-          >
-            <TapePicture asset="sticker-9" fill={false} />
-          </div>
+          />
         )}
 
-        <div className={cn('relative z-10 flex flex-col gap-4 px-8 py-4', fillInfo.bg)}>
+        <PaperSurface
+          tone={fillInfo.tone}
+          contentClassName={cn('flex flex-col gap-4 px-8 py-4', fillInfo.bg)}
+        >
           {children}
 
           {showCloseButton && (
@@ -511,13 +443,7 @@ function DialogContent({
               <DialogPrimitive.Close render={<WaveButton />} />
             </div>
           )}
-        </div>
-
-        <PaperTearEdge
-          edge="bottom"
-          color={fillInfo.fill}
-          className="pointer-events-none relative z-10 mt-[-2px] w-full select-none"
-        />
+        </PaperSurface>
       </DialogPrimitive.Popup>
     </DialogPortal>
   )

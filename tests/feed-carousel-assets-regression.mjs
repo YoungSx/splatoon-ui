@@ -100,7 +100,9 @@ const checks = [
       feedCarousel.includes('data-slot="feed-carousel-media"') &&
       feedCarousel.includes('style={{ aspectRatio: mediaAspectRatio }}') &&
       !page.includes('FEED_CARD_MEDIA_ASPECT_RATIO') &&
-      page.includes("style={{ objectFit: 'cover' }}") &&
+      page.includes('fit="cover"') &&
+      page.includes('fill') &&
+      !page.includes("style={{ objectFit: 'cover' }}") &&
       feedCarousel.includes('className="block w-full overflow-hidden"'),
   },
   {

@@ -18,6 +18,7 @@ const page = fs.readFileSync(pagePath, 'utf8')
 const section = fs.readFileSync(sectionPath, 'utf8')
 const sectionSideNav = fs.readFileSync(sectionSideNavPath, 'utf8')
 const sectionSideNavCss = fs.readFileSync(sectionSideNavCssPath, 'utf8')
+const useElementSize = fs.readFileSync(path.join(root, 'src', 'hooks', 'use-element-size.ts'), 'utf8')
 
 function block(selector) {
   const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -93,7 +94,8 @@ const checks = [
   {
     name: 'SectionSideNav fits dense menus inside short viewport heights',
     pass:
-      sectionSideNav.includes('ResizeObserver') &&
+      sectionSideNav.includes('useElementSize') &&
+      useElementSize.includes('ResizeObserver') &&
       sectionSideNav.includes('SIDE_NAV_VIEWPORT_MARGIN') &&
       sectionSideNav.includes('SIDE_NAV_MIN_SCALE') &&
       sectionSideNavCss.includes('--section-side-nav-fit-scale') &&

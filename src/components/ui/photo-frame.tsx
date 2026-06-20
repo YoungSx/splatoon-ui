@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { isTapeImageVariant, type TapeImageVariant } from './tape-assets'
-import { TapeResponsivePictures } from './tape-picture'
+import { MediaDecoration } from './media-decoration'
 import styles from './photo-frame.module.css'
 
 /* ── PhotoFrame — unified styled-photo with tape decoration ── */
@@ -219,13 +219,13 @@ export function PhotoTape({
   if (!config) return null
 
   return (
-    <div className={cn(styles.tape, TAPE_POSITION[position], className)} {...props}>
-      <TapeResponsivePictures
-        asset={config.asset}
-        mobilePictureClassName={styles.tapeMobile}
-        desktopPictureClassName={styles.tapeDesktop}
-      />
-    </div>
+    <MediaDecoration
+      asset={config.asset}
+      className={cn(styles.tape, TAPE_POSITION[position], className)}
+      mobilePictureClassName={styles.tapeMobile}
+      desktopPictureClassName={styles.tapeDesktop}
+      {...props}
+    />
   )
 }
 
@@ -256,12 +256,12 @@ export function PhotoDecoration({
   if (!asset) return null
 
   return (
-    <div className={cn(styles.decoration, DECORATION_POSITION[position], className)} {...props}>
-      <TapeResponsivePictures
-        asset={asset}
-        mobilePictureClassName={styles.decorationMobile}
-        desktopPictureClassName={styles.decorationDesktop}
-      />
-    </div>
+    <MediaDecoration
+      asset={asset}
+      className={cn(styles.decoration, DECORATION_POSITION[position], className)}
+      mobilePictureClassName={styles.decorationMobile}
+      desktopPictureClassName={styles.decorationDesktop}
+      {...props}
+    />
   )
 }

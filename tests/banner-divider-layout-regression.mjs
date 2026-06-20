@@ -63,6 +63,7 @@ const checks = [
     pass:
       section.includes("bottomOverlayClearance?: 'none' | 'banner-divider'") &&
       section.includes("bottomOverlayClearance === 'banner-divider'") &&
+      section.includes('layoutTokens.bannerDividerClearance') &&
       !section.includes('bottomSafeArea') &&
       !section.includes('section-bottom-safe-area') &&
       !page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&

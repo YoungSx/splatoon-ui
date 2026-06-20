@@ -3,6 +3,7 @@ import * as React from 'react'
 export interface UseInViewOptions {
   rootMargin?: string
   once?: boolean
+  disabled?: boolean
 }
 
 /**
@@ -12,11 +13,13 @@ export interface UseInViewOptions {
 export function useInView<T extends HTMLElement = HTMLElement>({
   rootMargin = '0px',
   once = true,
+  disabled = false,
 }: UseInViewOptions = {}): [boolean, React.RefObject<T | null>] {
   const ref = React.useRef<T>(null)
   const [isInView, setIsInView] = React.useState(false)
 
   React.useEffect(() => {
+    if (disabled) return
     const el = ref.current
     if (!el) return
 
@@ -34,7 +37,7 @@ export function useInView<T extends HTMLElement = HTMLElement>({
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [rootMargin, once])
+  }, [disabled, rootMargin, once])
 
   return [isInView, ref]
 }

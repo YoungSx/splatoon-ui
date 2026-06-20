@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { CardSlot, type CardSlotProps } from './card-slot'
-import { TapeResponsivePictures } from './tape-picture'
+import { MediaDecoration } from './media-decoration'
 import type { TapeImageVariant } from './tape-assets'
 import { WideTornPaper } from './wide-torn-paper'
 import styles from './torn-card.module.css'
@@ -91,23 +91,21 @@ export function TornCard({
 
       <div className="@container w-full">
         {showTape && (
-          <CardSlot position={resolvedTapePosition}>
-            <TapeResponsivePictures
-              asset={config.tapeAsset}
-              mobilePictureClassName={cn(styles.tape, styles.imgMobile)}
-              desktopPictureClassName={cn(styles.tape, styles.imgDesktop)}
-            />
-          </CardSlot>
+          <MediaDecoration
+            position={resolvedTapePosition}
+            asset={config.tapeAsset}
+            mobilePictureClassName={cn(styles.tape, styles.imgMobile)}
+            desktopPictureClassName={cn(styles.tape, styles.imgDesktop)}
+          />
         )}
 
         {resolvedShowSticker && config.stickerAsset ? (
-          <CardSlot position="top-right">
-            <TapeResponsivePictures
-              asset={config.stickerAsset}
-              mobilePictureClassName={styles.imgMobile}
-              desktopPictureClassName={styles.imgDesktop}
-            />
-          </CardSlot>
+          <MediaDecoration
+            position="top-right"
+            asset={config.stickerAsset}
+            mobilePictureClassName={styles.imgMobile}
+            desktopPictureClassName={styles.imgDesktop}
+          />
         ) : null}
 
         <div className={cn(styles.alertContent, 'relative z-10 flex flex-col gap-4')}>

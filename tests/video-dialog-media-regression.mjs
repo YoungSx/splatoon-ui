@@ -39,8 +39,7 @@ const checks = [
   {
     name: 'VideoDialog decorative thumbnail tapes come from the shared official asset registry',
     pass:
-      component.includes("import { CardSlot } from './card-slot'") &&
-      component.includes("import { TapeResponsivePictures } from './tape-picture'") &&
+      component.includes("import { MediaDecoration } from './media-decoration'") &&
       component.includes('asset="tape-2"') &&
       component.includes('asset="tape-3"') &&
       !component.includes('/_images/tape-assets/tape-2') &&
@@ -49,8 +48,9 @@ const checks = [
   {
     name: 'VideoDialog decorative thumbnail tapes use container-query slots',
     pass:
-      component.includes('<CardSlot className={tapeStyles.tape1}>') &&
-      component.includes('<CardSlot className={tapeStyles.tape2}>') &&
+      component.includes('<MediaDecoration') &&
+      component.includes('className={tapeStyles.tape1}') &&
+      component.includes('className={tapeStyles.tape2}') &&
       component.includes('mobilePictureClassName={tapeStyles.tapeMobile}') &&
       component.includes('desktopPictureClassName={tapeStyles.tapeDesktop}') &&
       css.includes('container-type: inline-size;') &&

@@ -20,6 +20,7 @@ import {
 } from "@/lib/physics/card-stack/store"
 import { defaultSupportMotionProfile } from "@/lib/physics/card-stack/support-driver"
 import { cardStackLayoutTuning } from "@/lib/physics/card-stack/tuning"
+import { layoutTokens } from "@/lib/ui-tokens"
 import { cn } from "@/lib/utils"
 import { IconButton } from "@/components/ui/icon-button"
 import styles from "./card-stack-carousel.module.css"
@@ -40,7 +41,7 @@ type CardStackCarouselItemLayout = "default" | "feed"
 
 const CARD_STACK_ITEM_WIDTH: Record<CardStackCarouselItemLayout, React.CSSProperties["width"]> = {
   default: undefined,
-  feed: "clamp(16.5rem, 19vw, 23rem)",
+  feed: layoutTokens.feedCarouselItemWidth,
 }
 
 function radiansToDegrees(value: number) {

@@ -61,6 +61,7 @@ import { GitHubMark } from '@/components/ui/github-mark'
 import { AssetImage, type ImageAsset } from '@/components/ui/asset-image'
 import { pageTransitionCharacterAssets } from '@/components/ui/character-assets'
 import { EventCallout } from '@/components/ui/event-callout'
+import { DemoContent, DemoExampleGroup } from '@/components/ui/demo-layout'
 import { eventImageAssets } from '@/components/ui/event-assets'
 import { showcaseMediaAssets } from '@/components/ui/showcase-assets'
 import {
@@ -125,8 +126,8 @@ function FeedCardImage({ asset }: { asset: ImageAsset }) {
   return (
     <AssetImage
       asset={asset}
-      className="h-full w-full"
-      style={{ objectFit: 'cover' }}
+      fill
+      fit="cover"
       loading="eager"
     />
   )
@@ -1510,9 +1511,9 @@ export default function Home() {
               </div>
             }
           >
-            <div className="relative z-20 w-full space-y-16" style={{ maxWidth: '64rem' }}>
+            <DemoContent>
               {/* 3D Splat Gallery */}
-              <div className="space-y-6">
+              <DemoExampleGroup>
                 <h3 className="text-center text-xl font-black tracking-wider uppercase">
                   Feed Carousel
                 </h3>
@@ -1520,10 +1521,10 @@ export default function Home() {
                   Swipe or click to navigate through the stacked feed cards.
                 </p>
                 <FeedCarousel initialIndex={2} items={homepageFeedCarouselItems} />
-              </div>
+              </DemoExampleGroup>
 
               {/* Weapons Gallery Carousel */}
-              <div className="space-y-6">
+              <DemoExampleGroup>
                 <h3 className="text-center text-xl font-black tracking-wider uppercase">
                   Weapons Gallery
                 </h3>
@@ -1532,10 +1533,10 @@ export default function Home() {
                   sequentially with arrow controls.
                 </p>
                 <WeaponsGalleryCarousel items={weaponsGalleryItems} />
-              </div>
+              </DemoExampleGroup>
 
               {/* Shops Gallery Carousel */}
-              <div className="space-y-6">
+              <DemoExampleGroup>
                 <h3 className="text-center text-xl font-black tracking-wider uppercase">
                   Shops Gallery
                 </h3>
@@ -1544,10 +1545,10 @@ export default function Home() {
                   icon.
                 </p>
                 <IconPaginatedCarousel items={shopsGalleryItems} />
-              </div>
+              </DemoExampleGroup>
 
               {/* Marquee Carousel */}
-              <div className="space-y-6">
+              <DemoExampleGroup>
                 <h3 className="text-center text-xl font-black tracking-wider uppercase">
                   Infinite Marquee
                 </h3>
@@ -1556,8 +1557,8 @@ export default function Home() {
                   seamless looping.
                 </p>
                 <MarqueeCarousel items={marqueeItems} />
-              </div>
-            </div>
+              </DemoExampleGroup>
+            </DemoContent>
           </Section>
 
           {/* Banner divider: Carousels → Forms & Feedback */}
@@ -1582,7 +1583,7 @@ export default function Home() {
               </div>
             }
           >
-            <div className="relative z-20 w-full space-y-16" style={{ maxWidth: '48rem' }}>
+            <DemoContent width="narrow">
               {/* Forms */}
               <div className="grid gap-8 md:grid-cols-2">
                 <Card variant="paper" surface="white">
@@ -1728,7 +1729,7 @@ export default function Home() {
                   <Progress value={92} variant="green" trackVariant="light" />
                 </div>
               </div>
-            </div>
+            </DemoContent>
           </Section>
         </div>
 

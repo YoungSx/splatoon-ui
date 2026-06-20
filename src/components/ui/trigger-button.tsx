@@ -18,6 +18,25 @@ type TriggerButtonOwnProps = Pick<
   | "textHoverColor"
 >
 
+type TriggerButtonRenderProps = Record<string, unknown> & {
+  ref?: React.Ref<HTMLButtonElement>
+}
+
+export function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
+  if (!ref) return
+  if (typeof ref === "function") {
+    ref(value)
+    return
+  }
+  ref.current = value
+}
+
+export function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
+  return (value: T | null) => {
+    refs.forEach((ref) => assignRef(ref, value))
+  }
+}
+
 /**
  * Factory: creates a TriggerButton component that renders a Base UI trigger
  * with a Button as its `render` output.
@@ -25,15 +44,18 @@ type TriggerButtonOwnProps = Pick<
  * Usage:
  *   const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, "dialog-trigger")
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createTriggerButton<TTrigger extends React.ComponentType<any>>(
+export function createTriggerButton<TTrigger extends React.ComponentType<Record<string, unknown>>>(
   Trigger: TTrigger,
-  dataSlot: string
+  dataSlot: string,
+  options?: {
+    useRegisterRef?: () => React.Ref<HTMLButtonElement> | undefined
+  }
 ) {
   type TriggerProps = React.ComponentProps<TTrigger>
   type Props = Omit<TriggerProps, "render" | "children"> & TriggerButtonOwnProps
 
   function TriggerButton({
+    ref,
     children,
     variant = "yellow",
     size = "default",
@@ -44,21 +66,20 @@ export function createTriggerButton<TTrigger extends React.ComponentType<any>>(
     textColor,
     textHoverColor,
     ...props
-  }: Props) {
+  }: Props & { ref?: React.Ref<HTMLButtonElement> }) {
     const TriggerComp = Trigger as React.ComponentType<Record<string, unknown>>
+    const registerRef = options?.useRegisterRef?.()
 
     return (
       <TriggerComp
         data-slot={dataSlot}
         render={(triggerProps: Record<string, unknown>) => {
-          const { ref, ...buttonProps } = triggerProps as typeof triggerProps & {
-            ref?: React.Ref<HTMLButtonElement>
-          }
+          const { ref: triggerRef, ...buttonProps } = triggerProps as TriggerButtonRenderProps
 
           return (
             <Button
               {...buttonProps}
-              ref={ref}
+              ref={mergeRefs(registerRef, triggerRef, ref)}
               variant={variant}
               size={size}
               theme={theme}

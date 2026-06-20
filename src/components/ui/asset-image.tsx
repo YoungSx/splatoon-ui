@@ -16,6 +16,9 @@ export interface AssetImageProps extends Omit<
   asset: ImageAsset
   alt?: string
   decorative?: boolean
+  fit?: React.CSSProperties['objectFit']
+  aspectRatio?: React.CSSProperties['aspectRatio']
+  fill?: boolean
 }
 
 export function AssetImage({
@@ -24,6 +27,10 @@ export function AssetImage({
   className,
   decorative = false,
   draggable = false,
+  fit,
+  aspectRatio,
+  fill = false,
+  style,
   ...props
 }: AssetImageProps) {
   return (
@@ -32,10 +39,15 @@ export function AssetImage({
       {...props}
       alt={decorative ? '' : (alt ?? asset.alt)}
       aria-hidden={decorative ? true : props['aria-hidden']}
-      className={cn(className)}
+      className={cn(fill && 'block h-full w-full', className)}
       draggable={draggable}
       height={asset.height}
       src={asset.src}
+      style={{
+        ...(fit ? { objectFit: fit } : {}),
+        ...(aspectRatio ? { aspectRatio } : {}),
+        ...style,
+      }}
       width={asset.width}
     />
   )

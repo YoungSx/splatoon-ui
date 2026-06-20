@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { layoutTokens } from '@/lib/ui-tokens'
 import { cn } from '@/lib/utils'
 import { type Pattern, SectionBackground } from './section-background'
 
@@ -51,9 +52,16 @@ export function Section({
         bgColor,
         text,
         className,
-        bottomOverlayClearance === 'banner-divider' && 'pb-[clamp(8rem,10vw,11.5rem)]'
+        bottomOverlayClearance === 'banner-divider' && 'pb-[var(--section-overlay-clearance)]'
       )}
-      style={style}
+      style={
+        {
+          ...(bottomOverlayClearance === 'banner-divider'
+            ? { '--section-overlay-clearance': layoutTokens.bannerDividerClearance }
+            : {}),
+          ...style,
+        } as React.CSSProperties
+      }
       {...props}
     >
       {headingTape}
