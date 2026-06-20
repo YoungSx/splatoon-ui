@@ -43,7 +43,7 @@ export const squidSpriteAssets = {
     frameWidth: 130,
     frameHeight: 130,
     frames: 64,
-    durationMs: 2667,
+    durationMs: 8001,
     sourceUrl:
       'https://www.spriters-resource.com/media/assets/180/182952.png?updated=1755487320',
   },
@@ -56,7 +56,7 @@ export const squidSpriteAssets = {
     frameWidth: 130,
     frameHeight: 130,
     frames: 31,
-    durationMs: 2067,
+    durationMs: 6201,
     sourceUrl:
       'https://www.spriters-resource.com/media/assets/180/182953.png?updated=1755487320',
   },

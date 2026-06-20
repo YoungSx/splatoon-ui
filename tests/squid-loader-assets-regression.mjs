@@ -74,8 +74,8 @@ const checks = [
       registry.includes('height: 481') &&
       registry.includes('frames: 64') &&
       registry.includes('frames: 31') &&
-      registry.includes('durationMs: 2667') &&
-      registry.includes('durationMs: 2067') &&
+      registry.includes('durationMs: 8001') &&
+      registry.includes('durationMs: 6201') &&
       registry.includes('182952.png') &&
       registry.includes('182953.png'),
   },
