@@ -18,6 +18,12 @@ import { WaveButton } from './wave-button'
 const CLOSE_DELAY = motionTokens.dialogCloseDelayMs
 const DURATION_IN = motionTokens.dialogDurationInMs
 const DURATION_OUT = CLOSE_DELAY - 200
+const DANGER_SURFACE_TITLE_COLOR = '#4CE753'
+const DIALOG_Z_INDEX = {
+  overlay: 200,
+  content: 210,
+  close: 220,
+} as const
 type DialogSurface = 'paper' | 'cream' | 'danger'
 
 // ── Dialog Context (for fullScreen lifecycle management) ──
@@ -118,14 +124,15 @@ function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-function DialogOverlay({ className, ...props }: DialogPrimitive.Backdrop.Props) {
+function DialogOverlay({ className, style, ...props }: DialogPrimitive.Backdrop.Props) {
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        'bg-overlay data-open:animate-in data-open:fade-in-0 fixed inset-0 isolate z-[var(--z-dialog-overlay)] supports-backdrop-filter:backdrop-blur-sm',
+        'bg-overlay data-open:animate-in data-open:fade-in-0 fixed inset-0 isolate supports-backdrop-filter:backdrop-blur-sm',
         className
       )}
+      style={{ zIndex: DIALOG_Z_INDEX.overlay, ...style }}
       {...props}
     />
   )
@@ -302,7 +309,8 @@ function DialogContentFullScreen({
     <DialogPrimitive.Portal keepMounted>
       {isModalMounted && (
         <InkSplashCanvas
-          className="pointer-events-none fixed inset-0 z-[var(--z-dialog-overlay)]"
+          className="pointer-events-none fixed inset-0"
+          style={{ zIndex: DIALOG_Z_INDEX.overlay }}
           state={canvasState}
           durationIn={DURATION_IN}
           durationOut={DURATION_OUT}
@@ -316,13 +324,17 @@ function DialogContentFullScreen({
 
       {isModalMounted && (
         <DialogPrimitive.Backdrop
-          className="fixed inset-0 z-[var(--z-dialog-overlay)]"
+          className="fixed inset-0"
+          style={{ zIndex: DIALOG_Z_INDEX.overlay }}
           onClick={handleClose}
         />
       )}
 
       {isModalMounted && (
-        <div className="pointer-events-none fixed inset-0 z-[var(--z-dialog)] flex items-center justify-center p-4 sm:p-8">
+        <div
+          className="pointer-events-none fixed inset-0 flex items-center justify-center p-4 sm:p-8"
+          style={{ zIndex: DIALOG_Z_INDEX.content }}
+        >
           <div
             ref={(node) => {
               contentRef.current = node
@@ -359,8 +371,9 @@ function DialogContentFullScreen({
       {isModalMounted && showCloseButton && (
         <DialogPrimitive.Close
           render={<WaveButton />}
-          className="fixed top-5 right-4 z-[var(--z-dialog-close)] sm:top-8 sm:right-8"
+          className="fixed top-5 right-4 sm:top-8 sm:right-8"
           style={{
+            zIndex: DIALOG_Z_INDEX.close,
             opacity: modalActive && !modalHeadingOut ? 1 : 0,
             transform: `translateX(${modalActive && !modalHeadingOut ? '0' : '200%'})`,
             transitionProperty: 'transform, opacity',
@@ -387,6 +400,7 @@ function DialogContent({
   tapePosition = 'news',
   surface = 'paper',
   fullScreen = false,
+  style,
   ...props
 }: DialogContentProps) {
   const [isReducedMotion] = useReducedMotion()
@@ -412,12 +426,13 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 z-[var(--z-dialog)] flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
+          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
           isReducedMotion
             ? 'origin-center [transform:translate(-50%,-50%)]'
             : 'origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]',
           className
         )}
+        style={{ zIndex: DIALOG_Z_INDEX.content, ...style }}
         {...props}
       >
         {hasTape && (
@@ -486,7 +501,7 @@ function DialogFooter({
 
 function DialogTitle({ className, style, ...props }: DialogPrimitive.Title.Props) {
   const surface = React.useContext(DialogSurfaceContext)
-  const surfaceStyle = surface === 'danger' ? { color: '#02e754' } : undefined
+  const surfaceStyle = surface === 'danger' ? { color: DANGER_SURFACE_TITLE_COLOR } : undefined
 
   return (
     <DialogPrimitive.Title

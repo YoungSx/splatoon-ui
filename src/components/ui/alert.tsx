@@ -20,6 +20,15 @@ const ALERT_VARIANT_MAP = {
   },
 } as const
 
+function isCssColor(value: string) {
+  return (
+    value.startsWith('#') ||
+    value.startsWith('rgb') ||
+    value.startsWith('var(') ||
+    value.startsWith('hsl')
+  )
+}
+
 export function Alert({
   variant = 'default',
   showTape = true,
@@ -54,14 +63,10 @@ function AlertTitle({
       data-slot="alert-title"
       className={cn(
         'splat-heading text-2xl',
-        textColor?.startsWith('#') || textColor?.startsWith('rgb') ? '' : textColor,
+        textColor && isCssColor(textColor) ? '' : textColor,
         className
       )}
-      style={
-        textColor && (textColor.startsWith('#') || textColor.startsWith('rgb'))
-          ? { color: textColor, ...style }
-          : style
-      }
+      style={textColor && isCssColor(textColor) ? { color: textColor, ...style } : style}
       {...props}
     />
   )

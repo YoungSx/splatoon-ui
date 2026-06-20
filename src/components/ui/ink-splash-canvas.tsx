@@ -43,6 +43,8 @@ export interface InkSplashCanvasProps {
   onComplete?: () => void
   /** Additional CSS class */
   className?: string
+  /** Additional CSS styles for the canvas container. */
+  style?: React.CSSProperties
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -71,6 +73,7 @@ export function InkSplashCanvas({
   preloadedBackground,
   onComplete,
   className,
+  style,
 }: InkSplashCanvasProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
@@ -366,7 +369,7 @@ export function InkSplashCanvas({
   }, [state, durationIn, durationOut, count, startPosition])
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={containerRef} className={className} style={style}>
       <canvas
         ref={canvasRef}
         style={{

@@ -1,10 +1,12 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { Popover as PopoverPrimitive } from "@base-ui/react/popover"
+import * as React from 'react'
+import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
 
-import { cn } from "@/lib/utils"
-import { createTriggerButton } from "@/components/ui/trigger-button"
+import { cn } from '@/lib/utils'
+import { createTriggerButton } from '@/components/ui/trigger-button'
+
+const POPOVER_Z_INDEX = 130
 
 // ── Sub-components (composable) ──
 
@@ -18,7 +20,7 @@ function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
 
 const PopoverTriggerButton = createTriggerButton(
   PopoverPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>,
-  "popover-trigger"
+  'popover-trigger'
 )
 
 function PopoverPortal({ ...props }: PopoverPrimitive.Portal.Props) {
@@ -27,9 +29,10 @@ function PopoverPortal({ ...props }: PopoverPrimitive.Portal.Props) {
 
 function PopoverPositioner({
   className,
-  align = "center",
+  style,
+  align = 'center',
   alignOffset = 0,
-  side = "bottom",
+  side = 'bottom',
   sideOffset = 4,
   ...props
 }: PopoverPrimitive.Positioner.Props) {
@@ -40,7 +43,8 @@ function PopoverPositioner({
       alignOffset={alignOffset}
       side={side}
       sideOffset={sideOffset}
-      className={cn("isolate z-[var(--z-floating)]", className)}
+      className={cn('isolate', className)}
+      style={{ zIndex: POPOVER_Z_INDEX, ...style }}
       {...props}
     />
   )
@@ -48,41 +52,48 @@ function PopoverPositioner({
 
 // ── High-level content (Portal + Positioner + Popup) ──
 
-const PopoverContent = React.forwardRef<HTMLDivElement, PopoverPrimitive.Popup.Props & {
-  align?: PopoverPrimitive.Positioner.Props['align']
-  alignOffset?: PopoverPrimitive.Positioner.Props['alignOffset']
-  side?: PopoverPrimitive.Positioner.Props['side']
-  sideOffset?: PopoverPrimitive.Positioner.Props['sideOffset']
-}>(
-  function PopoverContent(
-    { className, align, alignOffset, side, sideOffset, ...props },
-    ref,
-  ) {
-    return (
-      <PopoverPortal>
-        <PopoverPositioner align={align} alignOffset={alignOffset} side={side} sideOffset={sideOffset}>
-          <PopoverPrimitive.Popup
-            ref={ref}
-            data-slot="popover-content"
-            className={cn(
-              "scrap-panel-tight z-[var(--z-floating)] flex w-72 origin-(--transform-origin) flex-col gap-2.5 bg-popover px-3 py-2.5 text-sm text-popover-foreground shadow-none outline-hidden data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
-              className
-            )}
-            {...props}
-          />
-        </PopoverPositioner>
-      </PopoverPortal>
-    )
-  },
-)
+const PopoverContent = React.forwardRef<
+  HTMLDivElement,
+  PopoverPrimitive.Popup.Props & {
+    align?: PopoverPrimitive.Positioner.Props['align']
+    alignOffset?: PopoverPrimitive.Positioner.Props['alignOffset']
+    side?: PopoverPrimitive.Positioner.Props['side']
+    sideOffset?: PopoverPrimitive.Positioner.Props['sideOffset']
+  }
+>(function PopoverContent(
+  { className, align, alignOffset, side, sideOffset, style, ...props },
+  ref
+) {
+  return (
+    <PopoverPortal>
+      <PopoverPositioner
+        align={align}
+        alignOffset={alignOffset}
+        side={side}
+        sideOffset={sideOffset}
+      >
+        <PopoverPrimitive.Popup
+          ref={ref}
+          data-slot="popover-content"
+          className={cn(
+            'scrap-panel-tight bg-popover text-popover-foreground data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 flex w-72 origin-(--transform-origin) flex-col gap-2.5 px-3 py-2.5 text-sm shadow-none outline-hidden',
+            className
+          )}
+          style={{ zIndex: POPOVER_Z_INDEX, ...style }}
+          {...props}
+        />
+      </PopoverPositioner>
+    </PopoverPortal>
+  )
+})
 
 // ── Layout helpers ──
 
-function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
+function PopoverHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="popover-header"
-      className={cn("flex flex-col gap-0.5 text-sm", className)}
+      className={cn('flex flex-col gap-0.5 text-sm', className)}
       {...props}
     />
   )
@@ -92,20 +103,17 @@ function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
   return (
     <PopoverPrimitive.Title
       data-slot="popover-title"
-      className={cn("splat-heading", className)}
+      className={cn('splat-heading', className)}
       {...props}
     />
   )
 }
 
-function PopoverDescription({
-  className,
-  ...props
-}: PopoverPrimitive.Description.Props) {
+function PopoverDescription({ className, ...props }: PopoverPrimitive.Description.Props) {
   return (
     <PopoverPrimitive.Description
       data-slot="popover-description"
-      className={cn("text-muted-foreground", className)}
+      className={cn('text-muted-foreground', className)}
       {...props}
     />
   )
