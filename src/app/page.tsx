@@ -1056,7 +1056,7 @@ export default function Home() {
                 </InView>
 
                 <InViewStagger rootMargin="-30px">
-                  <div className="grid gap-12 pt-6 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-12 pt-6 md:grid-cols-2">
                     {/* Yellow Tag */}
                     <Card variant="rugged" ruggedTheme="yellow" rotation="-2deg">
                       <CardHeader>
@@ -1097,28 +1097,6 @@ export default function Home() {
                       <CardFooter className="mt-0 justify-center border-none">
                         <Button variant="yellow" size="sm" theme="dark-yellow">
                           Ink Up
-                        </Button>
-                      </CardFooter>
-                    </Card>
-
-                    {/* Purple Tag */}
-                    <Card variant="rugged" ruggedTheme="purple" rotation="-1deg">
-                      <CardHeader>
-                        <CardTitle>Plaza Tour</CardTitle>
-                      </CardHeader>
-                      <CardImage
-                        src={showcaseMediaAssets.ruggedScene.src}
-                        alt={showcaseMediaAssets.ruggedScene.alt}
-                      />
-                      <CardContent>
-                        <p className="text-[15px] leading-snug font-semibold opacity-90">
-                          Use the same shell for a scene teaser, product highlight, or community
-                          announcement.
-                        </p>
-                      </CardContent>
-                      <CardFooter className="mt-0 justify-center border-none">
-                        <Button variant="green" size="sm" theme="light-green">
-                          Travel
                         </Button>
                       </CardFooter>
                     </Card>
