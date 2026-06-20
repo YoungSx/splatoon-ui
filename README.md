@@ -4,7 +4,7 @@
 
 > **本项目与 Nintendo 无任何关联。** Splatoon 是 Nintendo 的注册商标。本项目是粉丝创作（fan-made），仅供非商业的同人社区使用。如涉及侵权，请联系我们，我们将立即处理。
 
-**[English Version](./README_EN.md)**
+**[English Version](./README_EN.md) | [日本語版](./README_JA.md)**
 
 ## 这是什么
 
@@ -21,6 +21,31 @@ Splatoon UI 是一套完整的 React 组件库，基于 Splatoon 系列鲜艳、
 - 完整的可访问性支持（`prefers-reduced-motion`、WCAG AA 对比度）
 
 ## 快速开始
+
+### 使用 npm 包
+
+```bash
+npm install splatoon-ui
+```
+
+在应用入口导入一次全局样式：
+
+```tsx
+import 'splatoon-ui/styles.css'
+```
+
+默认入口导出 server-safe 基础组件；交互组件从 client 入口导入：
+
+```tsx
+import { HeadingTape, Section } from 'splatoon-ui'
+import { Button, Dialog } from 'splatoon-ui/client'
+```
+
+Splatoon UI 的样式会引用 `/_images`、`/fonts`、`/svgs` 下的静态资源。部署前，把包内的 `public/_images`、`public/fonts`、`public/svgs` 复制到你的应用 public 根目录。
+
+`styles.css` 是 Tailwind CSS v4 入口文件；消费方应用需要具备能处理 npm 包 CSS imports 的 Tailwind v4/PostCSS 流程。
+
+### 本地运行 demo
 
 ```bash
 # 克隆项目
@@ -171,6 +196,21 @@ pnpm reference:analyze:videos # 去重并归档官方远程 mp4 候选
 `scratch/`，需要人工筛选、重命名和确认用途后再迁入可发布资源目录。
 全 locale 抓取会写入 `scratch/splatoon-reference-all-locales/`，避免覆盖默认英文参考报告。
 视频分析只输出远程候选清单到 scratch，不会把 mp4 二进制复制到可发布目录。
+
+## 发布 npm 包
+
+```bash
+pnpm install
+pnpm typecheck
+pnpm build:package
+pnpm pack:dry-run
+pnpm changeset
+pnpm version
+pnpm publish --access public
+git push --follow-tags
+```
+
+发布前必须看 `pnpm pack:dry-run` 输出，确认 tarball 只包含 `dist`、`public/_images`、`public/fonts`、`public/svgs`、README 文件、LICENSE、NOTICE 和 package metadata。
 
 ## 许可证
 

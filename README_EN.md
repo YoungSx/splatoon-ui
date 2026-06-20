@@ -4,7 +4,7 @@ A React component library inspired by Splatoon's visual language, providing read
 
 > **This project is not affiliated with Nintendo in any way.** Splatoon is a registered trademark of Nintendo. This project is fan-made and intended for non-commercial fan community use only. If this project infringes on any rights, please contact us and we will address it immediately.
 
-**[中文版 (Chinese Version)](./README.md)**
+**[中文版 (Chinese Version)](./README.md) | [日本語版 (Japanese Version)](./README_JA.md)**
 
 ## About
 
@@ -21,6 +21,31 @@ Splatoon UI is a comprehensive React component library shaped around Splatoon's 
 - Full accessibility support (`prefers-reduced-motion`, WCAG AA contrast)
 
 ## Quick Start
+
+### Use the package
+
+```bash
+npm install splatoon-ui
+```
+
+Import the global stylesheet once in your app shell:
+
+```tsx
+import 'splatoon-ui/styles.css'
+```
+
+Use server-safe primitives from the default entrypoint, and interactive components from the client entrypoint:
+
+```tsx
+import { HeadingTape, Section } from 'splatoon-ui'
+import { Button, Dialog } from 'splatoon-ui/client'
+```
+
+Splatoon UI styles reference static assets from `/_images`, `/fonts`, and `/svgs`. Copy the package `public/_images`, `public/fonts`, and `public/svgs` directories into your app's public root before deploying.
+
+The stylesheet is a Tailwind CSS v4 entrypoint. Your app needs a normal Tailwind v4/PostCSS pipeline that can process CSS imports from npm packages.
+
+### Run the demo locally
 
 ```bash
 # Clone the project
@@ -174,6 +199,21 @@ The all-locale crawl writes to `scratch/splatoon-reference-all-locales/` so it d
 overwrite the default English reference report.
 Video analysis only writes remote candidates into scratch; it does not copy mp4 binaries into
 publishable static directories.
+
+## Package Release
+
+```bash
+pnpm install
+pnpm typecheck
+pnpm build:package
+pnpm pack:dry-run
+pnpm changeset
+pnpm version
+pnpm publish --access public
+git push --follow-tags
+```
+
+Use `pnpm pack:dry-run` before publishing and check that the tarball only contains `dist`, `public/_images`, `public/fonts`, `public/svgs`, README files, license, notice, and package metadata.
 
 ## License
 

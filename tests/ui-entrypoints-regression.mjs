@@ -120,11 +120,13 @@ const checks = [
   {
     name: 'package exports declare explicit server, client, and stylesheet entrypoints',
     pass:
-      packageJson.exports?.['.']?.import === './src/components/ui/server.ts' &&
-      packageJson.exports?.['.']?.types === './src/components/ui/server.ts' &&
-      packageJson.exports?.['./server']?.import === './src/components/ui/server.ts' &&
-      packageJson.exports?.['./client']?.import === './src/components/ui/client.ts' &&
-      packageJson.exports?.['./styles.css'] === './src/app/globals.css',
+      packageJson.exports?.['.']?.import === './dist/server.js' &&
+      packageJson.exports?.['.']?.types === './dist/server.d.ts' &&
+      packageJson.exports?.['./server']?.import === './dist/server.js' &&
+      packageJson.exports?.['./server']?.types === './dist/server.d.ts' &&
+      packageJson.exports?.['./client']?.import === './dist/client.js' &&
+      packageJson.exports?.['./client']?.types === './dist/client.d.ts' &&
+      packageJson.exports?.['./styles.css'] === './dist/styles.css',
   },
   {
     name: 'default UI entrypoint forwards to the explicit server-safe entrypoint',
