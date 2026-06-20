@@ -376,6 +376,22 @@ function PageTransitionDemo() {
 const weaponsGalleryItems = weaponShowcaseItems
 const shopsGalleryItems = weaponShopGalleryItems
 const marqueeItems = weaponMarqueeItems
+const loaderDemoItems: Array<{
+  label: string
+  variant?: React.ComponentProps<typeof Loader>['variant']
+  size?: string
+  style?: React.CSSProperties
+}> = [
+  { label: 'Default', variant: 'default' },
+  { label: 'Blue', variant: 'blue', size: '1.5em' },
+  { label: 'Red', variant: 'red', size: '2em' },
+  {
+    label: 'Custom',
+    variant: 'default',
+    size: '2em',
+    style: { '--color': 'var(--color-green)' } as React.CSSProperties,
+  },
+]
 
 export default function Home() {
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -1171,35 +1187,18 @@ export default function Home() {
                         Local squid glyph asset with ink-color backing
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-wrap items-center gap-6 pt-2">
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader variant="default" />
-                        <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
-                          Default
-                        </span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader variant="blue" size="1.5em" />
-                        <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
-                          Blue
-                        </span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader variant="red" size="2em" />
-                        <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
-                          Red
-                        </span>
-                      </div>
-                      <div className="flex flex-col items-center gap-2">
-                        <Loader
-                          variant="default"
-                          size="2em"
-                          style={{ '--color': 'var(--color-green)' } as React.CSSProperties}
-                        />
-                        <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
-                          Custom
-                        </span>
-                      </div>
+                    <CardContent className="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-4">
+                      {loaderDemoItems.map(({ label, variant, size, style }) => (
+                        <div
+                          key={label}
+                          className="grid min-h-24 grid-rows-[1fr_auto] place-items-center gap-2 px-2 py-3 text-center"
+                        >
+                          <Loader variant={variant} size={size} style={style} />
+                          <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                            {label}
+                          </span>
+                        </div>
+                      ))}
                     </CardContent>
                   </Card>
                 </div>
