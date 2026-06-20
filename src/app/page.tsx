@@ -508,8 +508,8 @@ export default function Home() {
           <Section
             id="trailer"
             size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            bgColor="bg-black"
+            text="text-white"
             pattern="tapes-black"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center py-24 transition-colors duration-300"
@@ -571,6 +571,7 @@ export default function Home() {
             bgColor="bg-white"
             text="text-chaos-black"
             pattern="chip-white"
+            bottomOverlayClearance="banner-divider"
             className="transition-colors duration-300"
             headingTape={<HeadingTape>Tape Titles & Heading Tapes</HeadingTape>}
           >
@@ -632,6 +633,9 @@ export default function Home() {
               </InView>
             </div>
           </Section>
+
+          {/* Banner divider: Titles → Buttons & Badges */}
+          <BannerDivider pattern="design2" color="blue" animate />
 
           {/* ────────────────────────────────────────────────────────
          03 — Buttons & Badges
@@ -1047,7 +1051,7 @@ export default function Home() {
             size="md"
             bgColor="bg-white"
             text="text-chaos-black"
-            pattern="camo-purple"
+            pattern="camo-white-outline"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"
           >
@@ -1338,6 +1342,9 @@ export default function Home() {
             </div>
           </Section>
 
+          {/* Banner divider: Apparel Tags → Card Grid */}
+          <BannerDivider pattern="design2" color="purple" animate />
+
           {/* ────────────────────────────────────────────────────────
          06 — Card Grid
          ──────────────────────────────────────────────────────── */}
@@ -1462,7 +1469,7 @@ export default function Home() {
             </div>
           </Section>
 
-          {/* Banner divider: Apparel Tags → Carousels */}
+          {/* Banner divider: Card Grid → Carousels */}
           <BannerDivider pattern="design3" color="yellow" animate />
 
           {/* ────────────────────────────────────────────────────────

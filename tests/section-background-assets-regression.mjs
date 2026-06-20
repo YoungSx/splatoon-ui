@@ -4,10 +4,12 @@ import path from 'node:path'
 const root = process.cwd()
 const componentPath = path.join(root, 'src', 'components', 'ui', 'section-background.tsx')
 const cssPath = path.join(root, 'src', 'components', 'ui', 'section-background.module.css')
+const pagePath = path.join(root, 'src', 'app', 'page.tsx')
 const backgroundDir = path.join(root, 'public', '_images', 'backgrounds')
 
 const component = fs.readFileSync(componentPath, 'utf8')
 const css = fs.readFileSync(cssPath, 'utf8')
+const page = fs.readFileSync(pagePath, 'utf8')
 
 const newPatternAssets = [
   'base-bg-pattern.jpg',
@@ -41,6 +43,20 @@ const newPatterns = [
   ['squid-black', 'patternSquidBlack'],
 ]
 
+const tapeBackgroundSets = {
+  black: ['jpg', 'webp'],
+  green: ['jpg', 'webp'],
+  purple: ['jpg', 'webp'],
+  pattern: ['jpg'],
+}
+
+const tapeBackgroundAssets = Object.entries(tapeBackgroundSets).flatMap(([name, extensions]) =>
+  extensions.flatMap((extension) => [
+    `tapes-${name}.${extension}`,
+    `tapes-${name}-2x.${extension}`,
+  ])
+)
+
 const checks = [
   {
     name: 'curated official SectionBackground assets are available under public/_images',
@@ -59,6 +75,27 @@ const checks = [
     pass: newPatternAssets.every((asset) => css.includes(`/_images/backgrounds/${asset}`)),
   },
   {
+    name: 'official tape backgrounds include every available 1x and 2x JPG/WebP asset',
+    pass:
+      tapeBackgroundAssets.every((asset) => fs.existsSync(path.join(backgroundDir, asset))) &&
+      !fs.existsSync(path.join(backgroundDir, 'tapes-pattern.webp')) &&
+      !fs.existsSync(path.join(backgroundDir, 'tapes-pattern-2x.webp')),
+  },
+  {
+    name: 'SectionBackground CSS prefers WebP tape backgrounds with JPG fallback where official assets exist',
+    pass:
+      ['black', 'green', 'purple'].every(
+        (name) =>
+          css.includes(`tapes-${name}.webp') type('image/webp') 1x`) &&
+          css.includes(`tapes-${name}.jpg') 1x`) &&
+          css.includes(`tapes-${name}-2x.webp') type('image/webp') 2x`) &&
+          css.includes(`tapes-${name}-2x.jpg') 2x`)
+      ) &&
+      css.includes("tapes-pattern.jpg') 1x") &&
+      css.includes("tapes-pattern-2x.jpg') 2x") &&
+      !css.includes('tapes-pattern.webp'),
+  },
+  {
     name: 'hardware background keeps the official contain/no-repeat responsive treatment',
     pass:
       css.includes('.patternHardwareBackground') &&
@@ -67,6 +104,20 @@ const checks = [
       /@media screen and \(min-width:\s*640px\)\s*{[^}]*\.patternHardwareBackground/s.test(css) &&
       css.includes('hardware-background-medium-up.png') &&
       css.includes('hardware-background-medium-up-2x.png'),
+  },
+  {
+    name: 'Demo page pairs busy tape and camo backgrounds with readable text contrast',
+    pass:
+      /id="trailer"[\s\S]*?bgColor="bg-black"[\s\S]*?text="text-white"[\s\S]*?pattern="tapes-black"/.test(
+        page
+      ) &&
+      /id="apparel"[\s\S]*?bgColor="bg-white"[\s\S]*?text="text-chaos-black"[\s\S]*?pattern="camo-white-outline"/.test(
+        page
+      ) &&
+      !/id="trailer"[\s\S]*?bgColor="bg-white"[\s\S]*?text="text-chaos-black"[\s\S]*?pattern="tapes-black"/.test(
+        page
+      ) &&
+      !/id="apparel"[\s\S]*?pattern="camo-purple"/.test(page),
   },
 ]
 

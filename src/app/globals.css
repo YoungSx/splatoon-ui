@@ -446,7 +446,9 @@
 .pattern-tapes-black {
   background-image: url('/_images/backgrounds/tapes-black.jpg');
   background-image: image-set(
+    url('/_images/backgrounds/tapes-black.webp') type('image/webp') 1x,
     url('/_images/backgrounds/tapes-black.jpg') 1x,
+    url('/_images/backgrounds/tapes-black-2x.webp') type('image/webp') 2x,
     url('/_images/backgrounds/tapes-black-2x.jpg') 2x
   );
 }
@@ -454,7 +456,9 @@
 .pattern-tapes-green {
   background-image: url('/_images/backgrounds/tapes-green.jpg');
   background-image: image-set(
+    url('/_images/backgrounds/tapes-green.webp') type('image/webp') 1x,
     url('/_images/backgrounds/tapes-green.jpg') 1x,
+    url('/_images/backgrounds/tapes-green-2x.webp') type('image/webp') 2x,
     url('/_images/backgrounds/tapes-green-2x.jpg') 2x
   );
 }
@@ -462,7 +466,9 @@
 .pattern-tapes-purple {
   background-image: url('/_images/backgrounds/tapes-purple.jpg');
   background-image: image-set(
+    url('/_images/backgrounds/tapes-purple.webp') type('image/webp') 1x,
     url('/_images/backgrounds/tapes-purple.jpg') 1x,
+    url('/_images/backgrounds/tapes-purple-2x.webp') type('image/webp') 2x,
     url('/_images/backgrounds/tapes-purple-2x.jpg') 2x
   );
 }

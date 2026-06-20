@@ -69,7 +69,17 @@ const checks = [
       !page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&
       !page.includes('bottomSafeArea=') &&
       !page.includes('pb-[clamp(8rem,10vw,11.5rem)]') &&
-      (page.match(/bottomOverlayClearance="banner-divider"/g) ?? []).length === 7,
+      (page.match(/bottomOverlayClearance="banner-divider"/g) ?? []).length === 8,
+  },
+  {
+    name: 'Demo page places a divider at every section boundary that reserves divider clearance',
+    pass:
+      (page.match(/<BannerDivider/g) ?? []).length === 8 &&
+      page.includes('Banner divider: Titles → Buttons & Badges') &&
+      page.includes('<BannerDivider pattern="design2" color="blue" animate />') &&
+      page.includes('Banner divider: Apparel Tags → Card Grid') &&
+      page.includes('<BannerDivider pattern="design2" color="purple" animate />') &&
+      page.includes('Banner divider: Card Grid → Carousels'),
   },
 ]
 
