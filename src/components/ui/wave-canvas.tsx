@@ -216,6 +216,14 @@ function WaveCanvas({
     if (!canvas) return
 
     const onMouseMove = (e: MouseEvent) => {
+      // While the wave is scrolled out of view (or the tab is hidden), skip the
+      // per-move getBoundingClientRect reflow entirely. Drop the cached cursor
+      // so the first move after it returns on-screen doesn't fake a crossing.
+      if (!activeRef.current) {
+        oldMousePosRef.current = null
+        return
+      }
+
       const t = { x: e.clientX, y: e.clientY }
       const oldPos = oldMousePosRef.current
 
@@ -246,7 +254,7 @@ function WaveCanvas({
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
     }
-  }, [shouldAnimate, canvasWidth, numPoints, height])
+  }, [shouldAnimate, canvasWidth, numPoints, height, activeRef])
 
   // ── Render ───────────────────────────────────────────────────────────────
 
