@@ -21,9 +21,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          # Pinned to Node 24.7.0 to ensure npm >= 11.5.1 required for OIDC publish.
+          # Node 24.7.0 bundles npm 11.5.1 per the Node.js release manifest.
+          node-version: '24.7.0'
           cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -45,6 +46,27 @@ jobs:
         run: pnpm build:package
 
       - name: Publish
-        run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Ensure we don't accidentally publish with token auth.
+          unset NODE_AUTH_TOKEN || true
+          OIDC_NPMRC="${RUNNER_TEMP}/npmrc-oidc"
+          : > "${OIDC_NPMRC}"
+          export NPM_CONFIG_USERCONFIG="${OIDC_NPMRC}"
+          npm config set registry "https://registry.npmjs.org/"
+
+          REQUIRED_NPM="11.5.1"
+          CURRENT_NPM="$(npm --version)"
+          if ! node -e "const [req, curRaw] = ['${REQUIRED_NPM}', '${CURRENT_NPM}']; const cur = curRaw.split('-')[0].split('+')[0]; const to = (v) => v.split('.').map((n) => Number(n)); const [r1, r2, r3] = to(req); const [c1, c2, c3] = to(cur); const ok = c1 > r1 || (c1 === r1 && (c2 > r2 || (c2 === r2 && c3 >= r3))); if (!ok) { process.exit(1); }"; then
+            echo "npm raw version: ${CURRENT_NPM}"
+            echo "npm ${CURRENT_NPM} is below required ${REQUIRED_NPM} for OIDC publish."
+            exit 1
+          fi
+
+          VERSION=${GITHUB_REF_NAME#v}
+          if npm view splatoon-ui@"${VERSION}" version >/dev/null 2>&1; then
+            echo "Version ${VERSION} already published. Skipping publish."
+            exit 0
+          fi
+          npm publish --provenance --access public
