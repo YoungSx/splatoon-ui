@@ -267,6 +267,8 @@ export function CardStackCarouselItem({
 
 interface CardStackCarouselArrowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   direction: "previous" | "next"
+  prevLabel?: string
+  nextLabel?: string
 }
 
 function CardStackCarouselArrow({
@@ -274,6 +276,8 @@ function CardStackCarouselArrow({
   direction,
   className,
   style,
+  prevLabel = "Previous carousel item",
+  nextLabel = "Next carousel item",
   ...props
 }: CardStackCarouselArrowProps & { ref?: React.Ref<HTMLButtonElement> }) {
     const { canGoPrev, goToPrev, canGoNext, goToNext } = useCarousel()
@@ -294,7 +298,7 @@ function CardStackCarouselArrow({
           variant="carousel"
           direction={isPrev ? "left" : "right"}
           animation="squish"
-          aria-label={isPrev ? "Previous carousel item" : "Next carousel item"}
+          aria-label={isPrev ? prevLabel : nextLabel}
           disabled={isPrev ? !canGoPrev : !canGoNext}
           onClick={isPrev ? goToPrev : goToNext}
           className={className}
@@ -308,13 +312,13 @@ function CardStackCarouselArrow({
 export function CardStackCarouselPrevious({
   ref,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { ref?: React.Ref<HTMLButtonElement> }) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & Pick<CardStackCarouselArrowProps, 'prevLabel' | 'nextLabel'> & { ref?: React.Ref<HTMLButtonElement> }) {
   return <CardStackCarouselArrow ref={ref} direction="previous" {...props} />
 }
 
 export function CardStackCarouselNext({
   ref,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { ref?: React.Ref<HTMLButtonElement> }) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & Pick<CardStackCarouselArrowProps, 'prevLabel' | 'nextLabel'> & { ref?: React.Ref<HTMLButtonElement> }) {
   return <CardStackCarouselArrow ref={ref} direction="next" {...props} />
 }

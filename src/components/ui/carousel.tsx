@@ -419,12 +419,15 @@ export function SwipeableGallery({
 
 export interface CarouselPaginationProps extends React.HTMLAttributes<HTMLUListElement> {
   labels?: string[]
+  /** Accessible label template for unlabeled pagination buttons. Receives the 1-based slide number. */
+  getSlideLabel?: (index: number) => string
 }
 
 export function CarouselPagination({
   ref,
   className,
   labels,
+  getSlideLabel = (i) => `Go to slide ${i}`,
   ...props
 }: CarouselPaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
   const { currentIndex, itemCount, goToIndex } = useCarousel()
@@ -440,7 +443,7 @@ export function CarouselPagination({
         <li key={index} className={paginationStyles.item}>
           <button
             onClick={() => goToIndex(index)}
-            aria-label={labels?.[index] ?? `Go to slide ${index + 1}`}
+            aria-label={labels?.[index] ?? getSlideLabel(index + 1)}
           >
             <span className={paginationStyles.iconContainer}>
               <span
@@ -467,12 +470,18 @@ export interface CarouselImagePaginationItem {
 
 export interface CarouselImagePaginationProps extends React.HTMLAttributes<HTMLUListElement> {
   images: CarouselImagePaginationItem[]
+  /** Accessible label for a button when the image has an alt text. */
+  getImageLabel?: (alt: string) => string
+  /** Accessible label for a button when the image has no alt text. Receives the 1-based slide number. */
+  getSlideLabel?: (index: number) => string
 }
 
 export function CarouselImagePagination({
   ref,
   className,
   images,
+  getImageLabel = (alt) => `Go to ${alt}`,
+  getSlideLabel = (i) => `Go to slide ${i}`,
   ...props
 }: CarouselImagePaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
   const { currentIndex, goToIndex } = useCarousel()
@@ -488,7 +497,7 @@ export function CarouselImagePagination({
         <li key={index} className={paginationStyles.item}>
           <button
             onClick={() => goToIndex(index)}
-            aria-label={img.alt ? `Go to ${img.alt}` : `Go to slide ${index + 1}`}
+            aria-label={img.alt ? getImageLabel(img.alt) : getSlideLabel(index + 1)}
           >
             <div
               style={{ '--rotate': `${img.rotate ?? 0}deg` } as React.CSSProperties}

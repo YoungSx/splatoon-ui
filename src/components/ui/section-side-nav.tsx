@@ -25,6 +25,10 @@ export interface SectionSideNavProps extends React.ComponentProps<'nav'> {
   topInset?: number
   /** Minimum distance, in CSS pixels, between the nav and usable viewport edges. */
   viewportMargin?: number
+  /** Accessible label for the nav landmark. */
+  navLabel?: string
+  /** Accessible label for the "back to top" button. */
+  backToTopLabel?: string
 }
 
 /* ── Smooth scroll ────────────────────────────────────────────────────── */
@@ -99,6 +103,8 @@ export function SectionSideNav({
   style,
   topInset = 0,
   viewportMargin = SIDE_NAV_VIEWPORT_MARGIN,
+  navLabel = "Section navigation",
+  backToTopLabel = "Back to top",
   ...props
 }: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
   const internalRef = React.useRef<HTMLElement>(null)
@@ -288,7 +294,7 @@ export function SectionSideNav({
       data-slot="section-side-nav"
       data-overflow={fitState.needsScroll ? 'scroll' : undefined}
       className={cn(styles.sidebar, isVisible && styles.sidebarShow, className)}
-      aria-label="Section navigation"
+      aria-label={navLabel}
       style={sidebarStyle}
       {...props}
     >
@@ -297,7 +303,7 @@ export function SectionSideNav({
           <button
             onClick={scrollToTop}
             className={cn(styles.item, styles.itemBackToTop)}
-            aria-label="Back to top"
+            aria-label={backToTopLabel}
           >
             <NavArrowDown className={styles.backToTopArrow} />
           </button>

@@ -29,6 +29,10 @@ type NavigationDialogProps = {
   renderLink?: (link: NavLink, props: LinkRenderProps) => React.ReactNode
   backgroundTransition: (props: BackgroundTransitionProps) => React.ReactNode
   onNavigate?: (href: string) => void
+  /** Accessible label for the navigation dialog and nav landmark. */
+  navLabel?: string
+  /** Screen-reader text for the close button. */
+  closeLabel?: string
 }
 
 function DefaultNavLink({
@@ -72,6 +76,8 @@ export function NavigationDialog({
   renderLink,
   backgroundTransition,
   onNavigate,
+  navLabel = "Main site navigation",
+  closeLabel = "Close navigation menu",
 }: NavigationDialogProps) {
   const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
   const selectedNavKey = useSyncSelectedNavKey(navLinks)
@@ -142,7 +148,7 @@ export function NavigationDialog({
         {isMenuMounted ? (
           <DialogPrimitive.Popup
             id="full-page-menu"
-            aria-label="Main site navigation"
+            aria-label={navLabel}
             initialFocus={false}
             finalFocus={true}
             className={cn(
@@ -150,7 +156,7 @@ export function NavigationDialog({
               coverPhase === 'closing' ? 'pointer-events-none' : 'pointer-events-auto'
             )}
           >
-            <DialogPrimitive.Close className="sr-only">Close navigation menu</DialogPrimitive.Close>
+            <DialogPrimitive.Close className="sr-only">{closeLabel}</DialogPrimitive.Close>
 
             {/* Background transition (render prop from consumer) */}
             {backgroundTransition({ canvasState, openCount, onComplete: handleCanvasComplete })}
@@ -170,7 +176,7 @@ export function NavigationDialog({
               {menuDecorations}
 
               <nav
-                aria-label="Main site navigation"
+                aria-label={navLabel}
                 className={cn(
                   'relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center md:pt-5',
                 )}

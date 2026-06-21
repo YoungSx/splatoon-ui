@@ -11,6 +11,8 @@ import baseStyles from "./gallery-base.module.css"
 
 export interface GalleryControlsProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string
+  prevLabel?: string
+  nextLabel?: string
   wrapButton?: (
     direction: "left" | "right",
     button: React.ReactNode
@@ -20,6 +22,8 @@ export interface GalleryControlsProps extends React.HTMLAttributes<HTMLDivElemen
 export function GalleryControls({
   ref,
   className,
+  prevLabel = "Previous gallery item",
+  nextLabel = "Next gallery item",
   wrapButton,
   ...props
 }: GalleryControlsProps & { ref?: React.Ref<HTMLDivElement> }) {
@@ -32,7 +36,7 @@ export function GalleryControls({
       animation="squish"
       onClick={goToPrev}
       disabled={!canGoPrev}
-      aria-label="Previous gallery item"
+      aria-label={prevLabel}
     />
   )
 
@@ -43,7 +47,7 @@ export function GalleryControls({
       animation="squish"
       onClick={goToNext}
       disabled={!canGoNext}
-      aria-label="Next gallery item"
+      aria-label={nextLabel}
     />
   )
 
