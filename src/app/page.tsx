@@ -79,6 +79,7 @@ import {
 } from '@/components/ui/dialog'
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { SegmentedControl, SegmentedControlItem } from '@/components/ui/segmented-control'
 import { Switch } from '@/components/ui/switch'
 import {
   Select,
@@ -124,14 +125,7 @@ function createDemoEmbed(label: string) {
 const demoVideoEmbed = createDemoEmbed('Splatoon UI')
 
 function FeedCardImage({ asset }: { asset: ImageAsset }) {
-  return (
-    <AssetImage
-      asset={asset}
-      fill
-      fit="cover"
-      loading="eager"
-    />
-  )
+  return <AssetImage asset={asset} fill fit="cover" loading="eager" />
 }
 
 const homepageFeedCarouselItems = [
@@ -1694,6 +1688,36 @@ export default function Home() {
                         <Switch id="demo-switch-3" size="sm" disabled />
                       </div>
                     </div>
+                    <div className="flex flex-col gap-3">
+                      <Label>Segmented Controls</Label>
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-sm font-medium">Language</span>
+                        <SegmentedControl defaultValue="en" aria-label="Language">
+                          <SegmentedControlItem value="ja">JP</SegmentedControlItem>
+                          <SegmentedControlItem value="en">EN</SegmentedControlItem>
+                          <SegmentedControlItem value="zh">ZH</SegmentedControlItem>
+                        </SegmentedControl>
+                      </div>
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-sm font-medium">Queue</span>
+                        <SegmentedControl
+                          appearance="track"
+                          color="green"
+                          defaultValue="salmon"
+                          aria-label="Queue"
+                        >
+                          <SegmentedControlItem value="turf" trackPosition="left">
+                            Turf
+                          </SegmentedControlItem>
+                          <SegmentedControlItem value="rank" trackPosition="middle">
+                            Rank
+                          </SegmentedControlItem>
+                          <SegmentedControlItem value="salmon" trackPosition="right">
+                            Run
+                          </SegmentedControlItem>
+                        </SegmentedControl>
+                      </div>
+                    </div>
                     <div className="space-y-2">
                       <Label>Component Family</Label>
                       <RadioGroup defaultValue="buttons">
@@ -1736,7 +1760,9 @@ export default function Home() {
                       </AlertDescription>
                     </Alert>
                     <Alert variant="destructive">
-                      <AlertTitle textColor="var(--danger-surface-title)">Action Required</AlertTitle>
+                      <AlertTitle textColor="var(--danger-surface-title)">
+                        Action Required
+                      </AlertTitle>
                       <AlertDescription textColor="var(--danger-surface-description)">
                         Destructive alerts keep contrast high for validation failures and critical
                         component states.
@@ -1794,7 +1820,6 @@ export default function Home() {
             </DemoContent>
           </Section>
         </div>
-
       </main>
 
       <Footer />

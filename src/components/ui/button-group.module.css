@@ -40,35 +40,35 @@
   min-width: 0;
 }
 
-.root[data-orientation='horizontal'] .item:first-child {
+.root[data-orientation='horizontal'] .item:first-of-type {
   --button-radius: var(--button-group-item-radius) 0 0 var(--button-group-item-radius);
 }
 
-.root[data-orientation='horizontal'] .item:last-child {
+.root[data-orientation='horizontal'] .item:last-of-type {
   --button-radius: 0 var(--button-group-item-radius) var(--button-group-item-radius) 0;
 }
 
-.root[data-orientation='horizontal'] .item:only-child {
+.root[data-orientation='horizontal'] .item:only-of-type {
   --button-radius: var(--button-group-item-radius);
 }
 
-.root[data-orientation='horizontal'] .item + .item {
+.root[data-orientation='horizontal'] .item:not(:first-of-type) {
   box-shadow: inset var(--button-group-separator-width) 0 0 var(--color-true-black);
 }
 
-.root[data-orientation='vertical'] .item:first-child {
+.root[data-orientation='vertical'] .item:first-of-type {
   --button-radius: var(--button-group-item-radius) var(--button-group-item-radius) 0 0;
 }
 
-.root[data-orientation='vertical'] .item:last-child {
+.root[data-orientation='vertical'] .item:last-of-type {
   --button-radius: 0 0 var(--button-group-item-radius) var(--button-group-item-radius);
 }
 
-.root[data-orientation='vertical'] .item:only-child {
+.root[data-orientation='vertical'] .item:only-of-type {
   --button-radius: var(--button-group-item-radius);
 }
 
-.root[data-orientation='vertical'] .item + .item {
+.root[data-orientation='vertical'] .item:not(:first-of-type) {
   box-shadow: inset 0 var(--button-group-separator-width) 0 var(--color-true-black);
 }
 
