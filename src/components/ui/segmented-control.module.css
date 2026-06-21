@@ -5,8 +5,12 @@
   --segmented-control-ink: var(--color-true-black);
   --segmented-control-label-inactive: var(--color-white);
   --segmented-control-label-shadow: 1px 1px 0 var(--segmented-control-ink);
-  --segmented-control-track-height: 1.625rem;
-  --segmented-control-track-width: 4.25rem;
+  --segmented-control-track-height: 1.18rem;
+  --segmented-control-track-overlap-ratio: 0.0550772497;
+  --segmented-control-track-overlap: calc(
+    var(--segmented-control-track-width) * var(--segmented-control-track-overlap-ratio)
+  );
+  --segmented-control-track-width: 4.625rem;
 
   width: fit-content;
 }
@@ -38,29 +42,30 @@
 }
 
 .root[data-appearance='track'] {
+  align-items: center;
   background: var(--segmented-control-ink);
   border: 2px solid var(--segmented-control-ink);
   border-radius: 0.3125rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  gap: 0;
   isolation: isolate;
   padding: 0.0625rem 0.1875rem;
-  position: relative;
 }
 
 .root[data-appearance='track'][data-density='compact'] {
-  --segmented-control-track-height: 1.375rem;
+  --segmented-control-track-height: 0.96rem;
   --segmented-control-track-width: 3.75rem;
 }
 
 .root[data-appearance='track'][data-density='spacious'] {
-  --segmented-control-track-height: 1.875rem;
-  --segmented-control-track-width: 4.75rem;
+  --segmented-control-track-height: 1.4rem;
+  --segmented-control-track-width: 5.5rem;
 }
 
 .root[data-appearance='track'][data-orientation='vertical'] {
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  align-items: stretch;
+  flex-direction: column;
 }
 
 .item {
@@ -87,23 +92,39 @@
   color: var(--segmented-control-label-inactive);
   cursor: pointer;
   display: inline-flex;
+  flex: 0 0 auto;
   font-family: var(--font-blitz-main), var(--font-heading), sans-serif;
-  font-size: calc(var(--segmented-control-track-height) * 0.52);
+  font-size: calc(var(--segmented-control-track-height) * 0.64);
   font-weight: 900;
   height: var(--segmented-control-track-height);
   justify-content: center;
   letter-spacing: 0;
   line-height: 1;
   min-width: var(--segmented-control-track-width);
-  overflow: visible;
+  overflow: hidden;
   padding: 0 0.5rem;
   position: relative;
   text-shadow: var(--segmented-control-label-shadow);
   text-transform: uppercase;
   touch-action: manipulation;
-  transition: color 160ms ease;
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
   user-select: none;
-  z-index: 2;
+}
+
+.root[data-appearance='track'][data-orientation='horizontal'] .trackItem:not(:first-of-type) {
+  margin-left: calc(var(--segmented-control-track-overlap) * -1);
+}
+
+.root[data-full-width='true'] .trackItem,
+.root[data-full-width='true'] .buttonItem {
+  flex: 1 1 0;
+}
+
+.root[data-orientation='vertical'][data-full-width='true'] .trackItem,
+.root[data-orientation='vertical'][data-full-width='true'] .buttonItem {
+  width: 100%;
 }
 
 .trackItem[data-checked] {
@@ -122,14 +143,32 @@
   z-index: 2;
 }
 
-.trackLayer {
-  display: block;
-  height: calc(var(--segmented-control-track-height) - 0.25rem);
-  inset: 0.1255rem 0.1875rem;
+.trackShape {
+  display: none;
+  height: 100%;
+  inset: 0;
   pointer-events: none;
   position: absolute;
-  width: calc(100% - 0.375rem);
+  width: 100%;
   z-index: 1;
+}
+
+.root[data-appearance='track'] .trackItem:first-of-type .trackShapeLeft,
+.root[data-appearance='track'] .trackItem:only-of-type .trackShapeLeft {
+  display: block;
+}
+
+.root[data-appearance='track'] .trackItem:not(:first-of-type):not(:last-of-type) .trackShapeMiddle {
+  display: block;
+}
+
+.root[data-appearance='track'] .trackItem:last-of-type .trackShapeRight {
+  display: block;
+}
+
+.root[data-appearance='track'] .trackItem:only-of-type .trackShapeRight,
+.root[data-appearance='track'] .trackItem:only-of-type .trackShapeMiddle {
+  display: none;
 }
 
 .trackSegmentActive {
@@ -142,41 +181,11 @@
   transition: opacity 160ms ease;
 }
 
-/* A shape lights up its bright pattern only when its item is checked.
-   Driven entirely by Base UI's [data-checked] on the radio root. */
-.root[data-appearance='track']:has(.trackItem[data-track-position='left'][data-checked])
-  .trackShapeLeft
-  .trackSegmentActive {
+.trackItem[data-checked] .trackSegmentActive {
   opacity: 1;
 }
 
-.root[data-appearance='track']:has(.trackItem[data-track-position='left'][data-checked])
-  .trackShapeLeft
-  .trackSegmentInactive {
-  opacity: 0;
-}
-
-.root[data-appearance='track']:has(.trackItem[data-track-position='middle'][data-checked])
-  .trackShapeMiddle
-  .trackSegmentActive {
-  opacity: 1;
-}
-
-.root[data-appearance='track']:has(.trackItem[data-track-position='middle'][data-checked])
-  .trackShapeMiddle
-  .trackSegmentInactive {
-  opacity: 0;
-}
-
-.root[data-appearance='track']:has(.trackItem[data-track-position='right'][data-checked])
-  .trackShapeRight
-  .trackSegmentActive {
-  opacity: 1;
-}
-
-.root[data-appearance='track']:has(.trackItem[data-track-position='right'][data-checked])
-  .trackShapeRight
-  .trackSegmentInactive {
+.trackItem[data-checked] .trackSegmentInactive {
   opacity: 0;
 }
 

@@ -1706,15 +1706,9 @@ export default function Home() {
                           defaultValue="salmon"
                           aria-label="Queue"
                         >
-                          <SegmentedControlItem value="turf" trackPosition="left">
-                            Turf
-                          </SegmentedControlItem>
-                          <SegmentedControlItem value="rank" trackPosition="middle">
-                            Rank
-                          </SegmentedControlItem>
-                          <SegmentedControlItem value="salmon" trackPosition="right">
-                            Run
-                          </SegmentedControlItem>
+                          <SegmentedControlItem value="turf">Turf</SegmentedControlItem>
+                          <SegmentedControlItem value="rank">Rank</SegmentedControlItem>
+                          <SegmentedControlItem value="salmon">Run</SegmentedControlItem>
                         </SegmentedControl>
                       </div>
                     </div>

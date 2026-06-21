@@ -5,6 +5,13 @@ import * as React from 'react'
 const SWITCH_TRACK_VIEW_BOX = '167 30 16498 2119'
 const SWITCH_TRACK_WIDTH = '1649.8'
 const SWITCH_TRACK_HEIGHT = '211.9'
+const SWITCH_TRACK_LEFT_VIEW_BOX = '167 30 8479 2119'
+const SWITCH_TRACK_RIGHT_VIEW_BOX = '8179 30 8486 2119'
+const SWITCH_TRACK_SEGMENT_OVERLAP_RATIO = 467 / 8479
+const SWITCH_TRACK_FILL_X = '167'
+const SWITCH_TRACK_FILL_Y = '30'
+const SWITCH_TRACK_FILL_WIDTH = '16498'
+const SWITCH_TRACK_FILL_HEIGHT = '2119'
 const SWITCH_TRACK_PATTERN_TILE_SIZE = 6300
 const SWITCH_TRACK_PATTERN_REPEAT_X = 2
 const SWITCH_TRACK_PATTERN_REPEAT_Y = 1
@@ -135,18 +142,18 @@ function SwitchTrack({
       <g clipPath={`url(#${leftClipId})`}>
         <rect
           className={leftActiveClassName}
-          x="167"
-          y="30"
-          width="16498"
-          height="2119"
+          x={SWITCH_TRACK_FILL_X}
+          y={SWITCH_TRACK_FILL_Y}
+          width={SWITCH_TRACK_FILL_WIDTH}
+          height={SWITCH_TRACK_FILL_HEIGHT}
           fill={`url(#${fillPatternId})`}
         />
         <rect
           className={leftInactiveClassName}
-          x="167"
-          y="30"
-          width="16498"
-          height="2119"
+          x={SWITCH_TRACK_FILL_X}
+          y={SWITCH_TRACK_FILL_Y}
+          width={SWITCH_TRACK_FILL_WIDTH}
+          height={SWITCH_TRACK_FILL_HEIGHT}
           fill={`url(#${fillPatternId})`}
           filter={`url(#${inactiveFilterId})`}
         />
@@ -154,18 +161,18 @@ function SwitchTrack({
       <g clipPath={`url(#${rightClipId})`}>
         <rect
           className={rightActiveClassName}
-          x="167"
-          y="30"
-          width="16498"
-          height="2119"
+          x={SWITCH_TRACK_FILL_X}
+          y={SWITCH_TRACK_FILL_Y}
+          width={SWITCH_TRACK_FILL_WIDTH}
+          height={SWITCH_TRACK_FILL_HEIGHT}
           fill={`url(#${fillPatternId})`}
         />
         <rect
           className={rightInactiveClassName}
-          x="167"
-          y="30"
-          width="16498"
-          height="2119"
+          x={SWITCH_TRACK_FILL_X}
+          y={SWITCH_TRACK_FILL_Y}
+          width={SWITCH_TRACK_FILL_WIDTH}
+          height={SWITCH_TRACK_FILL_HEIGHT}
           fill={`url(#${fillPatternId})`}
           filter={`url(#${inactiveFilterId})`}
         />
@@ -175,11 +182,21 @@ function SwitchTrack({
 }
 
 export {
+  SWITCH_TRACK_FILL_HEIGHT,
+  SWITCH_TRACK_FILL_WIDTH,
+  SWITCH_TRACK_FILL_X,
+  SWITCH_TRACK_FILL_Y,
   SWITCH_TRACK_INACTIVE_FILTER_VALUES,
+  SWITCH_TRACK_LEFT_PATH,
+  SWITCH_TRACK_LEFT_VIEW_BOX,
   SWITCH_TRACK_PATTERN_DURATION_SECONDS,
   SWITCH_TRACK_PATTERN_REPEAT_X,
   SWITCH_TRACK_PATTERN_REPEAT_Y,
   SWITCH_TRACK_PATTERN_TILE_SIZE,
+  SWITCH_TRACK_RIGHT_PATH,
+  SWITCH_TRACK_RIGHT_VIEW_BOX,
+  SWITCH_TRACK_SEGMENT_OVERLAP_RATIO,
+  SWITCH_TRACK_VIEW_BOX,
   SwitchTrack,
   SwitchTrackPatternDefs,
 }
