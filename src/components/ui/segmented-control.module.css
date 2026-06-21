@@ -107,9 +107,7 @@
   text-shadow: var(--segmented-control-label-shadow);
   text-transform: uppercase;
   touch-action: manipulation;
-  transition:
-    color 160ms ease,
-    transform 160ms ease;
+  transition: color 160ms ease;
   user-select: none;
 }
 

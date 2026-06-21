@@ -37,8 +37,7 @@
   -webkit-tap-highlight-color: transparent;
   transition:
     background-color 160ms ease,
-    border-color 160ms ease,
-    transform 160ms ease;
+    border-color 160ms ease;
 }
 
 .root[data-checked] {
@@ -109,6 +108,13 @@
 .leftInactiveImage,
 .rightActiveImage {
   opacity: 1;
+  transition: opacity 160ms ease;
+}
+
+.leftActiveImage,
+.rightInactiveImage {
+  opacity: 0;
+  transition: opacity 160ms ease;
 }
 
 .root[data-checked] .leftActiveImage,
@@ -140,16 +146,28 @@
   left: 1.5%;
   color: var(--switch-on-label-color);
   text-shadow: var(--switch-on-label-shadow);
+  transition:
+    color 160ms ease,
+    text-shadow 160ms ease;
 }
 
 .offLabel {
   right: 1.5%;
   color: var(--switch-off-label-color);
   text-shadow: var(--switch-off-label-shadow);
+  transition:
+    color 160ms ease,
+    text-shadow 160ms ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .root {
+  .root,
+  .leftInactiveImage,
+  .rightActiveImage,
+  .leftActiveImage,
+  .rightInactiveImage,
+  .onLabel,
+  .offLabel {
     transition-duration: 1ms;
   }
 }
