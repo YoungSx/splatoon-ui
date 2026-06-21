@@ -36,13 +36,21 @@ export function Navigation({
   const [isReducedMotion, toggleReducedMotion] = useReducedMotion()
 
   React.useEffect(() => {
+    let frame = 0
     const handleScroll = () => {
-      setIsCollapsed(window.scrollY > 40)
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        frame = 0
+        setIsCollapsed(window.scrollY > 40)
+      })
     }
 
     handleScroll()
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (frame) window.cancelAnimationFrame(frame)
+    }
   }, [])
 
   // Pass isReducedMotion to NavigationDialog children
