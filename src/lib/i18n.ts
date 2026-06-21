@@ -88,7 +88,7 @@ export const translations = {
         title: '按钮组',
         description: '分组操作，同时保留每个按钮的液态填充动画',
         turf: '涂地',
-        ranked: '蛮颓',
+        ranked: '真格',
         salmon: '打工',
         new: '最新',
         hot: '热门',
