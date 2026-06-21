@@ -399,6 +399,19 @@ export default function Home() {
       {/* 🦑 Navigation Header Bar */}
       <Navigation
         headerDecoration={(isCollapsed) => <SplatoonHeaderDrip isCollapsed={isCollapsed} />}
+        headerActions={
+          <SegmentedControl
+            appearance="track"
+            density="compact"
+            defaultValue="en"
+            aria-label="Language"
+            style={{ '--segmented-control-track-width': '3rem' } as React.CSSProperties}
+          >
+            <SegmentedControlItem value="zh">中</SegmentedControlItem>
+            <SegmentedControlItem value="en">EN</SegmentedControlItem>
+            <SegmentedControlItem value="ja">日</SegmentedControlItem>
+          </SegmentedControl>
+        }
       >
         <NavigationDialog
           navLinks={navLinks}

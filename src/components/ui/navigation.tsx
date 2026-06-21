@@ -9,6 +9,8 @@ import styles from '@/components/ui/navigation.module.css'
 interface NavigationProps {
   /** Decorative element at the bottom-left of the header — receives isCollapsed for responsive positioning */
   headerDecoration?: (isCollapsed: boolean) => React.ReactNode
+  /** Right-aligned content inside the fixed header bar */
+  headerActions?: React.ReactNode
   /** Navigation menu content (e.g. NavigationDialog) */
   children: React.ReactNode
   /** Header className — defaults to 'bg-black text-white' */
@@ -22,6 +24,7 @@ interface NavigationProps {
 }
 
 export function Navigation({
+  headerActions,
   headerDecoration,
   children,
   headerClassName,
@@ -44,7 +47,10 @@ export function Navigation({
 
   // Pass isReducedMotion to NavigationDialog children
   const enhancedChildren = React.Children.map(children, (child) => {
-    if (React.isValidElement(child) && 'isReducedMotion' in (child.props as Record<string, unknown>)) {
+    if (
+      React.isValidElement(child) &&
+      'isReducedMotion' in (child.props as Record<string, unknown>)
+    ) {
       return React.cloneElement(child, { isReducedMotion } as { isReducedMotion: boolean })
     }
     return child
@@ -85,6 +91,12 @@ export function Navigation({
             </button>
           </div>
         )}
+
+        {headerActions ? (
+          <div className="absolute top-1/2 right-2 z-20 flex -translate-y-1/2 items-center sm:right-4">
+            {headerActions}
+          </div>
+        ) : null}
 
         <div
           className={cn(
