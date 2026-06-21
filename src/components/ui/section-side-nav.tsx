@@ -103,8 +103,8 @@ export function SectionSideNav({
   style,
   topInset = 0,
   viewportMargin = SIDE_NAV_VIEWPORT_MARGIN,
-  navLabel = "Section navigation",
-  backToTopLabel = "Back to top",
+  navLabel = 'Section navigation',
+  backToTopLabel = 'Back to top',
   ...props
 }: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
   const internalRef = React.useRef<HTMLElement>(null)
@@ -204,12 +204,24 @@ export function SectionSideNav({
   React.useEffect(() => {
     updateSidebarFit()
 
-    window.addEventListener('resize', updateSidebarFit)
-    window.visualViewport?.addEventListener('resize', updateSidebarFit)
+    // Coalesce resize bursts into a single rAF so the synchronous layout read
+    // (menu.scrollHeight) runs at most once per frame instead of per event.
+    let frame = 0
+    const scheduleFit = () => {
+      if (frame) return
+      frame = window.requestAnimationFrame(() => {
+        frame = 0
+        updateSidebarFit()
+      })
+    }
+
+    window.addEventListener('resize', scheduleFit)
+    window.visualViewport?.addEventListener('resize', scheduleFit)
 
     return () => {
-      window.removeEventListener('resize', updateSidebarFit)
-      window.visualViewport?.removeEventListener('resize', updateSidebarFit)
+      window.removeEventListener('resize', scheduleFit)
+      window.visualViewport?.removeEventListener('resize', scheduleFit)
+      if (frame) window.cancelAnimationFrame(frame)
     }
   }, [menuSize.height, sections.length, updateSidebarFit])
 
