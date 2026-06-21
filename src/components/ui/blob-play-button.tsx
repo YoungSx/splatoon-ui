@@ -4,6 +4,7 @@ import * as React from 'react'
 import { blobVertexShader, blobFragmentShader } from '@/lib/shaders/blob-shaders'
 import { cn, resolveCSSColor } from '@/lib/utils'
 import { createShader, createProgram, hexToRgb } from './webgl-utils'
+import { useRenderGate } from '@/hooks/use-render-gate'
 
 // ── CSS Custom Properties ──
 // --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43)
@@ -30,6 +31,8 @@ export function BlobPlayButton({
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const animationRef = React.useRef<number>(0)
   const validRef = React.useRef<boolean>(true)
+  // Skip GPU work while the button is scrolled off-screen or the tab is hidden.
+  const activeRef = useRenderGate(canvasRef, { rootMargin: '200px' })
 
   React.useEffect(() => {
     const canvas = canvasRef.current
@@ -132,10 +135,12 @@ export function BlobPlayButton({
     // ── Render loop ──────────────────────────────────────────────
     const render = () => {
       if (!validRef.current) return
-      gl.clearColor(0, 0, 0, 0)
-      gl.clear(gl.COLOR_BUFFER_BIT)
-      gl.uniform1f(u_i_time, (gl.getUniform(program, u_i_time!) || 0) + 0.001)
-      gl.drawArrays(gl.TRIANGLES, 0, 3)
+      if (activeRef.current) {
+        gl.clearColor(0, 0, 0, 0)
+        gl.clear(gl.COLOR_BUFFER_BIT)
+        gl.uniform1f(u_i_time, (gl.getUniform(program, u_i_time!) || 0) + 0.001)
+        gl.drawArrays(gl.TRIANGLES, 0, 3)
+      }
       animationRef.current = requestAnimationFrame(render)
     }
     animationRef.current = requestAnimationFrame(render)
@@ -150,7 +155,7 @@ export function BlobPlayButton({
       gl.deleteBuffer(positionBuffer)
       gl.deleteBuffer(uvBuffer)
     }
-  }, [hexColor, idleWobbleAmount, blobSize])
+  }, [hexColor, idleWobbleAmount, blobSize, activeRef])
 
   return (
     // ── playButton container ──────────────────────────────────────

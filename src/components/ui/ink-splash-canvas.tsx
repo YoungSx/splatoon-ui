@@ -276,15 +276,32 @@ export function InkSplashCanvas({
     [color]
   )
 
-  // Keep a continuous render loop alive while the canvas is mounted.
-  // Tweens only mutate uniforms; rendering happens independently every frame.
+  // Run the render loop only while a transition is in flight. In the 'idle'
+  // state the shader output is fully transparent and static, so a single
+  // flush frame produces the identical pixels while letting the GPU sleep
+  // instead of redrawing a transparent fullscreen quad at 60fps.
   React.useEffect(() => {
     if (!validRef.current) return
+    const gl = glRef.current
+    if (!gl) return
+
+    if (state === 'idle') {
+      // Idle steady state is fully transparent. Draw one frame at the resting
+      // values (matching the tween's idle reset) to flush identical pixels,
+      // then stop the loop so the GPU isn't redrawing a transparent quad.
+      progressRef.current = 0
+      noiseYRef.current = 0
+      drawFrame(gl, 0)
+      return
+    }
+
+    let running = true
 
     const render = () => {
-      const gl = glRef.current
-      if (gl && validRef.current) {
-        drawFrame(gl, progressRef.current)
+      if (!running) return
+      const ctx = glRef.current
+      if (ctx && validRef.current) {
+        drawFrame(ctx, progressRef.current)
         renderLoopRef.current = requestAnimationFrame(render)
       }
     }
@@ -292,9 +309,10 @@ export function InkSplashCanvas({
     renderLoopRef.current = requestAnimationFrame(render)
 
     return () => {
+      running = false
       cancelAnimationFrame(renderLoopRef.current)
     }
-  }, [drawFrame])
+  }, [drawFrame, state])
 
   // ─────────────────────────────────────────────────────────────
   // Progress tween

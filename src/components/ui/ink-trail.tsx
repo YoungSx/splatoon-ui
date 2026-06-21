@@ -21,6 +21,7 @@ import {
   type InkParticle,
 } from '@/lib/ink-particle'
 import { usePointerTracker } from '@/hooks/use-pointer-tracker'
+import { useRenderGate } from '@/hooks/use-render-gate'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import styles from './ink-trail.module.css'
 
@@ -72,6 +73,8 @@ export function InkTrailCanvas({
   const lastFrameTimeRef = React.useRef<number>(0)
   // Expose a ref to trigger click bursts from outside
   const burstRef = React.useRef<(x?: number, y?: number) => void>(() => {})
+  // Pause the trail loop while it is off-screen or the tab is hidden.
+  const activeRef = useRenderGate(containerRef, { rootMargin: '120px' })
 
   // Adjust intensity based on motion preference (never fully disable)
   const intensityScale = prefersReducedMotion ? 0.4 : 1.0
@@ -219,6 +222,14 @@ export function InkTrailCanvas({
     const loop = (timestamp: number) => {
       if (!running) return
 
+      if (!activeRef.current) {
+        // Reset the frame timer so the next visible frame uses a fresh dt
+        // instead of a large catch-up step that would teleport particles.
+        lastFrameTimeRef.current = 0
+        animFrameRef.current = requestAnimationFrame(loop)
+        return
+      }
+
       const dt = lastFrameTimeRef.current ? timestamp - lastFrameTimeRef.current : 16
       lastFrameTimeRef.current = timestamp
 
@@ -306,7 +317,7 @@ export function InkTrailCanvas({
       running = false
       cancelAnimationFrame(animFrameRef.current)
     }
-  }, [enabled, adjustedInterval, pointerRef, lastSpawnRef, spawnParticle])
+  }, [enabled, adjustedInterval, pointerRef, lastSpawnRef, spawnParticle, activeRef])
 
   // ── Render ──────────────────────────────────────────────────────────
 

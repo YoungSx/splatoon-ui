@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { cn, resolveCSSColor } from '@/lib/utils'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
+import { useRenderGate } from '@/hooks/use-render-gate'
 
 // ─── Physics constants ──────────────────────────────────────────────────────
 
@@ -50,6 +51,8 @@ function WaveCanvas({
   ...props
 }: WaveCanvasProps & { ref?: React.Ref<HTMLCanvasElement> }) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
+  // Pause the wave simulation while it is scrolled off-screen or the tab hides.
+  const activeRef = useRenderGate(canvasRef, { rootMargin: '120px' })
   const setCanvasRef = React.useCallback(
     (node: HTMLCanvasElement | null) => {
       canvasRef.current = node
@@ -117,6 +120,11 @@ function WaveCanvas({
 
     const render = () => {
       if (!running) return
+
+      if (!activeRef.current) {
+        animFrameRef.current = requestAnimationFrame(render)
+        return
+      }
 
       const points = pointsRef.current
       const halfH = height / 2
@@ -191,7 +199,7 @@ function WaveCanvas({
       running = false
       cancelAnimationFrame(animFrameRef.current)
     }
-  }, [canvasWidth, height, color, numPoints, elasticity, friction])
+  }, [canvasWidth, height, color, numPoints, elasticity, friction, activeRef])
 
   // ── Mouse handler (window-level) ────────────────────────────────────────
   //
