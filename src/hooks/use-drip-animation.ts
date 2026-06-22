@@ -1,14 +1,14 @@
 import * as React from 'react'
 
 import {
+  createDripControlPoints,
+  createDripPath,
+  DRIP_MAX_AMPLITUDE,
   type DripControlPoint,
   type DripAnimationState,
   calculateDripVisualFillDelayMs,
 } from '@/lib/drip-math'
 import { observeElementResize } from '@/lib/observe-element-resize'
-
-const STEP_SIZE = 30
-const MAX_AMPLITUDE = 80
 
 export interface DripStyle {
   '--drip-in-start'?: string
@@ -32,32 +32,19 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
     const element = buttonRef.current
     if (!element) return
 
-    const generateControlPoints = (width: number): DripControlPoint[] => {
-      const points: DripControlPoint[] = []
-      const count = Math.ceil(width / STEP_SIZE)
-      for (let r = 0; r < count; r++) {
-        const amplitude = r % 2 === 0 ? -80 : MAX_AMPLITUDE
-        const y1 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
-        const y2 = 0.1 * amplitude + Math.random() * (0.9 * amplitude)
-        points.push({ y1, y2 })
-      }
-      return points
-    }
-
     const measure = () => {
-      const width = element.clientWidth
-      const height = element.clientHeight + 2
+      const rect = element.getBoundingClientRect()
+      const width = Math.ceil(rect.width)
+      const height = Math.ceil(rect.height) + 2
 
       setDimensions((current) =>
         current.width === width && current.height === height ? current : { width, height }
       )
 
-      setControlPoints((prev) => {
-        if (prev.length > 0) return prev
-        return generateControlPoints(width)
-      })
+      setControlPoints((prev) => createDripControlPoints({ existing: prev, width }))
     }
 
+    measure()
     const unobserveResize = observeElementResize(element, measure)
 
     const timer = setTimeout(() => {
@@ -73,41 +60,22 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
     }
   }, [buttonRef, enabled])
 
-  const getDripPath = React.useCallback(
-    (index: number, isOut: boolean) => {
-      if (!dimensions.width || !dimensions.height || controlPoints.length === 0) return ''
-
-      const r = index === 0 ? -8 : dimensions.height + MAX_AMPLITUDE
-      let path = `M0 ${r}`
-
-      for (let o = 0; o < controlPoints.length; o++) {
-        const pt = controlPoints[o]
-        const offset = index === 0 ? 0 : isOut ? pt.y1 : pt.y2
-        const a = o * STEP_SIZE + (Math.random() * 12 - 6)
-        path += `C${a + 6} ${r + offset},${a + 24} ${r + offset},${a + STEP_SIZE} ${r}`
-      }
-
-      if (isOut) {
-        path += `L${dimensions.width} ${dimensions.height}, 0 ${dimensions.height}`
-      } else {
-        path += `L${dimensions.width} -8, 0 -8`
-      }
-      path += 'Z'
-      return path
-    },
-    [controlPoints, dimensions.height, dimensions.width]
-  )
-
   const dripPaths = React.useMemo(() => {
     if (dimensions.width <= 0 || controlPoints.length === 0) return null
 
-    return {
-      inStart: getDripPath(0, false),
-      inEnd: getDripPath(1, false),
-      outStart: getDripPath(0, true),
-      outEnd: getDripPath(1, true),
+    const pathOptions = {
+      controlPoints,
+      height: dimensions.height,
+      width: dimensions.width,
     }
-  }, [controlPoints.length, dimensions.width, getDripPath])
+
+    return {
+      inStart: createDripPath({ ...pathOptions, phase: 'enter', stage: 'start' }),
+      inEnd: createDripPath({ ...pathOptions, phase: 'enter', stage: 'end' }),
+      outStart: createDripPath({ ...pathOptions, phase: 'leave', stage: 'start' }),
+      outEnd: createDripPath({ ...pathOptions, phase: 'leave', stage: 'end' }),
+    }
+  }, [controlPoints, dimensions.height, dimensions.width])
 
   const startDripEnter = React.useCallback(() => {
     if (!enabled) return
@@ -129,7 +97,7 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
           const elapsedSinceEnter = performance.now() - dripEnterStartedAtRef.current
           const visualFillDelayMs = calculateDripVisualFillDelayMs(
             dimensions.height,
-            MAX_AMPLITUDE,
+            DRIP_MAX_AMPLITUDE,
             controlPoints
           )
           const remainingFillTime = Math.max(0, visualFillDelayMs - elapsedSinceEnter)
