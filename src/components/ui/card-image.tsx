@@ -53,7 +53,13 @@ export function CardImage({
       >
         {src ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={src} alt={alt} className="w-full h-auto object-contain" />
+          <img
+            src={src}
+            alt={alt}
+            className="w-full h-auto object-contain"
+            decoding="async"
+            loading="lazy"
+          />
         ) : (
           children
         )}

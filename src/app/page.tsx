@@ -206,7 +206,9 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
                     width={pageTransitionCharacterAssets[demoPage].width}
                     height={pageTransitionCharacterAssets[demoPage].height}
                     className="mx-auto h-28 w-auto object-contain drop-shadow-[3px_5px_0_rgba(0,0,0,0.2)]"
+                    decoding="async"
                     draggable={false}
+                    loading="lazy"
                   />
                   <h3 className="text-2xl font-black tracking-wider uppercase md:text-3xl">
                     {current.title}
@@ -235,7 +237,9 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
                     width={pageTransitionCharacterAssets[demoPage].width}
                     height={pageTransitionCharacterAssets[demoPage].height}
                     className="mx-auto h-28 w-auto object-contain drop-shadow-[3px_5px_0_rgba(0,0,0,0.2)]"
+                    decoding="async"
                     draggable={false}
+                    loading="lazy"
                   />
                   <h3 className="text-2xl font-black tracking-wider uppercase md:text-3xl">
                     {current.title}
@@ -983,6 +987,8 @@ export default function Home() {
                               width={showcaseMediaAssets.fullscreenPreview.width}
                               height={showcaseMediaAssets.fullscreenPreview.height}
                               className="w-full max-w-4xl rounded-lg"
+                              decoding="async"
+                              loading="lazy"
                             />
                             <p className="text-sm text-white/60">{t.overlays.fullscreen.caption}</p>
                           </div>
@@ -1294,6 +1300,7 @@ export default function Home() {
                           width={eventImageAssets.bigRunCallout.width}
                           height={eventImageAssets.bigRunCallout.height}
                           className="h-full w-full object-cover"
+                          decoding="async"
                           loading="lazy"
                           draggable={false}
                         />
@@ -1316,6 +1323,7 @@ export default function Home() {
                           width={eventImageAssets.splatnetBlade.width}
                           height={eventImageAssets.splatnetBlade.height}
                           className="h-full w-full object-cover"
+                          decoding="async"
                           loading="lazy"
                           draggable={false}
                         />
@@ -1394,6 +1402,7 @@ export default function Home() {
                         width={eventImageAssets.bigRunCallout.width}
                         height={eventImageAssets.bigRunCallout.height}
                         className="absolute inset-0 h-full w-full object-cover opacity-35"
+                        decoding="async"
                         loading="lazy"
                         draggable={false}
                       />
@@ -1410,6 +1419,7 @@ export default function Home() {
                         width={eventImageAssets.splatnetBlade.width}
                         height={eventImageAssets.splatnetBlade.height}
                         className="absolute inset-0 h-full w-full object-cover opacity-35"
+                        decoding="async"
                         loading="lazy"
                         draggable={false}
                       />
@@ -1428,6 +1438,7 @@ export default function Home() {
                         width={eventImageAssets.splatnetNextPage.width}
                         height={eventImageAssets.splatnetNextPage.height}
                         className="absolute inset-0 h-full w-full object-cover opacity-35"
+                        decoding="async"
                         loading="lazy"
                         draggable={false}
                       />
@@ -1444,6 +1455,7 @@ export default function Home() {
                         width={eventImageAssets.goldenEgg.width}
                         height={eventImageAssets.goldenEgg.height}
                         className="absolute top-3 right-3 h-12 w-auto rotate-12 opacity-70"
+                        decoding="async"
                         loading="lazy"
                         draggable={false}
                       />

@@ -174,6 +174,8 @@ function HeadingTapeDecorationSlot({ decoration }: { decoration: HeadingTapeDeco
         srcSet={decoration.mobile.srcSet}
         width={decoration.mobile.width}
         height={decoration.mobile.height}
+        decoding="async"
+        loading="lazy"
       />
       {decoration.desktop && (
         // eslint-disable-next-line @next/next/no-img-element
@@ -188,6 +190,8 @@ function HeadingTapeDecorationSlot({ decoration }: { decoration: HeadingTapeDeco
           srcSet={decoration.desktop.srcSet}
           width={decoration.desktop.width}
           height={decoration.desktop.height}
+          decoding="async"
+          loading="lazy"
         />
       )}
     </span>

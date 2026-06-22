@@ -508,7 +508,7 @@ export function CarouselImagePagination({
             >
               <div className={paginationStyles.imagePaginationImage}>
                 {/* eslint-disable-next-line @next/next/no-img-element -- small data/static thumbnails inside reusable pagination controls */}
-                <img src={img.src} alt={img.alt || ''} />
+                <img src={img.src} alt={img.alt || ''} decoding="async" loading="lazy" />
               </div>
             </div>
           </button>

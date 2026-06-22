@@ -26,7 +26,9 @@ export function AssetImage({
   alt,
   className,
   decorative = false,
+  decoding = 'async',
   draggable = false,
+  loading = 'lazy',
   fit,
   aspectRatio,
   fill = false,
@@ -40,8 +42,10 @@ export function AssetImage({
       alt={decorative ? '' : (alt ?? asset.alt)}
       aria-hidden={decorative ? true : props['aria-hidden']}
       className={cn(fill && 'block h-full w-full', className)}
+      decoding={decoding}
       draggable={draggable}
       height={asset.height}
+      loading={loading}
       src={asset.src}
       style={{
         ...(fit ? { objectFit: fit } : {}),

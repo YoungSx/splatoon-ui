@@ -48,6 +48,8 @@ function TapeImage({
       className={cn(fill && 'block h-auto w-full', className)}
       draggable={draggable}
       height={source.height}
+      decoding="async"
+      loading="lazy"
       src={source.src}
       srcSet={source.pngSrcSet}
       width={source.width}

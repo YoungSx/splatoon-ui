@@ -101,6 +101,7 @@ function Staple({ className, position = 'left', ...props }: StapleProps) {
           )}
           decoding="async"
           draggable={false}
+          loading="lazy"
           height={asset.height}
           src={asset.src}
           width={asset.width}

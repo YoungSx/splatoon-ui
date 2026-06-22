@@ -107,6 +107,8 @@ export function SplatoonTitle({
             SIZE_CLASSES[size],
             isHovered && 'scale-105'
           )}
+          decoding="async"
+          loading="lazy"
         />
       </div>
     )

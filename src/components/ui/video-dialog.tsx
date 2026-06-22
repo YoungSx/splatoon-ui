@@ -117,6 +117,7 @@ export function VideoDialogThumbnail({
                 alt={alt}
                 width={width}
                 height={height}
+                decoding="async"
                 loading={loading}
                 className={photoStyles.photo}
                 style={{ width: '100%', height: 'auto', display: 'block' }}

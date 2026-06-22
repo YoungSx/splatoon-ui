@@ -183,7 +183,13 @@ export function PhotoFrame({
 
       {src ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt={alt ?? 'Styled photo'} className={styles.photo} />
+        <img
+          src={src}
+          alt={alt ?? 'Styled photo'}
+          className={styles.photo}
+          decoding="async"
+          loading="lazy"
+        />
       ) : (
         children
       )}

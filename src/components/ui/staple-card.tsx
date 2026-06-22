@@ -83,6 +83,8 @@ export function StapleCard({
                 src={newsStapleAssets.left.src}
                 width={newsStapleAssets.left.width}
                 height={newsStapleAssets.left.height}
+                decoding="async"
+                loading="lazy"
               />
               <img
                 className={styles.imgDesktop}
@@ -90,6 +92,8 @@ export function StapleCard({
                 src={newsStapleAssets.left.src}
                 width={newsStapleAssets.left.width}
                 height={newsStapleAssets.left.height}
+                decoding="async"
+                loading="lazy"
               />
             </picture>
           </div>
@@ -101,6 +105,8 @@ export function StapleCard({
                 src={newsStapleAssets.right.src}
                 width={newsStapleAssets.right.width}
                 height={newsStapleAssets.right.height}
+                decoding="async"
+                loading="lazy"
               />
               <img
                 className={styles.imgDesktop}
@@ -108,6 +114,8 @@ export function StapleCard({
                 src={newsStapleAssets.right.src}
                 width={newsStapleAssets.right.width}
                 height={newsStapleAssets.right.height}
+                decoding="async"
+                loading="lazy"
               />
             </picture>
           </div>
