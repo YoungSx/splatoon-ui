@@ -4,6 +4,14 @@
 }
 
 .card {
+  --staple-card-inline-padding: calc(var(--base-space, 8px) * 4);
+  --staple-card-block-padding-end: calc(var(--base-space, 8px) * 3);
+  --staple-card-staple-left-width: 20cqw;
+  --staple-card-staple-right-width: 10cqw;
+  --staple-card-staple-clearance: calc(
+    var(--staple-card-staple-left-width) * 0.64 + var(--base-space, 8px) * 1.25
+  );
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -15,15 +23,21 @@
   transform: rotate(2deg);
 }
 
-.cardLayout {
+.cardSurface {
   background-color: var(--color-white, #fff);
   color: var(--color-black, #0d0d0d);
+  position: relative;
+}
+
+.cardLayout {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100%;
-  padding: calc(var(--base-space, 8px) * 0) calc(var(--base-space, 8px) * 4)
-    calc(var(--base-space, 8px) * 3) calc(var(--base-space, 8px) * 4);
+  padding: 0 var(--staple-card-inline-padding)
+    max(var(--staple-card-block-padding-end), var(--staple-card-staple-clearance))
+    var(--staple-card-inline-padding);
   position: relative;
+  z-index: 2;
 }
 
 .image {
@@ -38,18 +52,32 @@
   object-fit: contain;
 }
 
+.stapleLayer {
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  user-select: none;
+  z-index: 1;
+}
+
+.stapleLayer img {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
 .stapleLeft {
   bottom: 0;
   left: 20px;
   position: absolute;
-  width: 20%;
+  width: var(--staple-card-staple-left-width);
 }
 
 .stapleRight {
   bottom: 0;
   position: absolute;
   right: 20px;
-  width: 10%;
+  width: var(--staple-card-staple-right-width);
 }
 
 .tape {
@@ -60,20 +88,6 @@
   display: block;
   height: auto;
   width: 100%;
-}
-
-/* ── Responsive image: mobile by default, desktop at 400px container width ── */
-.imgDesktop {
-  display: none;
-}
-
-@container (min-width: 400px) {
-  .imgMobile {
-    display: none;
-  }
-  .imgDesktop {
-    display: block;
-  }
 }
 
 .cardBottom {
@@ -96,7 +110,7 @@
 }
 
 /* ── Surface: dark ── */
-.surfaceDark .cardLayout {
+.surfaceDark .cardSurface {
   background-color: var(--color-black-alt, #0e0e0e);
   color: var(--color-white, #fff);
 }

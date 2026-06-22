@@ -8,6 +8,7 @@ const carousel = fs.readFileSync(path.join(componentRoot, 'carousel.tsx'), 'utf8
 const dialog = fs.readFileSync(path.join(componentRoot, 'dialog.tsx'), 'utf8')
 const videoDialog = fs.readFileSync(path.join(componentRoot, 'video-dialog.tsx'), 'utf8')
 const stapleCard = fs.readFileSync(path.join(componentRoot, 'staple-card.tsx'), 'utf8')
+const stapleCardCss = fs.readFileSync(path.join(componentRoot, 'staple-card.module.css'), 'utf8')
 const tornCard = fs.readFileSync(path.join(componentRoot, 'torn-card.tsx'), 'utf8')
 const photoFrame = fs.readFileSync(path.join(componentRoot, 'photo-frame.tsx'), 'utf8')
 const cardStackCarousel = fs.readFileSync(
@@ -88,11 +89,26 @@ const checks = [
       !dialog.includes('PaperTearEdge'),
   },
   {
+    name: 'StapleCard owns its responsive staple safe area inside the component surface',
+    pass:
+      stapleCard.includes('contentClassName={styles.cardSurface}') &&
+      stapleCard.includes('styles.stapleLayer') &&
+      !stapleCard.includes('<picture>') &&
+      !stapleCard.includes('imgMobile') &&
+      !stapleCard.includes('imgDesktop') &&
+      stapleCardCss.includes('container-type: inline-size;') &&
+      stapleCardCss.includes('.stapleLayer img') &&
+      stapleCardCss.includes('--staple-card-staple-clearance') &&
+      stapleCardCss.includes('max(var(--staple-card-block-padding-end), var(--staple-card-staple-clearance))'),
+  },
+  {
     name: 'Dialog danger surface owns title and description colors instead of demo overrides',
     pass:
       dialog.includes('DialogSurfaceContext') &&
-      dialog.includes("surface === 'danger' ? { color: '#02e754' }") &&
-      dialog.includes("surface === 'danger' ? { color: '#ffffffcc' }") &&
+      dialog.includes("const DANGER_SURFACE_TITLE_COLOR = 'var(--danger-surface-title)'") &&
+      dialog.includes("const DANGER_SURFACE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'") &&
+      dialog.includes("surface === 'danger' ? { color: DANGER_SURFACE_TITLE_COLOR }") &&
+      dialog.includes("surface === 'danger' ? { color: DANGER_SURFACE_DESCRIPTION_COLOR }") &&
       demoPage.includes('<DialogContent surface="danger"') &&
       !demoPage.includes('<DialogTitle className="text-white">Destructive State</DialogTitle>') &&
       !demoPage.includes('<DialogDescription className="text-white/80">'),

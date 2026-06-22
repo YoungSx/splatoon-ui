@@ -68,17 +68,17 @@ export function StapleCard({
       className={cn(styles.stapleCard, isDark && styles.surfaceDark, className)}
       {...props}
     >
-      <div className={cn(styles.card, '@container', hoverTilt && styles.hoverTilt)}>
+      <div className={cn(styles.card, hoverTilt && styles.hoverTilt)}>
         <PaperSurface
           tone={isDark ? 'black' : 'white'}
           topEdgeClassName={styles.cardTop}
           bottomEdgeClassName={styles.cardBottom}
-          contentClassName={styles.cardLayout}
+          contentClassName={styles.cardSurface}
         >
-          <div className={styles.stapleLeft}>
-            <picture>
+          <div className={styles.stapleLayer} aria-hidden="true">
+            <div className={styles.stapleLeft}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- reusable library decoration with fixed public asset dimensions */}
               <img
-                className={styles.imgMobile}
                 alt=""
                 src={newsStapleAssets.left.src}
                 width={newsStapleAssets.left.width}
@@ -86,21 +86,10 @@ export function StapleCard({
                 decoding="async"
                 loading="lazy"
               />
+            </div>
+            <div className={styles.stapleRight}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- reusable library decoration with fixed public asset dimensions */}
               <img
-                className={styles.imgDesktop}
-                alt=""
-                src={newsStapleAssets.left.src}
-                width={newsStapleAssets.left.width}
-                height={newsStapleAssets.left.height}
-                decoding="async"
-                loading="lazy"
-              />
-            </picture>
-          </div>
-          <div className={styles.stapleRight}>
-            <picture>
-              <img
-                className={styles.imgMobile}
                 alt=""
                 src={newsStapleAssets.right.src}
                 width={newsStapleAssets.right.width}
@@ -108,26 +97,19 @@ export function StapleCard({
                 decoding="async"
                 loading="lazy"
               />
-              <img
-                className={styles.imgDesktop}
-                alt=""
-                src={newsStapleAssets.right.src}
-                width={newsStapleAssets.right.width}
-                height={newsStapleAssets.right.height}
-                decoding="async"
-                loading="lazy"
-              />
-            </picture>
+            </div>
           </div>
-          <div className={styles.image}>{image}</div>
-          <div className={styles.info}>
-            {children ?? (
-              <>
-                {title && <p className={styles.title}>{title}</p>}
-                {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-                {action}
-              </>
-            )}
+          <div className={styles.cardLayout}>
+            <div className={styles.image}>{image}</div>
+            <div className={styles.info}>
+              {children ?? (
+                <>
+                  {title && <p className={styles.title}>{title}</p>}
+                  {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+                  {action}
+                </>
+              )}
+            </div>
           </div>
         </PaperSurface>
         {resolvedShowTape && (
