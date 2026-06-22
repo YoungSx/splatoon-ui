@@ -34,16 +34,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Splatoon UI',
-    description:
-      'Fan-made React component library for ink-heavy Splatoon-inspired sites.',
+    description: 'Fan-made React component library for ink-heavy Splatoon-inspired sites.',
     type: 'website',
     siteName: 'Splatoon UI',
   },
   twitter: {
     card: 'summary',
     title: 'Splatoon UI',
-    description:
-      'Fan-made React component library for ink-heavy Splatoon-inspired sites.',
+    description: 'Fan-made React component library for ink-heavy Splatoon-inspired sites.',
   },
   icons: {
     icon: '/favicons/favicon.svg',
@@ -58,10 +56,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`h-full antialiased ${obviouslyNarrow.variable}`}>
-      <body className="min-h-full flex flex-col font-body">
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`h-full antialiased ${obviouslyNarrow.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="font-body flex min-h-full flex-col">{children}</body>
     </html>
   )
 }
