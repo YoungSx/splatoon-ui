@@ -37,15 +37,25 @@ export const cardStackPhysicsTuning = {
 // Support input layer: these parameters shape how the invisible support/pivot moves.
 // If motion changes here, it is the external shove/retarget curve changing before the card physics even reacts.
 export const cardStackSupportDriverTuning = {
-  easeInBack: {
-    // Total support motion duration for the easeInBack driver.
-    // Increase: longer support travel time, more drawn-out shove. Decrease: snappier support motion.
-    durationSeconds: 0.62,
-    // Standard easeInBack overshoot amount; larger values create a stronger backward wind-up.
-    // Increase: more reverse wind-up before release. Decrease: straighter, less theatrical launch.
-    overshoot: 1.4,
+  // Default support curve for FeedCarousel page turns. Mirrors the official
+  // Splatoon site CSS:
+  //   .news-cards-gallery .gallery        { --duration: 0.5s; }
+  //   .news-cards-gallery .gallery__item  { transition: transform calc(var(--duration-factor) * var(--duration)) var(--ease-in-out); }
+  // Source of truth lives here so the physics layer and the CSS variables we
+  // surface on the scene element share one set of numbers.
+  feedTransition: {
+    // Base duration of one page-turn motion before the duration-factor multiplier.
+    // Increase: longer page-turn animation. Decrease: snappier page-turn animation.
+    durationSeconds: 0.5,
+    // Multiplier applied to durationSeconds. Mirrors the global `--duration-factor`
+    // CSS variable so accessibility / motion-reduce scaling can be wired in later.
+    // Increase: stretches every page-turn proportionally. Decrease: compresses them.
+    durationFactor: 1,
+    // Easing token name from `splatoonEasings`. Switching this swaps the curve
+    // shape without touching the rest of the architecture.
+    easing: "easeInOut",
     // Human-readable label used for diagnostics/UI.
-    label: "easeInBack",
+    label: "feed-transition",
   },
   gentleSpring: {
     // Spring stiffness for the alternative support driver.

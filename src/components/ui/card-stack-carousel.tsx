@@ -19,6 +19,7 @@ import {
   useCreateCardStackCarouselScene,
 } from "@/lib/physics/card-stack/store"
 import { defaultSupportMotionProfile } from "@/lib/physics/card-stack/support-driver"
+import { cardStackSupportDriverTuning } from "@/lib/physics/card-stack/tuning"
 import { cardStackLayoutTuning } from "@/lib/physics/card-stack/tuning"
 import { observeElementResize } from "@/lib/observe-element-resize"
 import { layoutTokens } from "@/lib/ui-tokens"
@@ -45,6 +46,15 @@ const CARD_STACK_ITEM_WIDTH: Record<CardStackCarouselItemLayout, React.CSSProper
   feed: layoutTokens.feedCarouselItemWidth,
 }
 
+// Mirror the page-turn timing tokens onto the scene so descendant CSS can read
+// the same numbers the JS physics layer uses. Scoping `--duration` to the scene
+// (instead of `:root`) matches splatoon.nintendo.com, which sets it on
+// `.news-cards-gallery .gallery { --duration: 0.5s }`. `--duration-factor`
+// stays a global token in `globals.css` so accessibility scaling can flip it.
+const SCENE_TIMING_STYLE = {
+  "--duration": `${cardStackSupportDriverTuning.feedTransition.durationSeconds}s`,
+} as React.CSSProperties
+
 function radiansToDegrees(value: number) {
   return value * (180 / Math.PI)
 }
@@ -60,6 +70,7 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
     <CardStackCarouselPhysicsContext.Provider value={store}>
       <div
         data-slot="card-stack-carousel-scene"
+        style={SCENE_TIMING_STYLE}
         data-card-count={Object.keys(sceneSnapshot.cards).length}
         data-support-driver={supportDriverLabel}
         data-shared-angle={radiansToDegrees(primaryCardState.angle).toFixed(4)}

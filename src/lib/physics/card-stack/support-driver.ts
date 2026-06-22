@@ -1,5 +1,10 @@
 "use client"
 
+import {
+  createCubicBezierSampler,
+  splatoonEasings,
+  type SplatoonEasingName,
+} from "@/lib/motion"
 import { cardStackSupportDriverTuning } from "@/lib/physics/card-stack/tuning"
 
 export type SupportSpringDriver = {
@@ -46,39 +51,6 @@ export type SupportMotionSample = {
   done: boolean
 }
 
-export type EaseInBackOptions = {
-  overshoot?: number
-}
-
-export type EaseInBackDriverOptions = EaseInBackOptions & {
-  durationSeconds?: number
-  label?: string
-}
-
-export function createEaseInBackEasing({
-  overshoot = cardStackSupportDriverTuning.easeInBack.overshoot,
-}: EaseInBackOptions = {}) {
-  const validatedOvershoot = Number.isFinite(overshoot) ? overshoot : cardStackSupportDriverTuning.easeInBack.overshoot
-  const safeOvershoot = Math.max(validatedOvershoot, 0)
-  const coefficient = safeOvershoot + 1
-
-  return (progress: number) => coefficient * progress * progress * progress - safeOvershoot * progress * progress
-}
-
-function createEaseInBackSample({
-  overshoot = cardStackSupportDriverTuning.easeInBack.overshoot,
-}: EaseInBackOptions = {}): (progress: number) => SupportCurveSample {
-  const validatedOvershoot = Number.isFinite(overshoot) ? overshoot : cardStackSupportDriverTuning.easeInBack.overshoot
-  const safeOvershoot = Math.max(validatedOvershoot, 0)
-  const coefficient = safeOvershoot + 1
-
-  return (progress: number) => ({
-    value: coefficient * progress * progress * progress - safeOvershoot * progress * progress,
-    slope: 3 * coefficient * progress * progress - 2 * safeOvershoot * progress,
-    curvature: 6 * coefficient * progress - 2 * safeOvershoot,
-  })
-}
-
 export function createSpringSupportMotionDriver({
   stiffness,
   damping,
@@ -113,15 +85,34 @@ export function createCurveSupportMotionDriver({
   }
 }
 
-export function createEaseInBackSupportMotionDriver({
-  durationSeconds = cardStackSupportDriverTuning.easeInBack.durationSeconds,
-  overshoot = cardStackSupportDriverTuning.easeInBack.overshoot,
-  label = cardStackSupportDriverTuning.easeInBack.label,
-}: EaseInBackDriverOptions = {}): SupportCurveDriver {
+export type CubicBezierCurveDriverOptions = {
+  /** Base duration before applying the duration factor. */
+  durationSeconds: number
+  /** Linear multiplier applied to durationSeconds. Defaults to 1. */
+  durationFactor?: number
+  /** Splatoon easing token name; the underlying control points come from `splatoonEasings`. */
+  easing: SplatoonEasingName
+  /** Optional override of the human-readable diagnostic label. */
+  label?: string
+}
+
+/**
+ * Build a curve driver from a Splatoon easing token. This is the bridge between
+ * the CSS `--ease-*` design tokens and the JS-driven physics layer; using the
+ * same token registry on both sides keeps animations visually identical
+ * regardless of which renderer drives them.
+ */
+export function createCubicBezierSupportMotionDriver({
+  durationSeconds,
+  durationFactor = 1,
+  easing,
+  label,
+}: CubicBezierCurveDriverOptions): SupportCurveDriver {
+  const sampler = createCubicBezierSampler(splatoonEasings[easing])
   return createCurveSupportMotionDriver({
-    durationSeconds,
-    sample: createEaseInBackSample({ overshoot }),
-    label,
+    durationSeconds: durationSeconds * durationFactor,
+    sample: sampler,
+    label: label ?? easing,
   })
 }
 
@@ -142,7 +133,12 @@ export function createSupportMotionProfile({
 }
 
 export const supportMotionPresets = {
-  easeInBack: createEaseInBackSupportMotionDriver(),
+  feedTransition: createCubicBezierSupportMotionDriver({
+    durationSeconds: cardStackSupportDriverTuning.feedTransition.durationSeconds,
+    durationFactor: cardStackSupportDriverTuning.feedTransition.durationFactor,
+    easing: cardStackSupportDriverTuning.feedTransition.easing,
+    label: cardStackSupportDriverTuning.feedTransition.label,
+  }),
   gentleSpring: createSpringSupportMotionDriver({
     stiffness: cardStackSupportDriverTuning.gentleSpring.stiffness,
     damping: cardStackSupportDriverTuning.gentleSpring.damping,
@@ -151,7 +147,7 @@ export const supportMotionPresets = {
 } as const
 
 export const defaultSupportMotionProfile: SupportMotionProfile = createSupportMotionProfile({
-  driver: supportMotionPresets.easeInBack,
+  driver: supportMotionPresets.feedTransition,
 })
 
 export function startSupportMotion({
@@ -199,7 +195,7 @@ function sampleCurveMotion(
   const carryB = (state.initialAccelerationPxPerSecondSquared * durationSeconds * durationSeconds) / 2
   // Keep the authored curve intact at the far end. We only correct the launch so mid-flight
   // retargets remain C2-continuous at the start; forcing a zero-velocity/zero-acceleration
-  // landing turns easeInBack into a long tail that visibly "holds" the first apex.
+  // landing would warp any non-trivial easing into a long tail that visibly "holds" the first apex.
   const carryC = -(carryA + carryB)
   const carryPosition =
     carryA * progress +
