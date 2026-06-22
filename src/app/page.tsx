@@ -284,17 +284,17 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
           <div className="flex flex-wrap justify-center gap-3">
             {variant === 'webgl' ? (
               <>
-                <Badge>{t.badges.webgl[0]}</Badge>
-                <Badge variant="blue">{t.badges.webgl[1]}</Badge>
-                <Badge variant="green">{t.badges.webgl[2]}</Badge>
-                <Badge variant="monochrome">{t.badges.webgl[3]}</Badge>
+                <Badge color="yellow">{t.badges.webgl[0]}</Badge>
+                <Badge color="blue">{t.badges.webgl[1]}</Badge>
+                <Badge color="green">{t.badges.webgl[2]}</Badge>
+                <Badge color="monochrome">{t.badges.webgl[3]}</Badge>
               </>
             ) : (
               <>
-                <Badge>{t.badges.squid[0]}</Badge>
-                <Badge variant="blue">{t.badges.squid[1]}</Badge>
-                <Badge variant="green">{t.badges.squid[2]}</Badge>
-                <Badge variant="monochrome">{t.badges.squid[3]}</Badge>
+                <Badge color="yellow">{t.badges.squid[0]}</Badge>
+                <Badge color="blue">{t.badges.squid[1]}</Badge>
+                <Badge color="green">{t.badges.squid[2]}</Badge>
+                <Badge color="monochrome">{t.badges.squid[3]}</Badge>
               </>
             )}
           </div>
@@ -482,7 +482,7 @@ export default function Home() {
         >
           <header className="text-chaos-black pattern-chip-white relative flex flex-col items-center justify-center gap-6 bg-white px-6 pt-28 pb-12 transition-colors duration-300 md:pt-36">
             <div className="z-10 flex flex-col items-center gap-3 text-center">
-              <Badge variant="sticker">
+              <Badge color="yellow">
                 <Zap className="text-yellow mr-1 h-3.5 w-3.5" />
                 {t.hero.badge}
               </Badge>
@@ -855,26 +855,29 @@ export default function Home() {
                 </Card>
               </InView>
 
-              {/* Sticker Badges */}
+              {/* Badges */}
               <InView direction="up" rootMargin="-50px">
                 <Card variant="torn" rotation="0deg" showTape={false}>
                   <CardHeader>
                     <CardTitle>{t.buttons.badgesCard.title}</CardTitle>
                     <CardDescription>{t.buttons.badgesCard.description}</CardDescription>
                   </CardHeader>
-                  <CardContent className="flex flex-wrap gap-3 pt-2">
-                    <Badge>{t.buttons.badgesCard.yellow}</Badge>
-                    <Badge variant="blue">{t.buttons.badgesCard.blue}</Badge>
-                    <Badge variant="red">{t.buttons.badgesCard.red}</Badge>
-                    <Badge variant="green">{t.buttons.badgesCard.green}</Badge>
-                    <Badge variant="sticker">{t.buttons.badgesCard.sticker}</Badge>
+                  <CardContent className="pt-2">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <Badge color="yellow">{t.buttons.badgesCard.yellow}</Badge>
+                      <Badge color="blue">{t.buttons.badgesCard.blue}</Badge>
+                      <Badge color="red">{t.buttons.badgesCard.red}</Badge>
+                      <Badge color="green">{t.buttons.badgesCard.green}</Badge>
+                      <Badge color="purple">{t.buttons.badgesCard.sticker}</Badge>
+                      <Badge color="monochrome">{t.buttons.badgesCard.torn}</Badge>
+                    </div>
                   </CardContent>
                 </Card>
               </InView>
 
               <div className="flex flex-wrap justify-center gap-3">
                 {Array.from(t.buttons.badgesFooter).map((label, i) => (
-                  <Badge key={i} variant={([undefined, 'blue', 'green', 'monochrome'] as const)[i]}>
+                  <Badge key={i} color={(['yellow', 'blue', 'green', 'monochrome'] as const)[i]}>
                     {label}
                   </Badge>
                 ))}

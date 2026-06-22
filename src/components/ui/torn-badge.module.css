@@ -1,0 +1,55 @@
+/* ──────────────────────────────────────────────────────────────
+ * TornBadge
+ *
+ * ViewBox: 0 0 8000 2119  → natural aspect ratio ≈ 3.774 : 1
+ * Display height: 24px  → natural display width: ~90px
+ * Width is determined by aspect ratio; do NOT force arbitrary px.
+ * ──────────────────────────────────────────────────────────────  */
+
+.tornBadge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /*
+   * Height is fixed; width is derived from SVG intrinsic aspect ratio.
+   * We add enough horizontal padding so short labels don't shrink the badge
+   * to nothing — the SVG fills the full wrapper via position:absolute inset:0.
+   */
+  height: 24px;
+  min-width: calc(24px * 8000 / 2119); /* ≈ 90px — preserves natural ratio */
+
+  background: transparent;
+  flex-shrink: 0;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+  padding: 0 10px;
+  color: var(--torn-badge-text-color, var(--chaos-black));
+  font-family: var(--font-alt, var(--font-sans));
+  font-weight: 900;
+  font-style: italic;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+  display: block;
+}
+
+.tornBadge:hover .outline {
+  filter: brightness(1.1);
+}
