@@ -4,6 +4,7 @@ import { publicUiEntries } from '../scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
+const publishWorkflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'publish.yml'), 'utf8')
 
 const requiredFiles = [
   'dist',
@@ -75,6 +76,14 @@ const checks = [
       fs.existsSync(path.join(root, 'tsconfig.package.json')) &&
       fs.existsSync(path.join(root, 'scripts', 'build-package-styles.mjs')) &&
       fs.existsSync(path.join(root, 'tests', 'package-consumer-smoke.mjs')),
+  },
+  {
+    name: 'tag-driven npm publish keeps the package version pinned to the tag',
+    pass:
+      publishWorkflow.includes('npm version "$VERSION" --no-git-tag-version --ignore-scripts') &&
+      publishWorkflow.includes('ACTUAL_VERSION="$(node -p "require(\'./package.json\').version")"') &&
+      publishWorkflow.includes('if [ "${ACTUAL_VERSION}" != "${VERSION}" ]; then') &&
+      publishWorkflow.includes('npm publish --provenance --access public --ignore-scripts'),
   },
   {
     name: 'stale initial release changeset has been consumed',
