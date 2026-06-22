@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { publicUiEntries } from '../scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
 const tmpRoot = path.join(root, '.tmp', 'package-consumer-smoke')
@@ -46,18 +47,19 @@ if (forbiddenFiles.length > 0) {
   throw new Error(`Package tarball contains forbidden files:\n${forbiddenFiles.join('\n')}`)
 }
 
-for (const required of [
+const requiredPackedFiles = [
   'dist/server.js',
-  'dist/client.js',
   'dist/server.d.ts',
-  'dist/client.d.ts',
   'dist/styles.css',
   'README.md',
   'README_EN.md',
   'README_JA.md',
   'LICENSE',
   'NOTICE',
-]) {
+  ...publicUiEntries.flatMap((entry) => [`dist/${entry}.js`, `dist/${entry}.d.ts`]),
+]
+
+for (const required of requiredPackedFiles) {
   if (!packedFiles.includes(required)) {
     throw new Error(`Package tarball is missing ${required}`)
   }
@@ -107,8 +109,10 @@ fs.mkdirSync(path.join(consumerDir, 'src'), { recursive: true })
 fs.writeFileSync(
   path.join(consumerDir, 'src', 'app.tsx'),
   `import 'splatoon-ui/styles.css'
-import { HeadingTape, Section } from 'splatoon-ui'
-import { Button, Dialog } from 'splatoon-ui/client'
+import { HeadingTape } from 'splatoon-ui/heading-tape'
+import { Section } from 'splatoon-ui/section'
+import { Button } from 'splatoon-ui/button'
+import { Dialog } from 'splatoon-ui/dialog'
 
 export function App() {
   return (
@@ -125,7 +129,8 @@ export function App() {
 fs.writeFileSync(
   path.join(consumerDir, 'runtime.mjs'),
   `await import('splatoon-ui')
-await import('splatoon-ui/client')
+await import('splatoon-ui/button')
+await import('splatoon-ui/dialog')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `
 )

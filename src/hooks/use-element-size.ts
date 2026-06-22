@@ -2,6 +2,8 @@
 
 import * as React from 'react'
 
+import { observeElementResize } from '@/lib/observe-element-resize'
+
 export interface ElementSize {
   width: number
   height: number
@@ -15,7 +17,7 @@ export function useElementSize<T extends HTMLElement = HTMLElement>() {
 
   React.useEffect(() => {
     const element = ref.current
-    if (!element || typeof ResizeObserver === 'undefined') return
+    if (!element) return
 
     const update = () => {
       const rect = element.getBoundingClientRect()
@@ -29,9 +31,7 @@ export function useElementSize<T extends HTMLElement = HTMLElement>() {
     }
 
     update()
-    const observer = new ResizeObserver(update)
-    observer.observe(element)
-    return () => observer.disconnect()
+    return observeElementResize(element, update)
   }, [])
 
   return [ref, size] as const

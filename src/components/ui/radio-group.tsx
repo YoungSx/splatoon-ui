@@ -5,7 +5,7 @@ import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
 
 import { cn } from "@/lib/utils"
-import { Splat } from "@/components/ui/splats"
+import { Splat12 } from "@/components/ui/splats/splat-12"
 
 function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   return (
@@ -31,8 +31,7 @@ function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
         data-slot="radio-group-indicator"
         className="flex size-full items-center justify-center"
       >
-        <Splat
-          id={12}
+        <Splat12
           className="size-3.5 fill-current text-yellow transition-none group-data-checked/radio-group-item:animate-in group-data-checked/radio-group-item:zoom-in-50 group-data-checked/radio-group-item:spin-in-12 group-data-checked/radio-group-item:duration-200"
         />
       </RadioPrimitive.Indicator>

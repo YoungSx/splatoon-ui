@@ -34,11 +34,12 @@ Import the global stylesheet once in your app shell:
 import 'splatoon-ui/styles.css'
 ```
 
-Use server-safe primitives from the default entrypoint, and interactive components from the client entrypoint:
+Use server-safe primitives from the default entrypoint, and import interactive components by component subpath:
 
 ```tsx
 import { HeadingTape, Section } from 'splatoon-ui'
-import { Button, Dialog } from 'splatoon-ui/client'
+import { Button } from 'splatoon-ui/button'
+import { Dialog } from 'splatoon-ui/dialog'
 ```
 
 Splatoon UI styles reference static assets from `/_images`, `/fonts`, and `/svgs`. Copy the package `public/_images`, `public/fonts`, and `public/svgs` directories into your app's public root before deploying.

@@ -4,7 +4,7 @@ import * as React from "react"
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 
 import { cn } from "@/lib/utils"
-import { Splat } from "@/components/ui/splats"
+import { Splat11 } from "@/components/ui/splats/splat-11"
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
   return (
@@ -20,7 +20,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
         data-slot="checkbox-indicator"
         className="grid place-content-center text-current transition-none data-checked:animate-in data-checked:zoom-in-50 data-checked:spin-in-12 data-checked:duration-200"
       >
-        <Splat id={11} className="size-4 fill-current text-chaos-black skew-x-[10deg]" />
+        <Splat11 className="size-4 fill-current text-chaos-black skew-x-[10deg]" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

@@ -4,6 +4,7 @@ import * as React from 'react'
 import { cn, resolveCSSColor } from '@/lib/utils'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { useRenderGate } from '@/hooks/use-render-gate'
+import { observeElementResize } from '@/lib/observe-element-resize'
 
 // ─── Physics constants ──────────────────────────────────────────────────────
 
@@ -80,9 +81,7 @@ function WaveCanvas({
 
   React.useEffect(() => {
     const updateWidth = () => setCanvasWidth(document.body.clientWidth)
-    updateWidth()
-    window.addEventListener('resize', updateWidth)
-    return () => window.removeEventListener('resize', updateWidth)
+    return observeElementResize(document.body, updateWidth)
   }, [])
 
   // ── Wave simulation ──────────────────────────────────────────────────────

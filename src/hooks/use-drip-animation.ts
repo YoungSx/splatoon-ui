@@ -5,6 +5,7 @@ import {
   type DripAnimationState,
   calculateDripVisualFillDelayMs,
 } from '@/lib/drip-math'
+import { observeElementResize } from '@/lib/observe-element-resize'
 
 const STEP_SIZE = 30
 const MAX_AMPLITUDE = 80
@@ -26,6 +27,11 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
   const dripEnterStartedAtRef = React.useRef(0)
 
   React.useEffect(() => {
+    if (!enabled) return
+
+    const element = buttonRef.current
+    if (!element) return
+
     const generateControlPoints = (width: number): DripControlPoint[] => {
       const points: DripControlPoint[] = []
       const count = Math.ceil(width / STEP_SIZE)
@@ -38,12 +44,13 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
       return points
     }
 
-    // Generate control points once (stable across resizes)
-    const handleResize = () => {
-      if (!buttonRef.current) return
-      const width = buttonRef.current.clientWidth
-      const height = buttonRef.current.clientHeight + 2
-      setDimensions({ width, height })
+    const measure = () => {
+      const width = element.clientWidth
+      const height = element.clientHeight + 2
+
+      setDimensions((current) =>
+        current.width === width && current.height === height ? current : { width, height }
+      )
 
       setControlPoints((prev) => {
         if (prev.length > 0) return prev
@@ -51,27 +58,20 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
       })
     }
 
-    // Initial generation + measurement
-    if (buttonRef.current) {
-      const width = buttonRef.current.clientWidth
-      setControlPoints(generateControlPoints(width))
-    }
-
-    window.addEventListener('resize', handleResize)
-    handleResize()
+    const unobserveResize = observeElementResize(element, measure)
 
     const timer = setTimeout(() => {
       setSpeedFactorActive(true)
     }, 500)
 
     return () => {
-      window.removeEventListener('resize', handleResize)
+      unobserveResize()
       clearTimeout(timer)
       if (pendingDripLeaveTimerRef.current) {
         clearTimeout(pendingDripLeaveTimerRef.current)
       }
     }
-  }, [buttonRef])
+  }, [buttonRef, enabled])
 
   const getDripPath = React.useCallback(
     (index: number, isOut: boolean) => {

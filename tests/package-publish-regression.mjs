@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { publicUiEntries } from '../scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
 const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
@@ -22,15 +23,19 @@ const checks = [
     pass: packageJson.name === 'splatoon-ui' && packageJson.private !== true,
   },
   {
-    name: 'package exposes built ESM and declaration entrypoints',
+    name: 'package exposes built ESM, declaration, and component entrypoints',
     pass:
       packageJson.type === 'module' &&
       packageJson.main === './dist/server.js' &&
       packageJson.module === './dist/server.js' &&
       packageJson.types === './dist/server.d.ts' &&
       packageJson.exports?.['.']?.import === './dist/server.js' &&
-      packageJson.exports?.['./client']?.import === './dist/client.js' &&
-      packageJson.exports?.['./styles.css'] === './dist/styles.css',
+      packageJson.exports?.['./client'] === undefined &&
+      packageJson.exports?.['./styles.css'] === './dist/styles.css' &&
+      publicUiEntries.every((name) => {
+        const entry = packageJson.exports?.[`./${name}`]
+        return entry?.import === `./dist/${name}.js` && entry?.types === `./dist/${name}.d.ts`
+      }),
   },
   {
     name: 'publish files whitelist includes built output and public assets only',

@@ -34,11 +34,12 @@ npm install splatoon-ui
 import 'splatoon-ui/styles.css'
 ```
 
-默认入口导出 server-safe 基础组件；交互组件从 client 入口导入：
+默认入口导出 server-safe 基础组件；交互组件建议按组件子路径导入：
 
 ```tsx
 import { HeadingTape, Section } from 'splatoon-ui'
-import { Button, Dialog } from 'splatoon-ui/client'
+import { Button } from 'splatoon-ui/button'
+import { Dialog } from 'splatoon-ui/dialog'
 ```
 
 Splatoon UI 的样式会引用 `/_images`、`/fonts`、`/svgs` 下的静态资源。部署前，把包内的 `public/_images`、`public/fonts`、`public/svgs` 复制到你的应用 public 根目录。

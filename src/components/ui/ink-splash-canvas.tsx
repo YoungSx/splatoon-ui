@@ -13,6 +13,7 @@ import { resolveCSSColor } from '@/lib/utils'
 import { type GLContext, createShader, createProgram, hexToRgb } from './webgl-utils'
 import { getVertexShaderSource, getFragmentShaderSource } from './ink-splash-shaders'
 import { useBackgroundTexture } from '@/hooks/use-background-texture'
+import { observeElementResize } from '@/lib/observe-element-resize'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Types
@@ -197,14 +198,13 @@ export function InkSplashCanvas({
         gl.viewport(0, 0, w, h)
       }
     }
-    resize()
-    window.addEventListener('resize', resize)
+    const unobserveResize = observeElementResize(container, resize)
 
     // Cleanup
     return () => {
       cancelAnimationFrame(renderLoopRef.current)
       cancelAnimationFrame(tweenRef.current)
-      window.removeEventListener('resize', resize)
+      unobserveResize()
       validRef.current = false
       programRef.current = null
       uniformsRef.current = {}

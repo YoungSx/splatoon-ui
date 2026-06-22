@@ -1,4 +1,6 @@
 import { defineConfig } from 'tsup'
+import { existsSync } from 'node:fs'
+import { publicUiEntries } from './scripts/public-ui-entries.mjs'
 
 type PublicAssetResolver = {
   onResolve(
@@ -17,10 +19,30 @@ const preservePublicAssetUrls = {
   },
 }
 
+function resolveUiEntry(name: string) {
+  const directTsx = `src/components/ui/${name}.tsx`
+  if (existsSync(directTsx)) return directTsx
+
+  const directTs = `src/components/ui/${name}.ts`
+  if (existsSync(directTs)) return directTs
+
+  const indexTsx = `src/components/ui/${name}/index.tsx`
+  if (existsSync(indexTsx)) return indexTsx
+
+  const indexTs = `src/components/ui/${name}/index.ts`
+  if (existsSync(indexTs)) return indexTs
+
+  throw new Error(`Missing public UI entry: ${name}`)
+}
+
+const componentEntries = Object.fromEntries(
+  publicUiEntries.map((name) => [name, resolveUiEntry(name)])
+)
+
 export default defineConfig({
   entry: {
     server: 'src/components/ui/server.ts',
-    client: 'src/components/ui/client.ts',
+    ...componentEntries,
   },
   bundle: true,
   clean: true,

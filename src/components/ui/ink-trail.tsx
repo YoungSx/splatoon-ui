@@ -23,6 +23,7 @@ import {
 import { usePointerTracker } from '@/hooks/use-pointer-tracker'
 import { useRenderGate } from '@/hooks/use-render-gate'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
+import { observeElementResize } from '@/lib/observe-element-resize'
 import styles from './ink-trail.module.css'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -123,17 +124,7 @@ export function InkTrailCanvas({
       if (ctx) ctx.scale(dpr, dpr)
     }
 
-    resize()
-    const observer = new ResizeObserver(resize)
-    observer.observe(container)
-
-    // Safety net: re-measure once after paint in case CSS wasn't applied yet
-    const rafId = requestAnimationFrame(() => resize())
-
-    return () => {
-      observer.disconnect()
-      cancelAnimationFrame(rafId)
-    }
+    return observeElementResize(container, resize)
   }, [])
 
   // ── Spawn particle ────────────────────────────────────────────────────

@@ -20,6 +20,7 @@ import {
 } from "@/lib/physics/card-stack/store"
 import { defaultSupportMotionProfile } from "@/lib/physics/card-stack/support-driver"
 import { cardStackLayoutTuning } from "@/lib/physics/card-stack/tuning"
+import { observeElementResize } from "@/lib/observe-element-resize"
 import { layoutTokens } from "@/lib/ui-tokens"
 import { cn } from "@/lib/utils"
 import { IconButton } from "@/components/ui/icon-button"
@@ -165,11 +166,7 @@ export function CardStackCarouselItem({
       }
 
       measure()
-
-      if (typeof ResizeObserver === "undefined") return
-      const observer = new ResizeObserver(measure)
-      observer.observe(swingRef.current)
-      return () => observer.disconnect()
+      return observeElementResize(swingRef.current, measure)
     }, [cardId, physicsStore])
 
     const navigateByDirection = React.useCallback(

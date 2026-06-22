@@ -34,11 +34,12 @@ npm install splatoon-ui
 import 'splatoon-ui/styles.css'
 ```
 
-サーバーセーフな基本コンポーネントはデフォルトエントリーから、インタラクティブなコンポーネントは client エントリーから読み込みます。
+サーバーセーフな基本コンポーネントはデフォルトエントリーから、インタラクティブなコンポーネントはコンポーネントごとのサブパスから読み込みます。
 
 ```tsx
 import { HeadingTape, Section } from 'splatoon-ui'
-import { Button, Dialog } from 'splatoon-ui/client'
+import { Button } from 'splatoon-ui/button'
+import { Dialog } from 'splatoon-ui/dialog'
 ```
 
 Splatoon UI のスタイルは `/_images`、`/fonts`、`/svgs` 配下の静的アセットを参照します。デプロイ前に、パッケージ内の `public/_images`、`public/fonts`、`public/svgs` をアプリ側の public ルートへコピーしてください。

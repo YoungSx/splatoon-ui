@@ -212,6 +212,29 @@ export function CarouselBleedBoundary({
   )
 }
 
+function indexCarouselChildren(children: React.ReactNode) {
+  const childrenArray = React.Children.toArray(children)
+  const indexedChildren: React.ReactNode[] = []
+  let itemCount = 0
+
+  for (const child of childrenArray) {
+    if (!React.isValidElement(child)) {
+      indexedChildren.push(child)
+      continue
+    }
+
+    const index = itemCount
+    itemCount += 1
+    indexedChildren.push(
+      <CarouselItemIndexContext.Provider key={child.key ?? index} value={index}>
+        {child}
+      </CarouselItemIndexContext.Provider>
+    )
+  }
+
+  return { indexedChildren, itemCount }
+}
+
 export function CarouselContent({
   ref,
   className,
@@ -219,31 +242,11 @@ export function CarouselContent({
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
   const setItemCount = React.useContext(CarouselCountContext)
-  const childrenArray = React.Children.toArray(children)
-  const itemCount = childrenArray.filter(React.isValidElement).length
+  const { indexedChildren, itemCount } = indexCarouselChildren(children)
 
   React.useEffect(() => {
     setItemCount(itemCount)
   }, [itemCount, setItemCount])
-  const indexedChildren = childrenArray.reduce<{ items: React.ReactNode[]; itemIndex: number }>(
-    (acc, child) => {
-      if (!React.isValidElement(child)) {
-        return { items: [...acc.items, child], itemIndex: acc.itemIndex }
-      }
-
-      const index = acc.itemIndex
-      return {
-        items: [
-          ...acc.items,
-          <CarouselItemIndexContext.Provider key={child.key ?? index} value={index}>
-            {child}
-          </CarouselItemIndexContext.Provider>,
-        ],
-        itemIndex: index + 1,
-      }
-    },
-    { items: [], itemIndex: 0 }
-  ).items
 
   return (
     <div

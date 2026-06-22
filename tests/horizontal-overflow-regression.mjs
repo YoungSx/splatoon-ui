@@ -95,7 +95,7 @@ const checks = [
     name: 'SectionSideNav fits dense menus inside short viewport heights',
     pass:
       sectionSideNav.includes('useElementSize') &&
-      useElementSize.includes('ResizeObserver') &&
+      useElementSize.includes('observeElementResize') &&
       sectionSideNav.includes('SIDE_NAV_VIEWPORT_MARGIN') &&
       sectionSideNav.includes('SIDE_NAV_MIN_SCALE') &&
       sectionSideNavCss.includes('--section-side-nav-fit-scale') &&

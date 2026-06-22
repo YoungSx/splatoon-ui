@@ -39,6 +39,8 @@ const DEFAULT_COLORS = [
   'var(--color-orange)', // Neon Orange
 ]
 
+const DEFAULT_SPLAT_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+
 /**
  * InteractiveSplatter Component.
  * Attach this inside a positioned container. Clicking anywhere in the parent
@@ -52,7 +54,7 @@ export function InteractiveSplatter({
   maxSize = 180,
   colors = DEFAULT_COLORS,
   interactive = true,
-  splatIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  splatIds = DEFAULT_SPLAT_IDS,
   ...props
 }: InteractiveSplatterProps & { ref?: React.Ref<HTMLDivElement> }) {
   const containerRef = React.useRef<HTMLDivElement>(null)

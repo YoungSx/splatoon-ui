@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { publicUiEntries } from '../scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
 const componentRoot = path.join(root, 'src', 'components', 'ui')
@@ -84,7 +85,6 @@ const requiredServerExports = [
 ]
 
 const requiredClientExports = [
-  './index',
   './button',
   './card',
   './carousel',
@@ -118,15 +118,18 @@ const checks = [
     pass: packageJson.name === 'splatoon-ui',
   },
   {
-    name: 'package exports declare explicit server, client, and stylesheet entrypoints',
+    name: 'package exports declare explicit server, component, and stylesheet entrypoints',
     pass:
       packageJson.exports?.['.']?.import === './dist/server.js' &&
       packageJson.exports?.['.']?.types === './dist/server.d.ts' &&
       packageJson.exports?.['./server']?.import === './dist/server.js' &&
       packageJson.exports?.['./server']?.types === './dist/server.d.ts' &&
-      packageJson.exports?.['./client']?.import === './dist/client.js' &&
-      packageJson.exports?.['./client']?.types === './dist/client.d.ts' &&
-      packageJson.exports?.['./styles.css'] === './dist/styles.css',
+      packageJson.exports?.['./client'] === undefined &&
+      packageJson.exports?.['./styles.css'] === './dist/styles.css' &&
+      publicUiEntries.every((name) => {
+        const entry = packageJson.exports?.[`./${name}`]
+        return entry?.import === `./dist/${name}.js` && entry?.types === `./dist/${name}.d.ts`
+      }),
   },
   {
     name: 'default UI entrypoint forwards to the explicit server-safe entrypoint',
@@ -163,6 +166,8 @@ const checks = [
     name: 'client UI entrypoint explicitly owns interactive component exports',
     pass:
       clientEntry.startsWith("'use client'") &&
+      !clientEntry.includes("'./index'") &&
+      !clientEntry.includes("'./server'") &&
       requiredClientExports.every((modulePath) => clientEntry.includes(`'${modulePath}'`)),
   },
 ]

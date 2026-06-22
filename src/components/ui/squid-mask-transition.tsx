@@ -11,6 +11,7 @@
  */
 
 import * as React from 'react'
+import { observeElementResize } from '@/lib/observe-element-resize'
 import { squidImageAssets } from './squid-assets'
 
 // ─── Handle ─────────────────────────────────────────────────────────────────
@@ -110,9 +111,7 @@ export function SquidMaskTransition({
       }
     }
 
-    resize()
-    window.addEventListener('resize', resize)
-    return () => window.removeEventListener('resize', resize)
+    return observeElementResize(canvas.parentElement ?? canvas, resize)
   }, [])
 
   // ── Draw frame (matching original ut() function) ──────────────────────────

@@ -1,7 +1,5 @@
 'use client'
 
-export * from './index'
-
 export * from './badge'
 export * from './banner-divider'
 export * from './blob-play-button'

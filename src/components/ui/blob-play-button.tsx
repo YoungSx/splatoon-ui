@@ -5,6 +5,7 @@ import { blobVertexShader, blobFragmentShader } from '@/lib/shaders/blob-shaders
 import { cn, resolveCSSColor } from '@/lib/utils'
 import { createShader, createProgram, hexToRgb } from './webgl-utils'
 import { useRenderGate } from '@/hooks/use-render-gate'
+import { observeElementResize } from '@/lib/observe-element-resize'
 
 // ── CSS Custom Properties ──
 // --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43)
@@ -129,8 +130,7 @@ export function BlobPlayButton({
       gl.uniform2f(u_resolution, canvas.width, canvas.height)
       gl.uniform1f(u_noiseSize, 0.945)
     }
-    resize()
-    window.addEventListener('resize', resize)
+    const unobserveResize = observeElementResize(canvas.parentElement ?? canvas, resize)
 
     // ── Render loop ──────────────────────────────────────────────
     const render = () => {
@@ -148,7 +148,7 @@ export function BlobPlayButton({
     return () => {
       validRef.current = false
       cancelAnimationFrame(animationRef.current)
-      window.removeEventListener('resize', resize)
+      unobserveResize()
       gl.deleteProgram(program)
       gl.deleteShader(vertexShader)
       gl.deleteShader(fragmentShader)
