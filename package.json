@@ -432,6 +432,6 @@
     "shadcn": "^4.11.0",
     "tsup": "^8.5.1",
     "typescript": "^5",
-    "wrangler": "^4.104.0"
+    "wrangler": "^3.90.0"
   }
 }
