@@ -178,7 +178,7 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
         </HeadingTape>
       }
     >
-      <InView direction="up" rootMargin="-50px">
+      <InView direction="pop" rootMargin="-50px">
         <div className="relative z-10 mx-auto w-full max-w-5xl space-y-6">
           <p className="text-chaos-black/60 text-center text-sm font-medium">
             {variant === 'webgl' ? t.webglDesc : t.squidDesc}
@@ -593,7 +593,7 @@ export default function Home() {
           >
             <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
               {/* TapeTitle variants */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <Card variant="torn" rotation="0deg" showTape={false}>
                   <CardHeader>
                     <CardTitle>{t.titles.tapeTitleCard.title}</CardTitle>
@@ -625,7 +625,7 @@ export default function Home() {
               </InView>
 
               {/* HeadingTape */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <Card variant="torn" rotation="0deg" showTape={false}>
                   <CardHeader>
                     <CardTitle>{t.titles.headingTapeCard.title}</CardTitle>
@@ -661,7 +661,7 @@ export default function Home() {
             headingTape={<HeadingTape color="blue">{t.buttons.sectionTitle}</HeadingTape>}
           >
             <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
-              <InView direction="up" rootMargin="-50px">
+              <InView rootMargin="-50px">
                 <div className="space-y-4 text-center">
                   <p className="text-chaos-black/60 mx-auto max-w-xl text-sm font-medium">
                     {t.buttons.iconButtonDesc}
@@ -670,7 +670,7 @@ export default function Home() {
               </InView>
 
               {/* Variants + Sizes */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <div className="space-y-6">
                   <h3 className="text-center text-lg font-black tracking-wider uppercase">
                     {t.buttons.variantsTitle}
@@ -735,7 +735,7 @@ export default function Home() {
               </InView>
 
               {/* Behavior: animation, disabled, custom icon */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <div className="space-y-6">
                   <h3 className="text-center text-lg font-black tracking-wider uppercase">
                     {t.buttons.behaviorTitle}
@@ -789,7 +789,7 @@ export default function Home() {
               </InView>
 
               {/* Drip Buttons */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <Card variant="torn" rotation="0deg" showTape={false}>
                   <CardHeader>
                     <CardTitle>{t.buttons.dripCard.title}</CardTitle>
@@ -809,7 +809,7 @@ export default function Home() {
               </InView>
 
               {/* Button Groups */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <Card variant="torn" rotation="0deg" showTape={false}>
                   <CardHeader>
                     <CardTitle>{t.buttons.groupCard.title}</CardTitle>
@@ -856,7 +856,7 @@ export default function Home() {
               </InView>
 
               {/* Badges */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <Card variant="torn" rotation="0deg" showTape={false}>
                   <CardHeader>
                     <CardTitle>{t.buttons.badgesCard.title}</CardTitle>
@@ -904,7 +904,7 @@ export default function Home() {
               <Splat3 className="h-24 w-24" />
             </div>
             <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
-              <InView direction="up" rootMargin="-50px">
+              <InView rootMargin="-50px">
                 <div className="space-y-4 text-center">
                   <p className="mx-auto max-w-xl text-sm font-medium text-white/60">
                     {t.overlays.desc}
@@ -913,7 +913,7 @@ export default function Home() {
               </InView>
 
               {/* Dialog demos */}
-              <InView direction="up" rootMargin="-50px">
+              <InView direction="pop" rootMargin="-50px">
                 <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-4">
                     <h3 className="text-yellow text-lg font-black tracking-wider uppercase">
@@ -1083,12 +1083,12 @@ export default function Home() {
             <div className="relative z-10 w-full max-w-4xl space-y-16">
               {/* Sub-Section 1: Apparel Tags */}
               <div className="space-y-8">
-                <InView direction="up" rootMargin="-50px">
+                <InView rootMargin="-50px">
                   <HeadingTape>{t.apparel.sectionTitle}</HeadingTape>
                   <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.desc}</p>
                 </InView>
 
-                <InViewStagger rootMargin="-30px">
+                <InViewStagger variant="pop" rootMargin="-30px">
                   <div className="grid gap-12 pt-6 md:grid-cols-2">
                     {/* Yellow Tag */}
                     <Card variant="rugged" ruggedTheme="yellow" rotation="-2deg">
@@ -1137,7 +1137,9 @@ export default function Home() {
 
               {/* Sub-Section 2: Animation & Feedback */}
               <div className="space-y-8">
-                <HeadingTape>{t.apparel.animationSection}</HeadingTape>
+                <InView rootMargin="-50px">
+                  <HeadingTape>{t.apparel.animationSection}</HeadingTape>
+                </InView>
 
                 <div className="grid gap-8 md:grid-cols-2">
                   {/* InView Demo Card */}
@@ -1222,50 +1224,57 @@ export default function Home() {
 
               {/* Sub-Section 3: Tabs */}
               <div className="space-y-8">
-                <HeadingTape>{t.apparel.tabsSection}</HeadingTape>
-                <Card variant="torn" rotation="0deg" showTape={false}>
-                  <CardHeader>
-                    <CardTitle>{t.apparel.tabsCard.title}</CardTitle>
-                    <CardDescription>{t.apparel.tabsCard.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-2">
-                    <Tabs defaultValue="tab1" className="w-full">
-                      <TabsList className="mb-6 w-full gap-4 sm:justify-center">
-                        <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
-                        <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
-                        <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>
-                      </TabsList>
-                      <TabsContent value="tab1" className="outline-none">
-                        <div className="bg-blue/10 rounded-lg p-6 text-center">
-                          <p className="text-blue text-sm font-bold tracking-wider uppercase">
-                            {t.apparel.tabsCard.tab1Content}
-                          </p>
-                        </div>
-                      </TabsContent>
-                      <TabsContent value="tab2" className="outline-none">
-                        <div className="bg-green/10 rounded-lg p-6 text-center">
-                          <p className="text-green text-sm font-bold tracking-wider uppercase">
-                            {t.apparel.tabsCard.tab2Content}
-                          </p>
-                        </div>
-                      </TabsContent>
-                      <TabsContent value="tab3" className="outline-none">
-                        <div className="bg-orange/10 rounded-lg p-6 text-center">
-                          <p className="text-orange text-sm font-bold tracking-wider uppercase">
-                            {t.apparel.tabsCard.tab3Content}
-                          </p>
-                        </div>
-                      </TabsContent>
-                    </Tabs>
-                  </CardContent>
-                </Card>
+                <InView rootMargin="-50px">
+                  <HeadingTape>{t.apparel.tabsSection}</HeadingTape>
+                </InView>
+                <InView direction="pop" rootMargin="-50px">
+                  <Card variant="torn" rotation="0deg" showTape={false}>
+                    <CardHeader>
+                      <CardTitle>{t.apparel.tabsCard.title}</CardTitle>
+                      <CardDescription>{t.apparel.tabsCard.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-2">
+                      <Tabs defaultValue="tab1" className="w-full">
+                        <TabsList className="mb-6 w-full gap-4 sm:justify-center">
+                          <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
+                          <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
+                          <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="tab1" className="outline-none">
+                          <div className="bg-blue/10 rounded-lg p-6 text-center">
+                            <p className="text-blue text-sm font-bold tracking-wider uppercase">
+                              {t.apparel.tabsCard.tab1Content}
+                            </p>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="tab2" className="outline-none">
+                          <div className="bg-green/10 rounded-lg p-6 text-center">
+                            <p className="text-green text-sm font-bold tracking-wider uppercase">
+                              {t.apparel.tabsCard.tab2Content}
+                            </p>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="tab3" className="outline-none">
+                          <div className="bg-orange/10 rounded-lg p-6 text-center">
+                            <p className="text-orange text-sm font-bold tracking-wider uppercase">
+                              {t.apparel.tabsCard.tab3Content}
+                            </p>
+                          </div>
+                        </TabsContent>
+                      </Tabs>
+                    </CardContent>
+                  </Card>
+                </InView>
               </div>
 
               {/* Sub-Section 4: Torn Card */}
               <div className="space-y-8">
-                <HeadingTape>{t.apparel.tornSection}</HeadingTape>
-                <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.tornDesc}</p>
-                <Card variant="torn" rotation="-1.5deg">
+                <InView rootMargin="-50px">
+                  <HeadingTape>{t.apparel.tornSection}</HeadingTape>
+                  <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.tornDesc}</p>
+                </InView>
+                <InView direction="pop" rootMargin="-50px">
+                  <Card variant="torn" rotation="-1.5deg">
                   <div className="content-spacing">
                     <h2>{t.apparel.tornCardContent.heading}</h2>
                     <p>{t.apparel.tornCardContent.body}</p>
@@ -1276,24 +1285,30 @@ export default function Home() {
                     </ul>
                   </div>
                 </Card>
+                </InView>
 
-                <div className="grid gap-8 md:grid-cols-2">
-                  <TornCard variant="b">
-                    <TornCardTitle>{t.apparel.tornCardB.title}</TornCardTitle>
-                    <TornCardDescription>{t.apparel.tornCardB.desc}</TornCardDescription>
-                  </TornCard>
-                  <TornCard variant="c">
-                    <TornCardTitle>{t.apparel.tornCardC.title}</TornCardTitle>
-                    <TornCardDescription>{t.apparel.tornCardC.desc}</TornCardDescription>
-                  </TornCard>
-                </div>
+                <InViewStagger variant="pop" rootMargin="-30px">
+                  <div className="grid gap-8 md:grid-cols-2">
+                    <TornCard variant="b">
+                      <TornCardTitle>{t.apparel.tornCardB.title}</TornCardTitle>
+                      <TornCardDescription>{t.apparel.tornCardB.desc}</TornCardDescription>
+                    </TornCard>
+                    <TornCard variant="c">
+                      <TornCardTitle>{t.apparel.tornCardC.title}</TornCardTitle>
+                      <TornCardDescription>{t.apparel.tornCardC.desc}</TornCardDescription>
+                    </TornCard>
+                  </div>
+                </InViewStagger>
               </div>
 
               {/* Sub-Section 5: StapleCards */}
               <div className="space-y-8">
-                <HeadingTape>{t.apparel.stapleSection}</HeadingTape>
-                <div className="grid gap-12 pt-6 md:grid-cols-2">
-                  <StapleCard
+                <InView rootMargin="-50px">
+                  <HeadingTape>{t.apparel.stapleSection}</HeadingTape>
+                </InView>
+                <InViewStagger variant="pop" rootMargin="-30px">
+                  <div className="grid gap-12 pt-6 md:grid-cols-2">
+                    <StapleCard
                     image={
                       <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1339,7 +1354,8 @@ export default function Home() {
                       <p className="text-chaos-black/75 text-sm">{t.apparel.staple2.body}</p>
                     </div>
                   </StapleCard>
-                </div>
+                  </div>
+                </InViewStagger>
               </div>
             </div>
           </Section>
@@ -1361,38 +1377,43 @@ export default function Home() {
             headingTape={<HeadingTape>{t.cardGrid.sectionTitle}</HeadingTape>}
           >
             <div className="w-full max-w-6xl space-y-12">
-              <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.cardGrid.desc}</p>
+              <InView rootMargin="-50px">
+                <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.cardGrid.desc}</p>
+              </InView>
 
-              <div className="grid gap-6 lg:grid-cols-2">
-                <EventCallout
-                  eyebrow={t.cardGrid.event1.eyebrow}
-                  title={t.cardGrid.event1.title}
-                  description={t.cardGrid.event1.description}
-                  media={eventImageAssets.bigRunCallout}
-                  background={eventImageAssets.splatnetNextPage}
-                  icon={eventImageAssets.goldenEgg}
-                  action={
-                    <Button size="sm" variant="yellow">
-                      {t.cardGrid.event1.action}
-                    </Button>
-                  }
-                />
-                <EventCallout
-                  eyebrow={t.cardGrid.event2.eyebrow}
-                  title={t.cardGrid.event2.title}
-                  description={t.cardGrid.event2.description}
-                  media={eventImageAssets.splatnetBlade}
-                  background={eventImageAssets.splatnetNextPage}
-                  icon={eventImageAssets.goldenEgg}
-                  action={
-                    <Button size="sm" variant="blue">
-                      {t.cardGrid.event2.action}
-                    </Button>
-                  }
-                />
-              </div>
+              <InView direction="pop" rootMargin="-50px">
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <EventCallout
+                    eyebrow={t.cardGrid.event1.eyebrow}
+                    title={t.cardGrid.event1.title}
+                    description={t.cardGrid.event1.description}
+                    media={eventImageAssets.bigRunCallout}
+                    background={eventImageAssets.splatnetNextPage}
+                    icon={eventImageAssets.goldenEgg}
+                    action={
+                      <Button size="sm" variant="yellow">
+                        {t.cardGrid.event1.action}
+                      </Button>
+                    }
+                  />
+                  <EventCallout
+                    eyebrow={t.cardGrid.event2.eyebrow}
+                    title={t.cardGrid.event2.title}
+                    description={t.cardGrid.event2.description}
+                    media={eventImageAssets.splatnetBlade}
+                    background={eventImageAssets.splatnetNextPage}
+                    icon={eventImageAssets.goldenEgg}
+                    action={
+                      <Button size="sm" variant="blue">
+                        {t.cardGrid.event2.action}
+                      </Button>
+                    }
+                  />
+                </div>
+              </InView>
 
-              <BlackTapeContainer>
+              <InView direction="pop" rootMargin="-50px">
+                <BlackTapeContainer>
                 <p className="text-sm font-medium">{t.cardGrid.blackTapeDesc}</p>
 
                 <CardGrid className="mt-6">
@@ -1468,6 +1489,7 @@ export default function Home() {
                   </CardGridGroup>
                 </CardGrid>
               </BlackTapeContainer>
+              </InView>
             </div>
           </Section>
 
@@ -1561,17 +1583,18 @@ export default function Home() {
           >
             <DemoContent width="narrow">
               {/* Forms */}
-              <div className="grid gap-8 md:grid-cols-2">
-                <Card variant="paper" surface="white">
-                  <CardHeader>
-                    <CardTitle>{t.forms.inputCard.title}</CardTitle>
-                    <CardDescription>{t.forms.inputCard.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex flex-col gap-6 pt-2">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="demo-input">{t.forms.inputCard.displayName}</Label>
-                      <Input id="demo-input" placeholder={t.forms.inputCard.displayNamePlaceholder} />
-                    </div>
+              <InViewStagger variant="pop" rootMargin="-30px">
+                <div className="grid gap-8 md:grid-cols-2">
+                  <Card variant="paper" surface="white">
+                    <CardHeader>
+                      <CardTitle>{t.forms.inputCard.title}</CardTitle>
+                      <CardDescription>{t.forms.inputCard.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-6 pt-2">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="demo-input">{t.forms.inputCard.displayName}</Label>
+                        <Input id="demo-input" placeholder={t.forms.inputCard.displayNamePlaceholder} />
+                      </div>
                     <div className="space-y-2">
                       <Label>{t.forms.inputCard.layoutPref}</Label>
                       <Select defaultValue="gallery">
@@ -1707,9 +1730,11 @@ export default function Home() {
                   </CardContent>
                 </Card>
               </div>
+              </InViewStagger>
 
               {/* Progress Bars */}
-              <div className="space-y-12">
+              <InViewStagger variant="pop" rootMargin="-30px">
+                <div className="space-y-12">
                 <div className="space-y-4">
                   <div className="flex items-end justify-between px-2">
                     <h3 className="text-lg font-black text-white/80 uppercase">{t.forms.progress.catalog.label}</h3>
@@ -1753,6 +1778,7 @@ export default function Home() {
                   <Progress value={92} variant="green" trackVariant="light" />
                 </div>
               </div>
+              </InViewStagger>
             </DemoContent>
           </Section>
         </div>
