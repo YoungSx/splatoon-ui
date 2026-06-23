@@ -80,8 +80,12 @@ function WaveCanvas({
   const [canvasWidth, setCanvasWidth] = React.useState(0)
 
   React.useEffect(() => {
-    const updateWidth = () => setCanvasWidth(document.body.clientWidth)
-    return observeElementResize(document.body, updateWidth)
+    const canvas = canvasRef.current
+    const parent = canvas?.parentElement
+    if (!canvas || !parent) return
+
+    const updateWidth = () => setCanvasWidth(parent.clientWidth)
+    return observeElementResize(parent, updateWidth)
   }, [])
 
   // ── Wave simulation ──────────────────────────────────────────────────────
@@ -228,14 +232,14 @@ function WaveCanvas({
 
       if (oldPos !== null) {
         const rect = canvas.getBoundingClientRect()
-        const surfaceY = rect.top + height / 2
+        const surfaceY = rect.top + rect.height / 2
 
         // Crossing check in screen coordinates: did the cursor cross the
         // canvas's vertical centerline between the previous and current frame?
         if ((t.y - surfaceY) * (oldPos.y - surfaceY) < 0) {
           const points = pointsRef.current
           const segWidth = canvasWidth / numPoints
-          const localX = t.x - rect.left
+          const localX = rect.width > 0 ? ((t.x - rect.left) / rect.width) * canvasWidth : 0
           const ptIndex = Math.round(localX / segWidth)
           const idx = Math.max(0, Math.min(points.length - 1, ptIndex))
           const ny = oldPos.y - t.y
@@ -257,13 +261,11 @@ function WaveCanvas({
 
   // ── Render ───────────────────────────────────────────────────────────────
 
-  if (canvasWidth === 0) return null
-
   return (
     <canvas
       ref={setCanvasRef}
       data-slot="wave-canvas"
-      width={canvasWidth}
+      width={Math.max(1, canvasWidth)}
       height={height}
       className={cn('block', className)}
       style={{
@@ -272,6 +274,7 @@ function WaveCanvas({
         left: 0,
         zIndex: 10,
         pointerEvents: 'none',
+        visibility: canvasWidth > 0 ? undefined : 'hidden',
         ...style,
       }}
       {...props}
