@@ -41,6 +41,19 @@ jobs:
       - name: Build static demo
         run: pnpm build:demo
 
+      - name: Ensure Cloudflare Pages project
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if pnpm exec wrangler pages project list | awk '{print $1}' | grep -Fxq "${CLOUDFLARE_PROJECT_NAME}"; then
+            echo "Cloudflare Pages project ${CLOUDFLARE_PROJECT_NAME} already exists."
+            exit 0
+          fi
+
+          pnpm exec wrangler pages project create "${CLOUDFLARE_PROJECT_NAME}" \
+            --production-branch="${GITHUB_REF_NAME}"
+
       - name: Deploy to Cloudflare Pages
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
