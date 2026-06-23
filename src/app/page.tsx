@@ -1262,7 +1262,7 @@ export default function Home() {
                           </div>
                         </TabsContent>
                       </Tabs>
-                      <Tabs defaultValue="map" className="w-full gap-0 overflow-hidden rounded-[8px] pt-4">
+                      <Tabs defaultValue="map" className="w-full gap-0 overflow-visible rounded-[8px] pt-4">
                         <TabsList variant="trapezoid" className="relative z-10">
                           <TabsTrigger value="map">{t.apparel.tabsCard.trapezoidTabs.map}</TabsTrigger>
                           <TabsTrigger value="stages">

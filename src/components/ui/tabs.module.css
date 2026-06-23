@@ -9,8 +9,7 @@
   gap: clamp(0.25rem, 1vw, 0.65rem);
   justify-content: center;
   min-width: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: visible;
   padding: 0;
   scrollbar-width: none;
   width: 100%;
@@ -88,8 +87,46 @@
   stroke-width: 4;
 }
 
+.trapezoidPin {
+  display: none;
+}
+
+.trapezoidList .trapezoidPin {
+  aspect-ratio: 64 / 80;
+  color: white;
+  display: block;
+  left: clamp(0.25rem, 1.8cqi, 0.55rem);
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: clamp(0.0625rem, 0.8cqi, 0.35rem);
+  transform: translateY(-60%) rotate(-7deg) scale(0.94);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+  width: clamp(1.1rem, 9cqi, 2rem);
+  z-index: 2;
+}
+
+.trapezoidPinOutline {
+  fill: var(--color-blue);
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 9;
+}
+
+.trapezoidPinDot {
+  fill: currentColor;
+}
+
 .trigger[data-active] .trapezoidFill {
   filter: none;
+}
+
+.trigger[data-active] .trapezoidPin {
+  opacity: 1;
+  transform: translateY(-60%) rotate(-7deg) scale(1);
 }
 
 .trapezoidList .label {
@@ -116,6 +153,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .trapezoidList .trapezoidFill,
+  .trapezoidList .trapezoidPin,
   .trapezoidList .label {
     transition-duration: 1ms;
   }

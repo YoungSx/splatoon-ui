@@ -179,6 +179,18 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
               d="M2 101L8 23C10 9 17 1 31 1H314"
             />
           </svg>
+          <svg
+            aria-hidden="true"
+            className={styles.trapezoidPin}
+            viewBox="0 0 64 80"
+            focusable="false"
+          >
+            <path
+              className={styles.trapezoidPinOutline}
+              d="M32 73C19.5 61.5 8.5 50 7.5 34.5C6.5 17.5 17.5 5.5 32.5 5.5C47.5 5.5 58.5 17.5 56.5 34.5C54.7 50.2 44.5 62.2 32 73Z"
+            />
+            <circle className={styles.trapezoidPinDot} cx="32" cy="28" r="9" />
+          </svg>
         </>
       ) : null}
       <span className={cn("relative z-[var(--z-deco-fg)]", styles.label)}>{children}</span>
