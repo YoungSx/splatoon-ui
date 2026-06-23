@@ -114,11 +114,11 @@ const checks = [
       !dripHook.includes('clipPath'),
   },
   {
-    name: 'button measures drip geometry from the rendered border box instead of integer client dimensions',
+    name: 'button measures drip geometry from transform-independent layout dimensions',
     pass:
-      dripHook.includes('getBoundingClientRect()') &&
-      !dripHook.includes('element.clientWidth') &&
-      !dripHook.includes('element.clientHeight'),
+      !dripHook.includes('getBoundingClientRect()') &&
+      (dripHook.includes('element.offsetWidth') || dripHook.includes('element.clientWidth')) &&
+      (dripHook.includes('element.offsetHeight') || dripHook.includes('element.clientHeight')),
   },
   {
     name: 'drip paths are generated from stable control points instead of per-frame random path jitter',

@@ -33,9 +33,8 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
     if (!element) return
 
     const measure = () => {
-      const rect = element.getBoundingClientRect()
-      const width = Math.ceil(rect.width)
-      const height = Math.ceil(rect.height) + 2
+      const width = Math.ceil(element.offsetWidth)
+      const height = Math.ceil(element.offsetHeight) + 2
 
       setDimensions((current) =>
         current.width === width && current.height === height ? current : { width, height }
