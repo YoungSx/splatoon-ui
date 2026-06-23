@@ -11,10 +11,10 @@ export const cardStackPhysicsTuning = {
   // Rigid-body mass of one hanging card. Ideal gravity/support drive mostly cancel this out;
   // dissipation terms feel it through inertia.
   // Increase: more inertia, so the same dissipative torques slow it less. Decrease: easier to damp out.
-  cardMassKilograms: 7,
+  cardMassKilograms: 10,
   // Linear air-drag torque coefficient in tau = -c * omega.
   // Increase: faster decay while moving, shorter tail. Decrease: freer motion, longer oscillation.
-  airAngularDragTorqueCoefficientKgPx2PerSecond: 680000,
+  airAngularDragTorqueCoefficientKgPx2PerSecond: 6000000,
   // Load-dependent dry friction coefficient at the pivot. Multiplied by the pivot radial load proxy.
   // Increase: more load-driven dry friction, steadier but more likely to stop at a slight tilt. Decrease: less static sticking.
   pivotLoadFrictionTorquePerUnitNormalPx: 0.00016,
