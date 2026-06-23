@@ -1,16 +1,19 @@
 .trapezoidList {
   --trapezoid-tabs-bg-image: url("/_images/backgrounds/tapes-purple.jpg");
+  --trapezoid-tabs-gap: clamp(0.25rem, 1vw, 0.65rem);
   --trapezoid-tabs-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 104'%3E%3Cpath fill='white' d='M31 1H329C343 1 350 9 352 23L360 104H0L8 23C10 9 17 1 31 1Z'/%3E%3C/svg%3E");
   --trapezoid-tabs-highlight: rgb(255 255 255 / 0.56);
 
   align-items: flex-end;
   container-type: inline-size;
   display: flex;
-  gap: clamp(0.25rem, 1vw, 0.65rem);
-  justify-content: center;
+  flex-wrap: nowrap;
+  gap: var(--trapezoid-tabs-gap);
+  justify-content: flex-start;
   min-width: 0;
-  overflow: visible;
-  padding: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: clamp(1rem, 9cqi, 2rem) 0 0;
   scrollbar-width: none;
   width: 100%;
 }
@@ -29,13 +32,14 @@
 
 .trapezoidList .trigger {
   color: white;
+  container-type: inline-size;
   display: inline-grid;
   aspect-ratio: 360 / 104;
   flex: 1 1 0;
   height: auto;
   isolation: isolate;
   max-width: 18rem;
-  min-width: 0;
+  min-width: clamp(6.75rem, 42cqi, 13.25rem);
   place-items: center;
   text-shadow:
     0 2px 0 rgb(0 0 0 / 0.72),
@@ -95,16 +99,16 @@
   aspect-ratio: 64 / 80;
   color: white;
   display: block;
-  left: clamp(0.25rem, 1.8cqi, 0.55rem);
+  left: clamp(0.125rem, 4cqi, 0.55rem);
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  top: clamp(0.0625rem, 0.8cqi, 0.35rem);
+  top: clamp(0rem, 1cqi, 0.35rem);
   transform: translateY(-60%) rotate(-7deg) scale(0.94);
   transition:
     opacity 160ms ease,
     transform 160ms ease;
-  width: clamp(1.1rem, 9cqi, 2rem);
+  width: clamp(0.85rem, 18cqi, 2rem);
   z-index: 2;
 }
 
@@ -133,20 +137,23 @@
   color: white;
   display: block;
   font-family: var(--font-heading, inherit);
-  font-size: clamp(0.75rem, 6cqi, 1.65rem);
+  font-size: clamp(0.625rem, 15cqi, 1.65rem);
   font-weight: 700;
   left: 0;
   letter-spacing: 0;
   line-height: 1;
-  padding: 0 clamp(1rem, 3vw, 2rem);
+  overflow: hidden;
+  padding: 0 clamp(0.35rem, 7cqi, 1.5rem);
   position: absolute;
   text-align: center;
+  text-overflow: ellipsis;
   text-transform: uppercase;
   top: 50%;
   transition:
     color 160ms ease,
     text-shadow 160ms ease;
   transform: translateY(-50%);
+  white-space: nowrap;
   width: 100%;
   z-index: 1;
 }
