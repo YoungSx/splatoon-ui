@@ -189,9 +189,8 @@ export function InkSplashCanvas({
     validRef.current = true
 
     const resize = () => {
-      const rect = container.getBoundingClientRect()
-      const w = Math.round(rect.width)
-      const h = Math.round(rect.height)
+      const w = container.clientWidth
+      const h = container.clientHeight
       if (w > 0 && h > 0 && (canvas.width !== w || canvas.height !== h)) {
         canvas.width = w
         canvas.height = h

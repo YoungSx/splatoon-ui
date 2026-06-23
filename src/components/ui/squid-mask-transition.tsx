@@ -81,6 +81,12 @@ export function SquidMaskTransition({
     img.src = squidImageAssets.mask.src
     img.onload = () => {
       squidImgRef.current = img
+      const parent = canvasRef.current?.parentElement
+      const width = parent?.clientWidth ?? 0
+      const height = parent?.clientHeight ?? 0
+      if (width > 0 && height > 0) {
+        maxScaleRef.current = Math.max(width, height) / Math.max(img.width, img.height)
+      }
     }
     return () => {
       squidImgRef.current = null
@@ -96,18 +102,19 @@ export function SquidMaskTransition({
     const resize = () => {
       const parent = canvas.parentElement
       if (!parent) return
-      const rect = parent.getBoundingClientRect()
+      const width = parent.clientWidth
+      const height = parent.clientHeight
+      if (width <= 0 || height <= 0) return
+
       const dpr = window.devicePixelRatio || 1
-      canvas.width = rect.width * dpr
-      canvas.height = rect.height * dpr
-      canvas.style.width = `${rect.width}px`
-      canvas.style.height = `${rect.height}px`
+      canvas.width = Math.round(width * dpr)
+      canvas.height = Math.round(height * dpr)
       const ctx = canvas.getContext('2d')
       if (ctx) ctx.scale(dpr, dpr)
 
       const img = squidImgRef.current
       if (img) {
-        maxScaleRef.current = Math.max(rect.width, rect.height) / Math.max(img.width, img.height)
+        maxScaleRef.current = Math.max(width, height) / Math.max(img.width, img.height)
       }
     }
 
@@ -245,7 +252,7 @@ export function SquidMaskTransition({
 
       <canvas
         ref={canvasRef}
-        className="pointer-events-none absolute inset-0 z-50"
+        className="pointer-events-none absolute inset-0 z-50 h-full w-full"
         style={{ display: canvasVisible ? 'block' : 'none' }}
       />
     </div>
