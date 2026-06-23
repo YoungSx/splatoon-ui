@@ -49,7 +49,7 @@ const tabsListVariants = cva(
   {
     variants: {
       variant: {
-        default: "flex-row pb-8 overflow-x-auto overflow-y-hidden snap-x snap-mandatory sm:snap-none sm:justify-center sm:overflow-visible scrollbar-hide",
+        default: "flex-row justify-start pb-8 overflow-x-auto overflow-y-hidden snap-x snap-mandatory sm:snap-none sm:justify-center sm:overflow-visible scrollbar-hide",
         line: "gap-1 bg-transparent border-b-2 border-current/10 w-full justify-start rounded-none",
         trapezoid: styles.trapezoidList,
       },
@@ -135,6 +135,8 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
         "relative cursor-pointer select-none outline-none snap-start shrink-0",
         "font-alt text-lg sm:text-[2.3125rem] font-bold uppercase leading-none",
         "transition-colors",
+        // Default variant touch target and scroll sizing.
+        "group-data-[variant=default]/tabs-list:min-h-11 group-data-[variant=default]/tabs-list:min-w-16 group-data-[variant=default]/tabs-list:px-3 group-data-[variant=default]/tabs-list:py-2",
         // Active color — resolved by parent TabsList data-color
         "group-data-[color=yellow]/tabs-list:data-active:text-yellow",
         "group-data-[color=blue]/tabs-list:data-active:text-blue",

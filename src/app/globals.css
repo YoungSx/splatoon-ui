@@ -140,20 +140,23 @@
   content: ' ';
   position: absolute;
   display: block;
-  height: 78px;
-  width: 74px;
-  left: -30px;
-  top: -10px;
+  height: var(--tab-splat-height, clamp(2.75rem, 2.75em, 4.875rem));
+  width: var(--tab-splat-width, clamp(2.6rem, 2.6em, 4.625rem));
+  left: var(--tab-splat-left, clamp(-1.875rem, -1em, -0.75rem));
+  top: var(--tab-splat-top, clamp(-0.625rem, -0.35em, -0.25rem));
   z-index: 1;
   background-image: var(--active-splat-url);
-  background-size: 74px 78px;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
 }
-.tab-splat:hover::after {
-  opacity: 1;
+
+@media (hover: hover) and (pointer: fine) {
+  .tab-splat:hover::after {
+    opacity: 1;
+  }
 }
 
 /* Hide scrollbar for peek-scroll containers */
