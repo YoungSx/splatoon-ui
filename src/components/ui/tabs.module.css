@@ -1,0 +1,122 @@
+.trapezoidList {
+  --trapezoid-tabs-bg-image: url("/_images/backgrounds/tapes-purple.jpg");
+  --trapezoid-tabs-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 104'%3E%3Cpath fill='white' d='M31 1H329C343 1 350 9 352 23L360 104H0L8 23C10 9 17 1 31 1Z'/%3E%3C/svg%3E");
+  --trapezoid-tabs-highlight: rgb(255 255 255 / 0.56);
+
+  align-items: flex-end;
+  container-type: inline-size;
+  display: flex;
+  gap: clamp(0.25rem, 1vw, 0.65rem);
+  justify-content: center;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0;
+  scrollbar-width: none;
+  width: 100%;
+}
+
+.trapezoidList::-webkit-scrollbar {
+  display: none;
+}
+
+.trigger {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.trapezoidSurface {
+  display: none;
+}
+
+.trapezoidList .trigger {
+  color: white;
+  display: inline-grid;
+  aspect-ratio: 360 / 104;
+  flex: 1 1 0;
+  height: auto;
+  isolation: isolate;
+  max-width: 18rem;
+  min-width: 0;
+  place-items: center;
+  text-shadow:
+    0 2px 0 rgb(0 0 0 / 0.72),
+    0 5px 10px rgb(0 0 0 / 0.45);
+}
+
+.trapezoidList .trigger::after {
+  content: none;
+}
+
+.trapezoidList .trapezoidSurface {
+  display: block;
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.trapezoidFill {
+  display: none;
+}
+
+.trapezoidList .trapezoidFill {
+  -webkit-mask: var(--trapezoid-tabs-mask) 0 0 / 100% 100% no-repeat;
+  background-image: var(--trapezoid-tabs-bg-image);
+  background-position: var(--trapezoid-tabs-bg-x, 50%) center;
+  background-repeat: repeat;
+  background-size: var(--trapezoid-tabs-bg-size-x, 150%) auto;
+  display: block;
+  filter: grayscale(1) invert(1) brightness(0.28) contrast(1);
+  inset: 0;
+  mask: var(--trapezoid-tabs-mask) 0 0 / 100% 100% no-repeat;
+  pointer-events: none;
+  position: absolute;
+  transition: filter 160ms ease;
+  z-index: 0;
+}
+
+.trapezoidShape {
+  fill: transparent;
+  stroke: none;
+}
+
+.trapezoidHighlight {
+  fill: none;
+  stroke: var(--trapezoid-tabs-highlight);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.trigger[data-active] .trapezoidFill {
+  filter: none;
+}
+
+.trapezoidList .label {
+  color: white;
+  display: block;
+  font-family: var(--font-heading, inherit);
+  font-size: clamp(0.75rem, 6cqi, 1.65rem);
+  font-weight: 700;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 1;
+  padding: 0 clamp(1rem, 3vw, 2rem);
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  top: 50%;
+  transition:
+    color 160ms ease,
+    text-shadow 160ms ease;
+  transform: translateY(-50%);
+  width: 100%;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trapezoidList .trapezoidFill,
+  .trapezoidList .label {
+    transition-duration: 1ms;
+  }
+}

@@ -1233,7 +1233,7 @@ export default function Home() {
                       <CardTitle>{t.apparel.tabsCard.title}</CardTitle>
                       <CardDescription>{t.apparel.tabsCard.description}</CardDescription>
                     </CardHeader>
-                    <CardContent className="pt-2">
+                    <CardContent className="grid gap-8 pt-2">
                       <Tabs defaultValue="tab1" className="w-full">
                         <TabsList className="mb-6 w-full gap-4 sm:justify-center">
                           <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
@@ -1260,6 +1260,41 @@ export default function Home() {
                               {t.apparel.tabsCard.tab3Content}
                             </p>
                           </div>
+                        </TabsContent>
+                      </Tabs>
+                      <Tabs defaultValue="map" className="w-full gap-0 overflow-hidden rounded-[8px] pt-4">
+                        <TabsList variant="trapezoid" className="relative z-10">
+                          <TabsTrigger value="map">{t.apparel.tabsCard.trapezoidTabs.map}</TabsTrigger>
+                          <TabsTrigger value="stages">
+                            {t.apparel.tabsCard.trapezoidTabs.stages}
+                          </TabsTrigger>
+                          <TabsTrigger value="status">
+                            {t.apparel.tabsCard.trapezoidTabs.status}
+                          </TabsTrigger>
+                          <TabsTrigger value="options">
+                            {t.apparel.tabsCard.trapezoidTabs.options}
+                          </TabsTrigger>
+                        </TabsList>
+                        <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
+                        <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                            {t.apparel.tabsCard.trapezoidTabs.mapContent}
+                          </p>
+                        </TabsContent>
+                        <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                            {t.apparel.tabsCard.trapezoidTabs.stagesContent}
+                          </p>
+                        </TabsContent>
+                        <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                            {t.apparel.tabsCard.trapezoidTabs.statusContent}
+                          </p>
+                        </TabsContent>
+                        <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                            {t.apparel.tabsCard.trapezoidTabs.optionsContent}
+                          </p>
                         </TabsContent>
                       </Tabs>
                     </CardContent>
