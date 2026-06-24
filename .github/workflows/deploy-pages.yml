@@ -46,13 +46,32 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          if pnpm exec wrangler pages project list | awk '{print $1}' | grep -Fxq "${CLOUDFLARE_PROJECT_NAME}"; then
+          set -euo pipefail
+
+          if pnpm exec wrangler pages project list | grep -Fq "${CLOUDFLARE_PROJECT_NAME}"; then
             echo "Cloudflare Pages project ${CLOUDFLARE_PROJECT_NAME} already exists."
             exit 0
           fi
 
-          pnpm exec wrangler pages project create "${CLOUDFLARE_PROJECT_NAME}" \
-            --production-branch="${GITHUB_REF_NAME}"
+          set +e
+          CREATE_OUTPUT="$(
+            pnpm exec wrangler pages project create "${CLOUDFLARE_PROJECT_NAME}" \
+              --production-branch="${GITHUB_REF_NAME}" 2>&1
+          )"
+          CREATE_STATUS=$?
+          set -e
+
+          printf '%s\n' "${CREATE_OUTPUT}"
+          if [ "${CREATE_STATUS}" -eq 0 ]; then
+            exit 0
+          fi
+
+          if printf '%s' "${CREATE_OUTPUT}" | grep -Fqi "project with this name already exists"; then
+            echo "Cloudflare Pages project ${CLOUDFLARE_PROJECT_NAME} already exists."
+            exit 0
+          fi
+
+          exit "${CREATE_STATUS}"
 
       - name: Deploy to Cloudflare Pages
         env:
