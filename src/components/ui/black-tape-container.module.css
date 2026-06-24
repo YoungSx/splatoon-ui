@@ -1,22 +1,24 @@
 .blackTapeContainer {
-  --tape-offset: 16px;
-  --tape-safe-bleed: min(var(--tape-offset), max(0px, calc((100cqw - 100%) / 2)));
-  --tape-width: 30px;
-  margin-left: calc(var(--tape-safe-bleed) * -1);
-  margin-right: calc(var(--tape-safe-bleed) * -1);
+  --tape-available-bleed: max(0px, calc((100cqw - 100%) / 2));
+  --tape-left-width: 30px;
+  --tape-right-width: 34px;
+  --tape-left-safe-bleed: min(var(--tape-left-width), var(--tape-available-bleed));
+  --tape-right-safe-bleed: min(var(--tape-right-width), var(--tape-available-bleed));
+  margin-left: calc(var(--tape-left-safe-bleed) * -1);
+  margin-right: calc(var(--tape-right-safe-bleed) * -1);
   overflow-x: clip;
-  padding: 0 var(--tape-offset);
+  padding: 0 var(--tape-right-width) 0 var(--tape-left-width);
   position: relative;
 }
 
 .blackTapeContainer::before,
 .blackTapeContainer::after {
   background-repeat: repeat-y;
+  background-size: 100% auto;
   content: '';
   height: 100%;
   position: absolute;
   top: 0;
-  width: var(--tape-width);
   z-index: 1;
 }
 
@@ -24,12 +26,14 @@
   background-image: url('/_images/svg/left-black-tape-container.svg');
   background-position: calc(100% - 1px) top;
   left: 0;
+  width: var(--tape-left-width);
 }
 
 .blackTapeContainer::after {
   background-image: url('/_images/svg/right-black-tape-container.svg');
   background-position: 1px top;
   right: 0;
+  width: var(--tape-right-width);
 }
 
 .blackTapeContainerInner {
@@ -56,8 +60,8 @@
 
 @media screen and (min-width: 640px) {
   .blackTapeContainer {
-    --tape-offset: 38px;
-    --tape-width: 40px;
+    --tape-left-width: 40px;
+    --tape-right-width: 46px;
   }
 
   .blackTapeContainerInner {
@@ -71,7 +75,7 @@
 
 @media screen and (min-width: 1024px) {
   .blackTapeContainer {
-    --tape-offset: 58px;
-    --tape-width: 60px;
+    --tape-left-width: 65px;
+    --tape-right-width: 74px;
   }
 }

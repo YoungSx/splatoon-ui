@@ -151,6 +151,9 @@ const checks = [
       staticSvgStyles.includes('/_images/svg/right-black-tape-container.svg') &&
       staticSvgStyles.includes('/_images/svg/left-yellow-tape-container.svg') &&
       staticSvgStyles.includes('/_images/svg/right-yellow-tape-container.svg') &&
+      staticSvgStyles.includes('--tape-left-width: 65px;') &&
+      staticSvgStyles.includes('--tape-right-width: 74px;') &&
+      staticSvgStyles.includes('background-size: 100% auto;') &&
       !staticSvgStyles.includes('/images/svg/'),
   },
   {
