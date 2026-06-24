@@ -1,5 +1,7 @@
 import * as React from 'react'
 
+import { getLocalPoint } from '@/lib/dom-geometry'
+
 interface PointerState {
   x: number
   y: number
@@ -15,9 +17,9 @@ export function usePointerTracker(containerRef: React.RefObject<HTMLDivElement |
     if (!container) return
 
     const handlePointerMove = (e: PointerEvent) => {
-      const rect = container.getBoundingClientRect()
-      pointerRef.current.x = e.clientX - rect.left
-      pointerRef.current.y = e.clientY - rect.top
+      const position = getLocalPoint(container, e)
+      pointerRef.current.x = position.x
+      pointerRef.current.y = position.y
       pointerRef.current.active = true
     }
 
@@ -26,9 +28,9 @@ export function usePointerTracker(containerRef: React.RefObject<HTMLDivElement |
     }
 
     const handlePointerDown = (e: PointerEvent) => {
-      const rect = container.getBoundingClientRect()
-      pointerRef.current.x = e.clientX - rect.left
-      pointerRef.current.y = e.clientY - rect.top
+      const position = getLocalPoint(container, e)
+      pointerRef.current.x = position.x
+      pointerRef.current.y = position.y
       pointerRef.current.active = true
       lastSpawnRef.current = 0 // Force spawn on next frame
     }

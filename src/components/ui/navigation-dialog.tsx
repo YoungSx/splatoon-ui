@@ -152,7 +152,7 @@ export function NavigationDialog({
             initialFocus={false}
             finalFocus={true}
             className={cn(
-              'fixed inset-0 z-[var(--z-nav-overlay)] h-screen w-screen overflow-hidden outline-none select-none',
+              'fixed inset-0 z-[var(--z-nav-overlay)] overflow-hidden outline-none select-none',
               coverPhase === 'closing' ? 'pointer-events-none' : 'pointer-events-auto'
             )}
           >

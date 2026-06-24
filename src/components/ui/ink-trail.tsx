@@ -24,6 +24,7 @@ import { usePointerTracker } from '@/hooks/use-pointer-tracker'
 import { useRenderGate } from '@/hooks/use-render-gate'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { observeElementResize } from '@/lib/observe-element-resize'
+import { getLocalPoint } from '@/lib/dom-geometry'
 import styles from './ink-trail.module.css'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -113,13 +114,14 @@ export function InkTrailCanvas({
 
     const resize = () => {
       const dpr = window.devicePixelRatio || 1
-      const rect = container.getBoundingClientRect()
+      const w = container.clientWidth
+      const h = container.clientHeight
       // Skip if container hasn't fully laid out yet (CSS may not have applied)
-      if (rect.width < 10 || rect.height < 10) return
-      canvas.width = rect.width * dpr
-      canvas.height = rect.height * dpr
-      canvas.style.width = `${rect.width}px`
-      canvas.style.height = `${rect.height}px`
+      if (w < 10 || h < 10) return
+      canvas.width = w * dpr
+      canvas.height = h * dpr
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
       const ctx = canvas.getContext('2d')
       if (ctx) ctx.scale(dpr, dpr)
     }
@@ -167,9 +169,8 @@ export function InkTrailCanvas({
       if (!enabled) return
       const container = containerRef.current
       if (!container) return
-      const rect = container.getBoundingClientRect()
-      const cx = x ?? rect.width / 2
-      const cy = y ?? rect.height / 2
+      const cx = x ?? container.clientWidth / 2
+      const cy = y ?? container.clientHeight / 2
       const count = 5 + Math.floor(Math.random() * 4)
       for (let i = 0; i < count; i++) {
         spawnParticle(cx, cy, true)
@@ -185,9 +186,7 @@ export function InkTrailCanvas({
 
     const handleClick = (e: MouseEvent) => {
       if (!enabled) return
-      const rect = container.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+      const { x, y } = getLocalPoint(container, e)
       // Spawn burst of 5-8 particles
       const count = 5 + Math.floor(Math.random() * 4)
       for (let i = 0; i < count; i++) {

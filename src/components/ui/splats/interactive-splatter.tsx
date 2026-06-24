@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { getLocalPoint } from '@/lib/dom-geometry'
 import { Splat } from './splat'
 
 interface SplatInstance {
@@ -83,9 +84,7 @@ export function InteractiveSplatter({
         return
       }
 
-      const rect = parent.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+      const { x, y } = getLocalPoint(parent, e)
 
       // Generate random parameters
       const id = Math.random().toString(36).substring(2, 9)
