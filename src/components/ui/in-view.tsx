@@ -102,7 +102,7 @@ export function InView({
   }, [direction, drop, delay])
 
   return (
-    <div ref={ref} className={cn(isInView && styles.inView, className)} {...props}>
+    <div ref={ref} className={cn(styles.root, isInView && styles.inView, className)} {...props}>
       <div className={cn(animClasses)}>{children}</div>
     </div>
   )
@@ -135,7 +135,7 @@ export function InViewStagger({
   const isInView = active !== undefined ? active : isInViewFromObserver
 
   return (
-    <div ref={ref} className={cn(isInView && styles.inView, className)} {...props}>
+    <div ref={ref} className={cn(styles.root, isInView && styles.inView, className)} {...props}>
       <div
         className={cn(
           styles.stagger,

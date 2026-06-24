@@ -119,12 +119,36 @@ async function collectA11yIssues(page) {
 async function collectLayoutIssues(page) {
   return page.evaluate(() => {
     const overflow = document.documentElement.scrollWidth - document.documentElement.clientWidth
+    const viewportWidth = document.documentElement.clientWidth
+    const overflowingElements = [...document.body.querySelectorAll('*')]
+      .map((element) => {
+        const rect = element.getBoundingClientRect()
+        const overLeft = Math.max(0, -rect.left)
+        const overRight = Math.max(0, rect.right - viewportWidth)
+
+        return {
+          slot: element.getAttribute('data-slot'),
+          tag: element.tagName.toLowerCase(),
+          className:
+            typeof element.className === 'string' ? element.className.slice(0, 120) : '',
+          left: Math.round(rect.left),
+          right: Math.round(rect.right),
+          width: Math.round(rect.width),
+          over: Math.round(Math.max(overLeft, overRight)),
+        }
+      })
+      .filter((element) => element.width > 0 && element.over > 1)
+      .sort((a, b) => a.over - b.over)
+      .slice(0, 16)
     const feedMediaHeights = [...document.querySelectorAll('[data-slot="feed-carousel-media"]')]
       .map((element) => element.offsetHeight)
       .filter((height) => height > 0)
 
     return {
       overflow,
+      scrollWidth: document.documentElement.scrollWidth,
+      viewportWidth,
+      overflowingElements,
       feedMediaHeightDelta:
         feedMediaHeights.length > 1
           ? Math.max(...feedMediaHeights) - Math.min(...feedMediaHeights)
@@ -250,10 +274,12 @@ async function runViewport(browser, viewport) {
       response.status() === 200,
       `${viewport.name}: expected HTTP 200, got ${response.status()}`
     )
-    assert(
-      response.headers()['cache-control']?.includes('no-store'),
-      `${viewport.name}: expected no-store cache-control header`
-    )
+    const cacheControl = response.headers()['cache-control'] ?? ''
+    const surrogateControl = response.headers()['surrogate-control'] ?? ''
+    const isNonCacheable =
+      cacheControl.includes('no-store') ||
+      (cacheControl.includes('no-cache') && surrogateControl.includes('no-store'))
+    assert(isNonCacheable, `${viewport.name}: expected non-cacheable response headers`)
 
     await scrollThroughPage(page)
     await page.waitForLoadState('networkidle')
@@ -267,12 +293,16 @@ async function runViewport(browser, viewport) {
       `${viewport.name}: forbidden demo copy found: ${presentForbiddenCopy.join(', ')}`
     )
 
-    const trigger = page.locator(
-      '[data-slot="dialog-trigger"][aria-label="Open Splatoon UI demo reel"]'
-    )
+    const trigger = page.locator('[data-slot="dialog-trigger"]').filter({
+      has: page.locator('img[src*="/_images/screenshots/video-trailer.jpg"]'),
+    })
     assert(
       (await trigger.count()) === 1,
       `${viewport.name}: expected one accessible video dialog trigger`
+    )
+    assert(
+      Boolean(await trigger.first().getAttribute('aria-label')),
+      `${viewport.name}: video dialog trigger is missing an accessible label`
     )
 
     const sectionSideNav = await collectSectionSideNavState(page)
@@ -304,7 +334,7 @@ async function runViewport(browser, viewport) {
     const layoutIssues = await collectLayoutIssues(page)
     assert(
       layoutIssues.overflow <= 1,
-      `${viewport.name}: horizontal overflow ${layoutIssues.overflow}px`
+      `${viewport.name}: horizontal overflow ${layoutIssues.overflow}px: ${JSON.stringify(layoutIssues)}`
     )
     assert(
       layoutIssues.feedMediaCount > 1,

@@ -1,6 +1,12 @@
 /* in-view.module.css
    Splatoon UI scroll-triggered CSS transitions. */
 
+/* ── Root clip boundary — animation overshoot must not affect document width ── */
+.root {
+  overflow-x: clip;
+  overflow-clip-margin: var(--in-view-clip-margin, 64px);
+}
+
 /* ── Base animation class ── */
 .anim {
   opacity: var(--start-alpha, 0);
