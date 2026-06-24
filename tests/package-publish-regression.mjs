@@ -17,6 +17,7 @@ const requiredFiles = [
   'NOTICE',
 ]
 const forbiddenFiles = ['.next', 'scratch', 'tests', 'src']
+const forbiddenPublicEntrypoints = ['./demo-layout', './github-mark', './showcase-assets']
 
 const checks = [
   {
@@ -36,7 +37,8 @@ const checks = [
       publicUiEntries.every((name) => {
         const entry = packageJson.exports?.[`./${name}`]
         return entry?.import === `./dist/${name}.js` && entry?.types === `./dist/${name}.d.ts`
-      }),
+      }) &&
+      forbiddenPublicEntrypoints.every((entrypoint) => packageJson.exports?.[entrypoint] === undefined),
   },
   {
     name: 'publish files whitelist includes built output and public assets only',

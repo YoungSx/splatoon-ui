@@ -75,7 +75,8 @@ const checks = [
       page.includes('showcaseMediaAssets.fullscreenPreview.src') &&
       page.includes('showcaseMediaAssets.ruggedLookbook.src') &&
       page.includes('showcaseMediaAssets.ruggedMode.src') &&
-      page.includes('showcaseMediaAssets.ruggedScene.src') &&
+      page.includes('showcaseMediaAssets.turfWarLeft') &&
+      page.includes('showcaseMediaAssets.splatfestSecondary') &&
       !page.includes('function createDemoArt') &&
       !page.includes('data:image/svg+xml'),
   },
@@ -89,8 +90,8 @@ const checks = [
       analyzer.includes("'/_images/gameplay/'"),
   },
   {
-    name: 'server-safe UI entrypoint exports showcase asset metadata',
-    pass: serverEntry.includes("export * from './showcase-assets'"),
+    name: 'showcase asset metadata remains demo-internal instead of published package API',
+    pass: !serverEntry.includes("export * from './showcase-assets'"),
   },
 ]
 

@@ -109,10 +109,6 @@
       "types": "./dist/checkbox.d.ts",
       "import": "./dist/checkbox.js"
     },
-    "./demo-layout": {
-      "types": "./dist/demo-layout.d.ts",
-      "import": "./dist/demo-layout.js"
-    },
     "./dialog": {
       "types": "./dist/dialog.d.ts",
       "import": "./dist/dialog.js"
@@ -136,10 +132,6 @@
     "./gallery-controls": {
       "types": "./dist/gallery-controls.d.ts",
       "import": "./dist/gallery-controls.js"
-    },
-    "./github-mark": {
-      "types": "./dist/github-mark.d.ts",
-      "import": "./dist/github-mark.js"
     },
     "./heading-tape": {
       "types": "./dist/heading-tape.d.ts",
@@ -272,10 +264,6 @@
     "./sheet": {
       "types": "./dist/sheet.d.ts",
       "import": "./dist/sheet.js"
-    },
-    "./showcase-assets": {
-      "types": "./dist/showcase-assets.d.ts",
-      "import": "./dist/showcase-assets.js"
     },
     "./splatoon-title": {
       "types": "./dist/splatoon-title.d.ts",

@@ -76,13 +76,14 @@ const requiredServerExports = [
   './news-assets',
   './paper-tear-edge',
   './section-background',
-  './showcase-assets',
   './squid-assets',
   './tape-assets',
   './tape-picture',
   './tape',
   './weapons-assets',
 ]
+
+const demoOnlyModules = ['./demo-layout', './github-mark', './showcase-assets']
 
 const requiredClientExports = [
   './button',
@@ -161,6 +162,14 @@ const checks = [
   {
     name: 'server-safe UI entrypoint exposes shared presentational assets and primitives',
     pass: requiredServerExports.every((modulePath) => serverEntry.includes(`'${modulePath}'`)),
+  },
+  {
+    name: 'demo-only helpers stay out of published UI entrypoints',
+    pass:
+      demoOnlyModules.every((modulePath) => !serverEntry.includes(`'${modulePath}'`)) &&
+      demoOnlyModules.every((modulePath) => !clientEntry.includes(`'${modulePath}'`)) &&
+      demoOnlyModules.every((modulePath) => !publicUiEntries.includes(modulePath.slice(2))) &&
+      demoOnlyModules.every((modulePath) => packageJson.exports?.[modulePath] === undefined),
   },
   {
     name: 'client UI entrypoint explicitly owns interactive component exports',
