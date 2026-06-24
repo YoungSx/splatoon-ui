@@ -71,12 +71,18 @@ export function InkTrailCanvas({
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const poolRef = React.useRef<InkParticle[]>([])
   const animFrameRef = React.useRef<number>(0)
+  const scheduleLoopRef = React.useRef<() => void>(() => {})
   const [prefersReducedMotion] = useReducedMotion()
   const lastFrameTimeRef = React.useRef<number>(0)
   // Expose a ref to trigger click bursts from outside
   const burstRef = React.useRef<(x?: number, y?: number) => void>(() => {})
   // Pause the trail loop while it is off-screen or the tab is hidden.
-  const activeRef = useRenderGate(containerRef, { rootMargin: '120px' })
+  const activeRef = useRenderGate(containerRef, {
+    rootMargin: '120px',
+    onActiveChange: (active) => {
+      if (active) scheduleLoopRef.current()
+    },
+  })
 
   // Adjust intensity based on motion preference (never fully disable)
   const intensityScale = prefersReducedMotion ? 0.4 : 1.0
@@ -208,15 +214,22 @@ export function InkTrailCanvas({
     if (!ctx) return
 
     let running = true
+    let frameScheduled = false
+
+    const scheduleLoop = () => {
+      if (!running || frameScheduled) return
+      frameScheduled = true
+      animFrameRef.current = requestAnimationFrame(loop)
+    }
 
     const loop = (timestamp: number) => {
+      frameScheduled = false
       if (!running) return
 
       if (!activeRef.current) {
         // Reset the frame timer so the next visible frame uses a fresh dt
         // instead of a large catch-up step that would teleport particles.
         lastFrameTimeRef.current = 0
-        animFrameRef.current = requestAnimationFrame(loop)
         return
       }
 
@@ -298,13 +311,15 @@ export function InkTrailCanvas({
       // Reset global alpha
       ctx.globalAlpha = 1
 
-      animFrameRef.current = requestAnimationFrame(loop)
+      scheduleLoop()
     }
 
-    animFrameRef.current = requestAnimationFrame(loop)
+    scheduleLoopRef.current = scheduleLoop
+    scheduleLoop()
 
     return () => {
       running = false
+      scheduleLoopRef.current = () => {}
       cancelAnimationFrame(animFrameRef.current)
     }
   }, [enabled, adjustedInterval, pointerRef, lastSpawnRef, spawnParticle, activeRef])

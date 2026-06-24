@@ -32,8 +32,14 @@ export function BlobPlayButton({
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const animationRef = React.useRef<number>(0)
   const validRef = React.useRef<boolean>(true)
+  const scheduleRenderRef = React.useRef<() => void>(() => {})
   // Skip GPU work while the button is scrolled off-screen or the tab is hidden.
-  const activeRef = useRenderGate(canvasRef, { rootMargin: '200px' })
+  const activeRef = useRenderGate(canvasRef, {
+    rootMargin: '200px',
+    onActiveChange: (active) => {
+      if (active) scheduleRenderRef.current()
+    },
+  })
 
   React.useEffect(() => {
     const canvas = canvasRef.current
@@ -134,21 +140,35 @@ export function BlobPlayButton({
 
     // ── Render loop ──────────────────────────────────────────────
     let elapsedTime = 0
-    const render = () => {
-      if (!validRef.current) return
-      if (activeRef.current) {
-        gl.clearColor(0, 0, 0, 0)
-        gl.clear(gl.COLOR_BUFFER_BIT)
-        elapsedTime += 0.001
-        gl.uniform1f(u_i_time, elapsedTime)
-        gl.drawArrays(gl.TRIANGLES, 0, 3)
-      }
+    let frameScheduled = false
+
+    const scheduleRender = () => {
+      if (!validRef.current || frameScheduled) return
+      frameScheduled = true
       animationRef.current = requestAnimationFrame(render)
     }
-    animationRef.current = requestAnimationFrame(render)
+
+    const render = () => {
+      frameScheduled = false
+      if (!validRef.current) return
+      if (!activeRef.current) {
+        return
+      }
+
+      gl.clearColor(0, 0, 0, 0)
+      gl.clear(gl.COLOR_BUFFER_BIT)
+      elapsedTime += 0.001
+      gl.uniform1f(u_i_time, elapsedTime)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
+      scheduleRender()
+    }
+
+    scheduleRenderRef.current = scheduleRender
+    scheduleRender()
 
     return () => {
       validRef.current = false
+      scheduleRenderRef.current = () => {}
       cancelAnimationFrame(animationRef.current)
       unobserveResize()
       gl.deleteProgram(program)

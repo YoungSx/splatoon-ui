@@ -52,8 +52,14 @@ function WaveCanvas({
   ...props
 }: WaveCanvasProps & { ref?: React.Ref<HTMLCanvasElement> }) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
+  const scheduleRenderRef = React.useRef<() => void>(() => {})
   // Pause the wave simulation while it is scrolled off-screen or the tab hides.
-  const activeRef = useRenderGate(canvasRef, { rootMargin: '120px' })
+  const activeRef = useRenderGate(canvasRef, {
+    rootMargin: '120px',
+    onActiveChange: (active) => {
+      if (active) scheduleRenderRef.current()
+    },
+  })
   const setCanvasRef = React.useCallback(
     (node: HTMLCanvasElement | null) => {
       canvasRef.current = node
@@ -120,12 +126,20 @@ function WaveCanvas({
     const segWidth = canvasWidth / numPoints
     const resolvedColor = resolveCSSColor(color, canvas)
     let running = true
+    let frameScheduled = false
+
+    const scheduleRender = () => {
+      if (!running || frameScheduled) return
+      frameScheduled = true
+      animFrameRef.current = requestAnimationFrame(render)
+    }
 
     const render = () => {
+      frameScheduled = false
       if (!running) return
 
       if (!activeRef.current) {
-        animFrameRef.current = requestAnimationFrame(render)
+        oldMousePosRef.current = null
         return
       }
 
@@ -193,13 +207,15 @@ function WaveCanvas({
       ctx.fillStyle = resolvedColor
       ctx.fill()
 
-      animFrameRef.current = requestAnimationFrame(render)
+      scheduleRender()
     }
 
-    animFrameRef.current = requestAnimationFrame(render)
+    scheduleRenderRef.current = scheduleRender
+    scheduleRender()
 
     return () => {
       running = false
+      scheduleRenderRef.current = () => {}
       cancelAnimationFrame(animFrameRef.current)
     }
   }, [canvasWidth, height, color, numPoints, elasticity, friction, activeRef])
