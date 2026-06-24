@@ -71,7 +71,7 @@ export default defineConfig({
   format: ['esm'],
   outDir: 'dist',
   platform: 'browser',
-  sourcemap: true,
+  sourcemap: false,
   splitting: true,
   target: 'es2017',
   tsconfig: 'tsconfig.package.json',
