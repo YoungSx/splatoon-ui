@@ -154,6 +154,10 @@ const checks = [
       staticSvgStyles.includes('--tape-left-width: 65px;') &&
       staticSvgStyles.includes('--tape-right-width: 74px;') &&
       staticSvgStyles.includes('background-size: 100% auto;') &&
+      staticSvgStyles.includes('background-position: right top;') &&
+      staticSvgStyles.includes('background-position: left top;') &&
+      !staticSvgStyles.includes('background-position: calc(100% - 1px) top;') &&
+      !staticSvgStyles.includes('background-position: 1px top;') &&
       !staticSvgStyles.includes('/images/svg/'),
   },
   {

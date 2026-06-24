@@ -24,14 +24,14 @@
 
 .blackTapeContainer::before {
   background-image: url('/_images/svg/left-black-tape-container.svg');
-  background-position: calc(100% - 1px) top;
+  background-position: right top;
   left: 0;
   width: var(--tape-left-width);
 }
 
 .blackTapeContainer::after {
   background-image: url('/_images/svg/right-black-tape-container.svg');
-  background-position: 1px top;
+  background-position: left top;
   right: 0;
   width: var(--tape-right-width);
 }
