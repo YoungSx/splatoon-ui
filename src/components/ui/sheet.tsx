@@ -4,13 +4,14 @@ import * as React from 'react'
 import { Dialog as SheetPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
+import { uiZIndex } from '@/lib/ui-z-index'
 import { createTriggerButton } from '@/components/ui/trigger-button'
 import { WaveButton } from './wave-button'
 import styles from './sheet.module.css'
 
 const SHEET_Z_INDEX = {
-  overlay: 200,
-  content: 210,
+  overlay: uiZIndex.sheetOverlay,
+  content: uiZIndex.sheet,
 } as const
 
 // ── Sub-components (composable) ──

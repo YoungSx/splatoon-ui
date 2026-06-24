@@ -34,26 +34,22 @@ export function useSyncSelectedNavKey(
   const defaultKey = options?.defaultKey ?? 'home'
   const rootKey = options?.rootKey
 
-  const getNavKey = React.useCallback(
+  const getSnapshot = React.useCallback(
     () => getCurrentSelectedNavKey(navLinks, defaultKey, rootKey),
     [navLinks, defaultKey, rootKey],
   )
 
-  const [selectedNavKey, setSelectedNavKey] = React.useState(getNavKey)
+  const getServerSnapshot = React.useCallback(() => defaultKey, [defaultKey])
 
-  React.useEffect(() => {
-    const syncSelectedNavKey = () => {
-      setSelectedNavKey(getCurrentSelectedNavKey(navLinks, defaultKey, rootKey))
-    }
-
-    window.addEventListener('hashchange', syncSelectedNavKey)
-    window.addEventListener('popstate', syncSelectedNavKey)
+  const subscribe = React.useCallback((onStoreChange: () => void) => {
+    window.addEventListener('hashchange', onStoreChange)
+    window.addEventListener('popstate', onStoreChange)
 
     return () => {
-      window.removeEventListener('hashchange', syncSelectedNavKey)
-      window.removeEventListener('popstate', syncSelectedNavKey)
+      window.removeEventListener('hashchange', onStoreChange)
+      window.removeEventListener('popstate', onStoreChange)
     }
-  }, [navLinks, defaultKey, rootKey])
+  }, [])
 
-  return selectedNavKey
+  return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }

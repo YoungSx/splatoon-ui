@@ -13,6 +13,7 @@ import { MediaDecoration } from './media-decoration'
 import { PaperSurface, type PaperSurfaceTone } from './paper-surface'
 import { power3In } from '@/lib/wobble-math'
 import { motionTokens } from '@/lib/ui-tokens'
+import { uiZIndex } from '@/lib/ui-z-index'
 import { WaveButton } from './wave-button'
 
 const CLOSE_DELAY = motionTokens.dialogCloseDelayMs
@@ -21,9 +22,9 @@ const DURATION_OUT = CLOSE_DELAY - 200
 const DANGER_SURFACE_TITLE_COLOR = 'var(--danger-surface-title)'
 const DANGER_SURFACE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'
 const DIALOG_Z_INDEX = {
-  overlay: 200,
-  content: 210,
-  close: 220,
+  overlay: uiZIndex.dialogOverlay,
+  content: uiZIndex.dialog,
+  close: uiZIndex.dialogClose,
 } as const
 type DialogSurface = 'paper' | 'cream' | 'danger'
 

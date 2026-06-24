@@ -4,9 +4,10 @@ import * as React from 'react'
 import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
 
 import { cn } from '@/lib/utils'
+import { uiZIndex } from '@/lib/ui-z-index'
 import { createTriggerButton } from '@/components/ui/trigger-button'
 
-const POPOVER_Z_INDEX = 130
+const POPOVER_Z_INDEX = uiZIndex.floating
 
 // ── Sub-components (composable) ──
 

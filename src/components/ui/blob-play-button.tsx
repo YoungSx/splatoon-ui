@@ -133,12 +133,14 @@ export function BlobPlayButton({
     const unobserveResize = observeElementResize(canvas.parentElement ?? canvas, resize)
 
     // ── Render loop ──────────────────────────────────────────────
+    let elapsedTime = 0
     const render = () => {
       if (!validRef.current) return
       if (activeRef.current) {
         gl.clearColor(0, 0, 0, 0)
         gl.clear(gl.COLOR_BUFFER_BIT)
-        gl.uniform1f(u_i_time, (gl.getUniform(program, u_i_time!) || 0) + 0.001)
+        elapsedTime += 0.001
+        gl.uniform1f(u_i_time, elapsedTime)
         gl.drawArrays(gl.TRIANGLES, 0, 3)
       }
       animationRef.current = requestAnimationFrame(render)
