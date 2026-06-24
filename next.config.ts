@@ -27,7 +27,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
-  allowedDevOrigins: ['100.*.*.*', 'ui.s8p.io'],
+  allowedDevOrigins: ['100.*.*.*', 's8p.io', '*.s8p.io'],
 }
 
 export default nextConfig

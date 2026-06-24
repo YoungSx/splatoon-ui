@@ -3,6 +3,8 @@ import path from 'node:path'
 
 const root = process.cwd()
 const cssPath = path.join(root, 'src', 'components', 'ui', 'heading-tape.module.css')
+const inViewCssPath = path.join(root, 'src', 'components', 'ui', 'in-view.module.css')
+const globalCssPath = path.join(root, 'src', 'app', 'globals.css')
 const pagePath = path.join(root, 'src', 'app', 'page.tsx')
 const sectionPath = path.join(root, 'src', 'components', 'ui', 'section.tsx')
 const sectionSideNavPath = path.join(root, 'src', 'components', 'ui', 'section-side-nav.tsx')
@@ -14,16 +16,22 @@ const sectionSideNavCssPath = path.join(
   'section-side-nav.module.css'
 )
 const css = fs.readFileSync(cssPath, 'utf8')
+const inViewCss = fs.readFileSync(inViewCssPath, 'utf8')
+const globalCss = fs.readFileSync(globalCssPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
 const section = fs.readFileSync(sectionPath, 'utf8')
 const sectionSideNav = fs.readFileSync(sectionSideNavPath, 'utf8')
 const sectionSideNavCss = fs.readFileSync(sectionSideNavCssPath, 'utf8')
 const useElementSize = fs.readFileSync(path.join(root, 'src', 'hooks', 'use-element-size.ts'), 'utf8')
 
-function block(selector) {
+function blockFrom(source, selector) {
   const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const match = css.match(new RegExp(`${escapedSelector}\\s*{(?<body>[^}]*)}`, 's'))
+  const match = source.match(new RegExp(`${escapedSelector}\\s*{(?<body>[^}]*)}`, 's'))
   return match?.groups?.body ?? ''
+}
+
+function block(selector) {
+  return blockFrom(css, selector)
 }
 
 function hasDeclaration(selector, declaration) {
@@ -119,6 +127,18 @@ const checks = [
       page.includes('[--section-side-nav-safe-area:3.5rem]') &&
       page.includes('sm:[--section-side-nav-safe-area:5.5rem]') &&
       page.includes('lg:[--section-side-nav-safe-area:0px]'),
+  },
+  {
+    name: 'InView does not clip final decorative geometry',
+    pass:
+      !/\.root\s*{[^}]*overflow-x:\s*clip/s.test(inViewCss) &&
+      !inViewCss.includes('overflow-clip-margin'),
+  },
+  {
+    name: 'Document root contains horizontal animation overshoot',
+    pass:
+      blockFrom(globalCss, 'html').includes('overflow-x: clip;') &&
+      blockFrom(globalCss, 'body').includes('overflow-x: clip;'),
   },
 ]
 

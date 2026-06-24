@@ -282,10 +282,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: clip;
   }
   html {
     @apply font-sans;
     container-type: inline-size;
+    overflow-x: clip;
   }
 }
 
