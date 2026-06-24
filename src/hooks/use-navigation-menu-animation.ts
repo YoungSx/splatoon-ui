@@ -51,7 +51,7 @@ export function useNavigationMenuAnimation({ isReducedMotion }: UseNavigationMen
       return
     }
 
-    setOpenCount(Math.round(10000 * Math.random()))
+    setOpenCount((count) => count + 1)
     setCoverPhase('opening')
     setContentPhase('hidden')
   }, [isReducedMotion])
@@ -65,7 +65,7 @@ export function useNavigationMenuAnimation({ isReducedMotion }: UseNavigationMen
       return
     }
 
-    setOpenCount(Math.round(10000 * Math.random()))
+    setOpenCount((count) => count + 1)
     setCoverPhase('closing')
 
     if (contentPhase === 'entering' || contentPhase === 'visible') {
