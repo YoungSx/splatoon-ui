@@ -8,15 +8,32 @@ const publishWorkflow = fs.readFileSync(path.join(root, '.github', 'workflows', 
 
 const requiredFiles = [
   'dist',
-  'public/_images',
+  'public/_images/backgrounds',
+  'public/_images/banners',
+  'public/_images/characters',
+  'public/_images/events',
+  'public/_images/news',
+  'public/_images/squid',
+  'public/_images/svg',
+  'public/_images/tape-assets',
+  'public/_images/weapons',
   'public/fonts',
+  'public/svgs',
   'README.md',
   'README_EN.md',
   'README_JA.md',
   'LICENSE',
   'NOTICE',
 ]
-const forbiddenFiles = ['.next', 'scratch', 'tests', 'src']
+const forbiddenFiles = [
+  '.next',
+  'scratch',
+  'tests',
+  'src',
+  'public/_images/gameplay',
+  'public/_images/home',
+  'public/_images/screenshots',
+]
 const forbiddenPublicEntrypoints = ['./demo-layout', './github-mark', './showcase-assets']
 
 const checks = [
