@@ -56,13 +56,14 @@
 }
 
 .paginationActive {
-  background: var(--color-primary, #6af7ce);
+  background: var(--theme-primary, var(--color-yellow, #eaff3d));
   opacity: 1;
 }
 
 /* Image pagination — shops-gallery_paginationButton + shops-gallery_paginationImage */
 
 .imagePaginationButton {
+  --image-pagination-accent: #a51ee1;
   --scale: 0;
   position: relative;
 }
@@ -93,7 +94,7 @@
 }
 
 .imagePaginationActive .imagePaginationImage {
-  border-color: var(--color-accent);
+  border-color: var(--image-pagination-accent);
 }
 
 .imagePaginationImage {

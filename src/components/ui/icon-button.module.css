@@ -18,8 +18,8 @@
   overflow: hidden;
   width: var(--size);
   height: var(--size);
-  background-color: var(--color-primary, #6af7ce);
-  color: var(--color-primary-alt, #0d0d0d);
+  background-color: var(--theme-primary, var(--color-yellow, #eaff3d));
+  color: var(--theme-primary-alt, var(--color-black, #0d0d0d));
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   line-height: 1;
@@ -82,7 +82,7 @@
 .carousel {
   --size: 50px;
   background-color: var(--color-green, #6af7ce);
-  color: var(--color-primary-alt, #0d0d0d);
+  color: var(--theme-primary-alt, var(--color-black, #0d0d0d));
 }
 
 @media screen and (min-width: 640px) {
@@ -121,8 +121,8 @@
 /* ── Accent variant ── */
 
 .accent {
-  background-color: var(--color-accent, #eaff3d);
-  color: var(--color-accent-alt, #0d0d0d);
+  background-color: var(--theme-accent, var(--color-black, #0d0d0d));
+  color: var(--theme-accent-alt, var(--color-white, #fff));
 }
 
 /* ── Hover: only --scale, no background change ── */

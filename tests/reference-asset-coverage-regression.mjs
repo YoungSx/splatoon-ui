@@ -145,6 +145,8 @@ const checks = [
       staticSvgStyles.includes('/_images/svg/styled-photo-background.svg') &&
       staticSvgStyles.includes('/_images/svg/icon-pagination.svg') &&
       staticSvgStyles.includes('/_images/svg/pagination-splat.svg') &&
+      staticSvgStyles.includes('--image-pagination-accent: #a51ee1;') &&
+      staticSvgStyles.includes('border-color: var(--image-pagination-accent);') &&
       staticSvgStyles.includes('/_images/svg/left-tape.svg') &&
       staticSvgStyles.includes('/_images/svg/right-tape.svg') &&
       staticSvgStyles.includes('/_images/svg/left-black-tape-container.svg') &&

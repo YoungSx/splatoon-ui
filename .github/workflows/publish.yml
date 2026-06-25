@@ -44,6 +44,7 @@ jobs:
 
       - name: Regression tests
         run: |
+          node tests/theme-role-tokens-regression.mjs
           node tests/ui-entrypoints-regression.mjs
           node tests/package-publish-regression.mjs
 

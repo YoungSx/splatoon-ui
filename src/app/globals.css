@@ -274,6 +274,15 @@
   --sidebar-accent-foreground: #0d0d0d;
   --sidebar-border: #cccccc;
   --sidebar-ring: #eaff3d;
+  /*
+     Splatoon brand role tokens mirror the official site's
+     --color-primary / --color-accent semantics.
+     Namespaced as --theme-* to avoid colliding with shadcn's --color-primary
+     which Tailwind binds to bg-primary, text-primary, etc. */
+  --theme-primary: var(--color-yellow);
+  --theme-primary-alt: var(--color-black);
+  --theme-accent: var(--color-black);
+  --theme-accent-alt: var(--color-white);
 }
 
 @layer base {
@@ -288,6 +297,123 @@
     @apply font-sans;
     container-type: inline-size;
     overflow-x: clip;
+  }
+
+  /*
+     Splatoon brand theme combinations, mapped from splatoon.nintendo.com.
+     Keep these inside @layer base so Tailwind emits them even when a theme
+     class is only supplied by library consumers.
+  */
+  [class*='theme--dark'] {
+    --theme-primary-alt: var(--color-black);
+    --theme-accent-alt: var(--color-black);
+    color: var(--color-white);
+  }
+  [class*='theme--light'] {
+    --theme-primary-alt: var(--color-white);
+    --theme-accent-alt: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .theme--black {
+    --theme-primary-alt: var(--color-black);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--yellow {
+    --theme-primary: var(--color-yellow);
+    --theme-accent: var(--color-black);
+  }
+  .theme--dark-blue,
+  .theme--light-blue {
+    --theme-primary: var(--color-blue);
+    --theme-accent: var(--color-yellow);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--dark-green {
+    --theme-primary: var(--color-green);
+    --theme-accent: var(--color-red);
+  }
+  .theme--light-green {
+    --theme-primary: var(--color-green);
+    --theme-accent: var(--color-red);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--dark-orange {
+    --theme-primary: var(--color-orange);
+    --theme-accent: var(--color-purple);
+  }
+  .theme--dark-purple {
+    --theme-primary: var(--color-purple);
+    --theme-accent: var(--color-blue);
+    --theme-accent-alt: var(--color-white);
+  }
+  .theme--light-purple {
+    --theme-primary: var(--color-purple);
+    --theme-accent: var(--color-yellow);
+  }
+  .theme--dark-purpleOrange {
+    --theme-primary: var(--color-purple);
+    --theme-accent: var(--color-orange);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--dark-red {
+    --theme-primary: var(--color-red);
+    --theme-accent: var(--color-green);
+    --theme-accent-alt: var(--color-white);
+  }
+  .theme--light-red {
+    --theme-primary: var(--color-red);
+    --theme-accent: var(--color-green);
+  }
+  .theme--dark-yellow {
+    --theme-primary: var(--color-yellow);
+    --theme-accent: var(--color-blue);
+    --theme-accent-alt: var(--color-white);
+  }
+  .theme--light-brown {
+    --theme-primary: var(--color-brown);
+    --theme-accent: var(--color-red);
+  }
+  .theme--side-order {
+    --theme-primary: var(--color-side-order-red);
+    --theme-accent: var(--color-side-order-green);
+    --theme-accent-alt: var(--color-side-order-black);
+    color: var(--color-side-order-black);
+  }
+
+  /*
+     Theme role-token utilities mirror the official `.color-primary` style.
+     Use these inside a `.theme--*` ancestor to pick up the active brand pair.
+  */
+  .color-primary {
+    color: var(--theme-primary);
+  }
+  .color-primary-alt {
+    color: var(--theme-primary-alt);
+  }
+  .color-accent {
+    color: var(--theme-accent);
+  }
+  .color-accent-alt {
+    color: var(--theme-accent-alt);
+  }
+  .bg-color-primary {
+    background-color: var(--theme-primary);
+  }
+  .bg-color-primary-alt {
+    background-color: var(--theme-primary-alt);
+  }
+  .bg-color-accent {
+    background-color: var(--theme-accent);
+  }
+  .bg-color-accent-alt {
+    background-color: var(--theme-accent-alt);
+  }
+  .border-color-primary {
+    border-color: var(--theme-primary);
+  }
+  .border-color-accent {
+    border-color: var(--theme-accent);
   }
 }
 

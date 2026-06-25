@@ -393,7 +393,7 @@
     "version": "changeset version",
     "pack:dry-run": "npm pack --dry-run",
     "prepack": "npm run build:package",
-    "release": "pnpm typecheck && node tests/ui-entrypoints-regression.mjs && node tests/package-publish-regression.mjs && pnpm build:package && pnpm pack:dry-run && pnpm test:package-consumer"
+    "release": "pnpm typecheck && node tests/theme-role-tokens-regression.mjs && node tests/ui-entrypoints-regression.mjs && node tests/package-publish-regression.mjs && pnpm build:package && pnpm pack:dry-run && pnpm test:package-consumer"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
