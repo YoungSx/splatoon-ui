@@ -180,7 +180,7 @@ export function renderSplatoonLink(link: SplatoonNavLink, props: LinkRenderProps
         onFocus={props.onFocus}
         onBlur={props.onBlur}
         className={cn(
-          'group/nav-link font-alt relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 px-8 py-3 text-[2.5rem] leading-none font-medium text-white transition-colors duration-150',
+          'group/nav-link font-alt relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 px-8 py-3 text-[1.625rem] leading-none font-medium text-white transition-colors duration-150 lg:text-[2.5rem]',
           (props.isHighlighted || props.isActive) && 'text-yellow',
           props.isActive && '-rotate-2deg',
           link.textClassName
@@ -200,7 +200,7 @@ export function SplatoonMenuLogo({ contentPhase }: { contentPhase: ContentPhase 
 
   return (
     <div
-      className="relative mb-5 h-[12.9rem] w-[40rem] max-w-[92vw] md:mb-7"
+      className="relative mb-4 aspect-[643/243] w-full max-w-[22rem] md:mb-7 lg:h-[12.9rem] lg:w-[40rem] lg:max-w-[92vw]"
       style={{
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.85)',
@@ -218,11 +218,11 @@ export function SplatoonMenuLogo({ contentPhase }: { contentPhase: ContentPhase 
           className={cn('pointer-events-none absolute z-[var(--z-deco)]', splat.className)}
         />
       ))}
-      <div className="pointer-events-none absolute top-[1.2rem] left-1/2 z-[var(--z-deco-fg)] flex -translate-x-1/2 -rotate-2 flex-col items-center text-center select-none">
-        <span className="font-heading text-[clamp(3rem,11vw,6.5rem)] leading-none text-white drop-shadow-[5px_5px_0_var(--color-black)]">
+      <div className="pointer-events-none absolute top-[0.7rem] left-1/2 z-[var(--z-deco-fg)] flex -translate-x-1/2 -rotate-2 flex-col items-center text-center select-none lg:top-[1.2rem]">
+        <span className="font-heading text-[clamp(3rem,11vw,6.5rem)] leading-none text-white drop-shadow-[5px_5px_0_var(--color-black)] lg:text-[clamp(3rem,11vw,6.5rem)]">
           Splatoon UI
         </span>
-        <span className="bg-yellow font-alt text-chaos-black -mt-1 inline-block px-4 py-1 text-sm font-black tracking-wider uppercase md:text-base">
+        <span className="bg-yellow font-alt text-chaos-black -mt-1 inline-block px-3 py-1 text-[0.7rem] font-black tracking-wider uppercase md:text-sm lg:px-4 lg:text-base">
           Fan-made component kit
         </span>
       </div>

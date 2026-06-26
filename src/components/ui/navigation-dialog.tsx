@@ -54,7 +54,7 @@ function DefaultNavLink({
       data-nav-label={link.label}
       {...eventProps}
       className={cn(
-        'group/nav-link relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 py-3 px-8 text-[2.5rem] leading-none font-alt font-medium text-white transition-colors duration-150',
+        'group/nav-link font-alt relative z-[var(--z-deco-fg)] inline-flex items-center gap-3 px-8 py-3 text-[1.625rem] leading-none font-medium text-white transition-colors duration-150 lg:text-[2.5rem]',
         link.textClassName
       )}
       style={isActive ? { color: highlightColor } : undefined}
@@ -76,8 +76,8 @@ export function NavigationDialog({
   renderLink,
   backgroundTransition,
   onNavigate,
-  navLabel = "Main site navigation",
-  closeLabel = "Close navigation menu",
+  navLabel = 'Main site navigation',
+  closeLabel = 'Close navigation menu',
 }: NavigationDialogProps) {
   const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
   const selectedNavKey = useSyncSelectedNavKey(navLinks)
@@ -165,7 +165,7 @@ export function NavigationDialog({
               data-menu-content=""
               data-phase={contentPhase}
               className={cn(
-                'absolute inset-0 z-[var(--z-nav-content)] flex flex-col items-center justify-center p-6 text-white',
+                'absolute inset-0 z-[var(--z-nav-content)] overflow-hidden text-white',
                 contentTransitionClass
               )}
             >
@@ -175,67 +175,74 @@ export function NavigationDialog({
               {/* Menu decorations (stickers, etc.) */}
               {menuDecorations}
 
-              <nav
-                aria-label={navLabel}
-                className={cn(
-                  'relative z-10 flex w-full max-w-[44rem] flex-col items-center pt-4 text-center md:pt-5',
-                )}
-              >
-                {/* Logo area (render prop with contentPhase) */}
-                {logo?.(contentPhase)}
-
-                <ul
+              <div className="relative z-10 flex h-full w-full flex-col items-center overflow-y-auto px-6 pt-[5.625rem] pb-[3.75rem] lg:justify-center lg:overflow-hidden lg:p-6">
+                <nav
+                  aria-label={navLabel}
                   className={cn(
-                    'relative flex w-full flex-col items-center gap-0',
-                    inViewStyles.stagger,
-                    inViewStyles.staggerPop,
-                    (contentPhase === 'entering' || contentPhase === 'visible') && inViewStyles.inView,
+                    'relative flex w-full max-w-[44rem] flex-col items-center text-center lg:pt-5'
                   )}
-                  style={{
-                    '--duration-show': '0.3s',
-                    '--in-view-stagger-amount': '0.1s',
-                  } as React.CSSProperties}
                 >
-                  {/* CTA (e.g. Buy now) — first stagger item */}
-                  {cta && (
-                    <li
-                      data-menu-cta=""
-                      className="relative z-20 mt-4 mb-8 flex justify-center"
-                    >
-                      {cta}
-                    </li>
-                  )}
+                  {/* Logo area (render prop with contentPhase) */}
+                  {logo?.(contentPhase)}
 
-                  {navLinks.map((link) => {
-                    const isHighlighted = activeNavLabel === link.label
-                    const isActive = !activeNavLabel && selectedNavKey === link.selectedKey
-
-                    const linkProps: LinkRenderProps = {
-                      isHighlighted,
-                      isActive,
-                      onMouseEnter: () => setActiveNavLabel(link.label),
-                      onMouseLeave: () =>
-                        setActiveNavLabel((current) =>
-                          current === link.label ? null : current
-                        ),
-                      onFocus: () => setActiveNavLabel(link.label),
-                      onBlur: () =>
-                        setActiveNavLabel((current) =>
-                          current === link.label ? null : current
-                        ),
-                      onClick: () => navigate(link.href),
+                  <ul
+                    className={cn(
+                      'relative flex w-full flex-col items-center gap-0',
+                      inViewStyles.stagger,
+                      inViewStyles.staggerPop,
+                      (contentPhase === 'entering' || contentPhase === 'visible') &&
+                        inViewStyles.inView
+                    )}
+                    style={
+                      {
+                        '--duration-show': '0.3s',
+                        '--in-view-stagger-amount': '0.1s',
+                      } as React.CSSProperties
                     }
-
-                    return (
-                      <li key={link.label} className="relative">
-                        {renderLink
-                          ? renderLink(link, linkProps)
-                          : <DefaultNavLink link={link} highlightColor={highlightColor} {...linkProps} />}
+                  >
+                    {/* CTA (e.g. Buy now) — first stagger item */}
+                    {cta && (
+                      <li
+                        data-menu-cta=""
+                        className="relative z-20 mt-3 mb-5 flex justify-center lg:mt-4 lg:mb-8"
+                      >
+                        {cta}
                       </li>
-                    )
-                  })}
-                </ul>
-              </nav>
+                    )}
+
+                    {navLinks.map((link) => {
+                      const isHighlighted = activeNavLabel === link.label
+                      const isActive = !activeNavLabel && selectedNavKey === link.selectedKey
+
+                      const linkProps: LinkRenderProps = {
+                        isHighlighted,
+                        isActive,
+                        onMouseEnter: () => setActiveNavLabel(link.label),
+                        onMouseLeave: () =>
+                          setActiveNavLabel((current) => (current === link.label ? null : current)),
+                        onFocus: () => setActiveNavLabel(link.label),
+                        onBlur: () =>
+                          setActiveNavLabel((current) => (current === link.label ? null : current)),
+                        onClick: () => navigate(link.href),
+                      }
+
+                      return (
+                        <li key={link.label} className="relative">
+                          {renderLink ? (
+                            renderLink(link, linkProps)
+                          ) : (
+                            <DefaultNavLink
+                              link={link}
+                              highlightColor={highlightColor}
+                              {...linkProps}
+                            />
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </nav>
+              </div>
             </div>
           </DialogPrimitive.Popup>
         ) : null}
