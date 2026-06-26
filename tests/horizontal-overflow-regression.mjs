@@ -22,7 +22,10 @@ const page = fs.readFileSync(pagePath, 'utf8')
 const section = fs.readFileSync(sectionPath, 'utf8')
 const sectionSideNav = fs.readFileSync(sectionSideNavPath, 'utf8')
 const sectionSideNavCss = fs.readFileSync(sectionSideNavCssPath, 'utf8')
-const useElementSize = fs.readFileSync(path.join(root, 'src', 'hooks', 'use-element-size.ts'), 'utf8')
+const useElementSize = fs.readFileSync(
+  path.join(root, 'src', 'hooks', 'use-element-size.ts'),
+  'utf8'
+)
 
 function blockFrom(source, selector) {
   const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')

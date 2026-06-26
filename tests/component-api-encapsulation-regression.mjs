@@ -10,6 +10,7 @@ const videoDialog = fs.readFileSync(path.join(componentRoot, 'video-dialog.tsx')
 const stapleCard = fs.readFileSync(path.join(componentRoot, 'staple-card.tsx'), 'utf8')
 const stapleCardCss = fs.readFileSync(path.join(componentRoot, 'staple-card.module.css'), 'utf8')
 const tornCard = fs.readFileSync(path.join(componentRoot, 'torn-card.tsx'), 'utf8')
+const tornCardCss = fs.readFileSync(path.join(componentRoot, 'torn-card.module.css'), 'utf8')
 const photoFrame = fs.readFileSync(path.join(componentRoot, 'photo-frame.tsx'), 'utf8')
 const cardStackCarousel = fs.readFileSync(
   path.join(componentRoot, 'card-stack-carousel.tsx'),
@@ -52,7 +53,7 @@ const checks = [
   {
     name: 'VideoDialogThumbnail uses the shared DialogTrigger registration path',
     pass:
-      videoDialog.includes("import { Dialog, DialogContent, DialogTrigger }") &&
+      videoDialog.includes('import { Dialog, DialogContent, DialogTrigger }') &&
       videoDialog.includes('<DialogTrigger') &&
       !videoDialog.includes('DialogPrimitive.Trigger'),
   },
@@ -81,6 +82,16 @@ const checks = [
       videoDialog.includes('MediaDecoration'),
   },
   {
+    name: 'TornCard keeps intrinsic rotation and shadow on an inner visual layer',
+    pass:
+      tornCard.includes('className={styles.visual}') &&
+      tornCard.includes("'--torn-card-rotation': resolvedRotation") &&
+      !tornCard.includes("filter: 'drop-shadow(2px 2px 2px rgba(0,0,0,.3))'") &&
+      tornCardCss.includes('.visual') &&
+      tornCardCss.includes('filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.3));') &&
+      tornCardCss.includes('transform: rotate(var(--torn-card-rotation, 0deg));'),
+  },
+  {
     name: 'Paper-style surfaces share PaperSurface instead of rebuilding tear edges',
     pass:
       dialog.includes('PaperSurface') &&
@@ -99,14 +110,18 @@ const checks = [
       stapleCardCss.includes('container-type: inline-size;') &&
       stapleCardCss.includes('.stapleLayer img') &&
       stapleCardCss.includes('--staple-card-staple-clearance') &&
-      stapleCardCss.includes('max(var(--staple-card-block-padding-end), var(--staple-card-staple-clearance))'),
+      stapleCardCss.includes(
+        'max(var(--staple-card-block-padding-end), var(--staple-card-staple-clearance))'
+      ),
   },
   {
     name: 'Dialog danger surface owns title and description colors instead of demo overrides',
     pass:
       dialog.includes('DialogSurfaceContext') &&
       dialog.includes("const DANGER_SURFACE_TITLE_COLOR = 'var(--danger-surface-title)'") &&
-      dialog.includes("const DANGER_SURFACE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'") &&
+      dialog.includes(
+        "const DANGER_SURFACE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'"
+      ) &&
       dialog.includes("surface === 'danger' ? { color: DANGER_SURFACE_TITLE_COLOR }") &&
       dialog.includes("surface === 'danger' ? { color: DANGER_SURFACE_DESCRIPTION_COLOR }") &&
       demoPage.includes('<DialogContent surface="danger"') &&

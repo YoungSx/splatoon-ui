@@ -76,40 +76,39 @@ export function TornCard({
       ref={ref}
       data-slot="card"
       data-variant={variant}
-      style={
-        {
-          transform: `rotate(${resolvedRotation})`,
-          filter: 'drop-shadow(2px 2px 2px rgba(0,0,0,.3))',
-        } as React.CSSProperties
-      }
       className={cn('group/card text-chaos-black relative z-10 w-full text-center', className)}
       {...props}
     >
-      <div className="pointer-events-none absolute inset-0 z-0 h-full w-full select-none">
-        <WideTornPaper bgColor={background} />
-      </div>
+      <div
+        className={styles.visual}
+        style={{ '--torn-card-rotation': resolvedRotation } as React.CSSProperties}
+      >
+        <div className="pointer-events-none absolute inset-0 z-0 h-full w-full select-none">
+          <WideTornPaper bgColor={background} />
+        </div>
 
-      <div className="@container w-full">
-        {showTape && (
-          <MediaDecoration
-            position={resolvedTapePosition}
-            asset={config.tapeAsset}
-            mobilePictureClassName={cn(styles.tape, styles.imgMobile)}
-            desktopPictureClassName={cn(styles.tape, styles.imgDesktop)}
-          />
-        )}
+        <div className="@container w-full">
+          {showTape && (
+            <MediaDecoration
+              position={resolvedTapePosition}
+              asset={config.tapeAsset}
+              mobilePictureClassName={cn(styles.tape, styles.imgMobile)}
+              desktopPictureClassName={cn(styles.tape, styles.imgDesktop)}
+            />
+          )}
 
-        {resolvedShowSticker && config.stickerAsset ? (
-          <MediaDecoration
-            position="top-right"
-            asset={config.stickerAsset}
-            mobilePictureClassName={styles.imgMobile}
-            desktopPictureClassName={styles.imgDesktop}
-          />
-        ) : null}
+          {resolvedShowSticker && config.stickerAsset ? (
+            <MediaDecoration
+              position="top-right"
+              asset={config.stickerAsset}
+              mobilePictureClassName={styles.imgMobile}
+              desktopPictureClassName={styles.imgDesktop}
+            />
+          ) : null}
 
-        <div className={cn(styles.alertContent, 'relative z-10 flex flex-col gap-4')}>
-          <div className="flex flex-col gap-2">{children}</div>
+          <div className={cn(styles.alertContent, 'relative z-10 flex flex-col gap-4')}>
+            <div className="flex flex-col gap-2">{children}</div>
+          </div>
         </div>
       </div>
     </div>

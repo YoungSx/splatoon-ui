@@ -386,14 +386,78 @@ export default function Home() {
   }))
 
   const navLinks = [
-    { label: t.nav.home, href: '#', selectedKey: 'home', hoverSplatId: 5, hoverSplatColor: 'var(--color-yellow)', hoverSplatClassName: '-left-[2.5em] top-1/2 h-[4em] w-[4em] -translate-y-[46%] rotate-[-18deg]' },
-    { label: t.nav.demoReel, href: '#trailer', selectedKey: 'trailer', hoverSplatId: 9, hoverSplatColor: 'var(--color-blue)', hoverSplatClassName: '-left-[2.35em] top-1/2 h-[4.2em] w-[4.2em] -translate-y-[44%] rotate-[12deg]' },
-    { label: t.nav.titles, href: '#titles', selectedKey: 'titles', hoverSplatId: 8, hoverSplatColor: 'var(--color-yellow)', hoverSplatClassName: '-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]' },
-    { label: t.nav.buttonsBadges, href: '#buttons-badges', selectedKey: 'buttons-badges', hoverSplatId: 11, hoverSplatColor: 'var(--color-blue)', hoverSplatClassName: '-left-[2.5em] top-1/2 h-[4.25em] w-[4.25em] -translate-y-[45%] rotate-[-10deg]' },
-    { label: t.nav.overlays, href: '#overlays', selectedKey: 'overlays', hoverSplatId: 10, hoverSplatColor: 'var(--color-blue)', hoverSplatClassName: '-left-[2.65em] top-1/2 h-[4.35em] w-[4.35em] -translate-y-[44%] -rotate-[18deg]' },
-    { label: t.nav.cardGrid, href: '#card-grid', selectedKey: 'card-grid', hoverSplatId: 6, hoverSplatColor: 'var(--color-yellow)', hoverSplatClassName: '-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]' },
-    { label: t.nav.carousels, href: '#carousels', selectedKey: 'carousels', hoverSplatId: 3, hoverSplatColor: 'var(--color-blue)', hoverSplatClassName: '-left-[2.45em] top-1/2 h-[4.1em] w-[4.1em] -translate-y-[44%] -rotate-[12deg]' },
-    { label: t.nav.forms, href: '#progress', selectedKey: 'progress', hoverSplatId: 12, hoverSplatColor: 'var(--color-blue)', hoverSplatClassName: '-left-[2.55em] top-1/2 h-[4.3em] w-[4.3em] -translate-y-[44%] rotate-[16deg]' },
+    {
+      label: t.nav.home,
+      href: '#',
+      selectedKey: 'home',
+      hoverSplatId: 5,
+      hoverSplatColor: 'var(--color-yellow)',
+      hoverSplatClassName:
+        '-left-[2.5em] top-1/2 h-[4em] w-[4em] -translate-y-[46%] rotate-[-18deg]',
+    },
+    {
+      label: t.nav.demoReel,
+      href: '#trailer',
+      selectedKey: 'trailer',
+      hoverSplatId: 9,
+      hoverSplatColor: 'var(--color-blue)',
+      hoverSplatClassName:
+        '-left-[2.35em] top-1/2 h-[4.2em] w-[4.2em] -translate-y-[44%] rotate-[12deg]',
+    },
+    {
+      label: t.nav.titles,
+      href: '#titles',
+      selectedKey: 'titles',
+      hoverSplatId: 8,
+      hoverSplatColor: 'var(--color-yellow)',
+      hoverSplatClassName:
+        '-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]',
+    },
+    {
+      label: t.nav.buttonsBadges,
+      href: '#buttons-badges',
+      selectedKey: 'buttons-badges',
+      hoverSplatId: 11,
+      hoverSplatColor: 'var(--color-blue)',
+      hoverSplatClassName:
+        '-left-[2.5em] top-1/2 h-[4.25em] w-[4.25em] -translate-y-[45%] rotate-[-10deg]',
+    },
+    {
+      label: t.nav.overlays,
+      href: '#overlays',
+      selectedKey: 'overlays',
+      hoverSplatId: 10,
+      hoverSplatColor: 'var(--color-blue)',
+      hoverSplatClassName:
+        '-left-[2.65em] top-1/2 h-[4.35em] w-[4.35em] -translate-y-[44%] -rotate-[18deg]',
+    },
+    {
+      label: t.nav.cardGrid,
+      href: '#card-grid',
+      selectedKey: 'card-grid',
+      hoverSplatId: 6,
+      hoverSplatColor: 'var(--color-yellow)',
+      hoverSplatClassName:
+        '-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]',
+    },
+    {
+      label: t.nav.carousels,
+      href: '#carousels',
+      selectedKey: 'carousels',
+      hoverSplatId: 3,
+      hoverSplatColor: 'var(--color-blue)',
+      hoverSplatClassName:
+        '-left-[2.45em] top-1/2 h-[4.1em] w-[4.1em] -translate-y-[44%] -rotate-[12deg]',
+    },
+    {
+      label: t.nav.forms,
+      href: '#progress',
+      selectedKey: 'progress',
+      hoverSplatId: 12,
+      hoverSplatColor: 'var(--color-blue)',
+      hoverSplatClassName:
+        '-left-[2.55em] top-1/2 h-[4.3em] w-[4.3em] -translate-y-[44%] rotate-[16deg]',
+    },
   ]
 
   return (
@@ -635,7 +699,9 @@ export default function Home() {
                     <div className="flex flex-col items-center gap-10">
                       <HeadingTape>{t.titles.headingTapeCard.sectionHeading}</HeadingTape>
                       <div className="flex w-full max-w-sm justify-center">
-                        <HeadingTape size="compact">{t.titles.headingTapeCard.compactHeading}</HeadingTape>
+                        <HeadingTape size="compact">
+                          {t.titles.headingTapeCard.compactHeading}
+                        </HeadingTape>
                       </div>
                     </div>
                   </CardContent>
@@ -768,7 +834,12 @@ export default function Home() {
                       </span>
                     </div>
                     <div className="flex flex-col items-center gap-3">
-                      <IconButton size="lg" direction="right" disabled aria-label={t.buttons.disabled} />
+                      <IconButton
+                        size="lg"
+                        direction="right"
+                        disabled
+                        aria-label={t.buttons.disabled}
+                      />
                       <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
                         {t.buttons.disabled}
                       </span>
@@ -796,13 +867,27 @@ export default function Home() {
                     <CardDescription>{t.buttons.dripCard.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="flex flex-wrap gap-4 pt-2">
-                    <Button variant="yellow" theme="dark-yellow">{t.buttons.dripCard.yellow}</Button>
-                    <Button variant="blue" theme="light-blue">{t.buttons.dripCard.blue}</Button>
-                    <Button variant="green" theme="light-green">{t.buttons.dripCard.green}</Button>
-                    <Button variant="orange" theme="dark-purpleOrange">{t.buttons.dripCard.orange}</Button>
-                    <Button variant="purple" theme="dark-purple">{t.buttons.dripCard.purple}</Button>
-                    <Button variant="destructive" theme="light-red">{t.buttons.dripCard.alert}</Button>
-                    <Button variant="outline" theme="yellow">{t.buttons.dripCard.outline}</Button>
+                    <Button variant="yellow" theme="dark-yellow">
+                      {t.buttons.dripCard.yellow}
+                    </Button>
+                    <Button variant="blue" theme="light-blue">
+                      {t.buttons.dripCard.blue}
+                    </Button>
+                    <Button variant="green" theme="light-green">
+                      {t.buttons.dripCard.green}
+                    </Button>
+                    <Button variant="orange" theme="dark-purpleOrange">
+                      {t.buttons.dripCard.orange}
+                    </Button>
+                    <Button variant="purple" theme="dark-purple">
+                      {t.buttons.dripCard.purple}
+                    </Button>
+                    <Button variant="destructive" theme="light-red">
+                      {t.buttons.dripCard.alert}
+                    </Button>
+                    <Button variant="outline" theme="yellow">
+                      {t.buttons.dripCard.outline}
+                    </Button>
                     <Button variant="ghost">{t.buttons.dripCard.ghost}</Button>
                   </CardContent>
                 </Card>
@@ -931,7 +1016,9 @@ export default function Home() {
                             <DialogDescription>{t.overlays.graffiti.choiceDesc}</DialogDescription>
                           </DialogHeader>
                           <div className="py-4">
-                            <p className="text-chaos-black/80 font-bold">{t.overlays.graffiti.chooseSurface}</p>
+                            <p className="text-chaos-black/80 font-bold">
+                              {t.overlays.graffiti.chooseSurface}
+                            </p>
                             <div className="mt-2 flex gap-3">
                               <Button size="sm" variant="blue" theme="light-blue">
                                 {t.overlays.graffiti.colorBlue}
@@ -1016,7 +1103,9 @@ export default function Home() {
                           className="shadow-soft-splat-lg text-chaos-black bg-white p-6 pt-10"
                         >
                           <SheetHeader>
-                            <SheetTitle className="text-xl font-black">{t.overlays.drawers.lobbyTitle}</SheetTitle>
+                            <SheetTitle className="text-xl font-black">
+                              {t.overlays.drawers.lobbyTitle}
+                            </SheetTitle>
                             <SheetDescription>{t.overlays.drawers.lobbyDesc}</SheetDescription>
                           </SheetHeader>
                           <div className="space-y-4 py-4">
@@ -1042,12 +1131,18 @@ export default function Home() {
                           className="shadow-soft-splat-sm text-chaos-black max-w-xs bg-white p-4 pt-6"
                         >
                           <PopoverHeader>
-                            <PopoverTitle className="font-black">{t.overlays.drawers.grizzcoTitle}</PopoverTitle>
-                            <PopoverDescription className="text-xs">{t.overlays.drawers.grizzcoDesc}</PopoverDescription>
+                            <PopoverTitle className="font-black">
+                              {t.overlays.drawers.grizzcoTitle}
+                            </PopoverTitle>
+                            <PopoverDescription className="text-xs">
+                              {t.overlays.drawers.grizzcoDesc}
+                            </PopoverDescription>
                           </PopoverHeader>
                           <div className="py-2 text-xs">
                             <p>{t.overlays.drawers.grizzcoBody}</p>
-                            <p className="text-red mt-1.5 font-bold">{t.overlays.drawers.grizzcoAlert}</p>
+                            <p className="text-red mt-1.5 font-bold">
+                              {t.overlays.drawers.grizzcoAlert}
+                            </p>
                           </div>
                         </PopoverContent>
                       </Popover>
@@ -1084,8 +1179,10 @@ export default function Home() {
               {/* Sub-Section 1: Apparel Tags */}
               <div className="space-y-8">
                 <InView rootMargin="-50px">
-                  <HeadingTape>{t.apparel.sectionTitle}</HeadingTape>
-                  <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.desc}</p>
+                  <div>
+                    <HeadingTape>{t.apparel.sectionTitle}</HeadingTape>
+                    <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.desc}</p>
+                  </div>
                 </InView>
 
                 <InViewStagger variant="pop" rootMargin="-30px">
@@ -1181,15 +1278,17 @@ export default function Home() {
                           </div>
                         </InView>
                       </div>
-                      <InViewStagger rootMargin="-30px" className="mt-6">
-                        {t.apparel.inViewCard.staggers.map((label, i) => (
-                          <div
-                            key={i}
-                            className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white uppercase last:mb-0"
-                          >
-                            {label}
-                          </div>
-                        ))}
+                      <InViewStagger rootMargin="-30px">
+                        <div className="mt-6">
+                          {t.apparel.inViewCard.staggers.map((label, i) => (
+                            <div
+                              key={i}
+                              className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white uppercase last:mb-0"
+                            >
+                              {label}
+                            </div>
+                          ))}
+                        </div>
                       </InViewStagger>
                     </CardContent>
                   </Card>
@@ -1262,9 +1361,14 @@ export default function Home() {
                           </div>
                         </TabsContent>
                       </Tabs>
-                      <Tabs defaultValue="map" className="w-full gap-0 overflow-visible rounded-[8px] pt-4">
+                      <Tabs
+                        defaultValue="map"
+                        className="w-full gap-0 overflow-visible rounded-[8px] pt-4"
+                      >
                         <TabsList variant="trapezoid" className="relative z-10">
-                          <TabsTrigger value="map">{t.apparel.tabsCard.trapezoidTabs.map}</TabsTrigger>
+                          <TabsTrigger value="map">
+                            {t.apparel.tabsCard.trapezoidTabs.map}
+                          </TabsTrigger>
                           <TabsTrigger value="stages">
                             {t.apparel.tabsCard.trapezoidTabs.stages}
                           </TabsTrigger>
@@ -1277,22 +1381,22 @@ export default function Home() {
                         </TabsList>
                         <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
                         <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
                             {t.apparel.tabsCard.trapezoidTabs.mapContent}
                           </p>
                         </TabsContent>
                         <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
                             {t.apparel.tabsCard.trapezoidTabs.stagesContent}
                           </p>
                         </TabsContent>
                         <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
                             {t.apparel.tabsCard.trapezoidTabs.statusContent}
                           </p>
                         </TabsContent>
                         <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black uppercase tracking-wider text-white/70">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
                             {t.apparel.tabsCard.trapezoidTabs.optionsContent}
                           </p>
                         </TabsContent>
@@ -1305,21 +1409,25 @@ export default function Home() {
               {/* Sub-Section 4: Torn Card */}
               <div className="space-y-8">
                 <InView rootMargin="-50px">
-                  <HeadingTape>{t.apparel.tornSection}</HeadingTape>
-                  <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.tornDesc}</p>
+                  <div>
+                    <HeadingTape>{t.apparel.tornSection}</HeadingTape>
+                    <p className="text-chaos-black/60 mt-1 text-sm font-medium">
+                      {t.apparel.tornDesc}
+                    </p>
+                  </div>
                 </InView>
                 <InView direction="pop" rootMargin="-50px">
                   <Card variant="torn" rotation="-1.5deg">
-                  <div className="content-spacing">
-                    <h2>{t.apparel.tornCardContent.heading}</h2>
-                    <p>{t.apparel.tornCardContent.body}</p>
-                    <ul className="content-spacing ml-10 list-disc text-left">
-                      {t.apparel.tornCardContent.listItems.map((item, i) => (
-                        <li key={i}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </Card>
+                    <div className="content-spacing">
+                      <h2>{t.apparel.tornCardContent.heading}</h2>
+                      <p>{t.apparel.tornCardContent.body}</p>
+                      <ul className="content-spacing ml-10 list-disc text-left">
+                        {t.apparel.tornCardContent.listItems.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Card>
                 </InView>
 
                 <InViewStagger variant="pop" rootMargin="-30px">
@@ -1344,51 +1452,55 @@ export default function Home() {
                 <InViewStagger variant="pop" rootMargin="-30px">
                   <div className="grid gap-12 pt-6 md:grid-cols-2">
                     <StapleCard
-                    image={
-                      <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={eventImageAssets.bigRunCallout.src}
-                          alt={eventImageAssets.bigRunCallout.alt}
-                          width={eventImageAssets.bigRunCallout.width}
-                          height={eventImageAssets.bigRunCallout.height}
-                          className="h-full w-full object-cover"
-                          decoding="async"
-                          loading="lazy"
-                          draggable={false}
-                        />
-                      </>
-                    }
-                  >
-                    <div className="space-y-3 p-4">
-                      <p className="text-blue text-sm tracking-[0.35em] uppercase">{t.apparel.staple1.eyebrow}</p>
-                      <h4 className="text-xl font-black">{t.apparel.staple1.title}</h4>
-                      <p className="text-chaos-black/75 text-sm">{t.apparel.staple1.body}</p>
-                    </div>
-                  </StapleCard>
-                  <StapleCard
-                    image={
-                      <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={eventImageAssets.splatnetBlade.src}
-                          alt={eventImageAssets.splatnetBlade.alt}
-                          width={eventImageAssets.splatnetBlade.width}
-                          height={eventImageAssets.splatnetBlade.height}
-                          className="h-full w-full object-cover"
-                          decoding="async"
-                          loading="lazy"
-                          draggable={false}
-                        />
-                      </>
-                    }
-                  >
-                    <div className="space-y-3 p-4">
-                      <p className="text-orange text-sm tracking-[0.35em] uppercase">{t.apparel.staple2.eyebrow}</p>
-                      <h4 className="text-xl font-black">{t.apparel.staple2.title}</h4>
-                      <p className="text-chaos-black/75 text-sm">{t.apparel.staple2.body}</p>
-                    </div>
-                  </StapleCard>
+                      image={
+                        <>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={eventImageAssets.bigRunCallout.src}
+                            alt={eventImageAssets.bigRunCallout.alt}
+                            width={eventImageAssets.bigRunCallout.width}
+                            height={eventImageAssets.bigRunCallout.height}
+                            className="h-full w-full object-cover"
+                            decoding="async"
+                            loading="lazy"
+                            draggable={false}
+                          />
+                        </>
+                      }
+                    >
+                      <div className="space-y-3 p-4">
+                        <p className="text-blue text-sm tracking-[0.35em] uppercase">
+                          {t.apparel.staple1.eyebrow}
+                        </p>
+                        <h4 className="text-xl font-black">{t.apparel.staple1.title}</h4>
+                        <p className="text-chaos-black/75 text-sm">{t.apparel.staple1.body}</p>
+                      </div>
+                    </StapleCard>
+                    <StapleCard
+                      image={
+                        <>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={eventImageAssets.splatnetBlade.src}
+                            alt={eventImageAssets.splatnetBlade.alt}
+                            width={eventImageAssets.splatnetBlade.width}
+                            height={eventImageAssets.splatnetBlade.height}
+                            className="h-full w-full object-cover"
+                            decoding="async"
+                            loading="lazy"
+                            draggable={false}
+                          />
+                        </>
+                      }
+                    >
+                      <div className="space-y-3 p-4">
+                        <p className="text-orange text-sm tracking-[0.35em] uppercase">
+                          {t.apparel.staple2.eyebrow}
+                        </p>
+                        <h4 className="text-xl font-black">{t.apparel.staple2.title}</h4>
+                        <p className="text-chaos-black/75 text-sm">{t.apparel.staple2.body}</p>
+                      </div>
+                    </StapleCard>
                   </div>
                 </InViewStagger>
               </div>
@@ -1449,81 +1561,95 @@ export default function Home() {
 
               <InView direction="pop" rootMargin="-50px">
                 <BlackTapeContainer>
-                <p className="text-sm font-medium">{t.cardGrid.blackTapeDesc}</p>
+                  <p className="text-sm font-medium">{t.cardGrid.blackTapeDesc}</p>
 
-                <CardGrid className="mt-6">
-                  <CardGridGroup>
-                    <div className="bg-blue relative overflow-hidden rounded-lg p-6 text-center text-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={eventImageAssets.bigRunCallout.src}
-                        alt=""
-                        width={eventImageAssets.bigRunCallout.width}
-                        height={eventImageAssets.bigRunCallout.height}
-                        className="absolute inset-0 h-full w-full object-cover opacity-35"
-                        decoding="async"
-                        loading="lazy"
-                        draggable={false}
-                      />
-                      <div className="relative z-10">
-                        <h4 className="text-xl font-black">{t.cardGrid.cells.mediaFeature.title}</h4>
-                        <p className="mt-2 text-sm opacity-90">{t.cardGrid.cells.mediaFeature.subtitle}</p>
+                  <CardGrid className="mt-6">
+                    <CardGridGroup>
+                      <div className="bg-blue relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.bigRunCallout.src}
+                          alt=""
+                          width={eventImageAssets.bigRunCallout.width}
+                          height={eventImageAssets.bigRunCallout.height}
+                          className="absolute inset-0 h-full w-full object-cover opacity-35"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <div className="relative z-10">
+                          <h4 className="text-xl font-black">
+                            {t.cardGrid.cells.mediaFeature.title}
+                          </h4>
+                          <p className="mt-2 text-sm opacity-90">
+                            {t.cardGrid.cells.mediaFeature.subtitle}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bg-orange relative overflow-hidden rounded-lg p-6 text-center text-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={eventImageAssets.splatnetBlade.src}
-                        alt=""
-                        width={eventImageAssets.splatnetBlade.width}
-                        height={eventImageAssets.splatnetBlade.height}
-                        className="absolute inset-0 h-full w-full object-cover opacity-35"
-                        decoding="async"
-                        loading="lazy"
-                        draggable={false}
-                      />
-                      <div className="relative z-10">
-                        <h4 className="text-xl font-black">{t.cardGrid.cells.autoFlow.title}</h4>
-                        <p className="mt-2 text-sm opacity-90">{t.cardGrid.cells.autoFlow.subtitle}</p>
+                      <div className="bg-orange relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.splatnetBlade.src}
+                          alt=""
+                          width={eventImageAssets.splatnetBlade.width}
+                          height={eventImageAssets.splatnetBlade.height}
+                          className="absolute inset-0 h-full w-full object-cover opacity-35"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <div className="relative z-10">
+                          <h4 className="text-xl font-black">{t.cardGrid.cells.autoFlow.title}</h4>
+                          <p className="mt-2 text-sm opacity-90">
+                            {t.cardGrid.cells.autoFlow.subtitle}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </CardGridGroup>
-                  <CardGridGroup>
-                    <div className="bg-green relative overflow-hidden rounded-lg p-6 text-center text-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={eventImageAssets.splatnetNextPage.src}
-                        alt=""
-                        width={eventImageAssets.splatnetNextPage.width}
-                        height={eventImageAssets.splatnetNextPage.height}
-                        className="absolute inset-0 h-full w-full object-cover opacity-35"
-                        decoding="async"
-                        loading="lazy"
-                        draggable={false}
-                      />
-                      <div className="relative z-10">
-                        <h4 className="text-xl font-black">{t.cardGrid.cells.spacingToken.title}</h4>
-                        <p className="mt-2 text-sm opacity-90">{t.cardGrid.cells.spacingToken.subtitle}</p>
+                    </CardGridGroup>
+                    <CardGridGroup>
+                      <div className="bg-green relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.splatnetNextPage.src}
+                          alt=""
+                          width={eventImageAssets.splatnetNextPage.width}
+                          height={eventImageAssets.splatnetNextPage.height}
+                          className="absolute inset-0 h-full w-full object-cover opacity-35"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <div className="relative z-10">
+                          <h4 className="text-xl font-black">
+                            {t.cardGrid.cells.spacingToken.title}
+                          </h4>
+                          <p className="mt-2 text-sm opacity-90">
+                            {t.cardGrid.cells.spacingToken.subtitle}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="bg-red relative overflow-hidden rounded-lg p-6 text-center text-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={eventImageAssets.goldenEgg.src}
-                        alt=""
-                        width={eventImageAssets.goldenEgg.width}
-                        height={eventImageAssets.goldenEgg.height}
-                        className="absolute top-3 right-3 h-12 w-auto rotate-12 opacity-70"
-                        decoding="async"
-                        loading="lazy"
-                        draggable={false}
-                      />
-                      <h4 className="relative z-10 text-xl font-black">{t.cardGrid.cells.magazineStack.title}</h4>
-                      <p className="relative z-10 mt-2 text-sm opacity-90">{t.cardGrid.cells.magazineStack.subtitle}</p>
-                    </div>
-                  </CardGridGroup>
-                </CardGrid>
-              </BlackTapeContainer>
+                      <div className="bg-red relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.goldenEgg.src}
+                          alt=""
+                          width={eventImageAssets.goldenEgg.width}
+                          height={eventImageAssets.goldenEgg.height}
+                          className="absolute top-3 right-3 h-12 w-auto rotate-12 opacity-70"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <h4 className="relative z-10 text-xl font-black">
+                          {t.cardGrid.cells.magazineStack.title}
+                        </h4>
+                        <p className="relative z-10 mt-2 text-sm opacity-90">
+                          {t.cardGrid.cells.magazineStack.subtitle}
+                        </p>
+                      </div>
+                    </CardGridGroup>
+                  </CardGrid>
+                </BlackTapeContainer>
               </InView>
             </div>
           </Section>
@@ -1628,191 +1754,216 @@ export default function Home() {
                     <CardContent className="flex flex-col gap-6 pt-2">
                       <div className="space-y-1.5">
                         <Label htmlFor="demo-input">{t.forms.inputCard.displayName}</Label>
-                        <Input id="demo-input" placeholder={t.forms.inputCard.displayNamePlaceholder} />
+                        <Input
+                          id="demo-input"
+                          placeholder={t.forms.inputCard.displayNamePlaceholder}
+                        />
                       </div>
-                    <div className="space-y-2">
-                      <Label>{t.forms.inputCard.layoutPref}</Label>
-                      <Select defaultValue="gallery">
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder={t.forms.inputCard.selectLayout} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="gallery">{t.forms.inputCard.gallery}</SelectItem>
-                          <SelectItem value="cards">{t.forms.inputCard.cards}</SelectItem>
-                          <SelectItem value="forms">{t.forms.inputCard.forms}</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="flex flex-col gap-3">
-                      <Label>{t.forms.inputCard.notifications}</Label>
-                      <div className="flex items-center gap-3">
-                        <Checkbox id="demo-checkbox-1" defaultChecked />
-                        <Label
-                          htmlFor="demo-checkbox-1"
-                          className="cursor-pointer pb-0 text-sm font-medium"
-                        >
-                          {t.forms.inputCard.releaseNotes}
-                        </Label>
+                      <div className="space-y-2">
+                        <Label>{t.forms.inputCard.layoutPref}</Label>
+                        <Select defaultValue="gallery">
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder={t.forms.inputCard.selectLayout} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="gallery">{t.forms.inputCard.gallery}</SelectItem>
+                            <SelectItem value="cards">{t.forms.inputCard.cards}</SelectItem>
+                            <SelectItem value="forms">{t.forms.inputCard.forms}</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <Checkbox id="demo-checkbox-2" />
-                        <Label
-                          htmlFor="demo-checkbox-2"
-                          className="cursor-pointer pb-0 text-sm font-medium"
-                        >
-                          {t.forms.inputCard.desktopSounds}
-                        </Label>
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-3">
-                      <Label>{t.forms.inputCard.switchControls}</Label>
-                      <div className="flex items-center justify-between gap-4">
-                        <Label
-                          htmlFor="demo-switch-1"
-                          className="cursor-pointer pb-0 text-sm font-medium"
-                        >
-                          {t.forms.inputCard.inkSync}
-                        </Label>
-                        <Switch id="demo-switch-1" defaultChecked />
-                      </div>
-                      <div className="flex items-center justify-between gap-4">
-                        <Label
-                          htmlFor="demo-switch-2"
-                          className="cursor-pointer pb-0 text-sm font-medium"
-                        >
-                          {t.forms.inputCard.salmonRun}
-                        </Label>
-                        <Switch id="demo-switch-2" color="green" onLabel={t.forms.inputCard.salmonRunOn} offLabel={t.forms.inputCard.salmonRunOff} />
-                      </div>
-                      <div className="flex items-center justify-between gap-4 opacity-80">
-                        <Label
-                          htmlFor="demo-switch-3"
-                          className="cursor-not-allowed pb-0 text-sm font-medium"
-                        >
-                          {t.forms.inputCard.locked}
-                        </Label>
-                        <Switch id="demo-switch-3" size="sm" disabled />
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-3">
-                      <Label>{t.forms.inputCard.segmented}</Label>
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="text-sm font-medium">{t.forms.inputCard.language}</span>
-                        <SegmentedControl defaultValue="en" aria-label={t.forms.inputCard.language}>
-                          <SegmentedControlItem value="ja">JP</SegmentedControlItem>
-                          <SegmentedControlItem value="en">EN</SegmentedControlItem>
-                          <SegmentedControlItem value="zh">ZH</SegmentedControlItem>
-                        </SegmentedControl>
-                      </div>
-                      <div className="flex items-center justify-between gap-4">
-                        <span className="text-sm font-medium">{t.forms.inputCard.queue}</span>
-                        <SegmentedControl
-                          appearance="track"
-                          color="green"
-                          defaultValue="salmon"
-                          aria-label={t.forms.inputCard.queue}
-                        >
-                          <SegmentedControlItem value="turf">{t.forms.inputCard.turf}</SegmentedControlItem>
-                          <SegmentedControlItem value="rank">{t.forms.inputCard.rank}</SegmentedControlItem>
-                          <SegmentedControlItem value="salmon">{t.forms.inputCard.run}</SegmentedControlItem>
-                        </SegmentedControl>
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t.forms.inputCard.family}</Label>
-                      <RadioGroup defaultValue="buttons">
+                      <div className="flex flex-col gap-3">
+                        <Label>{t.forms.inputCard.notifications}</Label>
                         <div className="flex items-center gap-3">
-                          <RadioGroupItem id="r1" value="buttons" />
-                          <Label htmlFor="r1" className="cursor-pointer pb-0 text-sm font-medium">
-                            {t.forms.inputCard.familyButtons}
+                          <Checkbox id="demo-checkbox-1" defaultChecked />
+                          <Label
+                            htmlFor="demo-checkbox-1"
+                            className="cursor-pointer pb-0 text-sm font-medium"
+                          >
+                            {t.forms.inputCard.releaseNotes}
                           </Label>
                         </div>
                         <div className="flex items-center gap-3">
-                          <RadioGroupItem id="r2" value="cards" />
-                          <Label htmlFor="r2" className="cursor-pointer pb-0 text-sm font-medium">
-                            {t.forms.inputCard.familyCards}
+                          <Checkbox id="demo-checkbox-2" />
+                          <Label
+                            htmlFor="demo-checkbox-2"
+                            className="cursor-pointer pb-0 text-sm font-medium"
+                          >
+                            {t.forms.inputCard.desktopSounds}
                           </Label>
                         </div>
-                        <div className="flex items-center gap-3">
-                          <RadioGroupItem id="r3" value="dialogs" />
-                          <Label htmlFor="r3" className="cursor-pointer pb-0 text-sm font-medium">
-                            {t.forms.inputCard.familyDialogs}
+                      </div>
+                      <div className="flex flex-col gap-3">
+                        <Label>{t.forms.inputCard.switchControls}</Label>
+                        <div className="flex items-center justify-between gap-4">
+                          <Label
+                            htmlFor="demo-switch-1"
+                            className="cursor-pointer pb-0 text-sm font-medium"
+                          >
+                            {t.forms.inputCard.inkSync}
                           </Label>
+                          <Switch id="demo-switch-1" defaultChecked />
                         </div>
-                      </RadioGroup>
-                    </div>
-                  </CardContent>
-                </Card>
+                        <div className="flex items-center justify-between gap-4">
+                          <Label
+                            htmlFor="demo-switch-2"
+                            className="cursor-pointer pb-0 text-sm font-medium"
+                          >
+                            {t.forms.inputCard.salmonRun}
+                          </Label>
+                          <Switch
+                            id="demo-switch-2"
+                            color="green"
+                            onLabel={t.forms.inputCard.salmonRunOn}
+                            offLabel={t.forms.inputCard.salmonRunOff}
+                          />
+                        </div>
+                        <div className="flex items-center justify-between gap-4 opacity-80">
+                          <Label
+                            htmlFor="demo-switch-3"
+                            className="cursor-not-allowed pb-0 text-sm font-medium"
+                          >
+                            {t.forms.inputCard.locked}
+                          </Label>
+                          <Switch id="demo-switch-3" size="sm" disabled />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-3">
+                        <Label>{t.forms.inputCard.segmented}</Label>
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-sm font-medium">{t.forms.inputCard.language}</span>
+                          <SegmentedControl
+                            defaultValue="en"
+                            aria-label={t.forms.inputCard.language}
+                          >
+                            <SegmentedControlItem value="ja">JP</SegmentedControlItem>
+                            <SegmentedControlItem value="en">EN</SegmentedControlItem>
+                            <SegmentedControlItem value="zh">ZH</SegmentedControlItem>
+                          </SegmentedControl>
+                        </div>
+                        <div className="flex items-center justify-between gap-4">
+                          <span className="text-sm font-medium">{t.forms.inputCard.queue}</span>
+                          <SegmentedControl
+                            appearance="track"
+                            color="green"
+                            defaultValue="salmon"
+                            aria-label={t.forms.inputCard.queue}
+                          >
+                            <SegmentedControlItem value="turf">
+                              {t.forms.inputCard.turf}
+                            </SegmentedControlItem>
+                            <SegmentedControlItem value="rank">
+                              {t.forms.inputCard.rank}
+                            </SegmentedControlItem>
+                            <SegmentedControlItem value="salmon">
+                              {t.forms.inputCard.run}
+                            </SegmentedControlItem>
+                          </SegmentedControl>
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.forms.inputCard.family}</Label>
+                        <RadioGroup defaultValue="buttons">
+                          <div className="flex items-center gap-3">
+                            <RadioGroupItem id="r1" value="buttons" />
+                            <Label htmlFor="r1" className="cursor-pointer pb-0 text-sm font-medium">
+                              {t.forms.inputCard.familyButtons}
+                            </Label>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <RadioGroupItem id="r2" value="cards" />
+                            <Label htmlFor="r2" className="cursor-pointer pb-0 text-sm font-medium">
+                              {t.forms.inputCard.familyCards}
+                            </Label>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <RadioGroupItem id="r3" value="dialogs" />
+                            <Label htmlFor="r3" className="cursor-pointer pb-0 text-sm font-medium">
+                              {t.forms.inputCard.familyDialogs}
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                    </CardContent>
+                  </Card>
 
-                <Card variant="paper" surface="white">
-                  <CardHeader>
-                    <CardTitle>{t.forms.alertsCard.title}</CardTitle>
-                    <CardDescription>{t.forms.alertsCard.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="flex flex-col gap-6 pt-2">
-                    <Alert variant="default">
-                      <AlertTitle>{t.forms.alertsCard.noticeTitle}</AlertTitle>
-                      <AlertDescription>{t.forms.alertsCard.noticeDesc}</AlertDescription>
-                    </Alert>
-                    <Alert variant="destructive">
-                      <AlertTitle textColor="var(--danger-surface-title)">
-                        {t.forms.alertsCard.actionTitle}
-                      </AlertTitle>
-                      <AlertDescription textColor="var(--danger-surface-description)">
-                        {t.forms.alertsCard.actionDesc}
-                      </AlertDescription>
-                    </Alert>
-                  </CardContent>
-                </Card>
-              </div>
+                  <Card variant="paper" surface="white">
+                    <CardHeader>
+                      <CardTitle>{t.forms.alertsCard.title}</CardTitle>
+                      <CardDescription>{t.forms.alertsCard.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-6 pt-2">
+                      <Alert variant="default">
+                        <AlertTitle>{t.forms.alertsCard.noticeTitle}</AlertTitle>
+                        <AlertDescription>{t.forms.alertsCard.noticeDesc}</AlertDescription>
+                      </Alert>
+                      <Alert variant="destructive">
+                        <AlertTitle textColor="var(--danger-surface-title)">
+                          {t.forms.alertsCard.actionTitle}
+                        </AlertTitle>
+                        <AlertDescription textColor="var(--danger-surface-description)">
+                          {t.forms.alertsCard.actionDesc}
+                        </AlertDescription>
+                      </Alert>
+                    </CardContent>
+                  </Card>
+                </div>
               </InViewStagger>
 
               {/* Progress Bars */}
               <InViewStagger variant="pop" rootMargin="-30px">
                 <div className="space-y-12">
-                <div className="space-y-4">
-                  <div className="flex items-end justify-between px-2">
-                    <h3 className="text-lg font-black text-white/80 uppercase">{t.forms.progress.catalog.label}</h3>
-                    <span className="text-sm font-bold" style={{ color: 'var(--color-yellow)' }}>
-                      {t.forms.progress.catalog.value}
-                    </span>
+                  <div className="space-y-4">
+                    <div className="flex items-end justify-between px-2">
+                      <h3 className="text-lg font-black text-white/80 uppercase">
+                        {t.forms.progress.catalog.label}
+                      </h3>
+                      <span className="text-sm font-bold" style={{ color: 'var(--color-yellow)' }}>
+                        {t.forms.progress.catalog.value}
+                      </span>
+                    </div>
+                    <Progress value={75} variant="yellow" trackVariant="dark" />
                   </div>
-                  <Progress value={75} variant="yellow" trackVariant="dark" />
-                </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-end justify-between px-2">
-                    <h3 className="text-lg font-black text-white/80 uppercase">{t.forms.progress.gallery.label}</h3>
-                    <span className="text-sm font-bold" style={{ color: 'var(--color-blue)' }}>
-                      {t.forms.progress.gallery.value}
-                    </span>
+                  <div className="space-y-4">
+                    <div className="flex items-end justify-between px-2">
+                      <h3 className="text-lg font-black text-white/80 uppercase">
+                        {t.forms.progress.gallery.label}
+                      </h3>
+                      <span className="text-sm font-bold" style={{ color: 'var(--color-blue)' }}>
+                        {t.forms.progress.gallery.value}
+                      </span>
+                    </div>
+                    <Progress value={45} variant="blue" trackVariant="dark" size="lg" />
                   </div>
-                  <Progress value={45} variant="blue" trackVariant="dark" size="lg" />
-                </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-end justify-between px-2">
-                    <h3 className="text-lg font-black text-white/80 uppercase">{t.forms.progress.reset.label}</h3>
-                    <span
-                      className="text-sm font-bold"
-                      style={{ color: 'var(--color-nintendo-red)' }}
-                    >
-                      {t.forms.progress.reset.value}
-                    </span>
+                  <div className="space-y-4">
+                    <div className="flex items-end justify-between px-2">
+                      <h3 className="text-lg font-black text-white/80 uppercase">
+                        {t.forms.progress.reset.label}
+                      </h3>
+                      <span
+                        className="text-sm font-bold"
+                        style={{ color: 'var(--color-nintendo-red)' }}
+                      >
+                        {t.forms.progress.reset.value}
+                      </span>
+                    </div>
+                    <Progress value={10} variant="red" trackVariant="dark" />
                   </div>
-                  <Progress value={10} variant="red" trackVariant="dark" />
-                </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-end justify-between px-2">
-                    <h3 className="text-lg font-black text-white/80 uppercase">{t.forms.progress.theme.label}</h3>
-                    <span className="text-sm font-bold" style={{ color: 'var(--color-green)' }}>
-                      {t.forms.progress.theme.value}
-                    </span>
+                  <div className="space-y-4">
+                    <div className="flex items-end justify-between px-2">
+                      <h3 className="text-lg font-black text-white/80 uppercase">
+                        {t.forms.progress.theme.label}
+                      </h3>
+                      <span className="text-sm font-bold" style={{ color: 'var(--color-green)' }}>
+                        {t.forms.progress.theme.value}
+                      </span>
+                    </div>
+                    <Progress value={92} variant="green" trackVariant="light" />
                   </div>
-                  <Progress value={92} variant="green" trackVariant="light" />
                 </div>
-              </div>
               </InViewStagger>
             </DemoContent>
           </Section>

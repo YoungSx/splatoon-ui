@@ -1,4 +1,11 @@
 /* ── Tape display helper ── */
+.visual {
+  filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.3));
+  position: relative;
+  transform: rotate(var(--torn-card-rotation, 0deg));
+  width: 100%;
+}
+
 .tape {
   display: block;
   transform: rotate(var(--tape-rotate, 0deg));
@@ -16,9 +23,16 @@
 }
 
 /* ── Responsive image: mobile by default, desktop at 400px container width ── */
-.imgDesktop { display: none; }
+.imgDesktop {
+  display: none;
+}
 
 @container (min-width: 400px) {
-  .imgMobile { display: none; }
-  .imgDesktop { display: block; }
+  .imgMobile {
+    display: none;
+  }
+
+  .imgDesktop {
+    display: block;
+  }
 }

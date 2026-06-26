@@ -3,10 +3,9 @@
 /**
  * InView — scroll-triggered animation helper.
  *
- * Uses IntersectionObserver to add `.in-view` class to the wrapper,
- * triggering CSS transitions on child `.anim` elements.
- *
- * CSS modules provide `.anim`, `.stagger`, and directional transition classes.
+ * Mirrors the official site's class-driven pattern: the observed element
+ * receives the in-view state and animation classes directly. This component
+ * intentionally does not render wrapper DOM or own layout.
  */
 
 import * as React from 'react'
@@ -39,7 +38,13 @@ export type InViewDelay =
   | 19
   | 20
 
-export interface InViewProps extends React.HTMLAttributes<HTMLDivElement> {
+type InViewElement = React.ReactElement<{
+  className?: string
+  style?: React.CSSProperties
+  ref?: React.Ref<HTMLElement>
+}>
+
+export interface InViewProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
   /** Animation direction */
   direction?: InViewDirection
   /** Delay level (1-20, each = 0.1s) */
@@ -50,8 +55,8 @@ export interface InViewProps extends React.HTMLAttributes<HTMLDivElement> {
   once?: boolean
   /** Use drop animation (start-scale: 1.1) instead of direction */
   drop?: boolean | 'slow'
-  /** Content to animate */
-  children?: React.ReactNode
+  /** The single element to observe and animate */
+  children: InViewElement
 }
 
 // ─── Direction-to-CSS map ──────────────────────────────────────────────────
@@ -65,6 +70,27 @@ const DIRECTION_CLASS: Record<InViewDirection, string> = {
   pop: styles.pop,
 }
 
+function setRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
+  if (!ref) return
+  if (typeof ref === 'function') {
+    ref(value)
+    return
+  }
+  ;(ref as React.MutableRefObject<T | null>).current = value
+}
+
+function getChildRef(child: InViewElement): React.Ref<HTMLElement> | undefined {
+  return child.props.ref
+}
+
+function mergeChildStyle(
+  childStyle: React.CSSProperties | undefined,
+  ownerStyle: React.CSSProperties | undefined
+) {
+  if (!childStyle && !ownerStyle) return undefined
+  return { ...childStyle, ...ownerStyle }
+}
+
 // ─── Component ──────────────────────────────────────────────────────────────
 
 export function InView({
@@ -75,15 +101,21 @@ export function InView({
   drop,
   className,
   children,
+  style,
   ...props
 }: InViewProps) {
-  const [isInView, ref] = useInView<HTMLDivElement>({ rootMargin, once })
+  const [isInView, observerRef] = useInView<HTMLElement>({ rootMargin, once })
+  const child = React.Children.only(children)
+  const childRef = getChildRef(child)
+  const mergedStyle = mergeChildStyle(child.props.style, style)
+  const ref = (node: HTMLElement | null) => {
+    setRef(observerRef, node)
+    setRef(childRef, node)
+  }
 
-  // Build anim class list
   const animClasses = React.useMemo(() => {
     const classes = [styles.anim]
 
-    // Direction or drop
     if (direction && DIRECTION_CLASS[direction]) {
       classes.push(DIRECTION_CLASS[direction])
     }
@@ -92,8 +124,6 @@ export function InView({
     } else if (drop === 'slow') {
       classes.push(styles.dropSlow)
     }
-
-    // Delay
     if (delay && delay >= 1 && delay <= 20) {
       classes.push(styles[`delay${delay}` as keyof typeof styles])
     }
@@ -101,16 +131,17 @@ export function InView({
     return classes
   }, [direction, drop, delay])
 
-  return (
-    <div ref={ref} className={cn(styles.root, isInView && styles.inView, className)} {...props}>
-      <div className={cn(animClasses)}>{children}</div>
-    </div>
-  )
+  return React.cloneElement(child, {
+    ...props,
+    ref,
+    ...(mergedStyle ? { style: mergedStyle } : null),
+    className: cn(child.props.className, className, animClasses, isInView && styles.inView),
+  })
 }
 
 // ─── Stagger sub-component ──────────────────────────────────────────────────
 
-export interface InViewStaggerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface InViewStaggerProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
   /** Stagger direction variant */
   variant?: 'up-min' | 'pop'
   /** Root margin for IntersectionObserver */
@@ -119,7 +150,7 @@ export interface InViewStaggerProps extends React.HTMLAttributes<HTMLDivElement>
   once?: boolean
   /** Override IntersectionObserver — when provided, controls active state directly */
   active?: boolean
-  children?: React.ReactNode
+  children: InViewElement
 }
 
 export function InViewStagger({
@@ -129,22 +160,30 @@ export function InViewStagger({
   active,
   className,
   children,
+  style,
   ...props
 }: InViewStaggerProps) {
-  const [isInViewFromObserver, ref] = useInView<HTMLDivElement>({ rootMargin, once })
+  const [isInViewFromObserver, observerRef] = useInView<HTMLElement>({ rootMargin, once })
   const isInView = active !== undefined ? active : isInViewFromObserver
+  const child = React.Children.only(children)
+  const childRef = getChildRef(child)
+  const mergedStyle = mergeChildStyle(child.props.style, style)
+  const ref = (node: HTMLElement | null) => {
+    setRef(observerRef, node)
+    setRef(childRef, node)
+  }
 
-  return (
-    <div ref={ref} className={cn(styles.root, isInView && styles.inView, className)} {...props}>
-      <div
-        className={cn(
-          styles.stagger,
-          variant === 'up-min' && styles.staggerUpMin,
-          variant === 'pop' && styles.staggerPop
-        )}
-      >
-        {children}
-      </div>
-    </div>
-  )
+  return React.cloneElement(child, {
+    ...props,
+    ref,
+    ...(mergedStyle ? { style: mergedStyle } : null),
+    className: cn(
+      child.props.className,
+      className,
+      styles.stagger,
+      variant === 'up-min' && styles.staggerUpMin,
+      variant === 'pop' && styles.staggerPop,
+      isInView && styles.inView
+    ),
+  })
 }
