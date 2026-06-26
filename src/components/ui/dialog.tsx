@@ -454,19 +454,23 @@ function DialogContent({
         <PaperSurface
           tone={fillInfo.tone}
           className="max-h-full min-h-0"
-          contentClassName={cn(
-            'flex min-h-0 flex-col gap-4 overflow-y-auto overscroll-contain px-8 py-4',
-            fillInfo.bg
-          )}
+          contentClassName={cn('flex min-h-0 flex-col overflow-hidden', fillInfo.bg)}
         >
-          <DialogSurfaceContext.Provider value={surface}>{children}</DialogSurfaceContext.Provider>
-
-          {showCloseButton && (
-            <div className="absolute -top-1 -right-3 z-50">
-              <DialogPrimitive.Close render={<WaveButton />} />
-            </div>
-          )}
+          <div
+            data-slot="dialog-scroll"
+            className="flex min-h-0 flex-col gap-4 overflow-x-hidden overflow-y-auto overscroll-contain px-8 py-4"
+          >
+            <DialogSurfaceContext.Provider value={surface}>
+              {children}
+            </DialogSurfaceContext.Provider>
+          </div>
         </PaperSurface>
+
+        {showCloseButton && (
+          <div className="absolute -top-1 -right-3 z-50">
+            <DialogPrimitive.Close render={<WaveButton />} />
+          </div>
+        )}
       </DialogPrimitive.Popup>
     </DialogPortal>
   )

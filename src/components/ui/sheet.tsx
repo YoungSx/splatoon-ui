@@ -69,21 +69,33 @@ const SheetPopup = React.forwardRef<
   HTMLDivElement,
   SheetPrimitive.Popup.Props & {
     side?: SheetSide
+    closeButton?: React.ReactNode
   }
->(function SheetPopup({ className, side = 'right', style, ...props }, ref) {
+>(function SheetPopup({ className, side = 'right', style, children, closeButton, ...props }, ref) {
   return (
     <SheetPrimitive.Popup
       ref={ref}
       data-slot="sheet-popup"
       data-side={side}
       className={cn(
-        'drawer-sheet bg-popover text-popover-foreground flex flex-col gap-4 overflow-y-auto overscroll-contain bg-clip-padding text-sm shadow-none transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0',
-        SIDE_CLASS[side],
-        className
+        'transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0',
+        SIDE_CLASS[side]
       )}
       style={{ zIndex: SHEET_Z_INDEX.content, ...style }}
       {...props}
-    />
+    >
+      <div
+        data-slot="sheet-body"
+        className={cn(
+          'drawer-sheet bg-popover text-popover-foreground flex flex-col gap-4 overflow-x-hidden overflow-y-auto overscroll-contain bg-clip-padding text-sm shadow-none',
+          styles.sheetBody,
+          className
+        )}
+      >
+        {children}
+      </div>
+      {closeButton}
+    </SheetPrimitive.Popup>
   )
 })
 
@@ -102,13 +114,20 @@ const SheetContent = React.forwardRef<
   return (
     <SheetPortal>
       <SheetOverlay />
-      <SheetPopup ref={ref} className={className} side={side} {...props}>
+      <SheetPopup
+        ref={ref}
+        className={className}
+        side={side}
+        closeButton={
+          showCloseButton ? (
+            <div className={cn('absolute z-10', CLOSE_BUTTON_CLASS[side])}>
+              <SheetPrimitive.Close render={<WaveButton />} />
+            </div>
+          ) : null
+        }
+        {...props}
+      >
         {children}
-        {showCloseButton && (
-          <div className={cn('absolute z-10', CLOSE_BUTTON_CLASS[side])}>
-            <SheetPrimitive.Close render={<WaveButton />} />
-          </div>
-        )}
       </SheetPopup>
     </SheetPortal>
   )

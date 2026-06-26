@@ -5,8 +5,20 @@
 .sideBottom,
 .sideLeft {
   max-height: 100dvh;
+  overflow: visible;
   position: fixed;
   z-index: var(--z-sheet);
+}
+
+.sheetBody {
+  inline-size: 100%;
+  max-block-size: 100%;
+  min-block-size: 0;
+}
+
+.sideRight .sheetBody,
+.sideLeft .sheetBody {
+  block-size: 100%;
 }
 
 .sideTop {
