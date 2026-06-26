@@ -86,47 +86,6 @@
   }
 }
 
-/* ── Non-animated tape (backward compat) ── */
-.bannerDivider {
-  background-position: 50%;
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  height: 47px;
-  left: -5vw;
-  position: absolute;
-  width: 110vw;
-  z-index: 2;
-}
-
-@media screen and (min-width: 640px) {
-  .bannerDivider {
-    height: 65px;
-    top: var(--banner-offset-medium, 0);
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .bannerDivider {
-    height: 90px;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .bannerDivider {
-    height: 110px;
-  }
-}
-
-/* ── Rotation: alternating 1 degree strips, origin at right-center ── */
-.rotateUp {
-  transform: rotate(1deg);
-  transform-origin: 90% 50%;
-}
-.rotateDown {
-  transform: rotate(-1deg);
-  transform-origin: 90% 50%;
-}
-
 /* ── Design patterns ── */
 .banner-divider--design1 {
   background-image: url('/_images/banners/banner-design1.png');

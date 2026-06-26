@@ -48,7 +48,11 @@ import {
 } from '@/components/ui/squid-mask-transition'
 
 import { CardGrid, CardGridGroup } from '@/components/ui/card-grid'
-import { BannerDivider } from '@/components/ui/banner-divider'
+import {
+  BannerDivider,
+  type BannerDividerTape,
+  type BannerDividerVariant,
+} from '@/components/ui/banner-divider'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
 import { Loader } from '@/components/ui/loader'
 import { IconButton } from '@/components/ui/icon-button'
@@ -123,6 +127,16 @@ function createDemoEmbed(label: string) {
 }
 
 const demoVideoEmbed = createDemoEmbed('Splatoon UI')
+
+function createTwoTapeDivider(
+  pattern: BannerDividerVariant,
+  color: BannerDividerVariant
+): [BannerDividerTape, BannerDividerTape] {
+  return [
+    { variant: pattern, rotate: -1.5, offsetY: 0, enterFrom: 'left' },
+    { variant: color, rotate: 1.5, offsetY: { base: 35, medium: 45 }, enterFrom: 'right' },
+  ]
+}
 
 function FeedCardImage({ asset }: { asset: ImageAsset }) {
   return <AssetImage asset={asset} fill fit="cover" loading="eager" />
@@ -405,54 +419,63 @@ export default function Home() {
         '-left-[2.35em] top-1/2 h-[4.2em] w-[4.2em] -translate-y-[44%] rotate-[12deg]',
     },
     {
-      label: t.nav.titles,
-      href: '#titles',
-      selectedKey: 'titles',
+      label: t.nav.foundations,
+      href: '#foundations',
+      selectedKey: 'foundations',
       hoverSplatId: 8,
       hoverSplatColor: 'var(--color-yellow)',
       hoverSplatClassName:
         '-left-[2.45em] top-1/2 h-[4.05em] w-[4.05em] -translate-y-[45%] rotate-[14deg]',
     },
     {
-      label: t.nav.buttonsBadges,
-      href: '#buttons-badges',
-      selectedKey: 'buttons-badges',
+      label: t.nav.actions,
+      href: '#actions',
+      selectedKey: 'actions',
       hoverSplatId: 11,
       hoverSplatColor: 'var(--color-blue)',
       hoverSplatClassName:
         '-left-[2.5em] top-1/2 h-[4.25em] w-[4.25em] -translate-y-[45%] rotate-[-10deg]',
     },
     {
-      label: t.nav.overlays,
-      href: '#overlays',
-      selectedKey: 'overlays',
+      label: t.nav.formsControls,
+      href: '#forms-controls',
+      selectedKey: 'forms-controls',
       hoverSplatId: 10,
       hoverSplatColor: 'var(--color-blue)',
       hoverSplatClassName:
         '-left-[2.65em] top-1/2 h-[4.35em] w-[4.35em] -translate-y-[44%] -rotate-[18deg]',
     },
     {
-      label: t.nav.cardGrid,
-      href: '#card-grid',
-      selectedKey: 'card-grid',
+      label: t.nav.navigation,
+      href: '#navigation-components',
+      selectedKey: 'navigation-components',
+      hoverSplatId: 4,
+      hoverSplatColor: 'var(--color-yellow)',
+      hoverSplatClassName:
+        '-left-[2.45em] top-1/2 h-[4.1em] w-[4.1em] -translate-y-[44%] rotate-[10deg]',
+    },
+    {
+      label: t.nav.feedbackOverlays,
+      href: '#feedback-overlays',
+      selectedKey: 'feedback-overlays',
       hoverSplatId: 6,
       hoverSplatColor: 'var(--color-yellow)',
       hoverSplatClassName:
         '-left-[2.3em] top-1/2 h-[3.95em] w-[3.95em] -translate-y-[44%] rotate-[8deg]',
     },
     {
-      label: t.nav.carousels,
-      href: '#carousels',
-      selectedKey: 'carousels',
+      label: t.nav.cardsSurfaces,
+      href: '#cards-surfaces',
+      selectedKey: 'cards-surfaces',
       hoverSplatId: 3,
       hoverSplatColor: 'var(--color-blue)',
       hoverSplatClassName:
         '-left-[2.45em] top-1/2 h-[4.1em] w-[4.1em] -translate-y-[44%] -rotate-[12deg]',
     },
     {
-      label: t.nav.forms,
-      href: '#progress',
-      selectedKey: 'progress',
+      label: t.nav.motionMedia,
+      href: '#motion-media',
+      selectedKey: 'motion-media',
       hoverSplatId: 12,
       hoverSplatColor: 'var(--color-blue)',
       hoverSplatClassName:
@@ -519,13 +542,13 @@ export default function Home() {
           topInset={40}
           sections={[
             { id: 'trailer', number: '01' },
-            { id: 'titles', number: '02' },
-            { id: 'buttons-badges', number: '03' },
-            { id: 'overlays', number: '04' },
-            { id: 'apparel', number: '05' },
-            { id: 'card-grid', number: '06' },
-            { id: 'carousels', number: '07' },
-            { id: 'progress', number: '08' },
+            { id: 'foundations', number: '02' },
+            { id: 'actions', number: '03' },
+            { id: 'forms-controls', number: '04' },
+            { id: 'navigation-components', number: '05' },
+            { id: 'feedback-overlays', number: '06' },
+            { id: 'cards-surfaces', number: '07' },
+            { id: 'motion-media', number: '08' },
           ]}
           navLabel={t.sideNav.navLabel}
           backToTopLabel={t.sideNav.backToTop}
@@ -630,20 +653,14 @@ export default function Home() {
             </div>
           </Section>
 
-          {/* Banner divider: Trailer → PageTransition */}
-          <BannerDivider pattern="design1" color="green" animate />
-
-          {/* ── Page Transition Demo (not in SideNav) ── */}
-          <PageTransitionDemo t={t.pageTransition} />
-
-          {/* Banner divider: PageTransition → Titles */}
-          <BannerDivider pattern="design1" color="yellow" animate />
+          {/* Banner divider: Trailer → Foundations */}
+          <BannerDivider tapes={createTwoTapeDivider('design1', 'yellow')} animate />
 
           {/* ────────────────────────────────────────────────────────
-         02 — Tape Titles & Heading Tapes
+         02 — Foundations
          ──────────────────────────────────────────────────────── */}
           <Section
-            id="titles"
+            id="foundations"
             size="md"
             bgColor="bg-white"
             text="text-chaos-black"
@@ -707,14 +724,14 @@ export default function Home() {
             </div>
           </Section>
 
-          {/* Banner divider: Titles → Buttons & Badges */}
-          <BannerDivider pattern="design2" color="blue" animate />
+          {/* Banner divider: Foundations → Actions */}
+          <BannerDivider tapes={createTwoTapeDivider('design2', 'blue')} animate />
 
           {/* ────────────────────────────────────────────────────────
-         03 — Buttons & Badges
+         03 — Actions
          ──────────────────────────────────────────────────────── */}
           <Section
-            id="buttons-badges"
+            id="actions"
             size="lg"
             bgColor="bg-white"
             text="text-chaos-black"
@@ -969,778 +986,19 @@ export default function Home() {
             </div>
           </Section>
 
-          {/* Banner divider: Buttons & Badges → Overlays */}
-          <BannerDivider pattern="design1" color="purple" animate />
+          {/* Banner divider: Actions → Forms & Controls */}
+          <BannerDivider tapes={createTwoTapeDivider('design2', 'green')} animate />
 
           {/* ────────────────────────────────────────────────────────
-         04 — Overlays
+         04 — Forms & Controls
          ──────────────────────────────────────────────────────── */}
           <Section
-            id="overlays"
-            size="lg"
-            bgColor="bg-black"
-            text="text-white"
-            pattern="camo-black"
-            bottomOverlayClearance="banner-divider"
-            headingTape={<HeadingTape color="red">{t.overlays.sectionTitle}</HeadingTape>}
-          >
-            <div className="text-purple absolute top-6 right-6">
-              <Splat3 className="h-24 w-24" />
-            </div>
-            <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
-              <InView rootMargin="-50px">
-                <div className="space-y-4 text-center">
-                  <p className="mx-auto max-w-xl text-sm font-medium text-white/60">
-                    {t.overlays.desc}
-                  </p>
-                </div>
-              </InView>
-
-              {/* Dialog demos */}
-              <InView direction="pop" rootMargin="-50px">
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div className="space-y-4">
-                    <h3 className="text-yellow text-lg font-black tracking-wider uppercase">
-                      {t.overlays.graffiti.title}
-                    </h3>
-                    <p className="text-xs text-white/50">{t.overlays.graffiti.desc}</p>
-                    <div className="flex flex-wrap gap-3">
-                      <Dialog>
-                        <DialogTriggerButton variant="yellow" theme="dark-yellow">
-                          {t.overlays.graffiti.yellow}
-                        </DialogTriggerButton>
-                        <DialogContent surface="paper" hasTape={true}>
-                          <DialogHeader>
-                            <DialogTitle>{t.overlays.graffiti.choiceTitle}</DialogTitle>
-                            <DialogDescription>{t.overlays.graffiti.choiceDesc}</DialogDescription>
-                          </DialogHeader>
-                          <div className="py-4">
-                            <p className="text-chaos-black/80 font-bold">
-                              {t.overlays.graffiti.chooseSurface}
-                            </p>
-                            <div className="mt-2 flex gap-3">
-                              <Button size="sm" variant="blue" theme="light-blue">
-                                {t.overlays.graffiti.colorBlue}
-                              </Button>
-                              <Button size="sm" variant="orange" theme="dark-purpleOrange">
-                                {t.overlays.graffiti.colorOrange}
-                              </Button>
-                            </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-
-                      <Dialog>
-                        <DialogTriggerButton variant="blue" theme="light-blue">
-                          {t.overlays.graffiti.blue}
-                        </DialogTriggerButton>
-                        <DialogContent surface="cream" hasTape={true} tapePosition="event">
-                          <DialogHeader>
-                            <DialogTitle>{t.overlays.graffiti.galleryTitle}</DialogTitle>
-                            <DialogDescription>{t.overlays.graffiti.galleryDesc}</DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-
-                      <Dialog>
-                        <DialogTriggerButton variant="destructive" theme="light-red">
-                          {t.overlays.graffiti.danger}
-                        </DialogTriggerButton>
-                        <DialogContent surface="danger" hasTape={true}>
-                          <DialogHeader>
-                            <DialogTitle>{t.overlays.graffiti.dangerTitle}</DialogTitle>
-                            <DialogDescription>{t.overlays.graffiti.dangerDesc}</DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
-                  </div>
-
-                  {/* Fullscreen Dialog */}
-                  <div className="space-y-4">
-                    <h3 className="text-purple text-lg font-black tracking-wider uppercase">
-                      {t.overlays.fullscreen.title}
-                    </h3>
-                    <p className="text-xs text-white/50">{t.overlays.fullscreen.desc}</p>
-                    <div className="flex flex-wrap gap-3">
-                      <Dialog>
-                        <DialogTriggerButton variant="purple" theme="dark-purple">
-                          {t.overlays.fullscreen.openButton}
-                        </DialogTriggerButton>
-                        <DialogContent fullScreen>
-                          <div className="flex flex-col items-center justify-center gap-6 p-6">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={showcaseMediaAssets.fullscreenPreview.src}
-                              alt={showcaseMediaAssets.fullscreenPreview.alt}
-                              width={showcaseMediaAssets.fullscreenPreview.width}
-                              height={showcaseMediaAssets.fullscreenPreview.height}
-                              className="w-full max-w-4xl rounded-lg"
-                              decoding="async"
-                              loading="lazy"
-                            />
-                            <p className="text-sm text-white/60">{t.overlays.fullscreen.caption}</p>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    </div>
-                  </div>
-
-                  {/* Sheet + Popover */}
-                  <div className="space-y-4">
-                    <h3 className="text-green text-lg font-black tracking-wider uppercase">
-                      {t.overlays.drawers.title}
-                    </h3>
-                    <p className="text-xs text-white/50">{t.overlays.drawers.desc}</p>
-                    <div className="flex flex-wrap gap-3">
-                      <Sheet>
-                        <SheetTriggerButton variant="green" theme="light-green">
-                          {t.overlays.drawers.rightDrawer}
-                        </SheetTriggerButton>
-                        <SheetContent
-                          side="right"
-                          className="shadow-soft-splat-lg text-chaos-black bg-white p-6 pt-10"
-                        >
-                          <SheetHeader>
-                            <SheetTitle className="text-xl font-black">
-                              {t.overlays.drawers.lobbyTitle}
-                            </SheetTitle>
-                            <SheetDescription>{t.overlays.drawers.lobbyDesc}</SheetDescription>
-                          </SheetHeader>
-                          <div className="space-y-4 py-4">
-                            <div className="scrap-panel-tight border-chaos-black border-2 bg-white p-3 pt-6">
-                              <h4 className="text-sm font-bold">{t.overlays.drawers.lastBattle}</h4>
-                              <p className="text-muted-foreground mt-1 text-xs">
-                                {t.overlays.drawers.lastBattleRoom}
-                              </p>
-                              <Badge
-                                color="monochrome"
-                                className="mt-2 -rotate-2"
-                                style={
-                                  {
-                                    '--torn-badge-text-color': 'var(--color-yellow)',
-                                  } as React.CSSProperties
-                                }
-                              >
-                                {t.overlays.drawers.victory}
-                              </Badge>
-                            </div>
-                          </div>
-                        </SheetContent>
-                      </Sheet>
-
-                      <Popover>
-                        <PopoverTriggerButton variant="outline" theme="yellow">
-                          {t.overlays.drawers.popover}
-                        </PopoverTriggerButton>
-                        <PopoverContent
-                          align="center"
-                          className="shadow-soft-splat-sm text-chaos-black max-w-xs bg-white p-4 pt-6"
-                        >
-                          <PopoverHeader>
-                            <PopoverTitle className="font-black">
-                              {t.overlays.drawers.grizzcoTitle}
-                            </PopoverTitle>
-                            <PopoverDescription className="text-xs">
-                              {t.overlays.drawers.grizzcoDesc}
-                            </PopoverDescription>
-                          </PopoverHeader>
-                          <div className="py-2 text-xs">
-                            <p>{t.overlays.drawers.grizzcoBody}</p>
-                            <p className="text-red mt-1.5 font-bold">
-                              {t.overlays.drawers.grizzcoAlert}
-                            </p>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                  </div>
-                </div>
-              </InView>
-            </div>
-          </Section>
-
-          {/* Banner divider: Overlays → Apparel Tags */}
-          <BannerDivider
-            animate
-            tapes={[
-              { variant: 'design2', rotate: 'down', offsetY: [0, 0] },
-              { variant: 'green', rotate: 'up', offsetY: [35, 45] },
-            ]}
-          />
-
-          {/* ────────────────────────────────────────────────────────
-         05 — Apparel Tags & Components
-         ──────────────────────────────────────────────────────── */}
-          <Section
-            id="apparel"
-            size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
-            pattern="camo-white-outline"
-            bottomOverlayClearance="banner-divider"
-            className="flex flex-col items-center transition-colors duration-300"
-          >
-            <InteractiveSplatter />
-            <div className="relative z-10 w-full max-w-4xl space-y-16">
-              {/* Sub-Section 1: Apparel Tags */}
-              <div className="space-y-8">
-                <InView rootMargin="-50px">
-                  <div>
-                    <HeadingTape>{t.apparel.sectionTitle}</HeadingTape>
-                    <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.desc}</p>
-                  </div>
-                </InView>
-
-                <InViewStagger variant="pop" rootMargin="-30px">
-                  <div className="grid gap-12 pt-6 md:grid-cols-2">
-                    {/* Yellow Tag */}
-                    <Card variant="rugged" ruggedTheme="yellow" rotation="-2deg">
-                      <CardHeader>
-                        <CardTitle>{t.apparel.yellowCard.title}</CardTitle>
-                      </CardHeader>
-                      <CardImage
-                        src={showcaseMediaAssets.ruggedLookbook.src}
-                        alt={showcaseMediaAssets.ruggedLookbook.alt}
-                      />
-                      <CardContent>
-                        <p className="text-[15px] leading-snug font-semibold">
-                          {t.apparel.yellowCard.body}
-                        </p>
-                      </CardContent>
-                      <CardFooter className="mt-0 justify-center border-none">
-                        <Button variant="blue" size="sm" theme="light-blue">
-                          {t.apparel.yellowCard.button}
-                        </Button>
-                      </CardFooter>
-                    </Card>
-
-                    {/* Blue Tag */}
-                    <Card variant="rugged" ruggedTheme="blue" rotation="3deg">
-                      <CardHeader>
-                        <CardTitle>{t.apparel.blueCard.title}</CardTitle>
-                      </CardHeader>
-                      <CardImage
-                        src={showcaseMediaAssets.ruggedMode.src}
-                        alt={showcaseMediaAssets.ruggedMode.alt}
-                      />
-                      <CardContent>
-                        <p className="text-[15px] leading-snug font-semibold opacity-90">
-                          {t.apparel.blueCard.body}
-                        </p>
-                      </CardContent>
-                      <CardFooter className="mt-0 justify-center border-none">
-                        <Button variant="yellow" size="sm" theme="dark-yellow">
-                          {t.apparel.blueCard.button}
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </div>
-                </InViewStagger>
-              </div>
-
-              {/* Sub-Section 2: Animation & Feedback */}
-              <div className="space-y-8">
-                <InView rootMargin="-50px">
-                  <HeadingTape>{t.apparel.animationSection}</HeadingTape>
-                </InView>
-
-                <div className="grid gap-8 md:grid-cols-2">
-                  {/* InView Demo Card */}
-                  <Card variant="torn" rotation="0deg" showTape={false} className="md:col-span-2">
-                    <CardHeader>
-                      <CardTitle>{t.apparel.inViewCard.title}</CardTitle>
-                      <CardDescription>{t.apparel.inViewCard.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="pt-2">
-                      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                        <InView direction="left" rootMargin="-50px">
-                          <div className="bg-blue rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
-                            {t.apparel.inViewCard.left}
-                          </div>
-                        </InView>
-                        <InView direction="up" rootMargin="-50px" delay={1}>
-                          <div className="bg-purple rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
-                            {t.apparel.inViewCard.up}
-                          </div>
-                        </InView>
-                        <InView direction="right" rootMargin="-50px" delay={2}>
-                          <div className="bg-red rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
-                            {t.apparel.inViewCard.right}
-                          </div>
-                        </InView>
-                        <InView direction="pop" rootMargin="-50px" delay={1}>
-                          <div className="bg-yellow text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
-                            {t.apparel.inViewCard.pop}
-                          </div>
-                        </InView>
-                        <InView drop rootMargin="-50px" delay={2}>
-                          <div className="bg-green text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
-                            {t.apparel.inViewCard.drop}
-                          </div>
-                        </InView>
-                        <InView drop="slow" rootMargin="-50px" delay={3}>
-                          <div className="bg-orange text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
-                            {t.apparel.inViewCard.slowDrop}
-                          </div>
-                        </InView>
-                      </div>
-                      <InViewStagger rootMargin="-30px">
-                        <div className="mt-6">
-                          {t.apparel.inViewCard.staggers.map((label, i) => (
-                            <div
-                              key={i}
-                              className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white uppercase last:mb-0"
-                            >
-                              {label}
-                            </div>
-                          ))}
-                        </div>
-                      </InViewStagger>
-                    </CardContent>
-                  </Card>
-
-                  {/* Loader Card */}
-                  <Card variant="torn" rotation="0deg" showTape={false} className="md:col-span-2">
-                    <CardHeader>
-                      <CardTitle>{t.apparel.loaderCard.title}</CardTitle>
-                      <CardDescription>{t.apparel.loaderCard.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-3 lg:grid-cols-6">
-                      {loaderDemoItems.map(({ label, variant, animation, size, style }) => (
-                        <div
-                          key={label}
-                          className="grid min-h-24 grid-rows-[1fr_auto] place-items-center gap-2 px-2 py-3 text-center"
-                        >
-                          <Loader
-                            variant={variant}
-                            animation={animation}
-                            size={size}
-                            style={style}
-                          />
-                          <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
-                            {label}
-                          </span>
-                        </div>
-                      ))}
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-
-              {/* Sub-Section 3: Tabs */}
-              <div className="space-y-8">
-                <InView rootMargin="-50px">
-                  <HeadingTape>{t.apparel.tabsSection}</HeadingTape>
-                </InView>
-                <InView direction="pop" rootMargin="-50px">
-                  <Card variant="torn" rotation="0deg" showTape={false}>
-                    <CardHeader>
-                      <CardTitle>{t.apparel.tabsCard.title}</CardTitle>
-                      <CardDescription>{t.apparel.tabsCard.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="grid gap-8 pt-2">
-                      <Tabs defaultValue="tab1" className="w-full">
-                        <TabsList className="mb-6 w-full gap-4 sm:justify-center">
-                          <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
-                          <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
-                          <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="tab1" className="outline-none">
-                          <div className="bg-blue/10 rounded-lg p-6 text-center">
-                            <p className="text-blue text-sm font-bold tracking-wider uppercase">
-                              {t.apparel.tabsCard.tab1Content}
-                            </p>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="tab2" className="outline-none">
-                          <div className="bg-green/10 rounded-lg p-6 text-center">
-                            <p className="text-green text-sm font-bold tracking-wider uppercase">
-                              {t.apparel.tabsCard.tab2Content}
-                            </p>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="tab3" className="outline-none">
-                          <div className="bg-orange/10 rounded-lg p-6 text-center">
-                            <p className="text-orange text-sm font-bold tracking-wider uppercase">
-                              {t.apparel.tabsCard.tab3Content}
-                            </p>
-                          </div>
-                        </TabsContent>
-                      </Tabs>
-                      <Tabs
-                        defaultValue="map"
-                        className="w-full gap-0 overflow-visible rounded-[8px] pt-4"
-                      >
-                        <TabsList variant="trapezoid" className="relative z-10">
-                          <TabsTrigger value="map">
-                            {t.apparel.tabsCard.trapezoidTabs.map}
-                          </TabsTrigger>
-                          <TabsTrigger value="stages">
-                            {t.apparel.tabsCard.trapezoidTabs.stages}
-                          </TabsTrigger>
-                          <TabsTrigger value="status">
-                            {t.apparel.tabsCard.trapezoidTabs.status}
-                          </TabsTrigger>
-                          <TabsTrigger value="options">
-                            {t.apparel.tabsCard.trapezoidTabs.options}
-                          </TabsTrigger>
-                        </TabsList>
-                        <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
-                        <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.mapContent}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.stagesContent}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.statusContent}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.optionsContent}
-                          </p>
-                        </TabsContent>
-                      </Tabs>
-                    </CardContent>
-                  </Card>
-                </InView>
-              </div>
-
-              {/* Sub-Section 4: Torn Card */}
-              <div className="space-y-8">
-                <InView rootMargin="-50px">
-                  <div>
-                    <HeadingTape>{t.apparel.tornSection}</HeadingTape>
-                    <p className="text-chaos-black/60 mt-1 text-sm font-medium">
-                      {t.apparel.tornDesc}
-                    </p>
-                  </div>
-                </InView>
-                <InView direction="pop" rootMargin="-50px">
-                  <Card variant="torn" rotation="-1.5deg">
-                    <div className="content-spacing">
-                      <h2>{t.apparel.tornCardContent.heading}</h2>
-                      <p>{t.apparel.tornCardContent.body}</p>
-                      <ul className="content-spacing ml-10 list-disc text-left">
-                        {t.apparel.tornCardContent.listItems.map((item, i) => (
-                          <li key={i}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Card>
-                </InView>
-
-                <InViewStagger variant="pop" rootMargin="-30px">
-                  <div className="grid gap-8 md:grid-cols-2">
-                    <TornCard variant="b">
-                      <TornCardTitle>{t.apparel.tornCardB.title}</TornCardTitle>
-                      <TornCardDescription>{t.apparel.tornCardB.desc}</TornCardDescription>
-                    </TornCard>
-                    <TornCard variant="c">
-                      <TornCardTitle>{t.apparel.tornCardC.title}</TornCardTitle>
-                      <TornCardDescription>{t.apparel.tornCardC.desc}</TornCardDescription>
-                    </TornCard>
-                  </div>
-                </InViewStagger>
-              </div>
-
-              {/* Sub-Section 5: StapleCards */}
-              <div className="space-y-8">
-                <InView rootMargin="-50px">
-                  <HeadingTape>{t.apparel.stapleSection}</HeadingTape>
-                </InView>
-                <InViewStagger variant="pop" rootMargin="-30px">
-                  <div className="grid gap-12 pt-6 md:grid-cols-2">
-                    <StapleCard
-                      image={
-                        <>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={eventImageAssets.bigRunCallout.src}
-                            alt={eventImageAssets.bigRunCallout.alt}
-                            width={eventImageAssets.bigRunCallout.width}
-                            height={eventImageAssets.bigRunCallout.height}
-                            className="h-full w-full object-cover"
-                            decoding="async"
-                            loading="lazy"
-                            draggable={false}
-                          />
-                        </>
-                      }
-                    >
-                      <div className="space-y-3 p-4">
-                        <p className="text-blue text-sm tracking-[0.35em] uppercase">
-                          {t.apparel.staple1.eyebrow}
-                        </p>
-                        <h4 className="text-xl font-black">{t.apparel.staple1.title}</h4>
-                        <p className="text-chaos-black/75 text-sm">{t.apparel.staple1.body}</p>
-                      </div>
-                    </StapleCard>
-                    <StapleCard
-                      image={
-                        <>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={eventImageAssets.splatnetBlade.src}
-                            alt={eventImageAssets.splatnetBlade.alt}
-                            width={eventImageAssets.splatnetBlade.width}
-                            height={eventImageAssets.splatnetBlade.height}
-                            className="h-full w-full object-cover"
-                            decoding="async"
-                            loading="lazy"
-                            draggable={false}
-                          />
-                        </>
-                      }
-                    >
-                      <div className="space-y-3 p-4">
-                        <p className="text-orange text-sm tracking-[0.35em] uppercase">
-                          {t.apparel.staple2.eyebrow}
-                        </p>
-                        <h4 className="text-xl font-black">{t.apparel.staple2.title}</h4>
-                        <p className="text-chaos-black/75 text-sm">{t.apparel.staple2.body}</p>
-                      </div>
-                    </StapleCard>
-                  </div>
-                </InViewStagger>
-              </div>
-            </div>
-          </Section>
-
-          {/* Banner divider: Apparel Tags → Card Grid */}
-          <BannerDivider pattern="design2" color="purple" animate />
-
-          {/* ────────────────────────────────────────────────────────
-         06 — Card Grid
-         ──────────────────────────────────────────────────────── */}
-          <Section
-            id="card-grid"
-            size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
-            pattern="camo-white"
-            bottomOverlayClearance="banner-divider"
-            className="flex flex-col items-center transition-colors duration-300"
-            headingTape={<HeadingTape>{t.cardGrid.sectionTitle}</HeadingTape>}
-          >
-            <div className="w-full max-w-6xl space-y-12">
-              <InView rootMargin="-50px">
-                <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.cardGrid.desc}</p>
-              </InView>
-
-              <InView direction="pop" rootMargin="-50px">
-                <div className="grid gap-6 lg:grid-cols-2">
-                  <EventCallout
-                    eyebrow={t.cardGrid.event1.eyebrow}
-                    title={t.cardGrid.event1.title}
-                    description={t.cardGrid.event1.description}
-                    media={eventImageAssets.bigRunCallout}
-                    background={eventImageAssets.splatnetNextPage}
-                    icon={eventImageAssets.goldenEgg}
-                    action={
-                      <Button size="sm" variant="yellow">
-                        {t.cardGrid.event1.action}
-                      </Button>
-                    }
-                  />
-                  <EventCallout
-                    eyebrow={t.cardGrid.event2.eyebrow}
-                    title={t.cardGrid.event2.title}
-                    description={t.cardGrid.event2.description}
-                    media={eventImageAssets.splatnetBlade}
-                    background={eventImageAssets.splatnetNextPage}
-                    icon={eventImageAssets.goldenEgg}
-                    action={
-                      <Button size="sm" variant="blue">
-                        {t.cardGrid.event2.action}
-                      </Button>
-                    }
-                  />
-                </div>
-              </InView>
-
-              <InView direction="pop" rootMargin="-50px">
-                <BlackTapeContainer>
-                  <p className="text-sm font-medium">{t.cardGrid.blackTapeDesc}</p>
-
-                  <CardGrid className="mt-6">
-                    <CardGridGroup>
-                      <div className="bg-blue relative overflow-hidden rounded-lg p-6 text-center text-white">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={eventImageAssets.bigRunCallout.src}
-                          alt=""
-                          width={eventImageAssets.bigRunCallout.width}
-                          height={eventImageAssets.bigRunCallout.height}
-                          className="absolute inset-0 h-full w-full object-cover opacity-35"
-                          decoding="async"
-                          loading="lazy"
-                          draggable={false}
-                        />
-                        <div className="relative z-10">
-                          <h4 className="text-xl font-black">
-                            {t.cardGrid.cells.mediaFeature.title}
-                          </h4>
-                          <p className="mt-2 text-sm opacity-90">
-                            {t.cardGrid.cells.mediaFeature.subtitle}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="bg-orange relative overflow-hidden rounded-lg p-6 text-center text-white">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={eventImageAssets.splatnetBlade.src}
-                          alt=""
-                          width={eventImageAssets.splatnetBlade.width}
-                          height={eventImageAssets.splatnetBlade.height}
-                          className="absolute inset-0 h-full w-full object-cover opacity-35"
-                          decoding="async"
-                          loading="lazy"
-                          draggable={false}
-                        />
-                        <div className="relative z-10">
-                          <h4 className="text-xl font-black">{t.cardGrid.cells.autoFlow.title}</h4>
-                          <p className="mt-2 text-sm opacity-90">
-                            {t.cardGrid.cells.autoFlow.subtitle}
-                          </p>
-                        </div>
-                      </div>
-                    </CardGridGroup>
-                    <CardGridGroup>
-                      <div className="bg-green relative overflow-hidden rounded-lg p-6 text-center text-white">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={eventImageAssets.splatnetNextPage.src}
-                          alt=""
-                          width={eventImageAssets.splatnetNextPage.width}
-                          height={eventImageAssets.splatnetNextPage.height}
-                          className="absolute inset-0 h-full w-full object-cover opacity-35"
-                          decoding="async"
-                          loading="lazy"
-                          draggable={false}
-                        />
-                        <div className="relative z-10">
-                          <h4 className="text-xl font-black">
-                            {t.cardGrid.cells.spacingToken.title}
-                          </h4>
-                          <p className="mt-2 text-sm opacity-90">
-                            {t.cardGrid.cells.spacingToken.subtitle}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="bg-red relative overflow-hidden rounded-lg p-6 text-center text-white">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={eventImageAssets.goldenEgg.src}
-                          alt=""
-                          width={eventImageAssets.goldenEgg.width}
-                          height={eventImageAssets.goldenEgg.height}
-                          className="absolute top-3 right-3 h-12 w-auto rotate-12 opacity-70"
-                          decoding="async"
-                          loading="lazy"
-                          draggable={false}
-                        />
-                        <h4 className="relative z-10 text-xl font-black">
-                          {t.cardGrid.cells.magazineStack.title}
-                        </h4>
-                        <p className="relative z-10 mt-2 text-sm opacity-90">
-                          {t.cardGrid.cells.magazineStack.subtitle}
-                        </p>
-                      </div>
-                    </CardGridGroup>
-                  </CardGrid>
-                </BlackTapeContainer>
-              </InView>
-            </div>
-          </Section>
-
-          {/* Banner divider: Card Grid → Carousels */}
-          <BannerDivider pattern="design3" color="yellow" animate />
-
-          {/* ────────────────────────────────────────────────────────
-         07 — Carousels
-         ──────────────────────────────────────────────────────── */}
-          <Section
-            id="carousels"
-            size="md"
-            bgColor="bg-blue"
-            text="text-white"
-            pattern="tapes-purple"
-            bottomOverlayClearance="banner-divider"
-            className="flex flex-col items-center transition-colors duration-300"
-            headingTape={
-              <div className="text-center">
-                <HeadingTape color="yellow">{t.carousels.sectionTitle}</HeadingTape>
-                <p className="mt-2 text-sm font-medium text-white/80">{t.carousels.sectionDesc}</p>
-              </div>
-            }
-          >
-            <DemoContent>
-              {/* 3D Splat Gallery */}
-              <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
-                  {t.carousels.feed.title}
-                </h3>
-                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
-                  {t.carousels.feed.desc}
-                </p>
-                <FeedCarousel initialIndex={2} items={homepageFeedCarouselItems} />
-              </DemoExampleGroup>
-
-              {/* Weapons Gallery Carousel */}
-              <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
-                  {t.carousels.weapons.title}
-                </h3>
-                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
-                  {t.carousels.weapons.desc}
-                </p>
-                <WeaponsGalleryCarousel items={weaponsGalleryItems} />
-              </DemoExampleGroup>
-
-              {/* Shops Gallery Carousel */}
-              <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
-                  {t.carousels.shops.title}
-                </h3>
-                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
-                  {t.carousels.shops.desc}
-                </p>
-                <IconPaginatedCarousel items={shopsGalleryItems} />
-              </DemoExampleGroup>
-
-              {/* Marquee Carousel */}
-              <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
-                  {t.carousels.marquee.title}
-                </h3>
-                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
-                  {t.carousels.marquee.desc}
-                </p>
-                <MarqueeCarousel items={marqueeItems} />
-              </DemoExampleGroup>
-            </DemoContent>
-          </Section>
-
-          {/* Banner divider: Carousels → Forms & Feedback */}
-          <BannerDivider pattern="design2" color="green" animate />
-
-          {/* ────────────────────────────────────────────────────────
-         08 — Forms & Feedback
-         ──────────────────────────────────────────────────────── */}
-          <Section
-            id="progress"
+            id="forms-controls"
             size="md"
             bgColor="bg-black"
             text="text-white"
             pattern="camo-black"
+            bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center"
             headingTape={
               <div className="text-center">
@@ -1750,7 +1008,6 @@ export default function Home() {
             }
           >
             <DemoContent>
-              {/* Forms */}
               <InViewStagger variant="pop" rootMargin="-30px">
                 <div className="grid gap-8 md:grid-cols-2">
                   <Card variant="paper" surface="white" className="w-full">
@@ -1937,7 +1194,6 @@ export default function Home() {
                 </div>
               </InViewStagger>
 
-              {/* Progress Bars */}
               <InViewStagger variant="pop" rootMargin="-30px">
                 <div className="space-y-12">
                   <div className="space-y-4">
@@ -1992,6 +1248,811 @@ export default function Home() {
                   </div>
                 </div>
               </InViewStagger>
+            </DemoContent>
+          </Section>
+
+          {/* Banner divider: Forms & Controls → Navigation */}
+          <BannerDivider tapes={createTwoTapeDivider('design2', 'blue')} animate />
+
+          {/* ────────────────────────────────────────────────────────
+         05 — Navigation
+         ──────────────────────────────────────────────────────── */}
+          <Section
+            id="navigation-components"
+            size="md"
+            bgColor="bg-white"
+            text="text-chaos-black"
+            pattern="chip-white"
+            bottomOverlayClearance="banner-divider"
+            className="transition-colors duration-300"
+            headingTape={<HeadingTape color="blue">{t.apparel.tabsSection}</HeadingTape>}
+          >
+            <div className="relative z-10 mx-auto w-full max-w-5xl">
+              <InView direction="pop" rootMargin="-50px">
+                <Card variant="torn" rotation="0deg" showTape={false}>
+                  <CardHeader>
+                    <CardTitle>{t.apparel.tabsCard.title}</CardTitle>
+                    <CardDescription>{t.apparel.tabsCard.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid gap-8 pt-2">
+                    <Tabs defaultValue="tab1" className="w-full">
+                      <TabsList className="mb-6 w-full gap-4 sm:justify-center">
+                        <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
+                        <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
+                        <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>
+                      </TabsList>
+                      <TabsContent value="tab1" className="outline-none">
+                        <div className="bg-blue/10 rounded-lg p-6 text-center">
+                          <p className="text-blue text-sm font-bold tracking-wider uppercase">
+                            {t.apparel.tabsCard.tab1Content}
+                          </p>
+                        </div>
+                      </TabsContent>
+                      <TabsContent value="tab2" className="outline-none">
+                        <div className="bg-green/10 rounded-lg p-6 text-center">
+                          <p className="text-green text-sm font-bold tracking-wider uppercase">
+                            {t.apparel.tabsCard.tab2Content}
+                          </p>
+                        </div>
+                      </TabsContent>
+                      <TabsContent value="tab3" className="outline-none">
+                        <div className="bg-orange/10 rounded-lg p-6 text-center">
+                          <p className="text-orange text-sm font-bold tracking-wider uppercase">
+                            {t.apparel.tabsCard.tab3Content}
+                          </p>
+                        </div>
+                      </TabsContent>
+                    </Tabs>
+                    <Tabs
+                      defaultValue="map"
+                      className="w-full gap-0 overflow-visible rounded-[8px] pt-4"
+                    >
+                      <TabsList variant="trapezoid" className="relative z-10">
+                        <TabsTrigger value="map">
+                          {t.apparel.tabsCard.trapezoidTabs.map}
+                        </TabsTrigger>
+                        <TabsTrigger value="stages">
+                          {t.apparel.tabsCard.trapezoidTabs.stages}
+                        </TabsTrigger>
+                        <TabsTrigger value="status">
+                          {t.apparel.tabsCard.trapezoidTabs.status}
+                        </TabsTrigger>
+                        <TabsTrigger value="options">
+                          {t.apparel.tabsCard.trapezoidTabs.options}
+                        </TabsTrigger>
+                      </TabsList>
+                      <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
+                      <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
+                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                          {t.apparel.tabsCard.trapezoidTabs.mapContent}
+                        </p>
+                      </TabsContent>
+                      <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
+                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                          {t.apparel.tabsCard.trapezoidTabs.stagesContent}
+                        </p>
+                      </TabsContent>
+                      <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
+                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                          {t.apparel.tabsCard.trapezoidTabs.statusContent}
+                        </p>
+                      </TabsContent>
+                      <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
+                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                          {t.apparel.tabsCard.trapezoidTabs.optionsContent}
+                        </p>
+                      </TabsContent>
+                    </Tabs>
+                  </CardContent>
+                </Card>
+              </InView>
+            </div>
+          </Section>
+
+          {/* Banner divider: Navigation → Feedback & Overlays */}
+          <BannerDivider tapes={createTwoTapeDivider('design1', 'purple')} animate />
+
+          {/* ────────────────────────────────────────────────────────
+         06 — Feedback & Overlays
+         ──────────────────────────────────────────────────────── */}
+          <Section
+            id="feedback-overlays"
+            size="lg"
+            bgColor="bg-black"
+            text="text-white"
+            pattern="camo-black"
+            bottomOverlayClearance="banner-divider"
+            headingTape={<HeadingTape color="red">{t.overlays.sectionTitle}</HeadingTape>}
+          >
+            <div className="text-purple absolute top-6 right-6">
+              <Splat3 className="h-24 w-24" />
+            </div>
+            <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
+              <InView rootMargin="-50px">
+                <div className="space-y-4 text-center">
+                  <p className="mx-auto max-w-xl text-sm font-medium text-white/60">
+                    {t.overlays.desc}
+                  </p>
+                </div>
+              </InView>
+
+              {/* Dialog demos */}
+              <InView direction="pop" rootMargin="-50px">
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div className="space-y-4">
+                    <h3 className="text-yellow text-lg font-black tracking-wider uppercase">
+                      {t.overlays.graffiti.title}
+                    </h3>
+                    <p className="text-xs text-white/50">{t.overlays.graffiti.desc}</p>
+                    <div className="flex flex-wrap gap-3">
+                      <Dialog>
+                        <DialogTriggerButton variant="yellow" theme="dark-yellow">
+                          {t.overlays.graffiti.yellow}
+                        </DialogTriggerButton>
+                        <DialogContent surface="paper" hasTape={true}>
+                          <DialogHeader>
+                            <DialogTitle>{t.overlays.graffiti.choiceTitle}</DialogTitle>
+                            <DialogDescription>{t.overlays.graffiti.choiceDesc}</DialogDescription>
+                          </DialogHeader>
+                          <div className="py-4">
+                            <p className="text-chaos-black/80 font-bold">
+                              {t.overlays.graffiti.chooseSurface}
+                            </p>
+                            <div className="mt-2 flex gap-3">
+                              <Button size="sm" variant="blue" theme="light-blue">
+                                {t.overlays.graffiti.colorBlue}
+                              </Button>
+                              <Button size="sm" variant="orange" theme="dark-purpleOrange">
+                                {t.overlays.graffiti.colorOrange}
+                              </Button>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      <Dialog>
+                        <DialogTriggerButton variant="blue" theme="light-blue">
+                          {t.overlays.graffiti.blue}
+                        </DialogTriggerButton>
+                        <DialogContent surface="cream" hasTape={true} tapePosition="event">
+                          <DialogHeader>
+                            <DialogTitle>{t.overlays.graffiti.galleryTitle}</DialogTitle>
+                            <DialogDescription>{t.overlays.graffiti.galleryDesc}</DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>
+
+                      <Dialog>
+                        <DialogTriggerButton variant="destructive" theme="light-red">
+                          {t.overlays.graffiti.danger}
+                        </DialogTriggerButton>
+                        <DialogContent surface="danger" hasTape={true}>
+                          <DialogHeader>
+                            <DialogTitle>{t.overlays.graffiti.dangerTitle}</DialogTitle>
+                            <DialogDescription>{t.overlays.graffiti.dangerDesc}</DialogDescription>
+                          </DialogHeader>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </div>
+
+                  {/* Fullscreen Dialog */}
+                  <div className="space-y-4">
+                    <h3 className="text-purple text-lg font-black tracking-wider uppercase">
+                      {t.overlays.fullscreen.title}
+                    </h3>
+                    <p className="text-xs text-white/50">{t.overlays.fullscreen.desc}</p>
+                    <div className="flex flex-wrap gap-3">
+                      <Dialog>
+                        <DialogTriggerButton variant="purple" theme="dark-purple">
+                          {t.overlays.fullscreen.openButton}
+                        </DialogTriggerButton>
+                        <DialogContent fullScreen>
+                          <div className="flex flex-col items-center justify-center gap-6 p-6">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={showcaseMediaAssets.fullscreenPreview.src}
+                              alt={showcaseMediaAssets.fullscreenPreview.alt}
+                              width={showcaseMediaAssets.fullscreenPreview.width}
+                              height={showcaseMediaAssets.fullscreenPreview.height}
+                              className="w-full max-w-4xl rounded-lg"
+                              decoding="async"
+                              loading="lazy"
+                            />
+                            <p className="text-sm text-white/60">{t.overlays.fullscreen.caption}</p>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </div>
+
+                  {/* Sheet + Popover */}
+                  <div className="space-y-4">
+                    <h3 className="text-green text-lg font-black tracking-wider uppercase">
+                      {t.overlays.drawers.title}
+                    </h3>
+                    <p className="text-xs text-white/50">{t.overlays.drawers.desc}</p>
+                    <div className="flex flex-wrap gap-3">
+                      <Sheet>
+                        <SheetTriggerButton variant="green" theme="light-green">
+                          {t.overlays.drawers.rightDrawer}
+                        </SheetTriggerButton>
+                        <SheetContent
+                          side="right"
+                          className="shadow-soft-splat-lg text-chaos-black bg-white p-6 pt-10"
+                        >
+                          <SheetHeader>
+                            <SheetTitle className="text-xl font-black">
+                              {t.overlays.drawers.lobbyTitle}
+                            </SheetTitle>
+                            <SheetDescription>{t.overlays.drawers.lobbyDesc}</SheetDescription>
+                          </SheetHeader>
+                          <div className="space-y-4 py-4">
+                            <div className="scrap-panel-tight border-chaos-black border-2 bg-white p-3 pt-6">
+                              <h4 className="text-sm font-bold">{t.overlays.drawers.lastBattle}</h4>
+                              <p className="text-muted-foreground mt-1 text-xs">
+                                {t.overlays.drawers.lastBattleRoom}
+                              </p>
+                              <Badge
+                                color="monochrome"
+                                className="mt-2 -rotate-2"
+                                style={
+                                  {
+                                    '--torn-badge-text-color': 'var(--color-yellow)',
+                                  } as React.CSSProperties
+                                }
+                              >
+                                {t.overlays.drawers.victory}
+                              </Badge>
+                            </div>
+                          </div>
+                        </SheetContent>
+                      </Sheet>
+
+                      <Popover>
+                        <PopoverTriggerButton variant="outline" theme="yellow">
+                          {t.overlays.drawers.popover}
+                        </PopoverTriggerButton>
+                        <PopoverContent
+                          align="center"
+                          className="shadow-soft-splat-sm text-chaos-black max-w-xs bg-white p-4 pt-6"
+                        >
+                          <PopoverHeader>
+                            <PopoverTitle className="font-black">
+                              {t.overlays.drawers.grizzcoTitle}
+                            </PopoverTitle>
+                            <PopoverDescription className="text-xs">
+                              {t.overlays.drawers.grizzcoDesc}
+                            </PopoverDescription>
+                          </PopoverHeader>
+                          <div className="py-2 text-xs">
+                            <p>{t.overlays.drawers.grizzcoBody}</p>
+                            <p className="text-red mt-1.5 font-bold">
+                              {t.overlays.drawers.grizzcoAlert}
+                            </p>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
+                </div>
+              </InView>
+            </div>
+          </Section>
+
+          {/* Banner divider: Feedback & Overlays → Cards & Surfaces */}
+          <BannerDivider
+            animate
+            tapes={[
+              { variant: 'design2', rotate: 1.5, offsetY: 0, enterFrom: 'left' },
+              {
+                variant: 'green',
+                rotate: -1.5,
+                offsetY: { base: 35, medium: 45 },
+                enterFrom: 'right',
+              },
+            ]}
+          />
+
+          {/* ────────────────────────────────────────────────────────
+         06 — Cards & Surfaces
+         ──────────────────────────────────────────────────────── */}
+          <Section
+            id="cards-surfaces"
+            size="md"
+            bgColor="bg-white"
+            text="text-chaos-black"
+            pattern="camo-white-outline"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center transition-colors duration-300"
+          >
+            <InteractiveSplatter />
+            <div className="relative z-10 w-full max-w-4xl space-y-16">
+              {/* Sub-Section 1: Apparel Tags */}
+              <div className="space-y-8">
+                <InView rootMargin="-50px">
+                  <div>
+                    <HeadingTape>{t.apparel.sectionTitle}</HeadingTape>
+                    <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.apparel.desc}</p>
+                  </div>
+                </InView>
+
+                <InViewStagger variant="pop" rootMargin="-30px">
+                  <div className="grid gap-12 pt-6 md:grid-cols-2">
+                    {/* Yellow Tag */}
+                    <Card variant="rugged" ruggedTheme="yellow" rotation="-2deg">
+                      <CardHeader>
+                        <CardTitle>{t.apparel.yellowCard.title}</CardTitle>
+                      </CardHeader>
+                      <CardImage
+                        src={showcaseMediaAssets.ruggedLookbook.src}
+                        alt={showcaseMediaAssets.ruggedLookbook.alt}
+                      />
+                      <CardContent>
+                        <p className="text-[15px] leading-snug font-semibold">
+                          {t.apparel.yellowCard.body}
+                        </p>
+                      </CardContent>
+                      <CardFooter className="mt-0 justify-center border-none">
+                        <Button variant="blue" size="sm" theme="light-blue">
+                          {t.apparel.yellowCard.button}
+                        </Button>
+                      </CardFooter>
+                    </Card>
+
+                    {/* Blue Tag */}
+                    <Card variant="rugged" ruggedTheme="blue" rotation="3deg">
+                      <CardHeader>
+                        <CardTitle>{t.apparel.blueCard.title}</CardTitle>
+                      </CardHeader>
+                      <CardImage
+                        src={showcaseMediaAssets.ruggedMode.src}
+                        alt={showcaseMediaAssets.ruggedMode.alt}
+                      />
+                      <CardContent>
+                        <p className="text-[15px] leading-snug font-semibold opacity-90">
+                          {t.apparel.blueCard.body}
+                        </p>
+                      </CardContent>
+                      <CardFooter className="mt-0 justify-center border-none">
+                        <Button variant="yellow" size="sm" theme="dark-yellow">
+                          {t.apparel.blueCard.button}
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </div>
+                </InViewStagger>
+              </div>
+            </div>
+          </Section>
+
+          {/* Banner divider: Card Tags → Paper Cards */}
+          <BannerDivider tapes={createTwoTapeDivider('design1', 'purple')} animate />
+
+          {/* ────────────────────────────────────────────────────────
+	         Cards & Surfaces — Paper Cards
+	         ──────────────────────────────────────────────────────── */}
+          <Section
+            size="md"
+            bgColor="bg-white"
+            text="text-chaos-black"
+            pattern="camo-white-outline"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center transition-colors duration-300"
+          >
+            <div className="relative z-10 w-full max-w-4xl space-y-16">
+              {/* Sub-Section 2: Torn Card */}
+              <div className="space-y-8">
+                <InView rootMargin="-50px">
+                  <div>
+                    <HeadingTape>{t.apparel.tornSection}</HeadingTape>
+                    <p className="text-chaos-black/60 mt-1 text-sm font-medium">
+                      {t.apparel.tornDesc}
+                    </p>
+                  </div>
+                </InView>
+                <InView direction="pop" rootMargin="-50px">
+                  <Card variant="torn" rotation="-1.5deg">
+                    <div className="content-spacing">
+                      <h2>{t.apparel.tornCardContent.heading}</h2>
+                      <p>{t.apparel.tornCardContent.body}</p>
+                      <ul className="content-spacing ml-10 list-disc text-left">
+                        {t.apparel.tornCardContent.listItems.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Card>
+                </InView>
+
+                <InViewStagger variant="pop" rootMargin="-30px">
+                  <div className="grid gap-8 md:grid-cols-2">
+                    <TornCard variant="b">
+                      <TornCardTitle>{t.apparel.tornCardB.title}</TornCardTitle>
+                      <TornCardDescription>{t.apparel.tornCardB.desc}</TornCardDescription>
+                    </TornCard>
+                    <TornCard variant="c">
+                      <TornCardTitle>{t.apparel.tornCardC.title}</TornCardTitle>
+                      <TornCardDescription>{t.apparel.tornCardC.desc}</TornCardDescription>
+                    </TornCard>
+                  </div>
+                </InViewStagger>
+              </div>
+
+              {/* Sub-Section 3: StapleCards */}
+              <div className="space-y-8">
+                <InView rootMargin="-50px">
+                  <HeadingTape>{t.apparel.stapleSection}</HeadingTape>
+                </InView>
+                <InViewStagger variant="pop" rootMargin="-30px">
+                  <div className="grid gap-12 pt-6 md:grid-cols-2">
+                    <StapleCard
+                      image={
+                        <>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={eventImageAssets.bigRunCallout.src}
+                            alt={eventImageAssets.bigRunCallout.alt}
+                            width={eventImageAssets.bigRunCallout.width}
+                            height={eventImageAssets.bigRunCallout.height}
+                            className="h-full w-full object-cover"
+                            decoding="async"
+                            loading="lazy"
+                            draggable={false}
+                          />
+                        </>
+                      }
+                    >
+                      <div className="space-y-3 p-4">
+                        <p className="text-blue text-sm tracking-[0.35em] uppercase">
+                          {t.apparel.staple1.eyebrow}
+                        </p>
+                        <h4 className="text-xl font-black">{t.apparel.staple1.title}</h4>
+                        <p className="text-chaos-black/75 text-sm">{t.apparel.staple1.body}</p>
+                      </div>
+                    </StapleCard>
+                    <StapleCard
+                      image={
+                        <>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={eventImageAssets.splatnetBlade.src}
+                            alt={eventImageAssets.splatnetBlade.alt}
+                            width={eventImageAssets.splatnetBlade.width}
+                            height={eventImageAssets.splatnetBlade.height}
+                            className="h-full w-full object-cover"
+                            decoding="async"
+                            loading="lazy"
+                            draggable={false}
+                          />
+                        </>
+                      }
+                    >
+                      <div className="space-y-3 p-4">
+                        <p className="text-orange text-sm tracking-[0.35em] uppercase">
+                          {t.apparel.staple2.eyebrow}
+                        </p>
+                        <h4 className="text-xl font-black">{t.apparel.staple2.title}</h4>
+                        <p className="text-chaos-black/75 text-sm">{t.apparel.staple2.body}</p>
+                      </div>
+                    </StapleCard>
+                  </div>
+                </InViewStagger>
+              </div>
+            </div>
+          </Section>
+
+          {/* Cards & Surfaces continued: Card Grid */}
+          <BannerDivider tapes={createTwoTapeDivider('design2', 'purple')} animate />
+
+          {/* ────────────────────────────────────────────────────────
+         Cards & Surfaces — Card Grid
+         ──────────────────────────────────────────────────────── */}
+          <Section
+            id="card-grid"
+            size="md"
+            bgColor="bg-white"
+            text="text-chaos-black"
+            pattern="camo-white"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center transition-colors duration-300"
+            headingTape={<HeadingTape>{t.cardGrid.sectionTitle}</HeadingTape>}
+          >
+            <div className="w-full max-w-6xl space-y-12">
+              <InView rootMargin="-50px">
+                <p className="text-chaos-black/60 mt-1 text-sm font-medium">{t.cardGrid.desc}</p>
+              </InView>
+
+              <InView direction="pop" rootMargin="-50px">
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <EventCallout
+                    eyebrow={t.cardGrid.event1.eyebrow}
+                    title={t.cardGrid.event1.title}
+                    description={t.cardGrid.event1.description}
+                    media={eventImageAssets.bigRunCallout}
+                    background={eventImageAssets.splatnetNextPage}
+                    icon={eventImageAssets.goldenEgg}
+                    action={
+                      <Button size="sm" variant="yellow">
+                        {t.cardGrid.event1.action}
+                      </Button>
+                    }
+                  />
+                  <EventCallout
+                    eyebrow={t.cardGrid.event2.eyebrow}
+                    title={t.cardGrid.event2.title}
+                    description={t.cardGrid.event2.description}
+                    media={eventImageAssets.splatnetBlade}
+                    background={eventImageAssets.splatnetNextPage}
+                    icon={eventImageAssets.goldenEgg}
+                    action={
+                      <Button size="sm" variant="blue">
+                        {t.cardGrid.event2.action}
+                      </Button>
+                    }
+                  />
+                </div>
+              </InView>
+
+              <InView direction="pop" rootMargin="-50px">
+                <BlackTapeContainer>
+                  <p className="text-sm font-medium">{t.cardGrid.blackTapeDesc}</p>
+
+                  <CardGrid className="mt-6">
+                    <CardGridGroup>
+                      <div className="bg-blue relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.bigRunCallout.src}
+                          alt=""
+                          width={eventImageAssets.bigRunCallout.width}
+                          height={eventImageAssets.bigRunCallout.height}
+                          className="absolute inset-0 h-full w-full object-cover opacity-35"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <div className="relative z-10">
+                          <h4 className="text-xl font-black">
+                            {t.cardGrid.cells.mediaFeature.title}
+                          </h4>
+                          <p className="mt-2 text-sm opacity-90">
+                            {t.cardGrid.cells.mediaFeature.subtitle}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="bg-orange relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.splatnetBlade.src}
+                          alt=""
+                          width={eventImageAssets.splatnetBlade.width}
+                          height={eventImageAssets.splatnetBlade.height}
+                          className="absolute inset-0 h-full w-full object-cover opacity-35"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <div className="relative z-10">
+                          <h4 className="text-xl font-black">{t.cardGrid.cells.autoFlow.title}</h4>
+                          <p className="mt-2 text-sm opacity-90">
+                            {t.cardGrid.cells.autoFlow.subtitle}
+                          </p>
+                        </div>
+                      </div>
+                    </CardGridGroup>
+                    <CardGridGroup>
+                      <div className="bg-green relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.splatnetNextPage.src}
+                          alt=""
+                          width={eventImageAssets.splatnetNextPage.width}
+                          height={eventImageAssets.splatnetNextPage.height}
+                          className="absolute inset-0 h-full w-full object-cover opacity-35"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <div className="relative z-10">
+                          <h4 className="text-xl font-black">
+                            {t.cardGrid.cells.spacingToken.title}
+                          </h4>
+                          <p className="mt-2 text-sm opacity-90">
+                            {t.cardGrid.cells.spacingToken.subtitle}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="bg-red relative overflow-hidden rounded-lg p-6 text-center text-white">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={eventImageAssets.goldenEgg.src}
+                          alt=""
+                          width={eventImageAssets.goldenEgg.width}
+                          height={eventImageAssets.goldenEgg.height}
+                          className="absolute top-3 right-3 h-12 w-auto rotate-12 opacity-70"
+                          decoding="async"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <h4 className="relative z-10 text-xl font-black">
+                          {t.cardGrid.cells.magazineStack.title}
+                        </h4>
+                        <p className="relative z-10 mt-2 text-sm opacity-90">
+                          {t.cardGrid.cells.magazineStack.subtitle}
+                        </p>
+                      </div>
+                    </CardGridGroup>
+                  </CardGrid>
+                </BlackTapeContainer>
+              </InView>
+            </div>
+          </Section>
+
+          {/* Banner divider: Cards & Surfaces → Motion & Media */}
+          <BannerDivider tapes={createTwoTapeDivider('design1', 'green')} animate />
+
+          {/* ────────────────────────────────────────────────────────
+         08 — Motion & Media
+         ──────────────────────────────────────────────────────── */}
+          <Section
+            id="motion-media"
+            size="md"
+            bgColor="bg-white"
+            text="text-chaos-black"
+            pattern="chip-white"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center transition-colors duration-300"
+            headingTape={<HeadingTape color="green">{t.apparel.animationSection}</HeadingTape>}
+          >
+            <div className="relative z-10 mx-auto w-full max-w-5xl">
+              <div className="grid gap-8 md:grid-cols-2">
+                <Card variant="torn" rotation="0deg" showTape={false} className="md:col-span-2">
+                  <CardHeader>
+                    <CardTitle>{t.apparel.inViewCard.title}</CardTitle>
+                    <CardDescription>{t.apparel.inViewCard.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-2">
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                      <InView direction="left" rootMargin="-50px">
+                        <div className="bg-blue rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                          {t.apparel.inViewCard.left}
+                        </div>
+                      </InView>
+                      <InView direction="up" rootMargin="-50px" delay={1}>
+                        <div className="bg-purple rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                          {t.apparel.inViewCard.up}
+                        </div>
+                      </InView>
+                      <InView direction="right" rootMargin="-50px" delay={2}>
+                        <div className="bg-red rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                          {t.apparel.inViewCard.right}
+                        </div>
+                      </InView>
+                      <InView direction="pop" rootMargin="-50px" delay={1}>
+                        <div className="bg-yellow text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                          {t.apparel.inViewCard.pop}
+                        </div>
+                      </InView>
+                      <InView drop rootMargin="-50px" delay={2}>
+                        <div className="bg-green text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                          {t.apparel.inViewCard.drop}
+                        </div>
+                      </InView>
+                      <InView drop="slow" rootMargin="-50px" delay={3}>
+                        <div className="bg-orange text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                          {t.apparel.inViewCard.slowDrop}
+                        </div>
+                      </InView>
+                    </div>
+                    <InViewStagger rootMargin="-30px">
+                      <div className="mt-6">
+                        {t.apparel.inViewCard.staggers.map((label, i) => (
+                          <div
+                            key={i}
+                            className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white uppercase last:mb-0"
+                          >
+                            {label}
+                          </div>
+                        ))}
+                      </div>
+                    </InViewStagger>
+                  </CardContent>
+                </Card>
+
+                <Card variant="torn" rotation="0deg" showTape={false} className="md:col-span-2">
+                  <CardHeader>
+                    <CardTitle>{t.apparel.loaderCard.title}</CardTitle>
+                    <CardDescription>{t.apparel.loaderCard.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-3 lg:grid-cols-6">
+                    {loaderDemoItems.map(({ label, variant, animation, size, style }) => (
+                      <div
+                        key={label}
+                        className="grid min-h-24 grid-rows-[1fr_auto] place-items-center gap-2 px-2 py-3 text-center"
+                      >
+                        <Loader variant={variant} animation={animation} size={size} style={style} />
+                        <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                          {label}
+                        </span>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </Section>
+
+          {/* Banner divider: Motion primitives → Page Transition */}
+          <BannerDivider tapes={createTwoTapeDivider('design2', 'yellow')} animate />
+
+          <PageTransitionDemo t={t.pageTransition} />
+
+          {/* Banner divider: Motion & Media → Carousels */}
+          <BannerDivider tapes={createTwoTapeDivider('design3', 'yellow')} animate />
+
+          {/* ────────────────────────────────────────────────────────
+         Motion & Media — Carousels
+         ──────────────────────────────────────────────────────── */}
+          <Section
+            id="carousels"
+            size="md"
+            bgColor="bg-blue"
+            text="text-white"
+            pattern="tapes-purple"
+            bottomOverlayClearance="banner-divider"
+            className="flex flex-col items-center transition-colors duration-300"
+            headingTape={
+              <div className="text-center">
+                <HeadingTape color="yellow">{t.carousels.sectionTitle}</HeadingTape>
+                <p className="mt-2 text-sm font-medium text-white/80">{t.carousels.sectionDesc}</p>
+              </div>
+            }
+          >
+            <DemoContent>
+              {/* 3D Splat Gallery */}
+              <DemoExampleGroup>
+                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                  {t.carousels.feed.title}
+                </h3>
+                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
+                  {t.carousels.feed.desc}
+                </p>
+                <FeedCarousel initialIndex={2} items={homepageFeedCarouselItems} />
+              </DemoExampleGroup>
+
+              {/* Weapons Gallery Carousel */}
+              <DemoExampleGroup>
+                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                  {t.carousels.weapons.title}
+                </h3>
+                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
+                  {t.carousels.weapons.desc}
+                </p>
+                <WeaponsGalleryCarousel items={weaponsGalleryItems} />
+              </DemoExampleGroup>
+
+              {/* Shops Gallery Carousel */}
+              <DemoExampleGroup>
+                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                  {t.carousels.shops.title}
+                </h3>
+                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
+                  {t.carousels.shops.desc}
+                </p>
+                <IconPaginatedCarousel items={shopsGalleryItems} />
+              </DemoExampleGroup>
+
+              {/* Marquee Carousel */}
+              <DemoExampleGroup>
+                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                  {t.carousels.marquee.title}
+                </h3>
+                <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
+                  {t.carousels.marquee.desc}
+                </p>
+                <MarqueeCarousel items={marqueeItems} />
+              </DemoExampleGroup>
             </DemoContent>
           </Section>
         </div>

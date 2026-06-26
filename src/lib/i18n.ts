@@ -11,12 +11,13 @@ export const translations = {
     nav: {
       home: '首页',
       demoReel: '演示视频',
-      titles: '标题组件',
-      buttonsBadges: '按钮 & 徽章',
-      overlays: '弹层',
-      cardGrid: '卡片网格',
-      carousels: '轮播',
-      forms: '表单 & 反馈',
+      foundations: '设计基础',
+      actions: '操作组件',
+      formsControls: '表单 & 控件',
+      navigation: '导航组件',
+      feedbackOverlays: '反馈 & 弹层',
+      cardsSurfaces: '卡片 & 表面',
+      motionMedia: '动效 & 媒体',
       languageLabel: '语言',
       closeMenu: '关闭导航菜单',
       navLabel: '站点主导航',
@@ -154,8 +155,8 @@ export const translations = {
       },
     },
     apparel: {
-      sectionTitle: '服装吊牌卡',
-      desc: '带有自定义剪裁背景路径、挂钩镂空、倾斜照片层和透明胶带的服装吊牌式容器。',
+      sectionTitle: '卡片 & 表面',
+      desc: '服装吊牌、撕裂纸张、订书钉卡片和媒体表面，用于构建高辨识度内容模块。',
       yellowCard: {
         title: '搭配检查！',
         body: '用分层纸张、倾斜媒体和胶带细节呈现醒目的产品卡片。',
@@ -166,7 +167,7 @@ export const translations = {
         body: '为游戏模式、活动列表或粉丝门户区块展示可复用的内容卡片。',
         button: '开始涂墨',
       },
-      animationSection: '动画 & 反馈',
+      animationSection: '动效 & 媒体',
       inViewCard: {
         title: 'InView 动画',
         description: '滚动触发动画 — 试试向下滚动再滚回来',
@@ -284,8 +285,8 @@ export const translations = {
       },
     },
     forms: {
-      sectionTitle: '表单 & 反馈',
-      sectionDesc: '表单控件、提示和进度指示器。',
+      sectionTitle: '表单 & 控件',
+      sectionDesc: '输入、选择、开关、提示和进度指示器。',
       inputCard: {
         title: '输入 & 下拉',
         description: 'Input 与 Select 的基础表单展示',
@@ -356,12 +357,13 @@ export const translations = {
     nav: {
       home: 'Home',
       demoReel: 'Demo reel',
-      titles: 'Titles',
-      buttonsBadges: 'Buttons & badges',
-      overlays: 'Overlays',
-      cardGrid: 'Card grid',
-      carousels: 'Carousels',
-      forms: 'Forms & feedback',
+      foundations: 'Foundations',
+      actions: 'Actions',
+      formsControls: 'Forms & controls',
+      navigation: 'Navigation',
+      feedbackOverlays: 'Feedback & overlays',
+      cardsSurfaces: 'Cards & surfaces',
+      motionMedia: 'Motion & media',
       languageLabel: 'Language',
       closeMenu: 'Close navigation menu',
       navLabel: 'Main site navigation',
@@ -503,8 +505,8 @@ export const translations = {
       },
     },
     apparel: {
-      sectionTitle: 'Apparel Hanging Tag Card',
-      desc: 'Hanging clothing-tag style container with custom clip background paths, hanger cut-outs, tilted photo layers, and integrated scotch tape.',
+      sectionTitle: 'Cards & Surfaces',
+      desc: 'Hanging tags, torn paper, staple cards, and media-backed surfaces for high-identity content modules.',
       yellowCard: {
         title: 'Fit Check!',
         body: 'Present a loud product card with layered paper, tilted media, and tape details.',
@@ -515,7 +517,7 @@ export const translations = {
         body: 'Show a repeatable content card for game modes, event listings, or fan portal sections.',
         button: 'Ink Up',
       },
-      animationSection: 'Animation & Feedback',
+      animationSection: 'Motion & Media',
       inViewCard: {
         title: 'InView Animation',
         description: 'Scroll-triggered animation — try scrolling down & back up',
@@ -659,8 +661,8 @@ export const translations = {
       },
     },
     forms: {
-      sectionTitle: 'Forms & Feedback',
-      sectionDesc: 'Form controls, alerts, and progress indicators.',
+      sectionTitle: 'Forms & Controls',
+      sectionDesc: 'Inputs, choices, switches, alerts, and progress indicators.',
       inputCard: {
         title: 'Input & Select',
         description: 'Base Input and Select controls with ink theme accents',
@@ -733,12 +735,13 @@ export const translations = {
     nav: {
       home: 'ホーム',
       demoReel: 'デモ映像',
-      titles: 'タイトル',
-      buttonsBadges: 'ボタン & バッジ',
-      overlays: 'オーバーレイ',
-      cardGrid: 'カードグリッド',
-      carousels: 'カルーセル',
-      forms: 'フォーム & フィードバック',
+      foundations: '基礎デザイン',
+      actions: 'アクション',
+      formsControls: 'フォーム & コントロール',
+      navigation: 'ナビゲーション',
+      feedbackOverlays: 'フィードバック & オーバーレイ',
+      cardsSurfaces: 'カード & サーフェス',
+      motionMedia: 'モーション & メディア',
       languageLabel: '言語',
       closeMenu: 'ナビゲーションを閉じる',
       navLabel: 'サイトメインナビゲーション',
@@ -878,8 +881,8 @@ export const translations = {
       },
     },
     apparel: {
-      sectionTitle: 'アパレルタグカード',
-      desc: 'カスタムクリップ背景パス、ハンガー切り抜き、傾いた写真レイヤー、セロテープを統合した服のタグスタイルコンテナ。',
+      sectionTitle: 'カード & サーフェス',
+      desc: 'ハンギングタグ、破れ紙、ステープルカード、メディア付きサーフェスをまとめた高識別性コンテンツモジュール。',
       yellowCard: {
         title: 'フィットチェック！',
         body: '重なり合う紙、傾いたメディア、テープのディテールで派手な商品カードを演出。',
@@ -890,7 +893,7 @@ export const translations = {
         body: 'ゲームモード、イベント一覧、ファンポータルセクションの繰り返しコンテンツカードを表示。',
         button: 'インクアップ',
       },
-      animationSection: 'アニメーション & フィードバック',
+      animationSection: 'モーション & メディア',
       inViewCard: {
         title: 'InView アニメーション',
         description: 'スクロールトリガーアニメーション — 下にスクロールして戻ってみて',
@@ -1038,8 +1041,8 @@ export const translations = {
       },
     },
     forms: {
-      sectionTitle: 'フォーム & フィードバック',
-      sectionDesc: 'フォームコントロール、アラート、プログレスインジケーター。',
+      sectionTitle: 'フォーム & コントロール',
+      sectionDesc: '入力、選択、スイッチ、アラート、プログレスインジケーター。',
       inputCard: {
         title: '入力 & セレクト',
         description: 'Input と Select の基本フォーム表示',

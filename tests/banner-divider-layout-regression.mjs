@@ -43,6 +43,7 @@ const checks = [
     name: 'BannerDivider visual layer remains absolutely positioned and animated independently',
     pass:
       component.includes('ref={animate ? ref : undefined}') &&
+      component.includes('animate && isInView && inViewStyles.inView') &&
       component.includes('styles.bannerDividerViewport') &&
       hasDeclaration('.bannerDividerViewport', 'position: absolute;') &&
       hasDeclaration(
@@ -51,6 +52,21 @@ const checks = [
       ) &&
       hasDeclaration('.bannerDividerViewport', 'overflow-x: clip;') &&
       hasDeclaration('.bannerDividerViewport', 'overflow-y: visible;'),
+  },
+  {
+    name: 'BannerDivider exposes only the tapes API for layer composition',
+    pass:
+      component.includes('tapes: BannerDividerTape[]') &&
+      component.includes('variant: BannerDividerVariant') &&
+      component.includes('rotate: number') &&
+      component.includes('enterFrom?: BannerDividerEnterFrom') &&
+      !component.includes('pattern?:') &&
+      !component.includes('color?:') &&
+      !component.includes("BannerDividerRotation = 'up' | 'down'") &&
+      !component.includes('BANNER_DIVIDER_THREE_TAPES') &&
+      !css.includes('.bannerDivider {') &&
+      !css.includes('.rotateUp') &&
+      !css.includes('.rotateDown'),
   },
   {
     name: 'BannerDivider decoration cannot intercept section interactions',
@@ -69,17 +85,18 @@ const checks = [
       !page.includes('BANNER_DIVIDER_BOTTOM_SAFE_AREA') &&
       !page.includes('bottomSafeArea=') &&
       !page.includes('pb-[clamp(8rem,10vw,11.5rem)]') &&
-      (page.match(/bottomOverlayClearance="banner-divider"/g) ?? []).length === 8,
+      (page.match(/bottomOverlayClearance="banner-divider"/g) ?? []).length === 12,
   },
   {
     name: 'Demo page places a divider at every section boundary that reserves divider clearance',
     pass:
-      (page.match(/<BannerDivider/g) ?? []).length === 8 &&
-      page.includes('Banner divider: Titles → Buttons & Badges') &&
-      page.includes('<BannerDivider pattern="design2" color="blue" animate />') &&
-      page.includes('Banner divider: Apparel Tags → Card Grid') &&
-      page.includes('<BannerDivider pattern="design2" color="purple" animate />') &&
-      page.includes('Banner divider: Card Grid → Carousels'),
+      (page.match(/<BannerDivider/g) ?? []).length === 11 &&
+      !page.includes('<BannerDivider pattern=') &&
+      !page.includes('<BannerDivider color=') &&
+      page.includes("tapes={createTwoTapeDivider('design2', 'blue')}") &&
+      page.includes('Banner divider: Foundations → Actions') &&
+      page.includes('Banner divider: Card Tags → Paper Cards') &&
+      page.includes('Banner divider: Motion & Media → Carousels'),
   },
 ]
 

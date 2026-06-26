@@ -18,28 +18,31 @@ export type BannerDividerVariant =
   | 'orange'
   | 'red'
 
-export type BannerDividerRotation = 'up' | 'down'
+export type BannerDividerOffsetY =
+  | number
+  | {
+      base: number
+      medium?: number
+    }
+
+export type BannerDividerEnterFrom = 'left' | 'right'
 
 export interface BannerDividerTape {
   variant: BannerDividerVariant
-  rotate: BannerDividerRotation
-  /** [base, medium-up] responsive top offset in px. Default varies by position. */
-  offsetY?: [number, number]
+  /** Final resting rotation in degrees. */
+  rotate: number
+  /** Responsive top offset in px. */
+  offsetY?: BannerDividerOffsetY
+  /** Direction used by the entrance animation. */
+  enterFrom?: BannerDividerEnterFrom
   className?: string
   /** InView animation delay level (0-20). Default: auto (index-based) */
   animDelay?: number
 }
 
 export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Pattern tape variant (design1/2/3). Combined with `color` for the common 2-tape divider. */
-  pattern?: BannerDividerVariant
-  /** Color tape variant. Combined with `pattern` for the common 2-tape divider. */
-  color?: BannerDividerVariant
-  /**
-   * Explicit tape layers. Overrides `pattern`/`color` when provided.
-   * Use for custom stacking or 3+ layer dividers.
-   */
-  tapes?: BannerDividerTape[]
+  /** Explicit tape layers. Use two or three layers for the current Splatoon-style divider patterns. */
+  tapes: BannerDividerTape[]
   /** Enable InView fly-in animation on each tape. */
   animate?: boolean
   /** Root margin for InView IntersectionObserver. */
@@ -52,87 +55,69 @@ export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement>
   layout?: 'overlay' | 'spacer'
 }
 
-const DEFAULT_TAPES: [BannerDividerTape, BannerDividerTape] = [
-  { variant: 'design1', rotate: 'up', offsetY: [0, 0] },
-  { variant: 'green', rotate: 'down', offsetY: [35, 45] },
-]
+function resolveOffsetY(offsetY: BannerDividerOffsetY | undefined) {
+  if (typeof offsetY === 'number') {
+    return { base: offsetY, medium: offsetY }
+  }
 
-const THREE_TAPES: [BannerDividerTape, BannerDividerTape, BannerDividerTape] = [
-  { variant: 'design1', rotate: 'up', offsetY: [0, 0] },
-  { variant: 'design2', rotate: 'down', offsetY: [35, 45] },
-  { variant: 'blue', rotate: 'up', offsetY: [70, 90] },
-]
+  return {
+    base: offsetY?.base ?? 0,
+    medium: offsetY?.medium ?? offsetY?.base ?? 0,
+  }
+}
 
-// Per-tape CSS custom properties used by the divider strips.
-const TAPE_VARS: Record<number, React.CSSProperties> = {
-  0: {
-    '--start-x': '-100%',
-    '--start-y': '-50%',
-    '--end-x': '-50%',
-    '--end-y': '-25%',
-    '--end-rotate': '-1.5deg',
-  } as React.CSSProperties,
-  1: {
-    '--start-x': '100%',
-    '--start-y': '-50%',
-    '--end-x': '-50%',
-    '--end-y': '-50%',
-    '--end-rotate': '1.5deg',
-  } as React.CSSProperties,
-  2: {
-    '--start-x': '-100%',
-    '--start-y': '-50%',
-    '--end-x': '-50%',
-    '--end-y': '-50%',
-    '--end-rotate': '-2deg',
-  } as React.CSSProperties,
+function resolveEnterFrom(index: number, enterFrom: BannerDividerEnterFrom | undefined) {
+  return enterFrom ?? (index % 2 === 0 ? 'left' : 'right')
 }
 
 function BannerDividerTapeLayer({
   variant,
   rotate,
   offsetY,
+  enterFrom,
   className,
   animate,
+  isInView,
   animDelay,
   index,
 }: BannerDividerTape & {
   animate?: boolean
+  isInView?: boolean
   index: number
 }) {
-  const [base, mediumUp] = offsetY ?? [0, 0]
+  const { base, medium } = resolveOffsetY(offsetY)
   const delay = animDelay ?? index
-
-  // Centered absolute banner strip plus CSS custom properties.
-  // in-view__anim base: opacity: 0; transform: translate(var(--start-x), var(--start-y))
-  // in-view .in-view__anim: opacity: 1; transform: translate(var(--end-x), var(--end-y)) rotate(var(--end-rotate))
-  const animVars = animate ? (TAPE_VARS[index] ?? TAPE_VARS[0]) : undefined
+  const startX = resolveEnterFrom(index, enterFrom) === 'left' ? '-100%' : '100%'
 
   return (
     <div
       aria-hidden="true"
       className={cn(
         animate && inViewStyles.anim,
+        animate && isInView && inViewStyles.inView,
         styles.bannerDividerTape,
         styles[`banner-divider--${variant}`],
-        !animate && rotate === 'up' && styles.rotateUp,
-        !animate && rotate === 'down' && styles.rotateDown,
         delay > 0 && inViewStyles[`delay${delay}` as keyof typeof inViewStyles],
         className
       )}
-      style={{
-        top: `${base}px`,
-        ...(mediumUp !== base ? { '--banner-offset-medium': `${mediumUp}px` } : {}),
-        ...animVars,
-      }}
+      style={
+        {
+          top: `${base}px`,
+          '--banner-offset-medium': `${medium}px`,
+          '--start-x': startX,
+          '--start-y': '-50%',
+          '--end-x': '-50%',
+          '--end-y': index === 0 ? '-25%' : '-50%',
+          '--start-rotate': '0deg',
+          '--end-rotate': `${rotate}deg`,
+        } as React.CSSProperties
+      }
     />
   )
 }
 
 export function BannerDivider({
-  pattern,
-  color,
-  tapes: tapesProp,
+  tapes,
   animate,
   rootMargin,
   layout = 'overlay',
@@ -145,12 +130,8 @@ export function BannerDivider({
     once: true,
     disabled: !animate,
   })
-  const tapes = tapesProp ?? [
-    { ...DEFAULT_TAPES[0], variant: pattern ?? DEFAULT_TAPES[0].variant },
-    { ...DEFAULT_TAPES[1], variant: color ?? DEFAULT_TAPES[1].variant },
-  ]
-  const maxBaseOffset = Math.max(0, ...tapes.map((tape) => tape.offsetY?.[0] ?? 0))
-  const maxMediumOffset = Math.max(0, ...tapes.map((tape) => tape.offsetY?.[1] ?? 0))
+  const maxBaseOffset = Math.max(0, ...tapes.map((tape) => resolveOffsetY(tape.offsetY).base))
+  const maxMediumOffset = Math.max(0, ...tapes.map((tape) => resolveOffsetY(tape.offsetY).medium))
 
   return (
     <div
@@ -175,12 +156,15 @@ export function BannerDivider({
         className={cn(styles.bannerDividerViewport, animate && isInView && inViewStyles.inView)}
       >
         {tapes.map((tape, i) => (
-          <BannerDividerTapeLayer key={i} {...tape} animate={animate} index={i} />
+          <BannerDividerTapeLayer
+            key={i}
+            {...tape}
+            animate={animate}
+            isInView={isInView}
+            index={i}
+          />
         ))}
       </div>
     </div>
   )
 }
-
-/** Convenience: 3-tape variant (design1 + design2 + blue) */
-export const BANNER_DIVIDER_THREE_TAPES = THREE_TAPES
