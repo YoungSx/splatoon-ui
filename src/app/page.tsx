@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsPanels, TabsTrigger } from '@/components/ui/tabs'
 import { TornCard, TornCardTitle, TornCardDescription } from '@/components/ui/torn-card'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 import { Play } from 'lucide-react'
@@ -1281,27 +1281,29 @@ export default function Home() {
                         <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
                         <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>
                       </TabsList>
-                      <TabsContent value="tab1" className="outline-none">
-                        <div className="bg-blue/10 rounded-lg p-6 text-center">
-                          <p className="text-blue text-sm font-bold tracking-wider uppercase">
-                            {t.apparel.tabsCard.tab1Content}
-                          </p>
-                        </div>
-                      </TabsContent>
-                      <TabsContent value="tab2" className="outline-none">
-                        <div className="bg-green/10 rounded-lg p-6 text-center">
-                          <p className="text-green text-sm font-bold tracking-wider uppercase">
-                            {t.apparel.tabsCard.tab2Content}
-                          </p>
-                        </div>
-                      </TabsContent>
-                      <TabsContent value="tab3" className="outline-none">
-                        <div className="bg-orange/10 rounded-lg p-6 text-center">
-                          <p className="text-orange text-sm font-bold tracking-wider uppercase">
-                            {t.apparel.tabsCard.tab3Content}
-                          </p>
-                        </div>
-                      </TabsContent>
+                      <TabsPanels swipeable>
+                        <TabsContent value="tab1" className="outline-none">
+                          <div className="bg-blue/10 rounded-lg p-6 text-center">
+                            <p className="text-blue text-sm font-bold tracking-wider uppercase">
+                              {t.apparel.tabsCard.tab1Content}
+                            </p>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="tab2" className="outline-none">
+                          <div className="bg-green/10 rounded-lg p-6 text-center">
+                            <p className="text-green text-sm font-bold tracking-wider uppercase">
+                              {t.apparel.tabsCard.tab2Content}
+                            </p>
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="tab3" className="outline-none">
+                          <div className="bg-orange/10 rounded-lg p-6 text-center">
+                            <p className="text-orange text-sm font-bold tracking-wider uppercase">
+                              {t.apparel.tabsCard.tab3Content}
+                            </p>
+                          </div>
+                        </TabsContent>
+                      </TabsPanels>
                     </Tabs>
                     <Tabs
                       defaultValue="map"
@@ -1322,26 +1324,28 @@ export default function Home() {
                         </TabsTrigger>
                       </TabsList>
                       <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
-                      <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
-                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                          {t.apparel.tabsCard.trapezoidTabs.mapContent}
-                        </p>
-                      </TabsContent>
-                      <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
-                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                          {t.apparel.tabsCard.trapezoidTabs.stagesContent}
-                        </p>
-                      </TabsContent>
-                      <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
-                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                          {t.apparel.tabsCard.trapezoidTabs.statusContent}
-                        </p>
-                      </TabsContent>
-                      <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
-                        <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                          {t.apparel.tabsCard.trapezoidTabs.optionsContent}
-                        </p>
-                      </TabsContent>
+                      <TabsPanels swipeable>
+                        <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            {t.apparel.tabsCard.trapezoidTabs.mapContent}
+                          </p>
+                        </TabsContent>
+                        <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            {t.apparel.tabsCard.trapezoidTabs.stagesContent}
+                          </p>
+                        </TabsContent>
+                        <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            {t.apparel.tabsCard.trapezoidTabs.statusContent}
+                          </p>
+                        </TabsContent>
+                        <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
+                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            {t.apparel.tabsCard.trapezoidTabs.optionsContent}
+                          </p>
+                        </TabsContent>
+                      </TabsPanels>
                     </Tabs>
                   </CardContent>
                 </Card>

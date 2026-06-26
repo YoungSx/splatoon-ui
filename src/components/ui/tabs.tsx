@@ -10,6 +10,11 @@ import styles from './tabs.module.css'
 const TRAPEZOID_TABS_TEXTURE_SCALE = 1.2
 
 type TabsListVariant = 'default' | 'line' | 'trapezoid'
+type TabsValue = TabsPrimitive.Tab.Props['value']
+type TabsRootProps = TabsPrimitive.Root.Props
+type TabsChangeDetails = Parameters<NonNullable<TabsRootProps['onValueChange']>>[1]
+type TabsActivationDirection = TabsChangeDetails['activationDirection']
+type TabsSwipeMode = boolean | 'coarse' | 'always'
 
 type TrapezoidTabsStyle = React.CSSProperties & {
   '--trapezoid-tabs-bg-size-x'?: string
@@ -18,7 +23,15 @@ type TrapezoidTabsStyle = React.CSSProperties & {
   '--trapezoid-tabs-index'?: number
 }
 
+type TabsInteractionContextValue = {
+  currentValue: TabsValue | undefined
+  orientation: NonNullable<TabsRootProps['orientation']>
+  setPanelValues: (values: TabsValue[]) => void
+  setValue: (value: TabsValue, event?: Event) => void
+}
+
 const TabsListVariantContext = React.createContext<TabsListVariant>('default')
+const TabsInteractionContext = React.createContext<TabsInteractionContextValue | null>(null)
 
 function isStyleableElement(
   child: React.ReactNode
@@ -26,14 +39,156 @@ function isStyleableElement(
   return React.isValidElement(child) && child.type !== React.Fragment
 }
 
-function Tabs({ className, orientation = 'horizontal', ...props }: TabsPrimitive.Root.Props) {
+function useTabsInteraction() {
+  const context = React.useContext(TabsInteractionContext)
+
+  if (!context) {
+    throw new Error('TabsPanels must be used within Tabs')
+  }
+
+  return context
+}
+
+function createTabsChangeDetails(
+  event: Event | undefined,
+  activationDirection: TabsActivationDirection
+): TabsChangeDetails {
+  let canceled = false
+  let propagationAllowed = false
+
+  return {
+    reason: 'none',
+    event: event ?? new Event('base-ui'),
+    cancel() {
+      canceled = true
+    },
+    allowPropagation() {
+      propagationAllowed = true
+    },
+    get isCanceled() {
+      return canceled
+    },
+    get isPropagationAllowed() {
+      return propagationAllowed
+    },
+    trigger: undefined,
+    activationDirection,
+  } as TabsChangeDetails
+}
+
+function resolveActivationDirection(
+  previousValue: TabsValue | undefined,
+  nextValue: TabsValue,
+  values: TabsValue[],
+  orientation: NonNullable<TabsRootProps['orientation']>
+): TabsActivationDirection {
+  const previousIndex = values.findIndex((value) => Object.is(value, previousValue))
+  const nextIndex = values.findIndex((value) => Object.is(value, nextValue))
+
+  if (previousIndex < 0 || nextIndex < 0 || previousIndex === nextIndex) {
+    return 'none'
+  }
+
+  if (orientation === 'vertical') {
+    return nextIndex > previousIndex ? 'down' : 'up'
+  }
+
+  return nextIndex > previousIndex ? 'right' : 'left'
+}
+
+function Tabs({
+  className,
+  orientation = 'horizontal',
+  value: valueProp,
+  defaultValue,
+  onValueChange,
+  ...props
+}: TabsRootProps) {
+  const isControlled = valueProp !== undefined
+  const [uncontrolledValue, setUncontrolledValue] = React.useState<TabsValue | undefined>(
+    defaultValue !== undefined ? defaultValue : 0
+  )
+  const currentValue = isControlled ? valueProp : uncontrolledValue
+  const currentValueRef = React.useRef(currentValue)
+  const panelValuesRef = React.useRef<TabsValue[]>([])
+
+  React.useEffect(() => {
+    currentValueRef.current = currentValue
+  }, [currentValue])
+
+  const commitValue = React.useCallback(
+    (nextValue: TabsValue, eventDetails?: TabsChangeDetails) => {
+      if (Object.is(currentValueRef.current, nextValue)) return
+
+      const details =
+        eventDetails ??
+        createTabsChangeDetails(
+          undefined,
+          resolveActivationDirection(
+            currentValueRef.current,
+            nextValue,
+            panelValuesRef.current,
+            orientation
+          )
+        )
+
+      onValueChange?.(nextValue, details)
+      if (details.isCanceled) return
+
+      if (!isControlled) {
+        setUncontrolledValue(nextValue)
+      }
+      currentValueRef.current = nextValue
+    },
+    [isControlled, onValueChange, orientation]
+  )
+
+  const setValue = React.useCallback(
+    (nextValue: TabsValue, event?: Event) => {
+      if (Object.is(currentValueRef.current, nextValue)) return
+
+      commitValue(
+        nextValue,
+        createTabsChangeDetails(
+          event,
+          resolveActivationDirection(
+            currentValueRef.current,
+            nextValue,
+            panelValuesRef.current,
+            orientation
+          )
+        )
+      )
+    },
+    [commitValue, orientation]
+  )
+
+  const setPanelValues = React.useCallback((values: TabsValue[]) => {
+    panelValuesRef.current = values
+  }, [])
+
+  const contextValue = React.useMemo<TabsInteractionContextValue>(
+    () => ({
+      currentValue,
+      orientation,
+      setPanelValues,
+      setValue,
+    }),
+    [currentValue, orientation, setPanelValues, setValue]
+  )
+
   return (
-    <TabsPrimitive.Root
-      data-slot="tabs"
-      data-orientation={orientation}
-      className={cn('group/tabs flex gap-2 data-horizontal:flex-col', className)}
-      {...props}
-    />
+    <TabsInteractionContext.Provider value={contextValue}>
+      <TabsPrimitive.Root
+        data-slot="tabs"
+        data-orientation={orientation}
+        value={currentValue}
+        onValueChange={commitValue}
+        orientation={orientation}
+        className={cn('group/tabs flex gap-2 data-horizontal:flex-col', className)}
+        {...props}
+      />
+    </TabsInteractionContext.Provider>
   )
 }
 
@@ -116,7 +271,7 @@ function TabsList({
   )
 }
 
-function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props) {
+function TabsTrigger({ className, children, nativeButton = true, ...props }: TabsPrimitive.Tab.Props) {
   const listVariant = React.useContext(TabsListVariantContext)
   const isTrapezoid = listVariant === 'trapezoid'
 
@@ -153,6 +308,7 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
         styles.trigger,
         className
       )}
+      nativeButton={nativeButton}
       {...props}
     >
       {isTrapezoid ? (
@@ -189,6 +345,146 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
   )
 }
 
+function isTabsPanelElement(
+  child: React.ReactNode
+): child is React.ReactElement<{ value: TabsValue }> {
+  if (!React.isValidElement(child) || child.type === React.Fragment) return false
+
+  const props = child.props as { value?: unknown }
+  return 'value' in props
+}
+
+function collectTabsPanelValues(children: React.ReactNode): TabsValue[] {
+  const values: TabsValue[] = []
+
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child) && child.type === React.Fragment) {
+      values.push(...collectTabsPanelValues((child.props as { children?: React.ReactNode }).children))
+      return
+    }
+
+    if (isTabsPanelElement(child)) {
+      values.push(child.props.value)
+    }
+  })
+
+  return values
+}
+
+function isInteractiveSwipeTarget(target: EventTarget | null) {
+  if (!(target instanceof Element)) return false
+
+  return Boolean(
+    target.closest(
+      'a[href], button, input, select, textarea, label, [contenteditable="true"], [data-tabs-swipe-ignore]'
+    )
+  )
+}
+
+function isSwipeEnabledForPointer(swipeable: TabsSwipeMode, event: React.PointerEvent) {
+  if (!swipeable) return false
+  if (swipeable === 'always') return true
+
+  return (
+    event.pointerType === 'touch' ||
+    event.pointerType === 'pen' ||
+    window.matchMedia('(pointer: coarse)').matches
+  )
+}
+
+export interface TabsPanelsProps extends React.HTMLAttributes<HTMLDivElement> {
+  swipeable?: TabsSwipeMode
+  swipeThreshold?: number
+  swipeAxisLockRatio?: number
+}
+
+function TabsPanels({
+  ref,
+  className,
+  children,
+  swipeable = false,
+  swipeThreshold = 48,
+  swipeAxisLockRatio = 1.25,
+  onPointerDown,
+  onPointerUp,
+  onPointerCancel,
+  style,
+  ...props
+}: TabsPanelsProps & { ref?: React.Ref<HTMLDivElement> }) {
+  const { currentValue, orientation, setPanelValues, setValue } = useTabsInteraction()
+  const values = React.useMemo(() => collectTabsPanelValues(children), [children])
+  const valuesRef = React.useRef(values)
+  const pointerStartRef = React.useRef<{ pointerId: number; x: number; y: number } | null>(null)
+  const canSwipe = Boolean(swipeable) && orientation === 'horizontal' && values.length > 1
+
+  React.useEffect(() => {
+    valuesRef.current = values
+    setPanelValues(values)
+  }, [setPanelValues, values])
+
+  const navigateByDelta = React.useCallback(
+    (delta: 1 | -1, event: Event) => {
+      const currentIndex = valuesRef.current.findIndex((value) => Object.is(value, currentValue))
+      const nextValue = valuesRef.current[currentIndex + delta]
+
+      if (currentIndex < 0 || nextValue === undefined) return
+
+      setValue(nextValue, event)
+    },
+    [currentValue, setValue]
+  )
+
+  return (
+    <div
+      ref={ref}
+      data-slot="tabs-panels"
+      data-swipeable={canSwipe ? 'true' : undefined}
+      className={cn('relative', className)}
+      style={{
+        touchAction: canSwipe ? 'pan-y' : undefined,
+        ...style,
+      }}
+      onPointerDown={(event) => {
+        onPointerDown?.(event)
+        if (event.defaultPrevented || !canSwipe) return
+        if (!event.isPrimary || isInteractiveSwipeTarget(event.target)) return
+        if (!isSwipeEnabledForPointer(swipeable, event)) return
+
+        pointerStartRef.current = {
+          pointerId: event.pointerId,
+          x: event.clientX,
+          y: event.clientY,
+        }
+      }}
+      onPointerUp={(event) => {
+        onPointerUp?.(event)
+        const start = pointerStartRef.current
+        pointerStartRef.current = null
+
+        if (!start || start.pointerId !== event.pointerId || event.defaultPrevented) return
+
+        const dx = event.clientX - start.x
+        const dy = event.clientY - start.y
+        const absX = Math.abs(dx)
+        const absY = Math.abs(dy)
+
+        if (absX < swipeThreshold || absX < absY * swipeAxisLockRatio) return
+
+        navigateByDelta(dx < 0 ? 1 : -1, event.nativeEvent)
+      }}
+      onPointerCancel={(event) => {
+        onPointerCancel?.(event)
+        if (pointerStartRef.current?.pointerId === event.pointerId) {
+          pointerStartRef.current = null
+        }
+      }}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
 function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel
@@ -199,4 +495,4 @@ function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   )
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants }
+export { Tabs, TabsList, TabsTrigger, TabsPanels, TabsContent, tabsListVariants }

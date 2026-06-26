@@ -386,7 +386,7 @@
     "reference:analyze:all-locales": "node scripts/analyze-splatoon-reference.mjs --referenceDir scratch/splatoon-reference-all-locales",
     "reference:analyze:videos": "node scripts/analyze-splatoon-videos.mjs",
     "reference:analyze:videos:probe": "node scripts/analyze-splatoon-videos.mjs --probe",
-    "test:demo-smoke": "node tests/demo-smoke-regression.mjs && node tests/feed-carousel-initial-layout-regression.mjs",
+    "test:demo-smoke": "node tests/demo-smoke-regression.mjs && node tests/feed-carousel-initial-layout-regression.mjs && node tests/tabs-swipe-regression.mjs",
     "test:package-consumer": "node tests/package-consumer-smoke.mjs",
     "typecheck": "tsc --noEmit",
     "changeset": "changeset",
