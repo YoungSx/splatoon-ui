@@ -1,5 +1,5 @@
 .trapezoidList {
-  --trapezoid-tabs-bg-image: url("/_images/backgrounds/tapes-purple.jpg");
+  --trapezoid-tabs-bg-image: url('/_images/backgrounds/tapes-purple.jpg');
   --trapezoid-tabs-gap: clamp(0.25rem, 1vw, 0.65rem);
   --trapezoid-tabs-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 360 104'%3E%3Cpath fill='white' d='M31 1H329C343 1 350 9 352 23L360 104H0L8 23C10 9 17 1 31 1Z'/%3E%3C/svg%3E");
   --trapezoid-tabs-highlight: rgb(255 255 255 / 0.56);
@@ -12,7 +12,7 @@
   justify-content: flex-start;
   min-width: 0;
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   padding: clamp(1rem, 9cqi, 2rem) 0 0;
   scrollbar-width: none;
   width: 100%;
