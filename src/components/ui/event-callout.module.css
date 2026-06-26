@@ -74,13 +74,8 @@
 }
 
 .eyebrow {
-  color: var(--color-yellow, #eaff3d);
-  font-size: 0.75rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  line-height: 1;
-  margin: 0;
-  text-transform: uppercase;
+  align-self: flex-start;
+  transform: rotate(-1.5deg);
 }
 
 .title {

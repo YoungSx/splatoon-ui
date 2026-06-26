@@ -2,6 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import { AssetImage } from './asset-image'
+import { Badge } from './badge'
 import { eventImageAssets, type EventImageAsset } from './event-assets'
 import styles from './event-callout.module.css'
 
@@ -44,7 +45,11 @@ export function EventCallout({
         </div>
 
         <div className={styles.body}>
-          {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
+          {eyebrow && (
+            <Badge color="yellow" className={styles.eyebrow}>
+              {eyebrow}
+            </Badge>
+          )}
           <h3 className={styles.title}>{title}</h3>
           {description && <p className={styles.description}>{description}</p>}
           {action && <div className={styles.action}>{action}</div>}

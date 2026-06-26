@@ -4,6 +4,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import { Splat } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
 import { NavChevron } from '@/components/ui/nav-chevron'
@@ -222,9 +223,9 @@ export function SplatoonMenuLogo({ contentPhase }: { contentPhase: ContentPhase 
         <span className="font-heading text-[clamp(3rem,11vw,6.5rem)] leading-none text-white drop-shadow-[5px_5px_0_var(--color-black)] lg:text-[clamp(3rem,11vw,6.5rem)]">
           Splatoon UI
         </span>
-        <span className="bg-yellow font-alt text-chaos-black -mt-1 inline-block px-3 py-1 text-[0.7rem] font-black tracking-wider uppercase md:text-sm lg:px-4 lg:text-base">
+        <Badge color="yellow" className="-mt-1">
           Fan-made component kit
-        </span>
+        </Badge>
       </div>
     </div>
   )

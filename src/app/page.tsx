@@ -1114,9 +1114,17 @@ export default function Home() {
                               <p className="text-muted-foreground mt-1 text-xs">
                                 {t.overlays.drawers.lastBattleRoom}
                               </p>
-                              <p className="bg-chaos-black text-yellow inline-block [transform:rotate(-2deg)] px-2 py-0.5 text-xs font-black">
+                              <Badge
+                                color="monochrome"
+                                className="mt-2 -rotate-2"
+                                style={
+                                  {
+                                    '--torn-badge-text-color': 'var(--color-yellow)',
+                                  } as React.CSSProperties
+                                }
+                              >
                                 {t.overlays.drawers.victory}
-                              </p>
+                              </Badge>
                             </div>
                           </div>
                         </SheetContent>
