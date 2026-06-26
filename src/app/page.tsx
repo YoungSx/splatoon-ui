@@ -863,7 +863,7 @@ export default function Home() {
                     <CardTitle>{t.buttons.dripCard.title}</CardTitle>
                     <CardDescription>{t.buttons.dripCard.description}</CardDescription>
                   </CardHeader>
-                  <CardContent className="flex flex-wrap gap-4 pt-2">
+                  <CardContent className="flex-row flex-wrap items-start gap-4 pt-2">
                     <Button variant="yellow" theme="dark-yellow">
                       {t.buttons.dripCard.yellow}
                     </Button>
@@ -922,17 +922,19 @@ export default function Home() {
                         </ButtonGroupItem>
                       </ButtonGroup>
                     </div>
-                    <ButtonGroup fullWidth aria-label={t.buttons.groupCard.loadoutLabel}>
-                      <ButtonGroupItem size="sm" variant="purple" theme="dark-purple">
-                        {t.buttons.groupCard.gear}
-                      </ButtonGroupItem>
-                      <ButtonGroupItem size="sm" variant="orange" theme="dark-purpleOrange">
-                        {t.buttons.groupCard.weapons}
-                      </ButtonGroupItem>
-                      <ButtonGroupItem size="sm" variant="destructive" theme="light-red">
-                        {t.buttons.groupCard.reset}
-                      </ButtonGroupItem>
-                    </ButtonGroup>
+                    <div className="flex flex-wrap items-center gap-4">
+                      <ButtonGroup aria-label={t.buttons.groupCard.loadoutLabel}>
+                        <ButtonGroupItem size="sm" variant="purple" theme="dark-purple">
+                          {t.buttons.groupCard.gear}
+                        </ButtonGroupItem>
+                        <ButtonGroupItem size="sm" variant="orange" theme="dark-purpleOrange">
+                          {t.buttons.groupCard.weapons}
+                        </ButtonGroupItem>
+                        <ButtonGroupItem size="sm" variant="destructive" theme="light-red">
+                          {t.buttons.groupCard.reset}
+                        </ButtonGroupItem>
+                      </ButtonGroup>
+                    </div>
                   </CardContent>
                 </Card>
               </InView>
