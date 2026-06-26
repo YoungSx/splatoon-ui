@@ -51,7 +51,7 @@ export function Footer({
             variant="yellow"
             size="sm"
             theme="dark-yellow"
-            leftIcon={<GitHubMark className="h-4 w-4" />}
+            leftIcon={<GitHubMark className="h-4 w-4 translate-y-px" />}
             render={
               <a
                 href="https://github.com/YoungSx/splatoon-ui"

@@ -51,6 +51,12 @@ const arrowButtonClassName =
 const solidButtonEffectsClassName =
   'active:scale-[0.98] active:translate-x-[1px] active:translate-y-[1px]'
 
+const buttonInlineContentClassName =
+  'relative z-10 flex items-center justify-center whitespace-nowrap'
+
+const buttonIconClassName =
+  'mr-1.5 inline-flex shrink-0 items-center justify-center leading-none [&_svg]:block [&_svg]:shrink-0'
+
 export interface ButtonProps
   extends
     React.ComponentPropsWithoutRef<typeof ButtonPrimitive>,
@@ -164,6 +170,7 @@ function Button({
   )
 
   const isTextChildren = typeof children === 'string' || typeof children === 'number'
+  const renderedLeftIcon = leftIcon ? <span className={buttonIconClassName}>{leftIcon}</span> : null
   const isAnchorRender =
     React.isValidElement(render) && typeof render.type === 'string' && render.type === 'a'
   const shouldRenderNativeButton = nativeButton ?? !isAnchorRender
@@ -232,11 +239,11 @@ function Button({
               <span aria-hidden="true" className={styles.dripFrame} />
               <span
                 className={cn(
-                  'relative z-10 flex items-center justify-center whitespace-nowrap',
+                  buttonInlineContentClassName,
                   sizeDrip.leading
                 )}
               >
-                {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
+                {renderedLeftIcon}
                 {children}
                 {hasChevron && size !== 'icon' && splatChevron}
               </span>
@@ -250,11 +257,11 @@ function Button({
             >
               <span
                 className={cn(
-                  'relative z-10 flex items-center justify-center whitespace-nowrap',
+                  buttonInlineContentClassName,
                   sizeDrip.leading
                 )}
               >
-                {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
+                {renderedLeftIcon}
                 {children}
                 {hasChevron && size !== 'icon' && splatChevron}
               </span>
@@ -280,8 +287,8 @@ function Button({
             </span>
 
             <span className="relative z-30 flex h-full w-full items-center justify-center text-[var(--text-color)] transition-colors duration-200 group-hover/button:text-[var(--hover-text-color)]">
-              <span className="relative z-10 flex items-center justify-center whitespace-nowrap">
-                {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
+              <span className={buttonInlineContentClassName}>
+                {renderedLeftIcon}
                 {children}
                 {hasChevron && size !== 'icon' && splatChevron}
               </span>
@@ -291,13 +298,13 @@ function Button({
       ) : (
         <span
           className={cn(
-            'relative z-10 whitespace-nowrap',
+            buttonInlineContentClassName,
             variant === 'arrow'
               ? 'inline-block leading-[26px]'
               : 'inline-flex items-center justify-center'
           )}
         >
-          {leftIcon && <span className="mr-1.5 flex items-center">{leftIcon}</span>}
+          {renderedLeftIcon}
           {children}
           {hasChevron && size !== 'icon' && splatChevron}
         </span>

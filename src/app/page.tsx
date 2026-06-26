@@ -19,7 +19,7 @@ import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { TornCard, TornCardTitle, TornCardDescription } from '@/components/ui/torn-card'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
-import { Play, Zap } from 'lucide-react'
+import { Play } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { NavigationDialog } from '@/components/ui/navigation-dialog'
 import {
@@ -490,7 +490,7 @@ export default function Home() {
               variant="yellow"
               size="lg"
               theme="dark-yellow"
-              leftIcon={<GitHubMark className="h-5 w-5" />}
+              leftIcon={<GitHubMark className="h-5 w-5 translate-y-px" />}
               render={
                 <a
                   href="https://github.com/YoungSx/splatoon-ui"
@@ -547,7 +547,6 @@ export default function Home() {
           <header className="text-chaos-black pattern-chip-white relative flex flex-col items-center justify-center gap-6 bg-white px-6 pt-28 pb-12 transition-colors duration-300 md:pt-36">
             <div className="z-10 flex flex-col items-center gap-3 text-center">
               <Badge color="yellow">
-                <Zap className="text-yellow mr-1 h-3.5 w-3.5" />
                 {t.hero.badge}
               </Badge>
               <h1
@@ -561,7 +560,7 @@ export default function Home() {
               </p>
               <Button
                 variant="blue"
-                leftIcon={<GitHubMark className="h-4 w-4" />}
+                leftIcon={<GitHubMark className="h-4 w-4 translate-y-px" />}
                 render={
                   <a
                     href="https://github.com/YoungSx/splatoon-ui"

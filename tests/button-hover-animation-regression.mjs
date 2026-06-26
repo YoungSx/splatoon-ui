@@ -144,6 +144,35 @@ const checks = [
     name: 'drip animation paths keep matching command signatures for interpolable clip-path animation',
     pass: commandSignatures.every((signature) => signature === commandSignatures[0]),
   },
+  {
+    name: 'solid button keeps the original asymmetric vertical rhythm',
+    pass:
+      button.includes("default: 'text-[22px] pt-3 pb-5 px-11 leading-[24px]'") &&
+      button.includes("sm: 'text-base pt-2 pb-3.5 px-6 leading-[20px]'") &&
+      button.includes("lg: 'text-[26px] pt-4 pb-6.5 px-14 leading-[28px]'"),
+  },
+  {
+    name: 'solid button normal and hover labels share the same inline content wrapper',
+    pass:
+      button.includes('buttonInlineContentClassName') &&
+      button.includes('relative z-10 flex items-center justify-center whitespace-nowrap') &&
+      button.includes('buttonIconClassName') &&
+      button.includes('[&_svg]:block') &&
+      button.includes('[&_svg]:shrink-0'),
+  },
+  {
+    name: 'solid button chevron keeps its intentional low alignment',
+    pass:
+      button.includes("ml-1.5 h-[13px] w-[8px] self-end overflow-hidden") &&
+      !button.includes('self-center overflow-hidden'),
+  },
+  {
+    name: 'solid button icon wrapper normalizes SVG line boxes while following the label rhythm',
+    pass:
+      button.includes('mr-1.5 inline-flex shrink-0 items-center justify-center leading-none') &&
+      !button.includes('translate-y-[0.18em]') &&
+      !button.includes('mr-1.5 flex items-center'),
+  },
 ]
 
 const failed = checks.filter((check) => !check.pass)

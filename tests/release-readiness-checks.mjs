@@ -112,7 +112,7 @@ const checks = [
   {
     name: 'IconButton custom demo uses the shared icon library instead of an inline play SVG',
     pass:
-      page.includes("import { Play, Zap } from 'lucide-react'") &&
+      page.includes("import { Play } from 'lucide-react'") &&
       page.includes('icon={<Play') &&
       !page.includes('<path d="M8 5v14l11-7z"'),
   },
