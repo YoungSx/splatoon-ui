@@ -175,11 +175,11 @@ export function NavigationDialog({
               {/* Menu decorations (stickers, etc.) */}
               {menuDecorations}
 
-              <div className="relative z-10 flex h-full w-full flex-col items-center overflow-y-auto px-6 pt-[5.625rem] pb-[3.75rem] lg:justify-center lg:overflow-hidden lg:p-6">
+              <div className="relative z-10 flex h-full w-full flex-col items-center overflow-y-auto px-6 pt-[5.625rem] pb-[3.75rem] lg:p-6">
                 <nav
                   aria-label={navLabel}
                   className={cn(
-                    'relative flex w-full max-w-[44rem] flex-col items-center text-center lg:pt-5'
+                    'relative my-auto flex w-full max-w-[44rem] flex-col items-center text-center lg:pt-5'
                   )}
                 >
                   {/* Logo area (render prop with contentPhase) */}

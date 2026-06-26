@@ -1,24 +1,24 @@
-"use client"
+'use client'
 
-import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
-import { cva, type VariantProps } from "class-variance-authority"
-import * as React from "react"
+import { Tabs as TabsPrimitive } from '@base-ui/react/tabs'
+import { cva, type VariantProps } from 'class-variance-authority'
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
-import styles from "./tabs.module.css"
+import { cn } from '@/lib/utils'
+import styles from './tabs.module.css'
 
 const TRAPEZOID_TABS_TEXTURE_SCALE = 1.2
 
-type TabsListVariant = "default" | "line" | "trapezoid"
+type TabsListVariant = 'default' | 'line' | 'trapezoid'
 
 type TrapezoidTabsStyle = React.CSSProperties & {
-  "--trapezoid-tabs-bg-size-x"?: string
-  "--trapezoid-tabs-bg-x"?: string
-  "--trapezoid-tabs-count"?: number
-  "--trapezoid-tabs-index"?: number
+  '--trapezoid-tabs-bg-size-x'?: string
+  '--trapezoid-tabs-bg-x'?: string
+  '--trapezoid-tabs-count'?: number
+  '--trapezoid-tabs-index'?: number
 }
 
-const TabsListVariantContext = React.createContext<TabsListVariant>("default")
+const TabsListVariantContext = React.createContext<TabsListVariant>('default')
 
 function isStyleableElement(
   child: React.ReactNode
@@ -26,44 +26,38 @@ function isStyleableElement(
   return React.isValidElement(child) && child.type !== React.Fragment
 }
 
-function Tabs({
-  className,
-  orientation = "horizontal",
-  ...props
-}: TabsPrimitive.Root.Props) {
+function Tabs({ className, orientation = 'horizontal', ...props }: TabsPrimitive.Root.Props) {
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
       data-orientation={orientation}
-      className={cn(
-        "group/tabs flex gap-2 data-horizontal:flex-col",
-        className
-      )}
+      className={cn('group/tabs flex gap-2 data-horizontal:flex-col', className)}
       {...props}
     />
   )
 }
 
 const tabsListVariants = cva(
-  "group/tabs-list flex items-center justify-center text-current group-data-horizontal/tabs:h-auto group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col",
+  'group/tabs-list flex items-center justify-center text-current group-data-horizontal/tabs:h-auto group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col',
   {
     variants: {
       variant: {
-        default: "flex-row justify-start pb-8 overflow-x-auto overflow-y-hidden snap-x snap-mandatory sm:snap-none sm:justify-center sm:overflow-visible scrollbar-hide",
-        line: "gap-1 bg-transparent border-b-2 border-current/10 w-full justify-start rounded-none",
+        default:
+          'flex-row justify-start pb-8 overflow-x-auto overflow-y-hidden snap-x snap-mandatory sm:snap-none scrollbar-hide',
+        line: 'gap-1 bg-transparent border-b-2 border-current/10 w-full justify-start rounded-none',
         trapezoid: styles.trapezoidList,
       },
       color: {
-        yellow: "",
-        blue: "",
-        green: "",
-        orange: "",
-        red: "",
+        yellow: '',
+        blue: '',
+        green: '',
+        orange: '',
+        red: '',
       },
     },
     defaultVariants: {
-      variant: "default",
-      color: "blue",
+      variant: 'default',
+      color: 'blue',
     },
   }
 )
@@ -83,15 +77,13 @@ function withTrapezoidTabsTriggerVars(children: React.ReactNode) {
 
     const textureSpan = triggerCount * TRAPEZOID_TABS_TEXTURE_SCALE - 1
     const backgroundX =
-      triggerCount > 1 && textureSpan > 0
-        ? `${(index / textureSpan) * 100}%`
-        : "50%"
+      triggerCount > 1 && textureSpan > 0 ? `${(index / textureSpan) * 100}%` : '50%'
     const style: TrapezoidTabsStyle = {
       ...child.props.style,
-      "--trapezoid-tabs-bg-size-x": `${triggerCount * TRAPEZOID_TABS_TEXTURE_SCALE * 100}%`,
-      "--trapezoid-tabs-bg-x": backgroundX,
-      "--trapezoid-tabs-count": triggerCount,
-      "--trapezoid-tabs-index": index,
+      '--trapezoid-tabs-bg-size-x': `${triggerCount * TRAPEZOID_TABS_TEXTURE_SCALE * 100}%`,
+      '--trapezoid-tabs-bg-x': backgroundX,
+      '--trapezoid-tabs-count': triggerCount,
+      '--trapezoid-tabs-index': index,
     }
 
     return React.cloneElement(child, { style })
@@ -101,13 +93,13 @@ function withTrapezoidTabsTriggerVars(children: React.ReactNode) {
 function TabsList({
   className,
   children,
-  variant = "default",
-  color = "blue",
+  variant = 'default',
+  color = 'blue',
   ...props
 }: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
-  const resolvedVariant = variant ?? "default"
+  const resolvedVariant = variant ?? 'default'
   const resolvedChildren =
-    resolvedVariant === "trapezoid" ? withTrapezoidTabsTriggerVars(children) : children
+    resolvedVariant === 'trapezoid' ? withTrapezoidTabsTriggerVars(children) : children
 
   return (
     <TabsListVariantContext.Provider value={resolvedVariant}>
@@ -126,38 +118,38 @@ function TabsList({
 
 function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props) {
   const listVariant = React.useContext(TabsListVariantContext)
-  const isTrapezoid = listVariant === "trapezoid"
+  const isTrapezoid = listVariant === 'trapezoid'
 
   return (
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
-        "relative cursor-pointer select-none outline-none snap-start shrink-0",
-        "font-alt text-lg sm:text-[2.3125rem] font-bold uppercase leading-none",
-        "transition-colors",
+        'relative shrink-0 cursor-pointer snap-start outline-none select-none',
+        'font-alt text-lg leading-none font-bold uppercase sm:text-[2.3125rem]',
+        'transition-colors',
         // Default variant touch target and scroll sizing.
-        "group-data-[variant=default]/tabs-list:min-h-11 group-data-[variant=default]/tabs-list:min-w-16 group-data-[variant=default]/tabs-list:px-3 group-data-[variant=default]/tabs-list:py-2",
+        'group-data-[variant=default]/tabs-list:min-h-11 group-data-[variant=default]/tabs-list:min-w-16 group-data-[variant=default]/tabs-list:px-3 group-data-[variant=default]/tabs-list:py-2',
         // Active color — resolved by parent TabsList data-color
-        "group-data-[color=yellow]/tabs-list:data-active:text-yellow",
-        "group-data-[color=blue]/tabs-list:data-active:text-blue",
-        "group-data-[color=green]/tabs-list:data-active:text-green",
-        "group-data-[color=orange]/tabs-list:data-active:text-orange",
-        "group-data-[color=red]/tabs-list:data-active:text-red",
-        "tab-splat",
+        'group-data-[color=yellow]/tabs-list:data-active:text-yellow',
+        'group-data-[color=blue]/tabs-list:data-active:text-blue',
+        'group-data-[color=green]/tabs-list:data-active:text-green',
+        'group-data-[color=orange]/tabs-list:data-active:text-orange',
+        'group-data-[color=red]/tabs-list:data-active:text-red',
+        'tab-splat',
         // Underline
-        "before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:opacity-0 before:transition-all before:pointer-events-none",
-        "group-data-[color=yellow]/tabs-list:before:bg-yellow",
-        "group-data-[color=blue]/tabs-list:before:bg-blue",
-        "group-data-[color=green]/tabs-list:before:bg-green",
-        "group-data-[color=orange]/tabs-list:before:bg-orange",
-        "group-data-[color=red]/tabs-list:before:bg-red",
+        'before:pointer-events-none before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:opacity-0 before:transition-all',
+        'group-data-[color=yellow]/tabs-list:before:bg-yellow',
+        'group-data-[color=blue]/tabs-list:before:bg-blue',
+        'group-data-[color=green]/tabs-list:before:bg-green',
+        'group-data-[color=orange]/tabs-list:before:bg-orange',
+        'group-data-[color=red]/tabs-list:before:bg-red',
         // Line variant overrides
-        "group-data-[variant=line]/tabs-list:font-heading group-data-[variant=line]/tabs-list:text-base group-data-[variant=line]/tabs-list:tracking-wider",
-        "group-data-[variant=line]/tabs-list:text-current/60",
-        "group-data-[variant=line]/tabs-list:data-active:text-blue group-data-[variant=line]/tabs-list:hover:text-blue",
-        "group-data-[variant=line]/tabs-list:data-active:before:opacity-100",
+        'group-data-[variant=line]/tabs-list:font-heading group-data-[variant=line]/tabs-list:text-base group-data-[variant=line]/tabs-list:tracking-wider',
+        'group-data-[variant=line]/tabs-list:text-current/60',
+        'group-data-[variant=line]/tabs-list:data-active:text-blue group-data-[variant=line]/tabs-list:hover:text-blue',
+        'group-data-[variant=line]/tabs-list:data-active:before:opacity-100',
         // Vertical line variant
-        "group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-x-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:-right-[2px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:w-[3px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:h-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-y-0",
+        'group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-x-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:inset-y-0 group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:-right-[2px] group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:h-auto group-data-vertical/tabs:group-data-[variant=line]/tabs-list:before:w-[3px]',
         styles.trigger,
         className
       )}
@@ -176,10 +168,7 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
               className={styles.trapezoidShape}
               d="M31 1H329C343 1 350 9 352 23L360 104H0L8 23C10 9 17 1 31 1Z"
             />
-            <path
-              className={styles.trapezoidHighlight}
-              d="M2 101L8 23C10 9 17 1 31 1H314"
-            />
+            <path className={styles.trapezoidHighlight} d="M2 101L8 23C10 9 17 1 31 1H314" />
           </svg>
           <svg
             aria-hidden="true"
@@ -195,7 +184,7 @@ function TabsTrigger({ className, children, ...props }: TabsPrimitive.Tab.Props)
           </svg>
         </>
       ) : null}
-      <span className={cn("relative z-[var(--z-deco-fg)]", styles.label)}>{children}</span>
+      <span className={cn('relative z-[var(--z-deco-fg)]', styles.label)}>{children}</span>
     </TabsPrimitive.Tab>
   )
 }
@@ -204,7 +193,7 @@ function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
-      className={cn("flex-1 text-sm outline-none", className)}
+      className={cn('flex-1 text-sm outline-none', className)}
       {...props}
     />
   )

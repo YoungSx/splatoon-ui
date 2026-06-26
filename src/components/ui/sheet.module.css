@@ -4,6 +4,7 @@
 .sideRight,
 .sideBottom,
 .sideLeft {
+  max-height: 100dvh;
   position: fixed;
   z-index: var(--z-sheet);
 }

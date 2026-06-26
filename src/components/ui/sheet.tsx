@@ -77,7 +77,7 @@ const SheetPopup = React.forwardRef<
       data-slot="sheet-popup"
       data-side={side}
       className={cn(
-        'drawer-sheet bg-popover text-popover-foreground flex flex-col gap-4 bg-clip-padding text-sm shadow-none transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0',
+        'drawer-sheet bg-popover text-popover-foreground flex flex-col gap-4 overflow-y-auto overscroll-contain bg-clip-padding text-sm shadow-none transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0',
         SIDE_CLASS[side],
         className
       )}

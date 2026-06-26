@@ -428,7 +428,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 flex w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
+          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
           isReducedMotion
             ? 'origin-center [transform:translate(-50%,-50%)]'
             : 'origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]',
@@ -453,7 +453,11 @@ function DialogContent({
 
         <PaperSurface
           tone={fillInfo.tone}
-          contentClassName={cn('flex flex-col gap-4 px-8 py-4', fillInfo.bg)}
+          className="max-h-full min-h-0"
+          contentClassName={cn(
+            'flex min-h-0 flex-col gap-4 overflow-y-auto overscroll-contain px-8 py-4',
+            fillInfo.bg
+          )}
         >
           <DialogSurfaceContext.Provider value={surface}>{children}</DialogSurfaceContext.Provider>
 
