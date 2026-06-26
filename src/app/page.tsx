@@ -546,9 +546,7 @@ export default function Home() {
         >
           <header className="text-chaos-black pattern-chip-white relative flex flex-col items-center justify-center gap-6 bg-white px-6 pt-28 pb-12 transition-colors duration-300 md:pt-36">
             <div className="z-10 flex flex-col items-center gap-3 text-center">
-              <Badge color="yellow">
-                {t.hero.badge}
-              </Badge>
+              <Badge color="yellow">{t.hero.badge}</Badge>
               <h1
                 className="font-heading text-chaos-black text-5xl font-black tracking-wider uppercase drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)] md:text-6xl"
                 style={{ transform: 'rotate(-4deg)' }}
@@ -1749,28 +1747,25 @@ export default function Home() {
               </div>
             }
           >
-            <DemoContent width="narrow">
+            <DemoContent>
               {/* Forms */}
               <InViewStagger variant="pop" rootMargin="-30px">
                 <div className="grid gap-8 md:grid-cols-2">
-                  <Card variant="paper" surface="white">
+                  <Card variant="paper" surface="white" className="w-full">
                     <CardHeader>
                       <CardTitle>{t.forms.inputCard.title}</CardTitle>
                       <CardDescription>{t.forms.inputCard.description}</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex flex-col gap-6 pt-2">
+                    <CardContent className="grid gap-6 pt-2">
                       <div className="space-y-1.5">
-                        <Label htmlFor="demo-input">{t.forms.inputCard.displayName}</Label>
-                        <Input
-                          id="demo-input"
-                          placeholder={t.forms.inputCard.displayNamePlaceholder}
-                        />
+                        <Label htmlFor="demo-input">{t.forms.inputCard.inputLabel}</Label>
+                        <Input id="demo-input" placeholder={t.forms.inputCard.inputPlaceholder} />
                       </div>
                       <div className="space-y-2">
-                        <Label>{t.forms.inputCard.layoutPref}</Label>
+                        <Label>{t.forms.inputCard.selectLabel}</Label>
                         <Select defaultValue="gallery">
                           <SelectTrigger className="w-full">
-                            <SelectValue placeholder={t.forms.inputCard.selectLayout} />
+                            <SelectValue placeholder={t.forms.inputCard.selectPlaceholder} />
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="gallery">{t.forms.inputCard.gallery}</SelectItem>
@@ -1779,35 +1774,77 @@ export default function Home() {
                           </SelectContent>
                         </Select>
                       </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card variant="paper" surface="white" className="w-full">
+                    <CardHeader>
+                      <CardTitle>{t.forms.controlsCard.title}</CardTitle>
+                      <CardDescription>{t.forms.controlsCard.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="grid gap-6 pt-2">
                       <div className="flex flex-col gap-3">
-                        <Label>{t.forms.inputCard.notifications}</Label>
-                        <div className="flex items-center gap-3">
+                        <Label>{t.forms.controlsCard.checkboxLabel}</Label>
+                        <div className="flex min-w-0 items-center gap-3">
                           <Checkbox id="demo-checkbox-1" defaultChecked />
                           <Label
                             htmlFor="demo-checkbox-1"
                             className="cursor-pointer pb-0 text-sm font-medium"
                           >
-                            {t.forms.inputCard.releaseNotes}
+                            {t.forms.controlsCard.checked}
                           </Label>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex min-w-0 items-center gap-3">
                           <Checkbox id="demo-checkbox-2" />
                           <Label
                             htmlFor="demo-checkbox-2"
                             className="cursor-pointer pb-0 text-sm font-medium"
                           >
-                            {t.forms.inputCard.desktopSounds}
+                            {t.forms.controlsCard.unchecked}
                           </Label>
                         </div>
                       </div>
+
+                      <div className="space-y-2">
+                        <Label>{t.forms.controlsCard.radioGroupLabel}</Label>
+                        <RadioGroup defaultValue="buttons" className="grid gap-3">
+                          <div className="flex min-w-0 items-center gap-3">
+                            <RadioGroupItem id="r1" value="buttons" />
+                            <Label htmlFor="r1" className="cursor-pointer pb-0 text-sm font-medium">
+                              {t.forms.controlsCard.radioA}
+                            </Label>
+                          </div>
+                          <div className="flex min-w-0 items-center gap-3">
+                            <RadioGroupItem id="r2" value="cards" />
+                            <Label htmlFor="r2" className="cursor-pointer pb-0 text-sm font-medium">
+                              {t.forms.controlsCard.radioB}
+                            </Label>
+                          </div>
+                          <div className="flex min-w-0 items-center gap-3">
+                            <RadioGroupItem id="r3" value="dialogs" />
+                            <Label htmlFor="r3" className="cursor-pointer pb-0 text-sm font-medium">
+                              {t.forms.controlsCard.radioC}
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card variant="paper" surface="white" className="w-full">
+                    <CardHeader>
+                      <CardTitle>{t.forms.toggleCard.title}</CardTitle>
+                      <CardDescription>{t.forms.toggleCard.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="grid gap-6 pt-2">
                       <div className="flex flex-col gap-3">
-                        <Label>{t.forms.inputCard.switchControls}</Label>
+                        <Label>{t.forms.toggleCard.switchLabel}</Label>
                         <div className="flex items-center justify-between gap-4">
                           <Label
                             htmlFor="demo-switch-1"
                             className="cursor-pointer pb-0 text-sm font-medium"
                           >
-                            {t.forms.inputCard.inkSync}
+                            {t.forms.toggleCard.defaultSwitch}
                           </Label>
                           <Switch id="demo-switch-1" defaultChecked />
                         </div>
@@ -1816,13 +1853,13 @@ export default function Home() {
                             htmlFor="demo-switch-2"
                             className="cursor-pointer pb-0 text-sm font-medium"
                           >
-                            {t.forms.inputCard.salmonRun}
+                            {t.forms.toggleCard.themedSwitch}
                           </Label>
                           <Switch
                             id="demo-switch-2"
                             color="green"
-                            onLabel={t.forms.inputCard.salmonRunOn}
-                            offLabel={t.forms.inputCard.salmonRunOff}
+                            onLabel={t.forms.toggleCard.on}
+                            offLabel={t.forms.toggleCard.off}
                           />
                         </div>
                         <div className="flex items-center justify-between gap-4 opacity-80">
@@ -1830,71 +1867,52 @@ export default function Home() {
                             htmlFor="demo-switch-3"
                             className="cursor-not-allowed pb-0 text-sm font-medium"
                           >
-                            {t.forms.inputCard.locked}
+                            {t.forms.toggleCard.disabledSwitch}
                           </Label>
                           <Switch id="demo-switch-3" size="sm" disabled />
                         </div>
                       </div>
                       <div className="flex flex-col gap-3">
-                        <Label>{t.forms.inputCard.segmented}</Label>
-                        <div className="flex items-center justify-between gap-4">
-                          <span className="text-sm font-medium">{t.forms.inputCard.language}</span>
+                        <Label>{t.forms.toggleCard.segmentedLabel}</Label>
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                          <span className="text-sm font-medium">
+                            {t.forms.toggleCard.defaultSegmented}
+                          </span>
                           <SegmentedControl
                             defaultValue="en"
-                            aria-label={t.forms.inputCard.language}
+                            aria-label={t.forms.toggleCard.defaultSegmented}
                           >
                             <SegmentedControlItem value="ja">JP</SegmentedControlItem>
                             <SegmentedControlItem value="en">EN</SegmentedControlItem>
                             <SegmentedControlItem value="zh">ZH</SegmentedControlItem>
                           </SegmentedControl>
                         </div>
-                        <div className="flex items-center justify-between gap-4">
-                          <span className="text-sm font-medium">{t.forms.inputCard.queue}</span>
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                          <span className="text-sm font-medium">
+                            {t.forms.toggleCard.trackSegmented}
+                          </span>
                           <SegmentedControl
                             appearance="track"
                             color="green"
                             defaultValue="salmon"
-                            aria-label={t.forms.inputCard.queue}
+                            aria-label={t.forms.toggleCard.trackSegmented}
                           >
                             <SegmentedControlItem value="turf">
-                              {t.forms.inputCard.turf}
+                              {t.forms.toggleCard.turf}
                             </SegmentedControlItem>
                             <SegmentedControlItem value="rank">
-                              {t.forms.inputCard.rank}
+                              {t.forms.toggleCard.rank}
                             </SegmentedControlItem>
                             <SegmentedControlItem value="salmon">
-                              {t.forms.inputCard.run}
+                              {t.forms.toggleCard.run}
                             </SegmentedControlItem>
                           </SegmentedControl>
                         </div>
                       </div>
-                      <div className="space-y-2">
-                        <Label>{t.forms.inputCard.family}</Label>
-                        <RadioGroup defaultValue="buttons">
-                          <div className="flex items-center gap-3">
-                            <RadioGroupItem id="r1" value="buttons" />
-                            <Label htmlFor="r1" className="cursor-pointer pb-0 text-sm font-medium">
-                              {t.forms.inputCard.familyButtons}
-                            </Label>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <RadioGroupItem id="r2" value="cards" />
-                            <Label htmlFor="r2" className="cursor-pointer pb-0 text-sm font-medium">
-                              {t.forms.inputCard.familyCards}
-                            </Label>
-                          </div>
-                          <div className="flex items-center gap-3">
-                            <RadioGroupItem id="r3" value="dialogs" />
-                            <Label htmlFor="r3" className="cursor-pointer pb-0 text-sm font-medium">
-                              {t.forms.inputCard.familyDialogs}
-                            </Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
                     </CardContent>
                   </Card>
 
-                  <Card variant="paper" surface="white">
+                  <Card variant="paper" surface="white" className="w-full">
                     <CardHeader>
                       <CardTitle>{t.forms.alertsCard.title}</CardTitle>
                       <CardDescription>{t.forms.alertsCard.description}</CardDescription>
