@@ -85,7 +85,7 @@ const checks = [
   {
     name: 'feed carousel item CTAs keep the reference-style arrow treatment consistently',
     pass:
-      /<Button\s+size="sm"\s+variant="arrow">\s*Read\s*<\/Button>/.test(page) &&
+      /<Button\s+size="sm"\s+variant="arrow">\s*\{t\.carousels\.feedItems\.read\}\s*<\/Button>/.test(page) &&
       !page.includes('index % 2') &&
       !page.includes("variant={index % 2 === 0 ? 'arrow' : 'blue'}"),
   },

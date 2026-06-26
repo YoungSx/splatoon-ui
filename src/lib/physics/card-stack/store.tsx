@@ -54,14 +54,20 @@ export function resolveCardId(index: number) {
   return String(index)
 }
 
-export function createZeroSceneSnapshot(fallbackGeometry: CardSwingGeometry): CardStackCarouselSceneSnapshot {
+const INITIALIZED_SUPPORT_TIMESTAMP_MS = 1
+
+export function createInitialSceneSnapshot(
+  fallbackGeometry: CardSwingGeometry,
+  initialIndex = 0
+): CardStackCarouselSceneSnapshot {
+  const initialPositionPx = initialIndex * fallbackGeometry.pitchPx
   const zeroSupportSnapshot: CardStackCarouselSupportSnapshot = {
-    positionPx: 0,
+    positionPx: initialPositionPx,
     velocityPxPerSecond: 0,
     accelerationPxPerSecondSquared: 0,
-    targetPositionPx: 0,
+    targetPositionPx: initialPositionPx,
     pitchPx: fallbackGeometry.pitchPx,
-    lastUpdatedAt: 0,
+    lastUpdatedAt: INITIALIZED_SUPPORT_TIMESTAMP_MS,
   }
 
   return {
@@ -88,17 +94,19 @@ function updateSceneSnapshot(scene: CardStackCarouselSceneSnapshot, now: number,
 
 export function useCreateCardStackCarouselScene({
   fallbackGeometry,
+  initialIndex = 0,
   supportMotionProfile = defaultSupportMotionProfile,
 }: {
   fallbackGeometry: CardSwingGeometry
+  initialIndex?: number
   supportMotionProfile?: SupportMotionProfile
 }) {
   const animationFrameRef = React.useRef<number | null>(null)
   const sceneSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>(
-    cloneSceneSnapshot(createZeroSceneSnapshot(fallbackGeometry))
+    cloneSceneSnapshot(createInitialSceneSnapshot(fallbackGeometry, initialIndex))
   )
   const publishedSnapshotRef = React.useRef<CardStackCarouselSceneSnapshot>(
-    cloneSceneSnapshot(createZeroSceneSnapshot(fallbackGeometry))
+    cloneSceneSnapshot(createInitialSceneSnapshot(fallbackGeometry, initialIndex))
   )
   const listenersRef = React.useRef(new Set<() => void>())
   const supportMotionStateRef = React.useRef<SupportMotionState | null>(null)

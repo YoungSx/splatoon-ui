@@ -60,8 +60,10 @@ function radiansToDegrees(value: number) {
 }
 
 export function CardStackCarouselScene({ children }: { children: React.ReactNode }) {
+  const { currentIndex } = useCarousel()
   const { sceneSnapshot, store, supportDriverLabel } = useCreateCardStackCarouselScene({
     fallbackGeometry: FALLBACK_GEOMETRY,
+    initialIndex: currentIndex,
     supportMotionProfile: defaultSupportMotionProfile,
   })
   const primaryCardState = getPrimaryCardState(sceneSnapshot, ZERO_CARD_STATE)
