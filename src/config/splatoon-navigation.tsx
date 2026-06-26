@@ -123,25 +123,32 @@ const overlayDecorations = [
     id: 'overlay-splat-left',
     splatId: 7,
     color: 'var(--color-blue)',
-    className: 'absolute left-[-7.5%] top-[17%] h-[30rem] w-[30rem] rotate-[-21deg]',
+    frameClassName:
+      'absolute left-[-70%] top-[26%] h-[30rem] w-[30rem] lg:left-[-7.5%] lg:top-[17%]',
+    splatClassName: 'rotate-[30deg] lg:rotate-[-21deg]',
   },
   {
     id: 'overlay-splat-left-yellow',
     splatId: 8,
     color: 'var(--color-yellow)',
-    className: 'absolute left-[16%] top-[51%] h-[16rem] w-[16rem] rotate-[14deg]',
+    frameClassName:
+      'absolute bottom-[-24%] left-[-58%] h-[20rem] w-[20rem] lg:bottom-auto lg:left-[16%] lg:top-[51%] lg:h-[16rem] lg:w-[16rem]',
+    splatClassName: 'rotate-[0deg] lg:rotate-[14deg]',
   },
   {
     id: 'overlay-splat-right-yellow',
     splatId: 6,
     color: 'var(--color-yellow)',
-    className: 'absolute right-[4%] top-[56%] h-[27rem] w-[27rem] rotate-[18deg]',
+    frameClassName:
+      'absolute right-[-62%] bottom-[-30%] h-[27rem] w-[27rem] lg:right-[4%] lg:bottom-auto lg:top-[56%]',
+    splatClassName: 'rotate-[0deg] lg:rotate-[18deg]',
   },
   {
     id: 'overlay-splat-right-purple',
     splatId: 7,
     color: 'var(--color-blue)',
-    className: 'absolute right-[19%] top-[79%] h-[13rem] w-[13rem] rotate-[14deg]',
+    frameClassName: 'absolute right-[19%] top-[79%] hidden h-[13rem] w-[13rem] lg:block',
+    splatClassName: 'rotate-[14deg]',
   },
 ] as const
 
@@ -229,17 +236,17 @@ export function SplatoonMenuDecorations() {
   return (
     <>
       {/* Sticker 2 Red */}
-      <div className="pointer-events-none absolute top-[23.2%] left-[10.25%] z-[var(--z-deco-fg)] w-[13.5rem] -rotate-[27deg] select-none">
+      <div className="pointer-events-none absolute top-[23.2%] left-[10.25%] z-[var(--z-deco-fg)] hidden w-[13.5rem] -rotate-[27deg] select-none lg:block">
         <Sticker2Red />
       </div>
 
       {/* Sticker 10 */}
-      <div className="pointer-events-none absolute top-[52.1%] right-[10.8%] z-[var(--z-deco-fg)] w-[14.35rem] rotate-[-7deg] select-none">
+      <div className="pointer-events-none absolute top-[52.1%] right-[10.8%] z-[var(--z-deco-fg)] hidden w-[14.35rem] rotate-[-7deg] select-none lg:block">
         <Sticker10 />
       </div>
 
       {/* Sticker 5 */}
-      <div className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[var(--z-deco-fg)] w-[29.5rem] -rotate-[9deg] select-none">
+      <div className="pointer-events-none absolute bottom-[-0.4%] left-[10.7%] z-[var(--z-deco-fg)] hidden w-[29.5rem] -rotate-[9deg] select-none lg:block">
         <Sticker5 />
       </div>
     </>
@@ -254,11 +261,10 @@ export function SplatoonOverlayDecorations({ contentPhase }: { contentPhase: Con
   return (
     <>
       {overlayDecorations.map((splat, i) => (
-        <Splat
+        <div
           key={splat.id}
-          id={splat.splatId}
-          color={splat.color}
-          className={cn('pointer-events-none absolute z-[var(--z-deco)]', splat.className)}
+          aria-hidden="true"
+          className={cn('pointer-events-none z-[var(--z-deco)]', splat.frameClassName)}
           style={{
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'scale(1) translate(0, 0)' : 'scale(0.8) translate(0, 10%)',
@@ -266,7 +272,13 @@ export function SplatoonOverlayDecorations({ contentPhase }: { contentPhase: Con
             transitionDuration: '0.4s',
             transitionDelay: isVisible ? `${0.5 + i * 0.1}s` : '0s',
           }}
-        />
+        >
+          <Splat
+            id={splat.splatId}
+            color={splat.color}
+            className={cn('h-full w-full origin-center', splat.splatClassName)}
+          />
+        </div>
       ))}
     </>
   )
