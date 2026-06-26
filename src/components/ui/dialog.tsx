@@ -428,7 +428,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-2rem)] flex-col outline-none sm:max-w-md',
+          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-3.5rem)] flex-col outline-none sm:max-w-md',
           isReducedMotion
             ? 'origin-center [transform:translate(-50%,-50%)]'
             : 'origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]',
@@ -467,7 +467,10 @@ function DialogContent({
         </PaperSurface>
 
         {showCloseButton && (
-          <div className="absolute -top-1 -right-3 z-50">
+          <div
+            className="absolute top-[30%] right-0 translate-x-1/2 -translate-y-1/2"
+            style={{ zIndex: DIALOG_Z_INDEX.close }}
+          >
             <DialogPrimitive.Close render={<WaveButton />} />
           </div>
         )}

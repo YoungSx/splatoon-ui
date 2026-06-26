@@ -32,8 +32,17 @@ const checks = [
     name: 'Dialog content constrains long bodies to the viewport and scrolls inside the surface',
     pass:
       dialog.includes('max-h-[calc(100dvh-2rem)]') &&
-      dialog.includes('className="min-h-0 max-h-full"') &&
-      dialog.includes('flex min-h-0 flex-col gap-4 overflow-y-auto overscroll-contain'),
+      dialog.includes('max-w-[calc(100%-3.5rem)]') &&
+      dialog.includes('className="max-h-full min-h-0"') &&
+      dialog.includes('flex min-h-0 flex-col gap-4 overflow-x-hidden overflow-y-auto overscroll-contain'),
+  },
+  {
+    name: 'Dialog close control stays on the right edge with responsive viewport safe area',
+    pass:
+      dialog.includes('className="absolute top-[30%] right-0 translate-x-1/2 -translate-y-1/2"') &&
+      dialog.includes('style={{ zIndex: DIALOG_Z_INDEX.close }}') &&
+      !dialog.includes('absolute -top-1 -right-3 z-50') &&
+      !dialog.includes('absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2'),
   },
   {
     name: 'Sheet popup owns overflow for long drawer content',
@@ -45,7 +54,7 @@ const checks = [
     name: 'Select trigger defaults cannot force parent horizontal overflow',
     pass:
       select.includes('flex min-w-0 flex-1 truncate text-left') &&
-      select.includes('w-full min-w-0 max-w-full') &&
+      select.includes('flex w-full max-w-full min-w-0') &&
       select.includes('*:data-[slot=select-value]:min-w-0') &&
       !select.includes('field-cut flex w-fit'),
   },
