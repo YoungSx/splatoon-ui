@@ -176,15 +176,14 @@ const checks = [
       sectionSideNavCss.includes('top: 45%;'),
   },
   {
-    name: 'dialog and StapleCard share canonical paper tear edge masks instead of duplicate inline paths',
+    name: 'dialog and StapleCard share PaperTearEdge inline SVG without duplicating paths in consumer sources',
     pass:
       source.includes('PaperSurface') &&
       source.includes('PaperTearEdge') &&
-      paperTearEdge.includes('/_images/svg/paper-tear-up.svg') &&
-      paperTearEdge.includes('/_images/svg/paper-tear-down.svg') &&
-      paperTearEdge.includes('maskImage') &&
-      !source.includes('viewBox="0 0 448 60"') &&
-      !source.includes('viewBox="0 0 448 24"') &&
+      paperTearEdge.includes('viewBox') &&
+      paperTearEdge.includes('fillRule="evenodd"') &&
+      paperTearEdge.includes('M253.96 23.774') &&
+      paperTearEdge.includes('M0 .826c0 9.527') &&
       !source.includes('M253.96 23.774') &&
       !source.includes('M0 .826c0 9.527'),
   },

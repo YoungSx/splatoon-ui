@@ -2,54 +2,44 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
-const PAPER_TEAR_EDGE_ASSETS = {
+const PAPER_TEAR_PATHS = {
   top: {
-    src: '/_images/svg/paper-tear-up.svg',
-    width: 448,
-    height: 60,
+    viewBox: '0 0 448 60',
+    d: 'M253.96 23.774a4.711 4.711 0 0 1-4.693 4.328h-49.535c-.131 0-.255-.027-.384-.038-2.431-.198-4.348-2.205-4.348-4.68a4.724 4.724 0 0 1 4.732-4.716h18.204c-.006-.106-.017-.21-.017-.315 0-3.452 2.808-6.25 6.27-6.25h.62a6.26 6.26 0 0 1 5.038 2.54 6.194 6.194 0 0 1 1.233 3.71c0 .106-.01.21-.016.315H249.267c2.614 0 4.733 2.111 4.733 4.717 0 .133-.029.258-.04.389M53.446.102H9.693C4.34.102 0 4.437 0 9.782v50.044h448V9.783c0-5.346-4.338-9.68-9.693-9.68H53.445Z',
   },
   bottom: {
-    src: '/_images/svg/paper-tear-down.svg',
-    width: 448,
-    height: 24,
+    viewBox: '0 0 448 24',
+    d: 'M0 .826c0 9.527 5.976 17.64 14.378 20.862 2.49.955 5.184 1.5 8.01 1.5h403.223c4.635 0 8.94-1.407 12.514-3.816C444.082 15.354 448 8.548 448 .826H0Z',
   },
 } as const
 
-export interface PaperTearEdgeProps extends React.ComponentProps<'div'> {
-  edge?: keyof typeof PAPER_TEAR_EDGE_ASSETS
+export interface PaperTearEdgeProps extends React.ComponentProps<'svg'> {
+  edge?: keyof typeof PAPER_TEAR_PATHS
   color?: string
 }
 
 export function PaperTearEdge({
   edge = 'top',
-  color = 'currentColor',
+  color,
   className,
   style,
   ...props
 }: PaperTearEdgeProps) {
-  const asset = PAPER_TEAR_EDGE_ASSETS[edge]
-  const maskUrl = `url("${asset.src}")`
+  const path = PAPER_TEAR_PATHS[edge]
 
   return (
-    <div
+    <svg
       aria-hidden="true"
       data-slot="paper-tear-edge"
       data-edge={edge}
-      className={cn('block shrink-0', className)}
-      style={{
-        aspectRatio: `${asset.width} / ${asset.height}`,
-        backgroundColor: color,
-        maskImage: maskUrl,
-        maskPosition: 'center',
-        maskRepeat: 'no-repeat',
-        maskSize: '100% 100%',
-        WebkitMaskImage: maskUrl,
-        WebkitMaskPosition: 'center',
-        WebkitMaskRepeat: 'no-repeat',
-        WebkitMaskSize: '100% 100%',
-        ...style,
-      }}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={path.viewBox}
+      preserveAspectRatio="none"
+      className={cn('block w-full shrink-0', className)}
+      style={style}
       {...props}
-    />
+    >
+      <path fill={color ?? 'currentColor'} fillRule="evenodd" d={path.d} />
+    </svg>
   )
 }
