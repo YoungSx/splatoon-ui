@@ -295,9 +295,8 @@
     overflow-x: clip;
   }
   html {
-    @apply font-sans;
+    @apply font-sans bg-background;
     container-type: inline-size;
-    overflow-x: clip;
   }
 
   /*
