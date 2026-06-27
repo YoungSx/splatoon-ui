@@ -1,0 +1,30 @@
+/* ── Animated stripe overlay ── */
+
+.stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 8px,
+    rgb(255 255 255 / 0.15) 8px,
+    rgb(255 255 255 / 0.15) 16px
+  );
+  background-size: 22.627px 22.627px; /* 16px * √2 — one full diagonal tile */
+  animation: stripes-scroll 1.2s linear infinite;
+  mix-blend-mode: overlay;
+}
+
+@keyframes stripes-scroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    /* shift one full tile along the -45° axis → seamless loop */
+    background-position: 22.627px 22.627px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stripes {
+    animation: none;
+  }
+}
