@@ -142,6 +142,26 @@ function FeedCardImage({ asset }: { asset: ImageAsset }) {
   return <AssetImage asset={asset} fill fit="cover" loading="eager" />
 }
 
+function DemoVariantLabel({
+  children,
+  tone = 'dark',
+}: {
+  children: React.ReactNode
+  tone?: 'dark' | 'light'
+}) {
+  return (
+    <span
+      className={
+        tone === 'light'
+          ? 'font-mono text-[11px] font-bold tracking-wider text-white/55 uppercase'
+          : 'text-chaos-black/45 font-mono text-[11px] font-bold tracking-wider uppercase'
+      }
+    >
+      {children}
+    </span>
+  )
+}
+
 // ── Page Transition Demo ────────────────────────────────────────────────────
 
 type PageTransitionDemoProps = {
@@ -264,6 +284,12 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
             </SquidMaskTransition>
           </div>
 
+          <div className="flex justify-center">
+            <DemoVariantLabel>
+              {variant === 'webgl' ? '<PageTransition />' : '<SquidMaskTransition />'}
+            </DemoVariantLabel>
+          </div>
+
           <div className="flex flex-wrap justify-center gap-3">
             <Button
               variant="yellow"
@@ -348,6 +374,23 @@ export default function Home() {
     { label: t.apparel.loaderCard.items[4], animation: 'morph', size: '2.25em' },
     { label: t.apparel.loaderCard.items[5], animation: 'swim', variant: 'blue', size: '2.25em' },
   ]
+
+  const getLoaderDemoVariantLabel = ({
+    animation = 'glyph',
+    size,
+    variant = 'default',
+  }: {
+    animation?: React.ComponentProps<typeof Loader>['animation']
+    size?: string
+    variant?: React.ComponentProps<typeof Loader>['variant']
+  }) =>
+    [
+      `variant="${variant}"`,
+      animation !== 'glyph' ? `animation="${animation}"` : null,
+      size ? `size="${size}"` : null,
+    ]
+      .filter(Boolean)
+      .join(' ')
 
   const homepageFeedCarouselItems = [
     {
@@ -711,11 +754,15 @@ export default function Home() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-col items-center gap-10">
-                      <HeadingTape>{t.titles.headingTapeCard.sectionHeading}</HeadingTape>
-                      <div className="flex w-full max-w-sm justify-center">
+                      <div className="flex w-full flex-col items-center gap-2">
+                        <HeadingTape>{t.titles.headingTapeCard.sectionHeading}</HeadingTape>
+                        <DemoVariantLabel>default</DemoVariantLabel>
+                      </div>
+                      <div className="flex w-full max-w-sm flex-col items-center gap-2">
                         <HeadingTape size="compact">
                           {t.titles.headingTapeCard.compactHeading}
                         </HeadingTape>
+                        <DemoVariantLabel>{'size="compact"'}</DemoVariantLabel>
                       </div>
                     </div>
                   </CardContent>
@@ -881,28 +928,52 @@ export default function Home() {
                     <CardDescription>{t.buttons.dripCard.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="flex-row flex-wrap items-start gap-4 pt-2">
-                    <Button variant="yellow" theme="dark-yellow">
-                      {t.buttons.dripCard.yellow}
-                    </Button>
-                    <Button variant="blue" theme="light-blue">
-                      {t.buttons.dripCard.blue}
-                    </Button>
-                    <Button variant="green" theme="light-green">
-                      {t.buttons.dripCard.green}
-                    </Button>
-                    <Button variant="orange" theme="dark-purpleOrange">
-                      {t.buttons.dripCard.orange}
-                    </Button>
-                    <Button variant="purple" theme="dark-purple">
-                      {t.buttons.dripCard.purple}
-                    </Button>
-                    <Button variant="destructive" theme="light-red">
-                      {t.buttons.dripCard.alert}
-                    </Button>
-                    <Button variant="outline" theme="yellow">
-                      {t.buttons.dripCard.outline}
-                    </Button>
-                    <Button variant="ghost">{t.buttons.dripCard.ghost}</Button>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="yellow" theme="dark-yellow">
+                        {t.buttons.dripCard.yellow}
+                      </Button>
+                      <DemoVariantLabel>{'variant="yellow"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="blue" theme="light-blue">
+                        {t.buttons.dripCard.blue}
+                      </Button>
+                      <DemoVariantLabel>{'variant="blue"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="green" theme="light-green">
+                        {t.buttons.dripCard.green}
+                      </Button>
+                      <DemoVariantLabel>{'variant="green"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="orange" theme="dark-purpleOrange">
+                        {t.buttons.dripCard.orange}
+                      </Button>
+                      <DemoVariantLabel>{'variant="orange"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="purple" theme="dark-purple">
+                        {t.buttons.dripCard.purple}
+                      </Button>
+                      <DemoVariantLabel>{'variant="purple"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="destructive" theme="light-red">
+                        {t.buttons.dripCard.alert}
+                      </Button>
+                      <DemoVariantLabel>{'variant="destructive"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="outline" theme="yellow">
+                        {t.buttons.dripCard.outline}
+                      </Button>
+                      <DemoVariantLabel>{'variant="outline"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                      <Button variant="ghost">{t.buttons.dripCard.ghost}</Button>
+                      <DemoVariantLabel>{'variant="ghost"'}</DemoVariantLabel>
+                    </div>
                   </CardContent>
                 </Card>
               </InView>
@@ -915,42 +986,51 @@ export default function Home() {
                     <CardDescription>{t.buttons.groupCard.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-5 pt-2">
-                    <div className="flex flex-wrap items-center gap-4">
-                      <ButtonGroup aria-label={t.buttons.groupCard.battleLabel}>
-                        <ButtonGroupItem size="sm" variant="yellow" theme="dark-yellow">
-                          {t.buttons.groupCard.turf}
-                        </ButtonGroupItem>
-                        <ButtonGroupItem size="sm" variant="blue" theme="light-blue">
-                          {t.buttons.groupCard.ranked}
-                        </ButtonGroupItem>
-                        <ButtonGroupItem size="sm" variant="green" theme="light-green">
-                          {t.buttons.groupCard.salmon}
-                        </ButtonGroupItem>
-                      </ButtonGroup>
-                      <ButtonGroup density="compact" aria-label={t.buttons.groupCard.catalogLabel}>
-                        <ButtonGroupItem size="sm" variant="outline" theme="yellow">
-                          {t.buttons.groupCard.new}
-                        </ButtonGroupItem>
-                        <ButtonGroupItem size="sm" variant="outline" theme="yellow">
-                          {t.buttons.groupCard.hot}
-                        </ButtonGroupItem>
-                        <ButtonGroupItem size="sm" variant="outline" theme="yellow">
-                          {t.buttons.groupCard.saved}
-                        </ButtonGroupItem>
-                      </ButtonGroup>
+                    <div className="flex flex-wrap items-start gap-4">
+                      <div className="flex flex-col gap-2">
+                        <ButtonGroup aria-label={t.buttons.groupCard.battleLabel}>
+                          <ButtonGroupItem size="sm" variant="yellow" theme="dark-yellow">
+                            {t.buttons.groupCard.turf}
+                          </ButtonGroupItem>
+                          <ButtonGroupItem size="sm" variant="blue" theme="light-blue">
+                            {t.buttons.groupCard.ranked}
+                          </ButtonGroupItem>
+                          <ButtonGroupItem size="sm" variant="green" theme="light-green">
+                            {t.buttons.groupCard.salmon}
+                          </ButtonGroupItem>
+                        </ButtonGroup>
+                        <DemoVariantLabel>default density</DemoVariantLabel>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <ButtonGroup density="compact" aria-label={t.buttons.groupCard.catalogLabel}>
+                          <ButtonGroupItem size="sm" variant="outline" theme="yellow">
+                            {t.buttons.groupCard.new}
+                          </ButtonGroupItem>
+                          <ButtonGroupItem size="sm" variant="outline" theme="yellow">
+                            {t.buttons.groupCard.hot}
+                          </ButtonGroupItem>
+                          <ButtonGroupItem size="sm" variant="outline" theme="yellow">
+                            {t.buttons.groupCard.saved}
+                          </ButtonGroupItem>
+                        </ButtonGroup>
+                        <DemoVariantLabel>{'density="compact"'}</DemoVariantLabel>
+                      </div>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4">
-                      <ButtonGroup aria-label={t.buttons.groupCard.loadoutLabel}>
-                        <ButtonGroupItem size="sm" variant="purple" theme="dark-purple">
-                          {t.buttons.groupCard.gear}
-                        </ButtonGroupItem>
-                        <ButtonGroupItem size="sm" variant="orange" theme="dark-purpleOrange">
-                          {t.buttons.groupCard.weapons}
-                        </ButtonGroupItem>
-                        <ButtonGroupItem size="sm" variant="destructive" theme="light-red">
-                          {t.buttons.groupCard.reset}
-                        </ButtonGroupItem>
-                      </ButtonGroup>
+                    <div className="flex flex-wrap items-start gap-4">
+                      <div className="flex flex-col gap-2">
+                        <ButtonGroup aria-label={t.buttons.groupCard.loadoutLabel}>
+                          <ButtonGroupItem size="sm" variant="purple" theme="dark-purple">
+                            {t.buttons.groupCard.gear}
+                          </ButtonGroupItem>
+                          <ButtonGroupItem size="sm" variant="orange" theme="dark-purpleOrange">
+                            {t.buttons.groupCard.weapons}
+                          </ButtonGroupItem>
+                          <ButtonGroupItem size="sm" variant="destructive" theme="light-red">
+                            {t.buttons.groupCard.reset}
+                          </ButtonGroupItem>
+                        </ButtonGroup>
+                        <DemoVariantLabel>mixed variants</DemoVariantLabel>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -964,13 +1044,20 @@ export default function Home() {
                     <CardDescription>{t.buttons.badgesCard.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="pt-2">
-                    <div className="flex flex-wrap items-center gap-4">
-                      <Badge color="yellow">{t.buttons.badgesCard.yellow}</Badge>
-                      <Badge color="blue">{t.buttons.badgesCard.blue}</Badge>
-                      <Badge color="red">{t.buttons.badgesCard.red}</Badge>
-                      <Badge color="green">{t.buttons.badgesCard.green}</Badge>
-                      <Badge color="purple">{t.buttons.badgesCard.sticker}</Badge>
-                      <Badge color="monochrome">{t.buttons.badgesCard.torn}</Badge>
+                    <div className="flex flex-wrap items-start gap-4">
+                      {([
+                        ['yellow', t.buttons.badgesCard.yellow],
+                        ['blue', t.buttons.badgesCard.blue],
+                        ['red', t.buttons.badgesCard.red],
+                        ['green', t.buttons.badgesCard.green],
+                        ['purple', t.buttons.badgesCard.sticker],
+                        ['monochrome', t.buttons.badgesCard.torn],
+                      ] as const).map(([color, label]) => (
+                        <div key={color} className="flex flex-col items-center gap-2">
+                          <Badge color={color}>{label}</Badge>
+                          <DemoVariantLabel>{`color="${color}"`}</DemoVariantLabel>
+                        </div>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
@@ -1099,21 +1186,27 @@ export default function Home() {
                       <div className="flex flex-col gap-3">
                         <Label>{t.forms.toggleCard.switchLabel}</Label>
                         <div className="flex items-center justify-between gap-4">
-                          <Label
-                            htmlFor="demo-switch-1"
-                            className="cursor-pointer pb-0 text-sm font-medium"
-                          >
-                            {t.forms.toggleCard.defaultSwitch}
-                          </Label>
+                          <div className="grid gap-1">
+                            <Label
+                              htmlFor="demo-switch-1"
+                              className="cursor-pointer pb-0 text-sm font-medium"
+                            >
+                              {t.forms.toggleCard.defaultSwitch}
+                            </Label>
+                            <DemoVariantLabel>{'color="yellow"'}</DemoVariantLabel>
+                          </div>
                           <Switch id="demo-switch-1" defaultChecked />
                         </div>
                         <div className="flex items-center justify-between gap-4">
-                          <Label
-                            htmlFor="demo-switch-2"
-                            className="cursor-pointer pb-0 text-sm font-medium"
-                          >
-                            {t.forms.toggleCard.themedSwitch}
-                          </Label>
+                          <div className="grid gap-1">
+                            <Label
+                              htmlFor="demo-switch-2"
+                              className="cursor-pointer pb-0 text-sm font-medium"
+                            >
+                              {t.forms.toggleCard.themedSwitch}
+                            </Label>
+                            <DemoVariantLabel>{'color="green"'}</DemoVariantLabel>
+                          </div>
                           <Switch
                             id="demo-switch-2"
                             color="green"
@@ -1122,20 +1215,24 @@ export default function Home() {
                           />
                         </div>
                         <div className="flex items-center justify-between gap-4 opacity-80">
-                          <Label
-                            htmlFor="demo-switch-3"
-                            className="cursor-not-allowed pb-0 text-sm font-medium"
-                          >
-                            {t.forms.toggleCard.disabledSwitch}
-                          </Label>
+                          <div className="grid gap-1">
+                            <Label
+                              htmlFor="demo-switch-3"
+                              className="cursor-not-allowed pb-0 text-sm font-medium"
+                            >
+                              {t.forms.toggleCard.disabledSwitch}
+                            </Label>
+                            <DemoVariantLabel>{'size="sm" disabled'}</DemoVariantLabel>
+                          </div>
                           <Switch id="demo-switch-3" size="sm" disabled />
                         </div>
                       </div>
                       <div className="flex flex-col gap-3">
                         <Label>{t.forms.toggleCard.segmentedLabel}</Label>
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                          <span className="text-sm font-medium">
-                            {t.forms.toggleCard.defaultSegmented}
+                          <span className="grid gap-1 text-sm font-medium">
+                            <span>{t.forms.toggleCard.defaultSegmented}</span>
+                            <DemoVariantLabel>{'appearance="buttons"'}</DemoVariantLabel>
                           </span>
                           <SegmentedControl
                             defaultValue="en"
@@ -1147,8 +1244,9 @@ export default function Home() {
                           </SegmentedControl>
                         </div>
                         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                          <span className="text-sm font-medium">
-                            {t.forms.toggleCard.trackSegmented}
+                          <span className="grid gap-1 text-sm font-medium">
+                            <span>{t.forms.toggleCard.trackSegmented}</span>
+                            <DemoVariantLabel>{'appearance="track" color="green"'}</DemoVariantLabel>
                           </span>
                           <SegmentedControl
                             appearance="track"
@@ -1177,18 +1275,24 @@ export default function Home() {
                       <CardDescription>{t.forms.alertsCard.description}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-6 pt-2">
-                      <Alert variant="default">
-                        <AlertTitle>{t.forms.alertsCard.noticeTitle}</AlertTitle>
-                        <AlertDescription>{t.forms.alertsCard.noticeDesc}</AlertDescription>
-                      </Alert>
-                      <Alert variant="destructive">
-                        <AlertTitle textColor="var(--danger-surface-title)">
-                          {t.forms.alertsCard.actionTitle}
-                        </AlertTitle>
-                        <AlertDescription textColor="var(--danger-surface-description)">
-                          {t.forms.alertsCard.actionDesc}
-                        </AlertDescription>
-                      </Alert>
+                      <div className="grid gap-2">
+                        <Alert variant="default">
+                          <AlertTitle>{t.forms.alertsCard.noticeTitle}</AlertTitle>
+                          <AlertDescription>{t.forms.alertsCard.noticeDesc}</AlertDescription>
+                        </Alert>
+                        <DemoVariantLabel>{'variant="default"'}</DemoVariantLabel>
+                      </div>
+                      <div className="grid gap-2">
+                        <Alert variant="destructive">
+                          <AlertTitle textColor="var(--danger-surface-title)">
+                            {t.forms.alertsCard.actionTitle}
+                          </AlertTitle>
+                          <AlertDescription textColor="var(--danger-surface-description)">
+                            {t.forms.alertsCard.actionDesc}
+                          </AlertDescription>
+                        </Alert>
+                        <DemoVariantLabel>{'variant="destructive"'}</DemoVariantLabel>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -1206,6 +1310,7 @@ export default function Home() {
                       </span>
                     </div>
                     <Progress value={75} variant="yellow" trackVariant="dark" />
+                    <DemoVariantLabel tone="light">{'variant="yellow" trackVariant="dark"'}</DemoVariantLabel>
                   </div>
 
                   <div className="space-y-4">
@@ -1218,6 +1323,9 @@ export default function Home() {
                       </span>
                     </div>
                     <Progress value={45} variant="blue" trackVariant="dark" size="lg" />
+                    <DemoVariantLabel tone="light">
+                      {'variant="blue" trackVariant="dark" size="lg"'}
+                    </DemoVariantLabel>
                   </div>
 
                   <div className="space-y-4">
@@ -1233,6 +1341,7 @@ export default function Home() {
                       </span>
                     </div>
                     <Progress value={10} variant="red" trackVariant="dark" />
+                    <DemoVariantLabel tone="light">{'variant="red" trackVariant="dark"'}</DemoVariantLabel>
                   </div>
 
                   <div className="space-y-4">
@@ -1245,6 +1354,7 @@ export default function Home() {
                       </span>
                     </div>
                     <Progress value={92} variant="green" trackVariant="light" />
+                    <DemoVariantLabel tone="light">{'variant="green" trackVariant="light"'}</DemoVariantLabel>
                   </div>
                 </div>
               </InViewStagger>
@@ -1275,78 +1385,88 @@ export default function Home() {
                     <CardDescription>{t.apparel.tabsCard.description}</CardDescription>
                   </CardHeader>
                   <CardContent className="grid gap-8 pt-2">
-                    <Tabs defaultValue="tab1" className="w-full">
-                      <TabsList className="mb-6 w-full gap-4 sm:justify-center">
-                        <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
-                        <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
-                        <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>
-                      </TabsList>
-                      <TabsPanels swipeable>
-                        <TabsContent value="tab1" className="outline-none">
-                          <div className="bg-blue/10 rounded-lg p-6 text-center">
-                            <p className="text-blue text-sm font-bold tracking-wider uppercase">
-                              {t.apparel.tabsCard.tab1Content}
+                    <div className="grid gap-3">
+                      <h3 className="font-heading text-chaos-black text-xl leading-none font-black tracking-wide uppercase">
+                        {t.apparel.tabsCard.defaultVariant}
+                      </h3>
+                      <Tabs defaultValue="tab1" className="w-full">
+                        <TabsList className="mb-6 w-full gap-4 sm:justify-center">
+                          <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
+                          <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
+                          <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>
+                        </TabsList>
+                        <TabsPanels swipeable>
+                          <TabsContent value="tab1" className="outline-none">
+                            <div className="bg-blue/10 rounded-lg p-6 text-center">
+                              <p className="text-blue text-sm font-bold tracking-wider uppercase">
+                                {t.apparel.tabsCard.tab1Content}
+                              </p>
+                            </div>
+                          </TabsContent>
+                          <TabsContent value="tab2" className="outline-none">
+                            <div className="bg-green/10 rounded-lg p-6 text-center">
+                              <p className="text-green text-sm font-bold tracking-wider uppercase">
+                                {t.apparel.tabsCard.tab2Content}
+                              </p>
+                            </div>
+                          </TabsContent>
+                          <TabsContent value="tab3" className="outline-none">
+                            <div className="bg-orange/10 rounded-lg p-6 text-center">
+                              <p className="text-orange text-sm font-bold tracking-wider uppercase">
+                                {t.apparel.tabsCard.tab3Content}
+                              </p>
+                            </div>
+                          </TabsContent>
+                        </TabsPanels>
+                      </Tabs>
+                    </div>
+                    <div className="grid gap-3">
+                      <h3 className="font-heading text-chaos-black text-xl leading-none font-black tracking-wide uppercase">
+                        {t.apparel.tabsCard.trapezoidVariant}
+                      </h3>
+                      <Tabs
+                        defaultValue="map"
+                        className="w-full gap-0 overflow-visible rounded-[8px] pt-4"
+                      >
+                        <TabsList variant="trapezoid" className="relative z-10">
+                          <TabsTrigger value="map">
+                            {t.apparel.tabsCard.trapezoidTabs.map}
+                          </TabsTrigger>
+                          <TabsTrigger value="stages">
+                            {t.apparel.tabsCard.trapezoidTabs.stages}
+                          </TabsTrigger>
+                          <TabsTrigger value="status">
+                            {t.apparel.tabsCard.trapezoidTabs.status}
+                          </TabsTrigger>
+                          <TabsTrigger value="options">
+                            {t.apparel.tabsCard.trapezoidTabs.options}
+                          </TabsTrigger>
+                        </TabsList>
+                        <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
+                        <TabsPanels swipeable>
+                          <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                              {t.apparel.tabsCard.trapezoidTabs.mapContent}
                             </p>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="tab2" className="outline-none">
-                          <div className="bg-green/10 rounded-lg p-6 text-center">
-                            <p className="text-green text-sm font-bold tracking-wider uppercase">
-                              {t.apparel.tabsCard.tab2Content}
+                          </TabsContent>
+                          <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                              {t.apparel.tabsCard.trapezoidTabs.stagesContent}
                             </p>
-                          </div>
-                        </TabsContent>
-                        <TabsContent value="tab3" className="outline-none">
-                          <div className="bg-orange/10 rounded-lg p-6 text-center">
-                            <p className="text-orange text-sm font-bold tracking-wider uppercase">
-                              {t.apparel.tabsCard.tab3Content}
+                          </TabsContent>
+                          <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                              {t.apparel.tabsCard.trapezoidTabs.statusContent}
                             </p>
-                          </div>
-                        </TabsContent>
-                      </TabsPanels>
-                    </Tabs>
-                    <Tabs
-                      defaultValue="map"
-                      className="w-full gap-0 overflow-visible rounded-[8px] pt-4"
-                    >
-                      <TabsList variant="trapezoid" className="relative z-10">
-                        <TabsTrigger value="map">
-                          {t.apparel.tabsCard.trapezoidTabs.map}
-                        </TabsTrigger>
-                        <TabsTrigger value="stages">
-                          {t.apparel.tabsCard.trapezoidTabs.stages}
-                        </TabsTrigger>
-                        <TabsTrigger value="status">
-                          {t.apparel.tabsCard.trapezoidTabs.status}
-                        </TabsTrigger>
-                        <TabsTrigger value="options">
-                          {t.apparel.tabsCard.trapezoidTabs.options}
-                        </TabsTrigger>
-                      </TabsList>
-                      <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
-                      <TabsPanels swipeable>
-                        <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.mapContent}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.stagesContent}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.statusContent}
-                          </p>
-                        </TabsContent>
-                        <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
-                          <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
-                            {t.apparel.tabsCard.trapezoidTabs.optionsContent}
-                          </p>
-                        </TabsContent>
-                      </TabsPanels>
-                    </Tabs>
+                          </TabsContent>
+                          <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                              {t.apparel.tabsCard.trapezoidTabs.optionsContent}
+                            </p>
+                          </TabsContent>
+                        </TabsPanels>
+                      </Tabs>
+                    </div>
                   </CardContent>
                 </Card>
               </InView>
@@ -1388,55 +1508,66 @@ export default function Home() {
                       {t.overlays.graffiti.title}
                     </h3>
                     <p className="text-xs text-white/50">{t.overlays.graffiti.desc}</p>
-                    <div className="flex flex-wrap gap-3">
-                      <Dialog>
-                        <DialogTriggerButton variant="yellow" theme="dark-yellow">
-                          {t.overlays.graffiti.yellow}
-                        </DialogTriggerButton>
-                        <DialogContent surface="paper" hasTape={true}>
-                          <DialogHeader>
-                            <DialogTitle>{t.overlays.graffiti.choiceTitle}</DialogTitle>
-                            <DialogDescription>{t.overlays.graffiti.choiceDesc}</DialogDescription>
-                          </DialogHeader>
-                          <div className="py-4">
-                            <p className="text-chaos-black/80 font-bold">
-                              {t.overlays.graffiti.chooseSurface}
-                            </p>
-                            <div className="mt-2 flex gap-3">
-                              <Button size="sm" variant="blue" theme="light-blue">
-                                {t.overlays.graffiti.colorBlue}
-                              </Button>
-                              <Button size="sm" variant="orange" theme="dark-purpleOrange">
-                                {t.overlays.graffiti.colorOrange}
-                              </Button>
+                    <div className="flex flex-wrap items-start gap-3">
+                      <div className="flex flex-col items-start gap-2">
+                        <Dialog>
+                          <DialogTriggerButton variant="yellow" theme="dark-yellow">
+                            {t.overlays.graffiti.yellow}
+                          </DialogTriggerButton>
+                          <DialogContent surface="paper" hasTape={true}>
+                            <DialogHeader>
+                              <DialogTitle>{t.overlays.graffiti.choiceTitle}</DialogTitle>
+                              <DialogDescription>{t.overlays.graffiti.choiceDesc}</DialogDescription>
+                            </DialogHeader>
+                            <div className="py-4">
+                              <p className="text-chaos-black/80 font-bold">
+                                {t.overlays.graffiti.chooseSurface}
+                              </p>
+                              <div className="mt-2 flex gap-3">
+                                <Button size="sm" variant="blue" theme="light-blue">
+                                  {t.overlays.graffiti.colorBlue}
+                                </Button>
+                                <Button size="sm" variant="orange" theme="dark-purpleOrange">
+                                  {t.overlays.graffiti.colorOrange}
+                                </Button>
+                              </div>
                             </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
+                          </DialogContent>
+                        </Dialog>
+                        <DemoVariantLabel tone="light">{'surface="paper"'}</DemoVariantLabel>
+                      </div>
 
-                      <Dialog>
-                        <DialogTriggerButton variant="blue" theme="light-blue">
-                          {t.overlays.graffiti.blue}
-                        </DialogTriggerButton>
-                        <DialogContent surface="cream" hasTape={true} tapePosition="event">
-                          <DialogHeader>
-                            <DialogTitle>{t.overlays.graffiti.galleryTitle}</DialogTitle>
-                            <DialogDescription>{t.overlays.graffiti.galleryDesc}</DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
+                      <div className="flex flex-col items-start gap-2">
+                        <Dialog>
+                          <DialogTriggerButton variant="blue" theme="light-blue">
+                            {t.overlays.graffiti.blue}
+                          </DialogTriggerButton>
+                          <DialogContent surface="cream" hasTape={true} tapePosition="event">
+                            <DialogHeader>
+                              <DialogTitle>{t.overlays.graffiti.galleryTitle}</DialogTitle>
+                              <DialogDescription>{t.overlays.graffiti.galleryDesc}</DialogDescription>
+                            </DialogHeader>
+                          </DialogContent>
+                        </Dialog>
+                        <DemoVariantLabel tone="light">
+                          {'surface="cream" tapePosition="event"'}
+                        </DemoVariantLabel>
+                      </div>
 
-                      <Dialog>
-                        <DialogTriggerButton variant="destructive" theme="light-red">
-                          {t.overlays.graffiti.danger}
-                        </DialogTriggerButton>
-                        <DialogContent surface="danger" hasTape={true}>
-                          <DialogHeader>
-                            <DialogTitle>{t.overlays.graffiti.dangerTitle}</DialogTitle>
-                            <DialogDescription>{t.overlays.graffiti.dangerDesc}</DialogDescription>
-                          </DialogHeader>
-                        </DialogContent>
-                      </Dialog>
+                      <div className="flex flex-col items-start gap-2">
+                        <Dialog>
+                          <DialogTriggerButton variant="destructive" theme="light-red">
+                            {t.overlays.graffiti.danger}
+                          </DialogTriggerButton>
+                          <DialogContent surface="danger" hasTape={true}>
+                            <DialogHeader>
+                              <DialogTitle>{t.overlays.graffiti.dangerTitle}</DialogTitle>
+                              <DialogDescription>{t.overlays.graffiti.dangerDesc}</DialogDescription>
+                            </DialogHeader>
+                          </DialogContent>
+                        </Dialog>
+                        <DemoVariantLabel tone="light">{'surface="danger"'}</DemoVariantLabel>
+                      </div>
                     </div>
                   </div>
 
@@ -1446,27 +1577,30 @@ export default function Home() {
                       {t.overlays.fullscreen.title}
                     </h3>
                     <p className="text-xs text-white/50">{t.overlays.fullscreen.desc}</p>
-                    <div className="flex flex-wrap gap-3">
-                      <Dialog>
-                        <DialogTriggerButton variant="purple" theme="dark-purple">
-                          {t.overlays.fullscreen.openButton}
-                        </DialogTriggerButton>
-                        <DialogContent fullScreen>
-                          <div className="flex flex-col items-center justify-center gap-6 p-6">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                              src={showcaseMediaAssets.fullscreenPreview.src}
-                              alt={showcaseMediaAssets.fullscreenPreview.alt}
-                              width={showcaseMediaAssets.fullscreenPreview.width}
-                              height={showcaseMediaAssets.fullscreenPreview.height}
-                              className="w-full max-w-4xl rounded-lg"
-                              decoding="async"
-                              loading="lazy"
-                            />
-                            <p className="text-sm text-white/60">{t.overlays.fullscreen.caption}</p>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
+                    <div className="flex flex-wrap items-start gap-3">
+                      <div className="flex flex-col items-start gap-2">
+                        <Dialog>
+                          <DialogTriggerButton variant="purple" theme="dark-purple">
+                            {t.overlays.fullscreen.openButton}
+                          </DialogTriggerButton>
+                          <DialogContent fullScreen>
+                            <div className="flex flex-col items-center justify-center gap-6 p-6">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={showcaseMediaAssets.fullscreenPreview.src}
+                                alt={showcaseMediaAssets.fullscreenPreview.alt}
+                                width={showcaseMediaAssets.fullscreenPreview.width}
+                                height={showcaseMediaAssets.fullscreenPreview.height}
+                                className="w-full max-w-4xl rounded-lg"
+                                decoding="async"
+                                loading="lazy"
+                              />
+                              <p className="text-sm text-white/60">{t.overlays.fullscreen.caption}</p>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                        <DemoVariantLabel tone="light">fullScreen</DemoVariantLabel>
+                      </div>
                     </div>
                   </div>
 
@@ -1476,67 +1610,73 @@ export default function Home() {
                       {t.overlays.drawers.title}
                     </h3>
                     <p className="text-xs text-white/50">{t.overlays.drawers.desc}</p>
-                    <div className="flex flex-wrap gap-3">
-                      <Sheet>
-                        <SheetTriggerButton variant="green" theme="light-green">
-                          {t.overlays.drawers.rightDrawer}
-                        </SheetTriggerButton>
-                        <SheetContent
-                          side="right"
-                          className="shadow-soft-splat-lg text-chaos-black bg-white p-6 pt-10"
-                        >
-                          <SheetHeader>
-                            <SheetTitle className="text-xl font-black">
-                              {t.overlays.drawers.lobbyTitle}
-                            </SheetTitle>
-                            <SheetDescription>{t.overlays.drawers.lobbyDesc}</SheetDescription>
-                          </SheetHeader>
-                          <div className="space-y-4 py-4">
-                            <div className="scrap-panel-tight border-chaos-black border-2 bg-white p-3 pt-6">
-                              <h4 className="text-sm font-bold">{t.overlays.drawers.lastBattle}</h4>
-                              <p className="text-muted-foreground mt-1 text-xs">
-                                {t.overlays.drawers.lastBattleRoom}
-                              </p>
-                              <Badge
-                                color="monochrome"
-                                className="mt-2 -rotate-2"
-                                style={
-                                  {
-                                    '--torn-badge-text-color': 'var(--color-yellow)',
-                                  } as React.CSSProperties
-                                }
-                              >
-                                {t.overlays.drawers.victory}
-                              </Badge>
+                    <div className="flex flex-wrap items-start gap-3">
+                      <div className="flex flex-col items-start gap-2">
+                        <Sheet>
+                          <SheetTriggerButton variant="green" theme="light-green">
+                            {t.overlays.drawers.rightDrawer}
+                          </SheetTriggerButton>
+                          <SheetContent
+                            side="right"
+                            className="shadow-soft-splat-lg text-chaos-black bg-white p-6 pt-10"
+                          >
+                            <SheetHeader>
+                              <SheetTitle className="text-xl font-black">
+                                {t.overlays.drawers.lobbyTitle}
+                              </SheetTitle>
+                              <SheetDescription>{t.overlays.drawers.lobbyDesc}</SheetDescription>
+                            </SheetHeader>
+                            <div className="space-y-4 py-4">
+                              <div className="scrap-panel-tight border-chaos-black border-2 bg-white p-3 pt-6">
+                                <h4 className="text-sm font-bold">{t.overlays.drawers.lastBattle}</h4>
+                                <p className="text-muted-foreground mt-1 text-xs">
+                                  {t.overlays.drawers.lastBattleRoom}
+                                </p>
+                                <Badge
+                                  color="monochrome"
+                                  className="mt-2 -rotate-2"
+                                  style={
+                                    {
+                                      '--torn-badge-text-color': 'var(--color-yellow)',
+                                    } as React.CSSProperties
+                                  }
+                                >
+                                  {t.overlays.drawers.victory}
+                                </Badge>
+                              </div>
                             </div>
-                          </div>
-                        </SheetContent>
-                      </Sheet>
+                          </SheetContent>
+                        </Sheet>
+                        <DemoVariantLabel tone="light">{'side="right"'}</DemoVariantLabel>
+                      </div>
 
-                      <Popover>
-                        <PopoverTriggerButton variant="outline" theme="yellow">
-                          {t.overlays.drawers.popover}
-                        </PopoverTriggerButton>
-                        <PopoverContent
-                          align="center"
-                          className="shadow-soft-splat-sm text-chaos-black max-w-xs bg-white p-4 pt-6"
-                        >
-                          <PopoverHeader>
-                            <PopoverTitle className="font-black">
-                              {t.overlays.drawers.grizzcoTitle}
-                            </PopoverTitle>
-                            <PopoverDescription className="text-xs">
-                              {t.overlays.drawers.grizzcoDesc}
-                            </PopoverDescription>
-                          </PopoverHeader>
-                          <div className="py-2 text-xs">
-                            <p>{t.overlays.drawers.grizzcoBody}</p>
-                            <p className="text-red mt-1.5 font-bold">
-                              {t.overlays.drawers.grizzcoAlert}
-                            </p>
-                          </div>
-                        </PopoverContent>
-                      </Popover>
+                      <div className="flex flex-col items-start gap-2">
+                        <Popover>
+                          <PopoverTriggerButton variant="outline" theme="yellow">
+                            {t.overlays.drawers.popover}
+                          </PopoverTriggerButton>
+                          <PopoverContent
+                            align="center"
+                            className="shadow-soft-splat-sm text-chaos-black max-w-xs bg-white p-4 pt-6"
+                          >
+                            <PopoverHeader>
+                              <PopoverTitle className="font-black">
+                                {t.overlays.drawers.grizzcoTitle}
+                              </PopoverTitle>
+                              <PopoverDescription className="text-xs">
+                                {t.overlays.drawers.grizzcoDesc}
+                              </PopoverDescription>
+                            </PopoverHeader>
+                            <div className="py-2 text-xs">
+                              <p>{t.overlays.drawers.grizzcoBody}</p>
+                              <p className="text-red mt-1.5 font-bold">
+                                {t.overlays.drawers.grizzcoAlert}
+                              </p>
+                            </div>
+                          </PopoverContent>
+                        </Popover>
+                        <DemoVariantLabel tone="light">{'align="center"'}</DemoVariantLabel>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1583,47 +1723,51 @@ export default function Home() {
 
                 <InViewStagger variant="pop" rootMargin="-30px">
                   <div className="grid gap-12 pt-6 md:grid-cols-2">
-                    {/* Yellow Tag */}
-                    <Card variant="rugged" ruggedTheme="yellow" rotation="-2deg">
-                      <CardHeader>
-                        <CardTitle>{t.apparel.yellowCard.title}</CardTitle>
-                      </CardHeader>
-                      <CardImage
-                        src={showcaseMediaAssets.ruggedLookbook.src}
-                        alt={showcaseMediaAssets.ruggedLookbook.alt}
-                      />
-                      <CardContent>
-                        <p className="text-[15px] leading-snug font-semibold">
-                          {t.apparel.yellowCard.body}
-                        </p>
-                      </CardContent>
-                      <CardFooter className="mt-0 justify-center border-none">
-                        <Button variant="blue" size="sm" theme="light-blue">
-                          {t.apparel.yellowCard.button}
-                        </Button>
-                      </CardFooter>
-                    </Card>
+                    <div className="flex flex-col gap-3">
+                      <Card variant="rugged" ruggedTheme="yellow" rotation="-2deg">
+                        <CardHeader>
+                          <CardTitle>{t.apparel.yellowCard.title}</CardTitle>
+                        </CardHeader>
+                        <CardImage
+                          src={showcaseMediaAssets.ruggedLookbook.src}
+                          alt={showcaseMediaAssets.ruggedLookbook.alt}
+                        />
+                        <CardContent>
+                          <p className="text-[15px] leading-snug font-semibold">
+                            {t.apparel.yellowCard.body}
+                          </p>
+                        </CardContent>
+                        <CardFooter className="mt-0 justify-center border-none">
+                          <Button variant="blue" size="sm" theme="light-blue">
+                            {t.apparel.yellowCard.button}
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                      <DemoVariantLabel>{'variant="rugged" ruggedTheme="yellow"'}</DemoVariantLabel>
+                    </div>
 
-                    {/* Blue Tag */}
-                    <Card variant="rugged" ruggedTheme="blue" rotation="3deg">
-                      <CardHeader>
-                        <CardTitle>{t.apparel.blueCard.title}</CardTitle>
-                      </CardHeader>
-                      <CardImage
-                        src={showcaseMediaAssets.ruggedMode.src}
-                        alt={showcaseMediaAssets.ruggedMode.alt}
-                      />
-                      <CardContent>
-                        <p className="text-[15px] leading-snug font-semibold opacity-90">
-                          {t.apparel.blueCard.body}
-                        </p>
-                      </CardContent>
-                      <CardFooter className="mt-0 justify-center border-none">
-                        <Button variant="yellow" size="sm" theme="dark-yellow">
-                          {t.apparel.blueCard.button}
-                        </Button>
-                      </CardFooter>
-                    </Card>
+                    <div className="flex flex-col gap-3">
+                      <Card variant="rugged" ruggedTheme="blue" rotation="3deg">
+                        <CardHeader>
+                          <CardTitle>{t.apparel.blueCard.title}</CardTitle>
+                        </CardHeader>
+                        <CardImage
+                          src={showcaseMediaAssets.ruggedMode.src}
+                          alt={showcaseMediaAssets.ruggedMode.alt}
+                        />
+                        <CardContent>
+                          <p className="text-[15px] leading-snug font-semibold opacity-90">
+                            {t.apparel.blueCard.body}
+                          </p>
+                        </CardContent>
+                        <CardFooter className="mt-0 justify-center border-none">
+                          <Button variant="yellow" size="sm" theme="dark-yellow">
+                            {t.apparel.blueCard.button}
+                          </Button>
+                        </CardFooter>
+                      </Card>
+                      <DemoVariantLabel>{'variant="rugged" ruggedTheme="blue"'}</DemoVariantLabel>
+                    </div>
                   </div>
                 </InViewStagger>
               </div>
@@ -1656,29 +1800,38 @@ export default function Home() {
                   </div>
                 </InView>
                 <InView direction="pop" rootMargin="-50px">
-                  <Card variant="torn" rotation="-1.5deg">
-                    <div className="content-spacing">
-                      <h2>{t.apparel.tornCardContent.heading}</h2>
-                      <p>{t.apparel.tornCardContent.body}</p>
-                      <ul className="content-spacing ml-10 list-disc text-left">
-                        {t.apparel.tornCardContent.listItems.map((item, i) => (
-                          <li key={i}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Card>
+                  <div className="flex flex-col gap-3">
+                    <Card variant="torn" rotation="-1.5deg">
+                      <div className="content-spacing">
+                        <h2>{t.apparel.tornCardContent.heading}</h2>
+                        <p>{t.apparel.tornCardContent.body}</p>
+                        <ul className="content-spacing ml-10 list-disc text-left">
+                          {t.apparel.tornCardContent.listItems.map((item, i) => (
+                            <li key={i}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </Card>
+                    <DemoVariantLabel>{'Card variant="torn"'}</DemoVariantLabel>
+                  </div>
                 </InView>
 
                 <InViewStagger variant="pop" rootMargin="-30px">
                   <div className="grid gap-8 md:grid-cols-2">
-                    <TornCard variant="b">
-                      <TornCardTitle>{t.apparel.tornCardB.title}</TornCardTitle>
-                      <TornCardDescription>{t.apparel.tornCardB.desc}</TornCardDescription>
-                    </TornCard>
-                    <TornCard variant="c">
-                      <TornCardTitle>{t.apparel.tornCardC.title}</TornCardTitle>
-                      <TornCardDescription>{t.apparel.tornCardC.desc}</TornCardDescription>
-                    </TornCard>
+                    <div className="flex flex-col gap-3">
+                      <TornCard variant="b">
+                        <TornCardTitle>{t.apparel.tornCardB.title}</TornCardTitle>
+                        <TornCardDescription>{t.apparel.tornCardB.desc}</TornCardDescription>
+                      </TornCard>
+                      <DemoVariantLabel>{'variant="b"'}</DemoVariantLabel>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <TornCard variant="c">
+                        <TornCardTitle>{t.apparel.tornCardC.title}</TornCardTitle>
+                        <TornCardDescription>{t.apparel.tornCardC.desc}</TornCardDescription>
+                      </TornCard>
+                      <DemoVariantLabel>{'variant="c"'}</DemoVariantLabel>
+                    </div>
                   </div>
                 </InViewStagger>
               </div>
@@ -1918,49 +2071,70 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="pt-2">
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                      <InView direction="left" rootMargin="-50px">
-                        <div className="bg-blue rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
-                          {t.apparel.inViewCard.left}
-                        </div>
-                      </InView>
-                      <InView direction="up" rootMargin="-50px" delay={1}>
-                        <div className="bg-purple rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
-                          {t.apparel.inViewCard.up}
-                        </div>
-                      </InView>
-                      <InView direction="right" rootMargin="-50px" delay={2}>
-                        <div className="bg-red rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
-                          {t.apparel.inViewCard.right}
-                        </div>
-                      </InView>
-                      <InView direction="pop" rootMargin="-50px" delay={1}>
-                        <div className="bg-yellow text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
-                          {t.apparel.inViewCard.pop}
-                        </div>
-                      </InView>
-                      <InView drop rootMargin="-50px" delay={2}>
-                        <div className="bg-green text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
-                          {t.apparel.inViewCard.drop}
-                        </div>
-                      </InView>
-                      <InView drop="slow" rootMargin="-50px" delay={3}>
-                        <div className="bg-orange text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
-                          {t.apparel.inViewCard.slowDrop}
-                        </div>
-                      </InView>
-                    </div>
-                    <InViewStagger rootMargin="-30px">
-                      <div className="mt-6">
-                        {t.apparel.inViewCard.staggers.map((label, i) => (
-                          <div
-                            key={i}
-                            className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white uppercase last:mb-0"
-                          >
-                            {label}
+                      <div className="grid gap-2">
+                        <InView direction="left" rootMargin="-50px">
+                          <div className="bg-blue rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                            {t.apparel.inViewCard.left}
                           </div>
-                        ))}
+                        </InView>
+                        <DemoVariantLabel>{'direction="left"'}</DemoVariantLabel>
                       </div>
-                    </InViewStagger>
+                      <div className="grid gap-2">
+                        <InView direction="up" rootMargin="-50px" delay={1}>
+                          <div className="bg-purple rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                            {t.apparel.inViewCard.up}
+                          </div>
+                        </InView>
+                        <DemoVariantLabel>{'direction="up" delay={1}'}</DemoVariantLabel>
+                      </div>
+                      <div className="grid gap-2">
+                        <InView direction="right" rootMargin="-50px" delay={2}>
+                          <div className="bg-red rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                            {t.apparel.inViewCard.right}
+                          </div>
+                        </InView>
+                        <DemoVariantLabel>{'direction="right" delay={2}'}</DemoVariantLabel>
+                      </div>
+                      <div className="grid gap-2">
+                        <InView direction="pop" rootMargin="-50px" delay={1}>
+                          <div className="bg-yellow text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                            {t.apparel.inViewCard.pop}
+                          </div>
+                        </InView>
+                        <DemoVariantLabel>{'direction="pop" delay={1}'}</DemoVariantLabel>
+                      </div>
+                      <div className="grid gap-2">
+                        <InView drop rootMargin="-50px" delay={2}>
+                          <div className="bg-green text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                            {t.apparel.inViewCard.drop}
+                          </div>
+                        </InView>
+                        <DemoVariantLabel>{'drop delay={2}'}</DemoVariantLabel>
+                      </div>
+                      <div className="grid gap-2">
+                        <InView drop="slow" rootMargin="-50px" delay={3}>
+                          <div className="bg-orange text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                            {t.apparel.inViewCard.slowDrop}
+                          </div>
+                        </InView>
+                        <DemoVariantLabel>{'drop="slow" delay={3}'}</DemoVariantLabel>
+                      </div>
+                    </div>
+                    <div className="mt-6 grid gap-2">
+                      <InViewStagger rootMargin="-30px">
+                        <div>
+                          {t.apparel.inViewCard.staggers.map((label, i) => (
+                            <div
+                              key={i}
+                              className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white uppercase last:mb-0"
+                            >
+                              {label}
+                            </div>
+                          ))}
+                        </div>
+                      </InViewStagger>
+                      <DemoVariantLabel>InViewStagger</DemoVariantLabel>
+                    </div>
                   </CardContent>
                 </Card>
 
@@ -1973,12 +2147,15 @@ export default function Home() {
                     {loaderDemoItems.map(({ label, variant, animation, size, style }) => (
                       <div
                         key={label}
-                        className="grid min-h-24 grid-rows-[1fr_auto] place-items-center gap-2 px-2 py-3 text-center"
+                        className="grid min-h-28 grid-rows-[1fr_auto_auto] place-items-center gap-2 px-2 py-3 text-center"
                       >
                         <Loader variant={variant} animation={animation} size={size} style={style} />
                         <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
                           {label}
                         </span>
+                        <DemoVariantLabel>
+                          {getLoaderDemoVariantLabel({ animation, size, variant })}
+                        </DemoVariantLabel>
                       </div>
                     ))}
                   </CardContent>

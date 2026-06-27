@@ -42,6 +42,13 @@ const checks = [
       ),
   },
   {
+    name: 'HeadingTape query host stretches inside flex and grid wrappers',
+    pass:
+      hasDeclaration('.headingTapeSection', 'width: 100%;') &&
+      hasDeclaration('.headingTapeSection', 'align-self: stretch;') &&
+      hasDeclaration('.headingTapeSection', 'justify-self: stretch;'),
+  },
+  {
     name: 'HeadingTape default typography keeps reference scale and no added tracking',
     pass:
       hasDeclaration('.headingTapeText', 'font-size: 1.875rem;') &&

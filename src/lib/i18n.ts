@@ -188,6 +188,8 @@ export const translations = {
       tabsCard: {
         title: '标签切换器',
         description: '带斜切标签触发器和墨色主题样式',
+        defaultVariant: '默认标签',
+        trapezoidVariant: '梯形标签',
         tab1: '武器',
         tab2: '地图',
         tab3: '活动',
@@ -538,6 +540,8 @@ export const translations = {
       tabsCard: {
         title: 'Tab Switcher',
         description: 'Skewed tab triggers with ink-theme styling',
+        defaultVariant: 'Default Tabs',
+        trapezoidVariant: 'Trapezoid Tabs',
         tab1: 'Weapons',
         tab2: 'Stages',
         tab3: 'Events',
@@ -914,6 +918,8 @@ export const translations = {
       tabsCard: {
         title: 'タブスイッチャー',
         description: 'インクテーマスタイルのスキュータブトリガー',
+        defaultVariant: 'デフォルトタブ',
+        trapezoidVariant: '台形タブ',
         tab1: 'ブキ',
         tab2: 'ステージ',
         tab3: 'イベント',

@@ -3,10 +3,12 @@
 .headingTapeSection {
   container-type: inline-size;
   display: flex;
+  justify-self: stretch;
   justify-content: center;
   margin-bottom: calc(var(--base-space, 8px) * var(--margin-offset, 2));
   min-inline-size: 0;
   position: relative;
+  align-self: stretch;
   width: 100%;
 }
 
