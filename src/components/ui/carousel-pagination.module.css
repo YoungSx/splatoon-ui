@@ -63,7 +63,7 @@
 /* Image pagination — shops-gallery_paginationButton + shops-gallery_paginationImage */
 
 .imagePaginationButton {
-  --image-pagination-accent: #a51ee1;
+  --image-pagination-accent: var(--color-world-purple, #a51ee1);
   --scale: 0;
   position: relative;
 }

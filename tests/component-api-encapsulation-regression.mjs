@@ -185,6 +185,7 @@ const checks = [
     pass:
       splatoonColorTokens.includes('export const splatoonColorVars') &&
       splatoonColorTokens.includes("yellow: 'var(--color-yellow)'") &&
+      splatoonColorTokens.includes("worldPurple: 'var(--color-world-purple)'") &&
       splatoonColorTokens.includes("salmonRunGreen: 'var(--color-salmon-run-green)'") &&
       buttonColorResolver.includes('splatoonColorVars') &&
       badge.includes('splatoonColorVars') &&

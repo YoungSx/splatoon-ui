@@ -64,7 +64,7 @@ export const weaponShopGalleryItems = [
   {
     id: 'reference-shop-3',
     image: `${WEAPONS_ASSET_BASE}/shops-gallery/weapons-express-naut-couture-3.jpg`,
-    icon: `${WEAPONS_ASSET_BASE}/shops-gallery/jella-icon.png`,
+    icon: `${WEAPONS_ASSET_BASE}/shops-gallery/eddy-icon.png`,
     iconRotate: -43,
     alt: 'Shop reference artwork 3',
     title: 'Surface Kit',
@@ -73,7 +73,7 @@ export const weaponShopGalleryItems = [
   {
     id: 'reference-shop-4',
     image: `${WEAPONS_ASSET_BASE}/shops-gallery/weapons-express-manoward-4.jpg`,
-    icon: `${WEAPONS_ASSET_BASE}/shops-gallery/coco-icon.png`,
+    icon: `${WEAPONS_ASSET_BASE}/shops-gallery/jella-icon.png`,
     iconRotate: 25,
     alt: 'Shop reference artwork 4',
     title: 'Overlay Kit',
@@ -82,7 +82,7 @@ export const weaponShopGalleryItems = [
   {
     id: 'reference-shop-5',
     image: `${WEAPONS_ASSET_BASE}/shops-gallery/weapons-express-crush-station-5.jpg`,
-    icon: `${WEAPONS_ASSET_BASE}/shops-gallery/eddy-icon.png`,
+    icon: `${WEAPONS_ASSET_BASE}/shops-gallery/coco-icon.png`,
     iconRotate: 11,
     alt: 'Shop reference artwork 5',
     title: 'Feedback Kit',

@@ -3,6 +3,7 @@ export type SplatoonColorToken =
   | 'blue'
   | 'green'
   | 'purple'
+  | 'worldPurple'
   | 'orange'
   | 'red'
   | 'white'
@@ -15,6 +16,7 @@ export const splatoonColorVars = {
   blue: 'var(--color-blue)',
   green: 'var(--color-green)',
   purple: 'var(--color-purple)',
+  worldPurple: 'var(--color-world-purple)',
   orange: 'var(--color-orange)',
   red: 'var(--color-red)',
   white: 'var(--color-white)',

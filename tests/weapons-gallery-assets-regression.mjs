@@ -41,6 +41,14 @@ const registryShopAssets = shopAssets.filter(
   (asset) => asset.endsWith('.jpg') || asset.includes('-icon.')
 )
 
+const officialShopPairs = [
+  ['weapons-express-hotlantis-1.jpg', 'harmony-icon.png'],
+  ['weapons-express-ammo-knights-2.jpg', 'sheldon-icon.png'],
+  ['weapons-express-naut-couture-3.jpg', 'eddy-icon.png'],
+  ['weapons-express-manoward-4.jpg', 'jella-icon.png'],
+  ['weapons-express-crush-station-5.jpg', 'coco-icon.png'],
+]
+
 function hasValidImageSignature(relativePath) {
   const filePath = path.join(weaponsDir, relativePath)
   if (!fs.existsSync(filePath)) return false
@@ -82,6 +90,14 @@ const checks = [
       registry.includes('weaponShopGalleryItems') &&
       registry.includes('weaponMarqueeItems') &&
       registryShopAssets.every((asset) => registry.includes(asset)),
+  },
+  {
+    name: 'shop carousel thumbnail pagination follows official shop-to-character pairings',
+    pass: officialShopPairs.every(([image, icon]) => {
+      const imageIndex = registry.indexOf(image)
+      const iconIndex = registry.indexOf(icon, imageIndex)
+      return imageIndex >= 0 && iconIndex > imageIndex
+    }),
   },
   {
     name: 'demo carousel data uses curated weapons assets instead of generated placeholders',
