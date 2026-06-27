@@ -198,7 +198,7 @@ const tabsListVariants = cva(
     variants: {
       variant: {
         default:
-          'flex-row justify-start pb-8 overflow-x-auto overflow-y-hidden snap-x snap-mandatory sm:snap-none scrollbar-hide',
+          '-mt-6 flex-row justify-start overflow-x-auto overflow-y-hidden pt-6 pb-8 snap-x snap-mandatory sm:snap-none scrollbar-hide',
         line: 'gap-1 bg-transparent border-b-2 border-current/10 w-full justify-start rounded-none',
         trapezoid: styles.trapezoidList,
       },
@@ -290,7 +290,6 @@ function TabsTrigger({ className, children, nativeButton = true, ...props }: Tab
         'group-data-[color=green]/tabs-list:data-active:text-green',
         'group-data-[color=orange]/tabs-list:data-active:text-orange',
         'group-data-[color=red]/tabs-list:data-active:text-red',
-        'tab-splat',
         // Underline
         'before:pointer-events-none before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:opacity-0 before:transition-all',
         'group-data-[color=yellow]/tabs-list:before:bg-yellow',

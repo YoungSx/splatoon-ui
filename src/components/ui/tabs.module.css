@@ -26,6 +26,33 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.trigger::after {
+  aspect-ratio: 74 / 78;
+  background-image: var(--active-splat-url);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  content: none;
+  display: block;
+  height: var(--tab-splat-height, clamp(2.75rem, 2.75em, 4.875rem));
+  left: var(--tab-splat-left, clamp(-1.875rem, -1em, -0.75rem));
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: var(--tab-splat-top, clamp(-0.625rem, -0.35em, -0.25rem));
+  transform: scale(0.5);
+  transform-origin: 50% 62%;
+  width: var(--tab-splat-width, clamp(2.6rem, 2.6em, 4.625rem));
+  z-index: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-variant='default'] .trigger:hover::after {
+    animation: tabSplatPop calc(var(--duration-factor, 1) * 0.34s)
+      var(--ease-back-out, cubic-bezier(0.21, 0.12, 0.35, 1.43)) both;
+    content: ' ';
+  }
+}
+
 .trapezoidSurface {
   display: none;
 }
@@ -167,11 +194,41 @@
   .trigger[data-active] .trapezoidPin {
     animation: none;
   }
+
+  [data-variant='default'] .trigger:hover::after {
+    animation: none;
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 :global(.reduced-motion) .trigger[data-active] .trapezoidPin,
 :global(.is-reduced-motion) .trigger[data-active] .trapezoidPin {
   animation: none;
+}
+
+:global(.reduced-motion) [data-variant='default'] .trigger:hover::after,
+:global(.is-reduced-motion) [data-variant='default'] .trigger:hover::after {
+  animation: none;
+  opacity: 1;
+  transform: scale(1);
+}
+
+@keyframes tabSplatPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.48) rotate(-8deg);
+  }
+
+  72% {
+    opacity: 1;
+    transform: scale(1.12) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 @keyframes trapezoidPinPop {
