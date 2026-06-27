@@ -1389,8 +1389,15 @@ export default function Home() {
                       <h3 className="font-heading text-chaos-black text-xl leading-none font-black tracking-wide uppercase">
                         {t.apparel.tabsCard.defaultVariant}
                       </h3>
+                      <DemoVariantLabel>
+                        {'color="yellow" decorationColor="var(--color-blue)"'}
+                      </DemoVariantLabel>
                       <Tabs defaultValue="tab1" className="w-full">
-                        <TabsList className="mb-6 w-full gap-4 sm:justify-center">
+                        <TabsList
+                          color="yellow"
+                          decorationColor="var(--color-blue)"
+                          className="mb-6 w-full gap-4 sm:justify-center"
+                        >
                           <TabsTrigger value="tab1">{t.apparel.tabsCard.tab1}</TabsTrigger>
                           <TabsTrigger value="tab2">{t.apparel.tabsCard.tab2}</TabsTrigger>
                           <TabsTrigger value="tab3">{t.apparel.tabsCard.tab3}</TabsTrigger>

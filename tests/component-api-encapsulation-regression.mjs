@@ -20,6 +20,8 @@ const feedCarousel = fs.readFileSync(path.join(componentRoot, 'feed-carousel.tsx
 const section = fs.readFileSync(path.join(componentRoot, 'section.tsx'), 'utf8')
 const assetImage = fs.readFileSync(path.join(componentRoot, 'asset-image.tsx'), 'utf8')
 const triggerButton = fs.readFileSync(path.join(componentRoot, 'trigger-button.tsx'), 'utf8')
+const tabs = fs.readFileSync(path.join(componentRoot, 'tabs.tsx'), 'utf8')
+const tabsCss = fs.readFileSync(path.join(componentRoot, 'tabs.module.css'), 'utf8')
 const demoPage = fs.readFileSync(path.join(root, 'src', 'app', 'page.tsx'), 'utf8')
 
 const checks = [
@@ -144,6 +146,22 @@ const checks = [
       demoPage.includes('DemoExampleGroup') &&
       !demoPage.includes("style={{ maxWidth: '64rem' }}") &&
       !demoPage.includes("style={{ maxWidth: '48rem' }}"),
+  },
+  {
+    name: 'TabsList exposes decoration color API backed by Splatoon theme-pair tokens',
+    pass:
+      tabs.includes('decorationColor?: string') &&
+      tabs.includes('const resolvedDecorationColor =') &&
+      tabs.includes('decorationColor ?? getTabsDecorationColor(resolvedVariant, resolvedColor)') &&
+      tabs.includes("'--tabs-decoration-color': resolvedDecorationColor") &&
+      tabs.includes('tabsDecorationColorByColor') &&
+      tabs.includes("yellow: 'var(--color-blue)'") &&
+      tabs.includes("blue: 'var(--color-yellow)'") &&
+      tabs.includes("if (variant === 'trapezoid')") &&
+      tabs.includes("return 'var(--color-blue)'") &&
+      tabsCss.includes('background-color: var(--tabs-decoration-color);') &&
+      tabsCss.includes('fill: var(--tabs-decoration-color);') &&
+      demoPage.includes('decorationColor="var(--color-blue)"'),
   },
 ]
 

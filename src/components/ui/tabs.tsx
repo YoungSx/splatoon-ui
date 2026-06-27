@@ -10,6 +10,7 @@ import styles from './tabs.module.css'
 const TRAPEZOID_TABS_TEXTURE_SCALE = 1.2
 
 type TabsListVariant = 'default' | 'line' | 'trapezoid'
+type TabsListColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple' | 'red'
 type TabsValue = TabsPrimitive.Tab.Props['value']
 type TabsRootProps = TabsPrimitive.Root.Props
 type TabsChangeDetails = Parameters<NonNullable<TabsRootProps['onValueChange']>>[1]
@@ -21,6 +22,27 @@ type TrapezoidTabsStyle = React.CSSProperties & {
   '--trapezoid-tabs-bg-x'?: string
   '--trapezoid-tabs-count'?: number
   '--trapezoid-tabs-index'?: number
+}
+
+type TabsListStyle = React.CSSProperties & {
+  '--tabs-decoration-color'?: string
+}
+
+const tabsDecorationColorByColor = {
+  yellow: 'var(--color-blue)',
+  blue: 'var(--color-yellow)',
+  green: 'var(--color-red)',
+  orange: 'var(--color-purple)',
+  purple: 'var(--color-blue)',
+  red: 'var(--color-green)',
+} satisfies Record<TabsListColor, string>
+
+function getTabsDecorationColor(variant: TabsListVariant, color: TabsListColor) {
+  if (variant === 'trapezoid') {
+    return 'var(--color-blue)'
+  }
+
+  return tabsDecorationColorByColor[color]
 }
 
 type TabsInteractionContextValue = {
@@ -207,6 +229,7 @@ const tabsListVariants = cva(
         blue: '',
         green: '',
         orange: '',
+        purple: '',
         red: '',
       },
     },
@@ -245,24 +268,43 @@ function withTrapezoidTabsTriggerVars(children: React.ReactNode) {
   })
 }
 
+export interface TabsListProps
+  extends Omit<TabsPrimitive.List.Props, 'color'>,
+    Omit<VariantProps<typeof tabsListVariants>, 'color'> {
+  /** Primary active color token. The default decoration color is inferred from the matching Splatoon theme pair. */
+  color?: TabsListColor
+  /** Override the inferred hover/active decoration color with any CSS color value. */
+  decorationColor?: string
+}
+
 function TabsList({
   className,
   children,
+  decorationColor,
   variant = 'default',
   color = 'blue',
+  style,
   ...props
-}: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
+}: TabsListProps) {
   const resolvedVariant = variant ?? 'default'
+  const resolvedColor = color ?? 'blue'
   const resolvedChildren =
     resolvedVariant === 'trapezoid' ? withTrapezoidTabsTriggerVars(children) : children
+  const resolvedDecorationColor =
+    decorationColor ?? getTabsDecorationColor(resolvedVariant, resolvedColor)
+  const resolvedStyle = {
+    ...style,
+    '--tabs-decoration-color': resolvedDecorationColor,
+  } satisfies TabsListStyle
 
   return (
     <TabsListVariantContext.Provider value={resolvedVariant}>
       <TabsPrimitive.List
         data-slot="tabs-list"
         data-variant={resolvedVariant}
-        data-color={color}
-        className={cn(tabsListVariants({ variant: resolvedVariant, color }), className)}
+        data-color={resolvedColor}
+        className={cn(tabsListVariants({ variant: resolvedVariant, color: resolvedColor }), className)}
+        style={resolvedStyle}
         {...props}
       >
         {resolvedChildren}
@@ -289,6 +331,7 @@ function TabsTrigger({ className, children, nativeButton = true, ...props }: Tab
         'group-data-[color=blue]/tabs-list:data-active:text-blue',
         'group-data-[color=green]/tabs-list:data-active:text-green',
         'group-data-[color=orange]/tabs-list:data-active:text-orange',
+        'group-data-[color=purple]/tabs-list:data-active:text-purple',
         'group-data-[color=red]/tabs-list:data-active:text-red',
         // Underline
         'before:pointer-events-none before:absolute before:inset-x-0 before:bottom-[-2px] before:h-[3px] before:opacity-0 before:transition-all',
@@ -296,6 +339,7 @@ function TabsTrigger({ className, children, nativeButton = true, ...props }: Tab
         'group-data-[color=blue]/tabs-list:before:bg-blue',
         'group-data-[color=green]/tabs-list:before:bg-green',
         'group-data-[color=orange]/tabs-list:before:bg-orange',
+        'group-data-[color=purple]/tabs-list:before:bg-purple',
         'group-data-[color=red]/tabs-list:before:bg-red',
         // Line variant overrides
         'group-data-[variant=line]/tabs-list:font-heading group-data-[variant=line]/tabs-list:text-base group-data-[variant=line]/tabs-list:tracking-wider',

@@ -27,15 +27,19 @@
 }
 
 .trigger::after {
+  -webkit-mask-image: var(--active-splat-url);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
   aspect-ratio: 74 / 78;
-  background-image: var(--active-splat-url);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-color: var(--tabs-decoration-color);
   content: none;
   display: block;
   height: var(--tab-splat-height, clamp(2.75rem, 2.75em, 4.875rem));
   left: var(--tab-splat-left, clamp(-1.875rem, -1em, -0.75rem));
   opacity: 0;
+  mask-image: var(--active-splat-url);
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
   pointer-events: none;
   position: absolute;
   top: var(--tab-splat-top, clamp(-0.625rem, -0.35em, -0.25rem));
@@ -138,7 +142,7 @@
 }
 
 .trapezoidPinOutline {
-  fill: var(--color-blue);
+  fill: var(--tabs-decoration-color);
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
