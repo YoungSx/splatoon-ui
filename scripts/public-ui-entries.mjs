@@ -16,6 +16,7 @@ export const publicUiEntries = [
   'character-assets',
   'checkbox',
   'dialog',
+  'dotted-divider',
   'event-assets',
   'event-callout',
   'feed-carousel',

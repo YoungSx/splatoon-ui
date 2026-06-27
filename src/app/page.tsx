@@ -1744,7 +1744,7 @@ export default function Home() {
                             {t.apparel.yellowCard.body}
                           </p>
                         </CardContent>
-                        <CardFooter className="mt-0 justify-center border-none">
+                        <CardFooter showDivider={false} className="mt-0 justify-center">
                           <Button variant="blue" size="sm" theme="light-blue">
                             {t.apparel.yellowCard.button}
                           </Button>
@@ -1767,7 +1767,7 @@ export default function Home() {
                             {t.apparel.blueCard.body}
                           </p>
                         </CardContent>
-                        <CardFooter className="mt-0 justify-center border-none">
+                        <CardFooter showDivider={false} className="mt-0 justify-center">
                           <Button variant="yellow" size="sm" theme="dark-yellow">
                             {t.apparel.blueCard.button}
                           </Button>

@@ -101,12 +101,13 @@
 }
 
 .info {
-  align-items: center;
+  align-items: stretch;
   display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: flex-start;
   padding: calc(var(--base-space, 8px) * 2) 0;
+  text-align: center;
 }
 
 /* ── Surface: dark ── */
@@ -117,13 +118,19 @@
 
 /* ── Convenience title/subtitle ── */
 .title {
+  align-self: center;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 2;
 }
 
 .subtitle {
+  align-self: center;
   margin-top: calc(var(--base-space, 8px) * 1);
   font-size: 0.875rem;
   opacity: 0.75;
+}
+
+.action {
+  align-self: center;
 }

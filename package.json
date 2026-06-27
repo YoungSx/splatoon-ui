@@ -121,6 +121,10 @@
       "types": "./dist/dialog.d.ts",
       "import": "./dist/dialog.js"
     },
+    "./dotted-divider": {
+      "types": "./dist/dotted-divider.d.ts",
+      "import": "./dist/dotted-divider.js"
+    },
     "./event-assets": {
       "types": "./dist/event-assets.d.ts",
       "import": "./dist/event-assets.js"

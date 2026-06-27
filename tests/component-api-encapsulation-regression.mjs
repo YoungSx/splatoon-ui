@@ -7,6 +7,7 @@ const componentRoot = path.join(root, 'src', 'components', 'ui')
 const carousel = fs.readFileSync(path.join(componentRoot, 'carousel.tsx'), 'utf8')
 const dialog = fs.readFileSync(path.join(componentRoot, 'dialog.tsx'), 'utf8')
 const videoDialog = fs.readFileSync(path.join(componentRoot, 'video-dialog.tsx'), 'utf8')
+const card = fs.readFileSync(path.join(componentRoot, 'card.tsx'), 'utf8')
 const stapleCard = fs.readFileSync(path.join(componentRoot, 'staple-card.tsx'), 'utf8')
 const stapleCardCss = fs.readFileSync(path.join(componentRoot, 'staple-card.module.css'), 'utf8')
 const tornCard = fs.readFileSync(path.join(componentRoot, 'torn-card.tsx'), 'utf8')
@@ -14,6 +15,11 @@ const tornCardCss = fs.readFileSync(path.join(componentRoot, 'torn-card.module.c
 const photoFrame = fs.readFileSync(path.join(componentRoot, 'photo-frame.tsx'), 'utf8')
 const cardStackCarousel = fs.readFileSync(
   path.join(componentRoot, 'card-stack-carousel.tsx'),
+  'utf8'
+)
+const dottedDivider = fs.readFileSync(path.join(componentRoot, 'dotted-divider.tsx'), 'utf8')
+const dottedDividerCss = fs.readFileSync(
+  path.join(componentRoot, 'dotted-divider.module.css'),
   'utf8'
 )
 const feedCarousel = fs.readFileSync(path.join(componentRoot, 'feed-carousel.tsx'), 'utf8')
@@ -149,14 +155,29 @@ const checks = [
       !dialog.includes('PaperTearEdge'),
   },
   {
+    name: 'Card section dividers use the shared round dotted divider primitive',
+    pass:
+      card.includes("import { DottedDivider } from './dotted-divider'") &&
+      card.includes('{showDivider ? <DottedDivider') &&
+      !card.includes('border-b border-dashed border-current/30') &&
+      !card.includes('border-t border-dashed border-current/30') &&
+      dottedDivider.includes('export interface DottedDividerProps') &&
+      dottedDividerCss.includes('--dotted-divider-color: var(--color-grey-100);') &&
+      dottedDividerCss.includes('radial-gradient') &&
+      dottedDividerCss.includes("data-orientation='horizontal'"),
+  },
+  {
     name: 'StapleCard owns its responsive staple safe area inside the component surface',
     pass:
       stapleCard.includes('contentClassName={styles.cardSurface}') &&
       stapleCard.includes('styles.stapleLayer') &&
+      stapleCard.includes('<div className={styles.action}>{action}</div>') &&
       !stapleCard.includes('<picture>') &&
       !stapleCard.includes('imgMobile') &&
       !stapleCard.includes('imgDesktop') &&
       stapleCardCss.includes('container-type: inline-size;') &&
+      stapleCardCss.includes('align-items: stretch;') &&
+      stapleCardCss.includes('.action') &&
       stapleCardCss.includes('.stapleLayer img') &&
       stapleCardCss.includes('--staple-card-staple-clearance') &&
       stapleCardCss.includes(

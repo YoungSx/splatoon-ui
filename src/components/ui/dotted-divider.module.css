@@ -1,0 +1,34 @@
+.root {
+  --dotted-divider-color: var(--color-grey-100);
+  --dotted-divider-dot-size: 3px;
+  --dotted-divider-gap: 8px;
+
+  border: 0;
+  flex-shrink: 0;
+}
+
+.root[data-orientation='horizontal'] {
+  background-image: radial-gradient(
+    circle,
+    var(--dotted-divider-color) 1.5px,
+    transparent 1.6px
+  );
+  background-position: left center;
+  background-repeat: repeat-x;
+  background-size: var(--dotted-divider-gap) var(--dotted-divider-dot-size);
+  block-size: var(--dotted-divider-dot-size);
+  inline-size: 100%;
+}
+
+.root[data-orientation='vertical'] {
+  background-image: radial-gradient(
+    circle,
+    var(--dotted-divider-color) 1.5px,
+    transparent 1.6px
+  );
+  background-position: center top;
+  background-repeat: repeat-y;
+  background-size: var(--dotted-divider-dot-size) var(--dotted-divider-gap);
+  block-size: 100%;
+  inline-size: var(--dotted-divider-dot-size);
+}

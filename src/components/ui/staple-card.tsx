@@ -106,7 +106,7 @@ export function StapleCard({
                 <>
                   {title && <p className={styles.title}>{title}</p>}
                   {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-                  {action}
+                  {action ? <div className={styles.action}>{action}</div> : null}
                 </>
               )}
             </div>

@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { DottedDivider } from './dotted-divider'
 import { StapleCard } from './staple-card'
 import { RuggedCard, type RuggedTheme } from './rugged-card'
 import { TornCard } from './torn-card'
@@ -116,16 +117,23 @@ function Card({
 
 // ── Sub-components ──────────────────────────────────────────────
 
-function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
+interface CardSectionProps extends React.ComponentProps<'div'> {
+  showDivider?: boolean
+}
+
+function CardHeader({ className, children, showDivider = true, ...props }: CardSectionProps) {
   return (
     <div
       data-slot="card-header"
       className={cn(
-        'group/card-header grid auto-rows-min items-start gap-1.5 border-b border-dashed border-current/30 pb-4 group-data-[size=sm]/card:pb-3',
+        'group/card-header grid auto-rows-min items-start gap-1.5 pb-4 group-data-[size=sm]/card:pb-3',
         className
       )}
       {...props}
-    />
+    >
+      {children}
+      {showDivider ? <DottedDivider aria-hidden="true" className="mt-2" /> : null}
+    </div>
   )
 }
 
@@ -175,16 +183,19 @@ function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
+function CardFooter({ className, children, showDivider = true, ...props }: CardSectionProps) {
   return (
     <div
       data-slot="card-footer"
       className={cn(
-        'mt-2 flex items-center justify-between border-t border-dashed border-current/30 pt-4 group-data-[size=sm]/card:mt-1 group-data-[size=sm]/card:pt-3',
+        'relative mt-2 flex items-center justify-between pt-4 group-data-[size=sm]/card:mt-1 group-data-[size=sm]/card:pt-3',
         className
       )}
       {...props}
-    />
+    >
+      {showDivider ? <DottedDivider aria-hidden="true" className="absolute top-0 right-0 left-0" /> : null}
+      {children}
+    </div>
   )
 }
 
