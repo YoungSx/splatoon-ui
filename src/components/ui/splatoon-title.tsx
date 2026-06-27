@@ -118,7 +118,7 @@ export function SplatoonTitle({
     <div
       ref={ref}
       className={cn(
-        'font-heading relative inline-block font-black tracking-wider uppercase',
+        'font-heading relative inline-block font-black tracking-wider',
         animate && 'transition-all duration-700 ease-out',
         animate && (isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'),
         variant === 'logo' ? 'text-5xl md:text-7xl' : 'text-4xl md:text-6xl',

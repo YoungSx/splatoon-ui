@@ -44,7 +44,7 @@ function Marquee({
       )}
       <div
         className={cn(
-          'splat-heading flex w-max items-center gap-8 px-8 py-2 text-sm text-[24px] font-black tracking-widest whitespace-nowrap uppercase',
+          'splat-heading flex w-max items-center gap-8 px-8 py-2 text-sm text-[24px] font-black tracking-widest whitespace-nowrap',
           '[animation:marquee_linear_infinite]',
           pauseOnHover && 'group-hover/marquee:[animation-play-state:paused]',
           direction === 'right' && '[animation-direction:reverse]'

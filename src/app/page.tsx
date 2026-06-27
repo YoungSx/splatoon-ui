@@ -114,7 +114,7 @@ function createDemoEmbed(label: string) {
     <!doctype html>
     <html lang="en">
       <body style="margin:0;display:grid;place-items:center;min-height:100vh;background:#0d0d0d;color:#eaff3d;font-family:Arial,sans-serif;overflow:hidden">
-        <main style="position:relative;isolation:isolate;text-align:center;text-transform:uppercase;font-weight:900;letter-spacing:.12em">
+        <main style="position:relative;isolation:isolate;text-align:center;font-weight:900;letter-spacing:.12em">
           <span style="position:absolute;inset:-18vh -28vw;z-index:-1;background:repeating-linear-gradient(-12deg,#603bff 0 18px,#0d0d0d 18px 42px,#ff505e 42px 56px,#0d0d0d 56px 82px);opacity:.42;transform:rotate(-3deg)"></span>
           <p style="font-size:clamp(28px,8vw,72px);margin:0;text-shadow:4px 5px 0 #000">${label}</p>
           <p style="color:#fff;font-size:14px;margin-top:18px">Component motion reel</p>
@@ -153,8 +153,8 @@ function DemoVariantLabel({
     <span
       className={
         tone === 'light'
-          ? 'font-mono text-[11px] font-bold tracking-wider text-white/55 uppercase'
-          : 'text-chaos-black/45 font-mono text-[11px] font-bold tracking-wider uppercase'
+          ? 'font-mono text-[11px] font-bold tracking-wider text-white/55'
+          : 'text-chaos-black/45 font-mono text-[11px] font-bold tracking-wider'
       }
     >
       {children}
@@ -244,7 +244,7 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
                     draggable={false}
                     loading="lazy"
                   />
-                  <h3 className="text-2xl font-black tracking-wider uppercase md:text-3xl">
+                  <h3 className="text-2xl font-black tracking-wider md:text-3xl">
                     {current.title}
                   </h3>
                   <p className="text-chaos-black/50 text-sm font-medium">{current.subtitle}</p>
@@ -275,7 +275,7 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
                     draggable={false}
                     loading="lazy"
                   />
-                  <h3 className="text-2xl font-black tracking-wider uppercase md:text-3xl">
+                  <h3 className="text-2xl font-black tracking-wider md:text-3xl">
                     {current.title}
                   </h3>
                   <p className="text-chaos-black/50 text-sm font-medium">{current.subtitle}</p>
@@ -614,7 +614,7 @@ export default function Home() {
             <div className="z-10 flex flex-col items-center gap-3 text-center">
               <Badge color="yellow">{t.hero.badge}</Badge>
               <h1
-                className="font-heading text-chaos-black text-5xl font-black tracking-wider uppercase drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)] md:text-6xl"
+                className="font-heading text-chaos-black text-5xl font-black tracking-wider drop-shadow-[3px_3px_0px_rgba(0,0,0,0.15)] md:text-6xl"
                 style={{ transform: 'rotate(-4deg)' }}
               >
                 {t.hero.title}
@@ -799,7 +799,7 @@ export default function Home() {
               {/* Variants + Sizes */}
               <InView direction="pop" rootMargin="-50px">
                 <div className="space-y-6">
-                  <h3 className="text-center text-lg font-black tracking-wider uppercase">
+                  <h3 className="text-center text-lg font-black tracking-wider">
                     {t.buttons.variantsTitle}
                   </h3>
                   <p className="text-chaos-black/50 text-center text-xs">
@@ -816,7 +816,7 @@ export default function Home() {
                             animation="squish"
                             aria-label={v}
                           />
-                          <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                          <span className="text-[11px] font-bold tracking-wider opacity-60">
                             {v}
                           </span>
                         </div>
@@ -831,7 +831,7 @@ export default function Home() {
                         animation="squish"
                         aria-label={t.buttons.sizes.sm}
                       />
-                      <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                      <span className="text-[11px] font-bold tracking-wider opacity-60">
                         {t.buttons.sizes.sm}
                       </span>
                     </div>
@@ -842,7 +842,7 @@ export default function Home() {
                         animation="squish"
                         aria-label={t.buttons.sizes.md}
                       />
-                      <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                      <span className="text-[11px] font-bold tracking-wider opacity-60">
                         {t.buttons.sizes.md}
                       </span>
                     </div>
@@ -853,7 +853,7 @@ export default function Home() {
                         animation="squish"
                         aria-label={t.buttons.sizes.lg}
                       />
-                      <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                      <span className="text-[11px] font-bold tracking-wider opacity-60">
                         {t.buttons.sizes.lg}
                       </span>
                     </div>
@@ -864,7 +864,7 @@ export default function Home() {
               {/* Behavior: animation, disabled, custom icon */}
               <InView direction="pop" rootMargin="-50px">
                 <div className="space-y-6">
-                  <h3 className="text-center text-lg font-black tracking-wider uppercase">
+                  <h3 className="text-center text-lg font-black tracking-wider">
                     {t.buttons.behaviorTitle}
                   </h3>
                   <p className="text-chaos-black/50 text-center text-xs">
@@ -878,7 +878,7 @@ export default function Home() {
                         animation="squish"
                         aria-label={t.buttons.squish}
                       />
-                      <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                      <span className="text-[11px] font-bold tracking-wider opacity-60">
                         {t.buttons.squish}
                       </span>
                     </div>
@@ -890,7 +890,7 @@ export default function Home() {
                         animation="pulse"
                         aria-label={t.buttons.pulse}
                       />
-                      <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                      <span className="text-[11px] font-bold tracking-wider opacity-60">
                         {t.buttons.pulse}
                       </span>
                     </div>
@@ -901,7 +901,7 @@ export default function Home() {
                         disabled
                         aria-label={t.buttons.disabled}
                       />
-                      <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                      <span className="text-[11px] font-bold tracking-wider opacity-60">
                         {t.buttons.disabled}
                       </span>
                     </div>
@@ -912,7 +912,7 @@ export default function Home() {
                         aria-label={t.buttons.customIcon}
                         icon={<Play className="h-6 w-6" fill="currentColor" strokeWidth={0} />}
                       />
-                      <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                      <span className="text-[11px] font-bold tracking-wider opacity-60">
                         {t.buttons.customIcon}
                       </span>
                     </div>
@@ -1302,7 +1302,7 @@ export default function Home() {
                 <div className="space-y-12">
                   <div className="space-y-4">
                     <div className="flex items-end justify-between px-2">
-                      <h3 className="text-lg font-black text-white/80 uppercase">
+                      <h3 className="text-lg font-black text-white/80">
                         {t.forms.progress.catalog.label}
                       </h3>
                       <span className="text-sm font-bold" style={{ color: 'var(--color-yellow)' }}>
@@ -1315,7 +1315,7 @@ export default function Home() {
 
                   <div className="space-y-4">
                     <div className="flex items-end justify-between px-2">
-                      <h3 className="text-lg font-black text-white/80 uppercase">
+                      <h3 className="text-lg font-black text-white/80">
                         {t.forms.progress.gallery.label}
                       </h3>
                       <span className="text-sm font-bold" style={{ color: 'var(--color-blue)' }}>
@@ -1330,7 +1330,7 @@ export default function Home() {
 
                   <div className="space-y-4">
                     <div className="flex items-end justify-between px-2">
-                      <h3 className="text-lg font-black text-white/80 uppercase">
+                      <h3 className="text-lg font-black text-white/80">
                         {t.forms.progress.reset.label}
                       </h3>
                       <span
@@ -1346,7 +1346,7 @@ export default function Home() {
 
                   <div className="space-y-4">
                     <div className="flex items-end justify-between px-2">
-                      <h3 className="text-lg font-black text-white/80 uppercase">
+                      <h3 className="text-lg font-black text-white/80">
                         {t.forms.progress.theme.label}
                       </h3>
                       <span className="text-sm font-bold" style={{ color: 'var(--color-green)' }}>
@@ -1386,7 +1386,7 @@ export default function Home() {
                   </CardHeader>
                   <CardContent className="grid gap-8 pt-2">
                     <div className="grid gap-3">
-                      <h3 className="font-heading text-chaos-black text-xl leading-none font-black tracking-wide uppercase">
+                      <h3 className="font-heading text-chaos-black text-xl leading-none font-black tracking-wide">
                         {t.apparel.tabsCard.defaultVariant}
                       </h3>
                       <DemoVariantLabel>
@@ -1405,21 +1405,21 @@ export default function Home() {
                         <TabsPanels swipeable>
                           <TabsContent value="tab1" className="outline-none">
                             <div className="bg-blue/10 rounded-lg p-6 text-center">
-                              <p className="text-blue text-sm font-bold tracking-wider uppercase">
+                              <p className="text-blue text-sm font-bold tracking-wider">
                                 {t.apparel.tabsCard.tab1Content}
                               </p>
                             </div>
                           </TabsContent>
                           <TabsContent value="tab2" className="outline-none">
                             <div className="bg-green/10 rounded-lg p-6 text-center">
-                              <p className="text-green text-sm font-bold tracking-wider uppercase">
+                              <p className="text-green text-sm font-bold tracking-wider">
                                 {t.apparel.tabsCard.tab2Content}
                               </p>
                             </div>
                           </TabsContent>
                           <TabsContent value="tab3" className="outline-none">
                             <div className="bg-orange/10 rounded-lg p-6 text-center">
-                              <p className="text-orange text-sm font-bold tracking-wider uppercase">
+                              <p className="text-orange text-sm font-bold tracking-wider">
                                 {t.apparel.tabsCard.tab3Content}
                               </p>
                             </div>
@@ -1428,7 +1428,7 @@ export default function Home() {
                       </Tabs>
                     </div>
                     <div className="grid gap-3">
-                      <h3 className="font-heading text-chaos-black text-xl leading-none font-black tracking-wide uppercase">
+                      <h3 className="font-heading text-chaos-black text-xl leading-none font-black tracking-wide">
                         {t.apparel.tabsCard.trapezoidVariant}
                       </h3>
                       <Tabs
@@ -1452,22 +1452,22 @@ export default function Home() {
                         <div className="-mt-px h-5 bg-[rgb(68_68_68)]" />
                         <TabsPanels swipeable>
                           <TabsContent value="map" className="bg-[rgb(68_68_68)] p-5 text-center">
-                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70">
                               {t.apparel.tabsCard.trapezoidTabs.mapContent}
                             </p>
                           </TabsContent>
                           <TabsContent value="stages" className="bg-[rgb(68_68_68)] p-5 text-center">
-                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70">
                               {t.apparel.tabsCard.trapezoidTabs.stagesContent}
                             </p>
                           </TabsContent>
                           <TabsContent value="status" className="bg-[rgb(68_68_68)] p-5 text-center">
-                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70">
                               {t.apparel.tabsCard.trapezoidTabs.statusContent}
                             </p>
                           </TabsContent>
                           <TabsContent value="options" className="bg-[rgb(68_68_68)] p-5 text-center">
-                            <p className="font-alt text-sm font-black tracking-wider text-white/70 uppercase">
+                            <p className="font-alt text-sm font-black tracking-wider text-white/70">
                               {t.apparel.tabsCard.trapezoidTabs.optionsContent}
                             </p>
                           </TabsContent>
@@ -1511,7 +1511,7 @@ export default function Home() {
               <InView direction="pop" rootMargin="-50px">
                 <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-4">
-                    <h3 className="text-yellow text-lg font-black tracking-wider uppercase">
+                    <h3 className="text-yellow text-lg font-black tracking-wider">
                       {t.overlays.graffiti.title}
                     </h3>
                     <p className="text-xs text-white/50">{t.overlays.graffiti.desc}</p>
@@ -1580,7 +1580,7 @@ export default function Home() {
 
                   {/* Fullscreen Dialog */}
                   <div className="space-y-4">
-                    <h3 className="text-purple text-lg font-black tracking-wider uppercase">
+                    <h3 className="text-purple text-lg font-black tracking-wider">
                       {t.overlays.fullscreen.title}
                     </h3>
                     <p className="text-xs text-white/50">{t.overlays.fullscreen.desc}</p>
@@ -1613,7 +1613,7 @@ export default function Home() {
 
                   {/* Sheet + Popover */}
                   <div className="space-y-4">
-                    <h3 className="text-green text-lg font-black tracking-wider uppercase">
+                    <h3 className="text-green text-lg font-black tracking-wider">
                       {t.overlays.drawers.title}
                     </h3>
                     <p className="text-xs text-white/50">{t.overlays.drawers.desc}</p>
@@ -1868,7 +1868,7 @@ export default function Home() {
                       }
                     >
                       <div className="space-y-3 p-4">
-                        <p className="text-blue text-sm tracking-[0.35em] uppercase">
+                        <p className="text-blue text-sm tracking-[0.35em]">
                           {t.apparel.staple1.eyebrow}
                         </p>
                         <h4 className="text-xl font-black">{t.apparel.staple1.title}</h4>
@@ -1893,7 +1893,7 @@ export default function Home() {
                       }
                     >
                       <div className="space-y-3 p-4">
-                        <p className="text-orange text-sm tracking-[0.35em] uppercase">
+                        <p className="text-orange text-sm tracking-[0.35em]">
                           {t.apparel.staple2.eyebrow}
                         </p>
                         <h4 className="text-xl font-black">{t.apparel.staple2.title}</h4>
@@ -2080,7 +2080,7 @@ export default function Home() {
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                       <div className="grid gap-2">
                         <InView direction="left" rootMargin="-50px">
-                          <div className="bg-blue rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                          <div className="bg-blue rounded-lg p-4 text-center text-sm font-black tracking-wider text-white">
                             {t.apparel.inViewCard.left}
                           </div>
                         </InView>
@@ -2088,7 +2088,7 @@ export default function Home() {
                       </div>
                       <div className="grid gap-2">
                         <InView direction="up" rootMargin="-50px" delay={1}>
-                          <div className="bg-purple rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                          <div className="bg-purple rounded-lg p-4 text-center text-sm font-black tracking-wider text-white">
                             {t.apparel.inViewCard.up}
                           </div>
                         </InView>
@@ -2096,7 +2096,7 @@ export default function Home() {
                       </div>
                       <div className="grid gap-2">
                         <InView direction="right" rootMargin="-50px" delay={2}>
-                          <div className="bg-red rounded-lg p-4 text-center text-sm font-black tracking-wider text-white uppercase">
+                          <div className="bg-red rounded-lg p-4 text-center text-sm font-black tracking-wider text-white">
                             {t.apparel.inViewCard.right}
                           </div>
                         </InView>
@@ -2104,7 +2104,7 @@ export default function Home() {
                       </div>
                       <div className="grid gap-2">
                         <InView direction="pop" rootMargin="-50px" delay={1}>
-                          <div className="bg-yellow text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                          <div className="bg-yellow text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider">
                             {t.apparel.inViewCard.pop}
                           </div>
                         </InView>
@@ -2112,7 +2112,7 @@ export default function Home() {
                       </div>
                       <div className="grid gap-2">
                         <InView drop rootMargin="-50px" delay={2}>
-                          <div className="bg-green text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                          <div className="bg-green text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider">
                             {t.apparel.inViewCard.drop}
                           </div>
                         </InView>
@@ -2120,7 +2120,7 @@ export default function Home() {
                       </div>
                       <div className="grid gap-2">
                         <InView drop="slow" rootMargin="-50px" delay={3}>
-                          <div className="bg-orange text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider uppercase">
+                          <div className="bg-orange text-chaos-black rounded-lg p-4 text-center text-sm font-black tracking-wider">
                             {t.apparel.inViewCard.slowDrop}
                           </div>
                         </InView>
@@ -2133,7 +2133,7 @@ export default function Home() {
                           {t.apparel.inViewCard.staggers.map((label, i) => (
                             <div
                               key={i}
-                              className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white uppercase last:mb-0"
+                              className="from-blue to-purple mb-2 rounded-lg bg-gradient-to-r p-3 text-center text-sm font-black tracking-wider text-white last:mb-0"
                             >
                               {label}
                             </div>
@@ -2157,7 +2157,7 @@ export default function Home() {
                         className="grid min-h-28 grid-rows-[1fr_auto_auto] place-items-center gap-2 px-2 py-3 text-center"
                       >
                         <Loader variant={variant} animation={animation} size={size} style={style} />
-                        <span className="text-[11px] font-bold tracking-wider uppercase opacity-60">
+                        <span className="text-[11px] font-bold tracking-wider opacity-60">
                           {label}
                         </span>
                         <DemoVariantLabel>
@@ -2200,7 +2200,7 @@ export default function Home() {
             <DemoContent>
               {/* 3D Splat Gallery */}
               <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                <h3 className="text-center text-xl font-black tracking-wider">
                   {t.carousels.feed.title}
                 </h3>
                 <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
@@ -2211,7 +2211,7 @@ export default function Home() {
 
               {/* Weapons Gallery Carousel */}
               <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                <h3 className="text-center text-xl font-black tracking-wider">
                   {t.carousels.weapons.title}
                 </h3>
                 <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
@@ -2222,7 +2222,7 @@ export default function Home() {
 
               {/* Shops Gallery Carousel */}
               <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                <h3 className="text-center text-xl font-black tracking-wider">
                   {t.carousels.shops.title}
                 </h3>
                 <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
@@ -2233,7 +2233,7 @@ export default function Home() {
 
               {/* Marquee Carousel */}
               <DemoExampleGroup>
-                <h3 className="text-center text-xl font-black tracking-wider uppercase">
+                <h3 className="text-center text-xl font-black tracking-wider">
                   {t.carousels.marquee.title}
                 </h3>
                 <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">

@@ -520,7 +520,7 @@ function DialogTitle({ className, style, ...props }: DialogPrimitive.Title.Props
     <DialogPrimitive.Title
       data-slot="dialog-title"
       className={cn(
-        'splat-skew text-2xl font-black tracking-wider text-current uppercase',
+        'splat-skew text-2xl font-black tracking-wider text-current',
         className
       )}
       style={{ ...surfaceStyle, ...style }}

@@ -42,6 +42,35 @@ const splatoonColorTokens = fs.readFileSync(
 )
 const demoPage = fs.readFileSync(path.join(root, 'src', 'app', 'page.tsx'), 'utf8')
 
+function readFilesRecursive(directory, predicate) {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const entryPath = path.join(directory, entry.name)
+
+    if (entry.isDirectory()) {
+      return readFilesRecursive(entryPath, predicate)
+    }
+
+    return predicate(entryPath) ? [entryPath] : []
+  })
+}
+
+const forcedUppercaseSources = [
+  ...readFilesRecursive(componentRoot, (filePath) => /\.(css|tsx?)$/.test(filePath)),
+  path.join(root, 'src', 'app', 'page.tsx'),
+  path.join(root, 'src', 'app', 'globals.css'),
+]
+
+const forcedUppercaseMatches = forcedUppercaseSources.flatMap((filePath) => {
+  const source = fs.readFileSync(filePath, 'utf8')
+  const matches = [
+    ...source.matchAll(
+      /(?:\bplaceholder:uppercase\b|\buppercase\b|text-transform:\s*uppercase\s*;)/g
+    ),
+  ]
+
+  return matches.map((match) => `${path.relative(root, filePath)}:${match[0]}`)
+})
+
 const checks = [
   {
     name: 'Carousel supports controlled and uncontrolled index APIs',
@@ -220,6 +249,10 @@ const checks = [
       select.includes('showScrollButtons ? <SelectScrollDownButton /> : null') &&
       select.includes('absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2') &&
       select.includes('viewBox="20 20 280 280"'),
+  },
+  {
+    name: 'Components and the demo page preserve caller text casing by default',
+    pass: forcedUppercaseMatches.length === 0,
   },
 ]
 

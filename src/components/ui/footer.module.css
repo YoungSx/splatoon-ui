@@ -38,7 +38,6 @@
   letter-spacing: 0.08em;
   line-height: 1;
   padding: 0.35rem 0.75rem;
-  text-transform: uppercase;
   transform: rotate(-2deg);
 }
 
@@ -48,7 +47,6 @@
   font-size: clamp(2rem, 8vw, 4.5rem);
   line-height: 0.9;
   margin: 0;
-  text-transform: uppercase;
 }
 
 .brandCopy {
@@ -87,7 +85,6 @@
   font-size: 0.875rem;
   font-weight: 800;
   text-decoration: none;
-  text-transform: uppercase;
   transition: color 0.15s ease;
 }
 

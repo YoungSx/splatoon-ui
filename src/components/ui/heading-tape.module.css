@@ -89,7 +89,6 @@
   padding: calc(var(--base-space, 8px) * 2) 40px;
   position: relative;
   text-align: center;
-  text-transform: uppercase;
   z-index: 1;
 }
 

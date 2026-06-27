@@ -87,7 +87,6 @@
   padding: 0 0.5rem;
   position: relative;
   text-shadow: var(--segmented-control-label-shadow);
-  text-transform: uppercase;
   touch-action: manipulation;
   transition: color 160ms ease;
   user-select: none;

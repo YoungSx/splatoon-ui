@@ -322,7 +322,7 @@ function TabsTrigger({ className, children, nativeButton = true, ...props }: Tab
       data-slot="tabs-trigger"
       className={cn(
         'relative shrink-0 cursor-pointer snap-start outline-none select-none',
-        'font-alt text-lg leading-none font-bold uppercase sm:text-[2.3125rem]',
+        'font-alt text-lg leading-none font-bold sm:text-[2.3125rem]',
         'transition-colors',
         // Default variant touch target and scroll sizing.
         'group-data-[variant=default]/tabs-list:min-h-11 group-data-[variant=default]/tabs-list:min-w-16 group-data-[variant=default]/tabs-list:px-3 group-data-[variant=default]/tabs-list:py-2',

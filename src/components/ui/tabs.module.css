@@ -178,7 +178,6 @@
   position: absolute;
   text-align: center;
   text-overflow: ellipsis;
-  text-transform: uppercase;
   top: 50%;
   transition:
     color 160ms ease,

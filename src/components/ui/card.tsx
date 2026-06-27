@@ -134,7 +134,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
     <div
       data-slot="card-title"
       className={cn(
-        'splat-skew text-2xl leading-none font-black tracking-wider text-current uppercase',
+        'splat-skew text-2xl leading-none font-black tracking-wider text-current',
         className
       )}
       {...props}

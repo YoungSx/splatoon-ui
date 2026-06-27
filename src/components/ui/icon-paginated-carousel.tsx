@@ -86,7 +86,7 @@ function IconPaginatedGalleryItem({
           />
         </GalleryBounce>
         <div className={cn(baseStyles.galleryContentFade, styles.galleryItemText)}>
-          <h3 className="text-xl font-black tracking-wider uppercase">{item.title}</h3>
+          <h3 className="text-xl font-black tracking-wider">{item.title}</h3>
           {item.description && (
             <p className="text-chaos-black/60 text-sm font-medium">{item.description}</p>
           )}
