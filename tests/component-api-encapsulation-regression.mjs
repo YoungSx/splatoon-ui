@@ -22,6 +22,8 @@ const dottedDividerCss = fs.readFileSync(
   path.join(componentRoot, 'dotted-divider.module.css'),
   'utf8'
 )
+const list = fs.readFileSync(path.join(componentRoot, 'list.tsx'), 'utf8')
+const listCss = fs.readFileSync(path.join(componentRoot, 'list.module.css'), 'utf8')
 const feedCarousel = fs.readFileSync(path.join(componentRoot, 'feed-carousel.tsx'), 'utf8')
 const section = fs.readFileSync(path.join(componentRoot, 'section.tsx'), 'utf8')
 const assetImage = fs.readFileSync(path.join(componentRoot, 'asset-image.tsx'), 'utf8')
@@ -46,6 +48,7 @@ const splatoonColorTokens = fs.readFileSync(
   path.join(root, 'src', 'lib', 'splatoon-color-tokens.ts'),
   'utf8'
 )
+const globals = fs.readFileSync(path.join(root, 'src', 'app', 'globals.css'), 'utf8')
 const demoPage = fs.readFileSync(path.join(root, 'src', 'app', 'page.tsx'), 'utf8')
 
 function readFilesRecursive(directory, predicate) {
@@ -270,6 +273,45 @@ const checks = [
       select.includes('showScrollButtons ? <SelectScrollDownButton /> : null') &&
       select.includes('absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2') &&
       select.includes('viewBox="20 20 280 280"'),
+  },
+  {
+    name: 'List keeps ordered-list semantics while owning Splatoon marker styling',
+    pass:
+      list.includes("export type ListVariant = 'ordered'") &&
+      list.includes('<ol') &&
+      list.includes('<li') &&
+      list.includes('className={styles.marker}') &&
+      list.includes('DottedDivider') &&
+      list.includes('padStart(digits,') &&
+      list.includes('Math.max(\n    2,') &&
+      list.includes("'data-list-marker': formatListMarker(markerValue, markerDigits)") &&
+      list.includes('markerHoverColor = splatoonColorVars.green') &&
+      list.includes("...(dividerColor ? { '--list-divider-color': dividerColor } : null)") &&
+      listCss.includes('--list-row-gap: 0.125rem;') &&
+      listCss.includes('--list-divider-color: var(--color-grey-100);') &&
+      listCss.includes('--list-content-divider-gap: 0.125rem;') &&
+      listCss.includes('.marker') &&
+      listCss.includes('align-items: stretch;') &&
+      listCss.includes('aspect-ratio: 1;') &&
+      listCss.includes("font-family: 'SpAlterna', var(--font-sp-alterna)") &&
+      listCss.includes('font-synthesis: none;') &&
+      listCss.includes('font-family: var(--font-blitz-main)') &&
+      listCss.includes('line-height: 1.05;') &&
+      listCss.includes('padding: 0.25rem 0.5rem 0.3rem;') &&
+      listCss.includes('text-align: left;') &&
+      listCss.includes('.item:hover .content') &&
+      listCss.includes('background: var(--color-black);') &&
+      listCss.includes('.item:hover .marker') &&
+      !listCss.includes('transform: scale(') &&
+      !listCss.includes('::before') &&
+      !listCss.includes('counter(') &&
+      !listCss.includes('.item:last-child .divider'),
+  },
+  {
+    name: 'Runtime font tokens used by CSS modules are defined on :root',
+    pass:
+      globals.includes("--font-blitz-main: 'BlitzMain', var(--font-heading);") &&
+      globals.includes("--font-sp-alterna: 'SpAlterna', var(--font-heading);"),
   },
   {
     name: 'Components and the demo page preserve caller text casing by default',

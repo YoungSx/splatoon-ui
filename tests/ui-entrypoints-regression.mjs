@@ -73,6 +73,7 @@ const requiredServerExports = [
   './event-assets',
   './event-callout',
   './heading-tape',
+  './list',
   './news-assets',
   './paper-tear-edge',
   './section-background',

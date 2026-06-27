@@ -21,6 +21,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'SpAlterna';
+  src: url('/fonts/spalterna-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ── Font Face: Montserrat (body text) ── */
 @font-face {
   font-family: 'Montserrat';
@@ -72,6 +80,7 @@
   --font-body: 'Montserrat', sans-serif;
   --font-alt: var(--font-obviously-narrow), 'obviously-narrow', sans-serif;
   --font-blitz-main: 'BlitzMain', var(--font-heading);
+  --font-sp-alterna: 'SpAlterna', var(--font-heading);
   /* Brand colors — registered for Tailwind utilities (bg-yellow, text-blue, etc.) */
   --color-yellow: #eaff3d;
   --color-blue: #603bff;
@@ -154,6 +163,12 @@
 
 /* ── Light Theme: Desert Wasteland ── */
 :root {
+  --font-heading: 'fooregular', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-alt: var(--font-obviously-narrow), 'obviously-narrow', sans-serif;
+  --font-blitz-main: 'BlitzMain', var(--font-heading);
+  --font-sp-alterna: 'SpAlterna', var(--font-heading);
+
   /* Exact Splatoon site colors */
   --background: #ffffff;
   --foreground: #0d0d0d;

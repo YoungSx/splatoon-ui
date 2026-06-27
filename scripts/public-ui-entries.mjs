@@ -31,6 +31,7 @@ export const publicUiEntries = [
   'ink-trail',
   'input',
   'label',
+  'list',
   'loader',
   'marquee',
   'marquee-carousel',

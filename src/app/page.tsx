@@ -15,6 +15,7 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { List, ListItem } from '@/components/ui/list'
 
 import { Tabs, TabsContent, TabsList, TabsPanels, TabsTrigger } from '@/components/ui/tabs'
 import { TornCard, TornCardTitle, TornCardDescription } from '@/components/ui/torn-card'
@@ -765,6 +766,23 @@ export default function Home() {
                         <DemoVariantLabel>{'size="compact"'}</DemoVariantLabel>
                       </div>
                     </div>
+                  </CardContent>
+                </Card>
+              </InView>
+
+              {/* List */}
+              <InView direction="pop" rootMargin="-50px">
+                <Card variant="torn" rotation="0deg" showTape={false}>
+                  <CardHeader>
+                    <CardTitle>{t.titles.listCard.title}</CardTitle>
+                    <CardDescription>{t.titles.listCard.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-2">
+                    <List aria-label={t.titles.listCard.title}>
+                      {t.titles.listCard.items.map((item) => (
+                        <ListItem key={item}>{item}</ListItem>
+                      ))}
+                    </List>
                   </CardContent>
                 </Card>
               </InView>

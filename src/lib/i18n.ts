@@ -60,6 +60,11 @@ export const translations = {
         sectionHeading: '区块标题',
         compactHeading: '服装标签卡',
       },
+      listCard: {
+        title: 'List',
+        description: '带自绘序号标记和圆点分隔线的语义有序列表。',
+        items: ['建立清晰的阅读顺序。', '用 hover 反馈强调当前条目。', '列表正文默认使用 BlitzMain。'],
+      },
     },
     buttons: {
       sectionTitle: '按钮 & 徽章',
@@ -409,6 +414,15 @@ export const translations = {
           'White background with responsive sticker decorations (sticker-8, sticker-12) — single style, used for section headings',
         sectionHeading: 'Section Heading',
         compactHeading: 'Apparel Hanging Tag Card',
+      },
+      listCard: {
+        title: 'List',
+        description: 'Semantic ordered list with custom number markers and dotted row dividers.',
+        items: [
+          'Keep the reading order explicit.',
+          'Highlight the active row on hover.',
+          'Render item copy in BlitzMain by default.',
+        ],
       },
     },
     buttons: {
@@ -787,6 +801,15 @@ export const translations = {
         description: '白背景とレスポンシブステッカー装飾 — セクション見出し用の単一スタイル。',
         sectionHeading: 'セクション見出し',
         compactHeading: 'アパレルタグカード',
+      },
+      listCard: {
+        title: 'List',
+        description: '独自の番号マーカーとドット区切り線を備えたセマンティックな順序付きリスト。',
+        items: [
+          '読み順を明確に保つ。',
+          'ホバー時に現在の行を強調する。',
+          '本文はデフォルトで BlitzMain を使う。',
+        ],
       },
     },
     buttons: {

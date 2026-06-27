@@ -181,6 +181,10 @@
       "types": "./dist/label.d.ts",
       "import": "./dist/label.js"
     },
+    "./list": {
+      "types": "./dist/list.d.ts",
+      "import": "./dist/list.js"
+    },
     "./loader": {
       "types": "./dist/loader.d.ts",
       "import": "./dist/loader.js"
