@@ -15,6 +15,9 @@ export interface PaperSurfaceProps extends React.ComponentProps<'div'> {
   tone?: PaperSurfaceTone
   topEdgeClassName?: string
   bottomEdgeClassName?: string
+  /** Extra classes for the middle content layer. The surface guarantees
+   *  `w-full min-w-0 overflow-x-clip` as structural invariants — content
+   *  will never bleed outside the tear-paper boundary. */
   contentClassName?: string
   showTopEdge?: boolean
   showBottomEdge?: boolean
@@ -39,15 +42,31 @@ export function PaperSurface({
         <PaperTearEdge
           edge="top"
           color={fill}
-          className={cn('pointer-events-none relative z-10 mb-[-2px] w-full select-none', topEdgeClassName)}
+          className={cn('pointer-events-none relative z-10 mb-[-2px] select-none', topEdgeClassName)}
         />
       ) : null}
-      <div className={cn('relative z-10', contentClassName)}>{children}</div>
+      {/*
+       * Structural invariants owned by PaperSurface — not overridable by consumers:
+       *   w-full      : middle layer is always as wide as the flex column (matches the SVG edges)
+       *   min-w-0     : allows shrinking below intrinsic content width inside flex/grid
+       *   overflow-x-clip : clips horizontal overflow without creating a new BFC,
+       *                     so sticky/absolute children and vertical layout are unaffected
+       * Consumers extend layout (flex, padding, bg, etc.) via contentClassName.
+       */}
+      <div
+        className={cn(
+          'relative z-10',
+          contentClassName,
+          'w-full min-w-0 overflow-x-clip',
+        )}
+      >
+        {children}
+      </div>
       {showBottomEdge ? (
         <PaperTearEdge
           edge="bottom"
           color={fill}
-          className={cn('pointer-events-none relative z-10 mt-[-2px] w-full select-none', bottomEdgeClassName)}
+          className={cn('pointer-events-none relative z-10 mt-[-2px] select-none', bottomEdgeClassName)}
         />
       ) : null}
     </div>
