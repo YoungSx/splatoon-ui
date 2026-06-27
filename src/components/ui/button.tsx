@@ -46,7 +46,7 @@ const buttonVariants = cva(
 )
 
 const arrowButtonClassName =
-  'group/button relative inline-block shrink-0 cursor-pointer select-none bg-transparent p-0 font-alt text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--ink-blue)] active:text-current'
+  'group/button relative inline-block shrink-0 cursor-pointer select-none bg-transparent p-0 font-alt text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--color-blue)] active:text-current'
 
 const solidButtonEffectsClassName =
   'active:scale-[0.98] active:translate-x-[1px] active:translate-y-[1px]'

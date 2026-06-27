@@ -8,6 +8,7 @@
  */
 
 import * as React from 'react'
+import { splatoonColorVars } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import styles from './icon-button.module.css'
 import { carouselArrowLeftPath, carouselArrowRightPath } from './card-stack-carousel-icons'
@@ -18,6 +19,18 @@ export type IconButtonVariant = 'carousel' | 'primary' | 'ghost' | 'yellow' | 'o
 export type IconButtonSize = 'sm' | 'md' | 'lg'
 export type IconButtonAnimation = 'squish' | 'pulse' | 'none'
 export type IconButtonDirection = 'left' | 'right' | 'up' | 'down'
+
+type IconButtonStyle = React.CSSProperties & {
+  '--icon-button-bg'?: string
+  '--icon-button-border-color'?: string
+  '--icon-button-color'?: string
+}
+
+interface IconButtonColorPreset {
+  backgroundColor: string
+  borderColor?: string
+  color: string
+}
 
 export interface IconButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -33,13 +46,13 @@ export interface IconButtonProps extends Omit<
 
 // ─── Style maps ─────────────────────────────────────────────────────────────
 
-const VARIANT_CLASS: Record<IconButtonVariant, string> = {
+const VARIANT_CLASS: Record<IconButtonVariant, string | null> = {
   carousel: styles.carousel,
-  primary: styles.primary,
-  ghost: styles.ghost,
-  yellow: styles.yellow,
+  primary: null,
+  ghost: null,
+  yellow: null,
   outline: styles.outline,
-  accent: styles.accent,
+  accent: null,
 }
 
 const SIZE_CLASS: Record<IconButtonSize, string> = {
@@ -52,6 +65,34 @@ const ANIMATION_CLASS: Record<IconButtonAnimation, string | null> = {
   squish: styles.squish,
   pulse: styles.pulse,
   none: null,
+}
+
+const ICON_BUTTON_COLOR_PRESETS: Record<IconButtonVariant, IconButtonColorPreset> = {
+  carousel: {
+    backgroundColor: splatoonColorVars.green,
+    color: 'var(--theme-primary-alt, var(--color-black, #0d0d0d))',
+  },
+  primary: {
+    backgroundColor: splatoonColorVars.blue,
+    color: splatoonColorVars.white,
+  },
+  ghost: {
+    backgroundColor: 'transparent',
+    color: 'currentColor',
+  },
+  yellow: {
+    backgroundColor: splatoonColorVars.yellow,
+    color: splatoonColorVars.black,
+  },
+  outline: {
+    backgroundColor: 'transparent',
+    borderColor: 'currentColor',
+    color: 'currentColor',
+  },
+  accent: {
+    backgroundColor: 'var(--theme-accent, var(--color-black, #0d0d0d))',
+    color: 'var(--theme-accent-alt, var(--color-white, #fff))',
+  },
 }
 
 // ─── Built-in arrow paths ───────────────────────────────────────────────────
@@ -101,6 +142,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(f
 ) {
   const squishDirection = direction === 'left' ? -1 : 1
   const resolvedIcon = icon ?? (direction ? <ArrowIcon direction={direction} /> : null)
+  const colorPreset = ICON_BUTTON_COLOR_PRESETS[variant]
 
   return (
     <button
@@ -118,9 +160,12 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(f
       )}
       style={
         {
+          '--icon-button-bg': colorPreset.backgroundColor,
+          '--icon-button-border-color': colorPreset.borderColor,
+          '--icon-button-color': colorPreset.color,
           '--squish-direction': squishDirection,
           ...style,
-        } as React.CSSProperties
+        } as IconButtonStyle
       }
       {...props}
     >

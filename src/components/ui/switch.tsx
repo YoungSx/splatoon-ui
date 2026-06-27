@@ -3,12 +3,19 @@
 import * as React from "react"
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
 
+import {
+  type SplatoonControlTrackColor,
+  splatoonControlTrackColorConfig,
+} from "@/lib/splatoon-color-tokens"
 import { cn } from "@/lib/utils"
 import styles from "./switch.module.css"
 import { SwitchTrack } from "./switch-track"
 
 type SwitchSize = "sm" | "default" | "lg"
-type SwitchColor = "yellow" | "green" | "blue" | "orange"
+type SwitchColor = Exclude<SplatoonControlTrackColor, "purple">
+type SwitchStyle = React.CSSProperties & {
+  "--switch-accent"?: string
+}
 
 export interface SwitchProps extends SwitchPrimitive.Root.Props {
   color?: SwitchColor
@@ -26,8 +33,11 @@ function Switch({
   offLabel = "OFF",
   onLabel = "ON",
   size = "default",
+  style,
   ...props
 }: SwitchProps & { ref?: React.Ref<HTMLElement> }) {
+  const colorConfig = splatoonControlTrackColorConfig[color]
+
   return (
     <SwitchPrimitive.Root
       ref={ref}
@@ -35,6 +45,12 @@ function Switch({
       data-color={color}
       data-size={size}
       className={cn(styles.root, className)}
+      style={
+        {
+          "--switch-accent": colorConfig.accentColor,
+          ...style,
+        } as SwitchStyle
+      }
       {...props}
     >
       <span className={styles.track} aria-hidden="true">

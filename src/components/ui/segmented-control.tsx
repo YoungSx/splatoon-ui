@@ -4,6 +4,10 @@ import * as React from 'react'
 import { Radio as RadioPrimitive } from '@base-ui/react/radio'
 import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group'
 
+import {
+  type SplatoonControlTrackColor,
+  splatoonControlTrackColorConfig,
+} from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import { ButtonGroupItem, type ButtonGroupItemProps } from './button-group'
 import buttonGroupStyles from './button-group.module.css'
@@ -22,10 +26,12 @@ import {
 } from './switch-track'
 
 type SegmentedControlAppearance = 'buttons' | 'track'
-type SegmentedControlColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple'
+type SegmentedControlColor = SplatoonControlTrackColor
 type SegmentedControlDensity = 'compact' | 'default' | 'spacious'
 type SegmentedControlOrientation = 'horizontal' | 'vertical'
 type SegmentedControlStyle = React.CSSProperties & {
+  '--segmented-control-active-bg'?: string
+  '--segmented-control-active-text'?: string
   '--segmented-control-track-overlap-ratio'?: number
 }
 type SegmentedTrackShapeKind = 'left' | 'middle' | 'right'
@@ -89,13 +95,14 @@ const SEGMENTED_TRACK_SHAPES: Record<
   },
 }
 
-export interface SegmentedControlProps extends RadioGroupPrimitive.Props<string> {
+export interface SegmentedControlProps extends Omit<RadioGroupPrimitive.Props<string>, 'style'> {
   appearance?: SegmentedControlAppearance
   color?: SegmentedControlColor
   density?: SegmentedControlDensity
   fillImageHref?: string
   fullWidth?: boolean
   orientation?: SegmentedControlOrientation
+  style?: React.CSSProperties
 }
 
 interface SegmentedControlContextValue {
@@ -123,13 +130,15 @@ function SegmentedControl({
     () => ({ appearance, color, fillImageHref }),
     [appearance, color, fillImageHref]
   )
-  const rootStyle =
-    appearance === 'track'
-      ? ({
-          '--segmented-control-track-overlap-ratio': SWITCH_TRACK_SEGMENT_OVERLAP_RATIO,
-          ...style,
-        } satisfies SegmentedControlStyle)
-      : style
+  const colorConfig = splatoonControlTrackColorConfig[color]
+  const rootStyle = {
+    '--segmented-control-active-bg': colorConfig.accentColor,
+    '--segmented-control-active-text': colorConfig.activeTextColor,
+    ...(appearance === 'track'
+      ? { '--segmented-control-track-overlap-ratio': SWITCH_TRACK_SEGMENT_OVERLAP_RATIO }
+      : {}),
+    ...style,
+  } satisfies SegmentedControlStyle
 
   return (
     <SegmentedControlContext.Provider value={contextValue}>

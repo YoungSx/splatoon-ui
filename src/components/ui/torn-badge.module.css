@@ -39,7 +39,7 @@
   position: relative;
   z-index: 1;
   padding: 0 10px;
-  color: var(--torn-badge-text-color, var(--chaos-black));
+  color: var(--torn-badge-text-color, var(--color-black));
   font-family: var(--font-alt, var(--font-sans));
   font-weight: 900;
   font-style: italic;

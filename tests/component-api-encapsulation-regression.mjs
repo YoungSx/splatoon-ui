@@ -22,6 +22,23 @@ const assetImage = fs.readFileSync(path.join(componentRoot, 'asset-image.tsx'), 
 const triggerButton = fs.readFileSync(path.join(componentRoot, 'trigger-button.tsx'), 'utf8')
 const tabs = fs.readFileSync(path.join(componentRoot, 'tabs.tsx'), 'utf8')
 const tabsCss = fs.readFileSync(path.join(componentRoot, 'tabs.module.css'), 'utf8')
+const badge = fs.readFileSync(path.join(componentRoot, 'torn-badge.tsx'), 'utf8')
+const iconButton = fs.readFileSync(path.join(componentRoot, 'icon-button.tsx'), 'utf8')
+const switchComponent = fs.readFileSync(path.join(componentRoot, 'switch.tsx'), 'utf8')
+const switchCss = fs.readFileSync(path.join(componentRoot, 'switch.module.css'), 'utf8')
+const segmentedControl = fs.readFileSync(path.join(componentRoot, 'segmented-control.tsx'), 'utf8')
+const segmentedControlCss = fs.readFileSync(
+  path.join(componentRoot, 'segmented-control.module.css'),
+  'utf8'
+)
+const buttonColorResolver = fs.readFileSync(
+  path.join(root, 'src', 'lib', 'resolve-button-colors.ts'),
+  'utf8'
+)
+const splatoonColorTokens = fs.readFileSync(
+  path.join(root, 'src', 'lib', 'splatoon-color-tokens.ts'),
+  'utf8'
+)
 const demoPage = fs.readFileSync(path.join(root, 'src', 'app', 'page.tsx'), 'utf8')
 
 const checks = [
@@ -162,6 +179,33 @@ const checks = [
       tabsCss.includes('background-color: var(--tabs-decoration-color);') &&
       tabsCss.includes('fill: var(--tabs-decoration-color);') &&
       demoPage.includes('decorationColor="var(--color-blue)"'),
+  },
+  {
+    name: 'Reusable color APIs derive from shared Splatoon color tokens instead of legacy aliases',
+    pass:
+      splatoonColorTokens.includes('export const splatoonColorVars') &&
+      splatoonColorTokens.includes("yellow: 'var(--color-yellow)'") &&
+      splatoonColorTokens.includes("salmonRunGreen: 'var(--color-salmon-run-green)'") &&
+      buttonColorResolver.includes('splatoonColorVars') &&
+      badge.includes('splatoonColorVars') &&
+      iconButton.includes('ICON_BUTTON_COLOR_PRESETS') &&
+      !buttonColorResolver.includes('var(--neon-yellow)') &&
+      !buttonColorResolver.includes('var(--ink-blue)') &&
+      !badge.includes('var(--neon-yellow)') &&
+      !badge.includes('var(--ink-blue)') &&
+      !badge.includes("'#fff'"),
+  },
+  {
+    name: 'Switch and SegmentedControl share the same track color token mapping',
+    pass:
+      splatoonColorTokens.includes('splatoonControlTrackColorConfig') &&
+      switchComponent.includes('splatoonControlTrackColorConfig[color]') &&
+      switchComponent.includes('"--switch-accent": colorConfig.accentColor') &&
+      segmentedControl.includes('splatoonControlTrackColorConfig[color]') &&
+      segmentedControl.includes("'--segmented-control-active-bg': colorConfig.accentColor") &&
+      segmentedControl.includes("'--segmented-control-active-text': colorConfig.activeTextColor") &&
+      !switchCss.includes(".root[data-color='green']") &&
+      !segmentedControlCss.includes(".root[data-color='blue']"),
   },
 ]
 

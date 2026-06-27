@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { splatoonColorVars } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import styles from './torn-badge.module.css'
 
@@ -38,21 +39,21 @@ export interface TornBadgeProps extends React.ComponentProps<'span'> {
 }
 
 const COLOR_VAR: Record<TornBadgeColor, string> = {
-  yellow:     'var(--neon-yellow)',
-  blue:       'var(--ink-blue)',
-  green:      'var(--ink-green)',
-  red:        'var(--ink-red)',
-  purple:     'var(--ink-purple)',
-  monochrome: 'var(--chaos-black)',
+  yellow: splatoonColorVars.yellow,
+  blue: splatoonColorVars.blue,
+  green: splatoonColorVars.green,
+  red: splatoonColorVars.red,
+  purple: splatoonColorVars.purple,
+  monochrome: splatoonColorVars.black,
 }
 
 const TEXT_VAR: Record<TornBadgeColor, string> = {
-  yellow:     'var(--chaos-black)',
-  blue:       'var(--neon-yellow)',
-  green:      'var(--chaos-black)',
-  red:        '#fff',
-  purple:     '#fff',
-  monochrome: 'var(--tape-white)',
+  yellow: splatoonColorVars.black,
+  blue: splatoonColorVars.yellow,
+  green: splatoonColorVars.black,
+  red: splatoonColorVars.white,
+  purple: splatoonColorVars.white,
+  monochrome: splatoonColorVars.white,
 }
 
 function TornBadge({ color = 'yellow', className, children, style, ...props }: TornBadgeProps) {

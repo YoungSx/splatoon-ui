@@ -1,5 +1,6 @@
 import { type VariantProps } from 'class-variance-authority'
 import type { buttonVariants } from '@/components/ui/button'
+import { splatoonColorVars } from '@/lib/splatoon-color-tokens'
 
 export type ButtonThemePreset =
   | 'dark'
@@ -39,14 +40,14 @@ export interface ButtonTextThemeConfig {
 }
 
 export const buttonColorVarMap: Record<ButtonColorToken, string> = {
-  yellow: 'var(--neon-yellow)',
-  blue: 'var(--ink-blue)',
-  green: 'var(--ink-green)',
-  purple: 'var(--ink-purple)',
-  orange: 'var(--ink-orange)',
-  red: 'var(--ink-red)',
-  white: 'var(--color-white)',
-  black: 'var(--chaos-black)',
+  yellow: splatoonColorVars.yellow,
+  blue: splatoonColorVars.blue,
+  green: splatoonColorVars.green,
+  purple: splatoonColorVars.purple,
+  orange: splatoonColorVars.orange,
+  red: splatoonColorVars.red,
+  white: splatoonColorVars.white,
+  black: splatoonColorVars.black,
 }
 
 export const variantSurfacePresets: Record<

@@ -61,18 +61,6 @@
   --switch-padding-y: 0.09375rem;
 }
 
-.root[data-color='green'] {
-  --switch-accent: var(--color-salmon-run-green);
-}
-
-.root[data-color='blue'] {
-  --switch-accent: var(--color-blue);
-}
-
-.root[data-color='orange'] {
-  --switch-accent: var(--color-orange);
-}
-
 .root:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--switch-accent) 72%, white);
   outline-offset: 0.1875rem;

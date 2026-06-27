@@ -15,24 +15,6 @@
   width: fit-content;
 }
 
-.root[data-color='blue'] {
-  --segmented-control-active-bg: var(--color-blue);
-  --segmented-control-active-text: var(--color-white);
-}
-
-.root[data-color='green'] {
-  --segmented-control-active-bg: var(--color-salmon-run-green);
-}
-
-.root[data-color='orange'] {
-  --segmented-control-active-bg: var(--color-orange);
-}
-
-.root[data-color='purple'] {
-  --segmented-control-active-bg: var(--color-purple);
-  --segmented-control-active-text: var(--color-white);
-}
-
 .root[data-full-width='true'] {
   width: 100%;
 }

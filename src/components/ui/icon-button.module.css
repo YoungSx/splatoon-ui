@@ -18,8 +18,8 @@
   overflow: hidden;
   width: var(--size);
   height: var(--size);
-  background-color: var(--theme-primary, var(--color-yellow, #eaff3d));
-  color: var(--theme-primary-alt, var(--color-black, #0d0d0d));
+  background-color: var(--icon-button-bg, var(--theme-primary, var(--color-yellow, #eaff3d)));
+  color: var(--icon-button-color, var(--theme-primary-alt, var(--color-black, #0d0d0d)));
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   line-height: 1;
@@ -81,8 +81,6 @@
 
 .carousel {
   --size: 50px;
-  background-color: var(--color-green, #6af7ce);
-  color: var(--theme-primary-alt, var(--color-black, #0d0d0d));
 }
 
 @media screen and (min-width: 640px) {
@@ -97,32 +95,8 @@
   }
 }
 
-.primary {
-  background-color: var(--color-blue, #603bff);
-  color: var(--color-white, #fff);
-}
-
-.ghost {
-  background-color: transparent;
-  color: currentColor;
-}
-
-.yellow {
-  background-color: var(--color-yellow, #eaff3d);
-  color: var(--color-black, #0d0d0d);
-}
-
 .outline {
-  background-color: transparent;
-  color: currentColor;
-  border: 2px solid currentColor;
-}
-
-/* ── Accent variant ── */
-
-.accent {
-  background-color: var(--theme-accent, var(--color-black, #0d0d0d));
-  color: var(--theme-accent-alt, var(--color-white, #fff));
+  border: 2px solid var(--icon-button-border-color, currentColor);
 }
 
 /* ── Hover: only --scale, no background change ── */
