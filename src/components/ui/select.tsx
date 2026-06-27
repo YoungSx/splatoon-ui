@@ -55,6 +55,14 @@ function SelectTrigger({
   )
 }
 
+type SelectContentProps = SelectPrimitive.Popup.Props &
+  Pick<
+    SelectPrimitive.Positioner.Props,
+    'align' | 'alignOffset' | 'side' | 'sideOffset' | 'alignItemWithTrigger'
+  > & {
+    showScrollButtons?: boolean
+  }
+
 function SelectContent({
   className,
   children,
@@ -62,13 +70,10 @@ function SelectContent({
   sideOffset = 4,
   align = 'center',
   alignOffset = 0,
-  alignItemWithTrigger = true,
+  alignItemWithTrigger = false,
+  showScrollButtons = false,
   ...props
-}: SelectPrimitive.Popup.Props &
-  Pick<
-    SelectPrimitive.Positioner.Props,
-    'align' | 'alignOffset' | 'side' | 'sideOffset' | 'alignItemWithTrigger'
-  >) {
+}: SelectContentProps) {
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
@@ -88,9 +93,9 @@ function SelectContent({
           )}
           {...props}
         >
-          <SelectScrollUpButton />
+          {showScrollButtons ? <SelectScrollUpButton /> : null}
           <SelectPrimitive.List>{children}</SelectPrimitive.List>
-          <SelectScrollDownButton />
+          {showScrollButtons ? <SelectScrollDownButton /> : null}
         </SelectPrimitive.Popup>
       </SelectPrimitive.Positioner>
     </SelectPrimitive.Portal>
@@ -115,7 +120,7 @@ function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Prop
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground relative flex w-full cursor-default items-center gap-1.5 py-1 pr-8 pl-1.5 text-sm font-bold tracking-wider uppercase outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        "focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground relative flex w-full cursor-default items-center gap-1.5 py-1 pr-10 pl-1.5 text-sm font-bold tracking-wider uppercase outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className
       )}
       {...props}
@@ -125,10 +130,10 @@ function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Prop
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
         render={
-          <span className="pointer-events-none absolute inset-y-0 right-0 flex w-8 items-center justify-center overflow-hidden" />
+          <span className="pointer-events-none absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2 items-center justify-center" />
         }
       >
-        <Splat10 className="pointer-events-none h-full w-auto scale-125" />
+        <Splat10 className="pointer-events-none size-full" viewBox="20 20 280 280" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   )

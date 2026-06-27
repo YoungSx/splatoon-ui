@@ -31,6 +31,7 @@ const segmentedControlCss = fs.readFileSync(
   path.join(componentRoot, 'segmented-control.module.css'),
   'utf8'
 )
+const select = fs.readFileSync(path.join(componentRoot, 'select.tsx'), 'utf8')
 const buttonColorResolver = fs.readFileSync(
   path.join(root, 'src', 'lib', 'resolve-button-colors.ts'),
   'utf8'
@@ -207,6 +208,18 @@ const checks = [
       segmentedControl.includes("'--segmented-control-active-text': colorConfig.activeTextColor") &&
       !switchCss.includes(".root[data-color='green']") &&
       !segmentedControlCss.includes(".root[data-color='blue']"),
+  },
+  {
+    name: 'Select keeps popup height content-driven and selected splat within the item row',
+    pass:
+      select.includes('alignItemWithTrigger = false') &&
+      select.includes('showScrollButtons?: boolean') &&
+      select.includes('showScrollButtons = false') &&
+      select.includes('<SelectPrimitive.List>{children}</SelectPrimitive.List>') &&
+      select.includes('showScrollButtons ? <SelectScrollUpButton /> : null') &&
+      select.includes('showScrollButtons ? <SelectScrollDownButton /> : null') &&
+      select.includes('absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2') &&
+      select.includes('viewBox="20 20 280 280"'),
   },
 ]
 
