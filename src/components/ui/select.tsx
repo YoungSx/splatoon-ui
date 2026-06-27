@@ -125,10 +125,10 @@ function SelectItem({ className, children, ...props }: SelectPrimitive.Item.Prop
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
         render={
-          <span className="pointer-events-none absolute right-2 flex size-8 items-center justify-center" />
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex w-8 items-center justify-center overflow-hidden" />
         }
       >
-        <Splat10 className="pointer-events-none size-8" />
+        <Splat10 className="pointer-events-none h-full w-auto" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   )
