@@ -35,7 +35,7 @@
   background: var(--list-marker-color);
   color: var(--list-marker-text-color);
   font-family: 'SpAlterna', var(--font-sp-alterna), var(--font-heading), sans-serif;
-  font-size: clamp(1.25rem, 0.95rem + 1.3vw, 1.875rem);
+  font-size: clamp(0.75rem, 0.5625rem + 0.9vw, 1.21875rem);
   font-weight: 400;
   font-synthesis: none;
   line-height: 1;
