@@ -6,6 +6,7 @@ import { Popover as PopoverPrimitive } from '@base-ui/react/popover'
 import { cn } from '@/lib/utils'
 import { uiZIndex } from '@/lib/ui-z-index'
 import { createTriggerButton } from '@/components/ui/trigger-button'
+import { useReducedMotion } from '@/hooks/use-reduced-motion'
 
 const POPOVER_Z_INDEX = uiZIndex.floating
 
@@ -65,6 +66,7 @@ const PopoverContent = React.forwardRef<
   { className, align, alignOffset, side, sideOffset, style, ...props },
   ref
 ) {
+  const [isReducedMotion] = useReducedMotion()
   return (
     <PopoverPortal>
       <PopoverPositioner
@@ -77,10 +79,15 @@ const PopoverContent = React.forwardRef<
           ref={ref}
           data-slot="popover-content"
           className={cn(
-            'scrap-panel-tight bg-popover text-popover-foreground data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 flex w-72 origin-(--transform-origin) flex-col gap-2.5 px-3 py-2.5 text-sm shadow-none outline-hidden',
+            'scrap-panel-tight bg-popover text-popover-foreground data-open:animate-[pop-in_var(--pop-in-duration,0.5s)_var(--ease-back-out)_both] flex w-72 origin-(--transform-origin) flex-col gap-2.5 px-3 py-2.5 text-sm shadow-none outline-hidden',
+            isReducedMotion && 'data-open:!animate-none',
             className
           )}
-          style={{ zIndex: POPOVER_Z_INDEX, ...style }}
+          style={{
+            zIndex: POPOVER_Z_INDEX,
+            '--pop-in-duration': isReducedMotion ? '0s' : '0.5s',
+            ...style,
+          } as unknown as React.CSSProperties}
           {...props}
         />
       </PopoverPositioner>

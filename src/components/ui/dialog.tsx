@@ -428,13 +428,18 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          'shadow-soft-splat-lg data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 fixed top-1/2 left-1/2 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-3.5rem)] flex-col outline-none sm:max-w-md',
+          'shadow-soft-splat-lg data-open:animate-[dialog-pop-in_var(--dialog-pop-in-duration,0.5s)_var(--ease-back-out)_both] fixed top-1/2 left-1/2 flex max-h-[calc(100dvh-2rem)] w-full max-w-[calc(100%-3.5rem)] flex-col outline-none sm:max-w-md',
           isReducedMotion
-            ? 'origin-center [transform:translate(-50%,-50%)]'
+            ? 'origin-center [transform:translate(-50%,-50%)] data-open:!animate-none'
             : 'origin-center [transform:translate(-50%,-50%)_rotate(-1.5deg)]',
           className
         )}
-        style={{ zIndex: DIALOG_Z_INDEX.content, ...style }}
+        style={{
+          zIndex: DIALOG_Z_INDEX.content,
+          // Pop-in timing; reduced-motion users get the static transform instead.
+          '--dialog-pop-in-duration': isReducedMotion ? '0s' : '0.5s',
+          ...style,
+        } as unknown as React.CSSProperties}
         {...props}
       >
         {hasTape && (
