@@ -228,4 +228,8 @@ MIT
 
 ---
 
+---
+
+アセットおよびツールの完全な帰属表示は [CREDITS.md](./CREDITS.md) をご覧ください。
+
 _Splatoon ファンによる、Splatoon ファンのための UI ライブラリです。_

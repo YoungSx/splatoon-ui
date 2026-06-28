@@ -231,4 +231,8 @@ MIT
 
 ---
 
+---
+
+查看 [CREDITS.md](./CREDITS.md) 了解完整素材和工具鸣谢。
+
 _由 Splatoon 同人社区爱好者制作，献给所有热爱 Splatoon 的玩家。_

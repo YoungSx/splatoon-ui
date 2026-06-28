@@ -24,6 +24,10 @@ const projectLinks = [
     label: 'README',
     href: 'https://github.com/YoungSx/splatoon-ui#readme',
   },
+  {
+    label: 'Credits',
+    href: 'https://github.com/YoungSx/splatoon-ui/blob/main/CREDITS.md',
+  },
 ] as const
 
 export function Footer({

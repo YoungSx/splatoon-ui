@@ -234,4 +234,8 @@ This project is **fan-made** and is not affiliated with, authorized by, or endor
 
 ---
 
+---
+
+See [CREDITS.md](./CREDITS.md) for full attribution of assets and tools.
+
 _Built by Splatoon fans, dedicated to all Splatoon players._

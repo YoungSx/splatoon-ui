@@ -39,7 +39,8 @@
     "README_EN.md",
     "README_JA.md",
     "LICENSE",
-    "NOTICE"
+    "NOTICE",
+    "CREDITS.md"
   ],
   "main": "./dist/server.js",
   "module": "./dist/server.js",
