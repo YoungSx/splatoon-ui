@@ -13,13 +13,13 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 11
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           # Pinned to Node 24.7.0 to ensure npm >= 11.5.1 required for OIDC publish.
           # Node 24.7.0 bundles npm 11.5.1 per the Node.js release manifest.
