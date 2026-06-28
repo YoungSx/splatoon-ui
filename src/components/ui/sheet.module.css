@@ -8,6 +8,10 @@
   overflow: visible;
   position: fixed;
   z-index: var(--z-sheet);
+  transition:
+    transform var(--sheet-slide-duration, 0.4s) var(--ease-back-out),
+    opacity var(--sheet-slide-duration, 0.4s) ease-out;
+  transition-behavior: allow-discrete;
 }
 
 .sheetBody {
@@ -19,6 +23,55 @@
 .sideRight .sheetBody,
 .sideLeft .sheetBody {
   block-size: 100%;
+}
+
+.sideRight[data-starting-style],
+.sideRight[data-ending-style] {
+  transform: translateX(100%);
+}
+
+.sideLeft[data-starting-style],
+.sideLeft[data-ending-style] {
+  transform: translateX(-100%);
+}
+
+.sideTop[data-starting-style],
+.sideTop[data-ending-style] {
+  transform: translateY(-100%);
+}
+
+.sideBottom[data-starting-style],
+.sideBottom[data-ending-style] {
+  transform: translateY(100%);
+}
+
+.sideTop[data-starting-style],
+.sideRight[data-starting-style],
+.sideBottom[data-starting-style],
+.sideLeft[data-starting-style],
+.sideTop[data-ending-style],
+.sideRight[data-ending-style],
+.sideBottom[data-ending-style],
+.sideLeft[data-ending-style] {
+  opacity: 0;
+}
+
+.reducedMotion.sideTop,
+.reducedMotion.sideRight,
+.reducedMotion.sideBottom,
+.reducedMotion.sideLeft {
+  transition: opacity 0.15s ease-out;
+}
+
+.reducedMotion.sideTop[data-starting-style],
+.reducedMotion.sideRight[data-starting-style],
+.reducedMotion.sideBottom[data-starting-style],
+.reducedMotion.sideLeft[data-starting-style],
+.reducedMotion.sideTop[data-ending-style],
+.reducedMotion.sideRight[data-ending-style],
+.reducedMotion.sideBottom[data-ending-style],
+.reducedMotion.sideLeft[data-ending-style] {
+  transform: none;
 }
 
 .sideTop {

@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { uiZIndex } from '@/lib/ui-z-index'
 import { createTriggerButton } from '@/components/ui/trigger-button'
 import { WaveButton } from './wave-button'
+import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import styles from './sheet.module.css'
 
 const SHEET_Z_INDEX = {
@@ -72,15 +73,13 @@ const SheetPopup = React.forwardRef<
     closeButton?: React.ReactNode
   }
 >(function SheetPopup({ className, side = 'right', style, children, closeButton, ...props }, ref) {
+  const [isReducedMotion] = useReducedMotion()
   return (
     <SheetPrimitive.Popup
       ref={ref}
       data-slot="sheet-popup"
       data-side={side}
-      className={cn(
-        'transition duration-200 ease-in-out data-ending-style:opacity-0 data-starting-style:opacity-0',
-        SIDE_CLASS[side]
-      )}
+      className={cn(SIDE_CLASS[side], isReducedMotion && styles.reducedMotion)}
       style={{ zIndex: SHEET_Z_INDEX.content, ...style }}
       {...props}
     >
