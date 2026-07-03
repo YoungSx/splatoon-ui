@@ -3,10 +3,10 @@ import path from 'node:path'
 import ts from 'typescript'
 
 const root = process.cwd()
-const cssPath = path.join(root, 'src', 'components', 'ui', 'button.module.css')
-const buttonPath = path.join(root, 'src', 'components', 'ui', 'button.tsx')
-const dripHookPath = path.join(root, 'src', 'hooks', 'use-drip-animation.ts')
-const dripMathPath = path.join(root, 'src', 'lib', 'drip-math.ts')
+const cssPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'button.module.css')
+const buttonPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'button.tsx')
+const dripHookPath = path.join(root, 'packages', 'ui', 'src', 'hooks', 'use-drip-animation.ts')
+const dripMathPath = path.join(root, 'packages', 'ui', 'src', 'lib', 'drip-math.ts')
 
 const css = fs.readFileSync(cssPath, 'utf8')
 const button = fs.readFileSync(buttonPath, 'utf8')
@@ -163,7 +163,7 @@ const checks = [
   {
     name: 'solid button chevron keeps its intentional low alignment',
     pass:
-      button.includes("ml-1.5 h-[13px] w-[8px] self-end overflow-hidden") &&
+      button.includes('ml-1.5 h-[13px] w-[8px] self-end overflow-hidden') &&
       !button.includes('self-center overflow-hidden'),
   },
   {

@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const globalsPath = path.join(root, 'src', 'app', 'globals.css')
+const globalsPath = path.join(root, 'packages', 'ui', 'src', 'styles', 'globals.css')
 const globals = fs.readFileSync(globalsPath, 'utf8')
 
 // Official site source of truth for theme combinations:
@@ -146,7 +146,7 @@ const consumers = [
   'src/components/ui/carousel-pagination.module.css',
 ]
 for (const rel of consumers) {
-  const file = fs.readFileSync(path.join(root, rel), 'utf8')
+  const file = fs.readFileSync(path.join(root, 'packages', 'ui', rel), 'utf8')
   if (/var\(--color-primary(?!-foreground)/.test(file) || /var\(--color-primary-alt/.test(file)) {
     failures.push(`${rel} must use --theme-primary[/-alt] instead of --color-primary[/-alt]`)
   }

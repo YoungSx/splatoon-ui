@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'Alert',
+  description: '用于紧凑状态和危险反馈的撕纸卡片提示。',
+  category: 'feedback',
+  example: 'alert',
+}
+
+## 用法
+
+Alert 用于留在页面流中的紧凑消息。title 和 description primitives 会保持清晰层级。
+
+## 设计备注
+
+- destructive 变体只用于不可逆或阻断状态。
+- 文案保持直接、简短。
+- 用户必须决策时使用 Dialog。

@@ -30,6 +30,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Set version from tag
+        working-directory: packages/ui
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           npm version "$VERSION" --no-git-tag-version --ignore-scripts
@@ -53,6 +54,7 @@ jobs:
 
       - name: Publish
         shell: bash
+        working-directory: packages/ui
         run: |
           set -euo pipefail
           # Ensure we don't accidentally publish with token auth.

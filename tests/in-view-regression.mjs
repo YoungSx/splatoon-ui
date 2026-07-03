@@ -2,8 +2,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentPath = path.join(root, 'src', 'components', 'ui', 'in-view.tsx')
-const cssPath = path.join(root, 'src', 'components', 'ui', 'in-view.module.css')
+const componentPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'in-view.tsx')
+const cssPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'in-view.module.css')
 
 const component = fs.readFileSync(componentPath, 'utf8')
 const css = fs.readFileSync(cssPath, 'utf8')

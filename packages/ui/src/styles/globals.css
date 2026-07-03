@@ -1,0 +1,692 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@source '../';
+
+/* ── Font Face: fooregular (Splatoon heading font) ── */
+@font-face {
+  font-family: 'fooregular';
+  src:
+    url('/fonts/foo-webfont.woff2') format('woff2'),
+    url('/fonts/foo-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BlitzMain';
+  src: url('/fonts/blitz-main.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SpAlterna';
+  src: url('/fonts/spalterna-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Font Face: Montserrat (body text) ── */
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('/fonts/montserrat-v24-latin-regular.woff2') format('woff2'),
+    url('/fonts/montserrat-v24-latin-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src:
+    url('/fonts/montserrat-v24-latin-500.woff2') format('woff2'),
+    url('/fonts/montserrat-v24-latin-500.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v24-latin-900.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+  --font-heading: 'fooregular', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-alt: var(--font-obviously-narrow), 'obviously-narrow', sans-serif;
+  --font-blitz-main: 'BlitzMain', var(--font-heading);
+  --font-sp-alterna: 'SpAlterna', var(--font-heading);
+  /* Brand colors — registered for Tailwind utilities (bg-yellow, text-blue, etc.) */
+  --color-yellow: #eaff3d;
+  --color-blue: #603bff;
+  --color-purple: #af50ff;
+  --color-world-purple: #a51ee1;
+  --color-green: #6af7ce;
+  --color-orange: #ff9750;
+  --color-red: #ff505e;
+  --color-salmon-run-green: #4ce753;
+  --color-salmon-run-lime: #47ff72;
+  --color-salmon-run-orange: #ff4f1d;
+  --color-salmon-run-orange-dark: #e74213;
+  --color-salmon-run-red-orange: #d2370b;
+  --color-salmon-run-red-orange-dark: #bf320b;
+  --color-salmon-run-brown: #512f28;
+  --color-salmon-run-brown-dark: #49251d;
+  --color-salmon-run-hero-red: #f5494c;
+  --color-chaos-black: #0d0d0d;
+  --color-black: #0d0d0d;
+  --color-white: #ffffff;
+  --color-danger-surface-title: var(--danger-surface-title);
+  --color-danger-surface-description: var(--danger-surface-description);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+  --radius-3xl: 12px;
+  --radius-4xl: 16px;
+
+  /* Splatoon site exact easing functions */
+  --ease-out: cubic-bezier(0.35, 0.91, 0.3, 0.99);
+  --ease-in-out: cubic-bezier(0.75, 0, 0.21, 0.99);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* Events tab hover splat */
+  --active-splat-url: image-set(
+    url('/_images/events/active-splat.webp') 1x,
+    url('/_images/events/active-splat-2x.webp') 2x
+  );
+}
+
+/* Hide scrollbar for peek-scroll containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Light Theme: Desert Wasteland ── */
+:root {
+  --font-heading: 'fooregular', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+  --font-alt: var(--font-obviously-narrow), 'obviously-narrow', sans-serif;
+  --font-blitz-main: 'BlitzMain', var(--font-heading);
+  --font-sp-alterna: 'SpAlterna', var(--font-heading);
+
+  /* Exact Splatoon site colors */
+  --background: #ffffff;
+  --foreground: #0d0d0d;
+  --card: #ffffff;
+  --card-foreground: #0d0d0d;
+  --popover: #ffffff;
+  --popover-foreground: #0d0d0d;
+  --primary: #eaff3d;
+  --primary-foreground: #0d0d0d;
+  --secondary: #603bff;
+  --secondary-foreground: #ffffff;
+  --muted: #f5f5f5;
+  --muted-foreground: #555555;
+  --accent: #af50ff;
+  --accent-foreground: #ffffff;
+  --destructive: #ff505e;
+  --border: #cccccc;
+  --input: #cccccc;
+  --ring: #eaff3d;
+  --overlay: rgb(0 0 0 / 0.9);
+
+  /* z-index scale */
+  --z-deco: 1;
+  --z-deco-fg: 2;
+  --z-nav-canvas: 80;
+  --z-nav-content: 81;
+  --z-nav-overlay: 90;
+  --z-nav: 100;
+  --z-floating: 130;
+  --z-sheet-overlay: 200;
+  --z-sheet: 210;
+  --z-dialog-overlay: 200;
+  --z-dialog: 210;
+  --z-dialog-close: 220;
+  --chart-1: #eaff3d;
+  --chart-2: #603bff;
+  --chart-3: #ff505e;
+  --chart-4: #ff9750;
+  --chart-5: #6af7ce;
+  --radius: 8px;
+
+  /* Splatoon brand tokens (exact from site) */
+  --neon-yellow: #eaff3d;
+  --ink-blue: #603bff;
+  --ink-purple: #af50ff;
+  --ink-green: #6af7ce;
+  --ink-orange: #ff9750;
+  --ink-red: #ff505e;
+  --salmon-run-green: #4ce753;
+  --salmon-run-lime: #47ff72;
+  --salmon-run-orange: #ff4f1d;
+  --salmon-run-orange-dark: #e74213;
+  --salmon-run-red-orange: #d2370b;
+  --salmon-run-red-orange-dark: #bf320b;
+  --salmon-run-brown: #512f28;
+  --salmon-run-brown-dark: #49251d;
+  --salmon-run-hero-red: #f5494c;
+  --desert-sand: #f5f0e8;
+  --chaos-black: #0d0d0d;
+  --tape-white: #ffffff;
+
+  /* Splatoon UI CSS custom properties */
+  --color-true-black: #000;
+  --color-chaos-black: var(--chaos-black);
+  --color-black: #0d0d0d;
+  --color-black-alt: #0e0e0e;
+  --color-white: #fff;
+  --color-yellow: #eaff3d;
+  --color-blue: #603bff;
+  --color-purple: #af50ff;
+  --color-world-purple: #a51ee1;
+  --color-green: #6af7ce;
+  --color-orange: #ff9750;
+  --color-orange-dark: #fa5a00;
+  --color-red: #ff505e;
+  --color-salmon-run-green: var(--salmon-run-green);
+  --color-salmon-run-lime: var(--salmon-run-lime);
+  --color-salmon-run-orange: var(--salmon-run-orange);
+  --color-salmon-run-orange-dark: var(--salmon-run-orange-dark);
+  --color-salmon-run-red-orange: var(--salmon-run-red-orange);
+  --color-salmon-run-red-orange-dark: var(--salmon-run-red-orange-dark);
+  --color-salmon-run-brown: var(--salmon-run-brown);
+  --color-salmon-run-brown-dark: var(--salmon-run-brown-dark);
+  --color-salmon-run-hero-red: var(--salmon-run-hero-red);
+  --color-brown: #7f413f;
+  --color-nintendo-red: #e60012;
+  --color-twitter: #1da1f2;
+  --danger-surface-title: var(--color-salmon-run-green);
+  --danger-surface-description: rgb(255 255 255 / 0.8);
+  --color-side-order-red: #9f6a62;
+  --color-side-order-green: #58a28a;
+  --color-side-order-blue: #7e96bd;
+  --color-side-order-yellow: #c2c26e;
+  --color-side-order-purple: #a280b2;
+  --color-side-order-orange: #be9b6f;
+  --color-side-order-black: #292929;
+  --color-side-order-white: #faf8f0;
+  --color-grey-100: #ccc;
+  --color-grey-200: #888;
+  --color-grey-300: #555;
+  --color-grey-400: #222;
+  --base-space: 8px;
+  --gutter-width: 24px;
+  --duration-factor: 1;
+  --ease-in: cubic-bezier(0.51, 0, 0.9, 0.43);
+  --ease-back-in: cubic-bezier(0.38, -0.37, 0.83, 0.23);
+  --ease-back-out: cubic-bezier(0.21, 0.12, 0.35, 1.43);
+  --ease-out: cubic-bezier(0.35, 0.91, 0.3, 0.99);
+  --ease-in-out: cubic-bezier(0.75, 0, 0.21, 0.99);
+  --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
+  --in-view-delay: 0s;
+  --in-view-stagger-delay: 0s;
+  --in-view-stagger-amount: 0.2s;
+
+  --sidebar: #f5f5f5;
+  --sidebar-foreground: #0d0d0d;
+  --sidebar-primary: #eaff3d;
+  --sidebar-primary-foreground: #0d0d0d;
+  --sidebar-accent: #f0f0f0;
+  --sidebar-accent-foreground: #0d0d0d;
+  --sidebar-border: #cccccc;
+  --sidebar-ring: #eaff3d;
+  /*
+     Splatoon brand role tokens mirror the official site's
+     --color-primary / --color-accent semantics.
+     Namespaced as --theme-* to avoid colliding with shadcn's --color-primary
+     which Tailwind binds to bg-primary, text-primary, etc. */
+  --theme-primary: var(--color-yellow);
+  --theme-primary-alt: var(--color-black);
+  --theme-accent: var(--color-black);
+  --theme-accent-alt: var(--color-white);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: clip;
+  }
+  html {
+    @apply bg-background font-sans;
+    container-type: inline-size;
+    overflow-x: clip;
+  }
+
+  /*
+     Splatoon brand theme combinations, mapped from splatoon.nintendo.com.
+     Keep these inside @layer base so Tailwind emits them even when a theme
+     class is only supplied by library consumers.
+  */
+  [class*='theme--dark'] {
+    --theme-primary-alt: var(--color-black);
+    --theme-accent-alt: var(--color-black);
+    color: var(--color-white);
+  }
+  [class*='theme--light'] {
+    --theme-primary-alt: var(--color-white);
+    --theme-accent-alt: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .theme--black {
+    --theme-primary-alt: var(--color-black);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--yellow {
+    --theme-primary: var(--color-yellow);
+    --theme-accent: var(--color-black);
+  }
+  .theme--dark-blue,
+  .theme--light-blue {
+    --theme-primary: var(--color-blue);
+    --theme-accent: var(--color-yellow);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--dark-green {
+    --theme-primary: var(--color-green);
+    --theme-accent: var(--color-red);
+  }
+  .theme--light-green {
+    --theme-primary: var(--color-green);
+    --theme-accent: var(--color-red);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--dark-orange {
+    --theme-primary: var(--color-orange);
+    --theme-accent: var(--color-purple);
+  }
+  .theme--dark-purple {
+    --theme-primary: var(--color-purple);
+    --theme-accent: var(--color-blue);
+    --theme-accent-alt: var(--color-white);
+  }
+  .theme--light-purple {
+    --theme-primary: var(--color-purple);
+    --theme-accent: var(--color-yellow);
+  }
+  .theme--dark-purpleOrange {
+    --theme-primary: var(--color-purple);
+    --theme-accent: var(--color-orange);
+    --theme-accent-alt: var(--color-black);
+  }
+  .theme--dark-red {
+    --theme-primary: var(--color-red);
+    --theme-accent: var(--color-green);
+    --theme-accent-alt: var(--color-white);
+  }
+  .theme--light-red {
+    --theme-primary: var(--color-red);
+    --theme-accent: var(--color-green);
+  }
+  .theme--dark-yellow {
+    --theme-primary: var(--color-yellow);
+    --theme-accent: var(--color-blue);
+    --theme-accent-alt: var(--color-white);
+  }
+  .theme--light-brown {
+    --theme-primary: var(--color-brown);
+    --theme-accent: var(--color-red);
+  }
+  .theme--side-order {
+    --theme-primary: var(--color-side-order-red);
+    --theme-accent: var(--color-side-order-green);
+    --theme-accent-alt: var(--color-side-order-black);
+    color: var(--color-side-order-black);
+  }
+
+  /*
+     Theme role-token utilities mirror the official `.color-primary` style.
+     Use these inside a `.theme--*` ancestor to pick up the active brand pair.
+  */
+  .color-primary {
+    color: var(--theme-primary);
+  }
+  .color-primary-alt {
+    color: var(--theme-primary-alt);
+  }
+  .color-accent {
+    color: var(--theme-accent);
+  }
+  .color-accent-alt {
+    color: var(--theme-accent-alt);
+  }
+  .bg-color-primary {
+    background-color: var(--theme-primary);
+  }
+  .bg-color-primary-alt {
+    background-color: var(--theme-primary-alt);
+  }
+  .bg-color-accent {
+    background-color: var(--theme-accent);
+  }
+  .bg-color-accent-alt {
+    background-color: var(--theme-accent-alt);
+  }
+  .border-color-primary {
+    border-color: var(--theme-primary);
+  }
+  .border-color-accent {
+    border-color: var(--theme-accent);
+  }
+}
+
+/* ── Splatoon Typography (exact from real site) ── */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1;
+  }
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+  h2 {
+    font-weight: 700;
+  }
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    font-family: var(--font-heading);
+    font-weight: 700;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 3.125rem);
+  }
+  body {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+}
+
+/* ── Splatoon Utilities ── */
+@layer utilities {
+  /* Soft depth used for generic UI; hard offset shadows are reserved for paper-cutout accents. */
+  .shadow-soft-splat-sm {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.14);
+  }
+  .shadow-soft-splat-md {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
+  }
+  .shadow-soft-splat-lg {
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+  }
+
+  /* Legacy hard offset shadows. Keep only for explicit cutout-style specials. */
+  .shadow-solid {
+    box-shadow: 4px 4px 0px var(--chaos-black);
+  }
+  .shadow-solid-sm {
+    box-shadow: 2px 2px 0px var(--chaos-black);
+  }
+  .shadow-solid-lg {
+    box-shadow: 6px 6px 0px var(--chaos-black);
+  }
+  .shadow-solid-xl {
+    box-shadow: 8px 8px 0px var(--chaos-black);
+  }
+
+  .scrap-panel,
+  .scrap-panel-tight,
+  .drawer-sheet {
+    position: relative;
+  }
+
+  .scrap-panel {
+    border-radius: 10px 14px 12px 16px;
+  }
+
+  .scrap-panel-tight {
+    border-radius: 8px 12px 10px 14px;
+  }
+
+  .drawer-sheet {
+    border-radius: 0;
+  }
+
+  .field-cut {
+    border-radius: 7px 11px 8px 12px;
+  }
+
+  .field-cut-popup {
+    border-radius: 8px 11px 9px 13px;
+  }
+}
+
+/* ── Skewed heading style — like real site h1/h2 ── */
+.splat-heading {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 900;
+}
+
+.splat-skew {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 900;
+  transform: skewX(-2deg);
+}
+
+/* ── Marquee Animation ── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── Morph blob animation ── */
+@keyframes morph {
+  0%,
+  100% {
+    border-radius: 40% 60% 70% 30% / 40% 40% 60% 50%;
+  }
+  34% {
+    border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+  }
+  67% {
+    border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+  }
+}
+/* ── Dialog pop-in: scale + fade with overshoot bounce ── */
+/* transform keeps the dialog's translate(-50%,-50%) rotate(-1.5deg) so the
+   centered position is preserved while the animation runs. */
+@keyframes dialog-pop-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(-1.5deg) scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(-1.5deg) scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(-1.5deg) scale(1);
+  }
+}
+
+/* ── Pop-in: scale + fade with overshoot bounce (no translate/rotate) ── */
+/* For positioned floating layers (popover, tooltip) whose transform-origin is
+   driven by the positioner; only scale + opacity here to avoid clobbering it. */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Section Background Patterns ── */
+/* These utility classes add a repeating pattern texture on top of the section's background color.
+   The pattern images are semi-transparent PNGs that tile/repeat. */
+
+.pattern-camo-black {
+  background-image: url('/_images/backgrounds/camo-black.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-black.png') 1x,
+    url('/_images/backgrounds/camo-black-2x.png') 2x
+  );
+}
+
+.pattern-camo-green {
+  background-image: url('/_images/backgrounds/camo-green.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-green.png') 1x,
+    url('/_images/backgrounds/camo-green-2x.png') 2x
+  );
+}
+
+.pattern-camo-purple {
+  background-image: url('/_images/backgrounds/camo-purple.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-purple.png') 1x,
+    url('/_images/backgrounds/camo-purple-2x.png') 2x
+  );
+}
+
+.pattern-camo-white {
+  background-image: url('/_images/backgrounds/camo-white.png');
+  background-image: image-set(
+    url('/_images/backgrounds/camo-white.png') 1x,
+    url('/_images/backgrounds/camo-white-2x.png') 2x
+  );
+}
+
+.pattern-chip-white {
+  background-image: url('/_images/backgrounds/chip-white.png');
+  background-image: image-set(
+    url('/_images/backgrounds/chip-white.png') 1x,
+    url('/_images/backgrounds/chip-white-2x.png') 2x
+  );
+}
+
+.pattern-tapes-black {
+  background-image: url('/_images/backgrounds/tapes-black.jpg');
+  background-image: image-set(
+    url('/_images/backgrounds/tapes-black.webp') type('image/webp') 1x,
+    url('/_images/backgrounds/tapes-black.jpg') 1x,
+    url('/_images/backgrounds/tapes-black-2x.webp') type('image/webp') 2x,
+    url('/_images/backgrounds/tapes-black-2x.jpg') 2x
+  );
+}
+
+.pattern-tapes-green {
+  background-image: url('/_images/backgrounds/tapes-green.jpg');
+  background-image: image-set(
+    url('/_images/backgrounds/tapes-green.webp') type('image/webp') 1x,
+    url('/_images/backgrounds/tapes-green.jpg') 1x,
+    url('/_images/backgrounds/tapes-green-2x.webp') type('image/webp') 2x,
+    url('/_images/backgrounds/tapes-green-2x.jpg') 2x
+  );
+}
+
+.pattern-tapes-purple {
+  background-image: url('/_images/backgrounds/tapes-purple.jpg');
+  background-image: image-set(
+    url('/_images/backgrounds/tapes-purple.webp') type('image/webp') 1x,
+    url('/_images/backgrounds/tapes-purple.jpg') 1x,
+    url('/_images/backgrounds/tapes-purple-2x.webp') type('image/webp') 2x,
+    url('/_images/backgrounds/tapes-purple-2x.jpg') 2x
+  );
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.reduced-motion,
+.reduced-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}

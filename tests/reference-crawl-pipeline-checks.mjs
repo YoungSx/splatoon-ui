@@ -5,18 +5,22 @@ const root = process.cwd()
 const crawlerPath = path.join(root, 'scripts', 'collect-splatoon-reference.mjs')
 const analyzerPath = path.join(root, 'scripts', 'analyze-splatoon-reference.mjs')
 const packagePath = path.join(root, 'package.json')
+const docsPackagePath = path.join(root, 'apps', 'docs', 'package.json')
 
 const crawler = fs.readFileSync(crawlerPath, 'utf8')
 const analyzer = fs.readFileSync(analyzerPath, 'utf8')
 const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+const docsPackageJson = JSON.parse(fs.readFileSync(docsPackagePath, 'utf8'))
 
 const checks = [
   {
     name: 'reference crawl scripts are exposed through package.json',
     pass:
-      packageJson.scripts['reference:crawl']?.includes('collect-splatoon-reference.mjs') &&
-      packageJson.scripts['reference:crawl:download']?.includes('--download-assets') &&
-      packageJson.scripts['reference:analyze']?.includes('analyze-splatoon-reference.mjs'),
+      packageJson.scripts['reference:crawl']?.includes('--filter @splatoon-ui/docs') &&
+      packageJson.scripts['reference:analyze']?.includes('--filter @splatoon-ui/docs') &&
+      docsPackageJson.scripts['reference:crawl']?.includes('collect-splatoon-reference.mjs') &&
+      docsPackageJson.scripts['reference:crawl:download']?.includes('--download-assets') &&
+      docsPackageJson.scripts['reference:analyze']?.includes('analyze-splatoon-reference.mjs'),
   },
   {
     name: 'reference crawl output stays in ignored scratch storage by default',
@@ -33,12 +37,16 @@ const checks = [
       crawler.includes('<sitemapindex') &&
       crawler.includes('parseMaxPages') &&
       crawler.includes("value === 'all'") &&
-      crawler.includes("options.locale === 'all'") &&
-      packageJson.scripts['reference:crawl:all-locales']?.includes('--locale all') &&
-      packageJson.scripts['reference:crawl:all-locales']?.includes(
+      crawler.includes("locale === 'all'") &&
+      packageJson.scripts['reference:crawl:all-locales']?.includes('--filter @splatoon-ui/docs') &&
+      packageJson.scripts['reference:analyze:all-locales']?.includes(
+        '--filter @splatoon-ui/docs'
+      ) &&
+      docsPackageJson.scripts['reference:crawl:all-locales']?.includes('--locale all') &&
+      docsPackageJson.scripts['reference:crawl:all-locales']?.includes(
         'scratch/splatoon-reference-all-locales'
       ) &&
-      packageJson.scripts['reference:analyze:all-locales']?.includes(
+      docsPackageJson.scripts['reference:analyze:all-locales']?.includes(
         'scratch/splatoon-reference-all-locales'
       ) &&
       crawler.includes("maxPages: Number.isFinite(options.maxPages) ? options.maxPages : 'all'"),

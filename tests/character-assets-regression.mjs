@@ -2,11 +2,19 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const charactersDir = path.join(root, 'public', '_images', 'characters')
-const registryPath = path.join(root, 'src', 'components', 'ui', 'character-assets.ts')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
+const charactersDir = path.join(root, 'packages', 'ui', 'public', '_images', 'characters')
+const registryPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'character-assets.ts'
+)
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
 const analyzerPath = path.join(root, 'scripts', 'analyze-splatoon-reference.mjs')
-const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
+const serverEntryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
@@ -69,11 +77,14 @@ const checks = [
     name: 'page transition demos use character images instead of emoji placeholders',
     pass:
       page.includes("from '@/components/ui/character-assets'") &&
-      page.includes('pageTransitionCharacterAssets.home') &&
-      page.includes('current.image.src') &&
-      page.includes('current.image.alt') &&
-      page.includes('current.image.width') &&
-      page.includes('current.image.height') &&
+      registry.includes('pageTransitionCharacterAssets') &&
+      registry.includes('home:') &&
+      registry.includes('about:') &&
+      registry.includes('weapons:') &&
+      page.includes('pageTransitionCharacterAssets[demoPage].src') &&
+      page.includes('pageTransitionCharacterAssets[demoPage].alt') &&
+      page.includes('pageTransitionCharacterAssets[demoPage].width') &&
+      page.includes('pageTransitionCharacterAssets[demoPage].height') &&
       !page.includes('emoji:') &&
       !page.includes('current.emoji'),
   },

@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'Alert',
+  description: '短い状態表示と危険フィードバックのための破れ紙カード alert です。',
+  category: 'feedback',
+  example: 'alert',
+}
+
+## 使い方
+
+Alert はページ内に残る短いメッセージに使います。title と description primitives は読みやすい階層を保ちます。
+
+## デザインメモ
+
+- destructive バリアントは不可逆またはブロック状態に限定します。
+- 文は直接的で短くします。
+- ユーザーの判断が必要な場合は Dialog を使います。

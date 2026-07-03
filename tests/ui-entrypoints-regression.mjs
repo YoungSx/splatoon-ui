@@ -1,13 +1,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { publicUiEntries } from '../scripts/public-ui-entries.mjs'
+import { publicUiEntries } from '../packages/ui/scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
-const componentRoot = path.join(root, 'src', 'components', 'ui')
-const indexEntryPath = path.join(root, 'src', 'components', 'ui', 'index.ts')
-const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
-const clientEntryPath = path.join(root, 'src', 'components', 'ui', 'client.ts')
-const packagePath = path.join(root, 'package.json')
+const componentRoot = path.join(root, 'packages', 'ui', 'src', 'components', 'ui')
+const indexEntryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'index.ts')
+const serverEntryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'server.ts')
+const clientEntryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'client.ts')
+const packagePath = path.join(root, 'packages', 'ui', 'package.json')
 
 const indexEntry = fs.readFileSync(indexEntryPath, 'utf8')
 const serverEntry = fs.readFileSync(serverEntryPath, 'utf8')

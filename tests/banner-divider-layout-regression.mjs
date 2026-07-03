@@ -2,10 +2,26 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentPath = path.join(root, 'src', 'components', 'ui', 'banner-divider.tsx')
-const sectionPath = path.join(root, 'src', 'components', 'ui', 'section.tsx')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const cssPath = path.join(root, 'src', 'components', 'ui', 'banner-divider.module.css')
+const componentPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'banner-divider.tsx'
+)
+const sectionPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'section.tsx')
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
+const cssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'banner-divider.module.css'
+)
 
 const component = fs.readFileSync(componentPath, 'utf8')
 const section = fs.readFileSync(sectionPath, 'utf8')

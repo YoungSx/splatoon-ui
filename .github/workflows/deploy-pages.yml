@@ -78,7 +78,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          pnpm exec wrangler pages deploy out \
+          pnpm exec wrangler pages deploy apps/docs/out \
             --project-name="${CLOUDFLARE_PROJECT_NAME}" \
             --branch="${GITHUB_REF_NAME}" \
             --commit-dirty=true

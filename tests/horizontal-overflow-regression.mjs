@@ -2,14 +2,40 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const cssPath = path.join(root, 'src', 'components', 'ui', 'heading-tape.module.css')
-const inViewCssPath = path.join(root, 'src', 'components', 'ui', 'in-view.module.css')
-const globalCssPath = path.join(root, 'src', 'app', 'globals.css')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const sectionPath = path.join(root, 'src', 'components', 'ui', 'section.tsx')
-const sectionSideNavPath = path.join(root, 'src', 'components', 'ui', 'section-side-nav.tsx')
+const cssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'heading-tape.module.css'
+)
+const inViewCssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'in-view.module.css'
+)
+const globalCssPath = path.join(root, 'packages', 'ui', 'src', 'styles', 'globals.css')
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
+const sectionPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'section.tsx')
+const sectionSideNavPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'section-side-nav.tsx'
+)
 const sectionSideNavCssPath = path.join(
   root,
+  'packages',
+  'ui',
   'src',
   'components',
   'ui',
@@ -23,7 +49,7 @@ const section = fs.readFileSync(sectionPath, 'utf8')
 const sectionSideNav = fs.readFileSync(sectionSideNavPath, 'utf8')
 const sectionSideNavCss = fs.readFileSync(sectionSideNavCssPath, 'utf8')
 const useElementSize = fs.readFileSync(
-  path.join(root, 'src', 'hooks', 'use-element-size.ts'),
+  path.join(root, 'packages', 'ui', 'src', 'hooks', 'use-element-size.ts'),
   'utf8'
 )
 

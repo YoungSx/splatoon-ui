@@ -2,11 +2,19 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const weaponsDir = path.join(root, 'public', '_images', 'weapons')
-const registryPath = path.join(root, 'src', 'components', 'ui', 'weapons-assets.ts')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
+const weaponsDir = path.join(root, 'packages', 'ui', 'public', '_images', 'weapons')
+const registryPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'weapons-assets.ts'
+)
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
 const analyzerPath = path.join(root, 'scripts', 'analyze-splatoon-reference.mjs')
-const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
+const serverEntryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')

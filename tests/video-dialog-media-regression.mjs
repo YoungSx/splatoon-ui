@@ -2,13 +2,31 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentPath = path.join(root, 'src', 'components', 'ui', 'video-dialog.tsx')
-const cssPath = path.join(root, 'src', 'components', 'ui', 'video-dialog.module.css')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
+const componentPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'video-dialog.tsx'
+)
+const cssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'video-dialog.module.css'
+)
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
+const i18nPath = path.join(root, 'apps', 'docs', 'src', 'lib', 'i18n.ts')
 
 const component = fs.readFileSync(componentPath, 'utf8')
 const css = fs.readFileSync(cssPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
+const i18n = fs.readFileSync(i18nPath, 'utf8')
 
 const checks = [
   {
@@ -87,7 +105,8 @@ const checks = [
       page.includes('showcaseMediaAssets.trailerThumbnail.src') &&
       page.includes('width={showcaseMediaAssets.trailerThumbnail.width}') &&
       page.includes('height={showcaseMediaAssets.trailerThumbnail.height}') &&
-      page.includes('aria-label="Open Splatoon UI demo reel"') &&
+      page.includes('aria-label={t.trailer.openReel}') &&
+      i18n.includes("openReel: 'Open Splatoon UI demo reel'") &&
       page.includes('loading="eager"'),
   },
 ]

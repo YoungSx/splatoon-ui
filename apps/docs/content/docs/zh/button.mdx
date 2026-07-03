@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'Button',
+  description: '带液态 drip 动效、颜色变体、图标支持和类型化控件的主要操作按钮。',
+  category: 'actions',
+  example: 'button',
+}
+
+## 用法
+
+Button 适合主要命令、导航操作和紧凑 CTA。组件保留 Splatoon UI 的动效与颜色处理，同时保持原生 button 和 anchor 行为。
+
+## 设计备注
+
+- 每个操作组只使用一个主强调色。
+- 周围表面已经足够强时再使用 `variant="ghost"`。
+- 标签要足够短，避免 drip 动画期间撑开布局。

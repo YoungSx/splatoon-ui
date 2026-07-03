@@ -1,0 +1,5537 @@
+{
+  "generatedAt": "1970-01-01T00:00:00.000Z",
+  "entries": [
+    {
+      "slug": "alert",
+      "importPath": "splatoon-ui/alert",
+      "primaryExport": "Alert",
+      "sourcePath": "src/components/ui/alert.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Alert",
+          "kind": "function",
+          "type": "export function Alert(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "AlertVariant",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "AlertDescription",
+          "kind": "function",
+          "type": "function AlertDescription(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "AlertProps",
+          "kind": "interface",
+          "type": "export interface AlertProps extends Omit<React.ComponentProps<typeof TornCard>, 'variant'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "AlertTitle",
+          "kind": "function",
+          "type": "function AlertTitle(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "asset-image",
+      "importPath": "splatoon-ui/asset-image",
+      "primaryExport": "AssetImage",
+      "sourcePath": "src/components/ui/asset-image.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "AssetImage",
+          "kind": "function",
+          "type": "export function AssetImage(",
+          "description": "",
+          "props": [
+            {
+              "name": "asset",
+              "optional": false,
+              "type": "ImageAsset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alt",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "decorative",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fit",
+              "optional": true,
+              "type": "React.CSSProperties['objectFit']",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "aspectRatio",
+              "optional": true,
+              "type": "React.CSSProperties['aspectRatio']",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fill",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "AssetImageProps",
+          "kind": "interface",
+          "type": "export interface AssetImageProps extends Omit< React.ComponentProps<'img'>, 'alt' | 'height' | 'src' | 'width' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ImageAsset",
+          "kind": "interface",
+          "type": "export interface ImageAsset",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "badge",
+      "importPath": "splatoon-ui/badge",
+      "primaryExport": "Badge",
+      "sourcePath": "src/components/ui/badge.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Badge",
+          "kind": "function",
+          "type": "function Badge(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "'torn'",
+              "defaultValue": "",
+              "description": "Badge shape variant.\nOnly `\"torn\"` exists for now; more variants may be added later.\nDefaults to `\"torn\"`."
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "TornBadgeColor",
+              "defaultValue": "",
+              "description": "Fill color of the badge. Defaults to `\"yellow\"`."
+            }
+          ]
+        },
+        {
+          "name": "BadgeProps",
+          "kind": "interface",
+          "type": "export interface BadgeProps extends React.ComponentProps<'span'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornBadgeColor",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "banner-divider",
+      "importPath": "splatoon-ui/banner-divider",
+      "primaryExport": "BannerDivider",
+      "sourcePath": "src/components/ui/banner-divider.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "BannerDivider",
+          "kind": "function",
+          "type": "export function BannerDivider(",
+          "description": "",
+          "props": [
+            {
+              "name": "tapes",
+              "optional": false,
+              "type": "BannerDividerTape[]",
+              "defaultValue": "",
+              "description": "Explicit tape layers. Use two or three layers for the current Splatoon-style divider patterns."
+            },
+            {
+              "name": "animate",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable InView fly-in animation on each tape."
+            },
+            {
+              "name": "rootMargin",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Root margin for InView IntersectionObserver."
+            },
+            {
+              "name": "layout",
+              "optional": true,
+              "type": "'overlay' | 'spacer'",
+              "defaultValue": "",
+              "description": "Overlay matches the reference behavior: the divider paints across the section edge\nwithout reserving document flow height. Use spacer only when a layout intentionally\nneeds the divider to occupy vertical space."
+            }
+          ]
+        },
+        {
+          "name": "BannerDividerEnterFrom",
+          "kind": "type",
+          "type": "export type BannerDividerEnterFrom = 'left' | 'right'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerOffsetY",
+          "kind": "type",
+          "type": "export type BannerDividerOffsetY = | number |",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerProps",
+          "kind": "interface",
+          "type": "export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerTape",
+          "kind": "interface",
+          "type": "export interface BannerDividerTape",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerVariant",
+          "kind": "type",
+          "type": "export type BannerDividerVariant = | 'design1' | 'design2' | 'design3' | 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "black-tape-container",
+      "importPath": "splatoon-ui/black-tape-container",
+      "primaryExport": "BlackTapeContainer",
+      "sourcePath": "src/components/ui/black-tape-container.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "BlackTapeContainer",
+          "kind": "function",
+          "type": "export function BlackTapeContainer(",
+          "description": "",
+          "props": [
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "tapeVariant",
+              "optional": true,
+              "type": "'yellow'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "noVerticalPadding",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "BlackTapeContainerProps",
+          "kind": "interface",
+          "type": "export interface BlackTapeContainerProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "blob-play-button",
+      "importPath": "splatoon-ui/blob-play-button",
+      "primaryExport": "BlobPlayButton",
+      "sourcePath": "src/components/ui/blob-play-button.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "BlobPlayButton",
+          "kind": "function",
+          "type": "export function BlobPlayButton(",
+          "description": "",
+          "props": [
+            {
+              "name": "idleWobbleAmount",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "hexColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Blob color"
+            },
+            {
+              "name": "blobSize",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Container width in px"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "button",
+      "importPath": "splatoon-ui/button",
+      "primaryExport": "Button",
+      "sourcePath": "src/components/ui/button.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Button",
+          "kind": "function",
+          "type": "function Button(",
+          "description": "",
+          "props": [
+            {
+              "name": "hasChevron",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "leftIcon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "ButtonColorToken",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "hoverColor",
+              "optional": true,
+              "type": "ButtonColorToken",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "textColor",
+              "optional": true,
+              "type": "ButtonColorToken",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "textHoverColor",
+              "optional": true,
+              "type": "ButtonColorToken",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "theme",
+              "optional": true,
+              "type": "ButtonThemePreset",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ButtonProps",
+          "kind": "interface",
+          "type": "export interface ButtonProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>, VariantProps<typeof buttonVariants>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "buttonVariants",
+          "kind": "const",
+          "type": "const buttonVariants = cva( 'group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[var(--button-radius,8px)] font-alt font-black tracking-wider transit",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "button-arrow",
+      "importPath": "splatoon-ui/button-arrow",
+      "primaryExport": "ButtonArrow",
+      "sourcePath": "src/components/ui/button-arrow.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "ButtonArrow",
+          "kind": "function",
+          "type": "export function ButtonArrow(",
+          "description": "",
+          "props": [
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "href",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ButtonArrowProps",
+          "kind": "interface",
+          "type": "export interface ButtonArrowProps extends Omit<AnchorButtonProps, 'type'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "button-drip",
+      "importPath": "splatoon-ui/button-drip",
+      "primaryExport": "ButtonDrip",
+      "sourcePath": "src/components/ui/button-drip.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "ButtonDrip",
+          "kind": "function",
+          "type": "export function ButtonDrip(",
+          "description": "",
+          "props": [
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "hoverText",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "accentColors",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ButtonDripProps",
+          "kind": "interface",
+          "type": "export interface ButtonDripProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "button-group",
+      "importPath": "splatoon-ui/button-group",
+      "primaryExport": "ButtonGroup",
+      "sourcePath": "src/components/ui/button-group.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "ButtonGroup",
+          "kind": "function",
+          "type": "function ButtonGroup(",
+          "description": "",
+          "props": [
+            {
+              "name": "density",
+              "optional": true,
+              "type": "ButtonGroupDensity",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "ButtonGroupOrientation",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ButtonGroupItem",
+          "kind": "function",
+          "type": "function ButtonGroupItem(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonGroupItemProps",
+          "kind": "type",
+          "type": "export type ButtonGroupItemProps = ButtonProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonGroupProps",
+          "kind": "interface",
+          "type": "export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "card",
+      "importPath": "splatoon-ui/card",
+      "primaryExport": "Card",
+      "sourcePath": "src/components/ui/card.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Card",
+          "kind": "function",
+          "type": "function Card(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "CardVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "surface",
+              "optional": true,
+              "type": "'white' | 'dark'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "rotation",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Card rotation angle (rugged/torn)"
+            },
+            {
+              "name": "ruggedTheme",
+              "optional": true,
+              "type": "RuggedTheme",
+              "defaultValue": "",
+              "description": "Theme preset (rugged only)"
+            },
+            {
+              "name": "ruggedBackground",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Custom background ReactNode (rugged/torn)"
+            },
+            {
+              "name": "image",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Image/media shown in the tilted image area"
+            },
+            {
+              "name": "title",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders a title paragraph in the info area"
+            },
+            {
+              "name": "subtitle",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders a subtitle paragraph below the title"
+            },
+            {
+              "name": "action",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders an action element at the bottom of info"
+            },
+            {
+              "name": "showTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Whether to show the decorative tape element at the top (staple/torn, default: true)"
+            },
+            {
+              "name": "hoverTilt",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable hover tilt animation (staple/paper variant)"
+            }
+          ]
+        },
+        {
+          "name": "CardAction",
+          "kind": "function",
+          "type": "function CardAction(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardContent",
+          "kind": "function",
+          "type": "function CardContent(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardContext",
+          "kind": "const",
+          "type": "export const CardContext = React.createContext<",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardDescription",
+          "kind": "function",
+          "type": "function CardDescription(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardFooter",
+          "kind": "function",
+          "type": "function CardFooter(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardHeader",
+          "kind": "function",
+          "type": "function CardHeader(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardImage",
+          "kind": "function",
+          "type": "export function CardImage(",
+          "description": "",
+          "props": [
+            {
+              "name": "src",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alt",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardImageProps",
+          "kind": "interface",
+          "type": "export interface CardImageProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardProps",
+          "kind": "interface",
+          "type": "export interface CardProps extends Omit<React.ComponentProps<'div'>, 'title'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardTitle",
+          "kind": "function",
+          "type": "function CardTitle(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "card-image",
+      "importPath": "splatoon-ui/card-image",
+      "primaryExport": "CardImage",
+      "sourcePath": "src/components/ui/card-image.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "CardImage",
+          "kind": "function",
+          "type": "export function CardImage(",
+          "description": "",
+          "props": [
+            {
+              "name": "src",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alt",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardImageProps",
+          "kind": "interface",
+          "type": "export interface CardImageProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "card-stack-carousel",
+      "importPath": "splatoon-ui/card-stack-carousel",
+      "primaryExport": "CardStackCarouselContent",
+      "sourcePath": "src/components/ui/card-stack-carousel.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "CardStackCarouselContent",
+          "kind": "function",
+          "type": "export function CardStackCarouselContent(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardStackCarouselItem",
+          "kind": "function",
+          "type": "export function CardStackCarouselItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemLayout",
+              "optional": true,
+              "type": "CardStackCarouselItemLayout",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemWidth",
+              "optional": true,
+              "type": "React.CSSProperties['width']",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "shellClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "shellStyle",
+              "optional": true,
+              "type": "React.CSSProperties",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "data-index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardStackCarouselItemProps",
+          "kind": "interface",
+          "type": "export interface CardStackCarouselItemProps extends Omit<HTMLMotionProps<'div'>, 'children'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardStackCarouselNext",
+          "kind": "function",
+          "type": "export function CardStackCarouselNext(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardStackCarouselPrevious",
+          "kind": "function",
+          "type": "export function CardStackCarouselPrevious(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardStackCarouselScene",
+          "kind": "function",
+          "type": "export function CardStackCarouselScene(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "carousel",
+      "importPath": "splatoon-ui/carousel",
+      "primaryExport": "Carousel",
+      "sourcePath": "src/components/ui/carousel.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Carousel",
+          "kind": "function",
+          "type": "export function Carousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultIndex",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "initialIndex",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemCount",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onIndexChange",
+              "optional": true,
+              "type": "(index: number) => void",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselBleedBoundary",
+          "kind": "function",
+          "type": "export function CarouselBleedBoundary(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselContent",
+          "kind": "function",
+          "type": "export function CarouselContent(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselImagePagination",
+          "kind": "function",
+          "type": "export function CarouselImagePagination(",
+          "description": "",
+          "props": [
+            {
+              "name": "images",
+              "optional": false,
+              "type": "CarouselImagePaginationItem[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "getImageLabel",
+              "optional": true,
+              "type": "(alt: string) => string",
+              "defaultValue": "",
+              "description": "Accessible label for a button when the image has an alt text."
+            },
+            {
+              "name": "getSlideLabel",
+              "optional": true,
+              "type": "(index: number) => string",
+              "defaultValue": "",
+              "description": "Accessible label for a button when the image has no alt text. Receives the 1-based slide number."
+            }
+          ]
+        },
+        {
+          "name": "CarouselImagePaginationItem",
+          "kind": "interface",
+          "type": "export interface CarouselImagePaginationItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselImagePaginationProps",
+          "kind": "interface",
+          "type": "export interface CarouselImagePaginationProps extends React.HTMLAttributes<HTMLUListElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselItem",
+          "kind": "function",
+          "type": "export function CarouselItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "data-index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselItemProps",
+          "kind": "interface",
+          "type": "export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselPagination",
+          "kind": "function",
+          "type": "export function CarouselPagination(",
+          "description": "",
+          "props": [
+            {
+              "name": "labels",
+              "optional": true,
+              "type": "string[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "getSlideLabel",
+              "optional": true,
+              "type": "(index: number) => string",
+              "defaultValue": "",
+              "description": "Accessible label template for unlabeled pagination buttons. Receives the 1-based slide number."
+            }
+          ]
+        },
+        {
+          "name": "CarouselPaginationProps",
+          "kind": "interface",
+          "type": "export interface CarouselPaginationProps extends React.HTMLAttributes<HTMLUListElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselProps",
+          "kind": "interface",
+          "type": "export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselViewport",
+          "kind": "function",
+          "type": "export function CarouselViewport(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "FadeCarouselItem",
+          "kind": "function",
+          "type": "export function FadeCarouselItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "data-index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "rotateAmount",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "FadeCarouselItemProps",
+          "kind": "interface",
+          "type": "export interface FadeCarouselItemProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SwipeableGallery",
+          "kind": "function",
+          "type": "export function SwipeableGallery(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "useCarousel",
+          "kind": "function",
+          "type": "export function useCarousel()",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "useCarouselItemState",
+          "kind": "function",
+          "type": "export function useCarouselItemState(index: number | undefined)",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "character-assets",
+      "importPath": "splatoon-ui/character-assets",
+      "primaryExport": "characterImageAssets",
+      "sourcePath": "src/components/ui/character-assets.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "CharacterImageAsset",
+          "kind": "interface",
+          "type": "export interface CharacterImageAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "characterImageAssets",
+          "kind": "const",
+          "type": "export const characterImageAssets =",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "pageTransitionCharacterAssets",
+          "kind": "const",
+          "type": "export const pageTransitionCharacterAssets =",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "checkbox",
+      "importPath": "splatoon-ui/checkbox",
+      "primaryExport": "Checkbox",
+      "sourcePath": "src/components/ui/checkbox.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Checkbox",
+          "kind": "function",
+          "type": "function Checkbox(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "dialog",
+      "importPath": "splatoon-ui/dialog",
+      "primaryExport": "Dialog",
+      "sourcePath": "src/components/ui/dialog.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Dialog",
+          "kind": "function",
+          "type": "function Dialog(",
+          "description": "",
+          "props": [
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "DialogContent",
+          "kind": "function",
+          "type": "function DialogContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "showCloseButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "hasTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "tapePosition",
+              "optional": true,
+              "type": "'news' | 'event'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "surface",
+              "optional": true,
+              "type": "DialogSurface",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fullScreen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "DialogDescription",
+          "kind": "function",
+          "type": "function DialogDescription(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogFooter",
+          "kind": "function",
+          "type": "function DialogFooter(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogHeader",
+          "kind": "function",
+          "type": "function DialogHeader(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogOverlay",
+          "kind": "function",
+          "type": "function DialogOverlay(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogPortal",
+          "kind": "function",
+          "type": "function DialogPortal(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogTitle",
+          "kind": "function",
+          "type": "function DialogTitle(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogTrigger",
+          "kind": "function",
+          "type": "function DialogTrigger(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogTriggerButton",
+          "kind": "const",
+          "type": "const DialogTriggerButton = createTriggerButton( DialogPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'dialog-trigger',",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "dotted-divider",
+      "importPath": "splatoon-ui/dotted-divider",
+      "primaryExport": "DottedDivider",
+      "sourcePath": "src/components/ui/dotted-divider.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "DottedDivider",
+          "kind": "function",
+          "type": "export function DottedDivider(",
+          "description": "",
+          "props": [
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "'horizontal' | 'vertical'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "DottedDividerProps",
+          "kind": "interface",
+          "type": "export interface DottedDividerProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "event-assets",
+      "importPath": "splatoon-ui/event-assets",
+      "primaryExport": "eventImageAssets",
+      "sourcePath": "src/components/ui/event-assets.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "EventImageAsset",
+          "kind": "interface",
+          "type": "export interface EventImageAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "eventImageAssets",
+          "kind": "const",
+          "type": "export const eventImageAssets =",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "event-callout",
+      "importPath": "splatoon-ui/event-callout",
+      "primaryExport": "EventCallout",
+      "sourcePath": "src/components/ui/event-callout.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "EventCallout",
+          "kind": "function",
+          "type": "export function EventCallout(",
+          "description": "",
+          "props": [
+            {
+              "name": "eyebrow",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "title",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "description",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "media",
+              "optional": true,
+              "type": "EventImageAsset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "background",
+              "optional": true,
+              "type": "EventImageAsset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "EventImageAsset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "action",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "mediaPriority",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "EventCalloutProps",
+          "kind": "interface",
+          "type": "export interface EventCalloutProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "feed-carousel",
+      "importPath": "splatoon-ui/feed-carousel",
+      "primaryExport": "FeedCarousel",
+      "sourcePath": "src/components/ui/feed-carousel.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "FeedCarousel",
+          "kind": "function",
+          "type": "export function FeedCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "FeedCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "mediaAspectRatio",
+              "optional": true,
+              "type": "React.CSSProperties['aspectRatio'] | false",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "FeedCarouselItem",
+          "kind": "interface",
+          "type": "export interface FeedCarouselItem extends Pick< StapleCardProps, 'image' | 'title' | 'subtitle' | 'action' | 'surface' | 'showTape' | 'hoverTilt' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "FeedCarouselProps",
+          "kind": "interface",
+          "type": "export interface FeedCarouselProps extends Omit< React.ComponentPropsWithoutRef<typeof Carousel>, 'children' >",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "footer",
+      "importPath": "splatoon-ui/footer",
+      "primaryExport": "Footer",
+      "sourcePath": "src/components/ui/footer.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Footer",
+          "kind": "function",
+          "type": "export function Footer(",
+          "description": "",
+          "props": [
+            {
+              "name": "waveColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Wave fill color (default: var(--color-black))"
+            },
+            {
+              "name": "waveHeight",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Wave height in px (default 120)"
+            }
+          ]
+        },
+        {
+          "name": "FooterProps",
+          "kind": "interface",
+          "type": "export interface FooterProps extends React.HTMLAttributes<HTMLElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "gallery-controls",
+      "importPath": "splatoon-ui/gallery-controls",
+      "primaryExport": "GalleryControls",
+      "sourcePath": "src/components/ui/gallery-controls.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "GalleryBounce",
+          "kind": "function",
+          "type": "export function GalleryBounce(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "GalleryControls",
+          "kind": "function",
+          "type": "export function GalleryControls(",
+          "description": "",
+          "props": [
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "prevLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "nextLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "wrapButton",
+              "optional": true,
+              "type": "(direction: 'left' | 'right', button: React.ReactNode) => React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "GalleryControlsProps",
+          "kind": "interface",
+          "type": "export interface GalleryControlsProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "heading-tape",
+      "importPath": "splatoon-ui/heading-tape",
+      "primaryExport": "HeadingTape",
+      "sourcePath": "src/components/ui/heading-tape.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "HeadingTape",
+          "kind": "function",
+          "type": "export function HeadingTape(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "HeadingTapeColor",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "decorationSet",
+              "optional": true,
+              "type": "HeadingTapeDecorationSet",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "decorations",
+              "optional": true,
+              "type": "HeadingTapeDecoration[] | false",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "overlapTop",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "marginOffset",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "HeadingTapeSize",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "HeadingTapeDecoration",
+          "kind": "interface",
+          "type": "export interface HeadingTapeDecoration",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeDecorationImage",
+          "kind": "interface",
+          "type": "export interface HeadingTapeDecorationImage",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeProps",
+          "kind": "interface",
+          "type": "export interface HeadingTapeProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "icon-button",
+      "importPath": "splatoon-ui/icon-button",
+      "primaryExport": "IconButton",
+      "sourcePath": "src/components/ui/icon-button.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "IconButton",
+          "kind": "const",
+          "type": "export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "IconButtonVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "IconButtonSize",
+              "defaultValue": "",
+              "description": "Explicit size override. When omitted, variant determines default size."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "IconButtonAnimation",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "direction",
+              "optional": true,
+              "type": "IconButtonDirection",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "IconButtonAnimation",
+          "kind": "type",
+          "type": "export type IconButtonAnimation = 'squish' | 'pulse' | 'none'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonDirection",
+          "kind": "type",
+          "type": "export type IconButtonDirection = 'left' | 'right' | 'up' | 'down'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonProps",
+          "kind": "interface",
+          "type": "export interface IconButtonProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonSize",
+          "kind": "type",
+          "type": "export type IconButtonSize = 'sm' | 'md' | 'lg'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonVariant",
+          "kind": "type",
+          "type": "export type IconButtonVariant = 'carousel' | 'primary' | 'ghost' | 'yellow' | 'outline' | 'accent'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "icon-paginated-carousel",
+      "importPath": "splatoon-ui/icon-paginated-carousel",
+      "primaryExport": "IconPaginatedCarousel",
+      "sourcePath": "src/components/ui/icon-paginated-carousel.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "IconPaginatedCarousel",
+          "kind": "function",
+          "type": "export function IconPaginatedCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "IconPaginatedCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "IconPaginatedCarouselItem",
+          "kind": "interface",
+          "type": "export interface IconPaginatedCarouselItem extends GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconPaginatedCarouselProps",
+          "kind": "interface",
+          "type": "export interface IconPaginatedCarouselProps extends React.ComponentPropsWithoutRef< typeof MarqueeCarousel >",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "icons",
+      "importPath": "splatoon-ui/icons",
+      "primaryExport": "NavArrowDown",
+      "sourcePath": "src/components/ui/icons/index.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "NavArrowDown",
+          "kind": "function",
+          "type": "export function NavArrowDown(",
+          "description": "Arrow-down icon for the back-to-top button.\nViewBox: 0 0 16 9.45",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "in-view",
+      "importPath": "splatoon-ui/in-view",
+      "primaryExport": "InView",
+      "sourcePath": "src/components/ui/in-view.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "InView",
+          "kind": "function",
+          "type": "export function InView(",
+          "description": "",
+          "props": [
+            {
+              "name": "direction",
+              "optional": true,
+              "type": "InViewDirection",
+              "defaultValue": "",
+              "description": "Animation direction"
+            },
+            {
+              "name": "delay",
+              "optional": true,
+              "type": "InViewDelay",
+              "defaultValue": "",
+              "description": "Delay level (1-20, each = 0.1s)"
+            },
+            {
+              "name": "rootMargin",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Root margin for IntersectionObserver (e.g. \"-100px\", \"0%\")"
+            },
+            {
+              "name": "once",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Only trigger once"
+            },
+            {
+              "name": "drop",
+              "optional": true,
+              "type": "boolean | 'slow'",
+              "defaultValue": "",
+              "description": "Use drop animation (start-scale: 1.1) instead of direction"
+            },
+            {
+              "name": "children",
+              "optional": false,
+              "type": "InViewElement",
+              "defaultValue": "",
+              "description": "The single element to observe and animate"
+            }
+          ]
+        },
+        {
+          "name": "InViewDelay",
+          "kind": "type",
+          "type": "export type InViewDelay = | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "InViewDirection",
+          "kind": "type",
+          "type": "export type InViewDirection = 'left' | 'right' | 'up' | 'up-min' | 'down' | 'pop'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "InViewProps",
+          "kind": "interface",
+          "type": "export interface InViewProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "InViewStagger",
+          "kind": "function",
+          "type": "export function InViewStagger(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "'up-min' | 'pop'",
+              "defaultValue": "",
+              "description": "Stagger direction variant"
+            },
+            {
+              "name": "rootMargin",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Root margin for IntersectionObserver"
+            },
+            {
+              "name": "once",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Only trigger once"
+            },
+            {
+              "name": "active",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Override IntersectionObserver — when provided, controls active state directly"
+            },
+            {
+              "name": "children",
+              "optional": false,
+              "type": "InViewElement",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "InViewStaggerProps",
+          "kind": "interface",
+          "type": "export interface InViewStaggerProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "ink-splash-canvas",
+      "importPath": "splatoon-ui/ink-splash-canvas",
+      "primaryExport": "InkSplashCanvas",
+      "sourcePath": "src/components/ui/ink-splash-canvas.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "InkSplashCanvas",
+          "kind": "function",
+          "type": "export function InkSplashCanvas(",
+          "description": "",
+          "props": [
+            {
+              "name": "state",
+              "optional": false,
+              "type": "'in' | 'out' | 'idle'",
+              "defaultValue": "",
+              "description": "Animation state"
+            },
+            {
+              "name": "durationIn",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Duration for opening animation (ms)"
+            },
+            {
+              "name": "durationOut",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Duration for closing animation (ms)"
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Ink color (hex)"
+            },
+            {
+              "name": "count",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Seed for noise variation (increment each open)"
+            },
+            {
+              "name": "startPosition",
+              "optional": true,
+              "type": "[number, number]",
+              "defaultValue": "",
+              "description": "Start position in NDC coordinates [-0.5..0.5]. If not provided, defaults to [0,0] (center)."
+            },
+            {
+              "name": "background",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Optional texture for the splat-transition shader."
+            },
+            {
+              "name": "preloadedBackground",
+              "optional": true,
+              "type": "HTMLImageElement | null",
+              "defaultValue": "",
+              "description": "Pre-loaded image element for the background texture.\nWhen provided, skips async Image() loading — texture uploads synchronously on mount.\nUse this to avoid the first-play flash where the shader falls back to solid color."
+            },
+            {
+              "name": "onComplete",
+              "optional": true,
+              "type": "() => void",
+              "defaultValue": "",
+              "description": "Called when animation completes"
+            },
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Additional CSS class"
+            },
+            {
+              "name": "style",
+              "optional": true,
+              "type": "React.CSSProperties",
+              "defaultValue": "",
+              "description": "Additional CSS styles for the canvas container."
+            }
+          ]
+        },
+        {
+          "name": "InkSplashCanvasProps",
+          "kind": "interface",
+          "type": "export interface InkSplashCanvasProps",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "ink-trail",
+      "importPath": "splatoon-ui/ink-trail",
+      "primaryExport": "InkTrailCanvas",
+      "sourcePath": "src/components/ui/ink-trail.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "InkTrailCanvas",
+          "kind": "function",
+          "type": "export function InkTrailCanvas(",
+          "description": "",
+          "props": [
+            {
+              "name": "enabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable the trail effect"
+            },
+            {
+              "name": "colors",
+              "optional": true,
+              "type": "string[]",
+              "defaultValue": "",
+              "description": "Ink colors to cycle through"
+            },
+            {
+              "name": "blobSize",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Base size of each ink blob in px"
+            },
+            {
+              "name": "sizeVariance",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Random size variance (0-1)"
+            },
+            {
+              "name": "spawnInterval",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "How often to spawn particles (ms). Lower = denser trail"
+            },
+            {
+              "name": "particleLifetime",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Maximum particle lifetime in ms"
+            },
+            {
+              "name": "spawnRadius",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Maximum distance from cursor to spawn particle (px)"
+            },
+            {
+              "name": "initialOpacity",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Opacity of newly spawned particles (0-1)"
+            },
+            {
+              "name": "zIndex",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Particle z-index layer"
+            }
+          ]
+        },
+        {
+          "name": "InkTrailCanvasProps",
+          "kind": "interface",
+          "type": "export interface InkTrailCanvasProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "input",
+      "importPath": "splatoon-ui/input",
+      "primaryExport": "Input",
+      "sourcePath": "src/components/ui/input.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Input",
+          "kind": "function",
+          "type": "function Input(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "label",
+      "importPath": "splatoon-ui/label",
+      "primaryExport": "Label",
+      "sourcePath": "src/components/ui/label.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Label",
+          "kind": "function",
+          "type": "function Label(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "list",
+      "importPath": "splatoon-ui/list",
+      "primaryExport": "List",
+      "sourcePath": "src/components/ui/list.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "List",
+          "kind": "function",
+          "type": "function List(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "ListVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerTextColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerHoverColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerHoverTextColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "dividerColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ListItem",
+          "kind": "function",
+          "type": "function ListItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "showDivider",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ListItemProps",
+          "kind": "interface",
+          "type": "export interface ListItemProps extends React.ComponentProps<'li'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ListProps",
+          "kind": "interface",
+          "type": "export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ListVariant",
+          "kind": "type",
+          "type": "export type ListVariant = 'ordered'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "loader",
+      "importPath": "splatoon-ui/loader",
+      "primaryExport": "Loader",
+      "sourcePath": "src/components/ui/loader.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Loader",
+          "kind": "function",
+          "type": "export function Loader(",
+          "description": "Loader — image-backed animated squid loading glyph.",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "'default' | 'blue' | 'red'",
+              "defaultValue": "",
+              "description": "Loader color variant."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "LoaderAnimation",
+              "defaultValue": "",
+              "description": "Animation source used by the loader."
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Size in CSS units (e.g. '1em', '2rem', '32px')."
+            },
+            {
+              "name": "label",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Accessible status label."
+            }
+          ]
+        },
+        {
+          "name": "LoaderAnimation",
+          "kind": "type",
+          "type": "export type LoaderAnimation = 'glyph' | 'morph' | 'swim'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "LoaderProps",
+          "kind": "interface",
+          "type": "export interface LoaderProps extends React.HTMLAttributes<HTMLSpanElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "marquee",
+      "importPath": "splatoon-ui/marquee",
+      "primaryExport": "Marquee",
+      "sourcePath": "src/components/ui/marquee.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Marquee",
+          "kind": "function",
+          "type": "function Marquee(",
+          "description": "",
+          "props": [
+            {
+              "name": "speed",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "direction",
+              "optional": true,
+              "type": "'left' | 'right'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "pauseOnHover",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "'default' | 'tape' | 'warning'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showEdgeTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "tapeVariant",
+              "optional": true,
+              "type": "TapeVariant",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "MarqueeItem",
+          "kind": "function",
+          "type": "function MarqueeItem(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "marquee-carousel",
+      "importPath": "splatoon-ui/marquee-carousel",
+      "primaryExport": "MarqueeCarousel",
+      "sourcePath": "src/components/ui/marquee-carousel.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "GalleryItem",
+          "kind": "interface",
+          "type": "export interface GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeCarousel",
+          "kind": "function",
+          "type": "export function MarqueeCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "MarqueeCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "pagination",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "renderItem",
+              "optional": true,
+              "type": "(item: MarqueeCarouselItem, index: number) => React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "MarqueeCarouselItem",
+          "kind": "interface",
+          "type": "export interface MarqueeCarouselItem extends GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeCarouselProps",
+          "kind": "interface",
+          "type": "export interface MarqueeCarouselProps extends Omit< React.ComponentPropsWithoutRef<typeof Carousel>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeGalleryItem",
+          "kind": "function",
+          "type": "export function MarqueeGalleryItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "item",
+              "optional": false,
+              "type": "MarqueeCarouselItem",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "data-index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "media-decoration",
+      "importPath": "splatoon-ui/media-decoration",
+      "primaryExport": "MediaDecoration",
+      "sourcePath": "src/components/ui/media-decoration.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "MediaDecoration",
+          "kind": "function",
+          "type": "export function MediaDecoration(",
+          "description": "",
+          "props": [
+            {
+              "name": "asset",
+              "optional": false,
+              "type": "TapeImageVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "responsive",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "media",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "imageClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "mobilePictureClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "desktopPictureClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "MediaDecorationProps",
+          "kind": "interface",
+          "type": "export interface MediaDecorationProps extends Omit<CardSlotProps, 'children'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "nav-chevron",
+      "importPath": "splatoon-ui/nav-chevron",
+      "primaryExport": "NavChevron",
+      "sourcePath": "src/components/ui/nav-chevron.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "NavChevron",
+          "kind": "function",
+          "type": "export function NavChevron(",
+          "description": "",
+          "props": [
+            {
+              "name": "isHighlighted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "nav-menu-button",
+      "importPath": "splatoon-ui/nav-menu-button",
+      "primaryExport": "NavMenuButton",
+      "sourcePath": "src/components/ui/nav-menu-button.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "NavMenuButton",
+          "kind": "function",
+          "type": "function NavMenuButton(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "navigation",
+      "importPath": "splatoon-ui/navigation",
+      "primaryExport": "Navigation",
+      "sourcePath": "src/components/ui/navigation.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Navigation",
+          "kind": "function",
+          "type": "export function Navigation(",
+          "description": "",
+          "props": [
+            {
+              "name": "headerDecoration",
+              "optional": true,
+              "type": "(isCollapsed: boolean) => React.ReactNode",
+              "defaultValue": "",
+              "description": "Decorative element at the bottom-left of the header — receives isCollapsed for responsive positioning"
+            },
+            {
+              "name": "headerActions",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Right-aligned content inside the fixed header bar"
+            },
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Navigation menu content (e.g. NavigationDialog)"
+            },
+            {
+              "name": "headerClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Header className — defaults to 'bg-black text-white'"
+            },
+            {
+              "name": "showSkipLink",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Whether to show the skip-to-content link — defaults to true"
+            },
+            {
+              "name": "skipToContentHref",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Skip-to-content href — defaults to '#main-content'"
+            },
+            {
+              "name": "showReducedMotionToggle",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Whether to show the reduced motion toggle — defaults to true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "navigation-dialog",
+      "importPath": "splatoon-ui/navigation-dialog",
+      "primaryExport": "NavigationDialog",
+      "sourcePath": "src/components/ui/navigation-dialog.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "NavigationDialog",
+          "kind": "function",
+          "type": "export function NavigationDialog(",
+          "description": "",
+          "props": [
+            {
+              "name": "isReducedMotion",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "navLinks",
+              "optional": false,
+              "type": "NavLink[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "highlightColor",
+              "optional": false,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "cta",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "logo",
+              "optional": true,
+              "type": "(contentPhase: ContentPhase) => React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "menuDecorations",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "overlayDecorations",
+              "optional": true,
+              "type": "(contentPhase: ContentPhase) => React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "renderLink",
+              "optional": true,
+              "type": "(link: NavLink, props: LinkRenderProps) => React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "backgroundTransition",
+              "optional": false,
+              "type": "(props: BackgroundTransitionProps) => React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onNavigate",
+              "optional": true,
+              "type": "(href: string) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "navLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Accessible label for the navigation dialog and nav landmark."
+            },
+            {
+              "name": "closeLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Screen-reader text for the close button."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "navigation-types",
+      "importPath": "splatoon-ui/navigation-types",
+      "primaryExport": "LinkRenderProps",
+      "sourcePath": "src/components/ui/navigation-types.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "LinkRenderProps",
+          "kind": "type",
+          "type": "export type LinkRenderProps =",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "NavLink",
+          "kind": "interface",
+          "type": "export interface NavLink",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "news-assets",
+      "importPath": "splatoon-ui/news-assets",
+      "primaryExport": "newsStapleAssets",
+      "sourcePath": "src/components/ui/news-assets.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "NewsImageAsset",
+          "kind": "interface",
+          "type": "export interface NewsImageAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "newsStapleAssets",
+          "kind": "const",
+          "type": "export const newsStapleAssets =",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "page-transition",
+      "importPath": "splatoon-ui/page-transition",
+      "primaryExport": "PageTransition",
+      "sourcePath": "src/components/ui/page-transition.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "PageTransition",
+          "kind": "function",
+          "type": "export function PageTransition(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "durationIn",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "durationOut",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "autoReveal",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onCovered",
+              "optional": true,
+              "type": "() => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onRevealed",
+              "optional": true,
+              "type": "() => void",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PageTransitionHandle",
+          "kind": "interface",
+          "type": "export interface PageTransitionHandle",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PageTransitionProps",
+          "kind": "interface",
+          "type": "export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "paper-surface",
+      "importPath": "splatoon-ui/paper-surface",
+      "primaryExport": "PaperSurface",
+      "sourcePath": "src/components/ui/paper-surface.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "PaperSurface",
+          "kind": "function",
+          "type": "export function PaperSurface(",
+          "description": "",
+          "props": [
+            {
+              "name": "tone",
+              "optional": true,
+              "type": "PaperSurfaceTone",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "topEdgeClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "bottomEdgeClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "contentClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Extra classes for the middle content layer. The surface guarantees\n`w-full min-w-0 overflow-x-clip` as structural invariants — content\nwill never bleed outside the tear-paper boundary."
+            },
+            {
+              "name": "showTopEdge",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showBottomEdge",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PaperSurfaceProps",
+          "kind": "interface",
+          "type": "export interface PaperSurfaceProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PaperSurfaceTone",
+          "kind": "type",
+          "type": "export type PaperSurfaceTone = 'white' | 'black' | 'red'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "paper-tear-edge",
+      "importPath": "splatoon-ui/paper-tear-edge",
+      "primaryExport": "PaperTearEdge",
+      "sourcePath": "src/components/ui/paper-tear-edge.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "PaperTearEdge",
+          "kind": "function",
+          "type": "export function PaperTearEdge(",
+          "description": "",
+          "props": [
+            {
+              "name": "edge",
+              "optional": true,
+              "type": "keyof typeof PAPER_TEAR_PATHS",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PaperTearEdgeProps",
+          "kind": "interface",
+          "type": "export interface PaperTearEdgeProps extends React.ComponentProps<'svg'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "photo-frame",
+      "importPath": "splatoon-ui/photo-frame",
+      "primaryExport": "PhotoFrame",
+      "sourcePath": "src/components/ui/photo-frame.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "PhotoDecoration",
+          "kind": "function",
+          "type": "export function PhotoDecoration(",
+          "description": "",
+          "props": [
+            {
+              "name": "position",
+              "optional": true,
+              "type": "'bottomLeft' | 'topRight' | 'bottomRight' | 'center'",
+              "defaultValue": "",
+              "description": "Decoration position"
+            },
+            {
+              "name": "type",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Decoration type"
+            }
+          ]
+        },
+        {
+          "name": "PhotoDecorationProps",
+          "kind": "interface",
+          "type": "export interface PhotoDecorationProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PhotoFrame",
+          "kind": "function",
+          "type": "export function PhotoFrame(",
+          "description": "",
+          "props": [
+            {
+              "name": "src",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Image source"
+            },
+            {
+              "name": "alt",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Image alt text"
+            },
+            {
+              "name": "border",
+              "optional": true,
+              "type": "'default' | 'thin' | 'medium'",
+              "defaultValue": "",
+              "description": "Border style variant"
+            },
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "PhotoFrameVariant",
+              "defaultValue": "",
+              "description": "Component variant preset"
+            },
+            {
+              "name": "showTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Show decorative tape (default: from variant config)"
+            },
+            {
+              "name": "showSticker",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Show decorative sticker (default: from variant config)"
+            },
+            {
+              "name": "tapePosition",
+              "optional": true,
+              "type": "'center' | 'left' | 'right'",
+              "defaultValue": "",
+              "description": "Tape position at photo edge"
+            },
+            {
+              "name": "rotation",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS custom property for rotation"
+            },
+            {
+              "name": "marginOffset",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "CSS custom property for margin offset"
+            },
+            {
+              "name": "nested",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Nested mode (smaller, scaled tape)"
+            },
+            {
+              "name": "fillWidth",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Fill width (block display)"
+            }
+          ]
+        },
+        {
+          "name": "PhotoFrameProps",
+          "kind": "interface",
+          "type": "export interface PhotoFrameProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PhotoTape",
+          "kind": "function",
+          "type": "export function PhotoTape(",
+          "description": "",
+          "props": [
+            {
+              "name": "position",
+              "optional": true,
+              "type": "'center' | 'left' | 'right' | 'bottomCenter' | 'bottomLeft' | 'bottomRight'",
+              "defaultValue": "",
+              "description": "Tape position"
+            },
+            {
+              "name": "type",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Tape type"
+            }
+          ]
+        },
+        {
+          "name": "PhotoTapeProps",
+          "kind": "interface",
+          "type": "export interface PhotoTapeProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "popover",
+      "importPath": "splatoon-ui/popover",
+      "primaryExport": "Popover",
+      "sourcePath": "src/components/ui/popover.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Popover",
+          "kind": "function",
+          "type": "function Popover(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverContent",
+          "kind": "const",
+          "type": "const PopoverContent = React.forwardRef< HTMLDivElement, PopoverPrimitive.Popup.Props &",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverDescription",
+          "kind": "function",
+          "type": "function PopoverDescription(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverHeader",
+          "kind": "function",
+          "type": "function PopoverHeader(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverPortal",
+          "kind": "function",
+          "type": "function PopoverPortal(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverPositioner",
+          "kind": "function",
+          "type": "function PopoverPositioner(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTitle",
+          "kind": "function",
+          "type": "function PopoverTitle(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTrigger",
+          "kind": "function",
+          "type": "function PopoverTrigger(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTriggerButton",
+          "kind": "const",
+          "type": "const PopoverTriggerButton = createTriggerButton( PopoverPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'popover-trigger' )",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "progress",
+      "importPath": "splatoon-ui/progress",
+      "primaryExport": "Progress",
+      "sourcePath": "src/components/ui/progress.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Progress",
+          "kind": "function",
+          "type": "function Progress(",
+          "description": "",
+          "props": [
+            {
+              "name": "value",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "ProgressVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "trackVariant",
+              "optional": true,
+              "type": "ProgressTrackVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "ProgressSize",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "skewed",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "splattered",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ProgressProps",
+          "kind": "interface",
+          "type": "export interface ProgressProps extends Omit< React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>, 'children' | 'max' | 'value' >",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "radio-group",
+      "importPath": "splatoon-ui/radio-group",
+      "primaryExport": "RadioGroup",
+      "sourcePath": "src/components/ui/radio-group.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "RadioGroup",
+          "kind": "function",
+          "type": "function RadioGroup(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RadioGroupItem",
+          "kind": "function",
+          "type": "function RadioGroupItem(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "rugged-card",
+      "importPath": "splatoon-ui/rugged-card",
+      "primaryExport": "RuggedCard",
+      "sourcePath": "src/components/ui/rugged-card.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "RuggedCard",
+          "kind": "function",
+          "type": "export function RuggedCard(",
+          "description": "",
+          "props": [
+            {
+              "name": "ruggedTheme",
+              "optional": true,
+              "type": "RuggedTheme",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ruggedRotation",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ruggedBackground",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedTheme",
+          "kind": "type",
+          "type": "export type RuggedTheme = 'yellow' | 'blue' | 'purple' | 'orange' | 'green'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "section",
+      "importPath": "splatoon-ui/section",
+      "primaryExport": "Section",
+      "sourcePath": "src/components/ui/section.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Section",
+          "kind": "function",
+          "type": "export function Section(",
+          "description": "",
+          "props": [
+            {
+              "name": "size",
+              "optional": true,
+              "type": "'md' | 'lg'",
+              "defaultValue": "",
+              "description": "Base size — controls vertical padding. `md` = 64px, `lg` = 80px"
+            },
+            {
+              "name": "headingTape",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Pass a HeadingTape element to auto-increase padding for sticker overflow"
+            },
+            {
+              "name": "pattern",
+              "optional": true,
+              "type": "Pattern",
+              "defaultValue": "",
+              "description": "Optional pattern texture overlay"
+            },
+            {
+              "name": "bgColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Tailwind background class (e.g. \"bg-white\")"
+            },
+            {
+              "name": "text",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Tailwind text color class (e.g. \"text-chaos-black\")"
+            },
+            {
+              "name": "as",
+              "optional": true,
+              "type": "'section' | 'div'",
+              "defaultValue": "",
+              "description": "Render as \"section\" or \"div\""
+            },
+            {
+              "name": "bottomOverlayClearance",
+              "optional": true,
+              "type": "'none' | 'banner-divider'",
+              "defaultValue": "",
+              "description": "Reserve content-safe space for decorative overlays painted across the section edge."
+            },
+            {
+              "name": "style",
+              "optional": true,
+              "type": "React.CSSProperties",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SectionProps",
+          "kind": "interface",
+          "type": "export interface SectionProps extends React.HTMLAttributes<HTMLElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "section-background",
+      "importPath": "splatoon-ui/section-background",
+      "primaryExport": "SectionBackground",
+      "sourcePath": "src/components/ui/section-background.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Pattern",
+          "kind": "type",
+          "type": "export type Pattern = | 'base-bg-pattern' | 'camo-black' | 'camo-green' | 'camo-purple' | 'camo-purple-revised' | 'camo-orange' | 'camo-red' | 'camo-white' | 'camo-white-outline' | 'hardware-background' | 'octo-black' | ",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SectionBackground",
+          "kind": "function",
+          "type": "export function SectionBackground(",
+          "description": "",
+          "props": [
+            {
+              "name": "bgColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Solid background color (e.g. \"bg-white\", \"bg-black\")"
+            },
+            {
+              "name": "darkBgColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Dark mode background color"
+            },
+            {
+              "name": "pattern",
+              "optional": true,
+              "type": "Pattern",
+              "defaultValue": "",
+              "description": "Optional pattern texture overlay"
+            },
+            {
+              "name": "as",
+              "optional": true,
+              "type": "'div' | 'section'",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SectionBackgroundProps",
+          "kind": "interface",
+          "type": "export interface SectionBackgroundProps extends React.HTMLAttributes<HTMLElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "section-side-nav",
+      "importPath": "splatoon-ui/section-side-nav",
+      "primaryExport": "SectionSideNav",
+      "sourcePath": "src/components/ui/section-side-nav.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "SectionNavItem",
+          "kind": "interface",
+          "type": "export interface SectionNavItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SectionSideNav",
+          "kind": "function",
+          "type": "export function SectionSideNav(",
+          "description": "",
+          "props": [
+            {
+              "name": "sections",
+              "optional": false,
+              "type": "SectionNavItem[]",
+              "defaultValue": "",
+              "description": "Sections to display in the navigation"
+            },
+            {
+              "name": "contentRef",
+              "optional": false,
+              "type": "React.RefObject<HTMLElement | null>",
+              "defaultValue": "",
+              "description": "Ref to the content container wrapping all sections. Sidebar visibility\nis tied to this element's viewport intersection — exactly matching the\nSplatoon UI section navigation implementation."
+            },
+            {
+              "name": "topInset",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Height, in CSS pixels, reserved for fixed chrome above the nav."
+            },
+            {
+              "name": "viewportMargin",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Minimum distance, in CSS pixels, between the nav and usable viewport edges."
+            },
+            {
+              "name": "navLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Accessible label for the nav landmark."
+            },
+            {
+              "name": "backToTopLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Accessible label for the \"back to top\" button."
+            }
+          ]
+        },
+        {
+          "name": "SectionSideNavProps",
+          "kind": "interface",
+          "type": "export interface SectionSideNavProps extends React.ComponentProps<'nav'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "segmented-control",
+      "importPath": "splatoon-ui/segmented-control",
+      "primaryExport": "SegmentedControl",
+      "sourcePath": "src/components/ui/segmented-control.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "SegmentedControl",
+          "kind": "function",
+          "type": "function SegmentedControl(",
+          "description": "",
+          "props": [
+            {
+              "name": "appearance",
+              "optional": true,
+              "type": "SegmentedControlAppearance",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "SegmentedControlColor",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "density",
+              "optional": true,
+              "type": "SegmentedControlDensity",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fillImageHref",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "SegmentedControlOrientation",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "style",
+              "optional": true,
+              "type": "React.CSSProperties",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SegmentedControlItem",
+          "kind": "function",
+          "type": "function SegmentedControlItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "buttonProps",
+              "optional": true,
+              "type": "Omit<ButtonGroupItemProps, 'children' | 'ref' | 'value'>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SegmentedControlItemProps",
+          "kind": "interface",
+          "type": "export interface SegmentedControlItemProps extends RadioPrimitive.Root.Props<string>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlProps",
+          "kind": "interface",
+          "type": "export interface SegmentedControlProps extends Omit<RadioGroupPrimitive.Props<string>, 'style'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "select",
+      "importPath": "splatoon-ui/select",
+      "primaryExport": "Select",
+      "sourcePath": "src/components/ui/select.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Select",
+          "kind": "const",
+          "type": "const Select = SelectPrimitive.Root",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectContent",
+          "kind": "function",
+          "type": "function SelectContent(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectGroup",
+          "kind": "function",
+          "type": "function SelectGroup(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectItem",
+          "kind": "function",
+          "type": "function SelectItem(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectLabel",
+          "kind": "function",
+          "type": "function SelectLabel(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectScrollDownButton",
+          "kind": "function",
+          "type": "function SelectScrollDownButton(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectScrollUpButton",
+          "kind": "function",
+          "type": "function SelectScrollUpButton(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectSeparator",
+          "kind": "function",
+          "type": "function SelectSeparator(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectTrigger",
+          "kind": "function",
+          "type": "function SelectTrigger(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectValue",
+          "kind": "function",
+          "type": "function SelectValue(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "sheet",
+      "importPath": "splatoon-ui/sheet",
+      "primaryExport": "Sheet",
+      "sourcePath": "src/components/ui/sheet.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Sheet",
+          "kind": "function",
+          "type": "function Sheet(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetContent",
+          "kind": "const",
+          "type": "const SheetContent = React.forwardRef< HTMLDivElement, SheetPrimitive.Popup.Props &",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetDescription",
+          "kind": "function",
+          "type": "function SheetDescription(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetFooter",
+          "kind": "function",
+          "type": "function SheetFooter(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetHeader",
+          "kind": "function",
+          "type": "function SheetHeader(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetOverlay",
+          "kind": "function",
+          "type": "function SheetOverlay(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetPopup",
+          "kind": "const",
+          "type": "const SheetPopup = React.forwardRef< HTMLDivElement, SheetPrimitive.Popup.Props &",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetPortal",
+          "kind": "function",
+          "type": "function SheetPortal(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTitle",
+          "kind": "function",
+          "type": "function SheetTitle(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTrigger",
+          "kind": "function",
+          "type": "function SheetTrigger(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTriggerButton",
+          "kind": "const",
+          "type": "const SheetTriggerButton = createTriggerButton( SheetPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'sheet-trigger' )",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "splatoon-title",
+      "importPath": "splatoon-ui/splatoon-title",
+      "primaryExport": "SplatoonTitle",
+      "sourcePath": "src/components/ui/splatoon-title.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "SplatoonTitle",
+          "kind": "function",
+          "type": "export function SplatoonTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "SplatoonTitleVariant",
+              "defaultValue": "",
+              "description": "Title variant"
+            },
+            {
+              "name": "section",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Optional section key used for text fallback labels"
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "SplatoonTitleSize",
+              "defaultValue": "",
+              "description": "Title size"
+            },
+            {
+              "name": "animate",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Animation on mount"
+            },
+            {
+              "name": "image",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Custom image URL (overrides section)"
+            },
+            {
+              "name": "imageHover",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Custom image URL for hover state"
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Text content (used as fallback or alt text)"
+            }
+          ]
+        },
+        {
+          "name": "SplatoonTitleProps",
+          "kind": "interface",
+          "type": "export interface SplatoonTitleProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonTitleSize",
+          "kind": "type",
+          "type": "export type SplatoonTitleSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonTitleVariant",
+          "kind": "type",
+          "type": "export type SplatoonTitleVariant = 'logo' | 'section'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "splats",
+      "importPath": "splatoon-ui/splats",
+      "primaryExport": "InteractiveSplatter",
+      "sourcePath": "src/components/ui/splats/index.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "InteractiveSplatter",
+          "kind": "function",
+          "type": "export function InteractiveSplatter(",
+          "description": "InteractiveSplatter Component.\nAttach this inside a positioned container. Clicking anywhere in the parent\ncontainer will spawn dynamic ink splats in the background.",
+          "props": [
+            {
+              "name": "maxSplats",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Maximum number of splats on screen before older ones fade out (default: 15)"
+            },
+            {
+              "name": "minSize",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Minimum diameter of spawned splat in pixels (default: 90)"
+            },
+            {
+              "name": "maxSize",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Maximum diameter of spawned splat in pixels (default: 180)"
+            },
+            {
+              "name": "colors",
+              "optional": true,
+              "type": "string[]",
+              "defaultValue": "",
+              "description": "List of custom ink colors to cycle/pick randomly (default: Splatoon brand colors)"
+            },
+            {
+              "name": "interactive",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Allow clicking parent container to spawn splats (default: true)"
+            },
+            {
+              "name": "splatIds",
+              "optional": true,
+              "type": "number[]",
+              "defaultValue": "",
+              "description": "Specific splat IDs to pick from. Defaults to all bundled splat shapes."
+            }
+          ]
+        },
+        {
+          "name": "InteractiveSplatterProps",
+          "kind": "interface",
+          "type": "export interface InteractiveSplatterProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "NavSplat",
+          "kind": "function",
+          "type": "export function NavSplat(",
+          "description": "Ink splat decoration behind the active section nav item.\nPorted from official splatoon.nintendo.com `icon-gallery-nav-splat` symbol.\nViewBox: 0 0 156 136",
+          "props": []
+        },
+        {
+          "name": "Splat",
+          "kind": "function",
+          "type": "export function Splat(",
+          "description": "Dynamic Splat Router Component.\nRoutes dynamically to Splat1 through Splat12.\nIdeal for loops or dynamic particle rendering.",
+          "props": [
+            {
+              "name": "id",
+              "optional": false,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Bundled splat ID (1 to 12)"
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable"
+            }
+          ]
+        },
+        {
+          "name": "Splat1",
+          "kind": "function",
+          "type": "export function Splat1(",
+          "description": "Ink splat decorative shape #1.\nViewBox: 0 0 478 624",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat10",
+          "kind": "function",
+          "type": "export function Splat10(",
+          "description": "Ink splat decorative shape #10.\nViewBox: 0 0 320 320",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat10Props",
+          "kind": "interface",
+          "type": "export interface Splat10Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat11",
+          "kind": "function",
+          "type": "export function Splat11(",
+          "description": "Ink splat decorative shape #11.\nViewBox: 0 0 320 320",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat11Props",
+          "kind": "interface",
+          "type": "export interface Splat11Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat12",
+          "kind": "function",
+          "type": "export function Splat12(",
+          "description": "Ink splat decorative shape #12.\nViewBox: 0 0 320 320",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat12Props",
+          "kind": "interface",
+          "type": "export interface Splat12Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat1Props",
+          "kind": "interface",
+          "type": "export interface Splat1Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat2",
+          "kind": "function",
+          "type": "export function Splat2(",
+          "description": "Ink splat decorative shape #2.\nViewBox: 0 0 628 539",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat2Props",
+          "kind": "interface",
+          "type": "export interface Splat2Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat3",
+          "kind": "function",
+          "type": "export function Splat3(",
+          "description": "Ink splat decorative shape #3.\nViewBox: 0 0 510 497",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat3Props",
+          "kind": "interface",
+          "type": "export interface Splat3Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat4",
+          "kind": "function",
+          "type": "export function Splat4(",
+          "description": "Ink splat decorative shape #4.\nViewBox: 0 0 271 286",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat4Props",
+          "kind": "interface",
+          "type": "export interface Splat4Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat5",
+          "kind": "function",
+          "type": "export function Splat5(",
+          "description": "Ink splat decorative shape #5.\nViewBox: 0 0 318 267",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat5Props",
+          "kind": "interface",
+          "type": "export interface Splat5Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat6",
+          "kind": "function",
+          "type": "export function Splat6(",
+          "description": "Ink splat decorative shape #6.\nViewBox: 0 0 244 265",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat6Props",
+          "kind": "interface",
+          "type": "export interface Splat6Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat7",
+          "kind": "function",
+          "type": "export function Splat7(",
+          "description": "Ink splat decorative shape #7.\nViewBox: 0 0 630 630",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat7Props",
+          "kind": "interface",
+          "type": "export interface Splat7Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat8",
+          "kind": "function",
+          "type": "export function Splat8(",
+          "description": "Ink splat decorative shape #8.\nViewBox: 0 0 630 630",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat8Props",
+          "kind": "interface",
+          "type": "export interface Splat8Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Splat9",
+          "kind": "function",
+          "type": "export function Splat9(",
+          "description": "Ink splat decorative shape #9.\nViewBox: 0 0 630 630",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            }
+          ]
+        },
+        {
+          "name": "Splat9Props",
+          "kind": "interface",
+          "type": "export interface Splat9Props extends React.SVGProps<SVGSVGElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatProps",
+          "kind": "interface",
+          "type": "export interface SplatProps extends Omit<React.SVGProps<SVGSVGElement>, 'id'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "squid-assets",
+      "importPath": "splatoon-ui/squid-assets",
+      "primaryExport": "squidImageAssets",
+      "sourcePath": "src/components/ui/squid-assets.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "SquidImageAsset",
+          "kind": "interface",
+          "type": "export interface SquidImageAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "squidImageAssets",
+          "kind": "const",
+          "type": "export const squidImageAssets =",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SquidSpriteAsset",
+          "kind": "interface",
+          "type": "export interface SquidSpriteAsset extends SquidImageAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "squidSpriteAssets",
+          "kind": "const",
+          "type": "export const squidSpriteAssets =",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "squid-mask-transition",
+      "importPath": "splatoon-ui/squid-mask-transition",
+      "primaryExport": "SquidMaskTransition",
+      "sourcePath": "src/components/ui/squid-mask-transition.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "SquidMaskTransition",
+          "kind": "function",
+          "type": "export function SquidMaskTransition(",
+          "description": "",
+          "props": [
+            {
+              "name": "durationIn",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "durationOut",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "autoReveal",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onCovered",
+              "optional": true,
+              "type": "() => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onRevealed",
+              "optional": true,
+              "type": "() => void",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SquidMaskTransitionHandle",
+          "kind": "interface",
+          "type": "export interface SquidMaskTransitionHandle",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SquidMaskTransitionProps",
+          "kind": "interface",
+          "type": "export interface SquidMaskTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "staple-card",
+      "importPath": "splatoon-ui/staple-card",
+      "primaryExport": "StapleCard",
+      "sourcePath": "src/components/ui/staple-card.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "StapleCard",
+          "kind": "function",
+          "type": "export function StapleCard(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "StapleCardVariant",
+              "defaultValue": "",
+              "description": "Variant preset (controls tape visibility and position)"
+            },
+            {
+              "name": "image",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Image/media shown in the tilted image area"
+            },
+            {
+              "name": "title",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders a title paragraph in the info area"
+            },
+            {
+              "name": "subtitle",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders a subtitle paragraph below the title"
+            },
+            {
+              "name": "action",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders an action element (e.g. a Button) at the bottom of info"
+            },
+            {
+              "name": "surface",
+              "optional": true,
+              "type": "'white' | 'dark'",
+              "defaultValue": "",
+              "description": "Visual surface: \"white\" (default) or \"dark\" (dark bg, white text)"
+            },
+            {
+              "name": "showTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Whether to show the decorative tape element (default: from variant config)"
+            },
+            {
+              "name": "hoverTilt",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable hover tilt animation (default: false)"
+            },
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleCardDescription",
+          "kind": "function",
+          "type": "function StapleCardDescription(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "StapleCardProps",
+          "kind": "interface",
+          "type": "export interface StapleCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "StapleCardTitle",
+          "kind": "function",
+          "type": "function StapleCardTitle(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "stickers",
+      "importPath": "splatoon-ui/stickers",
+      "primaryExport": "Sticker10",
+      "sourcePath": "src/components/ui/stickers/index.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Sticker10",
+          "kind": "function",
+          "type": "export function Sticker10(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Sticker2Red",
+          "kind": "function",
+          "type": "export function Sticker2Red(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Sticker5",
+          "kind": "function",
+          "type": "export function Sticker5(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "switch",
+      "importPath": "splatoon-ui/switch",
+      "primaryExport": "Switch",
+      "sourcePath": "src/components/ui/switch.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Switch",
+          "kind": "function",
+          "type": "function Switch(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "SwitchColor",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fillImageHref",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "offLabel",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onLabel",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "SwitchSize",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SwitchProps",
+          "kind": "interface",
+          "type": "export interface SwitchProps extends SwitchPrimitive.Root.Props",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tabs",
+      "importPath": "splatoon-ui/tabs",
+      "primaryExport": "Tabs",
+      "sourcePath": "src/components/ui/tabs.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Tabs",
+          "kind": "function",
+          "type": "function Tabs(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsContent",
+          "kind": "function",
+          "type": "function TabsContent(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsList",
+          "kind": "function",
+          "type": "function TabsList(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "TabsListColor",
+              "defaultValue": "",
+              "description": "Primary active color token. The default decoration color is inferred from the matching Splatoon theme pair."
+            },
+            {
+              "name": "decorationColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Override the inferred hover/active decoration color with any CSS color value."
+            }
+          ]
+        },
+        {
+          "name": "TabsListProps",
+          "kind": "interface",
+          "type": "export interface TabsListProps extends Omit<TabsPrimitive.List.Props, 'color'>, Omit<VariantProps<typeof tabsListVariants>, 'color'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "tabsListVariants",
+          "kind": "const",
+          "type": "const tabsListVariants = cva( 'group/tabs-list flex items-center justify-center text-current group-data-horizontal/tabs:h-auto group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col',",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsPanels",
+          "kind": "function",
+          "type": "function TabsPanels(",
+          "description": "",
+          "props": [
+            {
+              "name": "swipeable",
+              "optional": true,
+              "type": "TabsSwipeMode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "swipeThreshold",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "swipeAxisLockRatio",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TabsPanelsProps",
+          "kind": "interface",
+          "type": "export interface TabsPanelsProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsTrigger",
+          "kind": "function",
+          "type": "function TabsTrigger(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tag-hanger",
+      "importPath": "splatoon-ui/tag-hanger",
+      "primaryExport": "TagHanger",
+      "sourcePath": "src/components/ui/tag-hanger.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TagHanger",
+          "kind": "function",
+          "type": "export function TagHanger()",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tape",
+      "importPath": "splatoon-ui/tape",
+      "primaryExport": "Tape",
+      "sourcePath": "src/components/ui/tape.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Staple",
+          "kind": "function",
+          "type": "function Staple(",
+          "description": "",
+          "props": [
+            {
+              "name": "position",
+              "optional": true,
+              "type": "'left' | 'right' | 'top' | 'bottom'",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleProps",
+          "kind": "interface",
+          "type": "export interface StapleProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Tape",
+          "kind": "function",
+          "type": "function Tape(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "TapeVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "position",
+              "optional": true,
+              "type": "'top-left' | 'top-right' | 'center' | 'bottom-left' | 'bottom-right' | 'news' | 'event'",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TapeProps",
+          "kind": "interface",
+          "type": "export interface TapeProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TapeVariant",
+          "kind": "type",
+          "type": "export type TapeVariant = TapeImageVariant",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tape-assets",
+      "importPath": "splatoon-ui/tape-assets",
+      "primaryExport": "isTapeImageVariant",
+      "sourcePath": "src/components/ui/tape-assets.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "isTapeImageVariant",
+          "kind": "function",
+          "type": "export function isTapeImageVariant(value: string): value is TapeImageVariant",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TapeAsset",
+          "kind": "interface",
+          "type": "export interface TapeAsset extends TapeAssetSource",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TapeAssetSource",
+          "kind": "interface",
+          "type": "export interface TapeAssetSource",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "tapeImageAssets",
+          "kind": "const",
+          "type": "export const tapeImageAssets: Record<TapeImageVariant, TapeAsset> = tapeImageAssetDefinitions",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TapeImageVariant",
+          "kind": "type",
+          "type": "export type TapeImageVariant = keyof typeof tapeImageAssetDefinitions",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tape-divider",
+      "importPath": "splatoon-ui/tape-divider",
+      "primaryExport": "TapeDivider",
+      "sourcePath": "src/components/ui/tape-divider.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TapeDivider",
+          "kind": "function",
+          "type": "export function TapeDivider(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "'primary' | 'double'",
+              "defaultValue": "",
+              "description": "Single tape strip or double (tape-2 + tape-3 stacked)"
+            },
+            {
+              "name": "rotate",
+              "optional": true,
+              "type": "'none' | 'left' | 'right' | 'strong'",
+              "defaultValue": "",
+              "description": "Rotation direction"
+            },
+            {
+              "name": "overlap",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Apply negative margin so next section overlaps the tape"
+            }
+          ]
+        },
+        {
+          "name": "TapeDividerProps",
+          "kind": "interface",
+          "type": "export interface TapeDividerProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tape-picture",
+      "importPath": "splatoon-ui/tape-picture",
+      "primaryExport": "TapePicture",
+      "sourcePath": "src/components/ui/tape-picture.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TapePicture",
+          "kind": "function",
+          "type": "export function TapePicture(",
+          "description": "",
+          "props": [
+            {
+              "name": "asset",
+              "optional": false,
+              "type": "TapeAsset | TapeImageVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "pictureClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "media",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fill",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TapeResponsivePictures",
+          "kind": "function",
+          "type": "export function TapeResponsivePictures(",
+          "description": "",
+          "props": [
+            {
+              "name": "asset",
+              "optional": false,
+              "type": "TapeImageVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "mobilePictureClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "desktopPictureClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "imageClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "tape-title",
+      "importPath": "splatoon-ui/tape-title",
+      "primaryExport": "TapeTitle",
+      "sourcePath": "src/components/ui/tape-title.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TapeTitle",
+          "kind": "function",
+          "type": "export function TapeTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "'black' | 'red' | 'yellow'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "torn-card",
+      "importPath": "splatoon-ui/torn-card",
+      "primaryExport": "TornCard",
+      "sourcePath": "src/components/ui/torn-card.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TornCard",
+          "kind": "function",
+          "type": "export function TornCard(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "TornCardVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "rotation",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "background",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Show decorative tape at the top edge (default: true)"
+            },
+            {
+              "name": "showSticker",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Show decorative sticker (default: false)"
+            },
+            {
+              "name": "tapePosition",
+              "optional": true,
+              "type": "'top-right' | 'bottom-center'",
+              "defaultValue": "",
+              "description": "Tape position at card edge"
+            }
+          ]
+        },
+        {
+          "name": "TornCardDescription",
+          "kind": "function",
+          "type": "function TornCardDescription(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardProps",
+          "kind": "interface",
+          "type": "export interface TornCardProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardSlot",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardSlotProps",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardTitle",
+          "kind": "function",
+          "type": "function TornCardTitle(",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "trigger-button",
+      "importPath": "splatoon-ui/trigger-button",
+      "primaryExport": "assignRef",
+      "sourcePath": "src/components/ui/trigger-button.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "assignRef",
+          "kind": "function",
+          "type": "export function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null)",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "createTriggerButton",
+          "kind": "function",
+          "type": "export function createTriggerButton<TTrigger extends React.ComponentType<Record<string, unknown>>>( Trigger: TTrigger, dataSlot: string, options?:",
+          "description": "Factory: creates a TriggerButton component that renders a Base UI trigger\nwith a Button as its `render` output.\n\nUsage:\n  const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, \"dialog-trigger\")",
+          "props": []
+        },
+        {
+          "name": "mergeRefs",
+          "kind": "function",
+          "type": "export function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>)",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "video-dialog",
+      "importPath": "splatoon-ui/video-dialog",
+      "primaryExport": "VideoDialog",
+      "sourcePath": "src/components/ui/video-dialog.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "VideoDialog",
+          "kind": "function",
+          "type": "export function VideoDialog(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "VideoDialogContent",
+          "kind": "function",
+          "type": "export function VideoDialogContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "src",
+              "optional": false,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "title",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "mode",
+              "optional": true,
+              "type": "VideoDialogContentMode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sources",
+              "optional": true,
+              "type": "VideoDialogVideoSource[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "tracks",
+              "optional": true,
+              "type": "VideoDialogTrack[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "poster",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "autoPlay",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "controls",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "loop",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "muted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "playsInline",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "preload",
+              "optional": true,
+              "type": "React.ComponentProps<'video'>['preload']",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "VideoDialogThumbnail",
+          "kind": "function",
+          "type": "export function VideoDialogThumbnail(",
+          "description": "",
+          "props": [
+            {
+              "name": "src",
+              "optional": false,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alt",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "width",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "height",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "srcSet",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sizes",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "blobColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "blobSize",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "imageClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "loading",
+              "optional": true,
+              "type": "React.ComponentProps<'img'>['loading']",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "VideoDialogTrack",
+          "kind": "interface",
+          "type": "export interface VideoDialogTrack",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "VideoDialogVideoSource",
+          "kind": "interface",
+          "type": "export interface VideoDialogVideoSource",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "wave-button",
+      "importPath": "splatoon-ui/wave-button",
+      "primaryExport": "WaveButton",
+      "sourcePath": "src/components/ui/wave-button.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "WaveButton",
+          "kind": "const",
+          "type": "const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(function WaveButton(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "WaveButtonVariant",
+              "defaultValue": "",
+              "description": "Visual variant — controls background color"
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "WaveButtonSize",
+              "defaultValue": "",
+              "description": "Button size"
+            },
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Custom icon node. Defaults to the hamburger→X line animation. Pass null for no icon."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "WaveButtonAnimation",
+              "defaultValue": "",
+              "description": "Blob border-radius animation"
+            }
+          ]
+        },
+        {
+          "name": "WaveButtonAnimation",
+          "kind": "type",
+          "type": "export type WaveButtonAnimation = 'morph' | 'none'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WaveButtonProps",
+          "kind": "interface",
+          "type": "export interface WaveButtonProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WaveButtonSize",
+          "kind": "type",
+          "type": "export type WaveButtonSize = 'md' | 'lg'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WaveButtonVariant",
+          "kind": "type",
+          "type": "export type WaveButtonVariant = 'yellow' | 'white' | 'ghost'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "wave-canvas",
+      "importPath": "splatoon-ui/wave-canvas",
+      "primaryExport": "WaveCanvas",
+      "sourcePath": "src/components/ui/wave-canvas.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "WaveCanvas",
+          "kind": "function",
+          "type": "function WaveCanvas(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Fill color of the wave"
+            },
+            {
+              "name": "height",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Height of the canvas in px (default 200)"
+            },
+            {
+              "name": "interactive",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable mouse interaction (respects prefers-reduced-motion)"
+            },
+            {
+              "name": "numPoints",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Number of wave points (default 20)"
+            },
+            {
+              "name": "elasticity",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Physics elasticity (default 0.0001)"
+            },
+            {
+              "name": "friction",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Physics friction (default 0.0025)"
+            }
+          ]
+        },
+        {
+          "name": "WaveCanvasProps",
+          "kind": "interface",
+          "type": "export interface WaveCanvasProps extends React.ComponentProps<'canvas'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "weapons-assets",
+      "importPath": "splatoon-ui/weapons-assets",
+      "primaryExport": "weaponMarqueeItems",
+      "sourcePath": "src/components/ui/weapons-assets.ts",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "WeaponGalleryAsset",
+          "kind": "interface",
+          "type": "export interface WeaponGalleryAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WeaponMarqueeAsset",
+          "kind": "interface",
+          "type": "export interface WeaponMarqueeAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "weaponMarqueeItems",
+          "kind": "const",
+          "type": "export const weaponMarqueeItems = weaponMarqueeSources satisfies WeaponMarqueeAsset[]",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WeaponShopGalleryAsset",
+          "kind": "interface",
+          "type": "export interface WeaponShopGalleryAsset extends WeaponGalleryAsset",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "weaponShopGalleryItems",
+          "kind": "const",
+          "type": "export const weaponShopGalleryItems = [",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "weaponShowcaseItems",
+          "kind": "const",
+          "type": "export const weaponShowcaseItems = weaponMarqueeSources.slice(0, 6).map((asset, index) => (",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "weapons-gallery-carousel",
+      "importPath": "splatoon-ui/weapons-gallery-carousel",
+      "primaryExport": "WeaponsGalleryCarousel",
+      "sourcePath": "src/components/ui/weapons-gallery-carousel.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "WeaponsGalleryCarousel",
+          "kind": "function",
+          "type": "export function WeaponsGalleryCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "WeaponsGalleryCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "WeaponsGalleryCarouselItem",
+          "kind": "interface",
+          "type": "export interface WeaponsGalleryCarouselItem extends GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WeaponsGalleryCarouselProps",
+          "kind": "interface",
+          "type": "export interface WeaponsGalleryCarouselProps extends Omit< React.ComponentPropsWithoutRef<typeof Carousel>, 'children' >",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "wide-torn-paper",
+      "importPath": "splatoon-ui/wide-torn-paper",
+      "primaryExport": "WideTornPaper",
+      "sourcePath": "src/components/ui/wide-torn-paper.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "WideTornPaper",
+          "kind": "function",
+          "type": "export function WideTornPaper(",
+          "description": "",
+          "props": []
+        }
+      ]
+    }
+  ]
+}

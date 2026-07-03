@@ -2,17 +2,33 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const tapeAssetsPath = path.join(root, 'src', 'components', 'ui', 'tape-assets.ts')
-const tapePicturePath = path.join(root, 'src', 'components', 'ui', 'tape-picture.tsx')
-const tapeComponentPath = path.join(root, 'src', 'components', 'ui', 'tape.tsx')
-const stickerDir = path.join(root, 'src', 'components', 'ui', 'stickers')
-const publicTapeAssetDir = path.join(root, 'public', '_images', 'tape-assets')
+const tapeAssetsPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'tape-assets.ts'
+)
+const tapePicturePath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'tape-picture.tsx'
+)
+const tapeComponentPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'tape.tsx')
+const stickerDir = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'stickers')
+const publicTapeAssetDir = path.join(root, 'packages', 'ui', 'public', '_images', 'tape-assets')
 const registryConsumerPaths = [
-  path.join(root, 'src', 'components', 'ui', 'photo-frame.tsx'),
-  path.join(root, 'src', 'components', 'ui', 'torn-card.tsx'),
-  path.join(root, 'src', 'components', 'ui', 'video-dialog.tsx'),
-  path.join(root, 'src', 'components', 'ui', 'staple-card.tsx'),
-  path.join(root, 'src', 'components', 'ui', 'media-decoration.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'photo-frame.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'torn-card.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'video-dialog.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'staple-card.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'media-decoration.tsx'),
 ]
 
 const tapeAssets = fs.readFileSync(tapeAssetsPath, 'utf8')

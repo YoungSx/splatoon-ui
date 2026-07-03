@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const cssPath = path.join(root, 'src', 'components', 'ui', 'tabs.module.css')
+const cssPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'tabs.module.css')
 const css = fs.readFileSync(cssPath, 'utf8')
 
 function block(selector) {

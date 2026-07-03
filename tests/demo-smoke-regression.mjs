@@ -129,8 +129,7 @@ async function collectLayoutIssues(page) {
         return {
           slot: element.getAttribute('data-slot'),
           tag: element.tagName.toLowerCase(),
-          className:
-            typeof element.className === 'string' ? element.className.slice(0, 120) : '',
+          className: typeof element.className === 'string' ? element.className.slice(0, 120) : '',
           left: Math.round(rect.left),
           right: Math.round(rect.right),
           width: Math.round(rect.width),

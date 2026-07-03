@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'Dialog',
+  description: '用于聚焦任务、确认和媒体弹层的模态 primitive。',
+  category: 'feedback',
+  example: 'dialog',
+}
+
+## 用法
+
+Dialog 适合阻断式决策和聚焦内容。组合 trigger、content、header、title 和 description 可以保持明确的可访问语义。
+
+## 设计备注
+
+- 标题要具体并指向动作。
+- 需要焦点约束时使用 Dialog。
+- 更轻的上下文内容优先使用 Sheet 或 Popover。

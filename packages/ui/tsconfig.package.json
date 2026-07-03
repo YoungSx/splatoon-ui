@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "incremental": false,
+    "noEmit": false,
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./tsconfig.package.tsbuildinfo"
+  },
+  "include": [
+    "src/components/ui/**/*.ts",
+    "src/components/ui/**/*.tsx",
+    "src/hooks/**/*.ts",
+    "src/lib/**/*.ts",
+    "src/types/**/*.d.ts"
+  ]
+}

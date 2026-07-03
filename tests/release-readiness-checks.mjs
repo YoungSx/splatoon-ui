@@ -2,9 +2,25 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentPath = path.join(root, 'src', 'components', 'ui', 'heading-tape.tsx')
-const cssPath = path.join(root, 'src', 'components', 'ui', 'heading-tape.module.css')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
+const componentPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'heading-tape.tsx'
+)
+const cssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'heading-tape.module.css'
+)
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
 
 const component = fs.readFileSync(componentPath, 'utf8')
 const css = fs.readFileSync(cssPath, 'utf8')
@@ -126,7 +142,7 @@ const checks = [
   {
     name: 'public folder does not ship unused Next starter SVG assets',
     pass: ['file.svg', 'globe.svg', 'next.svg', 'vercel.svg', 'window.svg'].every(
-      (asset) => !fs.existsSync(path.join(root, 'public', asset))
+      (asset) => !fs.existsSync(path.join(root, 'packages', 'ui', 'public', asset))
     ),
   },
 ]

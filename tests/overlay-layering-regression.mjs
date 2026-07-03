@@ -2,9 +2,12 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentRoot = path.join(root, 'src', 'components', 'ui')
+const componentRoot = path.join(root, 'packages', 'ui', 'src', 'components', 'ui')
 
-const globals = fs.readFileSync(path.join(root, 'src', 'app', 'globals.css'), 'utf8')
+const globals = fs.readFileSync(
+  path.join(root, 'packages', 'ui', 'src', 'styles', 'globals.css'),
+  'utf8'
+)
 const dialog = fs.readFileSync(path.join(componentRoot, 'dialog.tsx'), 'utf8')
 const sheet = fs.readFileSync(path.join(componentRoot, 'sheet.tsx'), 'utf8')
 const sheetCss = fs.readFileSync(path.join(componentRoot, 'sheet.module.css'), 'utf8')

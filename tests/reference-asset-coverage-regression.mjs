@@ -2,32 +2,59 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const publicDir = path.join(root, 'public')
+const publicDir = path.join(root, 'packages', 'ui', 'public')
 const legacyPublicImagesDir = path.join(publicDir, 'images')
 const readmePath = path.join(root, 'README.md')
 const readmeEnPath = path.join(root, 'README_EN.md')
 const componentSourceFiles = [
-  path.join(root, 'src', 'components', 'ui', 'dialog.tsx'),
-  path.join(root, 'src', 'components', 'ui', 'staple-card.tsx'),
-  path.join(root, 'src', 'components', 'ui', 'media-decoration.tsx'),
-  path.join(root, 'src', 'components', 'ui', 'paper-surface.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'dialog.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'staple-card.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'media-decoration.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'paper-surface.tsx'),
 ]
-const newsAssetsPath = path.join(root, 'src', 'components', 'ui', 'news-assets.ts')
-const paperTearEdgePath = path.join(root, 'src', 'components', 'ui', 'paper-tear-edge.tsx')
-const tapeComponentPath = path.join(root, 'src', 'components', 'ui', 'tape.tsx')
-const navSplatPath = path.join(root, 'src', 'components', 'ui', 'splats', 'nav-splat.tsx')
+const newsAssetsPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'news-assets.ts'
+)
+const paperTearEdgePath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'paper-tear-edge.tsx'
+)
+const tapeComponentPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'tape.tsx')
+const navSplatPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'splats',
+  'nav-splat.tsx'
+)
 const sectionSideNavCssPath = path.join(
   root,
+  'packages',
+  'ui',
   'src',
   'components',
   'ui',
   'section-side-nav.module.css'
 )
 const staticSvgStylePaths = [
-  path.join(root, 'src', 'components', 'ui', 'photo-frame.module.css'),
-  path.join(root, 'src', 'components', 'ui', 'carousel-pagination.module.css'),
-  path.join(root, 'src', 'components', 'ui', 'tape-title.module.css'),
-  path.join(root, 'src', 'components', 'ui', 'black-tape-container.module.css'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'photo-frame.module.css'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'carousel-pagination.module.css'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'tape-title.module.css'),
+  path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'black-tape-container.module.css'),
 ]
 
 const requiredAssets = [
@@ -97,7 +124,9 @@ const invalidFontFiles = publicFiles.filter((filePath) => {
 const checks = [
   {
     name: 'interactive event, news pin, and static svg reference assets are available under public/_images',
-    pass: requiredAssets.every((assetPath) => fs.existsSync(path.join(root, assetPath))),
+    pass: requiredAssets.every((assetPath) =>
+      fs.existsSync(path.join(root, 'packages', 'ui', assetPath))
+    ),
   },
   {
     name: 'published public assets do not contain captured HTTP error payloads',

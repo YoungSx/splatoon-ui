@@ -1,0 +1,414 @@
+{
+  "name": "splatoon-ui",
+  "version": "0.1.0",
+  "description": "A React component library inspired by Splatoon's visual language.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/YoungSx/splatoon-ui.git"
+  },
+  "homepage": "https://github.com/YoungSx/splatoon-ui#readme",
+  "bugs": {
+    "url": "https://github.com/YoungSx/splatoon-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "ui",
+    "splatoon",
+    "tailwindcss"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "public/_images/backgrounds",
+    "public/_images/banners",
+    "public/_images/characters",
+    "public/_images/events",
+    "public/_images/news",
+    "public/_images/squid",
+    "public/_images/svg",
+    "public/_images/tape-assets",
+    "public/_images/weapons",
+    "public/fonts",
+    "public/svgs",
+    "README.md",
+    "README_EN.md",
+    "README_JA.md",
+    "LICENSE",
+    "NOTICE",
+    "CREDITS.md"
+  ],
+  "main": "./dist/server.js",
+  "module": "./dist/server.js",
+  "types": "./dist/server.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js"
+    },
+    "./alert": {
+      "types": "./dist/alert.d.ts",
+      "import": "./dist/alert.js"
+    },
+    "./asset-image": {
+      "types": "./dist/asset-image.d.ts",
+      "import": "./dist/asset-image.js"
+    },
+    "./badge": {
+      "types": "./dist/badge.d.ts",
+      "import": "./dist/badge.js"
+    },
+    "./banner-divider": {
+      "types": "./dist/banner-divider.d.ts",
+      "import": "./dist/banner-divider.js"
+    },
+    "./black-tape-container": {
+      "types": "./dist/black-tape-container.d.ts",
+      "import": "./dist/black-tape-container.js"
+    },
+    "./blob-play-button": {
+      "types": "./dist/blob-play-button.d.ts",
+      "import": "./dist/blob-play-button.js"
+    },
+    "./button": {
+      "types": "./dist/button.d.ts",
+      "import": "./dist/button.js"
+    },
+    "./button-arrow": {
+      "types": "./dist/button-arrow.d.ts",
+      "import": "./dist/button-arrow.js"
+    },
+    "./button-drip": {
+      "types": "./dist/button-drip.d.ts",
+      "import": "./dist/button-drip.js"
+    },
+    "./button-group": {
+      "types": "./dist/button-group.d.ts",
+      "import": "./dist/button-group.js"
+    },
+    "./card": {
+      "types": "./dist/card.d.ts",
+      "import": "./dist/card.js"
+    },
+    "./card-image": {
+      "types": "./dist/card-image.d.ts",
+      "import": "./dist/card-image.js"
+    },
+    "./card-stack-carousel": {
+      "types": "./dist/card-stack-carousel.d.ts",
+      "import": "./dist/card-stack-carousel.js"
+    },
+    "./carousel": {
+      "types": "./dist/carousel.d.ts",
+      "import": "./dist/carousel.js"
+    },
+    "./character-assets": {
+      "types": "./dist/character-assets.d.ts",
+      "import": "./dist/character-assets.js"
+    },
+    "./checkbox": {
+      "types": "./dist/checkbox.d.ts",
+      "import": "./dist/checkbox.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog.d.ts",
+      "import": "./dist/dialog.js"
+    },
+    "./dotted-divider": {
+      "types": "./dist/dotted-divider.d.ts",
+      "import": "./dist/dotted-divider.js"
+    },
+    "./event-assets": {
+      "types": "./dist/event-assets.d.ts",
+      "import": "./dist/event-assets.js"
+    },
+    "./event-callout": {
+      "types": "./dist/event-callout.d.ts",
+      "import": "./dist/event-callout.js"
+    },
+    "./feed-carousel": {
+      "types": "./dist/feed-carousel.d.ts",
+      "import": "./dist/feed-carousel.js"
+    },
+    "./footer": {
+      "types": "./dist/footer.d.ts",
+      "import": "./dist/footer.js"
+    },
+    "./gallery-controls": {
+      "types": "./dist/gallery-controls.d.ts",
+      "import": "./dist/gallery-controls.js"
+    },
+    "./heading-tape": {
+      "types": "./dist/heading-tape.d.ts",
+      "import": "./dist/heading-tape.js"
+    },
+    "./icon-button": {
+      "types": "./dist/icon-button.d.ts",
+      "import": "./dist/icon-button.js"
+    },
+    "./icon-paginated-carousel": {
+      "types": "./dist/icon-paginated-carousel.d.ts",
+      "import": "./dist/icon-paginated-carousel.js"
+    },
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "import": "./dist/icons.js"
+    },
+    "./in-view": {
+      "types": "./dist/in-view.d.ts",
+      "import": "./dist/in-view.js"
+    },
+    "./ink-splash-canvas": {
+      "types": "./dist/ink-splash-canvas.d.ts",
+      "import": "./dist/ink-splash-canvas.js"
+    },
+    "./ink-trail": {
+      "types": "./dist/ink-trail.d.ts",
+      "import": "./dist/ink-trail.js"
+    },
+    "./input": {
+      "types": "./dist/input.d.ts",
+      "import": "./dist/input.js"
+    },
+    "./label": {
+      "types": "./dist/label.d.ts",
+      "import": "./dist/label.js"
+    },
+    "./list": {
+      "types": "./dist/list.d.ts",
+      "import": "./dist/list.js"
+    },
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "import": "./dist/loader.js"
+    },
+    "./marquee": {
+      "types": "./dist/marquee.d.ts",
+      "import": "./dist/marquee.js"
+    },
+    "./marquee-carousel": {
+      "types": "./dist/marquee-carousel.d.ts",
+      "import": "./dist/marquee-carousel.js"
+    },
+    "./media-decoration": {
+      "types": "./dist/media-decoration.d.ts",
+      "import": "./dist/media-decoration.js"
+    },
+    "./nav-chevron": {
+      "types": "./dist/nav-chevron.d.ts",
+      "import": "./dist/nav-chevron.js"
+    },
+    "./nav-menu-button": {
+      "types": "./dist/nav-menu-button.d.ts",
+      "import": "./dist/nav-menu-button.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation.d.ts",
+      "import": "./dist/navigation.js"
+    },
+    "./navigation-dialog": {
+      "types": "./dist/navigation-dialog.d.ts",
+      "import": "./dist/navigation-dialog.js"
+    },
+    "./navigation-types": {
+      "types": "./dist/navigation-types.d.ts",
+      "import": "./dist/navigation-types.js"
+    },
+    "./news-assets": {
+      "types": "./dist/news-assets.d.ts",
+      "import": "./dist/news-assets.js"
+    },
+    "./page-transition": {
+      "types": "./dist/page-transition.d.ts",
+      "import": "./dist/page-transition.js"
+    },
+    "./paper-surface": {
+      "types": "./dist/paper-surface.d.ts",
+      "import": "./dist/paper-surface.js"
+    },
+    "./paper-tear-edge": {
+      "types": "./dist/paper-tear-edge.d.ts",
+      "import": "./dist/paper-tear-edge.js"
+    },
+    "./photo-frame": {
+      "types": "./dist/photo-frame.d.ts",
+      "import": "./dist/photo-frame.js"
+    },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "import": "./dist/popover.js"
+    },
+    "./progress": {
+      "types": "./dist/progress.d.ts",
+      "import": "./dist/progress.js"
+    },
+    "./radio-group": {
+      "types": "./dist/radio-group.d.ts",
+      "import": "./dist/radio-group.js"
+    },
+    "./rugged-card": {
+      "types": "./dist/rugged-card.d.ts",
+      "import": "./dist/rugged-card.js"
+    },
+    "./section": {
+      "types": "./dist/section.d.ts",
+      "import": "./dist/section.js"
+    },
+    "./section-background": {
+      "types": "./dist/section-background.d.ts",
+      "import": "./dist/section-background.js"
+    },
+    "./section-side-nav": {
+      "types": "./dist/section-side-nav.d.ts",
+      "import": "./dist/section-side-nav.js"
+    },
+    "./segmented-control": {
+      "types": "./dist/segmented-control.d.ts",
+      "import": "./dist/segmented-control.js"
+    },
+    "./select": {
+      "types": "./dist/select.d.ts",
+      "import": "./dist/select.js"
+    },
+    "./sheet": {
+      "types": "./dist/sheet.d.ts",
+      "import": "./dist/sheet.js"
+    },
+    "./splatoon-title": {
+      "types": "./dist/splatoon-title.d.ts",
+      "import": "./dist/splatoon-title.js"
+    },
+    "./splats": {
+      "types": "./dist/splats.d.ts",
+      "import": "./dist/splats.js"
+    },
+    "./squid-assets": {
+      "types": "./dist/squid-assets.d.ts",
+      "import": "./dist/squid-assets.js"
+    },
+    "./squid-mask-transition": {
+      "types": "./dist/squid-mask-transition.d.ts",
+      "import": "./dist/squid-mask-transition.js"
+    },
+    "./staple-card": {
+      "types": "./dist/staple-card.d.ts",
+      "import": "./dist/staple-card.js"
+    },
+    "./stickers": {
+      "types": "./dist/stickers.d.ts",
+      "import": "./dist/stickers.js"
+    },
+    "./switch": {
+      "types": "./dist/switch.d.ts",
+      "import": "./dist/switch.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./tag-hanger": {
+      "types": "./dist/tag-hanger.d.ts",
+      "import": "./dist/tag-hanger.js"
+    },
+    "./tape": {
+      "types": "./dist/tape.d.ts",
+      "import": "./dist/tape.js"
+    },
+    "./tape-assets": {
+      "types": "./dist/tape-assets.d.ts",
+      "import": "./dist/tape-assets.js"
+    },
+    "./tape-divider": {
+      "types": "./dist/tape-divider.d.ts",
+      "import": "./dist/tape-divider.js"
+    },
+    "./tape-picture": {
+      "types": "./dist/tape-picture.d.ts",
+      "import": "./dist/tape-picture.js"
+    },
+    "./tape-title": {
+      "types": "./dist/tape-title.d.ts",
+      "import": "./dist/tape-title.js"
+    },
+    "./torn-card": {
+      "types": "./dist/torn-card.d.ts",
+      "import": "./dist/torn-card.js"
+    },
+    "./trigger-button": {
+      "types": "./dist/trigger-button.d.ts",
+      "import": "./dist/trigger-button.js"
+    },
+    "./video-dialog": {
+      "types": "./dist/video-dialog.d.ts",
+      "import": "./dist/video-dialog.js"
+    },
+    "./wave-button": {
+      "types": "./dist/wave-button.d.ts",
+      "import": "./dist/wave-button.js"
+    },
+    "./wave-canvas": {
+      "types": "./dist/wave-canvas.d.ts",
+      "import": "./dist/wave-canvas.js"
+    },
+    "./weapons-assets": {
+      "types": "./dist/weapons-assets.d.ts",
+      "import": "./dist/weapons-assets.js"
+    },
+    "./weapons-gallery-carousel": {
+      "types": "./dist/weapons-gallery-carousel.d.ts",
+      "import": "./dist/weapons-gallery-carousel.js"
+    },
+    "./wide-torn-paper": {
+      "types": "./dist/wide-torn-paper.d.ts",
+      "import": "./dist/wide-torn-paper.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./assets/*": "./public/*",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm build:package",
+    "build:package": "tsup && node scripts/build-package-styles.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "pack:dry-run": "npm pack --dry-run",
+    "prepack": "pnpm build:package"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "@radix-ui/react-progress": "^1.1.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.17.0",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.4.0"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "shadcn": "^4.11.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5"
+  }
+}

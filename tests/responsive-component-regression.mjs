@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentRoot = path.join(root, 'src', 'components', 'ui')
+const componentRoot = path.join(root, 'packages', 'ui', 'src', 'components', 'ui')
 
 const navigationDialog = fs.readFileSync(path.join(componentRoot, 'navigation-dialog.tsx'), 'utf8')
 const tabs = fs.readFileSync(path.join(componentRoot, 'tabs.tsx'), 'utf8')
@@ -34,7 +34,9 @@ const checks = [
       dialog.includes('max-h-[calc(100dvh-2rem)]') &&
       dialog.includes('max-w-[calc(100%-3.5rem)]') &&
       dialog.includes('className="max-h-full min-h-0"') &&
-      dialog.includes('flex min-h-0 flex-col gap-4 overflow-x-hidden overflow-y-auto overscroll-contain'),
+      dialog.includes(
+        'flex min-h-0 flex-col gap-4 overflow-x-hidden overflow-y-auto overscroll-contain'
+      ),
   },
   {
     name: 'Dialog close control stays on the right edge with responsive viewport safe area',

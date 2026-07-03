@@ -2,10 +2,26 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentPath = path.join(root, 'src', 'components', 'ui', 'section-background.tsx')
-const cssPath = path.join(root, 'src', 'components', 'ui', 'section-background.module.css')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const backgroundDir = path.join(root, 'public', '_images', 'backgrounds')
+const componentPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'section-background.tsx'
+)
+const cssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'section-background.module.css'
+)
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
+const backgroundDir = path.join(root, 'packages', 'ui', 'public', '_images', 'backgrounds')
 
 const component = fs.readFileSync(componentPath, 'utf8')
 const css = fs.readFileSync(cssPath, 'utf8')
@@ -51,10 +67,7 @@ const tapeBackgroundSets = {
 }
 
 const tapeBackgroundAssets = Object.entries(tapeBackgroundSets).flatMap(([name, extensions]) =>
-  extensions.flatMap((extension) => [
-    `tapes-${name}.${extension}`,
-    `tapes-${name}-2x.${extension}`,
-  ])
+  extensions.flatMap((extension) => [`tapes-${name}.${extension}`, `tapes-${name}-2x.${extension}`])
 )
 
 const checks = [
@@ -111,13 +124,13 @@ const checks = [
       /id="trailer"[\s\S]*?bgColor="bg-black"[\s\S]*?text="text-white"[\s\S]*?pattern="tapes-black"/.test(
         page
       ) &&
-      /id="apparel"[\s\S]*?bgColor="bg-white"[\s\S]*?text="text-chaos-black"[\s\S]*?pattern="camo-white-outline"/.test(
+      /id="cards-surfaces"[\s\S]*?bgColor="bg-white"[\s\S]*?text="text-chaos-black"[\s\S]*?pattern="camo-white-outline"/.test(
         page
       ) &&
       !/id="trailer"[\s\S]*?bgColor="bg-white"[\s\S]*?text="text-chaos-black"[\s\S]*?pattern="tapes-black"/.test(
         page
       ) &&
-      !/id="apparel"[\s\S]*?pattern="camo-purple"/.test(page),
+      !/id="cards-surfaces"[\s\S]*?pattern="camo-purple"/.test(page),
   },
 ]
 

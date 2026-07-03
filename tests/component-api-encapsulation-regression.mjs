@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const componentRoot = path.join(root, 'src', 'components', 'ui')
+const componentRoot = path.join(root, 'packages', 'ui', 'src', 'components', 'ui')
 
 const carousel = fs.readFileSync(path.join(componentRoot, 'carousel.tsx'), 'utf8')
 const dialog = fs.readFileSync(path.join(componentRoot, 'dialog.tsx'), 'utf8')
@@ -41,15 +41,18 @@ const segmentedControlCss = fs.readFileSync(
 )
 const select = fs.readFileSync(path.join(componentRoot, 'select.tsx'), 'utf8')
 const buttonColorResolver = fs.readFileSync(
-  path.join(root, 'src', 'lib', 'resolve-button-colors.ts'),
+  path.join(root, 'packages', 'ui', 'src', 'lib', 'resolve-button-colors.ts'),
   'utf8'
 )
 const splatoonColorTokens = fs.readFileSync(
-  path.join(root, 'src', 'lib', 'splatoon-color-tokens.ts'),
+  path.join(root, 'packages', 'ui', 'src', 'lib', 'splatoon-color-tokens.ts'),
   'utf8'
 )
-const globals = fs.readFileSync(path.join(root, 'src', 'app', 'globals.css'), 'utf8')
-const demoPage = fs.readFileSync(path.join(root, 'src', 'app', 'page.tsx'), 'utf8')
+const globals = fs.readFileSync(
+  path.join(root, 'packages', 'ui', 'src', 'styles', 'globals.css'),
+  'utf8'
+)
+const demoPage = fs.readFileSync(path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx'), 'utf8')
 
 function readFilesRecursive(directory, predicate) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -65,8 +68,8 @@ function readFilesRecursive(directory, predicate) {
 
 const forcedUppercaseSources = [
   ...readFilesRecursive(componentRoot, (filePath) => /\.(css|tsx?)$/.test(filePath)),
-  path.join(root, 'src', 'app', 'page.tsx'),
-  path.join(root, 'src', 'app', 'globals.css'),
+  path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx'),
+  path.join(root, 'packages', 'ui', 'src', 'styles', 'globals.css'),
 ]
 
 const forcedUppercaseMatches = forcedUppercaseSources.flatMap((filePath) => {
@@ -255,7 +258,7 @@ const checks = [
     pass:
       splatoonColorTokens.includes('splatoonControlTrackColorConfig') &&
       switchComponent.includes('splatoonControlTrackColorConfig[color]') &&
-      switchComponent.includes('"--switch-accent": colorConfig.accentColor') &&
+      /['"]--switch-accent['"]:\s*colorConfig\.accentColor/.test(switchComponent) &&
       segmentedControl.includes('splatoonControlTrackColorConfig[color]') &&
       segmentedControl.includes("'--segmented-control-active-bg': colorConfig.accentColor") &&
       segmentedControl.includes("'--segmented-control-active-text': colorConfig.activeTextColor") &&

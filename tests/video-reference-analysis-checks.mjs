@@ -4,16 +4,24 @@ import path from 'node:path'
 const root = process.cwd()
 const scriptPath = path.join(root, 'scripts', 'analyze-splatoon-videos.mjs')
 const packagePath = path.join(root, 'package.json')
+const docsPackagePath = path.join(root, 'apps', 'docs', 'package.json')
 
 const script = fs.readFileSync(scriptPath, 'utf8')
 const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+const docsPackageJson = JSON.parse(fs.readFileSync(docsPackagePath, 'utf8'))
 
 const checks = [
   {
     name: 'video analyzer is exposed through package scripts',
     pass:
-      packageJson.scripts['reference:analyze:videos']?.includes('analyze-splatoon-videos.mjs') &&
-      packageJson.scripts['reference:analyze:videos:probe']?.includes('--probe'),
+      packageJson.scripts['reference:analyze:videos']?.includes('--filter @splatoon-ui/docs') &&
+      packageJson.scripts['reference:analyze:videos:probe']?.includes(
+        '--filter @splatoon-ui/docs'
+      ) &&
+      docsPackageJson.scripts['reference:analyze:videos']?.includes(
+        'analyze-splatoon-videos.mjs'
+      ) &&
+      docsPackageJson.scripts['reference:analyze:videos:probe']?.includes('--probe'),
   },
   {
     name: 'video analyzer defaults to all-locale reference data and scratch output',

@@ -1,0 +1,128 @@
+/* Gallery Base — shared rules for marquee/shops/weapons gallery carousels */
+
+/* ── Wrapper — CSS custom properties + layout ── */
+.galleryWrapper {
+  --photo-offset: 0;
+  --photo-ease: var(--ease-out);
+  --gallery-opacity: 0;
+  --gallery-transition-delay: calc(var(--duration-factor, 1) * 0.4s);
+  --delay: 0s;
+  --ease: var(--ease-back-in);
+  --controls-scale: 1;
+  --controls-spread: 0px;
+  /* Override parent container spacing — gallery owns its own padding */
+  margin: 0;
+  padding: 0 16px;
+  position: relative;
+  touch-action: pan-y;
+  width: 100%;
+}
+
+/* ── Gallery grid — all items stack in one cell ── */
+.gallery {
+  display: grid;
+  grid-template-areas: 'item';
+  padding-top: 16px;
+  position: relative;
+}
+
+/* ── Gallery item — hidden by default ── */
+.galleryItem {
+  display: block;
+  grid-area: item;
+  margin: 0 auto;
+  opacity: 0;
+  transition: opacity 0s ease-in-out;
+  transition-delay: var(--gallery-transition-delay);
+  width: 100%;
+  will-change: opacity, transform;
+  z-index: 0;
+}
+
+/* ── Active item — delayed reveal ── */
+.galleryItemActive {
+  --gallery-opacity: 1;
+  --ease: var(--ease-out);
+  --delay: var(--gallery-transition-delay);
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: calc(var(--duration-factor, 1) * 0.4s);
+  transition-timing-function: var(--photo-ease);
+  transition-delay: var(--delay);
+  z-index: 10;
+}
+
+/* ── Controls — centered overlay ── */
+.galleryControls {
+  --display-type: flex;
+  align-items: center;
+  display: var(--display-type);
+  flex-direction: row;
+  height: 0;
+  justify-content: space-between;
+  left: 50%;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 50;
+}
+
+.galleryControls > * {
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+  position: relative;
+}
+
+.galleryControls > :first-child {
+  transform: translateX(calc(-150% - var(--controls-spread))) scale(var(--controls-scale));
+}
+
+.galleryControls > :nth-child(2) {
+  transform: translateX(calc(100% + var(--controls-spread))) scale(var(--controls-scale));
+}
+
+/* ── Mobile controls — full-width centered overlay ── */
+@media screen and (max-width: 639px) {
+  .galleryControls {
+    left: 0;
+    max-width: 100%;
+    transform: translateY(-50%);
+    width: 100%;
+  }
+  .galleryControls > :first-child,
+  .galleryControls > :nth-child(2) {
+    transform: none;
+  }
+}
+
+/* ── Gallery content fade — opacity transition with photo-ease ── */
+.galleryContentFade {
+  opacity: var(--gallery-opacity);
+  transition-delay: var(--delay);
+  transition-duration: calc(var(--duration-factor, 1) * 0.4s);
+  transition-property: opacity;
+  transition-timing-function: var(--photo-ease);
+}
+
+/* ── Gallery photo frame — 16:9 aspect ratio + carousel animations ── */
+.galleryFrame {
+  --photo-aspect-ratio: 16 / 9;
+  display: block;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+  margin: 0 auto;
+  max-width: 600px;
+  width: 100%;
+  transform: translateX(calc(50% * var(--photo-offset)))
+    rotate(
+      calc(
+        var(--rotateDirection, 1) * var(--rotateAmount, 3deg) + var(--rotateDirection, 1) * 20deg *
+          var(--photo-offset)
+      )
+    );
+  transition-delay: var(--delay);
+  transition-duration: calc(var(--duration-factor, 1) * 0.4s);
+  transition-property: transform;
+  transition-timing-function: var(--ease);
+  will-change: transform;
+}

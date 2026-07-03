@@ -1,9 +1,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { spawnSync } from 'node:child_process'
-import { publicUiEntries } from '../scripts/public-ui-entries.mjs'
+import { publicUiEntries } from '../packages/ui/scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
+const packageRoot = path.join(root, 'packages', 'ui')
 const tmpRoot = path.join(root, '.tmp', 'package-consumer-smoke')
 const packDir = path.join(tmpRoot, 'pack')
 const consumerDir = path.join(tmpRoot, 'consumer')
@@ -31,7 +32,10 @@ fs.rmSync(tmpRoot, { force: true, recursive: true })
 fs.mkdirSync(packDir, { recursive: true })
 fs.mkdirSync(consumerDir, { recursive: true })
 
-const packResult = run('npm', ['pack', '--json', '--pack-destination', packDir], { capture: true })
+const packResult = run('npm', ['pack', '--json', '--pack-destination', packDir], {
+  capture: true,
+  cwd: packageRoot,
+})
 const packJsonStart = packResult.stdout.lastIndexOf('\n[')
 const packJson = packResult.stdout.slice(packJsonStart === -1 ? 0 : packJsonStart + 1)
 const [packInfo] = JSON.parse(packJson)

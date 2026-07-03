@@ -2,19 +2,37 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const squidDir = path.join(root, 'public', '_images', 'squid')
-const registryPath = path.join(root, 'src', 'components', 'ui', 'squid-assets.ts')
-const loaderPath = path.join(root, 'src', 'components', 'ui', 'loader.tsx')
-const loaderCssPath = path.join(root, 'src', 'components', 'ui', 'loader.module.css')
-const squidMaskPath = path.join(root, 'src', 'components', 'ui', 'squid-mask-transition.tsx')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
+const squidDir = path.join(root, 'packages', 'ui', 'public', '_images', 'squid')
+const registryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'squid-assets.ts')
+const loaderPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'loader.tsx')
+const loaderCssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'loader.module.css'
+)
+const squidMaskPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'squid-mask-transition.tsx'
+)
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
+const i18nPath = path.join(root, 'apps', 'docs', 'src', 'lib', 'i18n.ts')
+const serverEntryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const loader = fs.readFileSync(loaderPath, 'utf8')
 const loaderCss = fs.readFileSync(loaderCssPath, 'utf8')
 const squidMask = fs.readFileSync(squidMaskPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
+const i18n = fs.readFileSync(i18nPath, 'utf8')
 const serverEntry = fs.readFileSync(serverEntryPath, 'utf8')
 
 function hasNoHttpErrorPayload(filePath) {
@@ -86,7 +104,7 @@ const checks = [
       loader.includes('squidImageAssets.loader') &&
       loader.includes('squidSpriteAssets.loaderMorph') &&
       loader.includes('squidSpriteAssets.loaderSwim') &&
-      loader.includes("animation?: LoaderAnimation") &&
+      loader.includes('animation?: LoaderAnimation') &&
       loader.includes("'--loader-sprite-duration'") &&
       loader.includes('<AssetImage') &&
       loader.includes('role="status"') &&
@@ -108,9 +126,10 @@ const checks = [
   {
     name: 'demo copy describes the local image-backed loader',
     pass:
-      page.includes('Local squid glyph asset with ink-color backing') &&
+      i18n.includes('Local squid glyph asset with ink-color backing') &&
       page.includes("animation: 'morph'") &&
       page.includes("animation: 'swim'") &&
+      page.includes('t.apparel.loaderCard.description') &&
       !page.includes('CSS border spinner'),
   },
   {

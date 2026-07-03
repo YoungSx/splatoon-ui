@@ -2,8 +2,16 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const feedCarouselPath = path.join(root, 'src', 'components', 'ui', 'feed-carousel.tsx')
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
+const feedCarouselPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'feed-carousel.tsx'
+)
 
 const page = fs.readFileSync(pagePath, 'utf8')
 const feedCarousel = fs.readFileSync(feedCarouselPath, 'utf8')
@@ -36,7 +44,7 @@ function hasNoHttpErrorPayload(buffer) {
 }
 
 function hasValidImageSignature([relativePath, type]) {
-  const filePath = path.join(root, relativePath)
+  const filePath = path.join(root, 'packages', 'ui', relativePath)
   if (!fs.existsSync(filePath)) return false
   const buffer = fs.readFileSync(filePath)
   if (!hasNoHttpErrorPayload(buffer)) return false
@@ -85,7 +93,9 @@ const checks = [
   {
     name: 'feed carousel item CTAs keep the reference-style arrow treatment consistently',
     pass:
-      /<Button\s+size="sm"\s+variant="arrow">\s*\{t\.carousels\.feedItems\.read\}\s*<\/Button>/.test(page) &&
+      /<Button\s+size="sm"\s+variant="arrow">\s*\{t\.carousels\.feedItems\.read\}\s*<\/Button>/.test(
+        page
+      ) &&
       !page.includes('index % 2') &&
       !page.includes("variant={index % 2 === 0 ? 'arrow' : 'blue'}"),
   },

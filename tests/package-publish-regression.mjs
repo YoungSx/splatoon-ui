@@ -1,10 +1,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { publicUiEntries } from '../scripts/public-ui-entries.mjs'
+import { publicUiEntries } from '../packages/ui/scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
-const packageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
-const publishWorkflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'publish.yml'), 'utf8')
+const packageRoot = path.join(root, 'packages', 'ui')
+const workspacePackageJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
+const packageJson = JSON.parse(fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'))
+const publishWorkflow = fs.readFileSync(
+  path.join(root, '.github', 'workflows', 'publish.yml'),
+  'utf8'
+)
 
 const requiredFiles = [
   'dist',
@@ -55,7 +60,9 @@ const checks = [
         const entry = packageJson.exports?.[`./${name}`]
         return entry?.import === `./dist/${name}.js` && entry?.types === `./dist/${name}.d.ts`
       }) &&
-      forbiddenPublicEntrypoints.every((entrypoint) => packageJson.exports?.[entrypoint] === undefined),
+      forbiddenPublicEntrypoints.every(
+        (entrypoint) => packageJson.exports?.[entrypoint] === undefined
+      ),
   },
   {
     name: 'publish files whitelist includes built output and public assets only',
@@ -80,9 +87,8 @@ const checks = [
       packageJson.scripts?.['build:package']?.includes('tsup') &&
       packageJson.scripts?.['build:package']?.includes('build-package-styles') &&
       packageJson.scripts?.['pack:dry-run'] === 'npm pack --dry-run' &&
-      packageJson.scripts?.['test:package-consumer'] === 'node tests/package-consumer-smoke.mjs' &&
-      packageJson.scripts?.release?.includes('pack:dry-run') &&
-      packageJson.scripts?.release?.includes('test:package-consumer'),
+      workspacePackageJson.scripts?.release?.includes('pack:dry-run') &&
+      workspacePackageJson.scripts?.release?.includes('test:package-consumer'),
   },
   {
     name: 'CSS files are marked as side-effectful for bundlers',
@@ -91,16 +97,19 @@ const checks = [
   {
     name: 'package build config exists',
     pass:
-      fs.existsSync(path.join(root, 'tsup.config.ts')) &&
-      fs.existsSync(path.join(root, 'tsconfig.package.json')) &&
-      fs.existsSync(path.join(root, 'scripts', 'build-package-styles.mjs')) &&
+      fs.existsSync(path.join(packageRoot, 'tsup.config.ts')) &&
+      fs.existsSync(path.join(packageRoot, 'tsconfig.package.json')) &&
+      fs.existsSync(path.join(packageRoot, 'scripts', 'build-package-styles.mjs')) &&
       fs.existsSync(path.join(root, 'tests', 'package-consumer-smoke.mjs')),
   },
   {
     name: 'tag-driven npm publish keeps the package version pinned to the tag',
     pass:
       publishWorkflow.includes('npm version "$VERSION" --no-git-tag-version --ignore-scripts') &&
-      publishWorkflow.includes('ACTUAL_VERSION="$(node -p "require(\'./package.json\').version")"') &&
+      publishWorkflow.includes(
+        'ACTUAL_VERSION="$(node -p "require(\'./package.json\').version")"'
+      ) &&
+      publishWorkflow.includes('working-directory: packages/ui') &&
       publishWorkflow.includes('if [ "${ACTUAL_VERSION}" != "${VERSION}" ]; then') &&
       publishWorkflow.includes('npm publish --provenance --access public --ignore-scripts'),
   },

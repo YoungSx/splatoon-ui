@@ -2,12 +2,28 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const root = process.cwd()
-const eventDir = path.join(root, 'public', '_images', 'events')
-const registryPath = path.join(root, 'src', 'components', 'ui', 'event-assets.ts')
-const calloutPath = path.join(root, 'src', 'components', 'ui', 'event-callout.tsx')
-const calloutCssPath = path.join(root, 'src', 'components', 'ui', 'event-callout.module.css')
-const pagePath = path.join(root, 'src', 'app', 'page.tsx')
-const serverEntryPath = path.join(root, 'src', 'components', 'ui', 'server.ts')
+const eventDir = path.join(root, 'packages', 'ui', 'public', '_images', 'events')
+const registryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'event-assets.ts')
+const calloutPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'event-callout.tsx'
+)
+const calloutCssPath = path.join(
+  root,
+  'packages',
+  'ui',
+  'src',
+  'components',
+  'ui',
+  'event-callout.module.css'
+)
+const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
+const serverEntryPath = path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'server.ts')
 
 const registry = fs.readFileSync(registryPath, 'utf8')
 const callout = fs.readFileSync(calloutPath, 'utf8')
