@@ -1,7 +1,7 @@
 'use client'
 
 import { Tabs as TabsPrimitive } from '@base-ui/react/tabs'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
@@ -9,8 +9,8 @@ import styles from './tabs.module.css'
 
 const TRAPEZOID_TABS_TEXTURE_SCALE = 1.2
 
-type TabsListVariant = 'default' | 'line' | 'trapezoid'
-type TabsListColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple' | 'red'
+export type TabsListVariant = 'default' | 'line' | 'trapezoid'
+export type TabsListColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple' | 'red'
 type TabsValue = TabsPrimitive.Tab.Props['value']
 type TabsRootProps = TabsPrimitive.Root.Props
 type TabsChangeDetails = Parameters<NonNullable<TabsRootProps['onValueChange']>>[1]
@@ -268,10 +268,8 @@ function withTrapezoidTabsTriggerVars(children: React.ReactNode) {
   })
 }
 
-export interface TabsListProps
-  extends
-    Omit<TabsPrimitive.List.Props, 'color'>,
-    Omit<VariantProps<typeof tabsListVariants>, 'color'> {
+export interface TabsListProps extends Omit<TabsPrimitive.List.Props, 'color'> {
+  variant?: TabsListVariant
   /** Primary active color token. The default decoration color is inferred from the matching Splatoon theme pair. */
   color?: TabsListColor
   /** Override the inferred hover/active decoration color with any CSS color value. */
@@ -549,4 +547,4 @@ function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   )
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsPanels, TabsContent, tabsListVariants }
+export { Tabs, TabsList, TabsTrigger, TabsPanels, TabsContent }

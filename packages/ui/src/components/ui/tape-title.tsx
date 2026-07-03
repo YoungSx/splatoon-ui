@@ -2,7 +2,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import styles from './tape-title.module.css'
 
-interface TapeTitleProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TapeTitleProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: 'black' | 'red' | 'yellow'
   children: React.ReactNode
 }

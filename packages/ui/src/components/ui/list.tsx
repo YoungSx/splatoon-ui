@@ -1,20 +1,25 @@
 import * as React from 'react'
 
-import { splatoonColorVars } from '@/lib/splatoon-color-tokens'
+import {
+  resolveSplatoonColorValue,
+  splatoonColorVars,
+  type SplatoonColorValue,
+} from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import { DottedDivider } from './dotted-divider'
 import styles from './list.module.css'
 
 export type ListVariant = 'ordered'
+export type { SplatoonColorValue }
 
 export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start'> {
   variant?: ListVariant
   start?: number
-  markerColor?: string
-  markerTextColor?: string
-  markerHoverColor?: string
-  markerHoverTextColor?: string
-  dividerColor?: string
+  markerColor?: SplatoonColorValue
+  markerTextColor?: SplatoonColorValue
+  markerHoverColor?: SplatoonColorValue
+  markerHoverTextColor?: SplatoonColorValue
+  dividerColor?: SplatoonColorValue
 }
 
 type ListStyle = React.CSSProperties & {
@@ -87,11 +92,11 @@ function List({
   ).nodes
 
   const resolvedStyle: ListStyle = {
-    '--list-marker-color': markerColor,
-    '--list-marker-text-color': markerTextColor,
-    '--list-marker-hover-color': markerHoverColor,
-    '--list-marker-hover-text-color': markerHoverTextColor,
-    ...(dividerColor ? { '--list-divider-color': dividerColor } : null),
+    '--list-marker-color': resolveSplatoonColorValue(markerColor),
+    '--list-marker-text-color': resolveSplatoonColorValue(markerTextColor),
+    '--list-marker-hover-color': resolveSplatoonColorValue(markerHoverColor),
+    '--list-marker-hover-text-color': resolveSplatoonColorValue(markerHoverTextColor),
+    ...(dividerColor ? { '--list-divider-color': resolveSplatoonColorValue(dividerColor) } : null),
     ...style,
   }
 

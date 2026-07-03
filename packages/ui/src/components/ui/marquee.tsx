@@ -3,7 +3,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { Tape, type TapeVariant } from './tape'
 
-interface MarqueeProps extends React.ComponentProps<'div'> {
+export interface MarqueeProps extends React.ComponentProps<'div'> {
   speed?: number
   direction?: 'left' | 'right'
   pauseOnHover?: boolean
@@ -58,7 +58,9 @@ function Marquee({
   )
 }
 
-function MarqueeItem({ className, ...props }: React.ComponentProps<'span'>) {
+export type MarqueeItemProps = React.ComponentProps<'span'>
+
+function MarqueeItem({ className, ...props }: MarqueeItemProps) {
   return (
     <span
       data-slot="marquee-item"

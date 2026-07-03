@@ -7,7 +7,10 @@ import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group'
 import { cn } from '@/lib/utils'
 import { Splat12 } from '@/components/ui/splats/splat-12'
 
-function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
+export type RadioGroupProps = RadioGroupPrimitive.Props
+export type RadioGroupItemProps = RadioPrimitive.Root.Props
+
+function RadioGroup({ className, ...props }: RadioGroupProps) {
   return (
     <RadioGroupPrimitive
       data-slot="radio-group"
@@ -17,7 +20,7 @@ function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   )
 }
 
-function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
+function RadioGroupItem({ className, ...props }: RadioGroupItemProps) {
   return (
     <RadioPrimitive.Root
       data-slot="radio-group-item"

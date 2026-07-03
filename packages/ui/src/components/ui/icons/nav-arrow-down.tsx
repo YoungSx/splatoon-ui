@@ -5,7 +5,9 @@ import { cn } from '@/lib/utils'
  * Arrow-down icon for the back-to-top button.
  * ViewBox: 0 0 16 9.45
  */
-export function NavArrowDown({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+export type NavArrowDownProps = React.SVGProps<SVGSVGElement>
+
+export function NavArrowDown({ className, ...props }: NavArrowDownProps) {
   return (
     <svg
       viewBox="0 0 16 9.45"

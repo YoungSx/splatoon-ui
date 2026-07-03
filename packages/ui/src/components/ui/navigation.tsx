@@ -6,7 +6,7 @@ import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { cn } from '@/lib/utils'
 import styles from '@/components/ui/navigation.module.css'
 
-interface NavigationProps {
+export interface NavigationProps {
   /** Decorative element at the bottom-left of the header — receives isCollapsed for responsive positioning */
   headerDecoration?: (isCollapsed: boolean) => React.ReactNode
   /** Right-aligned content inside the fixed header bar */
@@ -87,6 +87,7 @@ export function Navigation({
         {showReducedMotionToggle && (
           <div className="relative flex h-full w-full flex-col items-center justify-center">
             <button
+              type="button"
               onClick={toggleReducedMotion}
               aria-pressed={isReducedMotion}
               className={styles.reducedMotion}

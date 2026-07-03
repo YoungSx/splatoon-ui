@@ -1,12 +1,17 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { publicUiEntries } from '../packages/ui/scripts/public-ui-entries.mjs'
 
 const root = process.cwd()
 const componentRoot = path.join(root, 'packages', 'ui', 'src', 'components', 'ui')
+const packageJson = JSON.parse(
+  fs.readFileSync(path.join(root, 'packages', 'ui', 'package.json'), 'utf8')
+)
 
 const carousel = fs.readFileSync(path.join(componentRoot, 'carousel.tsx'), 'utf8')
 const dialog = fs.readFileSync(path.join(componentRoot, 'dialog.tsx'), 'utf8')
 const videoDialog = fs.readFileSync(path.join(componentRoot, 'video-dialog.tsx'), 'utf8')
+const button = fs.readFileSync(path.join(componentRoot, 'button.tsx'), 'utf8')
 const card = fs.readFileSync(path.join(componentRoot, 'card.tsx'), 'utf8')
 const stapleCard = fs.readFileSync(path.join(componentRoot, 'staple-card.tsx'), 'utf8')
 const stapleCardCss = fs.readFileSync(path.join(componentRoot, 'staple-card.module.css'), 'utf8')
@@ -99,6 +104,17 @@ const checks = [
       carousel.includes('CarouselItemIndexContext') &&
       carousel.includes('<CarouselItemIndexContext.Provider') &&
       !carousel.includes('React.cloneElement(child'),
+  },
+  {
+    name: 'Published component API does not expose private implementation helpers',
+    pass:
+      packageJson.exports?.['./trigger-button'] === undefined &&
+      !publicUiEntries.includes('trigger-button') &&
+      !/export\s+const\s+buttonVariants\b/.test(button) &&
+      !button.includes('VariantProps<typeof buttonVariants>') &&
+      !/export\s+(const|type|interface)\s+CardContext\b/.test(card) &&
+      !/export\s+const\s+tabsListVariants\b/.test(tabs) &&
+      !tabs.includes('VariantProps<typeof tabsListVariants>'),
   },
   {
     name: 'Dialog trigger registration is ref-based and does not query the DOM tree',
@@ -289,7 +305,9 @@ const checks = [
       list.includes('Math.max(\n    2,') &&
       list.includes("'data-list-marker': formatListMarker(markerValue, markerDigits)") &&
       list.includes('markerHoverColor = splatoonColorVars.green') &&
-      list.includes("...(dividerColor ? { '--list-divider-color': dividerColor } : null)") &&
+      list.includes(
+        "...(dividerColor ? { '--list-divider-color': resolveSplatoonColorValue(dividerColor) } : null)"
+      ) &&
       listCss.includes('--list-row-gap: 0.125rem;') &&
       listCss.includes('--list-divider-color: var(--color-grey-100);') &&
       listCss.includes('--list-content-divider-gap: 0.125rem;') &&

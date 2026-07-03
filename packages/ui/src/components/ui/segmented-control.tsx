@@ -25,10 +25,11 @@ import {
   SwitchTrackPatternDefs,
 } from './switch-track'
 
-type SegmentedControlAppearance = 'buttons' | 'track'
-type SegmentedControlColor = SplatoonControlTrackColor
-type SegmentedControlDensity = 'compact' | 'default' | 'spacious'
-type SegmentedControlOrientation = 'horizontal' | 'vertical'
+export type SegmentedControlAppearance = 'buttons' | 'track'
+export type SegmentedControlColor = SplatoonControlTrackColor
+export type SegmentedControlDensity = 'compact' | 'default' | 'spacious'
+export type SegmentedControlOrientation = 'horizontal' | 'vertical'
+export type { SplatoonControlTrackColor }
 type SegmentedControlStyle = React.CSSProperties & {
   '--segmented-control-active-bg'?: string
   '--segmented-control-active-text'?: string

@@ -25,6 +25,12 @@ export const splatoonColorVars = {
   salmonRunGreen: 'var(--color-salmon-run-green)',
 } as const satisfies Record<SplatoonColorToken, string>
 
+export type SplatoonColorValue = SplatoonColorToken | (string & {})
+
+export function resolveSplatoonColorValue(value: SplatoonColorValue): string {
+  return value in splatoonColorVars ? splatoonColorVars[value as SplatoonColorToken] : value
+}
+
 export type SplatoonControlTrackColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple'
 
 export interface SplatoonControlTrackColorConfig {

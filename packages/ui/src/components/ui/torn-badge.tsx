@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 import { splatoonColorVars } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'

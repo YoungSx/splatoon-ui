@@ -12,13 +12,13 @@ import type { ContentPhase, CanvasState } from '@/hooks/use-navigation-menu-anim
 import { useSyncSelectedNavKey } from '@/hooks/use-sync-selected-nav-key'
 import { useNavigationMenuAnimation } from '@/hooks/use-navigation-menu-animation'
 
-type BackgroundTransitionProps = {
+export type BackgroundTransitionProps = {
   canvasState: CanvasState
   openCount: number
   onComplete: () => void
 }
 
-type NavigationDialogProps = {
+export type NavigationDialogProps = {
   isReducedMotion?: boolean
   navLinks: NavLink[]
   highlightColor: string

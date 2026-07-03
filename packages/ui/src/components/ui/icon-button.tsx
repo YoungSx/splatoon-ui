@@ -1,5 +1,3 @@
-'use client'
-
 /**
  * IconButton — circular icon button for Splatoon UI controls.
  *

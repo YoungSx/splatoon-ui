@@ -54,18 +54,18 @@ const PATTERN_MAP: Record<Pattern, string> = {
 }
 
 export interface SectionBackgroundProps extends React.HTMLAttributes<HTMLElement> {
-  /** Solid background color (e.g. "bg-white", "bg-black") */
-  bgColor?: string
-  /** Dark mode background color */
-  darkBgColor?: string
+  /** Solid background utility class (e.g. "bg-white", "bg-black"). */
+  backgroundClassName?: string
+  /** Dark-mode background utility class. */
+  darkBackgroundClassName?: string
   /** Optional pattern texture overlay */
   pattern?: Pattern
   as?: 'div' | 'section'
 }
 
 export function SectionBackground({
-  bgColor,
-  darkBgColor,
+  backgroundClassName,
+  darkBackgroundClassName,
   pattern,
   as: Tag = 'div',
   className,
@@ -76,8 +76,8 @@ export function SectionBackground({
     <Tag
       className={cn(
         styles.sectionBackground,
-        bgColor,
-        darkBgColor,
+        backgroundClassName,
+        darkBackgroundClassName,
         pattern && PATTERN_MAP[pattern],
         className
       )}

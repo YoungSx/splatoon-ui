@@ -124,7 +124,7 @@
       "importPath": "splatoon-ui/badge",
       "primaryExport": "Badge",
       "sourcePath": "src/components/ui/badge.tsx",
-      "boundary": "client",
+      "boundary": "server",
       "exports": [
         {
           "name": "Badge",
@@ -331,6 +331,13 @@
               "description": "Container width in px"
             }
           ]
+        },
+        {
+          "name": "BlobPlayButtonProps",
+          "kind": "interface",
+          "type": "export interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -347,6 +354,20 @@
           "type": "function Button(",
           "description": "",
           "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "ButtonVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "ButtonSize",
+              "defaultValue": "",
+              "description": ""
+            },
             {
               "name": "hasChevron",
               "optional": true,
@@ -399,16 +420,37 @@
           ]
         },
         {
-          "name": "ButtonProps",
-          "kind": "interface",
-          "type": "export interface ButtonProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>, VariantProps<typeof buttonVariants>",
+          "name": "ButtonColorToken",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         },
         {
-          "name": "buttonVariants",
-          "kind": "const",
-          "type": "const buttonVariants = cva( 'group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[var(--button-radius,8px)] font-alt font-black tracking-wider transit",
+          "name": "ButtonProps",
+          "kind": "interface",
+          "type": "export interface ButtonProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonSize",
+          "kind": "type",
+          "type": "export type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonThemePreset",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonVariant",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         }
@@ -424,29 +466,28 @@
         {
           "name": "ButtonArrow",
           "kind": "function",
-          "type": "export function ButtonArrow(",
+          "type": "export function ButtonArrow(props: ButtonArrowProps)",
           "description": "",
-          "props": [
-            {
-              "name": "icon",
-              "optional": true,
-              "type": "React.ReactNode",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
-              "name": "href",
-              "optional": true,
-              "type": "string",
-              "defaultValue": "",
-              "description": ""
-            }
-          ]
+          "props": []
+        },
+        {
+          "name": "ButtonArrowAnchorProps",
+          "kind": "type",
+          "type": "export type ButtonArrowAnchorProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'> & ButtonArrowOwnProps &",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonArrowButtonProps",
+          "kind": "type",
+          "type": "export type ButtonArrowButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & ButtonArrowOwnProps &",
+          "description": "",
+          "props": []
         },
         {
           "name": "ButtonArrowProps",
-          "kind": "interface",
-          "type": "export interface ButtonArrowProps extends Omit<AnchorButtonProps, 'type'>",
+          "kind": "type",
+          "type": "export type ButtonArrowProps = ButtonArrowAnchorProps | ButtonArrowButtonProps",
           "description": "",
           "props": []
         }
@@ -579,7 +620,7 @@
             {
               "name": "surface",
               "optional": true,
-              "type": "'white' | 'dark'",
+              "type": "CardSurface",
               "defaultValue": "",
               "description": ""
             },
@@ -663,13 +704,6 @@
           "props": []
         },
         {
-          "name": "CardContext",
-          "kind": "const",
-          "type": "export const CardContext = React.createContext<",
-          "description": "",
-          "props": []
-        },
-        {
           "name": "CardDescription",
           "kind": "function",
           "type": "function CardDescription(",
@@ -727,9 +761,23 @@
           "props": []
         },
         {
+          "name": "CardSurface",
+          "kind": "type",
+          "type": "export type CardSurface = 'white' | 'dark'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "CardTitle",
           "kind": "function",
           "type": "function CardTitle(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CardVariant",
+          "kind": "type",
+          "type": "export type CardVariant = 'paper' | 'staple' | 'rugged' | 'torn'",
           "description": "",
           "props": []
         }
@@ -1134,6 +1182,13 @@
           "type": "function Checkbox(",
           "description": "",
           "props": []
+        },
+        {
+          "name": "CheckboxProps",
+          "kind": "type",
+          "type": "export type CheckboxProps = CheckboxPrimitive.Root.Props",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -1217,6 +1272,13 @@
           ]
         },
         {
+          "name": "DialogContentProps",
+          "kind": "interface",
+          "type": "export interface DialogContentProps extends DialogPrimitive.Popup.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "DialogDescription",
           "kind": "function",
           "type": "function DialogDescription(",
@@ -1224,9 +1286,31 @@
           "props": []
         },
         {
+          "name": "DialogDescriptionProps",
+          "kind": "type",
+          "type": "export type DialogDescriptionProps = DialogPrimitive.Description.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "DialogFooter",
           "kind": "function",
           "type": "function DialogFooter(",
+          "description": "",
+          "props": [
+            {
+              "name": "showCloseButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "DialogFooterProps",
+          "kind": "interface",
+          "type": "export interface DialogFooterProps extends React.ComponentProps<'div'>",
           "description": "",
           "props": []
         },
@@ -1238,9 +1322,23 @@
           "props": []
         },
         {
+          "name": "DialogHeaderProps",
+          "kind": "type",
+          "type": "export type DialogHeaderProps = React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "DialogOverlay",
           "kind": "function",
           "type": "function DialogOverlay(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogOverlayProps",
+          "kind": "type",
+          "type": "export type DialogOverlayProps = DialogPrimitive.Backdrop.Props",
           "description": "",
           "props": []
         },
@@ -1252,9 +1350,37 @@
           "props": []
         },
         {
+          "name": "DialogPortalProps",
+          "kind": "type",
+          "type": "export type DialogPortalProps = DialogPrimitive.Portal.Props",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogProps",
+          "kind": "interface",
+          "type": "export interface DialogProps extends Omit< DialogPrimitive.Root.Props, 'open' | 'onOpenChange' | 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogSurface",
+          "kind": "type",
+          "type": "export type DialogSurface = 'paper' | 'cream' | 'danger'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "DialogTitle",
           "kind": "function",
           "type": "function DialogTitle(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogTitleProps",
+          "kind": "type",
+          "type": "export type DialogTitleProps = DialogPrimitive.Title.Props",
           "description": "",
           "props": []
         },
@@ -1269,6 +1395,13 @@
           "name": "DialogTriggerButton",
           "kind": "const",
           "type": "const DialogTriggerButton = createTriggerButton( DialogPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'dialog-trigger',",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogTriggerProps",
+          "kind": "type",
+          "type": "export type DialogTriggerProps = DialogPrimitive.Trigger.Props &",
           "description": "",
           "props": []
         }
@@ -1290,23 +1423,37 @@
             {
               "name": "orientation",
               "optional": true,
-              "type": "'horizontal' | 'vertical'",
+              "type": "DottedDividerOrientation",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "color",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             }
           ]
         },
         {
+          "name": "DottedDividerOrientation",
+          "kind": "type",
+          "type": "export type DottedDividerOrientation = 'horizontal' | 'vertical'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "DottedDividerProps",
           "kind": "interface",
           "type": "export interface DottedDividerProps extends React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonColorValue",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         }
@@ -1656,7 +1803,7 @@
       "importPath": "splatoon-ui/icon-button",
       "primaryExport": "IconButton",
       "sourcePath": "src/components/ui/icon-button.tsx",
-      "boundary": "client",
+      "boundary": "server",
       "exports": [
         {
           "name": "IconButton",
@@ -1787,6 +1934,13 @@
           "name": "NavArrowDown",
           "kind": "function",
           "type": "export function NavArrowDown(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "NavArrowDownProps",
+          "kind": "type",
+          "type": "export type NavArrowDownProps = React.SVGProps<SVGSVGElement>",
           "description": "Arrow-down icon for the back-to-top button.\nViewBox: 0 0 16 9.45",
           "props": []
         }
@@ -2123,6 +2277,13 @@
           "type": "function Input(",
           "description": "",
           "props": []
+        },
+        {
+          "name": "InputProps",
+          "kind": "type",
+          "type": "export type InputProps = React.ComponentProps<'input'>",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -2131,12 +2292,19 @@
       "importPath": "splatoon-ui/label",
       "primaryExport": "Label",
       "sourcePath": "src/components/ui/label.tsx",
-      "boundary": "client",
+      "boundary": "server",
       "exports": [
         {
           "name": "Label",
           "kind": "function",
           "type": "function Label(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "LabelProps",
+          "kind": "type",
+          "type": "export type LabelProps = React.ComponentProps<'label'>",
           "description": "",
           "props": []
         }
@@ -2172,35 +2340,35 @@
             {
               "name": "markerColor",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "markerTextColor",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "markerHoverColor",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "markerHoverTextColor",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "dividerColor",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             }
@@ -2241,6 +2409,13 @@
           "type": "export type ListVariant = 'ordered'",
           "description": "",
           "props": []
+        },
+        {
+          "name": "SplatoonColorValue",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -2249,7 +2424,7 @@
       "importPath": "splatoon-ui/loader",
       "primaryExport": "Loader",
       "sourcePath": "src/components/ui/loader.tsx",
-      "boundary": "client",
+      "boundary": "server",
       "exports": [
         {
           "name": "Loader",
@@ -2364,6 +2539,20 @@
           "name": "MarqueeItem",
           "kind": "function",
           "type": "function MarqueeItem(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeItemProps",
+          "kind": "type",
+          "type": "export type MarqueeItemProps = React.ComponentProps<'span'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeProps",
+          "kind": "interface",
+          "type": "export interface MarqueeProps extends React.ComponentProps<'div'>",
           "description": "",
           "props": []
         }
@@ -2544,6 +2733,13 @@
               "description": ""
             }
           ]
+        },
+        {
+          "name": "NavChevronProps",
+          "kind": "interface",
+          "type": "export interface NavChevronProps",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -2552,12 +2748,27 @@
       "importPath": "splatoon-ui/nav-menu-button",
       "primaryExport": "NavMenuButton",
       "sourcePath": "src/components/ui/nav-menu-button.tsx",
-      "boundary": "client",
+      "boundary": "server",
       "exports": [
         {
           "name": "NavMenuButton",
           "kind": "function",
           "type": "function NavMenuButton(",
+          "description": "",
+          "props": [
+            {
+              "name": "pressed",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "NavMenuButtonProps",
+          "kind": "interface",
+          "type": "export interface NavMenuButtonProps extends React.ComponentProps<'button'>",
           "description": "",
           "props": []
         }
@@ -2626,6 +2837,13 @@
               "description": "Whether to show the reduced motion toggle — defaults to true"
             }
           ]
+        },
+        {
+          "name": "NavigationProps",
+          "kind": "interface",
+          "type": "export interface NavigationProps",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -2636,6 +2854,13 @@
       "sourcePath": "src/components/ui/navigation-dialog.tsx",
       "boundary": "client",
       "exports": [
+        {
+          "name": "BackgroundTransitionProps",
+          "kind": "type",
+          "type": "export type BackgroundTransitionProps =",
+          "description": "",
+          "props": []
+        },
         {
           "name": "NavigationDialog",
           "kind": "function",
@@ -2727,6 +2952,13 @@
               "description": "Screen-reader text for the close button."
             }
           ]
+        },
+        {
+          "name": "NavigationDialogProps",
+          "kind": "type",
+          "type": "export type NavigationDialogProps =",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -2938,14 +3170,14 @@
             {
               "name": "edge",
               "optional": true,
-              "type": "keyof typeof PAPER_TEAR_PATHS",
+              "type": "PaperTearEdgeSide",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "color",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             }
@@ -2955,6 +3187,20 @@
           "name": "PaperTearEdgeProps",
           "kind": "interface",
           "type": "export interface PaperTearEdgeProps extends React.ComponentProps<'svg'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PaperTearEdgeSide",
+          "kind": "type",
+          "type": "export type PaperTearEdgeSide = keyof typeof PAPER_TEAR_PATHS",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonColorValue",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         }
@@ -3136,7 +3382,43 @@
         {
           "name": "PopoverContent",
           "kind": "const",
-          "type": "const PopoverContent = React.forwardRef< HTMLDivElement, PopoverPrimitive.Popup.Props &",
+          "type": "const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>( function PopoverContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "align",
+              "optional": true,
+              "type": "PopoverPrimitive.Positioner.Props['align']",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignOffset",
+              "optional": true,
+              "type": "PopoverPrimitive.Positioner.Props['alignOffset']",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "optional": true,
+              "type": "PopoverPrimitive.Positioner.Props['side']",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sideOffset",
+              "optional": true,
+              "type": "PopoverPrimitive.Positioner.Props['sideOffset']",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverContentProps",
+          "kind": "interface",
+          "type": "export interface PopoverContentProps extends PopoverPrimitive.Popup.Props",
           "description": "",
           "props": []
         },
@@ -3148,9 +3430,23 @@
           "props": []
         },
         {
+          "name": "PopoverDescriptionProps",
+          "kind": "type",
+          "type": "export type PopoverDescriptionProps = PopoverPrimitive.Description.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "PopoverHeader",
           "kind": "function",
           "type": "function PopoverHeader(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverHeaderProps",
+          "kind": "type",
+          "type": "export type PopoverHeaderProps = React.ComponentProps<'div'>",
           "description": "",
           "props": []
         },
@@ -3162,6 +3458,13 @@
           "props": []
         },
         {
+          "name": "PopoverPortalProps",
+          "kind": "type",
+          "type": "export type PopoverPortalProps = PopoverPrimitive.Portal.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "PopoverPositioner",
           "kind": "function",
           "type": "function PopoverPositioner(",
@@ -3169,9 +3472,30 @@
           "props": []
         },
         {
+          "name": "PopoverPositionerProps",
+          "kind": "type",
+          "type": "export type PopoverPositionerProps = PopoverPrimitive.Positioner.Props",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverProps",
+          "kind": "type",
+          "type": "export type PopoverProps = PopoverPrimitive.Root.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "PopoverTitle",
           "kind": "function",
           "type": "function PopoverTitle(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTitleProps",
+          "kind": "type",
+          "type": "export type PopoverTitleProps = PopoverPrimitive.Title.Props",
           "description": "",
           "props": []
         },
@@ -3186,6 +3510,13 @@
           "name": "PopoverTriggerButton",
           "kind": "const",
           "type": "const PopoverTriggerButton = createTriggerButton( PopoverPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'popover-trigger' )",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTriggerProps",
+          "kind": "type",
+          "type": "export type PopoverTriggerProps = PopoverPrimitive.Trigger.Props",
           "description": "",
           "props": []
         }
@@ -3261,6 +3592,27 @@
           "type": "export interface ProgressProps extends Omit< React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>, 'children' | 'max' | 'value' >",
           "description": "",
           "props": []
+        },
+        {
+          "name": "ProgressSize",
+          "kind": "type",
+          "type": "export type ProgressSize = 'sm' | 'default' | 'lg'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ProgressTrackVariant",
+          "kind": "type",
+          "type": "export type ProgressTrackVariant = 'dark' | 'light' | 'transparent'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ProgressVariant",
+          "kind": "type",
+          "type": "export type ProgressVariant = | 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red' | 'black' | 'white'",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -3282,6 +3634,20 @@
           "name": "RadioGroupItem",
           "kind": "function",
           "type": "function RadioGroupItem(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RadioGroupItemProps",
+          "kind": "type",
+          "type": "export type RadioGroupItemProps = RadioPrimitive.Root.Props",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RadioGroupProps",
+          "kind": "type",
+          "type": "export type RadioGroupProps = RadioGroupPrimitive.Props",
           "description": "",
           "props": []
         }
@@ -3374,18 +3740,18 @@
               "description": "Optional pattern texture overlay"
             },
             {
-              "name": "bgColor",
+              "name": "backgroundClassName",
               "optional": true,
               "type": "string",
               "defaultValue": "",
-              "description": "Tailwind background class (e.g. \"bg-white\")"
+              "description": "Background utility class (e.g. \"bg-white\")"
             },
             {
-              "name": "text",
+              "name": "textClassName",
               "optional": true,
               "type": "string",
               "defaultValue": "",
-              "description": "Tailwind text color class (e.g. \"text-chaos-black\")"
+              "description": "Text color utility class (e.g. \"text-chaos-black\")"
             },
             {
               "name": "as",
@@ -3440,18 +3806,18 @@
           "description": "",
           "props": [
             {
-              "name": "bgColor",
+              "name": "backgroundClassName",
               "optional": true,
               "type": "string",
               "defaultValue": "",
-              "description": "Solid background color (e.g. \"bg-white\", \"bg-black\")"
+              "description": "Solid background utility class (e.g. \"bg-white\", \"bg-black\")."
             },
             {
-              "name": "darkBgColor",
+              "name": "darkBackgroundClassName",
               "optional": true,
               "type": "string",
               "defaultValue": "",
-              "description": "Dark mode background color"
+              "description": "Dark-mode background utility class."
             },
             {
               "name": "pattern",
@@ -3616,6 +3982,27 @@
           ]
         },
         {
+          "name": "SegmentedControlAppearance",
+          "kind": "type",
+          "type": "export type SegmentedControlAppearance = 'buttons' | 'track'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlColor",
+          "kind": "type",
+          "type": "export type SegmentedControlColor = SplatoonControlTrackColor",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlDensity",
+          "kind": "type",
+          "type": "export type SegmentedControlDensity = 'compact' | 'default' | 'spacious'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SegmentedControlItem",
           "kind": "function",
           "type": "function SegmentedControlItem(",
@@ -3638,9 +4025,23 @@
           "props": []
         },
         {
+          "name": "SegmentedControlOrientation",
+          "kind": "type",
+          "type": "export type SegmentedControlOrientation = 'horizontal' | 'vertical'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SegmentedControlProps",
           "kind": "interface",
           "type": "export interface SegmentedControlProps extends Omit<RadioGroupPrimitive.Props<string>, 'style'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonControlTrackColor",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         }
@@ -3668,9 +4069,23 @@
           "props": []
         },
         {
+          "name": "SelectContentProps",
+          "kind": "type",
+          "type": "export type SelectContentProps = SelectPrimitive.Popup.Props & Pick< SelectPrimitive.Positioner.Props, 'align' | 'alignOffset' | 'side' | 'sideOffset' | 'alignItemWithTrigger' > &",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SelectGroup",
           "kind": "function",
           "type": "function SelectGroup(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectGroupProps",
+          "kind": "type",
+          "type": "export type SelectGroupProps = SelectPrimitive.Group.Props",
           "description": "",
           "props": []
         },
@@ -3682,9 +4097,30 @@
           "props": []
         },
         {
+          "name": "SelectItemProps",
+          "kind": "type",
+          "type": "export type SelectItemProps = SelectPrimitive.Item.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SelectLabel",
           "kind": "function",
           "type": "function SelectLabel(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectLabelProps",
+          "kind": "type",
+          "type": "export type SelectLabelProps = SelectPrimitive.GroupLabel.Props",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectProps",
+          "kind": "type",
+          "type": "export type SelectProps = SelectPrimitive.Root.Props<string>",
           "description": "",
           "props": []
         },
@@ -3696,9 +4132,23 @@
           "props": []
         },
         {
+          "name": "SelectScrollDownButtonProps",
+          "kind": "type",
+          "type": "export type SelectScrollDownButtonProps = React.ComponentProps< typeof SelectPrimitive.ScrollDownArrow >",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SelectScrollUpButton",
           "kind": "function",
           "type": "function SelectScrollUpButton(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectScrollUpButtonProps",
+          "kind": "type",
+          "type": "export type SelectScrollUpButtonProps = React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>",
           "description": "",
           "props": []
         },
@@ -3710,9 +4160,31 @@
           "props": []
         },
         {
+          "name": "SelectSeparatorProps",
+          "kind": "type",
+          "type": "export type SelectSeparatorProps = SelectPrimitive.Separator.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SelectTrigger",
           "kind": "function",
           "type": "function SelectTrigger(",
+          "description": "",
+          "props": [
+            {
+              "name": "size",
+              "optional": true,
+              "type": "'sm' | 'default'",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectTriggerProps",
+          "kind": "interface",
+          "type": "export interface SelectTriggerProps extends SelectPrimitive.Trigger.Props",
           "description": "",
           "props": []
         },
@@ -3720,6 +4192,13 @@
           "name": "SelectValue",
           "kind": "function",
           "type": "function SelectValue(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectValueProps",
+          "kind": "type",
+          "type": "export type SelectValueProps = SelectPrimitive.Value.Props",
           "description": "",
           "props": []
         }
@@ -3742,7 +4221,29 @@
         {
           "name": "SheetContent",
           "kind": "const",
-          "type": "const SheetContent = React.forwardRef< HTMLDivElement, SheetPrimitive.Popup.Props &",
+          "type": "const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(function SheetContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "side",
+              "optional": true,
+              "type": "SheetSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showCloseButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetContentProps",
+          "kind": "interface",
+          "type": "export interface SheetContentProps extends SheetPrimitive.Popup.Props",
           "description": "",
           "props": []
         },
@@ -3754,9 +4255,23 @@
           "props": []
         },
         {
+          "name": "SheetDescriptionProps",
+          "kind": "type",
+          "type": "export type SheetDescriptionProps = SheetPrimitive.Description.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SheetFooter",
           "kind": "function",
           "type": "function SheetFooter(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetFooterProps",
+          "kind": "type",
+          "type": "export type SheetFooterProps = React.ComponentProps<'div'>",
           "description": "",
           "props": []
         },
@@ -3768,6 +4283,13 @@
           "props": []
         },
         {
+          "name": "SheetHeaderProps",
+          "kind": "type",
+          "type": "export type SheetHeaderProps = React.ComponentProps<'div'>",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SheetOverlay",
           "kind": "function",
           "type": "function SheetOverlay(",
@@ -3775,9 +4297,38 @@
           "props": []
         },
         {
+          "name": "SheetOverlayProps",
+          "kind": "type",
+          "type": "export type SheetOverlayProps = SheetPrimitive.Backdrop.Props",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SheetPopup",
           "kind": "const",
-          "type": "const SheetPopup = React.forwardRef< HTMLDivElement, SheetPrimitive.Popup.Props &",
+          "type": "const SheetPopup = React.forwardRef<HTMLDivElement, SheetPopupProps>(function SheetPopup(",
+          "description": "",
+          "props": [
+            {
+              "name": "side",
+              "optional": true,
+              "type": "SheetSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "closeButton",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetPopupProps",
+          "kind": "interface",
+          "type": "export interface SheetPopupProps extends SheetPrimitive.Popup.Props",
           "description": "",
           "props": []
         },
@@ -3789,9 +4340,37 @@
           "props": []
         },
         {
+          "name": "SheetPortalProps",
+          "kind": "type",
+          "type": "export type SheetPortalProps = SheetPrimitive.Portal.Props",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetProps",
+          "kind": "type",
+          "type": "export type SheetProps = SheetPrimitive.Root.Props",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetSide",
+          "kind": "type",
+          "type": "export type SheetSide = 'top' | 'right' | 'bottom' | 'left'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SheetTitle",
           "kind": "function",
           "type": "function SheetTitle(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTitleProps",
+          "kind": "type",
+          "type": "export type SheetTitleProps = SheetPrimitive.Title.Props",
           "description": "",
           "props": []
         },
@@ -3806,6 +4385,13 @@
           "name": "SheetTriggerButton",
           "kind": "const",
           "type": "const SheetTriggerButton = createTriggerButton( SheetPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'sheet-trigger' )",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTriggerProps",
+          "kind": "type",
+          "type": "export type SheetTriggerProps = SheetPrimitive.Trigger.Props",
           "description": "",
           "props": []
         }
@@ -4490,6 +5076,13 @@
           "props": []
         },
         {
+          "name": "Sticker10Props",
+          "kind": "type",
+          "type": "export type Sticker10Props = Omit< React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width' >",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "Sticker2Red",
           "kind": "function",
           "type": "export function Sticker2Red(",
@@ -4497,9 +5090,23 @@
           "props": []
         },
         {
+          "name": "Sticker2RedProps",
+          "kind": "type",
+          "type": "export type Sticker2RedProps = Omit< React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width' >",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "Sticker5",
           "kind": "function",
           "type": "export function Sticker5(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Sticker5Props",
+          "kind": "type",
+          "type": "export type Sticker5Props = Omit<React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width'>",
           "description": "",
           "props": []
         }
@@ -4512,6 +5119,13 @@
       "sourcePath": "src/components/ui/switch.tsx",
       "boundary": "client",
       "exports": [
+        {
+          "name": "SplatoonControlTrackColor",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
+        },
         {
           "name": "Switch",
           "kind": "function",
@@ -4556,9 +5170,23 @@
           ]
         },
         {
+          "name": "SwitchColor",
+          "kind": "type",
+          "type": "export type SwitchColor = Exclude<SplatoonControlTrackColor, 'purple'>",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SwitchProps",
           "kind": "interface",
           "type": "export interface SwitchProps extends SwitchPrimitive.Root.Props",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SwitchSize",
+          "kind": "type",
+          "type": "export type SwitchSize = 'sm' | 'default' | 'lg'",
           "description": "",
           "props": []
         }
@@ -4592,6 +5220,13 @@
           "description": "",
           "props": [
             {
+              "name": "variant",
+              "optional": true,
+              "type": "TabsListVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "color",
               "optional": true,
               "type": "TabsListColor",
@@ -4608,16 +5243,23 @@
           ]
         },
         {
-          "name": "TabsListProps",
-          "kind": "interface",
-          "type": "export interface TabsListProps extends Omit<TabsPrimitive.List.Props, 'color'>, Omit<VariantProps<typeof tabsListVariants>, 'color'>",
+          "name": "TabsListColor",
+          "kind": "type",
+          "type": "export type TabsListColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple' | 'red'",
           "description": "",
           "props": []
         },
         {
-          "name": "tabsListVariants",
-          "kind": "const",
-          "type": "const tabsListVariants = cva( 'group/tabs-list flex items-center justify-center text-current group-data-horizontal/tabs:h-auto group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col',",
+          "name": "TabsListProps",
+          "kind": "interface",
+          "type": "export interface TabsListProps extends Omit<TabsPrimitive.List.Props, 'color'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsListVariant",
+          "kind": "type",
+          "type": "export type TabsListVariant = 'default' | 'line' | 'trapezoid'",
           "description": "",
           "props": []
         },
@@ -4676,7 +5318,14 @@
         {
           "name": "TagHanger",
           "kind": "function",
-          "type": "export function TagHanger()",
+          "type": "export function TagHanger(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TagHangerProps",
+          "kind": "type",
+          "type": "export type TagHangerProps = React.SVGProps<SVGSVGElement>",
           "description": "",
           "props": []
         }
@@ -4882,6 +5531,13 @@
           ]
         },
         {
+          "name": "TapePictureProps",
+          "kind": "interface",
+          "type": "export interface TapePictureProps extends ImageProps",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "TapeResponsivePictures",
           "kind": "function",
           "type": "export function TapeResponsivePictures(",
@@ -4916,6 +5572,13 @@
               "description": ""
             }
           ]
+        },
+        {
+          "name": "TapeResponsivePicturesProps",
+          "kind": "interface",
+          "type": "export interface TapeResponsivePicturesProps extends ImageProps",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -4947,6 +5610,13 @@
               "description": ""
             }
           ]
+        },
+        {
+          "name": "TapeTitleProps",
+          "kind": "interface",
+          "type": "export interface TapeTitleProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -4980,7 +5650,7 @@
             {
               "name": "background",
               "optional": true,
-              "type": "string",
+              "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
             },
@@ -5039,36 +5709,6 @@
           "name": "TornCardTitle",
           "kind": "function",
           "type": "function TornCardTitle(",
-          "description": "",
-          "props": []
-        }
-      ]
-    },
-    {
-      "slug": "trigger-button",
-      "importPath": "splatoon-ui/trigger-button",
-      "primaryExport": "assignRef",
-      "sourcePath": "src/components/ui/trigger-button.tsx",
-      "boundary": "client",
-      "exports": [
-        {
-          "name": "assignRef",
-          "kind": "function",
-          "type": "export function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null)",
-          "description": "",
-          "props": []
-        },
-        {
-          "name": "createTriggerButton",
-          "kind": "function",
-          "type": "export function createTriggerButton<TTrigger extends React.ComponentType<Record<string, unknown>>>( Trigger: TTrigger, dataSlot: string, options?:",
-          "description": "Factory: creates a TriggerButton component that renders a Base UI trigger\nwith a Button as its `render` output.\n\nUsage:\n  const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, \"dialog-trigger\")",
-          "props": []
-        },
-        {
-          "name": "mergeRefs",
-          "kind": "function",
-          "type": "export function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>)",
           "description": "",
           "props": []
         }
@@ -5196,6 +5836,27 @@
           ]
         },
         {
+          "name": "VideoDialogContentMode",
+          "kind": "type",
+          "type": "export type VideoDialogContentMode = 'iframe' | 'video'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "VideoDialogContentProps",
+          "kind": "interface",
+          "type": "export interface VideoDialogContentProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "VideoDialogProps",
+          "kind": "interface",
+          "type": "export interface VideoDialogProps extends Omit<React.ComponentProps<typeof Dialog>, 'children'>",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "VideoDialogThumbnail",
           "kind": "function",
           "type": "export function VideoDialogThumbnail(",
@@ -5272,6 +5933,13 @@
               "description": ""
             }
           ]
+        },
+        {
+          "name": "VideoDialogThumbnailProps",
+          "kind": "interface",
+          "type": "export interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
+          "description": "",
+          "props": []
         },
         {
           "name": "VideoDialogTrack",
@@ -5525,9 +6193,31 @@
       "boundary": "server",
       "exports": [
         {
+          "name": "SplatoonColorValue",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "WideTornPaper",
           "kind": "function",
           "type": "export function WideTornPaper(",
+          "description": "",
+          "props": [
+            {
+              "name": "backgroundColor",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "WideTornPaperProps",
+          "kind": "interface",
+          "type": "export interface WideTornPaperProps extends React.SVGProps<SVGSVGElement>",
           "description": "",
           "props": []
         }

@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { resolveSplatoonColorValue, type SplatoonColorValue } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 
 const PAPER_TEAR_PATHS = {
@@ -13,9 +14,12 @@ const PAPER_TEAR_PATHS = {
   },
 } as const
 
+export type { SplatoonColorValue }
+export type PaperTearEdgeSide = keyof typeof PAPER_TEAR_PATHS
+
 export interface PaperTearEdgeProps extends React.ComponentProps<'svg'> {
-  edge?: keyof typeof PAPER_TEAR_PATHS
-  color?: string
+  edge?: PaperTearEdgeSide
+  color?: SplatoonColorValue
 }
 
 export function PaperTearEdge({
@@ -39,7 +43,11 @@ export function PaperTearEdge({
       style={style}
       {...props}
     >
-      <path fill={color ?? 'currentColor'} fillRule="evenodd" d={path.d} />
+      <path
+        fill={color ? resolveSplatoonColorValue(color) : 'currentColor'}
+        fillRule="evenodd"
+        d={path.d}
+      />
     </svg>
   )
 }

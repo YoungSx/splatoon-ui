@@ -1,12 +1,13 @@
 'use client'
 
 import { Button as ButtonPrimitive } from '@base-ui/react/button'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import * as React from 'react'
 
 import { useDripAnimation } from '@/hooks/use-drip-animation'
 import {
   type ButtonColorToken,
+  type ButtonVariant,
   type ButtonThemePreset,
   resolveButtonColors,
 } from '@/lib/resolve-button-colors'
@@ -45,6 +46,9 @@ const buttonVariants = cva(
   }
 )
 
+export type ButtonSize = 'default' | 'sm' | 'lg' | 'icon' | 'icon-sm' | 'icon-lg'
+export type { ButtonColorToken, ButtonThemePreset, ButtonVariant }
+
 const arrowButtonClassName =
   'group/button relative inline-block shrink-0 cursor-pointer select-none bg-transparent p-0 font-alt text-[26px] font-medium normal-case tracking-normal leading-[26px] text-current transition-colors duration-200 outline-none disabled:pointer-events-none disabled:opacity-50 hover:text-[var(--color-blue)] active:text-current'
 
@@ -57,10 +61,9 @@ const buttonInlineContentClassName =
 const buttonIconClassName =
   'mr-1.5 inline-flex shrink-0 items-center justify-center leading-none [&_svg]:block [&_svg]:shrink-0'
 
-export interface ButtonProps
-  extends
-    React.ComponentPropsWithoutRef<typeof ButtonPrimitive>,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive> {
+  variant?: ButtonVariant
+  size?: ButtonSize
   hasChevron?: boolean
   leftIcon?: React.ReactNode
   color?: ButtonColorToken
@@ -122,9 +125,7 @@ function Button({
   const { dripAnimationState, dripStyle, startDripEnter, startDripLeave, handleDripAnimationEnd } =
     useDripAnimation(localRef, hasDrip)
 
-  const variantKey = (variant ?? 'yellow') as NonNullable<
-    VariantProps<typeof buttonVariants>['variant']
-  >
+  const variantKey = (variant ?? 'yellow') as ButtonVariant
 
   const resolvedColorConfig = resolveButtonColors({
     variant: variantKey,
@@ -303,4 +304,4 @@ function Button({
   )
 }
 
-export { Button, buttonVariants }
+export { Button }

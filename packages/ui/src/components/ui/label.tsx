@@ -1,10 +1,10 @@
-'use client'
-
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
-function Label({ className, ...props }: React.ComponentProps<'label'>) {
+export type LabelProps = React.ComponentProps<'label'>
+
+function Label({ className, ...props }: LabelProps) {
   return (
     <label
       data-slot="label"

@@ -13,7 +13,7 @@ import { observeElementResize } from '@/lib/observe-element-resize'
 // --color-green: #6af7ce
 const EASE_BACK_OUT = 'cubic-bezier(0.21, 0.12, 0.35, 1.43)'
 
-interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   idleWobbleAmount?: number
   /** Blob color */
   hexColor?: string

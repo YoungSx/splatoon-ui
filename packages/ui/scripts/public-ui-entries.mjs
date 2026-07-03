@@ -71,7 +71,6 @@ export const publicUiEntries = [
   'tape-picture',
   'tape-title',
   'torn-card',
-  'trigger-button',
   'video-dialog',
   'wave-button',
   'wave-canvas',

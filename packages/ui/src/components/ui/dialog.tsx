@@ -26,7 +26,7 @@ const DIALOG_Z_INDEX = {
   content: uiZIndex.dialog,
   close: uiZIndex.dialogClose,
 } as const
-type DialogSurface = 'paper' | 'cream' | 'danger'
+export type DialogSurface = 'paper' | 'cream' | 'danger'
 
 // ── Dialog Context (for fullScreen lifecycle management) ──
 
@@ -50,7 +50,7 @@ function useDialogContext() {
 
 // ── Dialog Root ──
 
-interface DialogProps extends Omit<
+export interface DialogProps extends Omit<
   DialogPrimitive.Root.Props,
   'open' | 'onOpenChange' | 'children'
 > {
@@ -99,10 +99,11 @@ function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: Dial
   )
 }
 
-function DialogTrigger({
-  ref,
-  ...props
-}: DialogPrimitive.Trigger.Props & { ref?: React.Ref<HTMLButtonElement> }) {
+export type DialogTriggerProps = DialogPrimitive.Trigger.Props & {
+  ref?: React.Ref<HTMLButtonElement>
+}
+
+function DialogTrigger({ ref, ...props }: DialogTriggerProps) {
   const { registerTrigger } = useDialogContext()
 
   return (
@@ -122,11 +123,15 @@ const DialogTriggerButton = createTriggerButton(
   }
 )
 
-function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
+export type DialogPortalProps = DialogPrimitive.Portal.Props
+
+function DialogPortal({ ...props }: DialogPortalProps) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-function DialogOverlay({ className, style, ...props }: DialogPrimitive.Backdrop.Props) {
+export type DialogOverlayProps = DialogPrimitive.Backdrop.Props
+
+function DialogOverlay({ className, style, ...props }: DialogOverlayProps) {
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
@@ -140,7 +145,7 @@ function DialogOverlay({ className, style, ...props }: DialogPrimitive.Backdrop.
   )
 }
 
-interface DialogContentProps extends DialogPrimitive.Popup.Props {
+export interface DialogContentProps extends DialogPrimitive.Popup.Props {
   showCloseButton?: boolean
   hasTape?: boolean
   tapePosition?: 'news' | 'event'
@@ -486,7 +491,9 @@ function DialogContent({
   )
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<'div'>) {
+export type DialogHeaderProps = React.ComponentProps<'div'>
+
+function DialogHeader({ className, ...props }: DialogHeaderProps) {
   return (
     <div data-slot="dialog-header" className={cn('flex flex-col gap-1.5', className)} {...props} />
   )
@@ -497,9 +504,7 @@ function DialogFooter({
   showCloseButton = false,
   children,
   ...props
-}: React.ComponentProps<'div'> & {
-  showCloseButton?: boolean
-}) {
+}: DialogFooterProps) {
   return (
     <div
       data-slot="dialog-footer"
@@ -519,7 +524,13 @@ function DialogFooter({
   )
 }
 
-function DialogTitle({ className, style, ...props }: DialogPrimitive.Title.Props) {
+export interface DialogFooterProps extends React.ComponentProps<'div'> {
+  showCloseButton?: boolean
+}
+
+export type DialogTitleProps = DialogPrimitive.Title.Props
+
+function DialogTitle({ className, style, ...props }: DialogTitleProps) {
   const surface = React.useContext(DialogSurfaceContext)
   const surfaceStyle = surface === 'danger' ? { color: DANGER_SURFACE_TITLE_COLOR } : undefined
 
@@ -533,7 +544,9 @@ function DialogTitle({ className, style, ...props }: DialogPrimitive.Title.Props
   )
 }
 
-function DialogDescription({ className, style, ...props }: DialogPrimitive.Description.Props) {
+export type DialogDescriptionProps = DialogPrimitive.Description.Props
+
+function DialogDescription({ className, style, ...props }: DialogDescriptionProps) {
   const surface = React.useContext(DialogSurfaceContext)
   const surfaceStyle =
     surface === 'danger' ? { color: DANGER_SURFACE_DESCRIPTION_COLOR } : undefined

@@ -3,7 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { CardContext } from './card'
+import { CardContext } from './card-context'
 import { PhotoFrame } from './photo-frame'
 
 export interface CardImageProps extends React.ComponentProps<'div'> {

@@ -69,11 +69,16 @@ const clientOnlyModules = [
 
 const requiredServerExports = [
   './asset-image',
+  './badge',
   './character-assets',
   './event-assets',
   './event-callout',
   './heading-tape',
+  './icon-button',
+  './label',
   './list',
+  './loader',
+  './nav-menu-button',
   './news-assets',
   './paper-tear-edge',
   './section-background',
@@ -85,6 +90,7 @@ const requiredServerExports = [
 ]
 
 const demoOnlyModules = ['./demo-layout', './github-mark', './showcase-assets']
+const privateImplementationModules = ['./trigger-button']
 
 const requiredClientExports = [
   './button',
@@ -171,6 +177,22 @@ const checks = [
       demoOnlyModules.every((modulePath) => !clientEntry.includes(`'${modulePath}'`)) &&
       demoOnlyModules.every((modulePath) => !publicUiEntries.includes(modulePath.slice(2))) &&
       demoOnlyModules.every((modulePath) => packageJson.exports?.[modulePath] === undefined),
+  },
+  {
+    name: 'private implementation modules stay out of published UI entrypoints',
+    pass:
+      privateImplementationModules.every(
+        (modulePath) => !serverEntry.includes(`'${modulePath}'`)
+      ) &&
+      privateImplementationModules.every(
+        (modulePath) => !clientEntry.includes(`'${modulePath}'`)
+      ) &&
+      privateImplementationModules.every(
+        (modulePath) => !publicUiEntries.includes(modulePath.slice(2))
+      ) &&
+      privateImplementationModules.every(
+        (modulePath) => packageJson.exports?.[modulePath] === undefined
+      ),
   },
   {
     name: 'client UI entrypoint explicitly owns interactive component exports',

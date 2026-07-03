@@ -202,8 +202,8 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
   return (
     <Section
       size="md"
-      bgColor="bg-white"
-      text="text-chaos-black"
+      backgroundClassName="bg-white"
+      textClassName="text-chaos-black"
       pattern="chip-white"
       bottomOverlayClearance="banner-divider"
       className="transition-colors duration-300"
@@ -661,8 +661,8 @@ export default function Home() {
           <Section
             id="trailer"
             size="md"
-            bgColor="bg-black"
-            text="text-white"
+            backgroundClassName="bg-black"
+            textClassName="text-white"
             pattern="tapes-black"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center py-24 transition-colors duration-300"
@@ -715,8 +715,8 @@ export default function Home() {
           <Section
             id="foundations"
             size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            backgroundClassName="bg-white"
+            textClassName="text-chaos-black"
             pattern="chip-white"
             bottomOverlayClearance="banner-divider"
             className="transition-colors duration-300"
@@ -807,8 +807,8 @@ export default function Home() {
           <Section
             id="actions"
             size="lg"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            backgroundClassName="bg-white"
+            textClassName="text-chaos-black"
             pattern="chip-white"
             bottomOverlayClearance="banner-divider"
             className="transition-colors duration-300"
@@ -1114,8 +1114,8 @@ export default function Home() {
           <Section
             id="forms-controls"
             size="md"
-            bgColor="bg-black"
-            text="text-white"
+            backgroundClassName="bg-black"
+            textClassName="text-white"
             pattern="camo-black"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center"
@@ -1410,8 +1410,8 @@ export default function Home() {
           <Section
             id="navigation-components"
             size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            backgroundClassName="bg-white"
+            textClassName="text-chaos-black"
             pattern="chip-white"
             bottomOverlayClearance="banner-divider"
             className="transition-colors duration-300"
@@ -1538,8 +1538,8 @@ export default function Home() {
           <Section
             id="feedback-overlays"
             size="lg"
-            bgColor="bg-black"
-            text="text-white"
+            backgroundClassName="bg-black"
+            textClassName="text-white"
             pattern="camo-black"
             bottomOverlayClearance="banner-divider"
             headingTape={<HeadingTape color="red">{t.overlays.sectionTitle}</HeadingTape>}
@@ -1770,8 +1770,8 @@ export default function Home() {
           <Section
             id="cards-surfaces"
             size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            backgroundClassName="bg-white"
+            textClassName="text-chaos-black"
             pattern="camo-white-outline"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"
@@ -1848,8 +1848,8 @@ export default function Home() {
 	         ──────────────────────────────────────────────────────── */}
           <Section
             size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            backgroundClassName="bg-white"
+            textClassName="text-chaos-black"
             pattern="camo-white-outline"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"
@@ -1974,8 +1974,8 @@ export default function Home() {
           <Section
             id="card-grid"
             size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            backgroundClassName="bg-white"
+            textClassName="text-chaos-black"
             pattern="camo-white"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"
@@ -2121,8 +2121,8 @@ export default function Home() {
           <Section
             id="motion-media"
             size="md"
-            bgColor="bg-white"
-            text="text-chaos-black"
+            backgroundClassName="bg-white"
+            textClassName="text-chaos-black"
             pattern="chip-white"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"
@@ -2244,8 +2244,8 @@ export default function Home() {
           <Section
             id="carousels"
             size="md"
-            bgColor="bg-blue"
-            text="text-white"
+            backgroundClassName="bg-blue"
+            textClassName="text-white"
             pattern="tapes-purple"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"

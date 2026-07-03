@@ -7,24 +7,15 @@ import { DottedDivider } from './dotted-divider'
 import { StapleCard } from './staple-card'
 import { RuggedCard, type RuggedTheme } from './rugged-card'
 import { TornCard } from './torn-card'
+import { CardContext, type CardSurface, type CardVariant } from './card-context'
 
-// ── CardContext for variant-sharing among sub-components ────────
-
-type CardVariant = 'paper' | 'staple' | 'rugged' | 'torn'
-
-export const CardContext = React.createContext<{
-  variant?: CardVariant
-  surface?: 'white' | 'dark'
-}>({
-  variant: 'paper',
-  surface: 'white',
-})
+export type { CardSurface, CardVariant } from './card-context'
 
 // ── Card Props ──────────────────────────────────────────────────
 
 export interface CardProps extends Omit<React.ComponentProps<'div'>, 'title'> {
   variant?: CardVariant
-  surface?: 'white' | 'dark'
+  surface?: CardSurface
   /** Card rotation angle (rugged/torn) */
   rotation?: string
   /** Theme preset (rugged only) */

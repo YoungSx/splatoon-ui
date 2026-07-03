@@ -121,13 +121,13 @@ const checks = [
   {
     name: 'Demo page pairs busy tape and camo backgrounds with readable text contrast',
     pass:
-      /id="trailer"[\s\S]*?bgColor="bg-black"[\s\S]*?text="text-white"[\s\S]*?pattern="tapes-black"/.test(
+      /id="trailer"[\s\S]*?backgroundClassName="bg-black"[\s\S]*?textClassName="text-white"[\s\S]*?pattern="tapes-black"/.test(
         page
       ) &&
-      /id="cards-surfaces"[\s\S]*?bgColor="bg-white"[\s\S]*?text="text-chaos-black"[\s\S]*?pattern="camo-white-outline"/.test(
+      /id="cards-surfaces"[\s\S]*?backgroundClassName="bg-white"[\s\S]*?textClassName="text-chaos-black"[\s\S]*?pattern="camo-white-outline"/.test(
         page
       ) &&
-      !/id="trailer"[\s\S]*?bgColor="bg-white"[\s\S]*?text="text-chaos-black"[\s\S]*?pattern="tapes-black"/.test(
+      !/id="trailer"[\s\S]*?backgroundClassName="bg-white"[\s\S]*?textClassName="text-chaos-black"[\s\S]*?pattern="tapes-black"/.test(
         page
       ) &&
       !/id="cards-surfaces"[\s\S]*?pattern="camo-purple"/.test(page),

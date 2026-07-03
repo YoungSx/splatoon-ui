@@ -76,7 +76,6 @@ export const docsComponentSlugs = [
   'tape-picture',
   'tape-title',
   'torn-card',
-  'trigger-button',
   'video-dialog',
   'wave-button',
   'wave-canvas',
@@ -206,7 +205,6 @@ const categoryBySlug: Partial<Record<DocsComponentSlug, DocsCategoryId>> = {
   sheet: 'feedback',
   switch: 'forms',
   tabs: 'navigation',
-  'trigger-button': 'actions',
 }
 
 const categoryGroups: Array<[DocsCategoryId, DocsComponentSlug[]]> = [

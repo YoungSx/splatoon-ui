@@ -1,12 +1,10 @@
-'use client'
-
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import styles from '@/components/ui/nav-menu-button.module.css'
 import shared from '@/components/ui/wave-button.module.css'
 
-type NavMenuButtonProps = React.ComponentProps<'button'> & {
+export interface NavMenuButtonProps extends React.ComponentProps<'button'> {
   pressed?: boolean
 }
 
@@ -14,11 +12,13 @@ function NavMenuButton({
   ref,
   className,
   pressed = false,
+  type = 'button',
   ...props
 }: NavMenuButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
   return (
     <button
       ref={ref}
+      type={type}
       className={cn(
         'nav-trigger',
         styles.trigger,

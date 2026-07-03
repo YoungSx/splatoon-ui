@@ -17,11 +17,16 @@ const SHEET_Z_INDEX = {
 
 // ── Sub-components (composable) ──
 
-function Sheet({ ...props }: SheetPrimitive.Root.Props) {
+export type SheetProps = SheetPrimitive.Root.Props
+export type SheetTriggerProps = SheetPrimitive.Trigger.Props
+export type SheetPortalProps = SheetPrimitive.Portal.Props
+export type SheetOverlayProps = SheetPrimitive.Backdrop.Props
+
+function Sheet({ ...props }: SheetProps) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
 }
 
-function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
+function SheetTrigger({ ...props }: SheetTriggerProps) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
 }
 
@@ -30,11 +35,11 @@ const SheetTriggerButton = createTriggerButton(
   'sheet-trigger'
 )
 
-function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
+function SheetPortal({ ...props }: SheetPortalProps) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
 }
 
-function SheetOverlay({ className, style, ...props }: SheetPrimitive.Backdrop.Props) {
+function SheetOverlay({ className, style, ...props }: SheetOverlayProps) {
   return (
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
@@ -50,7 +55,7 @@ function SheetOverlay({ className, style, ...props }: SheetPrimitive.Backdrop.Pr
 
 // ── Low-level popup primitive (no Portal/Overlay/Close) ──
 
-type SheetSide = 'top' | 'right' | 'bottom' | 'left'
+export type SheetSide = 'top' | 'right' | 'bottom' | 'left'
 
 const SIDE_CLASS: Record<SheetSide, string> = {
   top: styles.sideTop,
@@ -66,13 +71,15 @@ const CLOSE_BUTTON_CLASS: Record<SheetSide, string> = {
   left: 'top-3 right-0 translate-x-1/2',
 }
 
-const SheetPopup = React.forwardRef<
-  HTMLDivElement,
-  SheetPrimitive.Popup.Props & {
-    side?: SheetSide
-    closeButton?: React.ReactNode
-  }
->(function SheetPopup({ className, side = 'right', style, children, closeButton, ...props }, ref) {
+export interface SheetPopupProps extends SheetPrimitive.Popup.Props {
+  side?: SheetSide
+  closeButton?: React.ReactNode
+}
+
+const SheetPopup = React.forwardRef<HTMLDivElement, SheetPopupProps>(function SheetPopup(
+  { className, side = 'right', style, children, closeButton, ...props },
+  ref
+) {
   const [isReducedMotion] = useReducedMotion()
   return (
     <SheetPrimitive.Popup
@@ -100,13 +107,12 @@ const SheetPopup = React.forwardRef<
 
 // ── High-level content (Portal + Overlay + Popup + Close) ──
 
-const SheetContent = React.forwardRef<
-  HTMLDivElement,
-  SheetPrimitive.Popup.Props & {
-    side?: SheetSide
-    showCloseButton?: boolean
-  }
->(function SheetContent(
+export interface SheetContentProps extends SheetPrimitive.Popup.Props {
+  side?: SheetSide
+  showCloseButton?: boolean
+}
+
+const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(function SheetContent(
   { className, children, side = 'right', showCloseButton = true, ...props },
   ref
 ) {
@@ -134,7 +140,12 @@ const SheetContent = React.forwardRef<
 
 // ── Layout helpers ──
 
-function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
+export type SheetHeaderProps = React.ComponentProps<'div'>
+export type SheetFooterProps = React.ComponentProps<'div'>
+export type SheetTitleProps = SheetPrimitive.Title.Props
+export type SheetDescriptionProps = SheetPrimitive.Description.Props
+
+function SheetHeader({ className, ...props }: SheetHeaderProps) {
   return (
     <div
       data-slot="sheet-header"
@@ -144,7 +155,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
+function SheetFooter({ className, ...props }: SheetFooterProps) {
   return (
     <div
       data-slot="sheet-footer"
@@ -154,7 +165,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
+function SheetTitle({ className, ...props }: SheetTitleProps) {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
@@ -164,7 +175,7 @@ function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
   )
 }
 
-function SheetDescription({ className, ...props }: SheetPrimitive.Description.Props) {
+function SheetDescription({ className, ...props }: SheetDescriptionProps) {
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"

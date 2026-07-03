@@ -1,6 +1,15 @@
-import { type VariantProps } from 'class-variance-authority'
-import type { buttonVariants } from '@/components/ui/button'
 import { splatoonColorVars } from '@/lib/splatoon-color-tokens'
+
+export type ButtonVariant =
+  | 'yellow'
+  | 'blue'
+  | 'green'
+  | 'purple'
+  | 'orange'
+  | 'destructive'
+  | 'outline'
+  | 'ghost'
+  | 'arrow'
 
 export type ButtonThemePreset =
   | 'dark'
@@ -50,10 +59,7 @@ export const buttonColorVarMap: Record<ButtonColorToken, string> = {
   black: splatoonColorVars.black,
 }
 
-export const variantSurfacePresets: Record<
-  NonNullable<VariantProps<typeof buttonVariants>['variant']>,
-  ButtonSurfaceConfig | null
-> = {
+export const variantSurfacePresets: Record<ButtonVariant, ButtonSurfaceConfig | null> = {
   yellow: {
     bgColor: buttonColorVarMap.yellow,
     hoverBgColor: buttonColorVarMap.blue,
@@ -87,10 +93,7 @@ export const variantSurfacePresets: Record<
   arrow: null,
 }
 
-export const variantFallbackTextPresets: Record<
-  NonNullable<VariantProps<typeof buttonVariants>['variant']>,
-  ButtonTextThemeConfig | null
-> = {
+export const variantFallbackTextPresets: Record<ButtonVariant, ButtonTextThemeConfig | null> = {
   yellow: {
     textColor: buttonColorVarMap.black,
     hoverTextColor: buttonColorVarMap.white,
@@ -191,7 +194,7 @@ export interface ResolvedButtonColors {
 }
 
 export function resolveButtonColors(params: {
-  variant: NonNullable<VariantProps<typeof buttonVariants>['variant']>
+  variant: ButtonVariant
   color?: ButtonColorToken
   hoverColor?: ButtonColorToken
   textColor?: ButtonColorToken

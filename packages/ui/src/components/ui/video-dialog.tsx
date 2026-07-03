@@ -10,7 +10,7 @@ import tapeStyles from './video-dialog.module.css'
 
 // ── VideoDialog Root (thin wrapper around Dialog) ──
 
-interface VideoDialogProps extends Omit<React.ComponentProps<typeof Dialog>, 'children'> {
+export interface VideoDialogProps extends Omit<React.ComponentProps<typeof Dialog>, 'children'> {
   children?: React.ReactNode
 }
 
@@ -20,7 +20,7 @@ export function VideoDialog({ children, ...props }: VideoDialogProps) {
 
 // ── Thumbnail Trigger ──
 
-interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   src: string
   alt?: string
   width?: number
@@ -61,6 +61,7 @@ export function VideoDialogThumbnail({
         }
         return (
           <button
+            type="button"
             ref={(node) => {
               if (typeof triggerRefCb === 'function') triggerRefCb(node)
               else if (triggerRefCb) triggerRefCb.current = node
@@ -147,7 +148,7 @@ export function VideoDialogThumbnail({
 
 // ── Video Content (thin wrapper around DialogContent fullScreen) ──
 
-type VideoDialogContentMode = 'iframe' | 'video'
+export type VideoDialogContentMode = 'iframe' | 'video'
 
 export interface VideoDialogVideoSource {
   src: string
@@ -162,7 +163,7 @@ export interface VideoDialogTrack {
   default?: boolean
 }
 
-interface VideoDialogContentProps {
+export interface VideoDialogContentProps {
   src: string
   title?: string
   className?: string

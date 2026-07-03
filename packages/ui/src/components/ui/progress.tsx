@@ -6,9 +6,17 @@ import * as ProgressPrimitive from '@radix-ui/react-progress'
 import { cn } from '@/lib/utils'
 import styles from './progress.module.css'
 
-type ProgressVariant = 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red' | 'black' | 'white'
-type ProgressTrackVariant = 'dark' | 'light' | 'transparent'
-type ProgressSize = 'sm' | 'default' | 'lg'
+export type ProgressVariant =
+  | 'yellow'
+  | 'blue'
+  | 'green'
+  | 'purple'
+  | 'orange'
+  | 'red'
+  | 'black'
+  | 'white'
+export type ProgressTrackVariant = 'dark' | 'light' | 'transparent'
+export type ProgressSize = 'sm' | 'default' | 'lg'
 
 export interface ProgressProps extends Omit<
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>,

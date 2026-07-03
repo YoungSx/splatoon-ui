@@ -3,16 +3,44 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import styles from './button-arrow.module.css'
 
-type AnchorButtonProps =
-  | React.AnchorHTMLAttributes<HTMLAnchorElement>
-  | React.ButtonHTMLAttributes<HTMLButtonElement>
-
-export interface ButtonArrowProps extends Omit<AnchorButtonProps, 'type'> {
+type ButtonArrowOwnProps = {
   icon?: React.ReactNode
-  href?: string
 }
 
-export function ButtonArrow({ icon, href, className, children, ...props }: ButtonArrowProps) {
+export type ButtonArrowAnchorProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'> &
+  ButtonArrowOwnProps & {
+    href: string
+  }
+
+export type ButtonArrowButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  ButtonArrowOwnProps & {
+    href?: undefined
+  }
+
+export type ButtonArrowProps = ButtonArrowAnchorProps | ButtonArrowButtonProps
+
+function isButtonArrowAnchorProps(props: ButtonArrowProps): props is ButtonArrowAnchorProps {
+  return typeof props.href === 'string'
+}
+
+function omitIconProp<T extends ButtonArrowOwnProps>(props: T): Omit<T, 'icon'> {
+  const next = { ...props }
+  delete next.icon
+
+  return next
+}
+
+function omitButtonOnlyProps(
+  props: ButtonArrowButtonProps
+): Omit<ButtonArrowButtonProps, 'href' | 'icon'> {
+  const next = omitIconProp(props)
+  delete next.href
+
+  return next
+}
+
+export function ButtonArrow(props: ButtonArrowProps) {
+  const { icon } = props
   const iconNode = icon ?? (
     <svg viewBox="0 0 10 16" className={styles.icon} aria-hidden="true" focusable="false">
       <path
@@ -26,25 +54,21 @@ export function ButtonArrow({ icon, href, className, children, ...props }: Butto
     </svg>
   )
 
-  if (href) {
+  if (isButtonArrowAnchorProps(props)) {
+    const { href, className, children, ...anchorProps } = omitIconProp(props)
+
     return (
-      <a
-        className={cn(styles.buttonArrow, className)}
-        href={href}
-        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
-      >
+      <a className={cn(styles.buttonArrow, className)} href={href} {...anchorProps}>
         {children}
         <span className={styles.iconWrap}>{iconNode}</span>
       </a>
     )
   }
 
+  const { className, children, type = 'button', ...buttonProps } = omitButtonOnlyProps(props)
+
   return (
-    <button
-      className={cn(styles.buttonArrow, className)}
-      type="button"
-      {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
-    >
+    <button className={cn(styles.buttonArrow, className)} type={type} {...buttonProps}>
       {children}
       <span className={styles.iconWrap}>{iconNode}</span>
     </button>

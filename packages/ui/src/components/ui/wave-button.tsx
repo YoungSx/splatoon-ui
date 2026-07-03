@@ -32,12 +32,21 @@ const SIZE_CLASS: Record<WaveButtonSize, string> = {
 }
 
 const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(function WaveButton(
-  { variant = 'yellow', size = 'md', icon, animation = 'morph', className, ...props },
+  {
+    variant = 'yellow',
+    size = 'md',
+    icon,
+    animation = 'morph',
+    className,
+    type = 'button',
+    ...props
+  },
   ref
 ) {
   return (
     <button
       ref={ref}
+      type={type}
       className={cn(
         VARIANT_CLASS[variant],
         SIZE_CLASS[size],

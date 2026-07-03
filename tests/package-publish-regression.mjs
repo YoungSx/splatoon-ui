@@ -39,7 +39,12 @@ const forbiddenFiles = [
   'public/_images/home',
   'public/_images/screenshots',
 ]
-const forbiddenPublicEntrypoints = ['./demo-layout', './github-mark', './showcase-assets']
+const forbiddenPublicEntrypoints = [
+  './demo-layout',
+  './github-mark',
+  './showcase-assets',
+  './trigger-button',
+]
 
 const checks = [
   {
@@ -72,10 +77,10 @@ const checks = [
       forbiddenFiles.every((entry) => !packageJson.files.includes(entry)),
   },
   {
-    name: 'React runtime is declared as a peer dependency',
-    pass: Boolean(
-      packageJson.peerDependencies?.react && packageJson.peerDependencies?.['react-dom']
-    ),
+    name: 'React runtime is declared as a React 19 peer dependency',
+    pass:
+      packageJson.peerDependencies?.react === '^19.0.0' &&
+      packageJson.peerDependencies?.['react-dom'] === '^19.0.0',
   },
   {
     name: 'shadcn CLI stays out of published runtime dependencies',

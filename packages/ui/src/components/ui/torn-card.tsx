@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import type { SplatoonColorValue } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import { CardSlot, type CardSlotProps } from './card-slot'
 import { MediaDecoration } from './media-decoration'
@@ -23,7 +24,7 @@ export type { CardSlotProps as TornCardSlotProps }
 export interface TornCardProps extends React.ComponentProps<'div'> {
   variant?: TornCardVariant
   rotation?: string
-  background?: string
+  background?: SplatoonColorValue
   /** Show decorative tape at the top edge (default: true) */
   showTape?: boolean
   /** Show decorative sticker (default: false) */
@@ -84,7 +85,7 @@ export function TornCard({
         style={{ '--torn-card-rotation': resolvedRotation } as React.CSSProperties}
       >
         <div className="pointer-events-none absolute inset-0 z-0 h-full w-full select-none">
-          <WideTornPaper bgColor={background} />
+          <WideTornPaper backgroundColor={background} />
         </div>
 
         <div className="@container w-full">

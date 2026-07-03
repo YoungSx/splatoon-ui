@@ -11,8 +11,9 @@ import { cn } from '@/lib/utils'
 import styles from './switch.module.css'
 import { SwitchTrack } from './switch-track'
 
-type SwitchSize = 'sm' | 'default' | 'lg'
-type SwitchColor = Exclude<SplatoonControlTrackColor, 'purple'>
+export type SwitchSize = 'sm' | 'default' | 'lg'
+export type SwitchColor = Exclude<SplatoonControlTrackColor, 'purple'>
+export type { SplatoonControlTrackColor }
 type SwitchStyle = React.CSSProperties & {
   '--switch-accent'?: string
 }

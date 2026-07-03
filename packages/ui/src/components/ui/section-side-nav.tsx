@@ -331,6 +331,7 @@ export function SectionSideNav({
       <ul ref={menuRef} className={styles.menu}>
         <li>
           <button
+            type="button"
             onClick={scrollToTop}
             className={cn(styles.item, styles.itemBackToTop)}
             aria-label={backToTopLabel}

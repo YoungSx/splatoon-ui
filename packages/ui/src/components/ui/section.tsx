@@ -10,10 +10,10 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   headingTape?: React.ReactNode
   /** Optional pattern texture overlay */
   pattern?: Pattern
-  /** Tailwind background class (e.g. "bg-white") */
-  bgColor?: string
-  /** Tailwind text color class (e.g. "text-chaos-black") */
-  text?: string
+  /** Background utility class (e.g. "bg-white") */
+  backgroundClassName?: string
+  /** Text color utility class (e.g. "text-chaos-black") */
+  textClassName?: string
   /** Render as "section" or "div" */
   as?: 'section' | 'div'
   /** Reserve content-safe space for decorative overlays painted across the section edge. */
@@ -25,8 +25,8 @@ export function Section({
   size = 'md',
   headingTape,
   pattern,
-  bgColor,
-  text,
+  backgroundClassName,
+  textClassName,
   as = 'section',
   bottomOverlayClearance = 'none',
   className,
@@ -49,8 +49,8 @@ export function Section({
       className={cn(
         paddingY,
         'relative z-[var(--z-deco)] pr-[calc(1.5rem+var(--section-side-nav-safe-area,0px))] pl-6',
-        bgColor,
-        text,
+        backgroundClassName,
+        textClassName,
         className,
         bottomOverlayClearance === 'banner-divider' && 'pb-[var(--section-overlay-clearance)]'
       )}

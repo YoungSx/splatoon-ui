@@ -12,14 +12,14 @@ import {
 
 type ImageProps = Omit<React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width'>
 
-interface TapePictureProps extends ImageProps {
+export interface TapePictureProps extends ImageProps {
   asset: TapeAsset | TapeImageVariant
   pictureClassName?: string
   media?: string
   fill?: boolean
 }
 
-interface TapeResponsivePicturesProps extends ImageProps {
+export interface TapeResponsivePicturesProps extends ImageProps {
   asset: TapeImageVariant
   mobilePictureClassName?: string
   desktopPictureClassName?: string

@@ -6,7 +6,9 @@ import { Checkbox as CheckboxPrimitive } from '@base-ui/react/checkbox'
 import { cn } from '@/lib/utils'
 import { Splat11 } from '@/components/ui/splats/splat-11'
 
-function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
+export type CheckboxProps = CheckboxPrimitive.Root.Props
+
+function Checkbox({ className, ...props }: CheckboxProps) {
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"

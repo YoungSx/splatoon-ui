@@ -445,6 +445,7 @@ export function CarouselPagination({
       {Array.from({ length: itemCount }, (_, index) => (
         <li key={index} className={paginationStyles.item}>
           <button
+            type="button"
             onClick={() => goToIndex(index)}
             aria-label={labels?.[index] ?? getSlideLabel(index + 1)}
           >
@@ -499,6 +500,7 @@ export function CarouselImagePagination({
       {images.map((img, index) => (
         <li key={index} className={paginationStyles.item}>
           <button
+            type="button"
             onClick={() => goToIndex(index)}
             aria-label={img.alt ? getImageLabel(img.alt) : getSlideLabel(index + 1)}
           >
