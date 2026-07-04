@@ -23,6 +23,16 @@ export interface NavigationProps {
   showReducedMotionToggle?: boolean
 }
 
+type ReducedMotionChildProps = {
+  isReducedMotion?: boolean
+}
+
+function acceptsReducedMotionProp(
+  child: React.ReactNode
+): child is React.ReactElement<ReducedMotionChildProps> {
+  return React.isValidElement<ReducedMotionChildProps>(child) && 'isReducedMotion' in child.props
+}
+
 export function Navigation({
   headerActions,
   headerDecoration,
@@ -55,11 +65,8 @@ export function Navigation({
 
   // Pass isReducedMotion to NavigationDialog children
   const enhancedChildren = React.Children.map(children, (child) => {
-    if (
-      React.isValidElement(child) &&
-      'isReducedMotion' in (child.props as Record<string, unknown>)
-    ) {
-      return React.cloneElement(child, { isReducedMotion } as { isReducedMotion: boolean })
+    if (acceptsReducedMotionProp(child)) {
+      return React.cloneElement(child, { isReducedMotion })
     }
     return child
   })

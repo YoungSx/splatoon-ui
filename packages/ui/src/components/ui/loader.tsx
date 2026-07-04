@@ -6,7 +6,7 @@ import styles from './loader.module.css'
 
 export type LoaderAnimation = 'glyph' | 'morph' | 'swim'
 
-export interface LoaderProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface LoaderProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
   /** Loader color variant. */
   variant?: 'default' | 'blue' | 'red'
   /** Animation source used by the loader. */
@@ -15,12 +15,14 @@ export interface LoaderProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: string
   /** Accessible status label. */
   label?: string
+  ref?: React.Ref<HTMLSpanElement>
 }
 
 /**
  * Loader — image-backed animated squid loading glyph.
  */
 export function Loader({
+  ref,
   variant = 'default',
   animation = 'glyph',
   size,
@@ -41,6 +43,7 @@ export function Loader({
 
   return (
     <span
+      ref={ref}
       data-slot="loader"
       data-animation={animation}
       className={cn(

@@ -19,7 +19,10 @@ import { observeElementResize } from '@/lib/observe-element-resize'
 // Types
 // ─────────────────────────────────────────────────────────────────────────────
 
-export interface InkSplashCanvasProps {
+export interface InkSplashCanvasProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'color'
+> {
   /** Animation state */
   state: 'in' | 'out' | 'idle'
   /** Duration for opening animation (ms) */
@@ -42,10 +45,7 @@ export interface InkSplashCanvasProps {
   preloadedBackground?: HTMLImageElement | null
   /** Called when animation completes */
   onComplete?: () => void
-  /** Additional CSS class */
-  className?: string
-  /** Additional CSS styles for the canvas container. */
-  style?: React.CSSProperties
+  ref?: React.Ref<HTMLDivElement>
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -64,6 +64,7 @@ const OFFICIAL_START_POSITIONS: [number, number][] = [
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function InkSplashCanvas({
+  ref,
   state,
   durationIn = 700,
   durationOut = 1000,
@@ -75,6 +76,7 @@ export function InkSplashCanvas({
   onComplete,
   className,
   style,
+  ...props
 }: InkSplashCanvasProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
@@ -93,6 +95,22 @@ export function InkSplashCanvas({
   const bgReadyRef = React.useRef(false)
   const validRef = React.useRef(false)
   const noiseYRef = React.useRef(0)
+
+  const setContainerRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      containerRef.current = node
+
+      if (typeof ref === 'function') {
+        ref(node)
+        return
+      }
+
+      if (ref) {
+        ;(ref as React.MutableRefObject<HTMLDivElement | null>).current = node
+      }
+    },
+    [ref]
+  )
 
   React.useEffect(() => {
     onCompleteRef.current = onComplete
@@ -386,7 +404,7 @@ export function InkSplashCanvas({
   }, [state, durationIn, durationOut, count, startPosition])
 
   return (
-    <div ref={containerRef} className={className} style={style}>
+    <div ref={setContainerRef} className={className} style={style} {...props}>
       <canvas
         ref={canvasRef}
         style={{

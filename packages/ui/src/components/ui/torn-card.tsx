@@ -1,14 +1,14 @@
 import * as React from 'react'
 
-import type { SplatoonColorValue } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
-import { CardSlot, type CardSlotProps } from './card-slot'
+import { CardSlot } from './card-slot'
 import { MediaDecoration } from './media-decoration'
 import type { TapeImageVariant } from './tape-assets'
+import type { SplatoonColorValue } from './theme-tokens'
 import { WideTornPaper } from './wide-torn-paper'
 import styles from './torn-card.module.css'
 
-type TornCardVariant = 'a' | 'b' | 'c'
+export type TornCardVariant = 'a' | 'b' | 'c'
 
 interface TornCardVariantConfig {
   rotation: string
@@ -18,10 +18,25 @@ interface TornCardVariantConfig {
   stickerAsset?: TapeImageVariant
 }
 
-export { CardSlot as TornCardSlot }
-export type { CardSlotProps as TornCardSlotProps }
+export type TornCardSlotPosition =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right'
 
-export interface TornCardProps extends React.ComponentProps<'div'> {
+export interface TornCardSlotProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  /** Preset position. Omit for fully custom positioning via style. */
+  position?: TornCardSlotPosition
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export function TornCardSlot({ ref, ...props }: TornCardSlotProps) {
+  return <CardSlot ref={ref} {...props} />
+}
+
+export interface TornCardProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   variant?: TornCardVariant
   rotation?: string
   background?: SplatoonColorValue
@@ -31,6 +46,7 @@ export interface TornCardProps extends React.ComponentProps<'div'> {
   showSticker?: boolean
   /** Tape position at card edge */
   tapePosition?: 'top-right' | 'bottom-center'
+  ref?: React.Ref<HTMLDivElement>
 }
 
 const VARIANT_CONFIG: Record<TornCardVariant, TornCardVariantConfig> = {
@@ -66,7 +82,7 @@ export function TornCard({
   tapePosition,
   children,
   ...props
-}: TornCardProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: TornCardProps) {
   const config = VARIANT_CONFIG[variant]
   const resolvedRotation = rotation ?? config.rotation
   const resolvedTapePosition = tapePosition ?? config.tapePosition
@@ -125,16 +141,23 @@ function isCssColor(value: string) {
   )
 }
 
+export interface TornCardTitleProps extends Omit<React.ComponentProps<'h2'>, 'ref'> {
+  textColor?: string
+  ref?: React.Ref<HTMLHeadingElement>
+}
+
 function TornCardTitle({
+  ref,
   className,
   textColor = 'text-blue',
   style,
   ...props
-}: React.ComponentProps<'h2'> & { textColor?: string }) {
+}: TornCardTitleProps) {
   const colorStyle = textColor && isCssColor(textColor) ? { color: textColor } : undefined
   const twClass = textColor && !isCssColor(textColor) ? textColor : ''
   return (
     <h2
+      ref={ref}
       data-slot="card-title"
       className={cn('splat-heading text-2xl', twClass, className)}
       style={colorStyle ? { ...colorStyle, ...style } : style}
@@ -143,16 +166,23 @@ function TornCardTitle({
   )
 }
 
+export interface TornCardDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'> {
+  textColor?: string
+  ref?: React.Ref<HTMLParagraphElement>
+}
+
 function TornCardDescription({
+  ref,
   className,
   textColor,
   style,
   ...props
-}: React.ComponentProps<'p'> & { textColor?: string }) {
+}: TornCardDescriptionProps) {
   const colorStyle = textColor && isCssColor(textColor) ? { color: textColor } : undefined
   const twClass = textColor && !isCssColor(textColor) ? textColor : ''
   return (
     <p
+      ref={ref}
       data-slot="card-description"
       className={cn('text-sm opacity-90', twClass, className)}
       style={colorStyle ? { ...colorStyle, ...style } : style}

@@ -3,16 +3,18 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { Tape, type TapeVariant } from './tape'
 
-export interface MarqueeProps extends React.ComponentProps<'div'> {
+export interface MarqueeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   speed?: number
   direction?: 'left' | 'right'
   pauseOnHover?: boolean
   variant?: 'default' | 'tape' | 'warning'
   showEdgeTape?: boolean
   tapeVariant?: TapeVariant
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function Marquee({
+  ref,
   className,
   speed = 30,
   direction = 'left',
@@ -25,6 +27,7 @@ function Marquee({
 }: MarqueeProps) {
   return (
     <div
+      ref={ref}
       data-slot="marquee"
       data-variant={variant}
       className={cn(
@@ -58,11 +61,14 @@ function Marquee({
   )
 }
 
-export type MarqueeItemProps = React.ComponentProps<'span'>
+export type MarqueeItemProps = Omit<React.ComponentProps<'span'>, 'ref'> & {
+  ref?: React.Ref<HTMLSpanElement>
+}
 
-function MarqueeItem({ className, ...props }: MarqueeItemProps) {
+function MarqueeItem({ ref, className, ...props }: MarqueeItemProps) {
   return (
     <span
+      ref={ref}
       data-slot="marquee-item"
       className={cn('inline-flex shrink-0 items-center gap-2', className)}
       {...props}

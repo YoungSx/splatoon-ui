@@ -13,6 +13,7 @@ import {
 } from '@/lib/resolve-button-colors'
 import { cn } from '@/lib/utils'
 import styles from './button.module.css'
+import type { PrimitiveButtonRenderState, PrimitiveRender } from './primitive-types'
 
 const buttonVariants = cva(
   'group/button relative inline-flex shrink-0 items-center justify-center cursor-pointer select-none overflow-hidden rounded-[var(--button-radius,8px)] font-alt font-black tracking-wider transition-[transform,box-shadow] ease-[var(--ease-back-out)] duration-300 outline-none disabled:pointer-events-none disabled:opacity-50',
@@ -61,7 +62,7 @@ const buttonInlineContentClassName =
 const buttonIconClassName =
   'mr-1.5 inline-flex shrink-0 items-center justify-center leading-none [&_svg]:block [&_svg]:shrink-0'
 
-export interface ButtonProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive> {
+export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   variant?: ButtonVariant
   size?: ButtonSize
   hasChevron?: boolean
@@ -71,6 +72,9 @@ export interface ButtonProps extends React.ComponentPropsWithoutRef<typeof Butto
   textColor?: ButtonColorToken
   textHoverColor?: ButtonColorToken
   theme?: ButtonThemePreset
+  nativeButton?: boolean
+  ref?: React.Ref<HTMLElement>
+  render?: PrimitiveRender<HTMLElement, PrimitiveButtonRenderState>
 }
 
 type ButtonMouseEnterEvent = Parameters<NonNullable<ButtonProps['onMouseEnter']>>[0]
@@ -88,6 +92,7 @@ function Button({
   onClick,
   onMouseEnter,
   onMouseLeave,
+  style,
   color,
   hoverColor,
   textColor,
@@ -96,7 +101,7 @@ function Button({
   render,
   nativeButton,
   ...props
-}: ButtonProps & { ref?: React.Ref<HTMLElement> }) {
+}: ButtonProps) {
   const localRef = React.useRef<HTMLElement>(null)
   const setButtonRef = React.useCallback(
     (node: HTMLElement | null) => {
@@ -193,9 +198,11 @@ function Button({
       data-slot="button"
       data-drip-state={hasDrip ? dripAnimationState : undefined}
       style={
-        dripStyle
-          ? ({ ...colorStyle, ...dripStyle } as React.CSSProperties)
-          : (colorStyle as React.CSSProperties)
+        {
+          ...colorStyle,
+          ...dripStyle,
+          ...style,
+        } as React.CSSProperties
       }
       className={cn(
         variant === 'arrow' ? arrowButtonClassName : buttonVariants({ variant, size }),

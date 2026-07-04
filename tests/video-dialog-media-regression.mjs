@@ -48,6 +48,21 @@ const checks = [
       component.includes('aria-labelledby={ariaLabelledBy}'),
   },
   {
+    name: 'VideoDialog thumbnail composes consumer clicks with the dialog trigger',
+    pass:
+      /export interface VideoDialogThumbnailProps\s+extends Omit<\s*React\.ButtonHTMLAttributes<HTMLButtonElement>,\s*'children' \| 'type'\s*>/.test(
+        component
+      ) &&
+      component.includes('onClick,') &&
+      component.includes(
+        'const { ref: triggerRefCb, onClick: triggerOnClick, ...rest } = triggerProps'
+      ) &&
+      component.includes('onClick?.(event)') &&
+      component.includes('if (event.defaultPrevented) return') &&
+      component.includes('triggerOnClick?.(event)') &&
+      component.includes('type="button"'),
+  },
+  {
     name: 'VideoDialog thumbnail trigger and media frame establish a stable container',
     pass:
       component.includes('tapeStyles.thumbnailTrigger') &&

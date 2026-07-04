@@ -25,9 +25,10 @@ const TORN_BADGE_VIEW_BOX = '0 0 8000 2119'
 
 export type TornBadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'
 
-export interface TornBadgeProps extends React.ComponentProps<'span'> {
+export interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'> {
   color?: TornBadgeColor
   children?: React.ReactNode
+  ref?: React.Ref<HTMLSpanElement>
 }
 
 const COLOR_VAR: Record<TornBadgeColor, string> = {
@@ -48,9 +49,17 @@ const TEXT_VAR: Record<TornBadgeColor, string> = {
   monochrome: splatoonColorVars.white,
 }
 
-function TornBadge({ color = 'yellow', className, children, style, ...props }: TornBadgeProps) {
+function TornBadge({
+  ref,
+  color = 'yellow',
+  className,
+  children,
+  style,
+  ...props
+}: TornBadgeProps) {
   return (
     <span
+      ref={ref}
       className={cn(styles.tornBadge, className)}
       style={{ '--torn-badge-text-color': TEXT_VAR[color], ...style } as React.CSSProperties}
       {...props}

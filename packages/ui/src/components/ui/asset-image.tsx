@@ -11,7 +11,7 @@ export interface ImageAsset {
 
 export interface AssetImageProps extends Omit<
   React.ComponentProps<'img'>,
-  'alt' | 'height' | 'src' | 'width'
+  'alt' | 'children' | 'height' | 'ref' | 'src' | 'width'
 > {
   asset: ImageAsset
   alt?: string
@@ -19,9 +19,11 @@ export interface AssetImageProps extends Omit<
   fit?: React.CSSProperties['objectFit']
   aspectRatio?: React.CSSProperties['aspectRatio']
   fill?: boolean
+  ref?: React.Ref<HTMLImageElement>
 }
 
 export function AssetImage({
+  ref,
   asset,
   alt,
   className,
@@ -38,6 +40,7 @@ export function AssetImage({
   return (
     // eslint-disable-next-line @next/next/no-img-element -- component library assets use known public dimensions and caller-controlled layout.
     <img
+      ref={ref}
       {...props}
       alt={decorative ? '' : (alt ?? asset.alt)}
       aria-hidden={decorative ? true : props['aria-hidden']}

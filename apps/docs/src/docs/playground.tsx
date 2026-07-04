@@ -4,7 +4,13 @@ import * as React from 'react'
 import { Copy, Monitor, RotateCcw, Smartphone, Tablet } from 'lucide-react'
 
 import { docsExamples, getDocsExample } from './examples'
-import type { DocsApiEntry, DocsExampleControl } from './types'
+import type {
+  DocsApiEntry,
+  DocsExampleControl,
+  DocsExampleControlValue,
+  DocsPlayableExample,
+  DocsExampleProps,
+} from './types'
 
 type PlaygroundProps = {
   apiEntry: DocsApiEntry | null
@@ -13,7 +19,6 @@ type PlaygroundProps = {
 
 type Viewport = 'mobile' | 'tablet' | 'desktop'
 type Panel = 'preview' | 'code' | 'api'
-type ResolvedDocsExample = NonNullable<ReturnType<typeof getDocsExample>>
 
 const viewportClassName: Record<Viewport, string> = {
   mobile: 'max-w-[390px]',
@@ -40,15 +45,12 @@ function DocsPlaygroundContent({
   example,
 }: {
   apiEntry: DocsApiEntry | null
-  example: ResolvedDocsExample
+  example: DocsPlayableExample
 }) {
   const [panel, setPanel] = React.useState<Panel>('preview')
   const [viewport, setViewport] = React.useState<Viewport>('desktop')
   const [copied, setCopied] = React.useState(false)
-  const [values, setValues] = React.useState<Record<string, unknown>>(
-    () => example?.initialProps ?? {}
-  )
-  const ActiveExample = example.Component as React.ComponentType<Record<string, unknown>>
+  const [values, setValues] = React.useState<DocsExampleProps>(() => example.initialProps)
 
   async function copySource() {
     await navigator.clipboard?.writeText(example.source)
@@ -126,7 +128,7 @@ function DocsPlaygroundContent({
             <div
               className={`mx-auto grid min-h-60 w-full place-items-center transition-[max-width] ${viewportClassName[viewport]}`}
             >
-              <ActiveExample {...values} />
+              {example.render(values)}
             </div>
           </div>
           <div className="grid content-start gap-3">
@@ -173,8 +175,8 @@ function ControlField({
   value,
 }: {
   control: DocsExampleControl
-  onChange: (value: unknown) => void
-  value: unknown
+  onChange: (value: DocsExampleControlValue) => void
+  value: DocsExampleControlValue | undefined
 }) {
   return (
     <label className="grid gap-1 text-sm font-bold">

@@ -2,7 +2,12 @@
 
 import * as React from 'react'
 
-import { Carousel, CarouselBleedBoundary, CarouselPagination } from '@/components/ui/carousel'
+import {
+  Carousel,
+  CarouselBleedBoundary,
+  CarouselPagination,
+  type CarouselProps,
+} from '@/components/ui/carousel'
 import {
   CardStackCarouselContent,
   CardStackCarouselItem,
@@ -23,10 +28,7 @@ export interface FeedCarouselItem extends Pick<
   cardClassName?: string
 }
 
-export interface FeedCarouselProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof Carousel>,
-  'children'
-> {
+export interface FeedCarouselProps extends Omit<CarouselProps, 'children'> {
   items: FeedCarouselItem[]
   mediaAspectRatio?: React.CSSProperties['aspectRatio'] | false
 }

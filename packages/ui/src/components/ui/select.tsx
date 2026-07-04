@@ -6,11 +6,79 @@ import { Select as SelectPrimitive } from '@base-ui/react/select'
 import { cn } from '@/lib/utils'
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
 import { Splat10 } from './splats'
+import type {
+  PrimitiveChangeDetails,
+  PrimitiveFocusTarget,
+  PrimitiveOpenRenderState,
+  PrimitivePopupAlign,
+  PrimitivePopupOffset,
+  PrimitivePopupSide,
+  PrimitiveRender,
+} from './primitive-types'
 
-const Select = SelectPrimitive.Root
-export type SelectProps = SelectPrimitive.Root.Props<string>
+export type SelectValueType<
+  Value,
+  Multiple extends boolean | undefined = false,
+> = Multiple extends true ? Value[] : Value
 
-export type SelectGroupProps = SelectPrimitive.Group.Props
+export type SelectCurrentValue<
+  Value,
+  Multiple extends boolean | undefined = false,
+> = SelectValueType<Value, Multiple> | null
+
+export interface SelectItemRecord<Value> {
+  label: React.ReactNode
+  value: Value
+}
+
+export interface SelectItemGroup<Value> {
+  label?: React.ReactNode
+  items: ReadonlyArray<SelectItemRecord<Value>>
+}
+
+export interface SelectProps<Value = string, Multiple extends boolean | undefined = false> {
+  children?: React.ReactNode
+  inputRef?: React.Ref<HTMLInputElement>
+  name?: string
+  form?: string
+  autoComplete?: string
+  id?: string
+  required?: boolean
+  readOnly?: boolean
+  disabled?: boolean
+  multiple?: Multiple
+  highlightItemOnHover?: boolean
+  defaultOpen?: boolean
+  open?: boolean
+  modal?: boolean
+  onOpenChange?: (open: boolean, eventDetails: PrimitiveChangeDetails) => void
+  onOpenChangeComplete?: (open: boolean) => void
+  items?:
+    | { readonly [value: string]: React.ReactNode }
+    | ReadonlyArray<SelectItemRecord<Value>>
+    | ReadonlyArray<SelectItemGroup<Value>>
+  itemToStringLabel?: (itemValue: Value) => string
+  itemToStringValue?: (itemValue: Value) => string
+  isItemEqualToValue?: (itemValue: Value, value: Value) => boolean
+  defaultValue?: SelectValueType<Value, Multiple> | null
+  value?: SelectValueType<Value, Multiple> | null
+  onValueChange?: (
+    value: SelectValueType<Value, Multiple> | (Multiple extends true ? never : null),
+    eventDetails: PrimitiveChangeDetails
+  ) => void
+}
+
+function Select<Value = string, Multiple extends boolean | undefined = false>(
+  props: SelectProps<Value, Multiple>
+) {
+  const primitiveProps = props as SelectPrimitive.Root.Props<Value, Multiple>
+  return <SelectPrimitive.Root {...primitiveProps} />
+}
+
+export interface SelectGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  render?: PrimitiveRender<HTMLDivElement>
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function SelectGroup({ className, ...props }: SelectGroupProps) {
   return (
@@ -22,23 +90,58 @@ function SelectGroup({ className, ...props }: SelectGroupProps) {
   )
 }
 
-export type SelectValueProps = SelectPrimitive.Value.Props
+export interface SelectValueProps<
+  Value = string,
+  Multiple extends boolean | undefined = false,
+> extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
+  children?: React.ReactNode | ((value: SelectCurrentValue<Value, Multiple>) => React.ReactNode)
+  placeholder?: React.ReactNode
+  render?: PrimitiveRender<
+    HTMLSpanElement,
+    {
+      value: SelectCurrentValue<Value, Multiple>
+      placeholder: boolean
+    }
+  >
+  ref?: React.Ref<HTMLSpanElement>
+}
 
-function SelectValue({ className, ...props }: SelectValueProps) {
+function SelectValue<Value = string, Multiple extends boolean | undefined = false>({
+  className,
+  ...props
+}: SelectValueProps<Value, Multiple>) {
   return (
     <SelectPrimitive.Value
       data-slot="select-value"
       className={cn('flex min-w-0 flex-1 truncate text-left', className)}
-      {...props}
+      {...(props as SelectPrimitive.Value.Props)}
     />
   )
 }
 
-export interface SelectTriggerProps extends SelectPrimitive.Trigger.Props {
+export interface SelectTriggerProps<
+  Value = string,
+  Multiple extends boolean | undefined = false,
+> extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'default'
+  render?: PrimitiveRender<
+    HTMLButtonElement,
+    PrimitiveOpenRenderState & {
+      readOnly: boolean
+      popupSide: PrimitivePopupSide | null
+      value: SelectCurrentValue<Value, Multiple>
+      placeholder: boolean
+    }
+  >
+  ref?: React.Ref<HTMLButtonElement>
 }
 
-function SelectTrigger({ className, size = 'default', children, ...props }: SelectTriggerProps) {
+function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>({
+  className,
+  size = 'default',
+  children,
+  ...props
+}: SelectTriggerProps<Value, Multiple>) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
@@ -47,7 +150,7 @@ function SelectTrigger({ className, size = 'default', children, ...props }: Sele
         "field-cut border-foreground/30 bg-card focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground flex w-full max-w-full min-w-0 items-center justify-between gap-1.5 border-2 py-2 pr-2 pl-2.5 text-sm font-bold tracking-wider whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-8 data-[size=sm]:h-7 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:min-w-0 *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
-      {...props}
+      {...(props as SelectPrimitive.Trigger.Props)}
     >
       {children}
       <SelectPrimitive.Icon
@@ -57,13 +160,17 @@ function SelectTrigger({ className, size = 'default', children, ...props }: Sele
   )
 }
 
-export type SelectContentProps = SelectPrimitive.Popup.Props &
-  Pick<
-    SelectPrimitive.Positioner.Props,
-    'align' | 'alignOffset' | 'side' | 'sideOffset' | 'alignItemWithTrigger'
-  > & {
-    showScrollButtons?: boolean
-  }
+export interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  align?: PrimitivePopupAlign
+  alignOffset?: PrimitivePopupOffset
+  side?: PrimitivePopupSide
+  sideOffset?: PrimitivePopupOffset
+  alignItemWithTrigger?: boolean
+  finalFocus?: PrimitiveFocusTarget
+  showScrollButtons?: boolean
+  render?: PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function SelectContent({
   className,
@@ -104,7 +211,10 @@ function SelectContent({
   )
 }
 
-export type SelectLabelProps = SelectPrimitive.GroupLabel.Props
+export interface SelectLabelProps extends React.HTMLAttributes<HTMLDivElement> {
+  render?: PrimitiveRender<HTMLDivElement>
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function SelectLabel({ className, ...props }: SelectLabelProps) {
   return (
@@ -119,9 +229,25 @@ function SelectLabel({ className, ...props }: SelectLabelProps) {
   )
 }
 
-export type SelectItemProps = SelectPrimitive.Item.Props
+export interface SelectItemProps<Value = string> extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'value'
+> {
+  value?: Value
+  disabled?: boolean
+  label?: string
+  render?: PrimitiveRender<
+    HTMLElement,
+    {
+      disabled: boolean
+      selected: boolean
+      highlighted: boolean
+    }
+  >
+  ref?: React.Ref<HTMLElement>
+}
 
-function SelectItem({ className, children, ...props }: SelectItemProps) {
+function SelectItem<Value = string>({ className, children, ...props }: SelectItemProps<Value>) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
@@ -145,7 +271,14 @@ function SelectItem({ className, children, ...props }: SelectItemProps) {
   )
 }
 
-export type SelectSeparatorProps = SelectPrimitive.Separator.Props
+export interface SelectSeparatorProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
+  orientation?: 'horizontal' | 'vertical'
+  render?: PrimitiveRender<HTMLDivElement>
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
   return (
@@ -157,10 +290,23 @@ function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
   )
 }
 
-export type SelectScrollUpButtonProps = React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>
-export type SelectScrollDownButtonProps = React.ComponentProps<
-  typeof SelectPrimitive.ScrollDownArrow
->
+export interface SelectScrollUpButtonProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
+  keepMounted?: boolean
+  render?: PrimitiveRender<HTMLDivElement>
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface SelectScrollDownButtonProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
+  keepMounted?: boolean
+  render?: PrimitiveRender<HTMLDivElement>
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function SelectScrollUpButton({ className, ...props }: SelectScrollUpButtonProps) {
   return (

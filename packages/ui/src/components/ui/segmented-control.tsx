@@ -4,14 +4,13 @@ import * as React from 'react'
 import { Radio as RadioPrimitive } from '@base-ui/react/radio'
 import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group'
 
-import {
-  type SplatoonControlTrackColor,
-  splatoonControlTrackColorConfig,
-} from '@/lib/splatoon-color-tokens'
+import { splatoonControlTrackColorConfig } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import { ButtonGroupItem, type ButtonGroupItemProps } from './button-group'
 import buttonGroupStyles from './button-group.module.css'
 import styles from './segmented-control.module.css'
+import type { PrimitiveChangeDetails, PrimitiveRender } from './primitive-types'
+import type { SplatoonControlTrackColor } from './theme-tokens'
 import {
   SWITCH_TRACK_FILL_HEIGHT,
   SWITCH_TRACK_FILL_WIDTH,
@@ -29,7 +28,7 @@ export type SegmentedControlAppearance = 'buttons' | 'track'
 export type SegmentedControlColor = SplatoonControlTrackColor
 export type SegmentedControlDensity = 'compact' | 'default' | 'spacious'
 export type SegmentedControlOrientation = 'horizontal' | 'vertical'
-export type { SplatoonControlTrackColor }
+export type { SplatoonControlTrackColor } from './theme-tokens'
 type SegmentedControlStyle = React.CSSProperties & {
   '--segmented-control-active-bg'?: string
   '--segmented-control-active-text'?: string
@@ -96,14 +95,28 @@ const SEGMENTED_TRACK_SHAPES: Record<
   },
 }
 
-export interface SegmentedControlProps extends Omit<RadioGroupPrimitive.Props<string>, 'style'> {
+export interface SegmentedControlProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'color' | 'defaultValue' | 'onChange' | 'value'
+> {
   appearance?: SegmentedControlAppearance
   color?: SegmentedControlColor
+  defaultValue?: string
   density?: SegmentedControlDensity
+  disabled?: boolean
   fillImageHref?: string
+  form?: string
   fullWidth?: boolean
+  inputRef?: React.Ref<HTMLInputElement>
+  name?: string
+  onValueChange?: (value: string, eventDetails: PrimitiveChangeDetails) => void
   orientation?: SegmentedControlOrientation
+  readOnly?: boolean
+  ref?: React.Ref<HTMLDivElement>
+  render?: PrimitiveRender<HTMLDivElement>
+  required?: boolean
   style?: React.CSSProperties
+  value?: string
 }
 
 interface SegmentedControlContextValue {
@@ -126,7 +139,7 @@ function SegmentedControl({
   style,
   children,
   ...props
-}: SegmentedControlProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: SegmentedControlProps) {
   const contextValue = React.useMemo(
     () => ({ appearance, color, fillImageHref }),
     [appearance, color, fillImageHref]
@@ -166,8 +179,17 @@ function SegmentedControl({
   )
 }
 
-export interface SegmentedControlItemProps extends RadioPrimitive.Root.Props<string> {
+export interface SegmentedControlItemProps extends Omit<
+  React.HTMLAttributes<HTMLElement>,
+  'onChange'
+> {
   buttonProps?: Omit<ButtonGroupItemProps, 'children' | 'ref' | 'value'>
+  disabled?: boolean
+  inputRef?: React.Ref<HTMLInputElement>
+  readOnly?: boolean
+  ref?: React.Ref<HTMLElement>
+  required?: boolean
+  value: string
 }
 
 function getCheckedButtonVariant(color: SegmentedControlColor): ButtonGroupItemProps['variant'] {
@@ -299,7 +321,7 @@ function SegmentedControlItem({
   className,
   children,
   ...props
-}: SegmentedControlItemProps & { ref?: React.Ref<HTMLElement> }) {
+}: SegmentedControlItemProps) {
   const context = React.useContext(SegmentedControlContext)
   const appearance = context?.appearance ?? 'buttons'
   const color = context?.color ?? 'yellow'

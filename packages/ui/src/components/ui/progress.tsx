@@ -18,17 +18,16 @@ export type ProgressVariant =
 export type ProgressTrackVariant = 'dark' | 'light' | 'transparent'
 export type ProgressSize = 'sm' | 'default' | 'lg'
 
-export interface ProgressProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>,
-  'children' | 'max' | 'value'
-> {
+export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   value?: number
   max?: number
+  getValueLabel?: (value: number, max: number) => string
   variant?: ProgressVariant
   trackVariant?: ProgressTrackVariant
   size?: ProgressSize
   skewed?: boolean
   splattered?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
 const sizeHeights = {
@@ -64,8 +63,9 @@ function Progress({
   size = 'default',
   skewed = true,
   splattered = true,
+  style,
   ...props
-}: ProgressProps & { ref?: React.Ref<React.ElementRef<typeof ProgressPrimitive.Root>> }) {
+}: ProgressProps) {
   const safeMax = max > 0 ? max : 100
   const clampedValue = Math.min(Math.max(value, 0), safeMax)
   const percentage = (clampedValue / safeMax) * 100
@@ -93,6 +93,7 @@ function Progress({
         ...(trackVariant !== 'transparent'
           ? { boxShadow: '3px 3px 0px var(--color-black)' }
           : null),
+        ...style,
       }}
       {...props}
     >

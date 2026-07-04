@@ -7,7 +7,7 @@ import styles from './photo-frame.module.css'
 
 /* ── PhotoFrame — unified styled-photo with tape decoration ── */
 
-type PhotoFrameVariant = 'a' | 'b' | 'c' | 'd' | 'e'
+export type PhotoFrameVariant = 'a' | 'b' | 'c' | 'd' | 'e'
 
 interface PhotoTapeAssetConfig {
   asset: TapeImageVariant
@@ -19,7 +19,7 @@ interface PhotoDecorationAssetConfig {
   asset: TapeImageVariant
 }
 
-export interface PhotoFrameProps extends React.ComponentProps<'div'> {
+export interface PhotoFrameProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   /** Image source */
   src?: string
   /** Image alt text */
@@ -42,6 +42,7 @@ export interface PhotoFrameProps extends React.ComponentProps<'div'> {
   nested?: boolean
   /** Fill width (block display) */
   fillWidth?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
 /* ── Variant presets ── */
@@ -141,7 +142,7 @@ export function PhotoFrame({
   children,
   style,
   ...props
-}: PhotoFrameProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: PhotoFrameProps) {
   const config = VARIANT_CONFIG[variant]
   const resolvedBorder = border ?? config.border
   const resolvedShowTape = showTape ?? config.showTape
@@ -208,14 +209,16 @@ const TAPE_POSITION: Record<string, string> = {
   bottomRight: styles.tapeBottomRight,
 }
 
-export interface PhotoTapeProps extends React.ComponentProps<'div'> {
+export interface PhotoTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   /** Tape position */
   position?: 'center' | 'left' | 'right' | 'bottomCenter' | 'bottomLeft' | 'bottomRight'
   /** Tape type */
   type?: string
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function PhotoTape({
+  ref,
   position = 'center',
   type = 'tape-2',
   className,
@@ -226,6 +229,7 @@ export function PhotoTape({
 
   return (
     <MediaDecoration
+      ref={ref}
       asset={config.asset}
       className={cn(styles.tape, TAPE_POSITION[position], className)}
       mobilePictureClassName={styles.tapeMobile}
@@ -244,14 +248,16 @@ const DECORATION_POSITION: Record<string, string> = {
   center: styles.decorationCenter,
 }
 
-export interface PhotoDecorationProps extends React.ComponentProps<'div'> {
+export interface PhotoDecorationProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   /** Decoration position */
   position?: 'bottomLeft' | 'topRight' | 'bottomRight' | 'center'
   /** Decoration type */
   type?: string
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function PhotoDecoration({
+  ref,
   position = 'bottomLeft',
   type = 'sticker-9',
   className,
@@ -263,6 +269,7 @@ export function PhotoDecoration({
 
   return (
     <MediaDecoration
+      ref={ref}
       asset={asset}
       className={cn(styles.decoration, DECORATION_POSITION[position], className)}
       mobilePictureClassName={styles.decorationMobile}

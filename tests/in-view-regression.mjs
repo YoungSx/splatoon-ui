@@ -32,6 +32,21 @@ const checks = [
       !component.includes('style: { ...child.props.style, ...style }'),
   },
   {
+    name: 'InView composes common child and owner event handlers on the observed element',
+    pass:
+      component.includes('function composeEventHandlers') &&
+      component.includes('childHandler(event)') &&
+      component.includes('ownerHandler(event)') &&
+      component.includes('function mergeChildEventHandlers') &&
+      component.includes(
+        'const childEventProps = child.props as React.HTMLAttributes<HTMLElement>'
+      ) &&
+      (component.match(/\.\.\.composedEventProps/g)?.length ?? 0) === 2 &&
+      component.includes('onClick') &&
+      component.includes('onPointerDown') &&
+      component.includes('onTouchStart'),
+  },
+  {
     name: 'InView CSS uses same-element animation selectors like the reference site',
     pass:
       css.includes('.inView.anim') &&

@@ -7,9 +7,11 @@ export interface ButtonDripProps extends React.ButtonHTMLAttributes<HTMLButtonEl
   icon?: React.ReactNode
   hoverText?: React.ReactNode
   accentColors?: boolean
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 export function ButtonDrip({
+  ref,
   icon,
   hoverText,
   accentColors,
@@ -20,6 +22,7 @@ export function ButtonDrip({
 }: ButtonDripProps) {
   return (
     <button
+      ref={ref}
       type={type}
       className={cn(styles.button, accentColors && styles.accentColors, className)}
       {...props}

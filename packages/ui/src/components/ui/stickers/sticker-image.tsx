@@ -5,12 +5,14 @@ import type { TapeImageVariant } from '@/components/ui/tape-assets'
 
 interface StickerImageProps extends Omit<
   React.ComponentProps<'img'>,
-  'height' | 'src' | 'srcSet' | 'width'
+  'children' | 'height' | 'ref' | 'src' | 'srcSet' | 'width'
 > {
   asset: TapeImageVariant
+  ref?: React.Ref<HTMLImageElement>
 }
 
 export function StickerImage({
+  ref,
   asset,
   alt = '',
   className,
@@ -18,6 +20,13 @@ export function StickerImage({
   ...props
 }: StickerImageProps) {
   return (
-    <TapePicture {...props} asset={asset} alt={alt} className={className} draggable={draggable} />
+    <TapePicture
+      ref={ref}
+      {...props}
+      asset={asset}
+      alt={alt}
+      className={className}
+      draggable={draggable}
+    />
   )
 }

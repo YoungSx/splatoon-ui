@@ -22,7 +22,10 @@ class WavePoint {
 
 // ─── Props ───────────────────────────────────────────────────────────────────
 
-export interface WaveCanvasProps extends React.ComponentProps<'canvas'> {
+export interface WaveCanvasProps extends Omit<
+  React.ComponentProps<'canvas'>,
+  'children' | 'color' | 'height' | 'ref' | 'width'
+> {
   /** Fill color of the wave */
   color?: string
   /** Height of the canvas in px (default 200) */
@@ -35,6 +38,7 @@ export interface WaveCanvasProps extends React.ComponentProps<'canvas'> {
   elasticity?: number
   /** Physics friction (default 0.0025) */
   friction?: number
+  ref?: React.Ref<HTMLCanvasElement>
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -50,7 +54,7 @@ function WaveCanvas({
   className,
   style,
   ...props
-}: WaveCanvasProps & { ref?: React.Ref<HTMLCanvasElement> }) {
+}: WaveCanvasProps) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const scheduleRenderRef = React.useRef<() => void>(() => {})
   // Pause the wave simulation while it is scrolled off-screen or the tab hides.

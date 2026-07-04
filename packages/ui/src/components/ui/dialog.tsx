@@ -4,9 +4,16 @@ import * as React from 'react'
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import { Button, type ButtonProps } from '@/components/ui/button'
 import { createTriggerButton, mergeRefs } from '@/components/ui/trigger-button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
+import type {
+  PrimitiveFocusTarget,
+  PrimitiveOpenChangeDetails,
+  PrimitiveOpenRenderState,
+  PrimitivePortalContainer,
+  PrimitiveRender,
+} from './primitive-types'
 
 import { InkSplashCanvas } from './ink-splash-canvas'
 import { MediaDecoration } from './media-decoration'
@@ -26,15 +33,19 @@ const DIALOG_Z_INDEX = {
   content: uiZIndex.dialog,
   close: uiZIndex.dialogClose,
 } as const
+
+type DialogContentStyle = React.CSSProperties & {
+  '--dialog-pop-in-duration'?: string
+}
 export type DialogSurface = 'paper' | 'cream' | 'danger'
 
 // ── Dialog Context (for fullScreen lifecycle management) ──
 
 interface DialogContextValue {
   open: boolean
-  setOpen: (open: boolean) => void
-  triggerRef: React.RefObject<HTMLButtonElement | null>
-  registerTrigger: (node: HTMLButtonElement | null) => void
+  setOpen: (open: boolean) => boolean
+  triggerRef: React.RefObject<HTMLElement | null>
+  registerTrigger: (node: HTMLElement | null) => void
 }
 
 const DialogContext = React.createContext<DialogContextValue | null>(null)
@@ -50,32 +61,70 @@ function useDialogContext() {
 
 // ── Dialog Root ──
 
-export interface DialogProps extends Omit<
-  DialogPrimitive.Root.Props,
-  'open' | 'onOpenChange' | 'children'
-> {
+export interface DialogProps {
   open?: boolean
-  onOpenChange?: (open: boolean) => void
+  defaultOpen?: boolean
+  modal?: boolean | 'trap-focus'
+  disablePointerDismissal?: boolean
+  onOpenChange?: (open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void
+  onOpenChangeComplete?: (open: boolean) => void
+  triggerId?: string | null
+  defaultTriggerId?: string | null
   children?: React.ReactNode
 }
 
-function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: DialogProps) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false)
-  const triggerRef = React.useRef<HTMLButtonElement | null>(null)
+function createProgrammaticDialogChangeDetails(): PrimitiveOpenChangeDetails {
+  let canceled = false
+  let propagationAllowed = false
+
+  return {
+    reason: 'none',
+    event: new Event('dialog-programmatic-open-change'),
+    cancel() {
+      canceled = true
+    },
+    allowPropagation() {
+      propagationAllowed = true
+    },
+    get isCanceled() {
+      return canceled
+    },
+    get isPropagationAllowed() {
+      return propagationAllowed
+    },
+    trigger: undefined,
+    preventUnmountOnClose() {},
+  }
+}
+
+function Dialog({
+  children,
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange,
+  ...props
+}: DialogProps) {
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
+  const triggerRef = React.useRef<HTMLElement | null>(null)
 
   const isControlled = controlledOpen !== undefined
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen
 
-  const registerTrigger = React.useCallback((node: HTMLButtonElement | null) => {
+  const registerTrigger = React.useCallback((node: HTMLElement | null) => {
     triggerRef.current = node
   }, [])
 
   const handleOpenChange = React.useCallback(
-    (newOpen: boolean) => {
+    (newOpen: boolean, eventDetails?: PrimitiveOpenChangeDetails) => {
+      const details = eventDetails ?? createProgrammaticDialogChangeDetails()
+
+      onOpenChange?.(newOpen, details)
+      if (details.isCanceled) return false
+
       if (!isControlled) {
         setUncontrolledOpen(newOpen)
       }
-      onOpenChange?.(newOpen)
+      return true
     },
     [isControlled, onOpenChange]
   )
@@ -99,7 +148,9 @@ function Dialog({ children, open: controlledOpen, onOpenChange, ...props }: Dial
   )
 }
 
-export type DialogTriggerProps = DialogPrimitive.Trigger.Props & {
+export interface DialogTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  nativeButton?: boolean
+  render?: PrimitiveRender<HTMLButtonElement, PrimitiveOpenRenderState>
   ref?: React.Ref<HTMLButtonElement>
 }
 
@@ -115,21 +166,44 @@ function DialogTrigger({ ref, ...props }: DialogTriggerProps) {
   )
 }
 
-const DialogTriggerButton = createTriggerButton(
-  DialogPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>,
-  'dialog-trigger',
-  {
-    useRegisterRef: () => useDialogContext().registerTrigger,
+export type DialogTriggerButtonProps = Omit<DialogTriggerProps, 'children' | 'ref' | 'render'> &
+  Pick<
+    ButtonProps,
+    | 'children'
+    | 'variant'
+    | 'size'
+    | 'theme'
+    | 'hasChevron'
+    | 'color'
+    | 'hoverColor'
+    | 'textColor'
+    | 'textHoverColor'
+  > & {
+    ref?: React.Ref<HTMLButtonElement>
   }
-)
 
-export type DialogPortalProps = DialogPrimitive.Portal.Props
+const DialogTriggerButtonImpl = createTriggerButton(DialogPrimitive.Trigger, 'dialog-trigger', {
+  useRegisterRef: () => useDialogContext().registerTrigger,
+})
+
+function DialogTriggerButton(props: DialogTriggerButtonProps) {
+  return <DialogTriggerButtonImpl {...props} />
+}
+
+export interface DialogPortalProps extends React.HTMLAttributes<HTMLDivElement> {
+  keepMounted?: boolean
+  container?: PrimitivePortalContainer
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function DialogPortal({ ...props }: DialogPortalProps) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
-export type DialogOverlayProps = DialogPrimitive.Backdrop.Props
+export interface DialogOverlayProps extends React.HTMLAttributes<HTMLDivElement> {
+  render?: PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function DialogOverlay({ className, style, ...props }: DialogOverlayProps) {
   return (
@@ -145,7 +219,14 @@ function DialogOverlay({ className, style, ...props }: DialogOverlayProps) {
   )
 }
 
-export interface DialogContentProps extends DialogPrimitive.Popup.Props {
+interface DialogPopupBaseProps extends React.HTMLAttributes<HTMLDivElement> {
+  initialFocus?: PrimitiveFocusTarget
+  finalFocus?: PrimitiveFocusTarget
+  render?: PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface DialogContentProps extends DialogPopupBaseProps {
   showCloseButton?: boolean
   hasTape?: boolean
   tapePosition?: 'news' | 'event'
@@ -164,7 +245,7 @@ const surfaceFills: Record<
 
 // ── Full-Screen Dialog Content ──
 
-interface DialogContentFullScreenProps extends DialogPrimitive.Popup.Props {
+interface DialogContentFullScreenProps extends DialogPopupBaseProps {
   showCloseButton?: boolean
   isReducedMotion?: boolean
 }
@@ -241,10 +322,17 @@ function DialogContentFullScreen({
     closeTimerRef.current = setTimeout(
       () => {
         cancelAnimationFrame(animFrameRef.current)
+        const didClose = setOpen(false)
+
+        if (!didClose) {
+          setModalHeadingOut(false)
+          setSplatState('in')
+          return
+        }
+
         setModalActive(false)
         setModalHeadingOut(false)
         setSplatState('ready')
-        setOpen(false)
       },
       isReducedMotion ? 0 : CLOSE_DELAY
     )
@@ -445,7 +533,7 @@ function DialogContent({
             // Pop-in timing; reduced-motion users get the static transform instead.
             '--dialog-pop-in-duration': isReducedMotion ? '0s' : '0.5s',
             ...style,
-          } as unknown as React.CSSProperties
+          } as DialogContentStyle
         }
         {...props}
       >
@@ -491,15 +579,23 @@ function DialogContent({
   )
 }
 
-export type DialogHeaderProps = React.ComponentProps<'div'>
+export interface DialogHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  ref?: React.Ref<HTMLDivElement>
+}
 
-function DialogHeader({ className, ...props }: DialogHeaderProps) {
+function DialogHeader({ ref, className, ...props }: DialogHeaderProps) {
   return (
-    <div data-slot="dialog-header" className={cn('flex flex-col gap-1.5', className)} {...props} />
+    <div
+      ref={ref}
+      data-slot="dialog-header"
+      className={cn('flex flex-col gap-1.5', className)}
+      {...props}
+    />
   )
 }
 
 function DialogFooter({
+  ref,
   className,
   showCloseButton = false,
   children,
@@ -507,6 +603,7 @@ function DialogFooter({
 }: DialogFooterProps) {
   return (
     <div
+      ref={ref}
       data-slot="dialog-footer"
       className={cn(
         'border-foreground/15 bg-foreground/5 -mx-8 mt-2 -mb-4 flex flex-col-reverse gap-2 border-t-2 border-dashed p-4 sm:flex-row sm:justify-end sm:gap-4',
@@ -524,11 +621,15 @@ function DialogFooter({
   )
 }
 
-export interface DialogFooterProps extends React.ComponentProps<'div'> {
+export interface DialogFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   showCloseButton?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
-export type DialogTitleProps = DialogPrimitive.Title.Props
+export interface DialogTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  render?: PrimitiveRender<HTMLHeadingElement>
+  ref?: React.Ref<HTMLHeadingElement>
+}
 
 function DialogTitle({ className, style, ...props }: DialogTitleProps) {
   const surface = React.useContext(DialogSurfaceContext)
@@ -544,7 +645,10 @@ function DialogTitle({ className, style, ...props }: DialogTitleProps) {
   )
 }
 
-export type DialogDescriptionProps = DialogPrimitive.Description.Props
+export interface DialogDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  render?: PrimitiveRender<HTMLParagraphElement>
+  ref?: React.Ref<HTMLParagraphElement>
+}
 
 function DialogDescription({ className, style, ...props }: DialogDescriptionProps) {
   const surface = React.useContext(DialogSurfaceContext)

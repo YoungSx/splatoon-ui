@@ -27,13 +27,14 @@ export interface PageTransitionHandle {
 
 // ─── Props ──────────────────────────────────────────────────────────────────
 
-export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'color' | 'ref'> {
   color?: string
   durationIn?: number
   durationOut?: number
   autoReveal?: boolean
   onCovered?: () => void
   onRevealed?: () => void
+  ref?: React.Ref<PageTransitionHandle>
 }
 
 // ─── Phase ──────────────────────────────────────────────────────────────────
@@ -53,7 +54,7 @@ export function PageTransition({
   className,
   children,
   ...props
-}: PageTransitionProps & { ref?: React.Ref<PageTransitionHandle> }) {
+}: PageTransitionProps) {
   const [phase, setPhase] = React.useState<Phase>('idle')
   const [transitionCount, setTransitionCount] = React.useState(0)
   const [transitionColor, setTransitionColor] = React.useState(inkColor)

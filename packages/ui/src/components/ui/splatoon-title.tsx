@@ -14,7 +14,7 @@ import { cn } from '@/lib/utils'
 export type SplatoonTitleVariant = 'logo' | 'section'
 export type SplatoonTitleSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
-export interface SplatoonTitleProps extends React.ComponentProps<'div'> {
+export interface SplatoonTitleProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   /** Title variant */
   variant?: SplatoonTitleVariant
   /** Optional section key used for text fallback labels */
@@ -29,6 +29,7 @@ export interface SplatoonTitleProps extends React.ComponentProps<'div'> {
   imageHover?: string
   /** Text content (used as fallback or alt text) */
   children?: React.ReactNode
+  ref?: React.Ref<HTMLDivElement>
 }
 
 // ─── Constants ──────────────────────────────────────────────────────────────
@@ -63,8 +64,10 @@ export function SplatoonTitle({
   imageHover,
   children,
   className,
+  onMouseEnter,
+  onMouseLeave,
   ...props
-}: SplatoonTitleProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: SplatoonTitleProps) {
   const [isHovered, setIsHovered] = React.useState(false)
   const [isVisible, setIsVisible] = React.useState(!animate)
 
@@ -94,8 +97,14 @@ export function SplatoonTitle({
           animate && (isVisible ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'),
           className
         )}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={(event) => {
+          setIsHovered(true)
+          onMouseEnter?.(event)
+        }}
+        onMouseLeave={(event) => {
+          setIsHovered(false)
+          onMouseLeave?.(event)
+        }}
         {...props}
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- optional caller-provided title art, not a page LCP image */}
@@ -124,6 +133,8 @@ export function SplatoonTitle({
         variant === 'logo' ? 'text-5xl md:text-7xl' : 'text-4xl md:text-6xl',
         className
       )}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       {...props}
     >
       {fallbackLabel}

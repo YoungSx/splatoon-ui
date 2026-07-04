@@ -61,9 +61,11 @@ export interface SectionBackgroundProps extends React.HTMLAttributes<HTMLElement
   /** Optional pattern texture overlay */
   pattern?: Pattern
   as?: 'div' | 'section'
+  ref?: React.Ref<HTMLElement>
 }
 
 export function SectionBackground({
+  ref,
   backgroundClassName,
   darkBackgroundClassName,
   pattern,
@@ -72,18 +74,25 @@ export function SectionBackground({
   children,
   ...props
 }: SectionBackgroundProps) {
+  const resolvedClassName = cn(
+    styles.sectionBackground,
+    backgroundClassName,
+    darkBackgroundClassName,
+    pattern && PATTERN_MAP[pattern],
+    className
+  )
+
+  if (Tag === 'section') {
+    return (
+      <section ref={ref} className={resolvedClassName} {...props}>
+        {children}
+      </section>
+    )
+  }
+
   return (
-    <Tag
-      className={cn(
-        styles.sectionBackground,
-        backgroundClassName,
-        darkBackgroundClassName,
-        pattern && PATTERN_MAP[pattern],
-        className
-      )}
-      {...props}
-    >
+    <div ref={ref as React.Ref<HTMLDivElement>} className={resolvedClassName} {...props}>
       {children}
-    </Tag>
+    </div>
   )
 }

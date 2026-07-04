@@ -30,6 +30,7 @@ export interface SquidMaskTransitionProps extends Omit<React.ComponentProps<'div
   autoReveal?: boolean
   onCovered?: () => void
   onRevealed?: () => void
+  ref?: React.Ref<SquidMaskTransitionHandle>
 }
 
 // ─── Phase ──────────────────────────────────────────────────────────────────
@@ -61,7 +62,7 @@ export function SquidMaskTransition({
   className,
   children,
   ...props
-}: SquidMaskTransitionProps & { ref?: React.Ref<SquidMaskTransitionHandle> }) {
+}: SquidMaskTransitionProps) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const squidImgRef = React.useRef<HTMLImageElement | null>(null)
   const tweenRef = React.useRef<number>(0)

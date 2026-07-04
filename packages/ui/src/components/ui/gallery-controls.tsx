@@ -9,10 +9,14 @@ import baseStyles from './gallery-base.module.css'
 
 /* ── GalleryControls ── */
 
-export interface GalleryControlsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GalleryControlsProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
   className?: string
   prevLabel?: string
   nextLabel?: string
+  ref?: React.Ref<HTMLDivElement>
   wrapButton?: (direction: 'left' | 'right', button: React.ReactNode) => React.ReactNode
 }
 
@@ -23,7 +27,7 @@ export function GalleryControls({
   nextLabel = 'Next gallery item',
   wrapButton,
   ...props
-}: GalleryControlsProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: GalleryControlsProps) {
   const { goToNext, goToPrev, canGoNext, canGoPrev } = useCarousel()
 
   const leftButton = (
@@ -58,13 +62,12 @@ export function GalleryControls({
 
 /* ── GalleryBounce — spring bounce-in animation ── */
 
-export function GalleryBounce({
-  children,
-  className,
-}: {
+export interface GalleryBounceProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
-  className?: string
-}) {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export function GalleryBounce({ ref, children, className, ...props }: GalleryBounceProps) {
   const { currentIndex, prevIndex } = useCarousel()
   const controls = useAnimation()
 
@@ -90,7 +93,7 @@ export function GalleryBounce({
   }, [currentIndex, prevIndex, controls])
 
   return (
-    <motion.div className={className} animate={controls}>
+    <motion.div ref={ref} className={className} {...props} animate={controls}>
       {children}
     </motion.div>
   )

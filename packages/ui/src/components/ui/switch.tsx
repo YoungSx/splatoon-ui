@@ -3,27 +3,47 @@
 import * as React from 'react'
 import { Switch as SwitchPrimitive } from '@base-ui/react/switch'
 
-import {
-  type SplatoonControlTrackColor,
-  splatoonControlTrackColorConfig,
-} from '@/lib/splatoon-color-tokens'
+import { splatoonControlTrackColorConfig } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import styles from './switch.module.css'
 import { SwitchTrack } from './switch-track'
+import type {
+  PrimitiveChangeDetails,
+  PrimitiveCheckedRenderState,
+  PrimitiveRender,
+} from './primitive-types'
+import type { SplatoonControlTrackColor } from './theme-tokens'
 
 export type SwitchSize = 'sm' | 'default' | 'lg'
 export type SwitchColor = Exclude<SplatoonControlTrackColor, 'purple'>
-export type { SplatoonControlTrackColor }
+export type { SplatoonControlTrackColor } from './theme-tokens'
 type SwitchStyle = React.CSSProperties & {
   '--switch-accent'?: string
 }
 
-export interface SwitchProps extends SwitchPrimitive.Root.Props {
+export interface SwitchProps extends Omit<
+  React.HTMLAttributes<HTMLElement>,
+  'checked' | 'children' | 'color' | 'defaultChecked' | 'onChange' | 'value'
+> {
+  checked?: boolean
   color?: SwitchColor
+  defaultChecked?: boolean
+  disabled?: boolean
   fillImageHref?: string
+  form?: string
+  inputRef?: React.Ref<HTMLInputElement>
+  name?: string
+  nativeButton?: boolean
   offLabel?: React.ReactNode
+  onCheckedChange?: (checked: boolean, eventDetails: PrimitiveChangeDetails) => void
   onLabel?: React.ReactNode
+  readOnly?: boolean
+  ref?: React.Ref<HTMLElement>
+  render?: PrimitiveRender<HTMLElement, PrimitiveCheckedRenderState>
+  required?: boolean
   size?: SwitchSize
+  uncheckedValue?: string
+  value?: string
 }
 
 function Switch({
@@ -36,7 +56,7 @@ function Switch({
   size = 'default',
   style,
   ...props
-}: SwitchProps & { ref?: React.Ref<HTMLElement> }) {
+}: SwitchProps) {
   const colorConfig = splatoonControlTrackColorConfig[color]
 
   return (

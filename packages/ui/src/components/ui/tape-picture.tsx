@@ -10,13 +10,17 @@ import {
 
 /* eslint-disable @next/next/no-img-element -- decorative assets are served through curated <picture> srcSets. */
 
-type ImageProps = Omit<React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width'>
+type ImageProps = Omit<
+  React.ComponentProps<'img'>,
+  'children' | 'height' | 'ref' | 'src' | 'srcSet' | 'width'
+>
 
 export interface TapePictureProps extends ImageProps {
   asset: TapeAsset | TapeImageVariant
   pictureClassName?: string
   media?: string
   fill?: boolean
+  ref?: React.Ref<HTMLImageElement>
 }
 
 export interface TapeResponsivePicturesProps extends ImageProps {
@@ -31,6 +35,7 @@ function resolveTapeAsset(asset: TapeAsset | TapeImageVariant) {
 }
 
 function TapeImage({
+  ref,
   source,
   alt,
   className,
@@ -40,9 +45,11 @@ function TapeImage({
 }: ImageProps & {
   source: TapeAssetSource
   fill: boolean
+  ref?: React.Ref<HTMLImageElement>
 }) {
   return (
     <img
+      ref={ref}
       {...props}
       alt={alt}
       className={cn(fill && 'block h-auto w-full', className)}
@@ -58,6 +65,7 @@ function TapeImage({
 }
 
 export function TapePicture({
+  ref,
   asset,
   alt = '',
   className,
@@ -77,6 +85,7 @@ export function TapePicture({
       {image.desktop?.pngSrcSet ? <source media={media} srcSet={image.desktop.pngSrcSet} /> : null}
       {image.webpSrcSet ? <source type="image/webp" srcSet={image.webpSrcSet} /> : null}
       <TapeImage
+        ref={ref}
         {...props}
         alt={alt}
         className={className}

@@ -40,6 +40,7 @@ export interface IconButtonProps extends Omit<
   animation?: IconButtonAnimation
   direction?: IconButtonDirection
   icon?: React.ReactNode
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 // ─── Style maps ─────────────────────────────────────────────────────────────
@@ -124,20 +125,18 @@ function ArrowIcon({ direction }: { direction: IconButtonDirection }) {
 
 // ─── Component ──────────────────────────────────────────────────────────────
 
-export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-  {
-    variant = 'primary',
-    size,
-    animation = 'squish',
-    direction,
-    icon,
-    className,
-    style,
-    disabled,
-    ...props
-  },
-  ref
-) {
+export function IconButton({
+  ref,
+  variant = 'primary',
+  size,
+  animation = 'squish',
+  direction,
+  icon,
+  className,
+  style,
+  disabled,
+  ...props
+}: IconButtonProps) {
   const squishDirection = direction === 'left' ? -1 : 1
   const resolvedIcon = icon ?? (direction ? <ArrowIcon direction={direction} /> : null)
   const colorPreset = ICON_BUTTON_COLOR_PRESETS[variant]
@@ -170,4 +169,4 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(f
       {resolvedIcon}
     </button>
   )
-})
+}

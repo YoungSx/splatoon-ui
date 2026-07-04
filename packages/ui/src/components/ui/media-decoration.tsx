@@ -1,20 +1,34 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { CardSlot, type CardSlotProps } from './card-slot'
+import { CardSlot } from './card-slot'
 import { type TapeImageVariant } from './tape-assets'
 import { TapePicture, TapeResponsivePictures } from './tape-picture'
 
-export interface MediaDecorationProps extends Omit<CardSlotProps, 'children'> {
+export type MediaDecorationPosition =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right'
+
+export interface MediaDecorationProps extends Omit<
+  React.ComponentProps<'div'>,
+  'children' | 'ref'
+> {
   asset: TapeImageVariant
-  responsive?: boolean
   media?: string
+  position?: MediaDecorationPosition
+  responsive?: boolean
   imageClassName?: string
   mobilePictureClassName?: string
   desktopPictureClassName?: string
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function MediaDecoration({
+  ref,
   asset,
   responsive = true,
   media,
@@ -25,7 +39,7 @@ export function MediaDecoration({
   ...props
 }: MediaDecorationProps) {
   return (
-    <CardSlot className={cn(className)} {...props}>
+    <CardSlot ref={ref} className={cn(className)} {...props}>
       {responsive ? (
         <TapeResponsivePictures
           asset={asset}

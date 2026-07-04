@@ -8,11 +8,12 @@ import { GitHubMark } from './github-mark'
 import { WaveCanvas } from './wave-canvas'
 import styles from './footer.module.css'
 
-export interface FooterProps extends React.HTMLAttributes<HTMLElement> {
+export interface FooterProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
   /** Wave fill color (default: var(--color-black)) */
   waveColor?: string
   /** Wave height in px (default 120) */
   waveHeight?: number
+  ref?: React.Ref<HTMLElement>
 }
 
 const projectLinks = [
@@ -31,13 +32,14 @@ const projectLinks = [
 ] as const
 
 export function Footer({
+  ref,
   waveColor = 'var(--color-black)',
   waveHeight = 120,
   className,
   ...props
 }: FooterProps) {
   return (
-    <footer className={cn(styles.footer, className)} {...props}>
+    <footer ref={ref} className={cn(styles.footer, className)} {...props}>
       <WaveCanvas color={waveColor} height={waveHeight} />
 
       <div className={styles.inner}>

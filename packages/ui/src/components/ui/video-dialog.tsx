@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger, type DialogProps } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
 import { MediaDecoration } from './media-decoration'
 import photoStyles from './photo-frame.module.css'
@@ -10,7 +10,7 @@ import tapeStyles from './video-dialog.module.css'
 
 // ── VideoDialog Root (thin wrapper around Dialog) ──
 
-export interface VideoDialogProps extends Omit<React.ComponentProps<typeof Dialog>, 'children'> {
+export interface VideoDialogProps extends Omit<DialogProps, 'children'> {
   children?: React.ReactNode
 }
 
@@ -20,7 +20,10 @@ export function VideoDialog({ children, ...props }: VideoDialogProps) {
 
 // ── Thumbnail Trigger ──
 
-export interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface VideoDialogThumbnailProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'children' | 'type'
+> {
   src: string
   alt?: string
   width?: number
@@ -31,6 +34,11 @@ export interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HT
   blobSize?: number
   imageClassName?: string
   loading?: React.ComponentProps<'img'>['loading']
+  ref?: React.Ref<HTMLButtonElement>
+}
+
+type VideoDialogTriggerRenderProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 export function VideoDialogThumbnail({
@@ -46,35 +54,38 @@ export function VideoDialogThumbnail({
   blobSize = 160,
   imageClassName,
   loading = 'lazy',
+  onClick,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
   ...props
-}: VideoDialogThumbnailProps & { ref?: React.Ref<HTMLButtonElement> }) {
+}: VideoDialogThumbnailProps) {
   const resolvedAriaLabel = ariaLabel ?? (ariaLabelledBy ? undefined : `Open video: ${alt}`)
 
   return (
     <DialogTrigger
-      render={(triggerProps) => {
-        const { ref: triggerRefCb, ...rest } = triggerProps as {
-          ref?: React.Ref<HTMLButtonElement>
-          [key: string]: unknown
-        }
+      render={(triggerProps: VideoDialogTriggerRenderProps) => {
+        const { ref: triggerRefCb, onClick: triggerOnClick, ...rest } = triggerProps
         return (
           <button
-            type="button"
+            {...rest}
+            {...props}
             ref={(node) => {
               if (typeof triggerRefCb === 'function') triggerRefCb(node)
               else if (triggerRefCb) triggerRefCb.current = node
               if (typeof ref === 'function') ref(node)
               else if (ref) ref.current = node
             }}
+            type="button"
             className={cn(
               tapeStyles.thumbnailTrigger,
               'group relative block w-full cursor-pointer overflow-visible p-0',
               className
             )}
-            {...rest}
-            {...props}
+            onClick={(event) => {
+              onClick?.(event)
+              if (event.defaultPrevented) return
+              triggerOnClick?.(event)
+            }}
             aria-label={resolvedAriaLabel}
             aria-labelledby={ariaLabelledBy}
           >

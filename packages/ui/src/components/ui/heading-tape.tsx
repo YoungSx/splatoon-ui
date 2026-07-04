@@ -3,13 +3,16 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import styles from './heading-tape.module.css'
 
-type HeadingTapeColor = 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red'
-type HeadingTapeDecorationPosition = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
-type HeadingTapeDecorationSet = 'stickers' | 'none'
-type HeadingTapeSafeAreaEdge = 'inlineStart' | 'inlineEnd' | 'blockStart' | 'blockEnd'
-type HeadingTapeSize = 'default' | 'compact'
+export type HeadingTapeDecorationPosition =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+export type HeadingTapeDecorationSet = 'stickers' | 'none'
+export type HeadingTapeSafeAreaEdge = 'inlineStart' | 'inlineEnd' | 'blockStart' | 'blockEnd'
+export type HeadingTapeSize = 'default' | 'compact'
 
-type HeadingTapeDecorationSafeArea = Partial<Record<HeadingTapeSafeAreaEdge, string>>
+export type HeadingTapeDecorationSafeArea = Partial<Record<HeadingTapeSafeAreaEdge, string>>
 
 export interface HeadingTapeDecorationImage {
   src: string
@@ -128,16 +131,15 @@ function getDecorationSafeAreaStyle(decorations: readonly HeadingTapeDecoration[
   ) as React.CSSProperties
 }
 
-export interface HeadingTapeProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface HeadingTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   children: React.ReactNode
   className?: string
-  /** @deprecated Tape is always white — section backgrounds provide contrast */
-  color?: HeadingTapeColor
   decorationSet?: HeadingTapeDecorationSet
   decorations?: HeadingTapeDecoration[] | false
   overlapTop?: boolean
   marginOffset?: number
   size?: HeadingTapeSize
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function HeadingTapeDecorationSlot({ decoration }: { decoration: HeadingTapeDecoration }) {
@@ -199,9 +201,9 @@ function HeadingTapeDecorationSlot({ decoration }: { decoration: HeadingTapeDeco
 }
 
 export function HeadingTape({
+  ref,
   children,
   className,
-  color,
   decorationSet = 'stickers',
   decorations,
   overlapTop = false,
@@ -210,14 +212,13 @@ export function HeadingTape({
   style,
   ...props
 }: HeadingTapeProps) {
-  void color
-
   const resolvedDecorations =
     decorations === false ? [] : (decorations ?? decorationSets[decorationSet])
   const decorationSafeAreaStyle = getDecorationSafeAreaStyle(resolvedDecorations)
 
   return (
     <div
+      ref={ref}
       data-slot="heading-tape"
       data-has-decorations={resolvedDecorations.length > 0 ? 'true' : 'false'}
       data-size={size}

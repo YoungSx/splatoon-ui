@@ -28,12 +28,34 @@
           "kind": "function",
           "type": "function AlertDescription(",
           "description": "",
+          "props": [
+            {
+              "name": "textColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "AlertDescriptionProps",
+          "kind": "interface",
+          "type": "export interface AlertDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
           "props": []
         },
         {
           "name": "AlertProps",
           "kind": "interface",
-          "type": "export interface AlertProps extends Omit<React.ComponentProps<typeof TornCard>, 'variant'>",
+          "type": "export interface AlertProps extends Omit<TornCardProps, 'variant'>",
           "description": "",
           "props": []
         },
@@ -41,6 +63,35 @@
           "name": "AlertTitle",
           "kind": "function",
           "type": "function AlertTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "textColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "AlertTitleProps",
+          "kind": "interface",
+          "type": "export interface AlertTitleProps extends Omit<React.ComponentProps<'h2'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "AlertVariant",
+          "kind": "type",
+          "type": "export type AlertVariant = 'default' | 'destructive'",
           "description": "",
           "props": []
         }
@@ -100,13 +151,20 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLImageElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "AssetImageProps",
           "kind": "interface",
-          "type": "export interface AssetImageProps extends Omit< React.ComponentProps<'img'>, 'alt' | 'height' | 'src' | 'width' >",
+          "type": "export interface AssetImageProps extends Omit< React.ComponentProps<'img'>, 'alt' | 'children' | 'height' | 'ref' | 'src' | 'width' >",
           "description": "",
           "props": []
         },
@@ -133,25 +191,25 @@
           "description": "",
           "props": [
             {
-              "name": "variant",
-              "optional": true,
-              "type": "'torn'",
-              "defaultValue": "",
-              "description": "Badge shape variant.\nOnly `\"torn\"` exists for now; more variants may be added later.\nDefaults to `\"torn\"`."
-            },
-            {
               "name": "color",
               "optional": true,
               "type": "TornBadgeColor",
               "defaultValue": "",
               "description": "Fill color of the badge. Defaults to `\"yellow\"`."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLSpanElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "BadgeProps",
           "kind": "interface",
-          "type": "export interface BadgeProps extends React.ComponentProps<'span'>",
+          "type": "export interface BadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>",
           "description": "",
           "props": []
         },
@@ -204,6 +262,13 @@
               "type": "'overlay' | 'spacer'",
               "defaultValue": "",
               "description": "Overlay matches the reference behavior: the divider paints across the section edge\nwithout reserving document flow height. Use spacer only when a layout intentionally\nneeds the divider to occupy vertical space."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -224,7 +289,7 @@
         {
           "name": "BannerDividerProps",
           "kind": "interface",
-          "type": "export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement>",
+          "type": "export interface BannerDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>",
           "description": "",
           "props": []
         },
@@ -284,6 +349,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -329,13 +401,20 @@
               "type": "number",
               "defaultValue": "",
               "description": "Container width in px"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "BlobPlayButtonProps",
           "kind": "interface",
-          "type": "export interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement>",
+          "type": "export interface BlobPlayButtonProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
           "description": "",
           "props": []
         }
@@ -416,6 +495,27 @@
               "type": "ButtonThemePreset",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLElement, PrimitiveButtonRenderState>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -429,7 +529,7 @@
         {
           "name": "ButtonProps",
           "kind": "interface",
-          "type": "export interface ButtonProps extends React.ComponentPropsWithoutRef<typeof ButtonPrimitive>",
+          "type": "export interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'>",
           "description": "",
           "props": []
         },
@@ -526,6 +626,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -571,8 +678,22 @@
               "type": "ButtonGroupOrientation",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
+        },
+        {
+          "name": "ButtonGroupDensity",
+          "kind": "type",
+          "type": "export type ButtonGroupDensity = 'compact' | 'default' | 'spacious'",
+          "description": "",
+          "props": []
         },
         {
           "name": "ButtonGroupItem",
@@ -585,6 +706,13 @@
           "name": "ButtonGroupItemProps",
           "kind": "type",
           "type": "export type ButtonGroupItemProps = ButtonProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonGroupOrientation",
+          "kind": "type",
+          "type": "export type ButtonGroupOrientation = 'horizontal' | 'vertical'",
           "description": "",
           "props": []
         },
@@ -686,6 +814,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": "Enable hover tilt animation (staple/paper variant)"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -694,12 +829,42 @@
           "kind": "function",
           "type": "function CardAction(",
           "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardActionProps",
+          "kind": "interface",
+          "type": "export interface CardActionProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
           "props": []
         },
         {
           "name": "CardContent",
           "kind": "function",
           "type": "function CardContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardContentProps",
+          "kind": "interface",
+          "type": "export interface CardContentProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -708,6 +873,21 @@
           "kind": "function",
           "type": "function CardDescription(",
           "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardDescriptionProps",
+          "kind": "interface",
+          "type": "export interface CardDescriptionProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
           "props": []
         },
         {
@@ -715,12 +895,56 @@
           "kind": "function",
           "type": "function CardFooter(",
           "description": "",
+          "props": [
+            {
+              "name": "showDivider",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardFooterProps",
+          "kind": "interface",
+          "type": "export interface CardFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
           "props": []
         },
         {
           "name": "CardHeader",
           "kind": "function",
           "type": "function CardHeader(",
+          "description": "",
+          "props": [
+            {
+              "name": "showDivider",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardHeaderProps",
+          "kind": "interface",
+          "type": "export interface CardHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -743,20 +967,27 @@
               "type": "string",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "CardImageProps",
           "kind": "interface",
-          "type": "export interface CardImageProps extends React.ComponentProps<'div'>",
+          "type": "export interface CardImageProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
         {
           "name": "CardProps",
           "kind": "interface",
-          "type": "export interface CardProps extends Omit<React.ComponentProps<'div'>, 'title'>",
+          "type": "export interface CardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'>",
           "description": "",
           "props": []
         },
@@ -771,6 +1002,21 @@
           "name": "CardTitle",
           "kind": "function",
           "type": "function CardTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardTitleProps",
+          "kind": "interface",
+          "type": "export interface CardTitleProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -809,13 +1055,20 @@
               "type": "string",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "CardImageProps",
           "kind": "interface",
-          "type": "export interface CardImageProps extends React.ComponentProps<'div'>",
+          "type": "export interface CardImageProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         }
@@ -829,9 +1082,31 @@
       "boundary": "client",
       "exports": [
         {
+          "name": "CardStackCarouselButtonProps",
+          "kind": "interface",
+          "type": "export interface CardStackCarouselButtonProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "CardStackCarouselContent",
           "kind": "function",
           "type": "export function CardStackCarouselContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardStackCarouselContentProps",
+          "kind": "interface",
+          "type": "export interface CardStackCarouselContentProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -863,32 +1138,32 @@
               "description": ""
             },
             {
-              "name": "shellClassName",
-              "optional": true,
-              "type": "string",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
-              "name": "shellStyle",
-              "optional": true,
-              "type": "React.CSSProperties",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
               "name": "data-index",
               "optional": true,
               "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
               "defaultValue": "",
               "description": ""
             }
           ]
         },
         {
+          "name": "CardStackCarouselItemLayout",
+          "kind": "type",
+          "type": "export type CardStackCarouselItemLayout = 'default' | 'feed'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "CardStackCarouselItemProps",
           "kind": "interface",
-          "type": "export interface CardStackCarouselItemProps extends Omit<HTMLMotionProps<'div'>, 'children'>",
+          "type": "export interface CardStackCarouselItemProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' | 'onClick' | 'onDragEnd' >",
           "description": "",
           "props": []
         },
@@ -910,6 +1185,21 @@
           "name": "CardStackCarouselScene",
           "kind": "function",
           "type": "export function CardStackCarouselScene(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CardStackCarouselSceneProps",
+          "kind": "interface",
+          "type": "export interface CardStackCarouselSceneProps",
           "description": "",
           "props": []
         }
@@ -943,13 +1233,6 @@
               "description": ""
             },
             {
-              "name": "initialIndex",
-              "optional": true,
-              "type": "number",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
               "name": "itemCount",
               "optional": true,
               "type": "number",
@@ -962,6 +1245,13 @@
               "type": "(index: number) => void",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -970,12 +1260,42 @@
           "kind": "function",
           "type": "export function CarouselBleedBoundary(",
           "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselBleedBoundaryProps",
+          "kind": "interface",
+          "type": "export interface CarouselBleedBoundaryProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
           "props": []
         },
         {
           "name": "CarouselContent",
           "kind": "function",
           "type": "export function CarouselContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselContentProps",
+          "kind": "interface",
+          "type": "export interface CarouselContentProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -1005,6 +1325,13 @@
               "type": "(index: number) => string",
               "defaultValue": "",
               "description": "Accessible label for a button when the image has no alt text. Receives the 1-based slide number."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLUListElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -1018,7 +1345,7 @@
         {
           "name": "CarouselImagePaginationProps",
           "kind": "interface",
-          "type": "export interface CarouselImagePaginationProps extends React.HTMLAttributes<HTMLUListElement>",
+          "type": "export interface CarouselImagePaginationProps extends Omit< React.HTMLAttributes<HTMLUListElement>, 'children' >",
           "description": "",
           "props": []
         },
@@ -1032,6 +1359,13 @@
               "name": "data-index",
               "optional": true,
               "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
               "defaultValue": "",
               "description": ""
             }
@@ -1063,13 +1397,20 @@
               "type": "(index: number) => string",
               "defaultValue": "",
               "description": "Accessible label template for unlabeled pagination buttons. Receives the 1-based slide number."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLUListElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "CarouselPaginationProps",
           "kind": "interface",
-          "type": "export interface CarouselPaginationProps extends React.HTMLAttributes<HTMLUListElement>",
+          "type": "export interface CarouselPaginationProps extends Omit< React.HTMLAttributes<HTMLUListElement>, 'children' >",
           "description": "",
           "props": []
         },
@@ -1084,6 +1425,21 @@
           "name": "CarouselViewport",
           "kind": "function",
           "type": "export function CarouselViewport(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselViewportProps",
+          "kind": "interface",
+          "type": "export interface CarouselViewportProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -1106,6 +1462,13 @@
               "type": "number",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -1120,6 +1483,28 @@
           "name": "SwipeableGallery",
           "kind": "function",
           "type": "export function SwipeableGallery(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SwipeableGalleryProps",
+          "kind": "interface",
+          "type": "export interface SwipeableGalleryProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -1181,12 +1566,125 @@
           "kind": "function",
           "type": "function Checkbox(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "checked",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultChecked",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "form",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "indeterminate",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onCheckedChange",
+              "optional": true,
+              "type": "(checked: boolean, eventDetails: PrimitiveChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "parent",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLElement, PrimitiveCheckedRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "uncheckedValue",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "CheckboxProps",
-          "kind": "type",
-          "type": "export type CheckboxProps = CheckboxPrimitive.Root.Props",
+          "kind": "interface",
+          "type": "export interface CheckboxProps extends Omit< React.HTMLAttributes<HTMLElement>, 'checked' | 'children' | 'defaultChecked' | 'onChange' | 'value' >",
           "description": "",
           "props": []
         }
@@ -1213,9 +1711,51 @@
               "description": ""
             },
             {
+              "name": "defaultOpen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "modal",
+              "optional": true,
+              "type": "boolean | 'trap-focus'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disablePointerDismissal",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "onOpenChange",
               "optional": true,
+              "type": "(open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChangeComplete",
+              "optional": true,
               "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "triggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultTriggerId",
+              "optional": true,
+              "type": "string | null",
               "defaultValue": "",
               "description": ""
             },
@@ -1274,7 +1814,7 @@
         {
           "name": "DialogContentProps",
           "kind": "interface",
-          "type": "export interface DialogContentProps extends DialogPrimitive.Popup.Props",
+          "type": "export interface DialogContentProps extends DialogPopupBaseProps",
           "description": "",
           "props": []
         },
@@ -1283,12 +1823,27 @@
           "kind": "function",
           "type": "function DialogDescription(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "DialogDescriptionProps",
-          "kind": "type",
-          "type": "export type DialogDescriptionProps = DialogPrimitive.Description.Props",
+          "kind": "interface",
+          "type": "export interface DialogDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement>",
           "description": "",
           "props": []
         },
@@ -1304,13 +1859,20 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "DialogFooterProps",
           "kind": "interface",
-          "type": "export interface DialogFooterProps extends React.ComponentProps<'div'>",
+          "type": "export interface DialogFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -1319,12 +1881,20 @@
           "kind": "function",
           "type": "function DialogHeader(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "DialogHeaderProps",
-          "kind": "type",
-          "type": "export type DialogHeaderProps = React.ComponentProps<'div'>",
+          "kind": "interface",
+          "type": "export interface DialogHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -1333,12 +1903,27 @@
           "kind": "function",
           "type": "function DialogOverlay(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "DialogOverlayProps",
-          "kind": "type",
-          "type": "export type DialogOverlayProps = DialogPrimitive.Backdrop.Props",
+          "kind": "interface",
+          "type": "export interface DialogOverlayProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -1347,19 +1932,41 @@
           "kind": "function",
           "type": "function DialogPortal(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "container",
+              "optional": true,
+              "type": "PrimitivePortalContainer",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "DialogPortalProps",
-          "kind": "type",
-          "type": "export type DialogPortalProps = DialogPrimitive.Portal.Props",
+          "kind": "interface",
+          "type": "export interface DialogPortalProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
         {
           "name": "DialogProps",
           "kind": "interface",
-          "type": "export interface DialogProps extends Omit< DialogPrimitive.Root.Props, 'open' | 'onOpenChange' | 'children' >",
+          "type": "export interface DialogProps",
           "description": "",
           "props": []
         },
@@ -1375,12 +1982,27 @@
           "kind": "function",
           "type": "function DialogTitle(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "DialogTitleProps",
-          "kind": "type",
-          "type": "export type DialogTitleProps = DialogPrimitive.Title.Props",
+          "kind": "interface",
+          "type": "export interface DialogTitleProps extends React.HTMLAttributes<HTMLHeadingElement>",
           "description": "",
           "props": []
         },
@@ -1389,19 +2011,48 @@
           "kind": "function",
           "type": "function DialogTrigger(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLButtonElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "DialogTriggerButton",
-          "kind": "const",
-          "type": "const DialogTriggerButton = createTriggerButton( DialogPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'dialog-trigger',",
+          "kind": "function",
+          "type": "function DialogTriggerButton(props: DialogTriggerButtonProps)",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DialogTriggerButtonProps",
+          "kind": "type",
+          "type": "export type DialogTriggerButtonProps = Omit<DialogTriggerProps, 'children' | 'ref' | 'render'> & Pick< ButtonProps, | 'children' | 'variant' | 'size' | 'theme' | 'hasChevron' | 'color' | 'hoverColor' | 'textColor' | 'tex",
           "description": "",
           "props": []
         },
         {
           "name": "DialogTriggerProps",
-          "kind": "type",
-          "type": "export type DialogTriggerProps = DialogPrimitive.Trigger.Props &",
+          "kind": "interface",
+          "type": "export interface DialogTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
           "description": "",
           "props": []
         }
@@ -1433,6 +2084,13 @@
               "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -1446,14 +2104,14 @@
         {
           "name": "DottedDividerProps",
           "kind": "interface",
-          "type": "export interface DottedDividerProps extends React.ComponentProps<'div'>",
+          "type": "export interface DottedDividerProps extends Omit< React.ComponentProps<'div'>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
         {
           "name": "SplatoonColorValue",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "type",
+          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
           "description": "",
           "props": []
         }
@@ -1550,13 +2208,20 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "EventCalloutProps",
           "kind": "interface",
-          "type": "export interface EventCalloutProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>",
+          "type": "export interface EventCalloutProps extends Omit< React.ComponentProps<'article'>, 'children' | 'ref' | 'title' >",
           "description": "",
           "props": []
         }
@@ -1601,7 +2266,7 @@
         {
           "name": "FeedCarouselProps",
           "kind": "interface",
-          "type": "export interface FeedCarouselProps extends Omit< React.ComponentPropsWithoutRef<typeof Carousel>, 'children' >",
+          "type": "export interface FeedCarouselProps extends Omit<CarouselProps, 'children'>",
           "description": "",
           "props": []
         }
@@ -1633,13 +2298,20 @@
               "type": "number",
               "defaultValue": "",
               "description": "Wave height in px (default 120)"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "FooterProps",
           "kind": "interface",
-          "type": "export interface FooterProps extends React.HTMLAttributes<HTMLElement>",
+          "type": "export interface FooterProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'>",
           "description": "",
           "props": []
         }
@@ -1656,6 +2328,28 @@
           "name": "GalleryBounce",
           "kind": "function",
           "type": "export function GalleryBounce(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "GalleryBounceProps",
+          "kind": "interface",
+          "type": "export interface GalleryBounceProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -1687,6 +2381,13 @@
               "description": ""
             },
             {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "wrapButton",
               "optional": true,
               "type": "(direction: 'left' | 'right', button: React.ReactNode) => React.ReactNode",
@@ -1698,7 +2399,7 @@
         {
           "name": "GalleryControlsProps",
           "kind": "interface",
-          "type": "export interface GalleryControlsProps extends React.HTMLAttributes<HTMLDivElement>",
+          "type": "export interface GalleryControlsProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
           "description": "",
           "props": []
         }
@@ -1728,13 +2429,6 @@
               "name": "className",
               "optional": true,
               "type": "string",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
-              "name": "color",
-              "optional": true,
-              "type": "HeadingTapeColor",
               "defaultValue": "",
               "description": ""
             },
@@ -1772,6 +2466,13 @@
               "type": "HeadingTapeSize",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -1790,9 +2491,44 @@
           "props": []
         },
         {
+          "name": "HeadingTapeDecorationPosition",
+          "kind": "type",
+          "type": "export type HeadingTapeDecorationPosition = | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeDecorationSafeArea",
+          "kind": "type",
+          "type": "export type HeadingTapeDecorationSafeArea = Partial<Record<HeadingTapeSafeAreaEdge, string>>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeDecorationSet",
+          "kind": "type",
+          "type": "export type HeadingTapeDecorationSet = 'stickers' | 'none'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "HeadingTapeProps",
           "kind": "interface",
-          "type": "export interface HeadingTapeProps extends React.HTMLAttributes<HTMLDivElement>",
+          "type": "export interface HeadingTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeSafeAreaEdge",
+          "kind": "type",
+          "type": "export type HeadingTapeSafeAreaEdge = 'inlineStart' | 'inlineEnd' | 'blockStart' | 'blockEnd'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeSize",
+          "kind": "type",
+          "type": "export type HeadingTapeSize = 'default' | 'compact'",
           "description": "",
           "props": []
         }
@@ -1807,8 +2543,8 @@
       "exports": [
         {
           "name": "IconButton",
-          "kind": "const",
-          "type": "export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(",
+          "kind": "function",
+          "type": "export function IconButton(",
           "description": "",
           "props": [
             {
@@ -1843,6 +2579,13 @@
               "name": "icon",
               "optional": true,
               "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
               "defaultValue": "",
               "description": ""
             }
@@ -1917,7 +2660,7 @@
         {
           "name": "IconPaginatedCarouselProps",
           "kind": "interface",
-          "type": "export interface IconPaginatedCarouselProps extends React.ComponentPropsWithoutRef< typeof MarqueeCarousel >",
+          "type": "export interface IconPaginatedCarouselProps extends Omit< MarqueeCarouselProps, 'items' | 'pagination' | 'renderItem' >",
           "description": "",
           "props": []
         }
@@ -1935,12 +2678,20 @@
           "kind": "function",
           "type": "export function NavArrowDown(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "NavArrowDownProps",
-          "kind": "type",
-          "type": "export type NavArrowDownProps = React.SVGProps<SVGSVGElement>",
+          "kind": "interface",
+          "type": "export interface NavArrowDownProps extends Omit<React.SVGProps<SVGSVGElement>, 'children' | 'ref'>",
           "description": "Arrow-down icon for the back-to-top button.\nViewBox: 0 0 16 9.45",
           "props": []
         }
@@ -2000,6 +2751,13 @@
               "type": "InViewElement",
               "defaultValue": "",
               "description": "The single element to observe and animate"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -2014,6 +2772,13 @@
           "name": "InViewDirection",
           "kind": "type",
           "type": "export type InViewDirection = 'left' | 'right' | 'up' | 'up-min' | 'down' | 'pop'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "InViewElement",
+          "kind": "type",
+          "type": "export type InViewElement = React.ReactElement<",
           "description": "",
           "props": []
         },
@@ -2062,6 +2827,13 @@
               "name": "children",
               "optional": false,
               "type": "InViewElement",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
               "defaultValue": "",
               "description": ""
             }
@@ -2153,25 +2925,18 @@
               "description": "Called when animation completes"
             },
             {
-              "name": "className",
+              "name": "ref",
               "optional": true,
-              "type": "string",
+              "type": "React.Ref<HTMLDivElement>",
               "defaultValue": "",
-              "description": "Additional CSS class"
-            },
-            {
-              "name": "style",
-              "optional": true,
-              "type": "React.CSSProperties",
-              "defaultValue": "",
-              "description": "Additional CSS styles for the canvas container."
+              "description": ""
             }
           ]
         },
         {
           "name": "InkSplashCanvasProps",
           "kind": "interface",
-          "type": "export interface InkSplashCanvasProps",
+          "type": "export interface InkSplashCanvasProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' | 'color' >",
           "description": "",
           "props": []
         }
@@ -2252,13 +3017,20 @@
               "type": "number",
               "defaultValue": "",
               "description": "Particle z-index layer"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "InkTrailCanvasProps",
           "kind": "interface",
-          "type": "export interface InkTrailCanvasProps extends React.ComponentProps<'div'>",
+          "type": "export interface InkTrailCanvasProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         }
@@ -2276,12 +3048,20 @@
           "kind": "function",
           "type": "function Input(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "InputProps",
-          "kind": "type",
-          "type": "export type InputProps = React.ComponentProps<'input'>",
+          "kind": "interface",
+          "type": "export interface InputProps extends Omit<React.ComponentProps<'input'>, 'children' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -2299,12 +3079,20 @@
           "kind": "function",
           "type": "function Label(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLLabelElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "LabelProps",
-          "kind": "type",
-          "type": "export type LabelProps = React.ComponentProps<'label'>",
+          "kind": "interface",
+          "type": "export interface LabelProps extends Omit<React.ComponentProps<'label'>, 'ref'>",
           "description": "",
           "props": []
         }
@@ -2371,6 +3159,13 @@
               "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLOListElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -2386,20 +3181,27 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLLIElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "ListItemProps",
           "kind": "interface",
-          "type": "export interface ListItemProps extends React.ComponentProps<'li'>",
+          "type": "export interface ListItemProps extends Omit<React.ComponentProps<'li'>, 'ref'>",
           "description": "",
           "props": []
         },
         {
           "name": "ListProps",
           "kind": "interface",
-          "type": "export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start'>",
+          "type": "export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start' | 'ref'>",
           "description": "",
           "props": []
         },
@@ -2412,8 +3214,8 @@
         },
         {
           "name": "SplatoonColorValue",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "type",
+          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
           "description": "",
           "props": []
         }
@@ -2459,6 +3261,13 @@
               "type": "string",
               "defaultValue": "",
               "description": "Accessible status label."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLSpanElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -2472,7 +3281,7 @@
         {
           "name": "LoaderProps",
           "kind": "interface",
-          "type": "export interface LoaderProps extends React.HTMLAttributes<HTMLSpanElement>",
+          "type": "export interface LoaderProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'>",
           "description": "",
           "props": []
         }
@@ -2532,6 +3341,13 @@
               "type": "TapeVariant",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -2545,14 +3361,14 @@
         {
           "name": "MarqueeItemProps",
           "kind": "type",
-          "type": "export type MarqueeItemProps = React.ComponentProps<'span'>",
+          "type": "export type MarqueeItemProps = Omit<React.ComponentProps<'span'>, 'ref'> &",
           "description": "",
           "props": []
         },
         {
           "name": "MarqueeProps",
           "kind": "interface",
-          "type": "export interface MarqueeProps extends React.ComponentProps<'div'>",
+          "type": "export interface MarqueeProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         }
@@ -2611,7 +3427,7 @@
         {
           "name": "MarqueeCarouselProps",
           "kind": "interface",
-          "type": "export interface MarqueeCarouselProps extends Omit< React.ComponentPropsWithoutRef<typeof Carousel>, 'children' >",
+          "type": "export interface MarqueeCarouselProps extends Omit<CarouselProps, 'children'>",
           "description": "",
           "props": []
         },
@@ -2634,8 +3450,22 @@
               "type": "number",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
+        },
+        {
+          "name": "MarqueeGalleryItemProps",
+          "kind": "interface",
+          "type": "export interface MarqueeGalleryItemProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
         }
       ]
     },
@@ -2660,16 +3490,23 @@
               "description": ""
             },
             {
-              "name": "responsive",
+              "name": "media",
               "optional": true,
-              "type": "boolean",
+              "type": "string",
               "defaultValue": "",
               "description": ""
             },
             {
-              "name": "media",
+              "name": "position",
               "optional": true,
-              "type": "string",
+              "type": "MediaDecorationPosition",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "responsive",
+              "optional": true,
+              "type": "boolean",
               "defaultValue": "",
               "description": ""
             },
@@ -2693,13 +3530,27 @@
               "type": "string",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
+          "name": "MediaDecorationPosition",
+          "kind": "type",
+          "type": "export type MediaDecorationPosition = | 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "MediaDecorationProps",
           "kind": "interface",
-          "type": "export interface MediaDecorationProps extends Omit<CardSlotProps, 'children'>",
+          "type": "export interface MediaDecorationProps extends Omit< React.ComponentProps<'div'>, 'children' | 'ref' >",
           "description": "",
           "props": []
         }
@@ -2726,9 +3577,9 @@
               "description": ""
             },
             {
-              "name": "className",
+              "name": "ref",
               "optional": true,
-              "type": "string",
+              "type": "React.Ref<SVGSVGElement>",
               "defaultValue": "",
               "description": ""
             }
@@ -2737,7 +3588,7 @@
         {
           "name": "NavChevronProps",
           "kind": "interface",
-          "type": "export interface NavChevronProps",
+          "type": "export interface NavChevronProps extends Omit<React.SVGProps<SVGSVGElement>, 'children' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -2762,13 +3613,20 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "NavMenuButtonProps",
           "kind": "interface",
-          "type": "export interface NavMenuButtonProps extends React.ComponentProps<'button'>",
+          "type": "export interface NavMenuButtonProps extends Omit< React.ComponentProps<'button'>, 'children' | 'ref' >",
           "description": "",
           "props": []
         }
@@ -2933,7 +3791,7 @@
             {
               "name": "onNavigate",
               "optional": true,
-              "type": "(href: string) => void",
+              "type": "(href: string, event?: React.MouseEvent<HTMLAnchorElement>) => void",
               "defaultValue": "",
               "description": ""
             },
@@ -3062,6 +3920,13 @@
               "type": "() => void",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<PageTransitionHandle>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -3075,7 +3940,7 @@
         {
           "name": "PageTransitionProps",
           "kind": "interface",
-          "type": "export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "type": "export interface PageTransitionProps extends Omit<React.ComponentProps<'div'>, 'color' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -3135,13 +4000,20 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "PaperSurfaceProps",
           "kind": "interface",
-          "type": "export interface PaperSurfaceProps extends React.ComponentProps<'div'>",
+          "type": "export interface PaperSurfaceProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -3180,13 +4052,20 @@
               "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "PaperTearEdgeProps",
           "kind": "interface",
-          "type": "export interface PaperTearEdgeProps extends React.ComponentProps<'svg'>",
+          "type": "export interface PaperTearEdgeProps extends Omit< React.ComponentProps<'svg'>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -3199,8 +4078,8 @@
         },
         {
           "name": "SplatoonColorValue",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "type",
+          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
           "description": "",
           "props": []
         }
@@ -3232,13 +4111,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "Decoration type"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "PhotoDecorationProps",
           "kind": "interface",
-          "type": "export interface PhotoDecorationProps extends React.ComponentProps<'div'>",
+          "type": "export interface PhotoDecorationProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -3324,13 +4210,27 @@
               "type": "boolean",
               "defaultValue": "",
               "description": "Fill width (block display)"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "PhotoFrameProps",
           "kind": "interface",
-          "type": "export interface PhotoFrameProps extends React.ComponentProps<'div'>",
+          "type": "export interface PhotoFrameProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PhotoFrameVariant",
+          "kind": "type",
+          "type": "export type PhotoFrameVariant = 'a' | 'b' | 'c' | 'd' | 'e'",
           "description": "",
           "props": []
         },
@@ -3353,13 +4253,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "Tape type"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "PhotoTapeProps",
           "kind": "interface",
-          "type": "export interface PhotoTapeProps extends React.ComponentProps<'div'>",
+          "type": "export interface PhotoTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         }
@@ -3377,39 +4284,124 @@
           "kind": "function",
           "type": "function Popover(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultOpen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "modal",
+              "optional": true,
+              "type": "boolean | 'trap-focus'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "(open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChangeComplete",
+              "optional": true,
+              "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "triggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultTriggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverContent",
-          "kind": "const",
-          "type": "const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>( function PopoverContent(",
+          "kind": "function",
+          "type": "function PopoverContent(",
           "description": "",
           "props": [
             {
               "name": "align",
               "optional": true,
-              "type": "PopoverPrimitive.Positioner.Props['align']",
+              "type": "PrimitivePopupAlign",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "alignOffset",
               "optional": true,
-              "type": "PopoverPrimitive.Positioner.Props['alignOffset']",
+              "type": "PrimitivePopupOffset",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "side",
               "optional": true,
-              "type": "PopoverPrimitive.Positioner.Props['side']",
+              "type": "PrimitivePopupSide",
               "defaultValue": "",
               "description": ""
             },
             {
               "name": "sideOffset",
               "optional": true,
-              "type": "PopoverPrimitive.Positioner.Props['sideOffset']",
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "initialFocus",
+              "optional": true,
+              "type": "PrimitiveFocusTarget",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "finalFocus",
+              "optional": true,
+              "type": "PrimitiveFocusTarget",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
               "defaultValue": "",
               "description": ""
             }
@@ -3418,7 +4410,7 @@
         {
           "name": "PopoverContentProps",
           "kind": "interface",
-          "type": "export interface PopoverContentProps extends PopoverPrimitive.Popup.Props",
+          "type": "export interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -3427,12 +4419,27 @@
           "kind": "function",
           "type": "function PopoverDescription(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverDescriptionProps",
-          "kind": "type",
-          "type": "export type PopoverDescriptionProps = PopoverPrimitive.Description.Props",
+          "kind": "interface",
+          "type": "export interface PopoverDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement>",
           "description": "",
           "props": []
         },
@@ -3441,12 +4448,20 @@
           "kind": "function",
           "type": "function PopoverHeader(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverHeaderProps",
-          "kind": "type",
-          "type": "export type PopoverHeaderProps = React.ComponentProps<'div'>",
+          "kind": "interface",
+          "type": "export interface PopoverHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -3455,12 +4470,34 @@
           "kind": "function",
           "type": "function PopoverPortal(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "container",
+              "optional": true,
+              "type": "PrimitivePortalContainer",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverPortalProps",
-          "kind": "type",
-          "type": "export type PopoverPortalProps = PopoverPrimitive.Portal.Props",
+          "kind": "interface",
+          "type": "export interface PopoverPortalProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -3469,19 +4506,62 @@
           "kind": "function",
           "type": "function PopoverPositioner(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "align",
+              "optional": true,
+              "type": "PrimitivePopupAlign",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "optional": true,
+              "type": "PrimitivePopupSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sideOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverPositionerProps",
-          "kind": "type",
-          "type": "export type PopoverPositionerProps = PopoverPrimitive.Positioner.Props",
+          "kind": "interface",
+          "type": "export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
         {
           "name": "PopoverProps",
-          "kind": "type",
-          "type": "export type PopoverProps = PopoverPrimitive.Root.Props",
+          "kind": "interface",
+          "type": "export interface PopoverProps",
           "description": "",
           "props": []
         },
@@ -3490,12 +4570,27 @@
           "kind": "function",
           "type": "function PopoverTitle(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverTitleProps",
-          "kind": "type",
-          "type": "export type PopoverTitleProps = PopoverPrimitive.Title.Props",
+          "kind": "interface",
+          "type": "export interface PopoverTitleProps extends React.HTMLAttributes<HTMLHeadingElement>",
           "description": "",
           "props": []
         },
@@ -3504,19 +4599,69 @@
           "kind": "function",
           "type": "function PopoverTrigger(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "openOnHover",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "delay",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "closeDelay",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLButtonElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverTriggerButton",
-          "kind": "const",
-          "type": "const PopoverTriggerButton = createTriggerButton( PopoverPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'popover-trigger' )",
+          "kind": "function",
+          "type": "function PopoverTriggerButton(props: PopoverTriggerButtonProps)",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTriggerButtonProps",
+          "kind": "type",
+          "type": "export type PopoverTriggerButtonProps = Omit<PopoverTriggerProps, 'children' | 'ref' | 'render'> & Pick< ButtonProps, | 'children' | 'variant' | 'size' | 'theme' | 'hasChevron' | 'color' | 'hoverColor' | 'textColor' | 't",
           "description": "",
           "props": []
         },
         {
           "name": "PopoverTriggerProps",
-          "kind": "type",
-          "type": "export type PopoverTriggerProps = PopoverPrimitive.Trigger.Props",
+          "kind": "interface",
+          "type": "export interface PopoverTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
           "description": "",
           "props": []
         }
@@ -3546,6 +4691,13 @@
               "name": "max",
               "optional": true,
               "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "getValueLabel",
+              "optional": true,
+              "type": "(value: number, max: number) => string",
               "defaultValue": "",
               "description": ""
             },
@@ -3583,13 +4735,20 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "ProgressProps",
           "kind": "interface",
-          "type": "export interface ProgressProps extends Omit< React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>, 'children' | 'max' | 'value' >",
+          "type": "export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>",
           "description": "",
           "props": []
         },
@@ -3628,26 +4787,161 @@
           "kind": "function",
           "type": "function RadioGroup(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "defaultValue",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "form",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onValueChange",
+              "optional": true,
+              "type": "(value: string, eventDetails: PrimitiveChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "RadioGroupItem",
           "kind": "function",
           "type": "function RadioGroupItem(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLElement, PrimitiveCheckedRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": false,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "RadioGroupItemProps",
-          "kind": "type",
-          "type": "export type RadioGroupItemProps = RadioPrimitive.Root.Props",
+          "kind": "interface",
+          "type": "export interface RadioGroupItemProps extends Omit< React.HTMLAttributes<HTMLElement>, 'children' | 'onChange' | 'value' >",
           "description": "",
           "props": []
         },
         {
           "name": "RadioGroupProps",
-          "kind": "type",
-          "type": "export type RadioGroupProps = RadioGroupPrimitive.Props",
+          "kind": "interface",
+          "type": "export interface RadioGroupProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange' | 'value' >",
           "description": "",
           "props": []
         }
@@ -3686,13 +4980,20 @@
               "type": "React.ReactNode",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "RuggedCardProps",
           "kind": "interface",
-          "type": "export interface RuggedCardProps extends React.ComponentProps<'div'>",
+          "type": "export interface RuggedCardProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -3768,6 +5069,13 @@
               "description": "Reserve content-safe space for decorative overlays painted across the section edge."
             },
             {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "style",
               "optional": true,
               "type": "React.CSSProperties",
@@ -3830,6 +5138,13 @@
               "name": "as",
               "optional": true,
               "type": "'div' | 'section'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
               "defaultValue": "",
               "description": ""
             }
@@ -3905,13 +5220,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "Accessible label for the \"back to top\" button."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "SectionSideNavProps",
           "kind": "interface",
-          "type": "export interface SectionSideNavProps extends React.ComponentProps<'nav'>",
+          "type": "export interface SectionSideNavProps extends Omit<React.ComponentProps<'nav'>, 'children' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -3945,6 +5267,13 @@
               "description": ""
             },
             {
+              "name": "defaultValue",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "density",
               "optional": true,
               "type": "SegmentedControlDensity",
@@ -3952,7 +5281,21 @@
               "description": ""
             },
             {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "fillImageHref",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "form",
               "optional": true,
               "type": "string",
               "defaultValue": "",
@@ -3966,6 +5309,27 @@
               "description": ""
             },
             {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onValueChange",
+              "optional": true,
+              "type": "(value: string, eventDetails: PrimitiveChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "orientation",
               "optional": true,
               "type": "SegmentedControlOrientation",
@@ -3973,9 +5337,44 @@
               "description": ""
             },
             {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "style",
               "optional": true,
               "type": "React.CSSProperties",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "string",
               "defaultValue": "",
               "description": ""
             }
@@ -4014,13 +5413,55 @@
               "type": "Omit<ButtonGroupItemProps, 'children' | 'ref' | 'value'>",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": false,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "SegmentedControlItemProps",
           "kind": "interface",
-          "type": "export interface SegmentedControlItemProps extends RadioPrimitive.Root.Props<string>",
+          "type": "export interface SegmentedControlItemProps extends Omit< React.HTMLAttributes<HTMLElement>, 'onChange' >",
           "description": "",
           "props": []
         },
@@ -4034,14 +5475,14 @@
         {
           "name": "SegmentedControlProps",
           "kind": "interface",
-          "type": "export interface SegmentedControlProps extends Omit<RadioGroupPrimitive.Props<string>, 'style'>",
+          "type": "export interface SegmentedControlProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'color' | 'defaultValue' | 'onChange' | 'value' >",
           "description": "",
           "props": []
         },
         {
           "name": "SplatoonControlTrackColor",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "type",
+          "type": "export type SplatoonControlTrackColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple'",
           "description": "",
           "props": []
         }
@@ -4056,22 +5497,255 @@
       "exports": [
         {
           "name": "Select",
-          "kind": "const",
-          "type": "const Select = SelectPrimitive.Root",
+          "kind": "function",
+          "type": "function Select<Value = string, Multiple extends boolean | undefined = false>( props: SelectProps<Value, Multiple> )",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "form",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "autoComplete",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "id",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "multiple",
+              "optional": true,
+              "type": "Multiple",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "highlightItemOnHover",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultOpen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "modal",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "(open: boolean, eventDetails: PrimitiveChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChangeComplete",
+              "optional": true,
+              "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "items",
+              "optional": true,
+              "type": "| { readonly [value: string]: React.ReactNode } | ReadonlyArray<SelectItemRecord<Value>> | ReadonlyArray<SelectItemGroup<Value>>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemToStringLabel",
+              "optional": true,
+              "type": "(itemValue: Value) => string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemToStringValue",
+              "optional": true,
+              "type": "(itemValue: Value) => string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "isItemEqualToValue",
+              "optional": true,
+              "type": "(itemValue: Value, value: Value) => boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultValue",
+              "optional": true,
+              "type": "SelectValueType<Value, Multiple> | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "SelectValueType<Value, Multiple> | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onValueChange",
+              "optional": true,
+              "type": "( value: SelectValueType<Value, Multiple> | (Multiple extends true ? never : null), eventDetails: PrimitiveChangeDetails ) => void",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SelectContent",
           "kind": "function",
           "type": "function SelectContent(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "align",
+              "optional": true,
+              "type": "PrimitivePopupAlign",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "optional": true,
+              "type": "PrimitivePopupSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sideOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignItemWithTrigger",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "finalFocus",
+              "optional": true,
+              "type": "PrimitiveFocusTarget",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showScrollButtons",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SelectContentProps",
+          "kind": "interface",
+          "type": "export interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectCurrentValue",
           "kind": "type",
-          "type": "export type SelectContentProps = SelectPrimitive.Popup.Props & Pick< SelectPrimitive.Positioner.Props, 'align' | 'alignOffset' | 'side' | 'sideOffset' | 'alignItemWithTrigger' > &",
+          "type": "export type SelectCurrentValue< Value, Multiple extends boolean | undefined = false, > = SelectValueType<Value, Multiple> | null",
           "description": "",
           "props": []
         },
@@ -4080,26 +5754,91 @@
           "kind": "function",
           "type": "function SelectGroup(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SelectGroupProps",
-          "kind": "type",
-          "type": "export type SelectGroupProps = SelectPrimitive.Group.Props",
+          "kind": "interface",
+          "type": "export interface SelectGroupProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
         {
           "name": "SelectItem",
           "kind": "function",
-          "type": "function SelectItem(",
+          "type": "function SelectItem<Value = string>(",
+          "description": "",
+          "props": [
+            {
+              "name": "value",
+              "optional": true,
+              "type": "Value",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "label",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLElement, { disabled: boolean selected: boolean highlighted: boolean } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectItemGroup",
+          "kind": "interface",
+          "type": "export interface SelectItemGroup<Value>",
           "description": "",
           "props": []
         },
         {
           "name": "SelectItemProps",
-          "kind": "type",
-          "type": "export type SelectItemProps = SelectPrimitive.Item.Props",
+          "kind": "interface",
+          "type": "export interface SelectItemProps<Value = string> extends Omit< React.HTMLAttributes<HTMLDivElement>, 'value' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectItemRecord",
+          "kind": "interface",
+          "type": "export interface SelectItemRecord<Value>",
           "description": "",
           "props": []
         },
@@ -4108,19 +5847,34 @@
           "kind": "function",
           "type": "function SelectLabel(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SelectLabelProps",
-          "kind": "type",
-          "type": "export type SelectLabelProps = SelectPrimitive.GroupLabel.Props",
+          "kind": "interface",
+          "type": "export interface SelectLabelProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
         {
           "name": "SelectProps",
-          "kind": "type",
-          "type": "export type SelectProps = SelectPrimitive.Root.Props<string>",
+          "kind": "interface",
+          "type": "export interface SelectProps<Value = string, Multiple extends boolean | undefined = false>",
           "description": "",
           "props": []
         },
@@ -4129,12 +5883,34 @@
           "kind": "function",
           "type": "function SelectScrollDownButton(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SelectScrollDownButtonProps",
-          "kind": "type",
-          "type": "export type SelectScrollDownButtonProps = React.ComponentProps< typeof SelectPrimitive.ScrollDownArrow >",
+          "kind": "interface",
+          "type": "export interface SelectScrollDownButtonProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
           "description": "",
           "props": []
         },
@@ -4143,12 +5919,34 @@
           "kind": "function",
           "type": "function SelectScrollUpButton(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SelectScrollUpButtonProps",
-          "kind": "type",
-          "type": "export type SelectScrollUpButtonProps = React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>",
+          "kind": "interface",
+          "type": "export interface SelectScrollUpButtonProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
           "description": "",
           "props": []
         },
@@ -4157,19 +5955,41 @@
           "kind": "function",
           "type": "function SelectSeparator(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "'horizontal' | 'vertical'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SelectSeparatorProps",
-          "kind": "type",
-          "type": "export type SelectSeparatorProps = SelectPrimitive.Separator.Props",
+          "kind": "interface",
+          "type": "export interface SelectSeparatorProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
           "description": "",
           "props": []
         },
         {
           "name": "SelectTrigger",
           "kind": "function",
-          "type": "function SelectTrigger(",
+          "type": "function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>(",
           "description": "",
           "props": [
             {
@@ -4178,27 +5998,77 @@
               "type": "'sm' | 'default'",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLButtonElement, PrimitiveOpenRenderState & { readOnly: boolean popupSide: PrimitivePopupSide | null value: SelectCurrentValue<Value, Multiple> placeholder: boolean } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "SelectTriggerProps",
           "kind": "interface",
-          "type": "export interface SelectTriggerProps extends SelectPrimitive.Trigger.Props",
+          "type": "export interface SelectTriggerProps< Value = string, Multiple extends boolean | undefined = false, > extends React.ButtonHTMLAttributes<HTMLButtonElement>",
           "description": "",
           "props": []
         },
         {
           "name": "SelectValue",
           "kind": "function",
-          "type": "function SelectValue(",
+          "type": "function SelectValue<Value = string, Multiple extends boolean | undefined = false>(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode | ((value: SelectCurrentValue<Value, Multiple>) => React.ReactNode)",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "placeholder",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLSpanElement, { value: SelectCurrentValue<Value, Multiple> placeholder: boolean } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLSpanElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectValueProps",
+          "kind": "interface",
+          "type": "export interface SelectValueProps< Value = string, Multiple extends boolean | undefined = false, > extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'>",
           "description": "",
           "props": []
         },
         {
-          "name": "SelectValueProps",
+          "name": "SelectValueType",
           "kind": "type",
-          "type": "export type SelectValueProps = SelectPrimitive.Value.Props",
+          "type": "export type SelectValueType< Value, Multiple extends boolean | undefined = false, > = Multiple extends true ? Value[] : Value",
           "description": "",
           "props": []
         }
@@ -4216,12 +6086,76 @@
           "kind": "function",
           "type": "function Sheet(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultOpen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "modal",
+              "optional": true,
+              "type": "boolean | 'trap-focus'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disablePointerDismissal",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "(open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChangeComplete",
+              "optional": true,
+              "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "triggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultTriggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetContent",
-          "kind": "const",
-          "type": "const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(function SheetContent(",
+          "kind": "function",
+          "type": "function SheetContent(",
           "description": "",
           "props": [
             {
@@ -4243,7 +6177,7 @@
         {
           "name": "SheetContentProps",
           "kind": "interface",
-          "type": "export interface SheetContentProps extends SheetPrimitive.Popup.Props",
+          "type": "export interface SheetContentProps extends SheetPopupBaseProps",
           "description": "",
           "props": []
         },
@@ -4252,12 +6186,27 @@
           "kind": "function",
           "type": "function SheetDescription(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetDescriptionProps",
-          "kind": "type",
-          "type": "export type SheetDescriptionProps = SheetPrimitive.Description.Props",
+          "kind": "interface",
+          "type": "export interface SheetDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement>",
           "description": "",
           "props": []
         },
@@ -4266,12 +6215,20 @@
           "kind": "function",
           "type": "function SheetFooter(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetFooterProps",
-          "kind": "type",
-          "type": "export type SheetFooterProps = React.ComponentProps<'div'>",
+          "kind": "interface",
+          "type": "export interface SheetFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -4280,12 +6237,20 @@
           "kind": "function",
           "type": "function SheetHeader(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetHeaderProps",
-          "kind": "type",
-          "type": "export type SheetHeaderProps = React.ComponentProps<'div'>",
+          "kind": "interface",
+          "type": "export interface SheetHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -4294,19 +6259,34 @@
           "kind": "function",
           "type": "function SheetOverlay(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetOverlayProps",
-          "kind": "type",
-          "type": "export type SheetOverlayProps = SheetPrimitive.Backdrop.Props",
+          "kind": "interface",
+          "type": "export interface SheetOverlayProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
         {
           "name": "SheetPopup",
-          "kind": "const",
-          "type": "const SheetPopup = React.forwardRef<HTMLDivElement, SheetPopupProps>(function SheetPopup(",
+          "kind": "function",
+          "type": "function SheetPopup(",
           "description": "",
           "props": [
             {
@@ -4328,7 +6308,7 @@
         {
           "name": "SheetPopupProps",
           "kind": "interface",
-          "type": "export interface SheetPopupProps extends SheetPrimitive.Popup.Props",
+          "type": "export interface SheetPopupProps extends SheetPopupBaseProps",
           "description": "",
           "props": []
         },
@@ -4337,19 +6317,41 @@
           "kind": "function",
           "type": "function SheetPortal(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "container",
+              "optional": true,
+              "type": "PrimitivePortalContainer",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetPortalProps",
-          "kind": "type",
-          "type": "export type SheetPortalProps = SheetPrimitive.Portal.Props",
+          "kind": "interface",
+          "type": "export interface SheetPortalProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
         {
           "name": "SheetProps",
-          "kind": "type",
-          "type": "export type SheetProps = SheetPrimitive.Root.Props",
+          "kind": "interface",
+          "type": "export interface SheetProps",
           "description": "",
           "props": []
         },
@@ -4365,12 +6367,27 @@
           "kind": "function",
           "type": "function SheetTitle(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetTitleProps",
-          "kind": "type",
-          "type": "export type SheetTitleProps = SheetPrimitive.Title.Props",
+          "kind": "interface",
+          "type": "export interface SheetTitleProps extends React.HTMLAttributes<HTMLHeadingElement>",
           "description": "",
           "props": []
         },
@@ -4379,19 +6396,48 @@
           "kind": "function",
           "type": "function SheetTrigger(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLButtonElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetTriggerButton",
-          "kind": "const",
-          "type": "const SheetTriggerButton = createTriggerButton( SheetPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>, 'sheet-trigger' )",
+          "kind": "function",
+          "type": "function SheetTriggerButton(props: SheetTriggerButtonProps)",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTriggerButtonProps",
+          "kind": "type",
+          "type": "export type SheetTriggerButtonProps = Omit<SheetTriggerProps, 'children' | 'ref' | 'render'> & Pick< ButtonProps, | 'children' | 'variant' | 'size' | 'theme' | 'hasChevron' | 'color' | 'hoverColor' | 'textColor' | 'textH",
           "description": "",
           "props": []
         },
         {
           "name": "SheetTriggerProps",
-          "kind": "type",
-          "type": "export type SheetTriggerProps = SheetPrimitive.Trigger.Props",
+          "kind": "interface",
+          "type": "export interface SheetTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
           "description": "",
           "props": []
         }
@@ -4458,13 +6504,20 @@
               "type": "React.ReactNode",
               "defaultValue": "",
               "description": "Text content (used as fallback or alt text)"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "SplatoonTitleProps",
           "kind": "interface",
-          "type": "export interface SplatoonTitleProps extends React.ComponentProps<'div'>",
+          "type": "export interface SplatoonTitleProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -4535,9 +6588,16 @@
             {
               "name": "splatIds",
               "optional": true,
-              "type": "number[]",
+              "type": "readonly SplatId[]",
               "defaultValue": "",
               "description": "Specific splat IDs to pick from. Defaults to all bundled splat shapes."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -4552,6 +6612,21 @@
           "name": "NavSplat",
           "kind": "function",
           "type": "export function NavSplat(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "NavSplatProps",
+          "kind": "interface",
+          "type": "export interface NavSplatProps extends Omit<React.SVGProps<SVGSVGElement>, 'children' | 'ref'>",
           "description": "Ink splat decoration behind the active section nav item.\nPorted from official splatoon.nintendo.com `icon-gallery-nav-splat` symbol.\nViewBox: 0 0 156 136",
           "props": []
         },
@@ -4564,7 +6639,7 @@
             {
               "name": "id",
               "optional": false,
-              "type": "number",
+              "type": "SplatId",
               "defaultValue": "",
               "description": "Bundled splat ID (1 to 12)"
             },
@@ -4574,6 +6649,13 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -4589,6 +6671,13 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -4604,13 +6693,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat10Props",
           "kind": "interface",
-          "type": "export interface Splat10Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat10Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4626,13 +6722,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat11Props",
           "kind": "interface",
-          "type": "export interface Splat11Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat11Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4648,20 +6751,27 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat12Props",
           "kind": "interface",
-          "type": "export interface Splat12Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat12Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
         {
           "name": "Splat1Props",
           "kind": "interface",
-          "type": "export interface Splat1Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat1Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4677,13 +6787,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat2Props",
           "kind": "interface",
-          "type": "export interface Splat2Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat2Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4699,13 +6816,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat3Props",
           "kind": "interface",
-          "type": "export interface Splat3Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat3Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4721,13 +6845,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat4Props",
           "kind": "interface",
-          "type": "export interface Splat4Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat4Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4743,13 +6874,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat5Props",
           "kind": "interface",
-          "type": "export interface Splat5Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat5Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4765,13 +6903,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat6Props",
           "kind": "interface",
-          "type": "export interface Splat6Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat6Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4787,13 +6932,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat7Props",
           "kind": "interface",
-          "type": "export interface Splat7Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat7Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4809,13 +6961,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat8Props",
           "kind": "interface",
-          "type": "export interface Splat8Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat8Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
           "description": "",
           "props": []
         },
@@ -4831,20 +6990,34 @@
               "type": "string",
               "defaultValue": "",
               "description": "CSS color value or CSS variable e.g. \"var(--color-yellow)\""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "Splat9Props",
           "kind": "interface",
-          "type": "export interface Splat9Props extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface Splat9Props extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'ref' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatId",
+          "kind": "type",
+          "type": "export type SplatId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12",
           "description": "",
           "props": []
         },
         {
           "name": "SplatProps",
           "kind": "interface",
-          "type": "export interface SplatProps extends Omit<React.SVGProps<SVGSVGElement>, 'id'>",
+          "type": "export interface SplatProps extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'color' | 'id' | 'ref' >",
           "description": "",
           "props": []
         }
@@ -4932,6 +7105,13 @@
               "name": "onRevealed",
               "optional": true,
               "type": "() => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SquidMaskTransitionHandle>",
               "defaultValue": "",
               "description": ""
             }
@@ -5035,6 +7215,13 @@
               "type": "React.ReactNode",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -5043,12 +7230,27 @@
           "kind": "function",
           "type": "function StapleCardDescription(",
           "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleCardDescriptionProps",
+          "kind": "interface",
+          "type": "export interface StapleCardDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
           "props": []
         },
         {
           "name": "StapleCardProps",
           "kind": "interface",
-          "type": "export interface StapleCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>",
+          "type": "export interface StapleCardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'>",
           "description": "",
           "props": []
         },
@@ -5056,6 +7258,28 @@
           "name": "StapleCardTitle",
           "kind": "function",
           "type": "function StapleCardTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleCardTitleProps",
+          "kind": "interface",
+          "type": "export interface StapleCardTitleProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "StapleCardVariant",
+          "kind": "type",
+          "type": "export type StapleCardVariant = 'a' | 'b' | 'c' | 'd'",
           "description": "",
           "props": []
         }
@@ -5073,12 +7297,20 @@
           "kind": "function",
           "type": "export function Sticker10(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLImageElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "Sticker10Props",
-          "kind": "type",
-          "type": "export type Sticker10Props = Omit< React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width' >",
+          "kind": "interface",
+          "type": "export interface Sticker10Props extends Omit< React.ComponentProps<'img'>, 'children' | 'height' | 'ref' | 'src' | 'srcSet' | 'width' >",
           "description": "",
           "props": []
         },
@@ -5087,12 +7319,20 @@
           "kind": "function",
           "type": "export function Sticker2Red(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLImageElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "Sticker2RedProps",
-          "kind": "type",
-          "type": "export type Sticker2RedProps = Omit< React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width' >",
+          "kind": "interface",
+          "type": "export interface Sticker2RedProps extends Omit< React.ComponentProps<'img'>, 'children' | 'height' | 'ref' | 'src' | 'srcSet' | 'width' >",
           "description": "",
           "props": []
         },
@@ -5101,12 +7341,20 @@
           "kind": "function",
           "type": "export function Sticker5(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLImageElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "Sticker5Props",
-          "kind": "type",
-          "type": "export type Sticker5Props = Omit<React.ComponentProps<'img'>, 'height' | 'src' | 'srcSet' | 'width'>",
+          "kind": "interface",
+          "type": "export interface Sticker5Props extends Omit< React.ComponentProps<'img'>, 'children' | 'height' | 'ref' | 'src' | 'srcSet' | 'width' >",
           "description": "",
           "props": []
         }
@@ -5121,8 +7369,8 @@
       "exports": [
         {
           "name": "SplatoonControlTrackColor",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "type",
+          "type": "export type SplatoonControlTrackColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple'",
           "description": "",
           "props": []
         },
@@ -5133,9 +7381,30 @@
           "description": "",
           "props": [
             {
+              "name": "checked",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "color",
               "optional": true,
               "type": "SwitchColor",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultChecked",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
               "defaultValue": "",
               "description": ""
             },
@@ -5147,9 +7416,44 @@
               "description": ""
             },
             {
+              "name": "form",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "offLabel",
               "optional": true,
               "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onCheckedChange",
+              "optional": true,
+              "type": "(checked: boolean, eventDetails: PrimitiveChangeDetails) => void",
               "defaultValue": "",
               "description": ""
             },
@@ -5161,9 +7465,51 @@
               "description": ""
             },
             {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLElement, PrimitiveCheckedRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "size",
               "optional": true,
               "type": "SwitchSize",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "uncheckedValue",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "string",
               "defaultValue": "",
               "description": ""
             }
@@ -5179,7 +7525,7 @@
         {
           "name": "SwitchProps",
           "kind": "interface",
-          "type": "export interface SwitchProps extends SwitchPrimitive.Root.Props",
+          "type": "export interface SwitchProps extends Omit< React.HTMLAttributes<HTMLElement>, 'checked' | 'children' | 'color' | 'defaultChecked' | 'onChange' | 'value' >",
           "description": "",
           "props": []
         },
@@ -5204,12 +7550,112 @@
           "kind": "function",
           "type": "function Tabs(",
           "description": "",
+          "props": [
+            {
+              "name": "value",
+              "optional": true,
+              "type": "TabsValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultValue",
+              "optional": true,
+              "type": "TabsValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "TabsOrientation",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onValueChange",
+              "optional": true,
+              "type": "(value: TabsValue, eventDetails: TabsChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLDivElement, { orientation: TabsOrientation tabActivationDirection: TabsActivationDirection } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TabsActivationDirection",
+          "kind": "type",
+          "type": "export type TabsActivationDirection = 'left' | 'right' | 'up' | 'down' | 'none'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsChangeDetails",
+          "kind": "interface",
+          "type": "export interface TabsChangeDetails extends PrimitiveChangeDetails",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsChangeReason",
+          "kind": "type",
+          "type": "export type TabsChangeReason = 'none' | 'disabled' | 'missing' | 'initial'",
+          "description": "",
           "props": []
         },
         {
           "name": "TabsContent",
           "kind": "function",
           "type": "function TabsContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "value",
+              "optional": false,
+              "type": "TabsValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLDivElement, { hidden: boolean orientation: TabsOrientation transitionStatus?: string } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TabsContentProps",
+          "kind": "interface",
+          "type": "export interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement>",
           "description": "",
           "props": []
         },
@@ -5219,6 +7665,20 @@
           "type": "function TabsList(",
           "description": "",
           "props": [
+            {
+              "name": "activateOnFocus",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "loopFocus",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
             {
               "name": "variant",
               "optional": true,
@@ -5239,6 +7699,20 @@
               "type": "string",
               "defaultValue": "",
               "description": "Override the inferred hover/active decoration color with any CSS color value."
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -5252,7 +7726,7 @@
         {
           "name": "TabsListProps",
           "kind": "interface",
-          "type": "export interface TabsListProps extends Omit<TabsPrimitive.List.Props, 'color'>",
+          "type": "export interface TabsListProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'color'>",
           "description": "",
           "props": []
         },
@@ -5260,6 +7734,13 @@
           "name": "TabsListVariant",
           "kind": "type",
           "type": "export type TabsListVariant = 'default' | 'line' | 'trapezoid'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsOrientation",
+          "kind": "type",
+          "type": "export type TabsOrientation = 'horizontal' | 'vertical'",
           "description": "",
           "props": []
         },
@@ -5289,6 +7770,13 @@
               "type": "number",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -5300,9 +7788,73 @@
           "props": []
         },
         {
+          "name": "TabsProps",
+          "kind": "interface",
+          "type": "export interface TabsProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange' | 'value' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsSwipeMode",
+          "kind": "type",
+          "type": "export type TabsSwipeMode = boolean | 'coarse' | 'always'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "TabsTrigger",
           "kind": "function",
           "type": "function TabsTrigger(",
+          "description": "",
+          "props": [
+            {
+              "name": "value",
+              "optional": false,
+              "type": "TabsValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLElement, { disabled: boolean active: boolean orientation: TabsOrientation } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TabsTriggerProps",
+          "kind": "interface",
+          "type": "export interface TabsTriggerProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'value' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TabsValue",
+          "kind": "type",
+          "type": "export type TabsValue = string | number | null",
           "description": "",
           "props": []
         }
@@ -5320,12 +7872,20 @@
           "kind": "function",
           "type": "export function TagHanger(",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "TagHangerProps",
-          "kind": "type",
-          "type": "export type TagHangerProps = React.SVGProps<SVGSVGElement>",
+          "kind": "interface",
+          "type": "export interface TagHangerProps extends Omit<React.SVGProps<SVGSVGElement>, 'children' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -5350,13 +7910,20 @@
               "type": "'left' | 'right' | 'top' | 'bottom'",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "StapleProps",
           "kind": "interface",
-          "type": "export interface StapleProps extends React.ComponentProps<'div'>",
+          "type": "export interface StapleProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -5379,13 +7946,20 @@
               "type": "'top-left' | 'top-right' | 'center' | 'bottom-left' | 'bottom-right' | 'news' | 'event'",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "TapeProps",
           "kind": "interface",
-          "type": "export interface TapeProps extends React.ComponentProps<'div'>",
+          "type": "export interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -5475,13 +8049,20 @@
               "type": "boolean",
               "defaultValue": "",
               "description": "Apply negative margin so next section overlaps the tape"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "TapeDividerProps",
           "kind": "interface",
-          "type": "export interface TapeDividerProps extends React.HTMLAttributes<HTMLDivElement>",
+          "type": "export interface TapeDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>",
           "description": "",
           "props": []
         }
@@ -5525,6 +8106,13 @@
               "name": "fill",
               "optional": true,
               "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLImageElement>",
               "defaultValue": "",
               "description": ""
             }
@@ -5608,13 +8196,20 @@
               "type": "React.ReactNode",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "TapeTitleProps",
           "kind": "interface",
-          "type": "export interface TapeTitleProps extends React.HTMLAttributes<HTMLDivElement>",
+          "type": "export interface TapeTitleProps extends Omit<React.ComponentProps<'div'>, 'color' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -5674,6 +8269,13 @@
               "type": "'top-right' | 'bottom-center'",
               "defaultValue": "",
               "description": "Tape position at card edge"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -5682,26 +8284,70 @@
           "kind": "function",
           "type": "function TornCardDescription(",
           "description": "",
+          "props": [
+            {
+              "name": "textColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornCardDescriptionProps",
+          "kind": "interface",
+          "type": "export interface TornCardDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
           "props": []
         },
         {
           "name": "TornCardProps",
           "kind": "interface",
-          "type": "export interface TornCardProps extends React.ComponentProps<'div'>",
+          "type": "export interface TornCardProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
         {
           "name": "TornCardSlot",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "function",
+          "type": "export function TornCardSlot(",
+          "description": "",
+          "props": [
+            {
+              "name": "position",
+              "optional": true,
+              "type": "TornCardSlotPosition",
+              "defaultValue": "",
+              "description": "Preset position. Omit for fully custom positioning via style."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornCardSlotPosition",
+          "kind": "type",
+          "type": "export type TornCardSlotPosition = | 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
           "description": "",
           "props": []
         },
         {
           "name": "TornCardSlotProps",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "interface",
+          "type": "export interface TornCardSlotProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
           "description": "",
           "props": []
         },
@@ -5709,6 +8355,35 @@
           "name": "TornCardTitle",
           "kind": "function",
           "type": "function TornCardTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "textColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornCardTitleProps",
+          "kind": "interface",
+          "type": "export interface TornCardTitleProps extends Omit<React.ComponentProps<'h2'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardVariant",
+          "kind": "type",
+          "type": "export type TornCardVariant = 'a' | 'b' | 'c'",
           "description": "",
           "props": []
         }
@@ -5852,7 +8527,7 @@
         {
           "name": "VideoDialogProps",
           "kind": "interface",
-          "type": "export interface VideoDialogProps extends Omit<React.ComponentProps<typeof Dialog>, 'children'>",
+          "type": "export interface VideoDialogProps extends Omit<DialogProps, 'children'>",
           "description": "",
           "props": []
         },
@@ -5931,13 +8606,20 @@
               "type": "React.ComponentProps<'img'>['loading']",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "VideoDialogThumbnailProps",
           "kind": "interface",
-          "type": "export interface VideoDialogThumbnailProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
+          "type": "export interface VideoDialogThumbnailProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'type' >",
           "description": "",
           "props": []
         },
@@ -5966,8 +8648,8 @@
       "exports": [
         {
           "name": "WaveButton",
-          "kind": "const",
-          "type": "const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(function WaveButton(",
+          "kind": "function",
+          "type": "function WaveButton(",
           "description": "",
           "props": [
             {
@@ -5997,6 +8679,13 @@
               "type": "WaveButtonAnimation",
               "defaultValue": "",
               "description": "Blob border-radius animation"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -6084,13 +8773,20 @@
               "type": "number",
               "defaultValue": "",
               "description": "Physics friction (default 0.0025)"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLCanvasElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "WaveCanvasProps",
           "kind": "interface",
-          "type": "export interface WaveCanvasProps extends React.ComponentProps<'canvas'>",
+          "type": "export interface WaveCanvasProps extends Omit< React.ComponentProps<'canvas'>, 'children' | 'color' | 'height' | 'ref' | 'width' >",
           "description": "",
           "props": []
         }
@@ -6179,7 +8875,7 @@
         {
           "name": "WeaponsGalleryCarouselProps",
           "kind": "interface",
-          "type": "export interface WeaponsGalleryCarouselProps extends Omit< React.ComponentPropsWithoutRef<typeof Carousel>, 'children' >",
+          "type": "export interface WeaponsGalleryCarouselProps extends Omit<CarouselProps, 'children'>",
           "description": "",
           "props": []
         }
@@ -6194,8 +8890,8 @@
       "exports": [
         {
           "name": "SplatoonColorValue",
-          "kind": "re-export",
-          "type": "re-export",
+          "kind": "type",
+          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
           "description": "",
           "props": []
         },
@@ -6211,13 +8907,20 @@
               "type": "SplatoonColorValue",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
         {
           "name": "WideTornPaperProps",
           "kind": "interface",
-          "type": "export interface WideTornPaperProps extends React.SVGProps<SVGSVGElement>",
+          "type": "export interface WideTornPaperProps extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'ref' >",
           "description": "",
           "props": []
         }

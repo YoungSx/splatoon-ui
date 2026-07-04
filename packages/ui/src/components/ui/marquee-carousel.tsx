@@ -7,6 +7,7 @@ import {
   CarouselContent,
   CarouselPagination,
   CarouselViewport,
+  type CarouselProps,
   FadeCarouselItem,
   SwipeableGallery,
   useCarouselItemState,
@@ -26,10 +27,7 @@ export interface MarqueeCarouselItem extends GalleryItem {
   alt?: string
 }
 
-export interface MarqueeCarouselProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof Carousel>,
-  'children'
-> {
+export interface MarqueeCarouselProps extends Omit<CarouselProps, 'children'> {
   items: MarqueeCarouselItem[]
   pagination?: React.ReactNode
   renderItem?: (item: MarqueeCarouselItem, index: number) => React.ReactNode
@@ -67,9 +65,10 @@ export function MarqueeCarousel({
   )
 }
 
-interface MarqueeGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface MarqueeGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: MarqueeCarouselItem
   'data-index'?: number
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function MarqueeGalleryItem({
@@ -78,7 +77,7 @@ export function MarqueeGalleryItem({
   item,
   'data-index': index = 0,
   ...props
-}: MarqueeGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: MarqueeGalleryItemProps) {
   const { isActive } = useCarouselItemState(index)
 
   return (

@@ -14,7 +14,7 @@ export interface SectionNavItem {
   number: string
 }
 
-export interface SectionSideNavProps extends React.ComponentProps<'nav'> {
+export interface SectionSideNavProps extends Omit<React.ComponentProps<'nav'>, 'children' | 'ref'> {
   /** Sections to display in the navigation */
   sections: SectionNavItem[]
   /** Ref to the content container wrapping all sections. Sidebar visibility
@@ -29,6 +29,7 @@ export interface SectionSideNavProps extends React.ComponentProps<'nav'> {
   navLabel?: string
   /** Accessible label for the "back to top" button. */
   backToTopLabel?: string
+  ref?: React.Ref<HTMLElement>
 }
 
 /* ── Smooth scroll ────────────────────────────────────────────────────── */
@@ -106,7 +107,7 @@ export function SectionSideNav({
   navLabel = 'Section navigation',
   backToTopLabel = 'Back to top',
   ...props
-}: SectionSideNavProps & { ref?: React.Ref<HTMLElement> }) {
+}: SectionSideNavProps) {
   const internalRef = React.useRef<HTMLElement>(null)
   const [menuRef, menuSize] = useElementSize<HTMLUListElement>()
   const [fitState, setFitState] = React.useState<SideNavFitState>(defaultSideNavFitState)

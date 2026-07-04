@@ -6,7 +6,10 @@ import { Badge } from './badge'
 import { eventImageAssets, type EventImageAsset } from './event-assets'
 import styles from './event-callout.module.css'
 
-export interface EventCalloutProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface EventCalloutProps extends Omit<
+  React.ComponentProps<'article'>,
+  'children' | 'ref' | 'title'
+> {
   eyebrow?: React.ReactNode
   title: React.ReactNode
   description?: React.ReactNode
@@ -15,9 +18,11 @@ export interface EventCalloutProps extends Omit<React.HTMLAttributes<HTMLDivElem
   icon?: EventImageAsset
   action?: React.ReactNode
   mediaPriority?: boolean
+  ref?: React.Ref<HTMLElement>
 }
 
 export function EventCallout({
+  ref,
   className,
   eyebrow,
   title,
@@ -30,7 +35,7 @@ export function EventCallout({
   ...props
 }: EventCalloutProps) {
   return (
-    <article className={cn(styles.callout, className)} {...props}>
+    <article ref={ref} className={cn(styles.callout, className)} {...props}>
       <AssetImage asset={background} className={styles.background} loading="lazy" decorative />
       <div className={styles.content}>
         <div className={styles.mediaFrame}>

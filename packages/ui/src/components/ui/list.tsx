@@ -1,18 +1,15 @@
 import * as React from 'react'
 
-import {
-  resolveSplatoonColorValue,
-  splatoonColorVars,
-  type SplatoonColorValue,
-} from '@/lib/splatoon-color-tokens'
+import { resolveSplatoonColorValue, splatoonColorVars } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import { DottedDivider } from './dotted-divider'
 import styles from './list.module.css'
+import type { SplatoonColorValue } from './theme-tokens'
 
 export type ListVariant = 'ordered'
-export type { SplatoonColorValue }
+export type { SplatoonColorValue } from './theme-tokens'
 
-export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start'> {
+export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start' | 'ref'> {
   variant?: ListVariant
   start?: number
   markerColor?: SplatoonColorValue
@@ -20,6 +17,7 @@ export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start'> {
   markerHoverColor?: SplatoonColorValue
   markerHoverTextColor?: SplatoonColorValue
   dividerColor?: SplatoonColorValue
+  ref?: React.Ref<HTMLOListElement>
 }
 
 type ListStyle = React.CSSProperties & {
@@ -42,6 +40,7 @@ function formatListMarker(value: number, digits: number) {
 }
 
 function List({
+  ref,
   variant = 'ordered',
   start = 1,
   markerColor = splatoonColorVars.black,
@@ -102,6 +101,7 @@ function List({
 
   return (
     <ol
+      ref={ref}
       data-slot="list"
       data-variant={variant}
       start={resolvedStart}
@@ -114,15 +114,16 @@ function List({
   )
 }
 
-export interface ListItemProps extends React.ComponentProps<'li'> {
+export interface ListItemProps extends Omit<React.ComponentProps<'li'>, 'ref'> {
   showDivider?: boolean
+  ref?: React.Ref<HTMLLIElement>
 }
 
-function ListItem({ className, children, showDivider = true, ...props }: ListItemProps) {
+function ListItem({ ref, className, children, showDivider = true, ...props }: ListItemProps) {
   const markerLabel = (props as { 'data-list-marker'?: string })['data-list-marker']
 
   return (
-    <li data-slot="list-item" className={cn(styles.item, className)} {...props}>
+    <li ref={ref} data-slot="list-item" className={cn(styles.item, className)} {...props}>
       <span aria-hidden="true" className={styles.marker}>
         {markerLabel}
       </span>

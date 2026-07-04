@@ -5,17 +5,23 @@ import { cva } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import type { PrimitiveChangeDetails, PrimitiveRender } from './primitive-types'
 import styles from './tabs.module.css'
 
 const TRAPEZOID_TABS_TEXTURE_SCALE = 1.2
 
 export type TabsListVariant = 'default' | 'line' | 'trapezoid'
 export type TabsListColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple' | 'red'
-type TabsValue = TabsPrimitive.Tab.Props['value']
-type TabsRootProps = TabsPrimitive.Root.Props
-type TabsChangeDetails = Parameters<NonNullable<TabsRootProps['onValueChange']>>[1]
-type TabsActivationDirection = TabsChangeDetails['activationDirection']
-type TabsSwipeMode = boolean | 'coarse' | 'always'
+export type TabsValue = string | number | null
+export type TabsOrientation = 'horizontal' | 'vertical'
+export type TabsActivationDirection = 'left' | 'right' | 'up' | 'down' | 'none'
+export type TabsChangeReason = 'none' | 'disabled' | 'missing' | 'initial'
+export type TabsSwipeMode = boolean | 'coarse' | 'always'
+
+export interface TabsChangeDetails extends PrimitiveChangeDetails {
+  reason: TabsChangeReason
+  activationDirection: TabsActivationDirection
+}
 
 type TrapezoidTabsStyle = React.CSSProperties & {
   '--trapezoid-tabs-bg-size-x'?: string
@@ -47,7 +53,7 @@ function getTabsDecorationColor(variant: TabsListVariant, color: TabsListColor) 
 
 type TabsInteractionContextValue = {
   currentValue: TabsValue | undefined
-  orientation: NonNullable<TabsRootProps['orientation']>
+  orientation: TabsOrientation
   setPanelValues: (values: TabsValue[]) => void
   setValue: (value: TabsValue, event?: Event) => void
 }
@@ -102,7 +108,7 @@ function resolveActivationDirection(
   previousValue: TabsValue | undefined,
   nextValue: TabsValue,
   values: TabsValue[],
-  orientation: NonNullable<TabsRootProps['orientation']>
+  orientation: TabsOrientation
 ): TabsActivationDirection {
   const previousIndex = values.findIndex((value) => Object.is(value, previousValue))
   const nextIndex = values.findIndex((value) => Object.is(value, nextValue))
@@ -118,6 +124,24 @@ function resolveActivationDirection(
   return nextIndex > previousIndex ? 'right' : 'left'
 }
 
+export interface TabsProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'defaultValue' | 'onChange' | 'value'
+> {
+  value?: TabsValue
+  defaultValue?: TabsValue
+  orientation?: TabsOrientation
+  onValueChange?: (value: TabsValue, eventDetails: TabsChangeDetails) => void
+  render?: PrimitiveRender<
+    HTMLDivElement,
+    {
+      orientation: TabsOrientation
+      tabActivationDirection: TabsActivationDirection
+    }
+  >
+  ref?: React.Ref<HTMLDivElement>
+}
+
 function Tabs({
   className,
   orientation = 'horizontal',
@@ -125,7 +149,7 @@ function Tabs({
   defaultValue,
   onValueChange,
   ...props
-}: TabsRootProps) {
+}: TabsProps) {
   const isControlled = valueProp !== undefined
   const [uncontrolledValue, setUncontrolledValue] = React.useState<TabsValue | undefined>(
     defaultValue !== undefined ? defaultValue : 0
@@ -205,7 +229,9 @@ function Tabs({
         data-slot="tabs"
         data-orientation={orientation}
         value={currentValue}
-        onValueChange={commitValue}
+        onValueChange={
+          commitValue as React.ComponentProps<typeof TabsPrimitive.Root>['onValueChange']
+        }
         orientation={orientation}
         className={cn('group/tabs flex gap-2 data-horizontal:flex-col', className)}
         {...props}
@@ -268,12 +294,16 @@ function withTrapezoidTabsTriggerVars(children: React.ReactNode) {
   })
 }
 
-export interface TabsListProps extends Omit<TabsPrimitive.List.Props, 'color'> {
+export interface TabsListProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'color'> {
+  activateOnFocus?: boolean
+  loopFocus?: boolean
   variant?: TabsListVariant
   /** Primary active color token. The default decoration color is inferred from the matching Splatoon theme pair. */
   color?: TabsListColor
   /** Override the inferred hover/active decoration color with any CSS color value. */
   decorationColor?: string
+  render?: PrimitiveRender<HTMLDivElement>
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function TabsList({
@@ -315,12 +345,7 @@ function TabsList({
   )
 }
 
-function TabsTrigger({
-  className,
-  children,
-  nativeButton = true,
-  ...props
-}: TabsPrimitive.Tab.Props) {
+function TabsTrigger({ className, children, nativeButton = true, ...props }: TabsTriggerProps) {
   const listVariant = React.useContext(TabsListVariantContext)
   const isTrapezoid = listVariant === 'trapezoid'
 
@@ -448,6 +473,7 @@ export interface TabsPanelsProps extends React.HTMLAttributes<HTMLDivElement> {
   swipeable?: TabsSwipeMode
   swipeThreshold?: number
   swipeAxisLockRatio?: number
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function TabsPanels({
@@ -462,7 +488,7 @@ function TabsPanels({
   onPointerCancel,
   style,
   ...props
-}: TabsPanelsProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: TabsPanelsProps) {
   const { currentValue, orientation, setPanelValues, setValue } = useTabsInteraction()
   const values = React.useMemo(() => collectTabsPanelValues(children), [children])
   const valuesRef = React.useRef(values)
@@ -537,7 +563,39 @@ function TabsPanels({
   )
 }
 
-function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
+export interface TabsTriggerProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'value'
+> {
+  value: TabsValue
+  disabled?: boolean
+  nativeButton?: boolean
+  render?: PrimitiveRender<
+    HTMLElement,
+    {
+      disabled: boolean
+      active: boolean
+      orientation: TabsOrientation
+    }
+  >
+  ref?: React.Ref<HTMLElement>
+}
+
+export interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  value: TabsValue
+  keepMounted?: boolean
+  render?: PrimitiveRender<
+    HTMLDivElement,
+    {
+      hidden: boolean
+      orientation: TabsOrientation
+      transitionStatus?: string
+    }
+  >
+  ref?: React.Ref<HTMLDivElement>
+}
+
+function TabsContent({ className, ...props }: TabsContentProps) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"

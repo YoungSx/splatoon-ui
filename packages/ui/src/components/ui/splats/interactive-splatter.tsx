@@ -4,11 +4,11 @@ import * as React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { getLocalPoint } from '@/lib/dom-geometry'
-import { Splat } from './splat'
+import { Splat, type SplatId } from './splat'
 
 interface SplatInstance {
   id: string
-  splatId: number
+  splatId: SplatId
   x: number
   y: number
   size: number
@@ -28,7 +28,8 @@ export interface InteractiveSplatterProps extends React.HTMLAttributes<HTMLDivEl
   /** Allow clicking parent container to spawn splats (default: true) */
   interactive?: boolean
   /** Specific splat IDs to pick from. Defaults to all bundled splat shapes. */
-  splatIds?: number[]
+  splatIds?: readonly SplatId[]
+  ref?: React.Ref<HTMLDivElement>
 }
 
 const DEFAULT_COLORS = [
@@ -40,7 +41,9 @@ const DEFAULT_COLORS = [
   'var(--color-orange)', // Neon Orange
 ]
 
-const DEFAULT_SPLAT_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+const DEFAULT_SPLAT_IDS = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+] as const satisfies readonly SplatId[]
 
 /**
  * InteractiveSplatter Component.
@@ -57,7 +60,7 @@ export function InteractiveSplatter({
   interactive = true,
   splatIds = DEFAULT_SPLAT_IDS,
   ...props
-}: InteractiveSplatterProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: InteractiveSplatterProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const [splats, setSplats] = React.useState<SplatInstance[]>([])
 
@@ -88,7 +91,7 @@ export function InteractiveSplatter({
 
       // Generate random parameters
       const id = Math.random().toString(36).substring(2, 9)
-      const splatId = splatIds[Math.floor(Math.random() * splatIds.length)]
+      const splatId = splatIds[Math.floor(Math.random() * splatIds.length)] ?? DEFAULT_SPLAT_IDS[0]
       const size = Math.floor(Math.random() * (maxSize - minSize + 1)) + minSize
       const color = colors[Math.floor(Math.random() * colors.length)]
       const rotation = Math.floor(Math.random() * 360)

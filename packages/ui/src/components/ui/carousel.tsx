@@ -32,10 +32,21 @@ export function useCarousel() {
 export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   index?: number
   defaultIndex?: number
-  /** @deprecated Use defaultIndex for uncontrolled carousels. */
-  initialIndex?: number
   itemCount?: number
   onIndexChange?: (index: number) => void
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface CarouselViewportProps extends React.HTMLAttributes<HTMLDivElement> {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface CarouselBleedBoundaryProps extends React.HTMLAttributes<HTMLDivElement> {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface CarouselContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function Carousel({
@@ -44,15 +55,14 @@ export function Carousel({
   className,
   index,
   defaultIndex,
-  initialIndex = 0,
   itemCount: itemCountProp,
   onIndexChange,
   onKeyDown,
   role = 'region',
   tabIndex = 0,
   ...props
-}: CarouselProps & { ref?: React.Ref<HTMLDivElement> }) {
-  const resolvedDefaultIndex = defaultIndex ?? initialIndex
+}: CarouselProps) {
+  const resolvedDefaultIndex = defaultIndex ?? 0
   const isControlled = index !== undefined
   const [uncontrolledIndex, setUncontrolledIndex] = React.useState(resolvedDefaultIndex)
   const [prevIndex, setPrevIndex] = React.useState(index ?? resolvedDefaultIndex)
@@ -179,11 +189,7 @@ export function Carousel({
   )
 }
 
-export function CarouselViewport({
-  ref,
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
+export function CarouselViewport({ ref, className, ...props }: CarouselViewportProps) {
   return (
     <div
       ref={ref}
@@ -194,11 +200,7 @@ export function CarouselViewport({
   )
 }
 
-export function CarouselBleedBoundary({
-  ref,
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
+export function CarouselBleedBoundary({ ref, className, ...props }: CarouselBleedBoundaryProps) {
   return (
     <div
       ref={ref}
@@ -235,12 +237,7 @@ function indexCarouselChildren(children: React.ReactNode) {
   return { indexedChildren, itemCount }
 }
 
-export function CarouselContent({
-  ref,
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }) {
+export function CarouselContent({ ref, className, children, ...props }: CarouselContentProps) {
   const setItemCount = React.useContext(CarouselCountContext)
   const { indexedChildren, itemCount } = indexCarouselChildren(children)
 
@@ -274,6 +271,7 @@ export function useCarouselItemState(index: number | undefined) {
 
 export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
   'data-index'?: number
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function CarouselItem({
@@ -281,8 +279,9 @@ export function CarouselItem({
   className,
   children,
   'data-index': index,
+  style,
   ...props
-}: CarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: CarouselItemProps) {
   const { isActive, offset, index: resolvedIndex } = useCarouselItemState(index)
 
   return (
@@ -295,6 +294,7 @@ export function CarouselItem({
         {
           '--active': isActive ? '1' : '0',
           '--index-offset': String(offset),
+          ...style,
         } as React.CSSProperties
       }
       {...props}
@@ -307,6 +307,7 @@ export function CarouselItem({
 export interface FadeCarouselItemProps extends React.HTMLAttributes<HTMLDivElement> {
   'data-index'?: number
   rotateAmount?: number
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function FadeCarouselItem({
@@ -315,8 +316,9 @@ export function FadeCarouselItem({
   children,
   'data-index': index,
   rotateAmount,
+  style,
   ...props
-}: FadeCarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: FadeCarouselItemProps) {
   const { isActive, isLeft, offset, index: resolvedIndex } = useCarouselItemState(index)
 
   const randomValues = React.useMemo(() => {
@@ -344,6 +346,7 @@ export function FadeCarouselItem({
           '--photo-offset': String(photoOffset),
           '--rotateDirection': String(randomValues.rotateDirection),
           '--rotateAmount': `${randomValues.rotateAmount}deg`,
+          ...style,
         } as React.CSSProperties
       }
       {...props}
@@ -353,77 +356,122 @@ export function FadeCarouselItem({
   )
 }
 
+export interface SwipeableGalleryProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode
+  ref?: React.Ref<HTMLDivElement>
+}
+
 export function SwipeableGallery({
+  ref,
   children,
   className,
-}: {
-  children: React.ReactNode
-  className?: string
-}) {
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  ...props
+}: SwipeableGalleryProps) {
   const { goToNext, goToPrev } = useCarousel()
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const state = React.useRef({ startX: 0, startY: 0, dx: 0, offsetting: false, scrolling: true })
 
-  const onTouchStart = React.useCallback((e: React.TouchEvent) => {
-    state.current.startX = e.touches[0].clientX
-    state.current.startY = e.touches[0].clientY
-    state.current.dx = 0
-    state.current.offsetting = false
-    state.current.scrolling = true
-  }, [])
+  const setWrapperRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      wrapperRef.current = node
 
-  const onTouchMove = React.useCallback((e: React.TouchEvent) => {
-    const s = state.current
-    const dx = e.touches[0].clientX - s.startX
-    const dy = Math.abs(e.touches[0].clientY - s.startY)
-
-    if (!s.offsetting) {
-      if (dy > 20) return
-      if (Math.abs(dx) > 10) {
-        s.offsetting = true
-        s.scrolling = false
+      if (typeof ref === 'function') {
+        ref(node)
+        return
       }
-    }
 
-    if (s.offsetting) {
-      e.preventDefault()
-      s.dx = dx
-      wrapperRef.current?.style.setProperty('--touch-offset', String(dx))
-    }
-  }, [])
+      if (ref) {
+        ;(ref as React.MutableRefObject<HTMLDivElement | null>).current = node
+      }
+    },
+    [ref]
+  )
 
-  const onTouchEnd = React.useCallback(() => {
-    const s = state.current
-    wrapperRef.current?.style.removeProperty('--touch-offset')
+  const handleTouchStart = React.useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      onTouchStart?.(event)
+      if (event.defaultPrevented) return
 
-    if (s.offsetting && Math.abs(s.dx) > 50) {
-      if (s.dx < 0) goToNext()
-      else goToPrev()
-    }
+      state.current.startX = event.touches[0].clientX
+      state.current.startY = event.touches[0].clientY
+      state.current.dx = 0
+      state.current.offsetting = false
+      state.current.scrolling = true
+    },
+    [onTouchStart]
+  )
 
-    s.startX = 0
-    s.dx = 0
-    s.offsetting = false
-    s.scrolling = true
-  }, [goToNext, goToPrev])
+  const handleTouchMove = React.useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      onTouchMove?.(event)
+      if (event.defaultPrevented) return
+
+      const s = state.current
+      const dx = event.touches[0].clientX - s.startX
+      const dy = Math.abs(event.touches[0].clientY - s.startY)
+
+      if (!s.offsetting) {
+        if (dy > 20) return
+        if (Math.abs(dx) > 10) {
+          s.offsetting = true
+          s.scrolling = false
+        }
+      }
+
+      if (s.offsetting) {
+        event.preventDefault()
+        s.dx = dx
+        wrapperRef.current?.style.setProperty('--touch-offset', String(dx))
+      }
+    },
+    [onTouchMove]
+  )
+
+  const handleTouchEnd = React.useCallback(
+    (event: React.TouchEvent<HTMLDivElement>) => {
+      onTouchEnd?.(event)
+      const shouldNavigate = !event.defaultPrevented
+      const s = state.current
+      wrapperRef.current?.style.removeProperty('--touch-offset')
+
+      if (shouldNavigate && s.offsetting && Math.abs(s.dx) > 50) {
+        if (s.dx < 0) goToNext()
+        else goToPrev()
+      }
+
+      s.startX = 0
+      s.dx = 0
+      s.offsetting = false
+      s.scrolling = true
+    },
+    [goToNext, goToPrev, onTouchEnd]
+  )
 
   return (
     <div
-      ref={wrapperRef}
+      ref={setWrapperRef}
       className={className}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      {...props}
     >
       {children}
     </div>
   )
 }
 
-export interface CarouselPaginationProps extends React.HTMLAttributes<HTMLUListElement> {
+export interface CarouselPaginationProps extends Omit<
+  React.HTMLAttributes<HTMLUListElement>,
+  'children'
+> {
   labels?: string[]
   /** Accessible label template for unlabeled pagination buttons. Receives the 1-based slide number. */
   getSlideLabel?: (index: number) => string
+  ref?: React.Ref<HTMLUListElement>
 }
 
 export function CarouselPagination({
@@ -432,7 +480,7 @@ export function CarouselPagination({
   labels,
   getSlideLabel = (i) => `Go to slide ${i}`,
   ...props
-}: CarouselPaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
+}: CarouselPaginationProps) {
   const { currentIndex, itemCount, goToIndex } = useCarousel()
 
   return (
@@ -472,12 +520,16 @@ export interface CarouselImagePaginationItem {
   rotate?: number
 }
 
-export interface CarouselImagePaginationProps extends React.HTMLAttributes<HTMLUListElement> {
+export interface CarouselImagePaginationProps extends Omit<
+  React.HTMLAttributes<HTMLUListElement>,
+  'children'
+> {
   images: CarouselImagePaginationItem[]
   /** Accessible label for a button when the image has an alt text. */
   getImageLabel?: (alt: string) => string
   /** Accessible label for a button when the image has no alt text. Receives the 1-based slide number. */
   getSlideLabel?: (index: number) => string
+  ref?: React.Ref<HTMLUListElement>
 }
 
 export function CarouselImagePagination({
@@ -487,7 +539,7 @@ export function CarouselImagePagination({
   getImageLabel = (alt) => `Go to ${alt}`,
   getSlideLabel = (i) => `Go to slide ${i}`,
   ...props
-}: CarouselImagePaginationProps & { ref?: React.Ref<HTMLUListElement> }) {
+}: CarouselImagePaginationProps) {
   const { currentIndex, goToIndex } = useCarousel()
 
   return (

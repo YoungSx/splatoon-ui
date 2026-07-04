@@ -6,34 +6,24 @@ import { cn } from '@/lib/utils'
 import { CardContext } from './card-context'
 import { PhotoFrame } from './photo-frame'
 
-export interface CardImageProps extends React.ComponentProps<'div'> {
+export interface CardImageProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   src?: string
   alt?: string
+  ref?: React.Ref<HTMLDivElement>
 }
 
-export function CardImage({
-  ref,
-  className,
-  src,
-  alt,
-  children,
-  ...props
-}: CardImageProps & { ref?: React.Ref<HTMLDivElement> }) {
+export function CardImage({ ref, className, src, alt, children, ...props }: CardImageProps) {
   const { variant } = React.useContext(CardContext)
 
   if (variant === 'rugged') {
     return (
-      <div className="relative flex w-full justify-center py-4">
-        <PhotoFrame
-          ref={ref}
-          src={src}
-          alt={alt}
-          variant="b"
-          rotation="2deg"
-          fillWidth
-          className={className}
-          {...props}
-        >
+      <div
+        ref={ref}
+        data-slot="card-image"
+        className={cn('relative flex w-full justify-center py-4', className)}
+        {...props}
+      >
+        <PhotoFrame src={src} alt={alt} variant="b" rotation="2deg" fillWidth>
           {children}
         </PhotoFrame>
       </div>

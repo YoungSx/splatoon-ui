@@ -207,11 +207,7 @@ function PageTransitionDemo({ t }: PageTransitionDemoProps) {
       pattern="chip-white"
       bottomOverlayClearance="banner-divider"
       className="transition-colors duration-300"
-      headingTape={
-        <HeadingTape color="green" className="text-center">
-          {t.sectionTitle}
-        </HeadingTape>
-      }
+      headingTape={<HeadingTape className="text-center">{t.sectionTitle}</HeadingTape>}
     >
       <InView direction="pop" rootMargin="-50px">
         <div className="relative z-10 mx-auto w-full max-w-5xl space-y-6">
@@ -812,7 +808,7 @@ export default function Home() {
             pattern="chip-white"
             bottomOverlayClearance="banner-divider"
             className="transition-colors duration-300"
-            headingTape={<HeadingTape color="blue">{t.buttons.sectionTitle}</HeadingTape>}
+            headingTape={<HeadingTape>{t.buttons.sectionTitle}</HeadingTape>}
           >
             <div className="relative z-10 mx-auto w-full max-w-5xl space-y-16">
               <InView rootMargin="-50px">
@@ -1121,7 +1117,7 @@ export default function Home() {
             className="flex flex-col items-center"
             headingTape={
               <div className="text-center">
-                <HeadingTape color="green">{t.forms.sectionTitle}</HeadingTape>
+                <HeadingTape>{t.forms.sectionTitle}</HeadingTape>
                 <p className="mt-2 text-sm font-medium text-white/60">{t.forms.sectionDesc}</p>
               </div>
             }
@@ -1415,7 +1411,7 @@ export default function Home() {
             pattern="chip-white"
             bottomOverlayClearance="banner-divider"
             className="transition-colors duration-300"
-            headingTape={<HeadingTape color="blue">{t.apparel.tabsSection}</HeadingTape>}
+            headingTape={<HeadingTape>{t.apparel.tabsSection}</HeadingTape>}
           >
             <div className="relative z-10 mx-auto w-full max-w-5xl">
               <InView direction="pop" rootMargin="-50px">
@@ -1542,7 +1538,7 @@ export default function Home() {
             textClassName="text-white"
             pattern="camo-black"
             bottomOverlayClearance="banner-divider"
-            headingTape={<HeadingTape color="red">{t.overlays.sectionTitle}</HeadingTape>}
+            headingTape={<HeadingTape>{t.overlays.sectionTitle}</HeadingTape>}
           >
             <div className="text-purple absolute top-6 right-6">
               <Splat3 className="h-24 w-24" />
@@ -2126,7 +2122,7 @@ export default function Home() {
             pattern="chip-white"
             bottomOverlayClearance="banner-divider"
             className="flex flex-col items-center transition-colors duration-300"
-            headingTape={<HeadingTape color="green">{t.apparel.animationSection}</HeadingTape>}
+            headingTape={<HeadingTape>{t.apparel.animationSection}</HeadingTape>}
           >
             <div className="relative z-10 mx-auto w-full max-w-5xl">
               <div className="grid gap-8 md:grid-cols-2">
@@ -2251,7 +2247,7 @@ export default function Home() {
             className="flex flex-col items-center transition-colors duration-300"
             headingTape={
               <div className="text-center">
-                <HeadingTape color="yellow">{t.carousels.sectionTitle}</HeadingTape>
+                <HeadingTape>{t.carousels.sectionTitle}</HeadingTape>
                 <p className="mt-2 text-sm font-medium text-white/80">{t.carousels.sectionDesc}</p>
               </div>
             }
@@ -2265,7 +2261,7 @@ export default function Home() {
                 <p className="mx-auto max-w-xl text-center text-sm font-medium text-white/80">
                   {t.carousels.feed.desc}
                 </p>
-                <FeedCarousel initialIndex={2} items={homepageFeedCarouselItems} />
+                <FeedCarousel defaultIndex={2} items={homepageFeedCarouselItems} />
               </DemoExampleGroup>
 
               {/* Weapons Gallery Carousel */}

@@ -13,10 +13,11 @@ const ruggedThemeMap: Record<RuggedTheme, { bg: string; fg: string }> = {
   green: { bg: 'text-green', fg: 'text-black' },
 }
 
-export interface RuggedCardProps extends React.ComponentProps<'div'> {
+export interface RuggedCardProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   ruggedTheme?: RuggedTheme
   ruggedRotation?: string
   ruggedBackground?: React.ReactNode
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function RuggedCard({
@@ -26,8 +27,9 @@ export function RuggedCard({
   ruggedRotation = '2deg',
   ruggedBackground,
   children,
+  style,
   ...props
-}: RuggedCardProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: RuggedCardProps) {
   const theme = ruggedThemeMap[ruggedTheme] ?? ruggedThemeMap.yellow
   const defaultBackground = <TagHanger />
 
@@ -36,7 +38,7 @@ export function RuggedCard({
       ref={ref}
       data-slot="card"
       data-variant="rugged"
-      style={{ transform: `rotate(${ruggedRotation})` } as React.CSSProperties}
+      style={{ transform: `rotate(${ruggedRotation})`, ...style } as React.CSSProperties}
       className={cn(
         'group/card relative z-10 flex w-full flex-col justify-between gap-4 px-[6%] pt-[12%] pb-[8%] text-center select-none',
         theme.fg,

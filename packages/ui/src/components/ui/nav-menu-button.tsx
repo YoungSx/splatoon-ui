@@ -4,8 +4,12 @@ import { cn } from '@/lib/utils'
 import styles from '@/components/ui/nav-menu-button.module.css'
 import shared from '@/components/ui/wave-button.module.css'
 
-export interface NavMenuButtonProps extends React.ComponentProps<'button'> {
+export interface NavMenuButtonProps extends Omit<
+  React.ComponentProps<'button'>,
+  'children' | 'ref'
+> {
   pressed?: boolean
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 function NavMenuButton({
@@ -14,7 +18,7 @@ function NavMenuButton({
   pressed = false,
   type = 'button',
   ...props
-}: NavMenuButtonProps & { ref?: React.Ref<HTMLButtonElement> }) {
+}: NavMenuButtonProps) {
   return (
     <button
       ref={ref}

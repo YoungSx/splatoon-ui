@@ -12,7 +12,7 @@ import { PhotoFrame } from './photo-frame'
 import baseStyles from './gallery-base.module.css'
 import { MarqueeCarousel } from './marquee-carousel'
 import styles from './icon-paginated-carousel.module.css'
-import type { GalleryItem } from './marquee-carousel'
+import type { GalleryItem, MarqueeCarouselProps } from './marquee-carousel'
 
 export interface IconPaginatedCarouselItem extends GalleryItem {
   title: string
@@ -21,8 +21,9 @@ export interface IconPaginatedCarouselItem extends GalleryItem {
   iconRotate?: number
 }
 
-export interface IconPaginatedCarouselProps extends React.ComponentPropsWithoutRef<
-  typeof MarqueeCarousel
+export interface IconPaginatedCarouselProps extends Omit<
+  MarqueeCarouselProps,
+  'items' | 'pagination' | 'renderItem'
 > {
   items: IconPaginatedCarouselItem[]
 }
@@ -30,6 +31,7 @@ export interface IconPaginatedCarouselProps extends React.ComponentPropsWithoutR
 export function IconPaginatedCarousel({ items, className, ...props }: IconPaginatedCarouselProps) {
   return (
     <MarqueeCarousel
+      {...props}
       items={items}
       className={className}
       pagination={
@@ -49,7 +51,6 @@ export function IconPaginatedCarousel({ items, className, ...props }: IconPagina
           item={item as IconPaginatedCarouselItem}
         />
       )}
-      {...props}
     />
   )
 }

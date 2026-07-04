@@ -8,7 +8,7 @@ import styles from './staple-card.module.css'
 
 /* ── Variant config ── */
 
-type StapleCardVariant = 'a' | 'b' | 'c' | 'd'
+export type StapleCardVariant = 'a' | 'b' | 'c' | 'd'
 
 const VARIANT_CONFIG = {
   /** No tape */
@@ -23,7 +23,7 @@ const VARIANT_CONFIG = {
 
 /* ── StapleCard ── */
 
-export interface StapleCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface StapleCardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'> {
   /** Variant preset (controls tape visibility and position) */
   variant?: StapleCardVariant
   /** Image/media shown in the tilted image area */
@@ -42,9 +42,11 @@ export interface StapleCardProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   hoverTilt?: boolean
   className?: string
   children?: React.ReactNode
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function StapleCard({
+  ref,
   variant = 'b',
   image,
   title,
@@ -63,6 +65,7 @@ export function StapleCard({
 
   return (
     <div
+      ref={ref}
       data-slot="card"
       data-variant={variant}
       className={cn(styles.stapleCard, isDark && styles.surfaceDark, className)}
@@ -133,12 +136,27 @@ export function StapleCard({
 
 /* ── Sub-components ── */
 
-function StapleCardTitle({ className, ...props }: React.ComponentProps<'p'>) {
-  return <p data-slot="card-title" className={cn(styles.title, className)} {...props} />
+export interface StapleCardTitleProps extends Omit<React.ComponentProps<'p'>, 'ref'> {
+  ref?: React.Ref<HTMLParagraphElement>
 }
 
-function StapleCardDescription({ className, ...props }: React.ComponentProps<'p'>) {
-  return <p data-slot="card-description" className={cn(styles.subtitle, className)} {...props} />
+export interface StapleCardDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'> {
+  ref?: React.Ref<HTMLParagraphElement>
+}
+
+function StapleCardTitle({ ref, className, ...props }: StapleCardTitleProps) {
+  return <p ref={ref} data-slot="card-title" className={cn(styles.title, className)} {...props} />
+}
+
+function StapleCardDescription({ ref, className, ...props }: StapleCardDescriptionProps) {
+  return (
+    <p
+      ref={ref}
+      data-slot="card-description"
+      className={cn(styles.subtitle, className)}
+      {...props}
+    />
+  )
 }
 
 export { StapleCardTitle, StapleCardDescription }

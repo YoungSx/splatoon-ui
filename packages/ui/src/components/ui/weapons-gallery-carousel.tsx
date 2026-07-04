@@ -7,6 +7,7 @@ import {
   CarouselContent,
   CarouselPagination,
   CarouselViewport,
+  type CarouselProps,
   FadeCarouselItem,
   SwipeableGallery,
   useCarouselItemState,
@@ -22,10 +23,7 @@ export interface WeaponsGalleryCarouselItem extends GalleryItem {
   description?: string
 }
 
-export interface WeaponsGalleryCarouselProps extends Omit<
-  React.ComponentPropsWithoutRef<typeof Carousel>,
-  'children'
-> {
+export interface WeaponsGalleryCarouselProps extends Omit<CarouselProps, 'children'> {
   items: WeaponsGalleryCarouselItem[]
 }
 

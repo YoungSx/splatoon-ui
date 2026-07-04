@@ -40,7 +40,7 @@ export interface BannerDividerTape {
   animDelay?: number
 }
 
-export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BannerDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Explicit tape layers. Use two or three layers for the current Splatoon-style divider patterns. */
   tapes: BannerDividerTape[]
   /** Enable InView fly-in animation on each tape. */
@@ -53,6 +53,7 @@ export interface BannerDividerProps extends React.HTMLAttributes<HTMLDivElement>
    * needs the divider to occupy vertical space.
    */
   layout?: 'overlay' | 'spacer'
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function resolveOffsetY(offsetY: BannerDividerOffsetY | undefined) {
@@ -117,6 +118,7 @@ function BannerDividerTapeLayer({
 }
 
 export function BannerDivider({
+  ref,
   tapes,
   animate,
   rootMargin,
@@ -125,7 +127,7 @@ export function BannerDivider({
   style: styleProp,
   ...props
 }: BannerDividerProps) {
-  const [isInView, ref] = useInView<HTMLDivElement>({
+  const [isInView, inViewRef] = useInView<HTMLDivElement>({
     rootMargin: rootMargin ?? '0px',
     once: true,
     disabled: !animate,
@@ -135,6 +137,7 @@ export function BannerDivider({
 
   return (
     <div
+      ref={ref}
       className={cn(
         styles.bannerDividerGroup,
         layout === 'spacer' && styles.bannerDividerGroupSpacer,
@@ -152,7 +155,7 @@ export function BannerDivider({
       data-layout={layout}
     >
       <div
-        ref={animate ? ref : undefined}
+        ref={animate ? inViewRef : undefined}
         className={cn(styles.bannerDividerViewport, animate && isInView && inViewStyles.inView)}
       >
         {tapes.map((tape, i) => (

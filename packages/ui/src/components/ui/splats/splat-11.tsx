@@ -1,18 +1,23 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 
-export interface Splat11Props extends React.SVGProps<SVGSVGElement> {
+export interface Splat11Props extends Omit<
+  React.SVGProps<SVGSVGElement>,
+  'children' | 'color' | 'ref'
+> {
   /** CSS color value or CSS variable e.g. "var(--color-yellow)" */
   color?: string
+  ref?: React.Ref<SVGSVGElement>
 }
 
 /**
  * Ink splat decorative shape #11.
  * ViewBox: 0 0 320 320
  */
-export function Splat11({ color = 'currentColor', className, style, ...props }: Splat11Props) {
+export function Splat11({ ref, color = 'currentColor', className, style, ...props }: Splat11Props) {
   return (
     <svg
+      ref={ref}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 320 320"
       aria-hidden="true"

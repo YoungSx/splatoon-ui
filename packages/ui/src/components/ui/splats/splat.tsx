@@ -12,11 +12,17 @@ import { Splat10 } from './splat-10'
 import { Splat11 } from './splat-11'
 import { Splat12 } from './splat-12'
 
-export interface SplatProps extends Omit<React.SVGProps<SVGSVGElement>, 'id'> {
+export type SplatId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+
+export interface SplatProps extends Omit<
+  React.SVGProps<SVGSVGElement>,
+  'children' | 'color' | 'id' | 'ref'
+> {
   /** Bundled splat ID (1 to 12) */
-  id: number
+  id: SplatId
   /** CSS color value or CSS variable */
   color?: string
+  ref?: React.Ref<SVGSVGElement>
 }
 
 /**
@@ -24,32 +30,32 @@ export interface SplatProps extends Omit<React.SVGProps<SVGSVGElement>, 'id'> {
  * Routes dynamically to Splat1 through Splat12.
  * Ideal for loops or dynamic particle rendering.
  */
-export function Splat({ id, ...props }: SplatProps) {
+export function Splat({ ref, id, ...props }: SplatProps) {
   switch (id) {
     case 1:
-      return <Splat1 {...props} />
+      return <Splat1 ref={ref} {...props} />
     case 2:
-      return <Splat2 {...props} />
+      return <Splat2 ref={ref} {...props} />
     case 3:
-      return <Splat3 {...props} />
+      return <Splat3 ref={ref} {...props} />
     case 4:
-      return <Splat4 {...props} />
+      return <Splat4 ref={ref} {...props} />
     case 5:
-      return <Splat5 {...props} />
+      return <Splat5 ref={ref} {...props} />
     case 6:
-      return <Splat6 {...props} />
+      return <Splat6 ref={ref} {...props} />
     case 7:
-      return <Splat7 {...props} />
+      return <Splat7 ref={ref} {...props} />
     case 8:
-      return <Splat8 {...props} />
+      return <Splat8 ref={ref} {...props} />
     case 9:
-      return <Splat9 {...props} />
+      return <Splat9 ref={ref} {...props} />
     case 10:
-      return <Splat10 {...props} />
+      return <Splat10 ref={ref} {...props} />
     case 11:
-      return <Splat11 {...props} />
+      return <Splat11 ref={ref} {...props} />
     case 12:
-      return <Splat12 {...props} />
+      return <Splat12 ref={ref} {...props} />
     default:
       return null
   }

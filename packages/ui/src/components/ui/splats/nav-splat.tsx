@@ -6,9 +6,14 @@ import { cn } from '@/lib/utils'
  * Ported from official splatoon.nintendo.com `icon-gallery-nav-splat` symbol.
  * ViewBox: 0 0 156 136
  */
-export function NavSplat({ className, ...props }: React.SVGProps<SVGSVGElement>) {
+export interface NavSplatProps extends Omit<React.SVGProps<SVGSVGElement>, 'children' | 'ref'> {
+  ref?: React.Ref<SVGSVGElement>
+}
+
+export function NavSplat({ ref, className, ...props }: NavSplatProps) {
   return (
     <svg
+      ref={ref}
       viewBox="0 0 156 136"
       fill="currentColor"
       fillRule="evenodd"

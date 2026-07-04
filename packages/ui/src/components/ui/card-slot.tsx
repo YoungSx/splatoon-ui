@@ -20,14 +20,16 @@ const SLOT_STYLE: Record<SlotPosition, React.CSSProperties> = {
   'bottom-right': { bottom: 0, right: '15%', transform: 'translateY(50%)' },
 }
 
-export interface CardSlotProps extends React.ComponentProps<'div'> {
+export interface CardSlotProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   /** Preset position. Omit for fully custom positioning via style. */
   position?: SlotPosition
+  ref?: React.Ref<HTMLDivElement>
 }
 
-export function CardSlot({ position, className, style, ...props }: CardSlotProps) {
+export function CardSlot({ ref, position, className, style, ...props }: CardSlotProps) {
   return (
     <div
+      ref={ref}
       data-slot={position ? `slot-${position}` : 'slot'}
       className={cn(styles.cardSlot, className)}
       style={{ ...(position && SLOT_STYLE[position]), ...style }}

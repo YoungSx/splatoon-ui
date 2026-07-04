@@ -10,11 +10,13 @@ type ButtonArrowOwnProps = {
 export type ButtonArrowAnchorProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'type'> &
   ButtonArrowOwnProps & {
     href: string
+    ref?: React.Ref<HTMLAnchorElement>
   }
 
 export type ButtonArrowButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   ButtonArrowOwnProps & {
     href?: undefined
+    ref?: React.Ref<HTMLButtonElement>
   }
 
 export type ButtonArrowProps = ButtonArrowAnchorProps | ButtonArrowButtonProps
@@ -55,20 +57,20 @@ export function ButtonArrow(props: ButtonArrowProps) {
   )
 
   if (isButtonArrowAnchorProps(props)) {
-    const { href, className, children, ...anchorProps } = omitIconProp(props)
+    const { ref, href, className, children, ...anchorProps } = omitIconProp(props)
 
     return (
-      <a className={cn(styles.buttonArrow, className)} href={href} {...anchorProps}>
+      <a ref={ref} className={cn(styles.buttonArrow, className)} href={href} {...anchorProps}>
         {children}
         <span className={styles.iconWrap}>{iconNode}</span>
       </a>
     )
   }
 
-  const { className, children, type = 'button', ...buttonProps } = omitButtonOnlyProps(props)
+  const { ref, className, children, type = 'button', ...buttonProps } = omitButtonOnlyProps(props)
 
   return (
-    <button className={cn(styles.buttonArrow, className)} type={type} {...buttonProps}>
+    <button ref={ref} className={cn(styles.buttonArrow, className)} type={type} {...buttonProps}>
       {children}
       <span className={styles.iconWrap}>{iconNode}</span>
     </button>

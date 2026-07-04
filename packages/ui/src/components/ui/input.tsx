@@ -3,11 +3,14 @@ import { Input as InputPrimitive } from '@base-ui/react/input'
 
 import { cn } from '@/lib/utils'
 
-export type InputProps = React.ComponentProps<'input'>
+export interface InputProps extends Omit<React.ComponentProps<'input'>, 'children' | 'ref'> {
+  ref?: React.Ref<HTMLInputElement>
+}
 
-function Input({ className, type, ...props }: InputProps) {
+function Input({ ref, className, type, ...props }: InputProps) {
   return (
     <InputPrimitive
+      ref={ref}
       type={type}
       data-slot="input"
       className={cn(

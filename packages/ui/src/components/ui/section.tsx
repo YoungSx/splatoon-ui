@@ -18,10 +18,12 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   as?: 'section' | 'div'
   /** Reserve content-safe space for decorative overlays painted across the section edge. */
   bottomOverlayClearance?: 'none' | 'banner-divider'
+  ref?: React.Ref<HTMLElement>
   style?: React.CSSProperties
 }
 
 export function Section({
+  ref,
   size = 'md',
   headingTape,
   pattern,
@@ -44,6 +46,7 @@ export function Section({
 
   return (
     <SectionBackground
+      ref={ref}
       as={as}
       pattern={pattern}
       className={cn(

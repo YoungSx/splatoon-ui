@@ -6,13 +6,14 @@ import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from './button'
 import styles from './button-group.module.css'
 
-type ButtonGroupOrientation = 'horizontal' | 'vertical'
-type ButtonGroupDensity = 'compact' | 'default' | 'spacious'
+export type ButtonGroupOrientation = 'horizontal' | 'vertical'
+export type ButtonGroupDensity = 'compact' | 'default' | 'spacious'
 
 export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   density?: ButtonGroupDensity
   fullWidth?: boolean
   orientation?: ButtonGroupOrientation
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function ButtonGroup({
@@ -23,7 +24,7 @@ function ButtonGroup({
   orientation = 'horizontal',
   role = 'group',
   ...props
-}: ButtonGroupProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: ButtonGroupProps) {
   return (
     <div
       ref={ref}
@@ -40,12 +41,7 @@ function ButtonGroup({
 
 export type ButtonGroupItemProps = ButtonProps
 
-function ButtonGroupItem({
-  ref,
-  className,
-  hasChevron = false,
-  ...props
-}: ButtonGroupItemProps & { ref?: React.Ref<HTMLElement> }) {
+function ButtonGroupItem({ ref, className, hasChevron = false, ...props }: ButtonGroupItemProps) {
   return (
     <Button
       ref={ref}

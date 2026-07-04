@@ -18,6 +18,7 @@ export interface WaveButtonProps extends Omit<
   icon?: React.ReactNode
   /** Blob border-radius animation */
   animation?: WaveButtonAnimation
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 const VARIANT_CLASS: Record<WaveButtonVariant, string> = {
@@ -31,18 +32,16 @@ const SIZE_CLASS: Record<WaveButtonSize, string> = {
   lg: styles.lg,
 }
 
-const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(function WaveButton(
-  {
-    variant = 'yellow',
-    size = 'md',
-    icon,
-    animation = 'morph',
-    className,
-    type = 'button',
-    ...props
-  },
-  ref
-) {
+function WaveButton({
+  ref,
+  variant = 'yellow',
+  size = 'md',
+  icon,
+  animation = 'morph',
+  className,
+  type = 'button',
+  ...props
+}: WaveButtonProps) {
   return (
     <button
       ref={ref}
@@ -61,6 +60,6 @@ const WaveButton = React.forwardRef<HTMLButtonElement, WaveButtonProps>(function
       {icon !== null && (icon ?? <span data-menu-trigger-line="" className={styles.icon} />)}
     </button>
   )
-})
+}
 
 export { WaveButton }

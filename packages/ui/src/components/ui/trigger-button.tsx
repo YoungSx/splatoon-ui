@@ -18,9 +18,22 @@ type TriggerButtonOwnProps = Pick<
   | 'textHoverColor'
 >
 
-type TriggerButtonRenderProps = Record<string, unknown> & {
+type TriggerButtonRenderProps = React.HTMLAttributes<HTMLButtonElement> & {
   ref?: React.Ref<HTMLButtonElement>
 }
+
+type TriggerRenderProp = {
+  render?: unknown
+  children?: React.ReactNode
+}
+
+type TriggerButtonProps<TTrigger extends React.ElementType> = Omit<
+  React.ComponentProps<TTrigger>,
+  'render' | 'children'
+> &
+  TriggerButtonOwnProps & {
+    ref?: React.Ref<HTMLButtonElement>
+  }
 
 export function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
   if (!ref) return
@@ -44,15 +57,14 @@ export function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
  * Usage:
  *   const DialogTriggerButton = createTriggerButton(DialogPrimitive.Trigger, "dialog-trigger")
  */
-export function createTriggerButton<TTrigger extends React.ComponentType<Record<string, unknown>>>(
+export function createTriggerButton<TTrigger extends React.ElementType>(
   Trigger: TTrigger,
   dataSlot: string,
   options?: {
     useRegisterRef?: () => React.Ref<HTMLButtonElement> | undefined
   }
 ) {
-  type TriggerProps = React.ComponentProps<TTrigger>
-  type Props = Omit<TriggerProps, 'render' | 'children'> & TriggerButtonOwnProps
+  type Props = TriggerButtonProps<TTrigger>
 
   function TriggerButton({
     ref,
@@ -66,15 +78,15 @@ export function createTriggerButton<TTrigger extends React.ComponentType<Record<
     textColor,
     textHoverColor,
     ...props
-  }: Props & { ref?: React.Ref<HTMLButtonElement> }) {
-    const TriggerComp = Trigger as React.ComponentType<Record<string, unknown>>
+  }: Props) {
+    const TriggerComp = Trigger as React.ElementType<TriggerRenderProp>
     const registerRef = options?.useRegisterRef?.()
 
     return (
       <TriggerComp
         data-slot={dataSlot}
-        render={(triggerProps: Record<string, unknown>) => {
-          const { ref: triggerRef, ...buttonProps } = triggerProps as TriggerButtonRenderProps
+        render={(triggerProps: TriggerButtonRenderProps) => {
+          const { ref: triggerRef, ...buttonProps } = triggerProps
 
           return (
             <Button
@@ -93,7 +105,7 @@ export function createTriggerButton<TTrigger extends React.ComponentType<Record<
             </Button>
           )
         }}
-        {...(props as Record<string, unknown>)}
+        {...props}
       />
     )
   }

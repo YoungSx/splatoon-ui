@@ -5,7 +5,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
-import { Splat } from '@/components/ui/splats'
+import { Splat, type SplatId } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
 import { NavChevron } from '@/components/ui/nav-chevron'
 import type { NavLink, LinkRenderProps } from '@/components/ui/navigation-types'
@@ -15,7 +15,7 @@ import { InkSplashCanvas } from '@/components/ui/ink-splash-canvas'
 /* ── Splatoon link type ── */
 
 export interface SplatoonNavLink extends NavLink {
-  hoverSplatId?: number
+  hoverSplatId?: SplatId
   hoverSplatColor?: string
   hoverSplatClassName?: string
 }

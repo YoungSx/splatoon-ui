@@ -38,7 +38,7 @@ export type InViewDelay =
   | 19
   | 20
 
-type InViewElement = React.ReactElement<{
+export type InViewElement = React.ReactElement<{
   className?: string
   style?: React.CSSProperties
   ref?: React.Ref<HTMLElement>
@@ -57,6 +57,7 @@ export interface InViewProps extends Omit<React.HTMLAttributes<HTMLElement>, 'ch
   drop?: boolean | 'slow'
   /** The single element to observe and animate */
   children: InViewElement
+  ref?: React.Ref<HTMLElement>
 }
 
 // ─── Direction-to-CSS map ──────────────────────────────────────────────────
@@ -91,9 +92,70 @@ function mergeChildStyle(
   return { ...childStyle, ...ownerStyle }
 }
 
+function composeEventHandlers<TEvent extends React.SyntheticEvent<HTMLElement>>(
+  childHandler: ((event: TEvent) => void) | undefined,
+  ownerHandler: ((event: TEvent) => void) | undefined
+) {
+  if (!childHandler || !ownerHandler) return undefined
+
+  return (event: TEvent) => {
+    childHandler(event)
+    ownerHandler(event)
+  }
+}
+
+function mergeChildEventHandlers(
+  childProps: React.HTMLAttributes<HTMLElement>,
+  ownerProps: React.HTMLAttributes<HTMLElement>
+) {
+  const onBlur = composeEventHandlers(childProps.onBlur, ownerProps.onBlur)
+  const onClick = composeEventHandlers(childProps.onClick, ownerProps.onClick)
+  const onFocus = composeEventHandlers(childProps.onFocus, ownerProps.onFocus)
+  const onKeyDown = composeEventHandlers(childProps.onKeyDown, ownerProps.onKeyDown)
+  const onKeyUp = composeEventHandlers(childProps.onKeyUp, ownerProps.onKeyUp)
+  const onMouseDown = composeEventHandlers(childProps.onMouseDown, ownerProps.onMouseDown)
+  const onMouseEnter = composeEventHandlers(childProps.onMouseEnter, ownerProps.onMouseEnter)
+  const onMouseLeave = composeEventHandlers(childProps.onMouseLeave, ownerProps.onMouseLeave)
+  const onMouseUp = composeEventHandlers(childProps.onMouseUp, ownerProps.onMouseUp)
+  const onPointerCancel = composeEventHandlers(
+    childProps.onPointerCancel,
+    ownerProps.onPointerCancel
+  )
+  const onPointerDown = composeEventHandlers(childProps.onPointerDown, ownerProps.onPointerDown)
+  const onPointerEnter = composeEventHandlers(childProps.onPointerEnter, ownerProps.onPointerEnter)
+  const onPointerLeave = composeEventHandlers(childProps.onPointerLeave, ownerProps.onPointerLeave)
+  const onPointerUp = composeEventHandlers(childProps.onPointerUp, ownerProps.onPointerUp)
+  const onTouchCancel = composeEventHandlers(childProps.onTouchCancel, ownerProps.onTouchCancel)
+  const onTouchEnd = composeEventHandlers(childProps.onTouchEnd, ownerProps.onTouchEnd)
+  const onTouchMove = composeEventHandlers(childProps.onTouchMove, ownerProps.onTouchMove)
+  const onTouchStart = composeEventHandlers(childProps.onTouchStart, ownerProps.onTouchStart)
+
+  return {
+    ...(onBlur ? { onBlur } : null),
+    ...(onClick ? { onClick } : null),
+    ...(onFocus ? { onFocus } : null),
+    ...(onKeyDown ? { onKeyDown } : null),
+    ...(onKeyUp ? { onKeyUp } : null),
+    ...(onMouseDown ? { onMouseDown } : null),
+    ...(onMouseEnter ? { onMouseEnter } : null),
+    ...(onMouseLeave ? { onMouseLeave } : null),
+    ...(onMouseUp ? { onMouseUp } : null),
+    ...(onPointerCancel ? { onPointerCancel } : null),
+    ...(onPointerDown ? { onPointerDown } : null),
+    ...(onPointerEnter ? { onPointerEnter } : null),
+    ...(onPointerLeave ? { onPointerLeave } : null),
+    ...(onPointerUp ? { onPointerUp } : null),
+    ...(onTouchCancel ? { onTouchCancel } : null),
+    ...(onTouchEnd ? { onTouchEnd } : null),
+    ...(onTouchMove ? { onTouchMove } : null),
+    ...(onTouchStart ? { onTouchStart } : null),
+  } satisfies React.HTMLAttributes<HTMLElement>
+}
+
 // ─── Component ──────────────────────────────────────────────────────────────
 
 export function InView({
+  ref: forwardedRef,
   direction,
   delay,
   rootMargin = '0px',
@@ -103,14 +165,17 @@ export function InView({
   children,
   style,
   ...props
-}: InViewProps) {
+}: InViewProps): React.ReactElement {
   const [isInView, observerRef] = useInView<HTMLElement>({ rootMargin, once })
   const child = React.Children.only(children)
   const childRef = getChildRef(child)
+  const childEventProps = child.props as React.HTMLAttributes<HTMLElement>
+  const composedEventProps = mergeChildEventHandlers(childEventProps, props)
   const mergedStyle = mergeChildStyle(child.props.style, style)
-  const ref = (node: HTMLElement | null) => {
+  const mergedRef = (node: HTMLElement | null) => {
     setRef(observerRef, node)
     setRef(childRef, node)
+    setRef(forwardedRef, node)
   }
 
   const animClasses = React.useMemo(() => {
@@ -133,7 +198,8 @@ export function InView({
 
   return React.cloneElement(child, {
     ...props,
-    ref,
+    ...composedEventProps,
+    ref: mergedRef,
     ...(mergedStyle ? { style: mergedStyle } : null),
     className: cn(child.props.className, className, animClasses, isInView && styles.inView),
   })
@@ -151,9 +217,11 @@ export interface InViewStaggerProps extends Omit<React.HTMLAttributes<HTMLElemen
   /** Override IntersectionObserver — when provided, controls active state directly */
   active?: boolean
   children: InViewElement
+  ref?: React.Ref<HTMLElement>
 }
 
 export function InViewStagger({
+  ref: forwardedRef,
   variant,
   rootMargin = '0px',
   once = true,
@@ -162,20 +230,24 @@ export function InViewStagger({
   children,
   style,
   ...props
-}: InViewStaggerProps) {
+}: InViewStaggerProps): React.ReactElement {
   const [isInViewFromObserver, observerRef] = useInView<HTMLElement>({ rootMargin, once })
   const isInView = active !== undefined ? active : isInViewFromObserver
   const child = React.Children.only(children)
   const childRef = getChildRef(child)
+  const childEventProps = child.props as React.HTMLAttributes<HTMLElement>
+  const composedEventProps = mergeChildEventHandlers(childEventProps, props)
   const mergedStyle = mergeChildStyle(child.props.style, style)
-  const ref = (node: HTMLElement | null) => {
+  const mergedRef = (node: HTMLElement | null) => {
     setRef(observerRef, node)
     setRef(childRef, node)
+    setRef(forwardedRef, node)
   }
 
   return React.cloneElement(child, {
     ...props,
-    ref,
+    ...composedEventProps,
+    ref: mergedRef,
     ...(mergedStyle ? { style: mergedStyle } : null),
     className: cn(
       child.props.className,

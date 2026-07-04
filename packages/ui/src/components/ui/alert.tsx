@@ -1,14 +1,14 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { TornCard } from './torn-card'
+import { TornCard, type TornCardProps } from './torn-card'
 
-type AlertVariant = 'default' | 'destructive'
+export type AlertVariant = 'default' | 'destructive'
 const AlertVariantContext = React.createContext<AlertVariant>('default')
 const ALERT_DESTRUCTIVE_TITLE_COLOR = 'var(--danger-surface-title)'
 const ALERT_DESTRUCTIVE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'
 
-export interface AlertProps extends Omit<React.ComponentProps<typeof TornCard>, 'variant'> {
+export interface AlertProps extends Omit<TornCardProps, 'variant'> {
   variant?: AlertVariant
 }
 
@@ -33,6 +33,7 @@ function isCssColor(value: string) {
 }
 
 export function Alert({
+  ref,
   variant = 'default',
   showTape = true,
   background,
@@ -45,6 +46,7 @@ export function Alert({
   return (
     <AlertVariantContext.Provider value={variant}>
       <TornCard
+        ref={ref}
         variant={config.tornVariant}
         showTape={showTape}
         background={background ?? config.background}
@@ -57,18 +59,19 @@ export function Alert({
   )
 }
 
-function AlertTitle({
-  className,
-  textColor,
-  style,
-  ...props
-}: React.ComponentProps<'h2'> & { textColor?: string }) {
+export interface AlertTitleProps extends Omit<React.ComponentProps<'h2'>, 'ref'> {
+  textColor?: string
+  ref?: React.Ref<HTMLHeadingElement>
+}
+
+function AlertTitle({ ref, className, textColor, style, ...props }: AlertTitleProps) {
   const variant = React.useContext(AlertVariantContext)
   const resolvedTextColor =
     textColor ?? (variant === 'destructive' ? ALERT_DESTRUCTIVE_TITLE_COLOR : 'text-blue')
 
   return (
     <h2
+      ref={ref}
       data-slot="alert-title"
       className={cn(
         'splat-heading text-2xl',
@@ -85,18 +88,19 @@ function AlertTitle({
   )
 }
 
-function AlertDescription({
-  className,
-  textColor,
-  style,
-  ...props
-}: React.ComponentProps<'p'> & { textColor?: string }) {
+export interface AlertDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'> {
+  textColor?: string
+  ref?: React.Ref<HTMLParagraphElement>
+}
+
+function AlertDescription({ ref, className, textColor, style, ...props }: AlertDescriptionProps) {
   const variant = React.useContext(AlertVariantContext)
   const resolvedTextColor =
     textColor ?? (variant === 'destructive' ? ALERT_DESTRUCTIVE_DESCRIPTION_COLOR : undefined)
 
   return (
     <p
+      ref={ref}
       data-slot="alert-description"
       className={cn('text-sm opacity-90', className)}
       style={resolvedTextColor ? { color: resolvedTextColor, ...style } : style}

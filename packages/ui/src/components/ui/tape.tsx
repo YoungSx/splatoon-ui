@@ -10,12 +10,14 @@ import { cn } from '@/lib/utils'
    ────────────────────────────────────────────── */
 export type TapeVariant = TapeImageVariant
 
-export interface TapeProps extends React.ComponentProps<'div'> {
+export interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   variant?: TapeVariant
   position?: 'top-left' | 'top-right' | 'center' | 'bottom-left' | 'bottom-right' | 'news' | 'event'
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function Tape({
+  ref,
   className,
   variant = 'tape-1',
   position = 'top-left',
@@ -32,6 +34,7 @@ function Tape({
 
   return (
     <div
+      ref={ref}
       data-slot="tape"
       data-variant={variant}
       data-position={position}
@@ -59,11 +62,12 @@ function Tape({
 /* ──────────────────────────────────────────────
    Staple — curated image-backed news staple pin
    ────────────────────────────────────────────── */
-export interface StapleProps extends React.ComponentProps<'div'> {
+export interface StapleProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   position?: 'left' | 'right' | 'top' | 'bottom'
+  ref?: React.Ref<HTMLDivElement>
 }
 
-function Staple({ className, position = 'left', ...props }: StapleProps) {
+function Staple({ ref, className, position = 'left', ...props }: StapleProps) {
   const asset = position === 'left' ? newsStapleAssets.left : newsStapleAssets.right
 
   // Check if custom positioning classes are passed
@@ -76,6 +80,7 @@ function Staple({ className, position = 'left', ...props }: StapleProps) {
 
   return (
     <div
+      ref={ref}
       data-slot="staple"
       data-position={position}
       className={cn(

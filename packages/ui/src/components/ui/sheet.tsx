@@ -6,9 +6,17 @@ import { Dialog as SheetPrimitive } from '@base-ui/react/dialog'
 import { cn } from '@/lib/utils'
 import { uiZIndex } from '@/lib/ui-z-index'
 import { createTriggerButton } from '@/components/ui/trigger-button'
+import type { ButtonProps } from '@/components/ui/button'
 import { WaveButton } from './wave-button'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import styles from './sheet.module.css'
+import type {
+  PrimitiveFocusTarget,
+  PrimitiveOpenChangeDetails,
+  PrimitiveOpenRenderState,
+  PrimitivePortalContainer,
+  PrimitiveRender,
+} from './primitive-types'
 
 const SHEET_Z_INDEX = {
   overlay: uiZIndex.sheetOverlay,
@@ -17,23 +25,64 @@ const SHEET_Z_INDEX = {
 
 // ── Sub-components (composable) ──
 
-export type SheetProps = SheetPrimitive.Root.Props
-export type SheetTriggerProps = SheetPrimitive.Trigger.Props
-export type SheetPortalProps = SheetPrimitive.Portal.Props
-export type SheetOverlayProps = SheetPrimitive.Backdrop.Props
+export interface SheetProps {
+  children?: React.ReactNode
+  defaultOpen?: boolean
+  open?: boolean
+  modal?: boolean | 'trap-focus'
+  disablePointerDismissal?: boolean
+  onOpenChange?: (open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void
+  onOpenChangeComplete?: (open: boolean) => void
+  triggerId?: string | null
+  defaultTriggerId?: string | null
+}
+
+export interface SheetTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  nativeButton?: boolean
+  render?: PrimitiveRender<HTMLButtonElement, PrimitiveOpenRenderState>
+  ref?: React.Ref<HTMLButtonElement>
+}
+
+export interface SheetPortalProps extends React.HTMLAttributes<HTMLDivElement> {
+  keepMounted?: boolean
+  container?: PrimitivePortalContainer
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface SheetOverlayProps extends React.HTMLAttributes<HTMLDivElement> {
+  render?: PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>
+  ref?: React.Ref<HTMLDivElement>
+}
 
 function Sheet({ ...props }: SheetProps) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />
 }
 
-function SheetTrigger({ ...props }: SheetTriggerProps) {
-  return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
+function SheetTrigger({ ref, ...props }: SheetTriggerProps) {
+  return <SheetPrimitive.Trigger ref={ref} data-slot="sheet-trigger" {...props} />
 }
 
-const SheetTriggerButton = createTriggerButton(
-  SheetPrimitive.Trigger as unknown as React.ComponentType<Record<string, unknown>>,
-  'sheet-trigger'
-)
+export type SheetTriggerButtonProps = Omit<SheetTriggerProps, 'children' | 'ref' | 'render'> &
+  Pick<
+    ButtonProps,
+    | 'children'
+    | 'variant'
+    | 'size'
+    | 'theme'
+    | 'hasChevron'
+    | 'color'
+    | 'hoverColor'
+    | 'textColor'
+    | 'textHoverColor'
+  > & {
+    ref?: React.Ref<HTMLButtonElement>
+  }
+
+const SheetTriggerButtonImpl = createTriggerButton(SheetPrimitive.Trigger, 'sheet-trigger')
+
+function SheetTriggerButton(props: SheetTriggerButtonProps) {
+  return <SheetTriggerButtonImpl {...props} />
+}
 
 function SheetPortal({ ...props }: SheetPortalProps) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
@@ -71,15 +120,27 @@ const CLOSE_BUTTON_CLASS: Record<SheetSide, string> = {
   left: 'top-3 right-0 translate-x-1/2',
 }
 
-export interface SheetPopupProps extends SheetPrimitive.Popup.Props {
+interface SheetPopupBaseProps extends React.HTMLAttributes<HTMLDivElement> {
+  initialFocus?: PrimitiveFocusTarget
+  finalFocus?: PrimitiveFocusTarget
+  render?: PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface SheetPopupProps extends SheetPopupBaseProps {
   side?: SheetSide
   closeButton?: React.ReactNode
 }
 
-const SheetPopup = React.forwardRef<HTMLDivElement, SheetPopupProps>(function SheetPopup(
-  { className, side = 'right', style, children, closeButton, ...props },
-  ref
-) {
+function SheetPopup({
+  ref,
+  className,
+  side = 'right',
+  style,
+  children,
+  closeButton,
+  ...props
+}: SheetPopupProps) {
   const [isReducedMotion] = useReducedMotion()
   return (
     <SheetPrimitive.Popup
@@ -103,19 +164,23 @@ const SheetPopup = React.forwardRef<HTMLDivElement, SheetPopupProps>(function Sh
       {closeButton}
     </SheetPrimitive.Popup>
   )
-})
+}
 
 // ── High-level content (Portal + Overlay + Popup + Close) ──
 
-export interface SheetContentProps extends SheetPrimitive.Popup.Props {
+export interface SheetContentProps extends SheetPopupBaseProps {
   side?: SheetSide
   showCloseButton?: boolean
 }
 
-const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(function SheetContent(
-  { className, children, side = 'right', showCloseButton = true, ...props },
-  ref
-) {
+function SheetContent({
+  ref,
+  className,
+  children,
+  side = 'right',
+  showCloseButton = true,
+  ...props
+}: SheetContentProps) {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -136,18 +201,31 @@ const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(functio
       </SheetPopup>
     </SheetPortal>
   )
-})
+}
 
 // ── Layout helpers ──
 
-export type SheetHeaderProps = React.ComponentProps<'div'>
-export type SheetFooterProps = React.ComponentProps<'div'>
-export type SheetTitleProps = SheetPrimitive.Title.Props
-export type SheetDescriptionProps = SheetPrimitive.Description.Props
+export interface SheetHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  ref?: React.Ref<HTMLDivElement>
+}
 
-function SheetHeader({ className, ...props }: SheetHeaderProps) {
+export interface SheetFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  ref?: React.Ref<HTMLDivElement>
+}
+export interface SheetTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  render?: PrimitiveRender<HTMLHeadingElement>
+  ref?: React.Ref<HTMLHeadingElement>
+}
+
+export interface SheetDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {
+  render?: PrimitiveRender<HTMLParagraphElement>
+  ref?: React.Ref<HTMLParagraphElement>
+}
+
+function SheetHeader({ ref, className, ...props }: SheetHeaderProps) {
   return (
     <div
+      ref={ref}
       data-slot="sheet-header"
       className={cn('flex flex-col gap-0.5 p-4', className)}
       {...props}
@@ -155,9 +233,10 @@ function SheetHeader({ className, ...props }: SheetHeaderProps) {
   )
 }
 
-function SheetFooter({ className, ...props }: SheetFooterProps) {
+function SheetFooter({ ref, className, ...props }: SheetFooterProps) {
   return (
     <div
+      ref={ref}
       data-slot="sheet-footer"
       className={cn('mt-auto flex flex-col gap-2 p-4', className)}
       {...props}

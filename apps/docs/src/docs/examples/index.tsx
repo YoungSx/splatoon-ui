@@ -1,7 +1,11 @@
 'use client'
 
 import generatedExampleSources from '@/docs/generated/example-source.json'
-import type { DocsExampleDefinition, DocsExampleDefinitionInput } from '@/docs/types'
+import type {
+  DocsExampleDefinitionInput,
+  DocsPlayableExample,
+  DocsExampleProps,
+} from '@/docs/types'
 
 import { alertExample } from './alert'
 import { badgeExample } from './badge'
@@ -16,15 +20,21 @@ import { tabsExample } from './tabs'
 
 const exampleSources = generatedExampleSources as Record<string, string>
 
-function withGeneratedSource<TProps extends Record<string, unknown>>(
+function withGeneratedSource<TProps extends DocsExampleProps>(
   example: DocsExampleDefinitionInput<TProps>
-): DocsExampleDefinition<TProps> {
+): DocsPlayableExample {
   const source = exampleSources[example.id]
   if (!source) {
     throw new Error(`Missing generated docs example source for ${example.id}`)
   }
 
-  return { ...example, source }
+  const { Component, ...definition } = example
+
+  return {
+    ...definition,
+    source,
+    render: (props) => <Component {...(props as TProps)} />,
+  }
 }
 
 export const docsExamples = {

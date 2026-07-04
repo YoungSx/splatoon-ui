@@ -2,16 +2,18 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import styles from './tape-divider.module.css'
 
-export interface TapeDividerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TapeDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Single tape strip or double (tape-2 + tape-3 stacked) */
   variant?: 'primary' | 'double'
   /** Rotation direction */
   rotate?: 'none' | 'left' | 'right' | 'strong'
   /** Apply negative margin so next section overlaps the tape */
   overlap?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function TapeDivider({
+  ref,
   variant = 'primary',
   rotate = 'none',
   overlap = false,
@@ -29,6 +31,7 @@ export function TapeDivider({
 
   return (
     <div
+      ref={ref}
       aria-hidden="true"
       className={cn(
         styles.tapeDivider,

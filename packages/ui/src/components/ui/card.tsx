@@ -13,7 +13,7 @@ export type { CardSurface, CardVariant } from './card-context'
 
 // ── Card Props ──────────────────────────────────────────────────
 
-export interface CardProps extends Omit<React.ComponentProps<'div'>, 'title'> {
+export interface CardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'> {
   variant?: CardVariant
   surface?: CardSurface
   /** Card rotation angle (rugged/torn) */
@@ -35,11 +35,13 @@ export interface CardProps extends Omit<React.ComponentProps<'div'>, 'title'> {
   showTape?: boolean
   /** Enable hover tilt animation (staple/paper variant) */
   hoverTilt?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
 // ── Card Component (thin dispatcher) ───────────────────────────
 
 function Card({
+  ref,
   className,
   variant = 'paper',
   surface = 'white',
@@ -60,7 +62,13 @@ function Card({
   if (variant === 'torn') {
     return (
       <CardContext.Provider value={ctx}>
-        <TornCard className={className} rotation={rotation} showTape={showTape} {...props}>
+        <TornCard
+          ref={ref}
+          className={className}
+          rotation={rotation}
+          showTape={showTape}
+          {...props}
+        >
           {children}
         </TornCard>
       </CardContext.Provider>
@@ -71,6 +79,7 @@ function Card({
     return (
       <CardContext.Provider value={ctx}>
         <RuggedCard
+          ref={ref}
           className={className}
           ruggedTheme={ruggedTheme}
           ruggedRotation={rotation}
@@ -90,6 +99,7 @@ function Card({
   return (
     <CardContext.Provider value={ctx}>
       <StapleCard
+        ref={ref}
         className={className}
         image={image}
         title={title}
@@ -108,13 +118,36 @@ function Card({
 
 // ── Sub-components ──────────────────────────────────────────────
 
-interface CardSectionProps extends React.ComponentProps<'div'> {
+export interface CardHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   showDivider?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
-function CardHeader({ className, children, showDivider = true, ...props }: CardSectionProps) {
+export interface CardFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  showDivider?: boolean
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface CardTitleProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface CardDescriptionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface CardActionProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+export interface CardContentProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
+  ref?: React.Ref<HTMLDivElement>
+}
+
+function CardHeader({ ref, className, children, showDivider = true, ...props }: CardHeaderProps) {
   return (
     <div
+      ref={ref}
       data-slot="card-header"
       className={cn(
         'group/card-header grid auto-rows-min items-start gap-1.5 pb-4 group-data-[size=sm]/card:pb-3',
@@ -128,9 +161,10 @@ function CardHeader({ className, children, showDivider = true, ...props }: CardS
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function CardTitle({ ref, className, ...props }: CardTitleProps) {
   return (
     <div
+      ref={ref}
       data-slot="card-title"
       className={cn(
         'splat-skew text-2xl leading-none font-black tracking-wider text-current',
@@ -141,9 +175,10 @@ function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
+function CardDescription({ ref, className, ...props }: CardDescriptionProps) {
   return (
     <div
+      ref={ref}
       data-slot="card-description"
       className={cn('text-[15px] leading-snug font-medium opacity-80', className)}
       {...props}
@@ -151,9 +186,10 @@ function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
+function CardAction({ ref, className, ...props }: CardActionProps) {
   return (
     <div
+      ref={ref}
       data-slot="card-action"
       className={cn('col-start-2 row-span-2 row-start-1 self-start justify-self-end', className)}
       {...props}
@@ -161,9 +197,10 @@ function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
+function CardContent({ ref, className, ...props }: CardContentProps) {
   return (
     <div
+      ref={ref}
       data-slot="card-content"
       className={cn(
         'relative z-20 flex w-full flex-col text-[16px] leading-relaxed font-medium text-current',
@@ -174,9 +211,10 @@ function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardFooter({ className, children, showDivider = true, ...props }: CardSectionProps) {
+function CardFooter({ ref, className, children, showDivider = true, ...props }: CardFooterProps) {
   return (
     <div
+      ref={ref}
       data-slot="card-footer"
       className={cn(
         'relative mt-2 flex items-center justify-between pt-4 group-data-[size=sm]/card:mt-1 group-data-[size=sm]/card:pt-3',

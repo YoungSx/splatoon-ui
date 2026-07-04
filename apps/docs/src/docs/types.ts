@@ -1,4 +1,4 @@
-import type { ComponentType } from 'react'
+import type { ComponentType, ReactNode } from 'react'
 
 export type DocsLocale = 'en' | 'zh' | 'ja'
 
@@ -53,6 +53,9 @@ export type DocsApiEntry = {
   exports: DocsApiExport[]
 }
 
+export type DocsExampleControlValue = string | number | boolean
+export type DocsExampleProps = Partial<Record<string, DocsExampleControlValue>>
+
 export type DocsExampleControl =
   | {
       type: 'select'
@@ -83,9 +86,7 @@ export type DocsExampleControl =
       step?: number
     }
 
-export type DocsExampleDefinition<
-  TProps extends Record<string, unknown> = Record<string, unknown>,
-> = {
+export type DocsExampleDefinition<TProps extends DocsExampleProps = DocsExampleProps> = {
   id: string
   title: string
   description: string
@@ -95,6 +96,11 @@ export type DocsExampleDefinition<
   Component: ComponentType<TProps>
 }
 
-export type DocsExampleDefinitionInput<
-  TProps extends Record<string, unknown> = Record<string, unknown>,
-> = Omit<DocsExampleDefinition<TProps>, 'source'>
+export type DocsExampleDefinitionInput<TProps extends DocsExampleProps = DocsExampleProps> = Omit<
+  DocsExampleDefinition<TProps>,
+  'source'
+>
+
+export type DocsPlayableExample = Omit<DocsExampleDefinition<DocsExampleProps>, 'Component'> & {
+  render: (props: DocsExampleProps) => ReactNode
+}

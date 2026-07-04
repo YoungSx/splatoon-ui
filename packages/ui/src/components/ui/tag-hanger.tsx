@@ -2,11 +2,14 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
-export type TagHangerProps = React.SVGProps<SVGSVGElement>
+export interface TagHangerProps extends Omit<React.SVGProps<SVGSVGElement>, 'children' | 'ref'> {
+  ref?: React.Ref<SVGSVGElement>
+}
 
-export function TagHanger({ className, ...props }: TagHangerProps) {
+export function TagHanger({ ref, className, ...props }: TagHangerProps) {
   return (
     <svg
+      ref={ref}
       viewBox="0 0 566 555"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

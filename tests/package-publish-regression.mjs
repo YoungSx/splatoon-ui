@@ -93,7 +93,11 @@ const checks = [
       packageJson.scripts?.['build:package']?.includes('build-package-styles') &&
       packageJson.scripts?.['pack:dry-run'] === 'npm pack --dry-run' &&
       workspacePackageJson.scripts?.release?.includes('pack:dry-run') &&
-      workspacePackageJson.scripts?.release?.includes('test:package-consumer'),
+      workspacePackageJson.scripts?.release?.includes('test:package-consumer') &&
+      workspacePackageJson.scripts?.release?.includes(
+        'component-api-encapsulation-regression.mjs'
+      ) &&
+      workspacePackageJson.scripts?.release?.includes('package-dts-regression.mjs'),
   },
   {
     name: 'CSS files are marked as side-effectful for bundlers',

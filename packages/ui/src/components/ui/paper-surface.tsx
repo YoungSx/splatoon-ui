@@ -11,7 +11,7 @@ const PAPER_SURFACE_FILL: Record<PaperSurfaceTone, string> = {
   red: 'var(--color-red)',
 }
 
-export interface PaperSurfaceProps extends React.ComponentProps<'div'> {
+export interface PaperSurfaceProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   tone?: PaperSurfaceTone
   topEdgeClassName?: string
   bottomEdgeClassName?: string
@@ -21,9 +21,11 @@ export interface PaperSurfaceProps extends React.ComponentProps<'div'> {
   contentClassName?: string
   showTopEdge?: boolean
   showBottomEdge?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function PaperSurface({
+  ref,
   tone = 'white',
   className,
   topEdgeClassName,
@@ -37,7 +39,7 @@ export function PaperSurface({
   const fill = PAPER_SURFACE_FILL[tone]
 
   return (
-    <div className={cn('relative flex flex-col', className)} {...props}>
+    <div ref={ref} className={cn('relative flex flex-col', className)} {...props}>
       {showTopEdge ? (
         <PaperTearEdge
           edge="top"

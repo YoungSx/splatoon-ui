@@ -1,15 +1,20 @@
 import * as React from 'react'
 
-import { resolveSplatoonColorValue, type SplatoonColorValue } from '@/lib/splatoon-color-tokens'
+import { resolveSplatoonColorValue } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import styles from './dotted-divider.module.css'
+import type { SplatoonColorValue } from './theme-tokens'
 
-export type { SplatoonColorValue }
+export type { SplatoonColorValue } from './theme-tokens'
 export type DottedDividerOrientation = 'horizontal' | 'vertical'
 
-export interface DottedDividerProps extends React.ComponentProps<'div'> {
+export interface DottedDividerProps extends Omit<
+  React.ComponentProps<'div'>,
+  'children' | 'color' | 'ref'
+> {
   orientation?: DottedDividerOrientation
   color?: SplatoonColorValue
+  ref?: React.Ref<HTMLDivElement>
 }
 
 type DottedDividerStyle = React.CSSProperties & {
@@ -17,6 +22,7 @@ type DottedDividerStyle = React.CSSProperties & {
 }
 
 export function DottedDivider({
+  ref,
   orientation = 'horizontal',
   color,
   className,
@@ -30,6 +36,7 @@ export function DottedDivider({
 
   return (
     <div
+      ref={ref}
       role="separator"
       aria-orientation={orientation}
       data-slot="dotted-divider"

@@ -28,11 +28,22 @@ export type NavigationDialogProps = {
   overlayDecorations?: (contentPhase: ContentPhase) => React.ReactNode
   renderLink?: (link: NavLink, props: LinkRenderProps) => React.ReactNode
   backgroundTransition: (props: BackgroundTransitionProps) => React.ReactNode
-  onNavigate?: (href: string) => void
+  onNavigate?: (href: string, event?: React.MouseEvent<HTMLAnchorElement>) => void
   /** Accessible label for the navigation dialog and nav landmark. */
   navLabel?: string
   /** Screen-reader text for the close button. */
   closeLabel?: string
+}
+
+function shouldHandleNavigationClick(event: React.MouseEvent<HTMLAnchorElement>) {
+  return (
+    !event.defaultPrevented &&
+    event.button === 0 &&
+    !event.metaKey &&
+    !event.altKey &&
+    !event.ctrlKey &&
+    !event.shiftKey
+  )
 }
 
 function DefaultNavLink({
@@ -117,7 +128,8 @@ export function NavigationDialog({
 
   // Navigate and close
   const defaultNavigate = React.useCallback(
-    (href: string) => {
+    (href: string, event?: React.MouseEvent<HTMLAnchorElement>) => {
+      event?.preventDefault()
       closeMenu()
       if (href.startsWith('#')) {
         window.location.hash = href
@@ -128,7 +140,20 @@ export function NavigationDialog({
     [closeMenu]
   )
 
-  const navigate = onNavigate ?? defaultNavigate
+  const navigate = React.useCallback(
+    (href: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (!shouldHandleNavigationClick(event)) return
+
+      event.preventDefault()
+      if (onNavigate) {
+        onNavigate(href, event)
+        return
+      }
+
+      defaultNavigate(href, event)
+    },
+    [defaultNavigate, onNavigate]
+  )
 
   return (
     <DialogPrimitive.Root
@@ -223,7 +248,7 @@ export function NavigationDialog({
                         onFocus: () => setActiveNavLabel(link.label),
                         onBlur: () =>
                           setActiveNavLabel((current) => (current === link.label ? null : current)),
-                        onClick: () => navigate(link.href),
+                        onClick: (event) => navigate(link.href, event),
                       }
 
                       return (

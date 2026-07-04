@@ -8,9 +8,11 @@ export interface BlackTapeContainerProps extends React.HTMLAttributes<HTMLDivEle
   children?: React.ReactNode
   tapeVariant?: 'yellow'
   noVerticalPadding?: boolean
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function BlackTapeContainer({
+  ref,
   className,
   children,
   tapeVariant,
@@ -19,6 +21,7 @@ export function BlackTapeContainer({
 }: BlackTapeContainerProps) {
   return (
     <div
+      ref={ref}
       className={cn(
         styles.blackTapeContainer,
         tapeVariant === 'yellow' && styles.tapeYellow,

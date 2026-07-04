@@ -29,7 +29,7 @@ import styles from './ink-trail.module.css'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
-export interface InkTrailCanvasProps extends React.ComponentProps<'div'> {
+export interface InkTrailCanvasProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   /** Enable the trail effect */
   enabled?: boolean
   /** Ink colors to cycle through */
@@ -48,6 +48,7 @@ export interface InkTrailCanvasProps extends React.ComponentProps<'div'> {
   initialOpacity?: number
   /** Particle z-index layer */
   zIndex?: number
+  ref?: React.Ref<HTMLDivElement>
 }
 
 // ─── Component ──────────────────────────────────────────────────────────────
@@ -62,11 +63,12 @@ export function InkTrailCanvas({
   particleLifetime = 1200,
   spawnRadius = 30,
   initialOpacity = 0.55,
+  zIndex,
   className,
   style,
   children,
   ...props
-}: InkTrailCanvasProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: InkTrailCanvasProps) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const poolRef = React.useRef<InkParticle[]>([])
@@ -327,7 +329,12 @@ export function InkTrailCanvas({
   // ── Render ──────────────────────────────────────────────────────────
 
   return (
-    <div ref={mergedRef} className={cn(styles.inkTrailRoot, className)} style={style} {...props}>
+    <div
+      ref={mergedRef}
+      className={cn(styles.inkTrailRoot, className)}
+      style={{ ...(zIndex != null ? { zIndex } : {}), ...style }}
+      {...props}
+    >
       <canvas ref={canvasRef} className={styles.inkTrailCanvas} aria-hidden="true" />
       {children}
     </div>

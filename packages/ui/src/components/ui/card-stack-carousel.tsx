@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { motion, type HTMLMotionProps, type PanInfo } from 'framer-motion'
+import { motion, type PanInfo } from 'framer-motion'
 
 import { CarouselContent, CarouselItem, useCarousel } from '@/components/ui/carousel'
 import {
@@ -39,7 +39,7 @@ const FALLBACK_GEOMETRY: CardSwingGeometry = createCardSwingGeometry({
 })
 
 const ZERO_CARD_STATE: CardStackCarouselCardState = createZeroCardState(FALLBACK_GEOMETRY)
-type CardStackCarouselItemLayout = 'default' | 'feed'
+export type CardStackCarouselItemLayout = 'default' | 'feed'
 
 const CARD_STACK_ITEM_WIDTH: Record<CardStackCarouselItemLayout, React.CSSProperties['width']> = {
   default: undefined,
@@ -59,11 +59,15 @@ function radiansToDegrees(value: number) {
   return value * (180 / Math.PI)
 }
 
-export function CardStackCarouselScene({ children }: { children: React.ReactNode }) {
+export interface CardStackCarouselSceneProps {
+  children?: React.ReactNode
+}
+
+export function CardStackCarouselScene({ children }: CardStackCarouselSceneProps) {
   const { currentIndex } = useCarousel()
   const { sceneSnapshot, store, supportDriverLabel } = useCreateCardStackCarouselScene({
     fallbackGeometry: FALLBACK_GEOMETRY,
-    initialIndex: currentIndex,
+    startingIndex: currentIndex,
     supportMotionProfile: defaultSupportMotionProfile,
   })
   const primaryCardState = getPrimaryCardState(sceneSnapshot, ZERO_CARD_STATE)
@@ -92,12 +96,16 @@ export function CardStackCarouselScene({ children }: { children: React.ReactNode
   )
 }
 
+export interface CardStackCarouselContentProps extends React.HTMLAttributes<HTMLDivElement> {
+  ref?: React.Ref<HTMLDivElement>
+}
+
 export function CardStackCarouselContent({
   ref,
   className,
   style,
   ...props
-}: React.ComponentPropsWithoutRef<typeof CarouselContent> & { ref?: React.Ref<HTMLDivElement> }) {
+}: CardStackCarouselContentProps) {
   const { currentIndex } = useCarousel()
   const physicsStore = useCardStackCarouselPhysicsStore()
 
@@ -120,15 +128,22 @@ export function CardStackCarouselContent({
   )
 }
 
-export interface CardStackCarouselItemProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
+type CardStackMotionStyle = Omit<React.CSSProperties, 'rotate' | 'scale' | 'x' | 'y'> & {
+  x?: number
+  y?: number
+  scale?: number
+  rotate?: number
+}
+
+export interface CardStackCarouselItemProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'onClick' | 'onDragEnd'
+> {
   children?: React.ReactNode
   itemLayout?: CardStackCarouselItemLayout
   itemWidth?: React.CSSProperties['width']
-  /** @deprecated Use itemLayout or itemWidth instead. */
-  shellClassName?: string
-  /** @deprecated Use itemLayout or itemWidth instead. */
-  shellStyle?: React.CSSProperties
   'data-index'?: number
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function resolveHangerYPx(element: HTMLElement) {
@@ -143,12 +158,10 @@ export function CardStackCarouselItem({
   children,
   itemLayout = 'default',
   itemWidth,
-  shellClassName,
-  shellStyle,
   style,
   'data-index': index = 0,
   ...props
-}: CardStackCarouselItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: CardStackCarouselItemProps) {
   const { currentIndex, goToIndex, goToNext, goToPrev } = useCarousel()
   const physicsStore = useCardStackCarouselPhysicsStore()
   const sceneSnapshot = React.useSyncExternalStore(
@@ -230,16 +243,13 @@ export function CardStackCarouselItem({
   return (
     <div
       data-slot="card-stack-item-shell"
-      className={cn(
-        'pointer-events-none absolute inset-0 m-auto flex w-full items-center justify-center',
-        shellClassName
-      )}
+      className="pointer-events-none absolute inset-0 m-auto flex w-full items-center justify-center"
       style={{
         ...(resolvedItemWidth ? { width: resolvedItemWidth } : {}),
-        ...shellStyle,
       }}
     >
       <motion.div
+        {...props}
         ref={ref}
         data-slot="card-stack-item-deck"
         data-active={isActive ? 'true' : 'false'}
@@ -258,19 +268,20 @@ export function CardStackCarouselItem({
         }}
         onDragEnd={isActive ? handleDragEnd : undefined}
         animate={!isActive ? { x: offsetPx } : undefined}
-        style={{
-          x: offsetPx,
-          y: deckTranslateYPx,
-          scale: deckScale,
-          rotate: deckRotateDeg,
-          opacity,
-          zIndex: deckZIndex,
-          cursor: isActive ? 'grab' : 'pointer',
-          pointerEvents: opacity === 0 ? 'none' : 'auto',
-          ...style,
-        }}
+        style={
+          {
+            ...style,
+            x: offsetPx,
+            y: deckTranslateYPx,
+            scale: deckScale,
+            rotate: deckRotateDeg,
+            opacity,
+            zIndex: deckZIndex,
+            cursor: isActive ? 'grab' : 'pointer',
+            pointerEvents: opacity === 0 ? 'none' : 'auto',
+          } satisfies CardStackMotionStyle
+        }
         whileDrag={{ cursor: 'grabbing' }}
-        {...props}
       >
         <motion.div
           ref={swingRef}
@@ -293,23 +304,46 @@ export function CardStackCarouselItem({
   )
 }
 
-interface CardStackCarouselArrowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface CardStackCarouselArrowProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'children'
+> {
   direction: 'previous' | 'next'
   prevLabel?: string
   nextLabel?: string
+  ref?: React.Ref<HTMLButtonElement>
 }
 
 function CardStackCarouselArrow({
   ref,
   direction,
   className,
+  disabled,
+  onClick,
   style,
+  'aria-label': ariaLabel,
   prevLabel = 'Previous carousel item',
   nextLabel = 'Next carousel item',
   ...props
-}: CardStackCarouselArrowProps & { ref?: React.Ref<HTMLButtonElement> }) {
+}: CardStackCarouselArrowProps) {
   const { canGoPrev, goToPrev, canGoNext, goToNext } = useCarousel()
   const isPrev = direction === 'previous'
+  const isDisabled = disabled || (isPrev ? !canGoPrev : !canGoNext)
+
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      onClick?.(event)
+      if (event.defaultPrevented) return
+
+      if (isPrev) {
+        goToPrev()
+        return
+      }
+
+      goToNext()
+    },
+    [goToNext, goToPrev, isPrev, onClick]
+  )
 
   return (
     <div
@@ -322,40 +356,37 @@ function CardStackCarouselArrow({
       }}
     >
       <IconButton
+        {...(props as Omit<
+          React.ComponentPropsWithoutRef<typeof IconButton>,
+          'variant' | 'direction' | 'animation' | 'disabled' | 'onClick'
+        >)}
         ref={ref}
         variant="carousel"
         direction={isPrev ? 'left' : 'right'}
         animation="squish"
-        aria-label={isPrev ? prevLabel : nextLabel}
-        disabled={isPrev ? !canGoPrev : !canGoNext}
-        onClick={isPrev ? goToPrev : goToNext}
+        aria-label={ariaLabel ?? (isPrev ? prevLabel : nextLabel)}
+        disabled={isDisabled}
+        onClick={handleClick}
         className={className}
         style={style}
-        {...(props as Omit<
-          React.ComponentPropsWithoutRef<typeof IconButton>,
-          'variant' | 'direction' | 'animation'
-        >)}
       />
     </div>
   )
 }
 
-export function CardStackCarouselPrevious({
-  ref,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> &
-  Pick<CardStackCarouselArrowProps, 'prevLabel' | 'nextLabel'> & {
-    ref?: React.Ref<HTMLButtonElement>
-  }) {
+export interface CardStackCarouselButtonProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'children'
+> {
+  prevLabel?: string
+  nextLabel?: string
+  ref?: React.Ref<HTMLButtonElement>
+}
+
+export function CardStackCarouselPrevious({ ref, ...props }: CardStackCarouselButtonProps) {
   return <CardStackCarouselArrow ref={ref} direction="previous" {...props} />
 }
 
-export function CardStackCarouselNext({
-  ref,
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> &
-  Pick<CardStackCarouselArrowProps, 'prevLabel' | 'nextLabel'> & {
-    ref?: React.Ref<HTMLButtonElement>
-  }) {
+export function CardStackCarouselNext({ ref, ...props }: CardStackCarouselButtonProps) {
   return <CardStackCarouselArrow ref={ref} direction="next" {...props} />
 }

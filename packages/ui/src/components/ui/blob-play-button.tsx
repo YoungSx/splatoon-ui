@@ -13,12 +13,16 @@ import { observeElementResize } from '@/lib/observe-element-resize'
 // --color-green: #6af7ce
 const EASE_BACK_OUT = 'cubic-bezier(0.21, 0.12, 0.35, 1.43)'
 
-export interface BlobPlayButtonProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BlobPlayButtonProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
   idleWobbleAmount?: number
   /** Blob color */
   hexColor?: string
   /** Container width in px */
   blobSize?: number
+  ref?: React.Ref<HTMLDivElement>
 }
 
 export function BlobPlayButton({
@@ -27,8 +31,11 @@ export function BlobPlayButton({
   idleWobbleAmount = 0.9,
   hexColor = 'var(--color-true-black)',
   blobSize = 120,
+  style,
+  onMouseEnter,
+  onMouseLeave,
   ...props
-}: BlobPlayButtonProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: BlobPlayButtonProps) {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const animationRef = React.useRef<number>(0)
   const validRef = React.useRef<boolean>(true)
@@ -197,10 +204,17 @@ export function BlobPlayButton({
           paddingTop: '100%',
           // Effective default is 1. Container hover sets 1.1.
           '--blob-scale': '1',
+          ...style,
         } as React.CSSProperties
       }
-      onMouseEnter={(e) => e.currentTarget.style.setProperty('--blob-scale', '1.1')}
-      onMouseLeave={(e) => e.currentTarget.style.setProperty('--blob-scale', '1')}
+      onMouseEnter={(event) => {
+        event.currentTarget.style.setProperty('--blob-scale', '1.1')
+        onMouseEnter?.(event)
+      }}
+      onMouseLeave={(event) => {
+        event.currentTarget.style.setProperty('--blob-scale', '1')
+        onMouseLeave?.(event)
+      }}
       {...props}
     >
       {/* ── blobPositioner ─────────────────────────────────────────
