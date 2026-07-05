@@ -300,8 +300,8 @@ const checks = [
       /export interface GalleryControlsProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLDivElement>,\s*'children'\s*>/.test(
         galleryControls
       ) &&
-      galleryControls.includes(
-        'export interface GalleryBounceProps extends React.HTMLAttributes<HTMLDivElement>'
+      /export interface GalleryBounceProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLDivElement>,\s*'onDrag'\s*>/.test(
+        galleryControls
       ) &&
       galleryControls.includes('ref?: React.Ref<HTMLDivElement>') &&
       galleryControls.includes(

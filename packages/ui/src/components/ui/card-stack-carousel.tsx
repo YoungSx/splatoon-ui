@@ -137,7 +137,7 @@ type CardStackMotionStyle = Omit<React.CSSProperties, 'rotate' | 'scale' | 'x' |
 
 export interface CardStackCarouselItemProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
-  'children' | 'onClick' | 'onDragEnd'
+  'children' | 'onClick' | 'onDrag' | 'onDragEnd'
 > {
   children?: React.ReactNode
   itemLayout?: CardStackCarouselItemLayout

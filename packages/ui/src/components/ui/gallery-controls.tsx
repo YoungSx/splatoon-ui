@@ -62,7 +62,7 @@ export function GalleryControls({
 
 /* ── GalleryBounce — spring bounce-in animation ── */
 
-export interface GalleryBounceProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GalleryBounceProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag'> {
   children: React.ReactNode
   ref?: React.Ref<HTMLDivElement>
 }
