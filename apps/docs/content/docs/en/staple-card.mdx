@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'StapleCard',
+  description: 'Published feed-style card with stapled paper edges, media, title, and action content.',
+  category: 'data-display',
+  example: 'staple-card',
+}
+
+## Usage
+
+Use StapleCard when the card is specifically the stapled feed surface. Import it from `splatoon-ui/staple-card` instead of routing through the generic Card variant.
+
+## Design Notes
+
+- Use `variant` for the preset staple and tape treatment.
+- Use `surface` when the content needs the dark paper style.
+- Use children with `StapleCardTitle` and `StapleCardDescription` when the content needs custom actions or layout.

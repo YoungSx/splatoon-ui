@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'StapleCard',
+  description: 'メディア、タイトル、アクション内容を持つ公開済みのステープル紙面カードです。',
+  category: 'data-display',
+  example: 'staple-card',
+}
+
+## 使い方
+
+ステープル付きのフィード紙面が必要なカードには StapleCard を使います。汎用 Card のバリアント経由ではなく、`splatoon-ui/staple-card` から直接インポートします。
+
+## デザインメモ
+
+- `variant` でステープルとテープのプリセットを選びます。
+- `surface` で白い紙面と暗い紙面を切り替えます。
+- 独自のアクションやレイアウトが必要な場合は、children に `StapleCardTitle` と `StapleCardDescription` を組み合わせます。

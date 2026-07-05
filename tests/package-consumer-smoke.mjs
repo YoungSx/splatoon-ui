@@ -118,6 +118,7 @@ import { Button } from 'splatoon-ui/button'
 import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'splatoon-ui/carousel'
 import { Dialog } from 'splatoon-ui/dialog'
 import { Input } from 'splatoon-ui/input'
+import { StapleCard, StapleCardDescription, StapleCardTitle } from 'splatoon-ui/staple-card'
 
 export function App() {
   return (
@@ -128,6 +129,13 @@ export function App() {
       </Alert>
       <Input value="Inkling" readOnly />
       <Button>Open</Button>
+      <StapleCard
+        image={<div style={{ height: 120, background: 'var(--color-yellow)' }} />}
+        variant="b"
+      >
+        <StapleCardTitle>Featured rotation</StapleCardTitle>
+        <StapleCardDescription>Formal package entrypoint smoke test.</StapleCardDescription>
+      </StapleCard>
       <Carousel aria-label="Consumer carousel">
         <CarouselContent>
           <CarouselItem>Slide one</CarouselItem>
@@ -148,6 +156,7 @@ fs.writeFileSync(
 await import('splatoon-ui/button')
 await import('splatoon-ui/carousel')
 await import('splatoon-ui/dialog')
+await import('splatoon-ui/staple-card')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `
 )

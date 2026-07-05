@@ -200,7 +200,16 @@ const checks = [
         "interface CardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'>"
       ) &&
       declarationExports('card.d.ts', 'CardHeaderProps') &&
-      declarationExports('card.d.ts', 'CardContentProps'),
+      declarationExports('card.d.ts', 'CardContentProps') &&
+      declarationIncludes(
+        'staple-card.d.ts',
+        "interface StapleCardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'>"
+      ) &&
+      declarationExports('staple-card.d.ts', 'StapleCard') &&
+      declarationExports('staple-card.d.ts', 'StapleCardProps') &&
+      declarationExports('staple-card.d.ts', 'StapleCardTitleProps') &&
+      declarationExports('staple-card.d.ts', 'StapleCardDescriptionProps') &&
+      declarationExports('staple-card.d.ts', 'StapleCardVariant'),
   },
   {
     name: 'stable overlay and tabs declarations keep cancellable details behind local primitive types',

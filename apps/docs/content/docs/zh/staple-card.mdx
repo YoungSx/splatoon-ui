@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'StapleCard',
+  description: '正式发布的订书钉纸面信息卡，包含媒体、标题和操作内容。',
+  category: 'data-display',
+  example: 'staple-card',
+}
+
+## 用法
+
+当卡片明确需要订书钉信息流纸面时使用 StapleCard。请从 `splatoon-ui/staple-card` 导入，不要通过通用 Card 变体绕一层。
+
+## 设计备注
+
+- 使用 `variant` 选择订书钉和胶带预设。
+- 使用 `surface` 切换白色或深色纸面。
+- 需要自定义操作区或内容布局时，配合 `StapleCardTitle` 和 `StapleCardDescription` 使用 children。

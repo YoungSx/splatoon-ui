@@ -70,6 +70,10 @@
       "types": "./dist/card.d.ts",
       "import": "./dist/card.js"
     },
+    "./staple-card": {
+      "types": "./dist/staple-card.d.ts",
+      "import": "./dist/staple-card.js"
+    },
     "./carousel": {
       "types": "./dist/carousel.d.ts",
       "import": "./dist/carousel.js"

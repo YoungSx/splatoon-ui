@@ -625,6 +625,158 @@
       ]
     },
     {
+      "slug": "staple-card",
+      "importPath": "splatoon-ui/staple-card",
+      "primaryExport": "StapleCard",
+      "sourcePath": "src/components/ui/staple-card.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "StapleCard",
+          "kind": "function",
+          "type": "export function StapleCard(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "StapleCardVariant",
+              "defaultValue": "",
+              "description": "Variant preset (controls tape visibility and position)"
+            },
+            {
+              "name": "image",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Image/media shown in the tilted image area"
+            },
+            {
+              "name": "title",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders a title paragraph in the info area"
+            },
+            {
+              "name": "subtitle",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders a subtitle paragraph below the title"
+            },
+            {
+              "name": "action",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Convenience: renders an action element (e.g. a Button) at the bottom of info"
+            },
+            {
+              "name": "surface",
+              "optional": true,
+              "type": "'white' | 'dark'",
+              "defaultValue": "",
+              "description": "Visual surface: \"white\" (default) or \"dark\" (dark bg, white text)"
+            },
+            {
+              "name": "showTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Whether to show the decorative tape element (default: from variant config)"
+            },
+            {
+              "name": "hoverTilt",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable hover tilt animation (default: false)"
+            },
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleCardDescription",
+          "kind": "function",
+          "type": "function StapleCardDescription(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleCardDescriptionProps",
+          "kind": "interface",
+          "type": "export interface StapleCardDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "StapleCardProps",
+          "kind": "interface",
+          "type": "export interface StapleCardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "StapleCardTitle",
+          "kind": "function",
+          "type": "function StapleCardTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleCardTitleProps",
+          "kind": "interface",
+          "type": "export interface StapleCardTitleProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "StapleCardVariant",
+          "kind": "type",
+          "type": "export type StapleCardVariant = 'a' | 'b' | 'c' | 'd'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "carousel",
       "importPath": "splatoon-ui/carousel",
       "primaryExport": "Carousel",
