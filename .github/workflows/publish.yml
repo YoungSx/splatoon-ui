@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build package
+        run: pnpm build:package
+
       - name: Set version from tag
         working-directory: packages/ui
         run: |
@@ -51,9 +54,6 @@ jobs:
           node tests/theme-role-tokens-regression.mjs
           node tests/ui-entrypoints-regression.mjs
           node tests/package-publish-regression.mjs
-
-      - name: Build package
-        run: pnpm build:package
 
       - name: Publish
         shell: bash
