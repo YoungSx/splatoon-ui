@@ -33,7 +33,10 @@ jobs:
         working-directory: packages/ui
         run: |
           VERSION=${GITHUB_REF_NAME#v}
-          npm version "$VERSION" --no-git-tag-version --ignore-scripts
+          CURRENT_VERSION="$(node -p "require('./package.json').version")"
+          if [ "${CURRENT_VERSION}" != "${VERSION}" ]; then
+            npm version "$VERSION" --no-git-tag-version --ignore-scripts
+          fi
           ACTUAL_VERSION="$(node -p "require('./package.json').version")"
           if [ "${ACTUAL_VERSION}" != "${VERSION}" ]; then
             echo "package.json version ${ACTUAL_VERSION} does not match tag version ${VERSION}."
