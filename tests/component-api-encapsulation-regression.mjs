@@ -833,11 +833,13 @@ const checks = [
       ),
   },
   {
-    name: 'High-level wrapper props derive from stable exported props types',
+    name: 'High-level wrapper props avoid private implementation prop aliases',
     pass:
       alert.includes('export type AlertVariant') &&
-      alert.includes('type TornCardProps') &&
-      alert.includes("extends Omit<TornCardProps, 'variant'>") &&
+      alert.includes(
+        "export interface AlertProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
+      ) &&
+      alert.includes("tapePosition?: 'top-right' | 'bottom-center'") &&
       alert.includes('export function Alert({\n  ref,') &&
       alert.includes('<TornCard\n        ref={ref}') &&
       alert.includes('export interface AlertTitleProps') &&
@@ -846,6 +848,8 @@ const checks = [
       alert.includes('export interface AlertDescriptionProps') &&
       alert.includes('ref?: React.Ref<HTMLParagraphElement>') &&
       alert.includes('function AlertDescription({ ref,') &&
+      !alert.includes('type TornCardProps') &&
+      !alert.includes("extends Omit<TornCardProps, 'variant'>") &&
       !alert.includes('ComponentProps<typeof TornCard>') &&
       videoDialog.includes('type DialogProps') &&
       videoDialog.includes("extends Omit<DialogProps, 'children'>") &&

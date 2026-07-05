@@ -12,7 +12,7 @@ const routes = [
   { name: 'en-button', path: '/en/docs/button' },
   { name: 'zh-button', path: '/zh/docs/button' },
   { name: 'ja-tabs', path: '/ja/docs/tabs' },
-  { name: 'en-icons-fallback', path: '/en/docs/icons' },
+  { name: 'en-alert', path: '/en/docs/alert' },
 ]
 const viewports = [
   { name: 'desktop', width: 1280, height: 900 },

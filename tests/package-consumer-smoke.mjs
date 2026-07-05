@@ -113,18 +113,22 @@ fs.mkdirSync(path.join(consumerDir, 'src'), { recursive: true })
 fs.writeFileSync(
   path.join(consumerDir, 'src', 'app.tsx'),
   `import 'splatoon-ui/styles.css'
-import { HeadingTape } from 'splatoon-ui/heading-tape'
-import { Section } from 'splatoon-ui/section'
+import { Alert, AlertDescription, AlertTitle } from 'splatoon-ui/alert'
 import { Button } from 'splatoon-ui/button'
 import { Dialog } from 'splatoon-ui/dialog'
+import { Input } from 'splatoon-ui/input'
 
 export function App() {
   return (
-    <Section>
-      <HeadingTape>Demo</HeadingTape>
+    <main>
+      <Alert>
+        <AlertTitle>Demo</AlertTitle>
+        <AlertDescription>Package consumer smoke test.</AlertDescription>
+      </Alert>
+      <Input value="Inkling" readOnly />
       <Button>Open</Button>
       <Dialog />
-    </Section>
+    </main>
   )
 }
 `

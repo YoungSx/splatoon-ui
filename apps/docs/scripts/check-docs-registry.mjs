@@ -87,25 +87,14 @@ const generatedExampleIds = Object.keys(generatedExampleSources).sort((left, rig
   left.localeCompare(right)
 )
 const locales = ['en', 'zh', 'ja']
-const documentedCoreSlugs = [
-  'alert',
-  'badge',
-  'button',
-  'card',
-  'checkbox',
-  'dialog',
-  'input',
-  'progress',
-  'switch',
-  'tabs',
-]
-
 const missingDocs = diff(publicUiEntries, docsSlugs)
 const extraDocs = diff(docsSlugs, publicUiEntries)
 const missingPackageExports = publicUiEntries.filter(
   (entry) => !packageExports.includes(`./${entry}`)
 )
 const missingApi = diff(publicUiEntries, apiSlugs)
+const missingExamples = diff(publicUiEntries, exampleIds)
+const extraExamples = diff(exampleIds, publicUiEntries)
 const emptyApi = apiJson.entries
   .filter((entry) => !Array.isArray(entry.exports) || entry.exports.length === 0)
   .map((entry) => entry.slug)
@@ -118,19 +107,19 @@ const emptyGeneratedExampleSources = generatedExampleIds.filter(
   (exampleId) => !generatedExampleSources[exampleId]?.trim()
 )
 const missingMdx = locales.flatMap((locale) =>
-  documentedCoreSlugs
+  publicUiEntries
     .filter((slug) => !readMdxMetadata(locale, slug))
     .map((slug) => `${locale}/${slug}.mdx`)
 )
 const invalidMdxExamples = locales.flatMap((locale) =>
-  documentedCoreSlugs.flatMap((slug) => {
+  publicUiEntries.flatMap((slug) => {
     const metadata = readMdxMetadata(locale, slug)
     if (!metadata?.example) return [`${locale}/${slug}: missing example`]
     return exampleIds.includes(metadata.example) ? [] : [`${locale}/${slug}: ${metadata.example}`]
   })
 )
 const invalidMdxCategories = locales.flatMap((locale) =>
-  documentedCoreSlugs.flatMap((slug) => {
+  publicUiEntries.flatMap((slug) => {
     const metadata = readMdxMetadata(locale, slug)
     if (!metadata?.category) return [`${locale}/${slug}: missing category`]
     const expectedCategory = manifestModule.getDocsCategoryForSlug(slug)
@@ -139,6 +128,17 @@ const invalidMdxCategories = locales.flatMap((locale) =>
       : [`${locale}/${slug}: ${metadata.category}, expected ${expectedCategory}`]
   })
 )
+const localExampleImports = exampleIds.flatMap((exampleId) => {
+  const source = fs.readFileSync(path.join(examplesDir, `${exampleId}.tsx`), 'utf8')
+  return source.includes('@/components/ui/') ? [exampleId] : []
+})
+const missingPackageExampleImports = exampleIds.flatMap((exampleId) => {
+  const source = fs.readFileSync(path.join(examplesDir, `${exampleId}.tsx`), 'utf8')
+  return source.includes(`from 'splatoon-ui/${exampleId}'`) ||
+    (exampleId === 'card' && source.includes("from 'splatoon-ui/button'"))
+    ? []
+    : [exampleId]
+})
 
 const failures = [
   missingDocs.length ? `Missing docs slugs: ${missingDocs.join(', ')}` : null,
@@ -148,6 +148,8 @@ const failures = [
     ? `Public UI entries missing package exports: ${missingPackageExports.join(', ')}`
     : null,
   missingApi.length ? `Missing generated API entries: ${missingApi.join(', ')}` : null,
+  missingExamples.length ? `Missing docs examples: ${missingExamples.join(', ')}` : null,
+  extraExamples.length ? `Extra docs examples: ${extraExamples.join(', ')}` : null,
   emptyApi.length ? `Generated API entries with no exports: ${emptyApi.join(', ')}` : null,
   invalidPrimaryExports.length
     ? `Invalid primary API exports: ${invalidPrimaryExports.join(', ')}`
@@ -166,6 +168,12 @@ const failures = [
     ? `Invalid MDX example references: ${invalidMdxExamples.join(', ')}`
     : null,
   invalidMdxCategories.length ? `Invalid MDX categories: ${invalidMdxCategories.join(', ')}` : null,
+  localExampleImports.length
+    ? `Docs examples import local source modules: ${localExampleImports.join(', ')}`
+    : null,
+  missingPackageExampleImports.length
+    ? `Docs examples missing package imports: ${missingPackageExampleImports.join(', ')}`
+    : null,
   hasPageFile(path.join(docsRoot, 'src', 'app', 'docs'))
     ? 'Legacy /docs route still exists.'
     : null,

@@ -3,7 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Button, type ButtonProps } from '@/components/ui/button'
+import { Button, type ButtonProps } from 'splatoon-ui/button'
 
 type ButtonExampleProps = {
   variant: ButtonProps['variant']

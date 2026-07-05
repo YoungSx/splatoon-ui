@@ -158,6 +158,9 @@ async function collectVisualState(page, route) {
         .slice(0, 8)
 
       const detailArticle = document.querySelector('article')
+      const playground = document.querySelector('[data-slot="docs-playground"]')
+      const playgroundPreview = document.querySelector('[data-slot="docs-playground-preview"]')
+      const playgroundControls = document.querySelector('[data-slot="docs-playground-controls"]')
       const docsLinks = new Set(
         [...document.querySelectorAll('main a[href*="/docs/"]')].map((link) =>
           link.getAttribute('href')
@@ -174,9 +177,17 @@ async function collectVisualState(page, route) {
         ),
         hasMain: Boolean(document.querySelector('main')),
         hasPlaygroundShell: Boolean(
-          document.querySelector('[data-slot="docs-playground"]') ||
-          document.querySelector('.pattern-chip-white.border-chaos-black')
+          playground || document.querySelector('.pattern-chip-white.border-chaos-black')
         ),
+        playgroundLayout:
+          playground && playgroundPreview && playgroundControls
+            ? {
+                width: playground.getBoundingClientRect().width,
+                previewWidth: playgroundPreview.getBoundingClientRect().width,
+                previewBottom: playgroundPreview.getBoundingClientRect().bottom,
+                controlsTop: playgroundControls.getBoundingClientRect().top,
+              }
+            : null,
         hasSidebar: Boolean(document.querySelector('nav[aria-label="Component navigation"]')),
         indexHasExpectedLinks: kind === 'index' ? docsLinks.size >= expectedSlugCount : true,
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -215,6 +226,15 @@ function assertVisualState(route, viewport, state, screenshot) {
 
   assert(state.detailArticleVisible, 'detail article is not visible')
   assert(state.hasPlaygroundShell, 'missing playground or pending example surface')
+  assert(state.playgroundLayout, 'missing playground layout slots')
+  assert(
+    state.playgroundLayout.previewWidth >= state.playgroundLayout.width - 40,
+    `playground preview is compressed: ${JSON.stringify(state.playgroundLayout)}`
+  )
+  assert(
+    state.playgroundLayout.controlsTop >= state.playgroundLayout.previewBottom,
+    `playground controls overlap preview: ${JSON.stringify(state.playgroundLayout)}`
+  )
   assert(state.hasImportCode, 'missing package import code')
   assert(state.hasApiTable, 'missing API table')
   assert(state.apiTableRows > 0, 'API table has no rows')

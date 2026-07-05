@@ -3,7 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Checkbox } from '@/components/ui/checkbox'
+import { Checkbox } from 'splatoon-ui/checkbox'
 
 type CheckboxExampleProps = {
   checked: boolean

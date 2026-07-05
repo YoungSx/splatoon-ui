@@ -67,27 +67,7 @@ const clientOnlyModules = [
   './wave-canvas',
 ]
 
-const requiredServerExports = [
-  './asset-image',
-  './badge',
-  './character-assets',
-  './event-assets',
-  './event-callout',
-  './heading-tape',
-  './icon-button',
-  './label',
-  './list',
-  './loader',
-  './nav-menu-button',
-  './news-assets',
-  './paper-tear-edge',
-  './section-background',
-  './squid-assets',
-  './tape-assets',
-  './tape-picture',
-  './tape',
-  './weapons-assets',
-]
+const requiredServerExports = ['./alert', './badge', './input']
 
 const demoOnlyModules = ['./demo-layout', './github-mark', './showcase-assets']
 const privateImplementationModules = ['./trigger-button']
@@ -95,12 +75,21 @@ const privateImplementationModules = ['./trigger-button']
 const requiredClientExports = [
   './button',
   './card',
-  './carousel',
+  './checkbox',
   './dialog',
-  './navigation',
-  './splats',
-  './video-dialog',
+  './progress',
+  './switch',
+  './tabs',
 ]
+
+const allowedPackageExports = new Set([
+  '.',
+  './server',
+  './styles.css',
+  './assets/*',
+  './package.json',
+  ...publicUiEntries.map((name) => `./${name}`),
+])
 
 const staticSvgFiles = [
   path.join(componentRoot, 'splats', 'splat.tsx'),
@@ -134,6 +123,7 @@ const checks = [
       packageJson.exports?.['./server']?.types === './dist/server.d.ts' &&
       packageJson.exports?.['./client'] === undefined &&
       packageJson.exports?.['./styles.css'] === './dist/styles.css' &&
+      Object.keys(packageJson.exports ?? {}).every((entry) => allowedPackageExports.has(entry)) &&
       publicUiEntries.every((name) => {
         const entry = packageJson.exports?.[`./${name}`]
         return entry?.import === `./dist/${name}.js` && entry?.types === `./dist/${name}.d.ts`

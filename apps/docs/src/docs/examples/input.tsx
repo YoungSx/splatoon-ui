@@ -3,8 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { Input } from 'splatoon-ui/input'
 
 type InputExampleProps = {
   value: string
@@ -13,7 +12,9 @@ type InputExampleProps = {
 export function InputExample({ value }: InputExampleProps) {
   return (
     <div className="grid w-full max-w-sm gap-2">
-      <Label htmlFor="docs-input-example">Player name</Label>
+      <label className="text-sm font-black tracking-wider" htmlFor="docs-input-example">
+        Player name
+      </label>
       <Input id="docs-input-example" value={value} readOnly />
     </div>
   )

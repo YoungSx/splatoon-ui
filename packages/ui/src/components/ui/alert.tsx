@@ -1,15 +1,22 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { TornCard, type TornCardProps } from './torn-card'
+import { TornCard } from './torn-card'
+import type { SplatoonColorValue } from './theme-tokens'
 
 export type AlertVariant = 'default' | 'destructive'
 const AlertVariantContext = React.createContext<AlertVariant>('default')
 const ALERT_DESTRUCTIVE_TITLE_COLOR = 'var(--danger-surface-title)'
 const ALERT_DESTRUCTIVE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'
 
-export interface AlertProps extends Omit<TornCardProps, 'variant'> {
+export interface AlertProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   variant?: AlertVariant
+  rotation?: string
+  background?: SplatoonColorValue
+  showTape?: boolean
+  showSticker?: boolean
+  tapePosition?: 'top-right' | 'bottom-center'
+  ref?: React.Ref<HTMLDivElement>
 }
 
 const ALERT_VARIANT_MAP = {

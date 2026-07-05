@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTriggerButton,
-} from '@/components/ui/dialog'
+} from 'splatoon-ui/dialog'
 
 type DialogExampleProps = {
   title: string

@@ -451,7 +451,7 @@ export default function Home() {
     },
     {
       label: t.nav.docs,
-      href: '/en/docs',
+      href: `/${locale}/docs`,
       selectedKey: 'docs',
       hoverSplatId: 2,
       hoverSplatColor: 'var(--color-green)',

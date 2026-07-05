@@ -34,10 +34,10 @@ npm install splatoon-ui
 import 'splatoon-ui/styles.css'
 ```
 
-默认入口导出 server-safe 基础组件；交互组件建议按组件子路径导入：
+默认入口只导出 server-safe 的 stable 组件；交互组件按组件子路径导入：
 
 ```tsx
-import { HeadingTape, Section } from 'splatoon-ui'
+import { Alert, Badge, Input } from 'splatoon-ui'
 import { Button } from 'splatoon-ui/button'
 import { Dialog } from 'splatoon-ui/dialog'
 ```
@@ -75,43 +75,20 @@ pnpm dev
 | 语言    | TypeScript (strict mode)                  |
 | 包管理  | pnpm                                      |
 
-## 组件清单
+## Stable 公共组件
 
-### 核心组件
+当前 npm 公共 API 只包含已完整文档化和示例化的 stable 组件：
 
-| 组件                                | 说明                                                                                 |
-| ----------------------------------- | ------------------------------------------------------------------------------------ |
-| `Button`                            | 6 色变体 + drip 动画 + 墨水飞溅装饰                                                  |
-| `Card`                              | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
-| `PhotoFrame`                        | 统一相纸容器：撕边 SVG + 胶带/贴纸装饰、mask-image 裁切、响应式                      |
-| `Dialog`                            | Base UI 封装，WaveButton 关闭按钮 + 全屏墨水飞溅模式                                 |
-| `Tabs`                              | 墨水飞溅 hover + 颜色下划线标签页（default / line 两种变体）                         |
-| `Input / Select / Checkbox / Radio` | 表单控件                                                                             |
-| `Badge`                             | 7 色倾斜标签 + 贴纸变体                                                              |
-| `Navigation`                        | 固定头部（滚动折叠）+ 导航对话框                                                     |
-
-### 装饰组件
-
-| 组件                  | 说明                                                          |
-| --------------------- | ------------------------------------------------------------- |
-| `Tape Title`          | 红 / 黄 / 黑背景 + SVG 胶带装饰标题                           |
-| `Banner Divider`      | 波浪形分区过渡                                                |
-| `Marquee`             | 无限滚动内容条（default / tape / warning 变体，支持任意内容） |
-| `Ink Splat`           | 12 种墨水飞溅装饰组件 + 交互式墨水生成器                      |
-| `Sticker`             | 装饰性贴纸                                                    |
-| `Background Patterns` | 15 种迷彩 / 图案纹理（支持 Retina）                           |
-
-### 高级组件
-
-| 组件                  | 说明                                                |
-| --------------------- | --------------------------------------------------- |
-| `Video Dialog`        | YouTube 模态 + WebGL 墨水飞溅过渡                   |
-| `Ink Splash Canvas`   | WebGL 着色器驱动的墨水过渡效果                      |
-| `Card Stack Carousel` | 基于物理摆锤模型的卡片轮播                          |
-| `Gallery System`      | 统一轮播（Marquee / Weapons / Shops）+ 鱿鱼图标分页 |
-| `InView`              | IntersectionObserver 滚动触发动画                   |
-| `Page Transition`     | WebGL 墨水飞溅页面过渡                              |
-| `Wave Canvas`         | 交互式波浪画布                                      |
+| 组件                        | 说明                                                                                 |
+| --------------------------- | ------------------------------------------------------------------------------------ |
+| `Button`                    | 6 色变体 + drip 动画 + 墨水飞溅装饰                                                  |
+| `Card`                      | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
+| `Dialog`                    | Base UI 封装，WaveButton 关闭按钮 + 全屏墨水飞溅模式                                 |
+| `Tabs`                      | 墨水飞溅 hover + 颜色下划线标签页（default / line 两种变体）                         |
+| `Input / Checkbox / Switch` | 表单控件                                                                             |
+| `Progress`                  | 墨水风格进度条                                                                       |
+| `Alert`                     | 撕纸风格状态提示                                                                     |
+| `Badge`                     | 7 色倾斜标签 + 贴纸变体                                                              |
 
 ## 设计系统
 

@@ -123,27 +123,37 @@ function DocsPlaygroundContent({
       </div>
 
       {panel === 'preview' ? (
-        <div className="grid gap-4 p-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
-          <div className="pattern-chip-white min-h-72 overflow-x-auto bg-white p-4">
+        <div className="grid gap-4 p-4">
+          <div
+            data-slot="docs-playground-preview"
+            className="pattern-chip-white min-h-80 overflow-x-auto bg-white p-4"
+          >
             <div
-              className={`mx-auto grid min-h-60 w-full place-items-center transition-[max-width] ${viewportClassName[viewport]}`}
+              className={`mx-auto grid min-h-72 w-full place-items-center transition-[max-width] ${viewportClassName[viewport]}`}
             >
               {example.render(values)}
             </div>
           </div>
-          <div className="grid content-start gap-3">
-            <p className="font-alt text-2xl font-black">{example.title}</p>
-            <p className="text-sm font-medium text-black/65">{example.description}</p>
-            {example.controls.map((control) => (
-              <ControlField
-                key={control.prop}
-                control={control}
-                value={values[control.prop]}
-                onChange={(value) =>
-                  setValues((current) => ({ ...current, [control.prop]: value }))
-                }
-              />
-            ))}
+          <div
+            data-slot="docs-playground-controls"
+            className="border-chaos-black grid gap-4 border-t-3 pt-4 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]"
+          >
+            <div className="grid content-start gap-2">
+              <p className="font-alt text-2xl font-black">{example.title}</p>
+              <p className="text-sm font-medium text-black/65">{example.description}</p>
+            </div>
+            <div className="grid content-start gap-3 sm:grid-cols-2">
+              {example.controls.map((control) => (
+                <ControlField
+                  key={control.prop}
+                  control={control}
+                  value={values[control.prop]}
+                  onChange={(value) =>
+                    setValues((current) => ({ ...current, [control.prop]: value }))
+                  }
+                />
+              ))}
+            </div>
           </div>
         </div>
       ) : null}
@@ -183,7 +193,7 @@ function ControlField({
       <span>{control.label}</span>
       {control.type === 'select' ? (
         <select
-          className="border-chaos-black bg-white px-3 py-2 font-mono text-sm"
+          className="border-chaos-black w-full min-w-0 border-2 bg-white px-3 py-2 font-mono text-sm"
           value={String(value ?? control.defaultValue)}
           onChange={(event) => onChange(event.target.value)}
         >
@@ -204,7 +214,7 @@ function ControlField({
       ) : null}
       {control.type === 'text' ? (
         <input
-          className="border-chaos-black bg-white px-3 py-2 font-mono text-sm"
+          className="border-chaos-black w-full min-w-0 border-2 bg-white px-3 py-2 font-mono text-sm"
           value={String(value ?? control.defaultValue)}
           onChange={(event) => onChange(event.target.value)}
         />
@@ -212,6 +222,7 @@ function ControlField({
       {control.type === 'number' ? (
         <input
           type="range"
+          className="w-full min-w-0"
           min={control.min}
           max={control.max}
           step={control.step}

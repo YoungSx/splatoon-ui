@@ -3,7 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Alert, AlertDescription, AlertTitle, type AlertProps } from '@/components/ui/alert'
+import { Alert, AlertDescription, AlertTitle, type AlertProps } from 'splatoon-ui/alert'
 
 type AlertExampleProps = {
   variant: AlertProps['variant']

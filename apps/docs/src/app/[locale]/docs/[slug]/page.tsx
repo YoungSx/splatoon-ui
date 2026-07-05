@@ -2,13 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import { getDocsApiEntry } from '@/docs/api'
-import {
-  DocsArticle,
-  DocsLayout,
-  FallbackContent,
-  PendingExample,
-  createFallbackMeta,
-} from '@/docs/components'
+import { DocsArticle, DocsLayout, FallbackContent, createFallbackMeta } from '@/docs/components'
 import { getDocsContent } from '@/docs/content'
 import { docsComponentSlugs, docsLocales, isDocsLocale, isDocsSlug } from '@/docs/manifest'
 import { DocsPlayground } from '@/docs/playground'
@@ -47,9 +41,7 @@ export default async function DocsDetailPage({ params }: DocsDetailPageProps) {
   const apiEntry = getDocsApiEntry(slug)
   const example = meta.example ? (
     <DocsPlayground apiEntry={apiEntry} exampleId={meta.example} />
-  ) : (
-    <PendingExample locale={locale} />
-  )
+  ) : null
 
   return (
     <DocsLayout locale={locale} slug={slug}>

@@ -45,6 +45,14 @@ const forbiddenPublicEntrypoints = [
   './showcase-assets',
   './trigger-button',
 ]
+const allowedPackageExports = new Set([
+  '.',
+  './server',
+  './styles.css',
+  './assets/*',
+  './package.json',
+  ...publicUiEntries.map((entry) => `./${entry}`),
+])
 
 const checks = [
   {
@@ -61,6 +69,7 @@ const checks = [
       packageJson.exports?.['.']?.import === './dist/server.js' &&
       packageJson.exports?.['./client'] === undefined &&
       packageJson.exports?.['./styles.css'] === './dist/styles.css' &&
+      Object.keys(packageJson.exports ?? {}).every((entry) => allowedPackageExports.has(entry)) &&
       publicUiEntries.every((name) => {
         const entry = packageJson.exports?.[`./${name}`]
         return entry?.import === `./dist/${name}.js` && entry?.types === `./dist/${name}.d.ts`

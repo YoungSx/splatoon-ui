@@ -3,7 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Switch, type SwitchProps } from '@/components/ui/switch'
+import { Switch, type SwitchProps } from 'splatoon-ui/switch'
 
 type SwitchExampleProps = {
   color: SwitchProps['color']

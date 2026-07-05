@@ -34,10 +34,10 @@ Import the global stylesheet once in your app shell:
 import 'splatoon-ui/styles.css'
 ```
 
-Use server-safe primitives from the default entrypoint, and import interactive components by component subpath:
+Use server-safe stable components from the default entrypoint, and import interactive components by component subpath:
 
 ```tsx
-import { HeadingTape, Section } from 'splatoon-ui'
+import { Alert, Badge, Input } from 'splatoon-ui'
 import { Button } from 'splatoon-ui/button'
 import { Dialog } from 'splatoon-ui/dialog'
 ```
@@ -75,43 +75,20 @@ Open http://localhost:4317 to see it in action.
 | Language        | TypeScript (strict mode)                  |
 | Package Manager | pnpm                                      |
 
-## Component Inventory
+## Stable Public Components
 
-### Core Components
+The npm public API only includes stable components with full docs and examples:
 
-| Component                           | Description                                                                                         |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `Button`                            | 6 color variants + drip animation + ink splat decorations                                           |
-| `Card`                              | 4 variants: paper (torn paper), staple (staple and tape), rugged (hanging label), torn (rough edge) |
-| `PhotoFrame`                        | Unified photo frame: torn-paper SVG + tape/sticker decoration, mask-image clipping, responsive      |
-| `Dialog`                            | Base UI wrapper with WaveButton close button + fullscreen ink splash mode                           |
-| `Tabs`                              | Ink splat hover + color underline tabs (default / line variants)                                    |
-| `Input / Select / Checkbox / Radio` | Form controls                                                                                       |
-| `Badge`                             | 7 color skewed labels + sticker variant                                                             |
-| `Navigation`                        | Fixed header (scroll-collapse) + navigation dialog                                                  |
-
-### Decorative Components
-
-| Component             | Description                                                                                |
-| --------------------- | ------------------------------------------------------------------------------------------ |
-| `Tape Title`          | Red / yellow / black background + SVG tape decoration heading                              |
-| `Banner Divider`      | Wavy section transitions                                                                   |
-| `Marquee`             | Infinite scrolling content strip (default / tape / warning variants, supports any content) |
-| `Ink Splat`           | 12 ink splat decorative components + interactive ink splat generator                       |
-| `Sticker`             | Decorative sticker elements                                                                |
-| `Background Patterns` | 15 camouflage / pattern textures (Retina support)                                          |
-
-### Advanced Components
-
-| Component             | Description                                                                |
-| --------------------- | -------------------------------------------------------------------------- |
-| `Video Dialog`        | YouTube modal + WebGL ink splash transition                                |
-| `Ink Splash Canvas`   | WebGL shader-driven ink transition effect                                  |
-| `Card Stack Carousel` | Physics-based pendulum model card carousel                                 |
-| `Gallery System`      | Unified carousel (Marquee / Weapons / Shops) + pagination with squid icons |
-| `InView`              | IntersectionObserver scroll-triggered animations                           |
-| `Page Transition`     | WebGL ink splash page transitions                                          |
-| `Wave Canvas`         | Interactive wave canvas                                                    |
+| Component                   | Description                                                                                         |
+| --------------------------- | --------------------------------------------------------------------------------------------------- |
+| `Button`                    | 6 color variants + drip animation + ink splat decorations                                           |
+| `Card`                      | 4 variants: paper (torn paper), staple (staple and tape), rugged (hanging label), torn (rough edge) |
+| `Dialog`                    | Base UI wrapper with WaveButton close button + fullscreen ink splash mode                           |
+| `Tabs`                      | Ink splat hover + color underline tabs (default / line variants)                                    |
+| `Input / Checkbox / Switch` | Form controls                                                                                       |
+| `Progress`                  | Ink-styled progress indicator                                                                       |
+| `Alert`                     | Torn-paper status surface                                                                           |
+| `Badge`                     | 7 color skewed labels + sticker variant                                                             |
 
 ## Design System
 

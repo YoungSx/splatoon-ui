@@ -3,7 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Button } from '@/components/ui/button'
+import { Button } from 'splatoon-ui/button'
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
   type CardProps,
-} from '@/components/ui/card'
+} from 'splatoon-ui/card'
 
 type CardExampleProps = {
   variant: CardProps['variant']

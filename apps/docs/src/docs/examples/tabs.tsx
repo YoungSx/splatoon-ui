@@ -10,7 +10,7 @@ import {
   TabsPanels,
   TabsTrigger,
   type TabsListProps,
-} from '@/components/ui/tabs'
+} from 'splatoon-ui/tabs'
 
 type TabsExampleProps = {
   variant: TabsListProps['variant']

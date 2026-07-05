@@ -3,7 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Badge, type BadgeProps } from '@/components/ui/badge'
+import { Badge, type BadgeProps } from 'splatoon-ui/badge'
 
 type BadgeExampleProps = {
   color: BadgeProps['color']

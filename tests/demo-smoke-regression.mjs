@@ -239,6 +239,52 @@ async function collectImageIssues(page) {
   )
 }
 
+async function verifyDocsNavigation(browser) {
+  const expectedDocsPath = '/zh/docs'
+  const expectedDocsUrl = new URL(expectedDocsPath, demoUrl)
+  const context = await browser.newContext({
+    viewport: { width: 1280, height: 900 },
+  })
+  const page = await context.newPage()
+  const docsResponses = []
+
+  page.on('response', (response) => {
+    const url = new URL(response.url())
+    if (url.origin === expectedDocsUrl.origin && url.pathname === expectedDocsPath) {
+      docsResponses.push(`${response.status()} ${response.url()}`)
+    }
+  })
+
+  try {
+    const response = await page.goto(demoUrl, { waitUntil: 'networkidle' })
+    assert(response, `docs nav: no document response from ${demoUrl}`)
+    assert(response.status() === 200, `docs nav: expected demo HTTP 200, got ${response.status()}`)
+
+    await page.locator('#site-navigation-trigger').click()
+
+    const docsLink = page.locator(`[data-nav-link="true"][href="${expectedDocsPath}"]`)
+    assert((await docsLink.count()) === 1, `docs nav: expected one ${expectedDocsPath} nav link`)
+
+    await Promise.all([
+      page.waitForURL((url) => url.pathname === expectedDocsPath, { timeout: 10_000 }),
+      docsLink.click(),
+    ])
+    await page.waitForLoadState('networkidle')
+
+    const failedDocsResponses = docsResponses.filter((entry) => !entry.startsWith('200 '))
+    assert(
+      failedDocsResponses.length === 0,
+      `docs nav: docs route returned non-200 responses: ${failedDocsResponses.join('\n')}`
+    )
+
+    const bodyText = await page.locator('body').innerText()
+    assert(bodyText.includes('Splatoon UI 文档'), 'docs nav: docs landing title was not rendered')
+    assert(!bodyText.includes('This page could not be found'), 'docs nav: rendered the 404 page')
+  } finally {
+    await context.close()
+  }
+}
+
 async function runViewport(browser, viewport) {
   const context = await browser.newContext({
     viewport: { width: viewport.width, height: viewport.height },
@@ -390,6 +436,7 @@ try {
   for (const viewport of viewports) {
     await runViewport(browser, viewport)
   }
+  await verifyDocsNavigation(browser)
 } catch (error) {
   console.error(
     `Demo smoke checks failed for ${demoUrl}. Start the demo with "pnpm dev" or set DEMO_URL.`

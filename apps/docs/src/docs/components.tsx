@@ -19,9 +19,6 @@ const docsCopy = {
     components: 'Components',
     api: 'API Reference',
     imports: 'Imports',
-    pending: 'Typed example pending',
-    pendingBody:
-      'This entrypoint has generated API coverage. A curated playground will be added later.',
     visualReady: 'Visual regression ready',
     tableExport: 'Export',
     tableKind: 'Kind',
@@ -35,8 +32,6 @@ const docsCopy = {
     components: '组件',
     api: 'API 参考',
     imports: '导入',
-    pending: '类型化示例待补充',
-    pendingBody: '这个入口已经有自动 API 覆盖；精选 playground 会后续补齐。',
     visualReady: '已纳入视觉回归',
     tableExport: '导出',
     tableKind: '类型',
@@ -50,8 +45,6 @@ const docsCopy = {
     components: 'コンポーネント',
     api: 'API リファレンス',
     imports: 'インポート',
-    pending: '型付き例は準備中',
-    pendingBody: 'この入口は生成 API の対象です。厳選 playground は後で追加します。',
     visualReady: 'ビジュアル回帰対象',
     tableExport: 'エクスポート',
     tableKind: '種別',
@@ -238,19 +231,6 @@ export function DocsArticle({
 
       <ApiReference apiEntry={apiEntry} locale={locale} />
     </article>
-  )
-}
-
-export function PendingExample({ locale }: { locale: DocsLocale }) {
-  const copy = docsCopy[locale]
-
-  return (
-    <div className="pattern-chip-white border-chaos-black grid min-h-52 place-items-center bg-white p-6">
-      <div className="max-w-md text-center">
-        <p className="font-alt text-3xl font-black">{copy.pending}</p>
-        <p className="mt-2 text-sm font-medium text-black/65">{copy.pendingBody}</p>
-      </div>
-    </div>
   )
 }
 

@@ -3,7 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import { Progress, type ProgressProps } from '@/components/ui/progress'
+import { Progress, type ProgressProps } from 'splatoon-ui/progress'
 
 type ProgressExampleProps = {
   value: number
