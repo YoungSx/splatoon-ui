@@ -625,6 +625,505 @@
       ]
     },
     {
+      "slug": "carousel",
+      "importPath": "splatoon-ui/carousel",
+      "primaryExport": "Carousel",
+      "sourcePath": "src/components/ui/carousel.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Carousel",
+          "kind": "function",
+          "type": "export function Carousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultIndex",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemCount",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onIndexChange",
+              "optional": true,
+              "type": "(index: number) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselBleedBoundary",
+          "kind": "function",
+          "type": "export function CarouselBleedBoundary(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselBleedBoundaryProps",
+          "kind": "interface",
+          "type": "export interface CarouselBleedBoundaryProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselContent",
+          "kind": "function",
+          "type": "export function CarouselContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselContentProps",
+          "kind": "interface",
+          "type": "export interface CarouselContentProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselImagePagination",
+          "kind": "function",
+          "type": "export function CarouselImagePagination(",
+          "description": "",
+          "props": [
+            {
+              "name": "images",
+              "optional": false,
+              "type": "CarouselImagePaginationItem[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "getImageLabel",
+              "optional": true,
+              "type": "(alt: string) => string",
+              "defaultValue": "",
+              "description": "Accessible label for a button when the image has an alt text."
+            },
+            {
+              "name": "getSlideLabel",
+              "optional": true,
+              "type": "(index: number) => string",
+              "defaultValue": "",
+              "description": "Accessible label for a button when the image has no alt text. Receives the 1-based slide number."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLUListElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselImagePaginationItem",
+          "kind": "interface",
+          "type": "export interface CarouselImagePaginationItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselImagePaginationProps",
+          "kind": "interface",
+          "type": "export interface CarouselImagePaginationProps extends Omit< React.HTMLAttributes<HTMLUListElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselItem",
+          "kind": "function",
+          "type": "export function CarouselItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "data-index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselItemProps",
+          "kind": "interface",
+          "type": "export interface CarouselItemProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselPagination",
+          "kind": "function",
+          "type": "export function CarouselPagination(",
+          "description": "",
+          "props": [
+            {
+              "name": "labels",
+              "optional": true,
+              "type": "string[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "getSlideLabel",
+              "optional": true,
+              "type": "(index: number) => string",
+              "defaultValue": "",
+              "description": "Accessible label template for unlabeled pagination buttons. Receives the 1-based slide number."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLUListElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselPaginationProps",
+          "kind": "interface",
+          "type": "export interface CarouselPaginationProps extends Omit< React.HTMLAttributes<HTMLUListElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselProps",
+          "kind": "interface",
+          "type": "export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselSwipeArea",
+          "kind": "function",
+          "type": "export function CarouselSwipeArea(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselSwipeAreaProps",
+          "kind": "interface",
+          "type": "export interface CarouselSwipeAreaProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "CarouselViewport",
+          "kind": "function",
+          "type": "export function CarouselViewport(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "CarouselViewportProps",
+          "kind": "interface",
+          "type": "export interface CarouselViewportProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "FadeCarouselItem",
+          "kind": "function",
+          "type": "export function FadeCarouselItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "data-index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "rotateAmount",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "FadeCarouselItemProps",
+          "kind": "interface",
+          "type": "export interface FadeCarouselItemProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "FeedCarousel",
+          "kind": "function",
+          "type": "export function FeedCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "FeedCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "mediaAspectRatio",
+              "optional": true,
+              "type": "React.CSSProperties['aspectRatio'] | false",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "FeedCarouselItem",
+          "kind": "interface",
+          "type": "export interface FeedCarouselItem extends Pick< StapleCardProps, 'image' | 'title' | 'subtitle' | 'action' | 'surface' | 'showTape' | 'hoverTilt' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "FeedCarouselProps",
+          "kind": "interface",
+          "type": "export interface FeedCarouselProps extends Omit<CarouselProps, 'children'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "GalleryItem",
+          "kind": "interface",
+          "type": "export interface GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconPaginatedCarousel",
+          "kind": "function",
+          "type": "export function IconPaginatedCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "IconPaginatedCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "IconPaginatedCarouselItem",
+          "kind": "interface",
+          "type": "export interface IconPaginatedCarouselItem extends GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconPaginatedCarouselProps",
+          "kind": "interface",
+          "type": "export interface IconPaginatedCarouselProps extends Omit< MarqueeCarouselProps, 'items' | 'pagination' | 'renderItem' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeCarousel",
+          "kind": "function",
+          "type": "export function MarqueeCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "MarqueeCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "pagination",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "renderItem",
+              "optional": true,
+              "type": "(item: MarqueeCarouselItem, index: number) => React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "MarqueeCarouselItem",
+          "kind": "interface",
+          "type": "export interface MarqueeCarouselItem extends GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeCarouselProps",
+          "kind": "interface",
+          "type": "export interface MarqueeCarouselProps extends Omit<CarouselProps, 'children'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "MarqueeGalleryItem",
+          "kind": "function",
+          "type": "export function MarqueeGalleryItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "item",
+              "optional": false,
+              "type": "MarqueeCarouselItem",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "data-index",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "MarqueeGalleryItemProps",
+          "kind": "interface",
+          "type": "export interface MarqueeGalleryItemProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "useCarousel",
+          "kind": "function",
+          "type": "export function useCarousel()",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "useCarouselItemState",
+          "kind": "function",
+          "type": "export function useCarouselItemState(index: number | undefined)",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WeaponsGalleryCarousel",
+          "kind": "function",
+          "type": "export function WeaponsGalleryCarousel(",
+          "description": "",
+          "props": [
+            {
+              "name": "items",
+              "optional": false,
+              "type": "WeaponsGalleryCarouselItem[]",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "WeaponsGalleryCarouselItem",
+          "kind": "interface",
+          "type": "export interface WeaponsGalleryCarouselItem extends GalleryItem",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WeaponsGalleryCarouselProps",
+          "kind": "interface",
+          "type": "export interface WeaponsGalleryCarouselProps extends Omit<CarouselProps, 'children'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "checkbox",
       "importPath": "splatoon-ui/checkbox",
       "primaryExport": "Checkbox",

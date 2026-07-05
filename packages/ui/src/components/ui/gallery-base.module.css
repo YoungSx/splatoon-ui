@@ -113,7 +113,7 @@
   margin: 0 auto;
   max-width: 600px;
   width: 100%;
-  transform: translateX(calc(50% * var(--photo-offset)))
+  --photo-frame-transform: translateX(calc(50% * var(--photo-offset)))
     rotate(
       calc(
         var(--rotateDirection, 1) * var(--rotateAmount, 3deg) + var(--rotateDirection, 1) * 20deg *

@@ -2,6 +2,7 @@ import AlertEn, { metadata as alertEnMeta } from '../../content/docs/en/alert.md
 import BadgeEn, { metadata as badgeEnMeta } from '../../content/docs/en/badge.mdx'
 import ButtonEn, { metadata as buttonEnMeta } from '../../content/docs/en/button.mdx'
 import CardEn, { metadata as cardEnMeta } from '../../content/docs/en/card.mdx'
+import CarouselEn, { metadata as carouselEnMeta } from '../../content/docs/en/carousel.mdx'
 import CheckboxEn, { metadata as checkboxEnMeta } from '../../content/docs/en/checkbox.mdx'
 import DialogEn, { metadata as dialogEnMeta } from '../../content/docs/en/dialog.mdx'
 import InputEn, { metadata as inputEnMeta } from '../../content/docs/en/input.mdx'
@@ -12,6 +13,7 @@ import AlertJa, { metadata as alertJaMeta } from '../../content/docs/ja/alert.md
 import BadgeJa, { metadata as badgeJaMeta } from '../../content/docs/ja/badge.mdx'
 import ButtonJa, { metadata as buttonJaMeta } from '../../content/docs/ja/button.mdx'
 import CardJa, { metadata as cardJaMeta } from '../../content/docs/ja/card.mdx'
+import CarouselJa, { metadata as carouselJaMeta } from '../../content/docs/ja/carousel.mdx'
 import CheckboxJa, { metadata as checkboxJaMeta } from '../../content/docs/ja/checkbox.mdx'
 import DialogJa, { metadata as dialogJaMeta } from '../../content/docs/ja/dialog.mdx'
 import InputJa, { metadata as inputJaMeta } from '../../content/docs/ja/input.mdx'
@@ -22,6 +24,7 @@ import AlertZh, { metadata as alertZhMeta } from '../../content/docs/zh/alert.md
 import BadgeZh, { metadata as badgeZhMeta } from '../../content/docs/zh/badge.mdx'
 import ButtonZh, { metadata as buttonZhMeta } from '../../content/docs/zh/button.mdx'
 import CardZh, { metadata as cardZhMeta } from '../../content/docs/zh/card.mdx'
+import CarouselZh, { metadata as carouselZhMeta } from '../../content/docs/zh/carousel.mdx'
 import CheckboxZh, { metadata as checkboxZhMeta } from '../../content/docs/zh/checkbox.mdx'
 import DialogZh, { metadata as dialogZhMeta } from '../../content/docs/zh/dialog.mdx'
 import InputZh, { metadata as inputZhMeta } from '../../content/docs/zh/input.mdx'
@@ -38,6 +41,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     badge: { default: BadgeEn, metadata: badgeEnMeta },
     button: { default: ButtonEn, metadata: buttonEnMeta },
     card: { default: CardEn, metadata: cardEnMeta },
+    carousel: { default: CarouselEn, metadata: carouselEnMeta },
     checkbox: { default: CheckboxEn, metadata: checkboxEnMeta },
     dialog: { default: DialogEn, metadata: dialogEnMeta },
     input: { default: InputEn, metadata: inputEnMeta },
@@ -50,6 +54,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     badge: { default: BadgeZh, metadata: badgeZhMeta },
     button: { default: ButtonZh, metadata: buttonZhMeta },
     card: { default: CardZh, metadata: cardZhMeta },
+    carousel: { default: CarouselZh, metadata: carouselZhMeta },
     checkbox: { default: CheckboxZh, metadata: checkboxZhMeta },
     dialog: { default: DialogZh, metadata: dialogZhMeta },
     input: { default: InputZh, metadata: inputZhMeta },
@@ -62,6 +67,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     badge: { default: BadgeJa, metadata: badgeJaMeta },
     button: { default: ButtonJa, metadata: buttonJaMeta },
     card: { default: CardJa, metadata: cardJaMeta },
+    carousel: { default: CarouselJa, metadata: carouselJaMeta },
     checkbox: { default: CheckboxJa, metadata: checkboxJaMeta },
     dialog: { default: DialogJa, metadata: dialogJaMeta },
     input: { default: InputJa, metadata: inputJaMeta },

@@ -6,7 +6,7 @@ import {
   CarouselImagePagination,
   FadeCarouselItem,
   useCarouselItemState,
-} from '@/components/ui/carousel'
+} from '@/components/ui/carousel-core'
 import { GalleryBounce } from './gallery-controls'
 import { PhotoFrame } from './photo-frame'
 import baseStyles from './gallery-base.module.css'

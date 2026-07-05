@@ -75,6 +75,7 @@ const privateImplementationModules = ['./trigger-button']
 const requiredClientExports = [
   './button',
   './card',
+  './carousel',
   './checkbox',
   './dialog',
   './progress',

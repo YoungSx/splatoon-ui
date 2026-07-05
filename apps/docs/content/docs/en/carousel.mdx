@@ -1,0 +1,17 @@
+export const metadata = {
+  title: 'Carousel',
+  description:
+    'Composable carousel primitives for controlled slides, swipe areas, pagination, and custom controls.',
+  category: 'media',
+  example: 'carousel',
+}
+
+## Usage
+
+Use Carousel when the consumer needs to own slide content and controls. The root manages index state, while viewport, content, item, swipe, and pagination primitives keep layout concerns explicit.
+
+## Design Notes
+
+- Prefer controlled `index` when the carousel is connected to other UI.
+- Keep high-level gallery presets internal until their data model is stable.
+- Compose custom controls with `useCarousel` instead of passing button slots into the root.

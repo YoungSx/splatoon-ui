@@ -3,6 +3,7 @@ export const publicUiEntries = [
   'badge',
   'button',
   'card',
+  'carousel',
   'checkbox',
   'dialog',
   'input',

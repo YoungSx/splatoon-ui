@@ -1,6 +1,8 @@
 import { defineConfig } from 'tsup'
+import path from 'node:path'
 import { existsSync } from 'node:fs'
 import { publicUiEntries } from './scripts/public-ui-entries.mjs'
+import { readCssModule } from './scripts/css-modules.mjs'
 
 type PublicAssetResolver = {
   onResolve(
@@ -16,6 +18,30 @@ const preservePublicAssetUrls = {
       path: args.path,
       external: true,
     }))
+  },
+}
+
+const cssModuleClassMaps = {
+  name: 'css-module-class-maps',
+  setup(build: PublicAssetResolver) {
+    build.onResolve({ filter: /\.module\.css$/ }, (args) => ({
+      path: `${path.resolve(args.resolveDir, args.path)}.js`,
+      namespace: 'splatoon-ui-css-module',
+      pluginData: { cssPath: path.resolve(args.resolveDir, args.path) },
+    }))
+
+    build.onLoad({ filter: /\.module\.css\.js$/, namespace: 'splatoon-ui-css-module' }, (args) => {
+      const resolvedPath =
+        typeof args.pluginData?.cssPath === 'string'
+          ? args.pluginData.cssPath
+          : args.path.replace(/\.js$/, '')
+      const { classMap } = readCssModule(resolvedPath)
+
+      return {
+        contents: `const styles = ${JSON.stringify(classMap)};\nexport default styles;\n`,
+        loader: 'js',
+      }
+    })
   },
 }
 
@@ -61,7 +87,7 @@ export default defineConfig({
       noEmit: false,
     },
   },
-  esbuildPlugins: [preservePublicAssetUrls],
+  esbuildPlugins: [preservePublicAssetUrls, cssModuleClassMaps],
   external: [
     '@base-ui/react',
     '@radix-ui/react-progress',

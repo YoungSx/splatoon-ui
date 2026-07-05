@@ -70,6 +70,10 @@
       "types": "./dist/card.d.ts",
       "import": "./dist/card.js"
     },
+    "./carousel": {
+      "types": "./dist/carousel.d.ts",
+      "import": "./dist/carousel.js"
+    },
     "./checkbox": {
       "types": "./dist/checkbox.d.ts",
       "import": "./dist/checkbox.js"

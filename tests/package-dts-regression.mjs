@@ -104,7 +104,6 @@ const missingNamedPropsDeclarationMatches = publicDeclarations.flatMap(({ fileNa
 const disallowedInternalEntrypoints = [
   './asset-image',
   './button-group',
-  './carousel',
   './heading-tape',
   './icons',
   './label',

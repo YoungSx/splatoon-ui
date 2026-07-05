@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { motion, useAnimation, type HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import { useCarousel } from '@/components/ui/carousel'
+import { useCarousel } from '@/components/ui/carousel-core'
 import { IconButton } from './icon-button'
 import baseStyles from './gallery-base.module.css'
 

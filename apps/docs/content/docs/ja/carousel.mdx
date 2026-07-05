@@ -1,0 +1,17 @@
+export const metadata = {
+  title: 'Carousel',
+  description:
+    '制御されたスライド、スワイプ領域、ページネーション、カスタム操作を組み合わせる carousel primitives です。',
+  category: 'media',
+  example: 'carousel',
+}
+
+## 使い方
+
+Carousel は、利用側が slide の内容と操作 UI を所有したい時に使います。root は index 状態を管理し、viewport、content、item、swipe、pagination primitives がレイアウトの責務を明確に分けます。
+
+## デザインメモ
+
+- 外部 UI と連動する carousel では controlled `index` を優先します。
+- データモデルが安定するまで、高レベルな gallery preset は内部実装に留めます。
+- カスタム操作は root の button slot ではなく `useCarousel` で組み立てます。

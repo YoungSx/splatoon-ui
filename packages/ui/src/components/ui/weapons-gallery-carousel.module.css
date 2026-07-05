@@ -19,7 +19,7 @@
 
 /* Photo frame — weapons-specific transform multiplier */
 .photoFrame {
-  transform: translateX(calc(100% * var(--photo-offset)))
+  --photo-frame-transform: translateX(calc(100% * var(--photo-offset)))
     rotate(
       calc(
         var(--rotateDirection, 1) * var(--rotateAmount, 2deg) + var(--rotateDirection, 1) * 20deg *

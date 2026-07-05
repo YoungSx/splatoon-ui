@@ -13,6 +13,7 @@ const docsApi = JSON.parse(
 
 const alert = fs.readFileSync(path.join(componentRoot, 'alert.tsx'), 'utf8')
 const carousel = fs.readFileSync(path.join(componentRoot, 'carousel.tsx'), 'utf8')
+const carouselCore = fs.readFileSync(path.join(componentRoot, 'carousel-core.tsx'), 'utf8')
 const dialog = fs.readFileSync(path.join(componentRoot, 'dialog.tsx'), 'utf8')
 const popover = fs.readFileSync(path.join(componentRoot, 'popover.tsx'), 'utf8')
 const sheet = fs.readFileSync(path.join(componentRoot, 'sheet.tsx'), 'utf8')
@@ -28,6 +29,8 @@ const stapleCardCss = fs.readFileSync(path.join(componentRoot, 'staple-card.modu
 const tornCard = fs.readFileSync(path.join(componentRoot, 'torn-card.tsx'), 'utf8')
 const tornCardCss = fs.readFileSync(path.join(componentRoot, 'torn-card.module.css'), 'utf8')
 const photoFrame = fs.readFileSync(path.join(componentRoot, 'photo-frame.tsx'), 'utf8')
+const photoFrameCss = fs.readFileSync(path.join(componentRoot, 'photo-frame.module.css'), 'utf8')
+const galleryBaseCss = fs.readFileSync(path.join(componentRoot, 'gallery-base.module.css'), 'utf8')
 const cardImage = fs.readFileSync(path.join(componentRoot, 'card-image.tsx'), 'utf8')
 const ruggedCard = fs.readFileSync(path.join(componentRoot, 'rugged-card.tsx'), 'utf8')
 const cardStackCarousel = fs.readFileSync(
@@ -56,6 +59,10 @@ const feedCarousel = fs.readFileSync(path.join(componentRoot, 'feed-carousel.tsx
 const marqueeCarousel = fs.readFileSync(path.join(componentRoot, 'marquee-carousel.tsx'), 'utf8')
 const weaponsGalleryCarousel = fs.readFileSync(
   path.join(componentRoot, 'weapons-gallery-carousel.tsx'),
+  'utf8'
+)
+const weaponsGalleryCarouselCss = fs.readFileSync(
+  path.join(componentRoot, 'weapons-gallery-carousel.module.css'),
   'utf8'
 )
 const iconPaginatedCarousel = fs.readFileSync(
@@ -148,6 +155,18 @@ const globals = fs.readFileSync(
   path.join(root, 'packages', 'ui', 'src', 'styles', 'globals.css'),
   'utf8'
 )
+const packageStyleBuilder = fs.readFileSync(
+  path.join(root, 'packages', 'ui', 'scripts', 'build-package-styles.mjs'),
+  'utf8'
+)
+const carouselPaginationCss = fs.readFileSync(
+  path.join(componentRoot, 'carousel-pagination.module.css'),
+  'utf8'
+)
+const docsAppGlobals = fs.readFileSync(
+  path.join(root, 'apps', 'docs', 'src', 'app', 'globals.css'),
+  'utf8'
+)
 const demoPage = fs.readFileSync(path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx'), 'utf8')
 
 function readFilesRecursive(directory, predicate) {
@@ -231,68 +250,103 @@ const checks = [
   {
     name: 'Carousel supports controlled and uncontrolled index APIs',
     pass:
-      carousel.includes('index?: number') &&
-      carousel.includes('defaultIndex?: number') &&
-      !carousel.includes('initialIndex') &&
-      carousel.includes('const isControlled = index !== undefined') &&
-      carousel.includes('onIndexChange?.(next)'),
+      carouselCore.includes('index?: number') &&
+      carouselCore.includes('defaultIndex?: number') &&
+      !carouselCore.includes('initialIndex') &&
+      carouselCore.includes('const isControlled = index !== undefined') &&
+      carouselCore.includes('onIndexChange?.(next)'),
   },
   {
     name: 'Carousel provides item indexes through context instead of cloneElement prop injection',
     pass:
-      carousel.includes('CarouselItemIndexContext') &&
-      carousel.includes('<CarouselItemIndexContext.Provider') &&
-      !carousel.includes('React.cloneElement(child'),
+      carouselCore.includes('CarouselItemIndexContext') &&
+      carouselCore.includes('<CarouselItemIndexContext.Provider') &&
+      !carouselCore.includes('React.cloneElement(child'),
+  },
+  {
+    name: 'Carousel pagination styles stay scoped through CSS Modules and package styles',
+    pass:
+      carouselCore.includes('data-slot="carousel-pagination"') &&
+      carouselCore.includes('data-slot="carousel-pagination-icon"') &&
+      carouselCore.includes('data-active={currentIndex === index ?') &&
+      carouselCore.includes("import paginationStyles from './carousel-pagination.module.css'") &&
+      carouselCore.includes('paginationStyles.pagination') &&
+      carouselCore.includes('paginationStyles.paginationIcon') &&
+      !carouselPaginationCss.includes('[data-slot=') &&
+      packageStyleBuilder.includes('walkCssModuleFiles(componentRoot)') &&
+      docsAppGlobals.includes("@import '../../../../packages/ui/dist/styles.css';"),
+  },
+  {
+    name: 'Carousel frame motion composes with PhotoFrame rotation without cascade-order overrides',
+    pass:
+      photoFrameCss.includes(
+        'transform: var(--photo-frame-transform, rotate(var(--end-rotate, 0deg)));'
+      ) &&
+      galleryBaseCss.includes(
+        '--photo-frame-transform: translateX(calc(50% * var(--photo-offset)))'
+      ) &&
+      galleryBaseCss.includes('transition-property: transform;') &&
+      weaponsGalleryCarouselCss.includes(
+        '--photo-frame-transform: translateX(calc(100% * var(--photo-offset)))'
+      ) &&
+      !/^\s*transform:\s*translateX\(calc\(50% \* var\(--photo-offset\)\)\)/m.test(
+        galleryBaseCss
+      ) &&
+      !/^\s*transform:\s*translateX\(calc\(100% \* var\(--photo-offset\)\)\)/m.test(
+        weaponsGalleryCarouselCss
+      ),
   },
   {
     name: 'Carousel composition components expose named props types',
     pass:
-      carousel.includes('ref?: React.Ref<HTMLDivElement>') &&
-      carousel.includes('}: CarouselProps)') &&
-      carousel.includes('export interface CarouselViewportProps') &&
-      carousel.includes('}: CarouselViewportProps)') &&
-      carousel.includes('export interface CarouselBleedBoundaryProps') &&
-      carousel.includes('}: CarouselBleedBoundaryProps)') &&
-      carousel.includes('export interface CarouselContentProps') &&
-      carousel.includes('}: CarouselContentProps)') &&
-      carousel.includes('}: CarouselItemProps)') &&
-      carousel.includes('}: FadeCarouselItemProps)') &&
-      carousel.includes('ref?: React.Ref<HTMLUListElement>') &&
+      carouselCore.includes('ref?: React.Ref<HTMLDivElement>') &&
+      carouselCore.includes('}: CarouselProps)') &&
+      carouselCore.includes('export interface CarouselViewportProps') &&
+      carouselCore.includes('}: CarouselViewportProps)') &&
+      carouselCore.includes('export interface CarouselBleedBoundaryProps') &&
+      carouselCore.includes('}: CarouselBleedBoundaryProps)') &&
+      carouselCore.includes('export interface CarouselContentProps') &&
+      carouselCore.includes('}: CarouselContentProps)') &&
+      carouselCore.includes('}: CarouselItemProps)') &&
+      carouselCore.includes('}: FadeCarouselItemProps)') &&
+      carouselCore.includes('ref?: React.Ref<HTMLUListElement>') &&
       /export interface CarouselPaginationProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLUListElement>,\s*'children'\s*>/.test(
-        carousel
+        carouselCore
       ) &&
       /export interface CarouselImagePaginationProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLUListElement>,\s*'children'\s*>/.test(
-        carousel
+        carouselCore
       ) &&
-      carousel.includes('}: CarouselPaginationProps)') &&
-      carousel.includes('}: CarouselImagePaginationProps)') &&
-      carousel.includes(
-        'export interface SwipeableGalleryProps extends React.HTMLAttributes<HTMLDivElement>'
+      carouselCore.includes('}: CarouselPaginationProps)') &&
+      carouselCore.includes('}: CarouselImagePaginationProps)') &&
+      carouselCore.includes(
+        'export interface CarouselSwipeAreaProps extends React.HTMLAttributes<HTMLDivElement>'
       ) &&
-      carousel.includes('function SwipeableGallery({') &&
-      !carousel.includes('}: CarouselProps & { ref?:') &&
-      !carousel.includes('}: CarouselItemProps & { ref?:') &&
-      !carousel.includes('}: FadeCarouselItemProps & { ref?:') &&
-      !carousel.includes('}: CarouselPaginationProps & { ref?:') &&
-      !carousel.includes('}: CarouselImagePaginationProps & { ref?:') &&
-      !carousel.includes(
+      carouselCore.includes('function CarouselSwipeArea({') &&
+      carouselCore.includes('data-slot="carousel-swipe-area"') &&
+      !carouselCore.includes('SwipeableGallery') &&
+      !carouselCore.includes('}: CarouselProps & { ref?:') &&
+      !carouselCore.includes('}: CarouselItemProps & { ref?:') &&
+      !carouselCore.includes('}: FadeCarouselItemProps & { ref?:') &&
+      !carouselCore.includes('}: CarouselPaginationProps & { ref?:') &&
+      !carouselCore.includes('}: CarouselImagePaginationProps & { ref?:') &&
+      !carouselCore.includes(
         '}: React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> }'
       ) &&
-      !carousel.includes('className?: string\n})'),
+      !carouselCore.includes('className?: string\n})'),
   },
   {
-    name: 'SwipeableGallery composes consumer touch handlers before internal navigation',
+    name: 'CarouselSwipeArea composes consumer touch handlers before internal navigation',
     pass:
-      carousel.includes('ref?: React.Ref<HTMLDivElement>') &&
-      carousel.includes('onTouchStart?.(event)') &&
-      carousel.includes('onTouchMove?.(event)') &&
-      carousel.includes('onTouchEnd?.(event)') &&
-      carousel.includes('if (event.defaultPrevented) return') &&
-      carousel.includes('const shouldNavigate = !event.defaultPrevented') &&
-      carousel.includes('ref={setWrapperRef}') &&
-      carousel.includes('onTouchStart={handleTouchStart}') &&
-      carousel.includes('onTouchMove={handleTouchMove}') &&
-      carousel.includes('onTouchEnd={handleTouchEnd}'),
+      carouselCore.includes('ref?: React.Ref<HTMLDivElement>') &&
+      carouselCore.includes('onTouchStart?.(event)') &&
+      carouselCore.includes('onTouchMove?.(event)') &&
+      carouselCore.includes('onTouchEnd?.(event)') &&
+      carouselCore.includes('if (event.defaultPrevented) return') &&
+      carouselCore.includes('const shouldNavigate = !event.defaultPrevented') &&
+      carouselCore.includes('ref={setWrapperRef}') &&
+      carouselCore.includes('onTouchStart={handleTouchStart}') &&
+      carouselCore.includes('onTouchMove={handleTouchMove}') &&
+      carouselCore.includes('onTouchEnd={handleTouchEnd}'),
   },
   {
     name: 'Gallery animation wrappers expose normal div props and refs',
@@ -353,10 +407,10 @@ const checks = [
       progress.includes('...style,\n      }}') &&
       ruggedCard.includes('ruggedBackground,\n  children,\n  style,\n  ...props') &&
       ruggedCard.includes('style={{ transform: `rotate(${ruggedRotation})`, ...style }') &&
-      carousel.includes("'data-index': index,\n  style,\n  ...props") &&
-      carousel.includes('rotateAmount,\n  style,\n  ...props') &&
-      carousel.includes("'--index-offset': String(offset),\n          ...style,") &&
-      carousel.includes(
+      carouselCore.includes("'data-index': index,\n  style,\n  ...props") &&
+      carouselCore.includes('rotateAmount,\n  style,\n  ...props') &&
+      carouselCore.includes("'--index-offset': String(offset),\n          ...style,") &&
+      carouselCore.includes(
         "'--rotateAmount': `${randomValues.rotateAmount}deg`,\n          ...style,"
       ),
   },
@@ -740,7 +794,7 @@ const checks = [
       !badgeEntry.includes("variant?: 'torn'") &&
       !cardStackCarousel.includes('shellClassName') &&
       !cardStackCarousel.includes('shellStyle') &&
-      !carousel.includes('initialIndex') &&
+      !carouselCore.includes('initialIndex') &&
       !headingTape.includes('color?: HeadingTapeColor') &&
       !headingTape.includes('void color'),
   },
@@ -812,6 +866,11 @@ const checks = [
   {
     name: 'High-level carousel wrappers use stable props types and own reserved slots',
     pass:
+      carousel.includes("export * from './carousel-core'") &&
+      carousel.includes("export * from './feed-carousel'") &&
+      carousel.includes("export * from './marquee-carousel'") &&
+      carousel.includes("export * from './weapons-gallery-carousel'") &&
+      carousel.includes("export * from './icon-paginated-carousel'") &&
       feedCarousel.includes('type CarouselProps') &&
       feedCarousel.includes("extends Omit<CarouselProps, 'children'>") &&
       !feedCarousel.includes('ComponentPropsWithoutRef<typeof Carousel>') &&

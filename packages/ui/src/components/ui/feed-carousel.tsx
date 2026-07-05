@@ -7,7 +7,7 @@ import {
   CarouselBleedBoundary,
   CarouselPagination,
   type CarouselProps,
-} from '@/components/ui/carousel'
+} from '@/components/ui/carousel-core'
 import {
   CardStackCarouselContent,
   CardStackCarouselItem,

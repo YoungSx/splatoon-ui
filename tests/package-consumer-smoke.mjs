@@ -115,6 +115,7 @@ fs.writeFileSync(
   `import 'splatoon-ui/styles.css'
 import { Alert, AlertDescription, AlertTitle } from 'splatoon-ui/alert'
 import { Button } from 'splatoon-ui/button'
+import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'splatoon-ui/carousel'
 import { Dialog } from 'splatoon-ui/dialog'
 import { Input } from 'splatoon-ui/input'
 
@@ -127,6 +128,13 @@ export function App() {
       </Alert>
       <Input value="Inkling" readOnly />
       <Button>Open</Button>
+      <Carousel aria-label="Consumer carousel">
+        <CarouselContent>
+          <CarouselItem>Slide one</CarouselItem>
+          <CarouselItem>Slide two</CarouselItem>
+        </CarouselContent>
+        <CarouselPagination />
+      </Carousel>
       <Dialog />
     </main>
   )
@@ -138,6 +146,7 @@ fs.writeFileSync(
   path.join(consumerDir, 'runtime.mjs'),
   `await import('splatoon-ui')
 await import('splatoon-ui/button')
+await import('splatoon-ui/carousel')
 await import('splatoon-ui/dialog')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `

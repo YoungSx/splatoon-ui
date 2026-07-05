@@ -97,26 +97,22 @@ if (!firstBaseLayer) {
   }
 }
 
-// Dark/light fallback selectors set the alt tokens.
-if (
-  !/\[class\*=['"]theme--dark['"]\][^}]*--theme-primary-alt:\s*var\(--color-black\)/.test(globals)
-) {
-  failures.push('[class*="theme--dark"] should default --theme-primary-alt to var(--color-black)')
+// Dark/light-named brand presets are fixed color recipes, not page color-scheme selectors.
+// Keep them exact so consumer classes like `my-theme--dark-mode` are not styled accidentally.
+if (/\[class\*=['"]theme--(?:dark|light)['"]\]/.test(globals)) {
+  failures.push('theme fallback selectors must not use substring class matching')
 }
-if (
-  !/\[class\*=['"]theme--dark['"]\][^}]*--theme-accent-alt:\s*var\(--color-black\)/.test(globals)
-) {
-  failures.push('[class*="theme--dark"] should default --theme-accent-alt to var(--color-black)')
+
+const darkFallbackSelector =
+  /\.theme--dark-blue,\s*\.theme--dark-green,\s*\.theme--dark-orange,\s*\.theme--dark-purple,\s*\.theme--dark-purpleOrange,\s*\.theme--dark-red,\s*\.theme--dark-yellow\s*{[^}]*--theme-primary-alt:\s*var\(--color-black\)[^}]*--theme-accent-alt:\s*var\(--color-black\)[^}]*color:\s*var\(--color-white\)/m
+if (!darkFallbackSelector.test(globals)) {
+  failures.push('dark-named theme presets should set exact black alt tokens and white text')
 }
-if (
-  !/\[class\*=['"]theme--light['"]\][^}]*--theme-primary-alt:\s*var\(--color-white\)/.test(globals)
-) {
-  failures.push('[class*="theme--light"] should default --theme-primary-alt to var(--color-white)')
-}
-if (
-  !/\[class\*=['"]theme--light['"]\][^}]*--theme-accent-alt:\s*var\(--color-white\)/.test(globals)
-) {
-  failures.push('[class*="theme--light"] should default --theme-accent-alt to var(--color-white)')
+
+const lightFallbackSelector =
+  /\.theme--light-blue,\s*\.theme--light-green,\s*\.theme--light-purple,\s*\.theme--light-red,\s*\.theme--light-brown\s*{[^}]*--theme-primary-alt:\s*var\(--color-white\)[^}]*--theme-accent-alt:\s*var\(--color-white\)[^}]*color:\s*var\(--color-black\)/m
+if (!lightFallbackSelector.test(globals)) {
+  failures.push('light-named theme presets should set exact white alt tokens and black text')
 }
 
 // Theme tokens have safe fallbacks on :root.

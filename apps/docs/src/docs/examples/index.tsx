@@ -11,6 +11,7 @@ import { alertExample } from './alert'
 import { badgeExample } from './badge'
 import { buttonExample } from './button'
 import { cardExample } from './card'
+import { carouselExample } from './carousel'
 import { checkboxExample } from './checkbox'
 import { dialogExample } from './dialog'
 import { inputExample } from './input'
@@ -42,6 +43,7 @@ export const docsExamples = {
   badge: withGeneratedSource(badgeExample),
   button: withGeneratedSource(buttonExample),
   card: withGeneratedSource(cardExample),
+  carousel: withGeneratedSource(carouselExample),
   checkbox: withGeneratedSource(checkboxExample),
   dialog: withGeneratedSource(dialogExample),
   input: withGeneratedSource(inputExample),

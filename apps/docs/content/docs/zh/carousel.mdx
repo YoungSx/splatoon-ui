@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'Carousel',
+  description: '用于受控幻灯片、滑动区域、分页和自定义控制的可组合轮播 primitives。',
+  category: 'media',
+  example: 'carousel',
+}
+
+## 用法
+
+Carousel 用于消费者需要掌控 slide 内容和控制区的场景。root 管理 index 状态，viewport、content、item、swipe 和 pagination primitives 明确承担各自的布局职责。
+
+## 设计备注
+
+- 轮播和外部 UI 联动时优先使用受控 `index`。
+- 高层 gallery 预设在数据模型稳定前保持内部实现。
+- 自定义控制区通过 `useCarousel` 组合，不把按钮 slot 塞进 root。

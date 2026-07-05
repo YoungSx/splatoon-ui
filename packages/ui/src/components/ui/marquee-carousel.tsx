@@ -6,12 +6,12 @@ import {
   Carousel,
   CarouselContent,
   CarouselPagination,
+  CarouselSwipeArea,
   CarouselViewport,
   type CarouselProps,
   FadeCarouselItem,
-  SwipeableGallery,
   useCarouselItemState,
-} from '@/components/ui/carousel'
+} from '@/components/ui/carousel-core'
 import { GalleryControls } from './gallery-controls'
 import { PhotoFrame } from './photo-frame'
 import baseStyles from './gallery-base.module.css'
@@ -47,7 +47,7 @@ export function MarqueeCarousel({
       {...props}
     >
       <CarouselViewport>
-        <SwipeableGallery>
+        <CarouselSwipeArea>
           <CarouselContent className={baseStyles.gallery}>
             {items.map((item, index) =>
               renderItem ? (
@@ -57,7 +57,7 @@ export function MarqueeCarousel({
               )
             )}
           </CarouselContent>
-        </SwipeableGallery>
+        </CarouselSwipeArea>
       </CarouselViewport>
       <GalleryControls />
       {pagination ?? <CarouselPagination />}

@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { motion, type HTMLMotionProps, type PanInfo } from 'framer-motion'
 
-import { CarouselContent, CarouselItem, useCarousel } from '@/components/ui/carousel'
+import { CarouselContent, CarouselItem, useCarousel } from '@/components/ui/carousel-core'
 import {
   createCardSwingGeometry,
   type CardStackCarouselCardState,

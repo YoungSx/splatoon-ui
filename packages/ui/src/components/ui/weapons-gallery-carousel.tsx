@@ -6,12 +6,12 @@ import {
   Carousel,
   CarouselContent,
   CarouselPagination,
+  CarouselSwipeArea,
   CarouselViewport,
   type CarouselProps,
   FadeCarouselItem,
-  SwipeableGallery,
   useCarouselItemState,
-} from '@/components/ui/carousel'
+} from '@/components/ui/carousel-core'
 import { GalleryControls } from './gallery-controls'
 import { PhotoFrame } from './photo-frame'
 import baseStyles from './gallery-base.module.css'
@@ -39,13 +39,13 @@ export function WeaponsGalleryCarousel({
       {...props}
     >
       <CarouselViewport>
-        <SwipeableGallery>
+        <CarouselSwipeArea>
           <CarouselContent className={baseStyles.gallery}>
             {items.map((item, index) => (
               <WeaponsGalleryItem key={item.id} data-index={index} item={item} />
             ))}
           </CarouselContent>
-        </SwipeableGallery>
+        </CarouselSwipeArea>
       </CarouselViewport>
       <GalleryControls
         className={styles.galleryControls}

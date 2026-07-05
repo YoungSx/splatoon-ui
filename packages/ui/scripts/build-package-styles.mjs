@@ -1,10 +1,12 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { createRequire } from 'node:module'
+import { readCssModule, walkCssModuleFiles } from './css-modules.mjs'
 
 const root = process.cwd()
 const distDir = path.join(root, 'dist')
 const globalsPath = path.join(root, 'src', 'styles', 'globals.css')
+const componentRoot = path.join(root, 'src', 'components', 'ui')
 const outputPath = path.join(distDir, 'styles.css')
 const require = createRequire(import.meta.url)
 
@@ -41,6 +43,12 @@ const cssOutputs = fs
 const outputCss = [
   '/* Splatoon UI global styles */',
   inlinePackageCssImports(readCss(globalsPath)),
+  ...walkCssModuleFiles(componentRoot)
+    .sort((left, right) => left.localeCompare(right))
+    .flatMap((filePath) => [
+      `/* Splatoon UI component styles: ${path.relative(root, filePath)} */`,
+      readCssModule(filePath, root).css.trim(),
+    ]),
   ...cssOutputs.flatMap((name) => [
     `/* Splatoon UI component styles: ${name} */`,
     readCss(path.join(distDir, name)),

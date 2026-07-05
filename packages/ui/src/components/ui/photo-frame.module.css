@@ -15,7 +15,7 @@
   margin-top: calc(var(--base-space, 8px) * var(--margin-offset));
   padding: calc(var(--border-offset-y) * 2) calc(var(--border-offset-x) * 2);
   position: relative;
-  transform: rotate(var(--end-rotate, 0deg));
+  transform: var(--photo-frame-transform, rotate(var(--end-rotate, 0deg)));
 }
 
 .photoFrame::before {

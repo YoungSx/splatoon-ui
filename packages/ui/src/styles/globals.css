@@ -323,12 +323,22 @@
      Keep these inside @layer base so Tailwind emits them even when a theme
      class is only supplied by library consumers.
   */
-  [class*='theme--dark'] {
+  .theme--dark-blue,
+  .theme--dark-green,
+  .theme--dark-orange,
+  .theme--dark-purple,
+  .theme--dark-purpleOrange,
+  .theme--dark-red,
+  .theme--dark-yellow {
     --theme-primary-alt: var(--color-black);
     --theme-accent-alt: var(--color-black);
     color: var(--color-white);
   }
-  [class*='theme--light'] {
+  .theme--light-blue,
+  .theme--light-green,
+  .theme--light-purple,
+  .theme--light-red,
+  .theme--light-brown {
     --theme-primary-alt: var(--color-white);
     --theme-accent-alt: var(--color-white);
     color: var(--color-black);
