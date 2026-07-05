@@ -300,7 +300,7 @@ const checks = [
       /export interface GalleryControlsProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLDivElement>,\s*'children'\s*>/.test(
         galleryControls
       ) &&
-      /export interface GalleryBounceProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLDivElement>,\s*'onDrag' \| 'onDragStart' \| 'onDragEnd'\s*>/.test(
+      /export interface GalleryBounceProps\s+extends Omit<\s*HTMLMotionProps<'div'>,\s*'animate' \| 'children'\s*>/.test(
         galleryControls
       ) &&
       galleryControls.includes('ref?: React.Ref<HTMLDivElement>') &&
@@ -784,11 +784,12 @@ const checks = [
       cardStackCarousel.includes('ref?: React.Ref<HTMLDivElement>') &&
       cardStackCarousel.includes('ref?: React.Ref<HTMLButtonElement>') &&
       cardStackCarousel.includes('feed: layoutTokens.feedCarouselItemWidth') &&
-      /extends\s+Omit<\s*React\.HTMLAttributes<HTMLDivElement>,/.test(cardStackCarousel) &&
+      /export interface CardStackCarouselItemProps\s+extends Omit<\s*HTMLMotionProps<'div'>,\s*'children' \| 'onClick' \| 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'style'\s*>/.test(
+        cardStackCarousel
+      ) &&
       !cardStackCarousel.includes('}: CardStackCarouselContentProps & { ref?:') &&
       !cardStackCarousel.includes('}: CardStackCarouselItemProps & { ref?:') &&
       !cardStackCarousel.includes('}: CardStackCarouselButtonProps & { ref?:') &&
-      !cardStackCarousel.includes('HTMLMotionProps') &&
       !cardStackCarousel.includes('shellClassName') &&
       !cardStackCarousel.includes('shellStyle') &&
       feedCarousel.includes('itemLayout="feed"') &&

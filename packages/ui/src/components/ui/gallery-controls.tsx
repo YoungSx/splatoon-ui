@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { motion, useAnimation } from 'framer-motion'
+import { motion, useAnimation, type HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useCarousel } from '@/components/ui/carousel'
 import { IconButton } from './icon-button'
@@ -62,10 +62,7 @@ export function GalleryControls({
 
 /* ── GalleryBounce — spring bounce-in animation ── */
 
-export interface GalleryBounceProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  'onDrag' | 'onDragStart' | 'onDragEnd'
-> {
+export interface GalleryBounceProps extends Omit<HTMLMotionProps<'div'>, 'animate' | 'children'> {
   children: React.ReactNode
   ref?: React.Ref<HTMLDivElement>
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { motion, type PanInfo } from 'framer-motion'
+import { motion, type HTMLMotionProps, type PanInfo } from 'framer-motion'
 
 import { CarouselContent, CarouselItem, useCarousel } from '@/components/ui/carousel'
 import {
@@ -136,12 +136,13 @@ type CardStackMotionStyle = Omit<React.CSSProperties, 'rotate' | 'scale' | 'x' |
 }
 
 export interface CardStackCarouselItemProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  'children' | 'onClick' | 'onDrag' | 'onDragStart' | 'onDragEnd'
+  HTMLMotionProps<'div'>,
+  'children' | 'onClick' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'style'
 > {
   children?: React.ReactNode
   itemLayout?: CardStackCarouselItemLayout
   itemWidth?: React.CSSProperties['width']
+  style?: React.CSSProperties
   'data-index'?: number
   ref?: React.Ref<HTMLDivElement>
 }
