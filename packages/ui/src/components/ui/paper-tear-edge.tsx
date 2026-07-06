@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { resolveSplatoonColorValue } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
-import type { SplatoonColorValue } from './theme-tokens'
+import type { SplatoonColorValue } from './tokens'
 
 const PAPER_TEAR_PATHS = {
   top: {
@@ -15,7 +15,7 @@ const PAPER_TEAR_PATHS = {
   },
 } as const
 
-export type { SplatoonColorValue } from './theme-tokens'
+export type { SplatoonColorValue } from './tokens'
 export type PaperTearEdgeSide = keyof typeof PAPER_TEAR_PATHS
 
 export interface PaperTearEdgeProps extends Omit<

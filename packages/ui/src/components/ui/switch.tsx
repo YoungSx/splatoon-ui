@@ -6,17 +6,18 @@ import { Switch as SwitchPrimitive } from '@base-ui/react/switch'
 import { splatoonControlTrackColorConfig } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import styles from './switch.module.css'
-import { SwitchTrack } from './switch-track'
+import { resolveSplatoonAssetPath, type SplatoonAssetBasePath } from './assets'
+import { SWITCH_TRACK_DEFAULT_FILL_IMAGE_PATH, SwitchTrack } from './switch-track'
 import type {
   PrimitiveChangeDetails,
   PrimitiveCheckedRenderState,
   PrimitiveRender,
-} from './primitive-types'
-import type { SplatoonControlTrackColor } from './theme-tokens'
+} from './types'
+import type { SplatoonControlTrackColor } from './tokens'
 
 export type SwitchSize = 'sm' | 'default' | 'lg'
 export type SwitchColor = Exclude<SplatoonControlTrackColor, 'purple'>
-export type { SplatoonControlTrackColor } from './theme-tokens'
+export type { SplatoonControlTrackColor } from './tokens'
 type SwitchStyle = React.CSSProperties & {
   '--switch-accent'?: string
 }
@@ -29,6 +30,8 @@ export interface SwitchProps extends Omit<
   color?: SwitchColor
   defaultChecked?: boolean
   disabled?: boolean
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   fillImageHref?: string
   form?: string
   inputRef?: React.Ref<HTMLInputElement>
@@ -50,7 +53,8 @@ function Switch({
   ref,
   className,
   color = 'yellow',
-  fillImageHref = '/_images/backgrounds/camo-green.png',
+  assetBasePath,
+  fillImageHref,
   offLabel = 'OFF',
   onLabel = 'ON',
   size = 'default',
@@ -58,6 +62,8 @@ function Switch({
   ...props
 }: SwitchProps) {
   const colorConfig = splatoonControlTrackColorConfig[color]
+  const resolvedFillImageHref =
+    fillImageHref ?? resolveSplatoonAssetPath(SWITCH_TRACK_DEFAULT_FILL_IMAGE_PATH, assetBasePath)
 
   return (
     <SwitchPrimitive.Root
@@ -77,7 +83,8 @@ function Switch({
       <span className={styles.track} aria-hidden="true">
         <SwitchTrack
           className={styles.trackSvg}
-          fillImageHref={fillImageHref}
+          assetBasePath={assetBasePath}
+          fillImageHref={resolvedFillImageHref}
           leftActiveClassName={cn(styles.trackFillImage, styles.leftActiveImage)}
           leftInactiveClassName={cn(styles.trackFillImage, styles.leftInactiveImage)}
           rightActiveClassName={cn(styles.trackFillImage, styles.rightActiveImage)}

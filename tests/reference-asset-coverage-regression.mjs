@@ -153,36 +153,38 @@ const checks = [
       !source.includes('/images/news/'),
   },
   {
-    name: 'news staple assets are centralized under the canonical _images path',
+    name: 'news staple assets are centralized behind the shared asset resolver',
     pass:
-      source.includes('newsStapleAssets') &&
-      newsAssets.includes('/_images/news/news-staple-left.png') &&
-      newsAssets.includes('/_images/news/news-staple-right.png'),
+      source.includes('createNewsStapleAssets') &&
+      newsAssets.includes("import {\n  resolveSplatoonAssetPath") &&
+      newsAssets.includes("resolveSplatoonAssetPath('news/news-staple-left.png', assetBasePath)") &&
+      newsAssets.includes("resolveSplatoonAssetPath('news/news-staple-right.png', assetBasePath)"),
   },
   {
     name: 'Staple primitive renders official news staple images instead of hand-drawn metal SVGs',
     pass:
-      tapeComponent.includes('newsStapleAssets') &&
+      tapeComponent.includes('createNewsStapleAssets') &&
       tapeComponent.includes('<img') &&
       !tapeComponent.includes('metal-grad') &&
       !tapeComponent.includes('Papery warning badge') &&
       !tapeComponent.includes('Metal Pin'),
   },
   {
-    name: 'component CSS uses canonical _images svg paths instead of legacy /images/svg paths',
+    name: 'component CSS consumes asset URL variables instead of hard-coded svg paths',
     pass:
-      staticSvgStyles.includes('/_images/svg/styled-photo-background.svg') &&
-      staticSvgStyles.includes('/_images/svg/icon-pagination.svg') &&
-      staticSvgStyles.includes('/_images/svg/pagination-splat.svg') &&
+      staticSvgStyles.includes('background-image: var(--photo-frame-surface-url);') &&
+      staticSvgStyles.includes('mask-image: var(--photo-frame-surface-url);') &&
+      staticSvgStyles.includes('mask-image: var(--carousel-pagination-icon-url);') &&
+      staticSvgStyles.includes('-webkit-mask-image: var(--carousel-pagination-icon-url);') &&
+      staticSvgStyles.includes('background-image: var(--carousel-pagination-splat-url);') &&
       staticSvgStyles.includes('--image-pagination-accent: var(--color-world-purple, #a51ee1);') &&
-      staticSvgStyles.includes("background-image: url('/_images/svg/pagination-splat.svg');") &&
       staticSvgStyles.includes('border-color: var(--image-pagination-accent);') &&
-      staticSvgStyles.includes('/_images/svg/left-tape.svg') &&
-      staticSvgStyles.includes('/_images/svg/right-tape.svg') &&
-      staticSvgStyles.includes('/_images/svg/left-black-tape-container.svg') &&
-      staticSvgStyles.includes('/_images/svg/right-black-tape-container.svg') &&
-      staticSvgStyles.includes('/_images/svg/left-yellow-tape-container.svg') &&
-      staticSvgStyles.includes('/_images/svg/right-yellow-tape-container.svg') &&
+      staticSvgStyles.includes('mask-image: var(--tape-title-left-url);') &&
+      staticSvgStyles.includes('mask-image: var(--tape-title-right-url);') &&
+      staticSvgStyles.includes('background-image: var(--black-tape-container-left-url);') &&
+      staticSvgStyles.includes('background-image: var(--black-tape-container-right-url);') &&
+      staticSvgStyles.includes('background-image: var(--yellow-tape-container-left-url);') &&
+      staticSvgStyles.includes('background-image: var(--yellow-tape-container-right-url);') &&
       staticSvgStyles.includes('--tape-left-width: 65px;') &&
       staticSvgStyles.includes('--tape-right-width: 74px;') &&
       staticSvgStyles.includes('background-size: 100% auto;') &&
@@ -190,7 +192,8 @@ const checks = [
       staticSvgStyles.includes('background-position: left top;') &&
       !staticSvgStyles.includes('background-position: calc(100% - 1px) top;') &&
       !staticSvgStyles.includes('background-position: 1px top;') &&
-      !staticSvgStyles.includes('/images/svg/'),
+      !staticSvgStyles.includes('/images/svg/') &&
+      !staticSvgStyles.includes('/_images/svg/'),
   },
   {
     name: 'section side nav active splat keeps the official gallery nav symbol',

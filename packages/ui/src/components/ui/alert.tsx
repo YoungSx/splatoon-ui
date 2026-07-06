@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import type { SplatoonAssetBasePath } from './assets'
 import { TornCard } from './torn-card'
-import type { SplatoonColorValue } from './theme-tokens'
+import type { SplatoonColorValue } from './tokens'
 
 export type AlertVariant = 'default' | 'destructive'
 const AlertVariantContext = React.createContext<AlertVariant>('default')
@@ -16,6 +17,8 @@ export interface AlertProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   showTape?: boolean
   showSticker?: boolean
   tapePosition?: 'top-right' | 'bottom-center'
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 

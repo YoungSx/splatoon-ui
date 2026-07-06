@@ -10,7 +10,7 @@ import type {
   PrimitiveChangeDetails,
   PrimitiveCheckedRenderState,
   PrimitiveRender,
-} from './primitive-types'
+} from './types'
 
 export interface RadioGroupProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,

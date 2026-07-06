@@ -88,11 +88,14 @@ const checks = [
     pass: requiredAssets.every(hasValidImageSignature),
   },
   {
-    name: 'event asset registry exposes dimensions for each curated event image',
+    name: 'event asset registry exposes dimensions and assetBasePath-aware factories',
     pass:
-      registry.includes("const EVENT_ASSET_BASE = '/_images/events'") &&
+      registry.includes("import { resolveSplatoonAssetPath") &&
+      registry.includes('export function createEventImageAssets') &&
       registry.includes('eventImageAssets') &&
-      requiredAssets.every(([asset]) => registry.includes(`\${EVENT_ASSET_BASE}/${asset}`)) &&
+      requiredAssets.every(([asset]) =>
+        registry.includes(`resolveSplatoonAssetPath('events/${asset}', assetBasePath)`)
+      ) &&
       ['width: 382', 'height: 215', 'width: 52', 'height: 46', 'width: 558', 'height: 313'].every(
         (entry) => registry.includes(entry)
       ),
@@ -101,9 +104,11 @@ const checks = [
     name: 'EventCallout renders media, background, and badge assets through shared AssetImage',
     pass:
       callout.includes("import { AssetImage } from './asset-image'") &&
-      callout.includes('eventImageAssets.bigRunCallout') &&
-      callout.includes('eventImageAssets.splatnetNextPage') &&
-      callout.includes('eventImageAssets.goldenEgg') &&
+      callout.includes('createEventImageAssets(assetBasePath)') &&
+      callout.includes('eventAssets.bigRunCallout') &&
+      callout.includes('eventAssets.splatnetNextPage') &&
+      callout.includes('eventAssets.goldenEgg') &&
+      callout.includes('assetBasePath?: SplatoonAssetBasePath') &&
       callout.includes('className={styles.mediaFrame}') &&
       callout.includes('<article') &&
       callout.includes('<AssetImage') &&

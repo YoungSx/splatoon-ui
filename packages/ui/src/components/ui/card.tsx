@@ -8,6 +8,7 @@ import { StapleCard } from './staple-card'
 import { RuggedCard, type RuggedCardTheme } from './rugged-card'
 import { TornCard } from './torn-card'
 import { CardContext, type CardSurface, type CardVariant } from './card-context'
+import type { SplatoonAssetBasePath } from './assets'
 
 export type { CardSurface, CardVariant } from './card-context'
 
@@ -35,6 +36,8 @@ export interface CardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'ti
   showTape?: boolean
   /** Enable hover tilt animation (staple/paper variant) */
   hoverTilt?: boolean
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -54,10 +57,11 @@ function Card({
   action,
   showTape,
   hoverTilt,
+  assetBasePath,
   children,
   ...props
 }: CardProps) {
-  const ctx = { variant, surface }
+  const ctx = { variant, surface, assetBasePath }
 
   if (variant === 'torn') {
     return (
@@ -67,6 +71,7 @@ function Card({
           className={className}
           rotation={rotation}
           showTape={showTape}
+          assetBasePath={assetBasePath}
           {...props}
         >
           {children}
@@ -108,6 +113,7 @@ function Card({
         surface={surface}
         showTape={isStaple ? (showTape ?? true) : false}
         hoverTilt={hoverTilt}
+        assetBasePath={assetBasePath}
         {...props}
       >
         {children}

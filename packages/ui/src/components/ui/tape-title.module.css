@@ -18,7 +18,7 @@
 /* Left tape */
 .container::before {
   background-color: var(--tape-color);
-  mask-image: url('/_images/svg/left-tape.svg');
+  mask-image: var(--tape-title-left-url);
   mask-position: 100% center;
   mask-repeat: no-repeat;
   mask-size: contain;
@@ -32,7 +32,7 @@
 /* Right tape */
 .container::after {
   background-color: var(--tape-color);
-  mask-image: url('/_images/svg/right-tape.svg');
+  mask-image: var(--tape-title-right-url);
   mask-position: 0 center;
   mask-repeat: no-repeat;
   mask-size: contain;

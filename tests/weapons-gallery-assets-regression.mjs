@@ -90,9 +90,12 @@ const checks = [
     pass: requiredAssets.every(hasValidImageSignature),
   },
   {
-    name: 'weapons asset registry exposes marquee, showcase, and shop carousel data',
+    name: 'weapons asset registry exposes marquee, showcase, shop carousel data, and assetBasePath-aware factories',
     pass:
-      registry.includes("const WEAPONS_ASSET_BASE = '/_images/weapons'") &&
+      registry.includes("import { resolveSplatoonAssetPath") &&
+      registry.includes('export function createWeaponMarqueeItems') &&
+      registry.includes('export function createWeaponShowcaseItems') &&
+      registry.includes('export function createWeaponShopGalleryItems') &&
       registry.includes('Array.from({ length: 22 }') &&
       registry.includes('weaponShowcaseItems') &&
       registry.includes('weaponShopGalleryItems') &&

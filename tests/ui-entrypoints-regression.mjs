@@ -67,25 +67,38 @@ const clientOnlyModules = [
   './wave-canvas',
 ]
 
-const requiredServerExports = ['./alert', './badge', './input']
+const requiredServerExports = [
+  './asset-image',
+  './assets',
+  './alert',
+  './badge',
+  './character-assets',
+  './event-assets',
+  './event-callout',
+  './input',
+  './squid-assets',
+  './tokens',
+  './types',
+  './weapons-assets',
+]
 
 const demoOnlyModules = ['./demo-layout', './github-mark', './showcase-assets']
 const privateImplementationModules = ['./trigger-button']
 
 const requiredClientExports = [
-  './button',
-  './card',
-  './carousel',
-  './checkbox',
-  './dialog',
-  './progress',
-  './switch',
-  './tabs',
+  './assets',
+  './tokens',
+  './types',
+  ...publicUiEntries.map((name) => `./${name}`),
 ]
 
 const allowedPackageExports = new Set([
   '.',
+  './client',
   './server',
+  './assets',
+  './tokens',
+  './types',
   './styles.css',
   './assets/*',
   './package.json',
@@ -116,13 +129,20 @@ const checks = [
     pass: packageJson.name === 'splatoon-ui',
   },
   {
-    name: 'package exports declare explicit server, component, and stylesheet entrypoints',
+    name: 'package exports declare explicit client, server, support, component, and stylesheet entrypoints',
     pass:
-      packageJson.exports?.['.']?.import === './dist/server.js' &&
-      packageJson.exports?.['.']?.types === './dist/server.d.ts' &&
+      packageJson.exports?.['.']?.import === './dist/client.js' &&
+      packageJson.exports?.['.']?.types === './dist/client.d.ts' &&
+      packageJson.exports?.['./client']?.import === './dist/client.js' &&
+      packageJson.exports?.['./client']?.types === './dist/client.d.ts' &&
       packageJson.exports?.['./server']?.import === './dist/server.js' &&
       packageJson.exports?.['./server']?.types === './dist/server.d.ts' &&
-      packageJson.exports?.['./client'] === undefined &&
+      packageJson.exports?.['./assets']?.import === './dist/assets.js' &&
+      packageJson.exports?.['./assets']?.types === './dist/assets.d.ts' &&
+      packageJson.exports?.['./tokens']?.import === './dist/tokens.js' &&
+      packageJson.exports?.['./tokens']?.types === './dist/tokens.d.ts' &&
+      packageJson.exports?.['./types']?.import === './dist/types.js' &&
+      packageJson.exports?.['./types']?.types === './dist/types.d.ts' &&
       packageJson.exports?.['./styles.css'] === './dist/styles.css' &&
       Object.keys(packageJson.exports ?? {}).every((entry) => allowedPackageExports.has(entry)) &&
       publicUiEntries.every((name) => {
@@ -131,8 +151,8 @@ const checks = [
       }),
   },
   {
-    name: 'default UI entrypoint forwards to the explicit server-safe entrypoint',
-    pass: indexEntry.trim() === "export * from './server'",
+    name: 'default UI entrypoint forwards to the explicit client entrypoint',
+    pass: indexEntry.trim() === "'use client'\n\nexport * from './client'",
   },
   {
     name: 'server-safe UI entrypoint does not create a client component boundary',

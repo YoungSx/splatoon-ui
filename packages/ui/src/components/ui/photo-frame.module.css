@@ -19,7 +19,7 @@
 }
 
 .photoFrame::before {
-  background-image: url('/_images/svg/styled-photo-background.svg');
+  background-image: var(--photo-frame-surface-url);
   background-position: 50% center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -65,7 +65,7 @@
 
 /* ── Photo image ── */
 .photo {
-  mask-image: url('/_images/svg/styled-photo-background.svg');
+  mask-image: var(--photo-frame-surface-url);
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: 100% 100%;

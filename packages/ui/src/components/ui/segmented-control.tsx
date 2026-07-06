@@ -6,16 +6,18 @@ import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group'
 
 import { splatoonControlTrackColorConfig } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
+import { resolveSplatoonAssetPath, type SplatoonAssetBasePath } from './assets'
 import { ButtonGroupItem, type ButtonGroupItemProps } from './button-group'
 import buttonGroupStyles from './button-group.module.css'
 import styles from './segmented-control.module.css'
-import type { PrimitiveChangeDetails, PrimitiveRender } from './primitive-types'
-import type { SplatoonControlTrackColor } from './theme-tokens'
+import type { PrimitiveChangeDetails, PrimitiveRender } from './types'
+import type { SplatoonControlTrackColor } from './tokens'
 import {
   SWITCH_TRACK_FILL_HEIGHT,
   SWITCH_TRACK_FILL_WIDTH,
   SWITCH_TRACK_FILL_X,
   SWITCH_TRACK_FILL_Y,
+  SWITCH_TRACK_DEFAULT_FILL_IMAGE_PATH,
   SWITCH_TRACK_LEFT_PATH,
   SWITCH_TRACK_LEFT_VIEW_BOX,
   SWITCH_TRACK_RIGHT_PATH,
@@ -28,7 +30,7 @@ export type SegmentedControlAppearance = 'buttons' | 'track'
 export type SegmentedControlColor = SplatoonControlTrackColor
 export type SegmentedControlDensity = 'compact' | 'default' | 'spacious'
 export type SegmentedControlOrientation = 'horizontal' | 'vertical'
-export type { SplatoonControlTrackColor } from './theme-tokens'
+export type { SplatoonControlTrackColor } from './tokens'
 type SegmentedControlStyle = React.CSSProperties & {
   '--segmented-control-active-bg'?: string
   '--segmented-control-active-text'?: string
@@ -104,6 +106,8 @@ export interface SegmentedControlProps extends Omit<
   defaultValue?: string
   density?: SegmentedControlDensity
   disabled?: boolean
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   fillImageHref?: string
   form?: string
   fullWidth?: boolean
@@ -130,19 +134,22 @@ const SegmentedControlContext = React.createContext<SegmentedControlContextValue
 function SegmentedControl({
   ref,
   appearance = 'buttons',
+  assetBasePath,
   className,
   color = 'yellow',
   density = 'default',
-  fillImageHref = '/_images/backgrounds/camo-green.png',
+  fillImageHref,
   fullWidth = false,
   orientation = 'horizontal',
   style,
   children,
   ...props
 }: SegmentedControlProps) {
+  const resolvedFillImageHref =
+    fillImageHref ?? resolveSplatoonAssetPath(SWITCH_TRACK_DEFAULT_FILL_IMAGE_PATH, assetBasePath)
   const contextValue = React.useMemo(
-    () => ({ appearance, color, fillImageHref }),
-    [appearance, color, fillImageHref]
+    () => ({ appearance, color, fillImageHref: resolvedFillImageHref }),
+    [appearance, color, resolvedFillImageHref]
   )
   const colorConfig = splatoonControlTrackColorConfig[color]
   const rootStyle = {
@@ -325,7 +332,8 @@ function SegmentedControlItem({
   const context = React.useContext(SegmentedControlContext)
   const appearance = context?.appearance ?? 'buttons'
   const color = context?.color ?? 'yellow'
-  const fillImageHref = context?.fillImageHref ?? '/_images/backgrounds/camo-green.png'
+  const fillImageHref =
+    context?.fillImageHref ?? resolveSplatoonAssetPath(SWITCH_TRACK_DEFAULT_FILL_IMAGE_PATH)
 
   if (appearance === 'buttons') {
     return (

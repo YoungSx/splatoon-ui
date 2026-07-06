@@ -13,7 +13,7 @@ import type {
   PrimitiveOpenRenderState,
   PrimitivePortalContainer,
   PrimitiveRender,
-} from './primitive-types'
+} from './types'
 
 import { InkSplashCanvas } from './ink-splash-canvas'
 import { MediaDecoration } from './media-decoration'
@@ -21,6 +21,7 @@ import { PaperSurface, type PaperSurfaceTone } from './paper-surface'
 import { power3In } from '@/lib/wobble-math'
 import { motionTokens } from '@/lib/ui-tokens'
 import { uiZIndex } from '@/lib/ui-z-index'
+import { resolveSplatoonAssetPath, type SplatoonAssetBasePath } from './assets'
 import { WaveButton } from './wave-button'
 
 const CLOSE_DELAY = motionTokens.dialogCloseDelayMs
@@ -228,10 +229,13 @@ interface DialogPopupBaseProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export interface DialogContentProps extends DialogPopupBaseProps {
   showCloseButton?: boolean
+  closeLabel?: string
   hasTape?: boolean
   tapePosition?: 'news' | 'event'
   surface?: DialogSurface
   fullScreen?: boolean
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
 }
 
 const surfaceFills: Record<
@@ -247,7 +251,9 @@ const surfaceFills: Record<
 
 interface DialogContentFullScreenProps extends DialogPopupBaseProps {
   showCloseButton?: boolean
+  closeLabel?: string
   isReducedMotion?: boolean
+  assetBasePath?: SplatoonAssetBasePath
 }
 
 function DialogContentFullScreen({
@@ -255,7 +261,9 @@ function DialogContentFullScreen({
   className,
   children,
   showCloseButton = true,
+  closeLabel = 'Close',
   isReducedMotion = false,
+  assetBasePath,
   style,
   ...props
 }: DialogContentFullScreenProps & { ref?: React.Ref<HTMLDivElement> }) {
@@ -272,6 +280,10 @@ function DialogContentFullScreen({
   const closeTimerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
   const openFrameRef = React.useRef<number>(0)
   const externalCloseTimerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
+  const backgroundImageHref = React.useMemo(
+    () => resolveSplatoonAssetPath('backgrounds/camo-black-2x.webp', assetBasePath),
+    [assetBasePath]
+  )
 
   React.useEffect(() => {
     const img = new Image()
@@ -279,8 +291,8 @@ function DialogContentFullScreen({
     img.onload = () => {
       setPreloadedBg(img)
     }
-    img.src = '/_images/backgrounds/camo-black-2x.webp'
-  }, [])
+    img.src = backgroundImageHref
+  }, [backgroundImageHref])
 
   const isModalMounted = open || modalActive || modalHeadingOut
 
@@ -410,7 +422,7 @@ function DialogContentFullScreen({
           durationIn={DURATION_IN}
           durationOut={DURATION_OUT}
           color="var(--color-green)"
-          background="/_images/backgrounds/camo-black-2x.webp"
+          background={backgroundImageHref}
           preloadedBackground={preloadedBg}
           count={splashCount}
           startPosition={splashStartPos}
@@ -465,7 +477,7 @@ function DialogContentFullScreen({
 
       {isModalMounted && showCloseButton && (
         <DialogPrimitive.Close
-          render={<WaveButton />}
+          render={<WaveButton aria-label={closeLabel} />}
           className="fixed top-5 right-4 sm:top-8 sm:right-8"
           style={{
             zIndex: DIALOG_Z_INDEX.close,
@@ -491,10 +503,12 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  closeLabel = 'Close',
   hasTape = true,
   tapePosition = 'news',
   surface = 'paper',
   fullScreen = false,
+  assetBasePath,
   style,
   ...props
 }: DialogContentProps) {
@@ -507,7 +521,9 @@ function DialogContent({
       <DialogContentFullScreen
         className={className}
         showCloseButton={showCloseButton}
+        closeLabel={closeLabel}
         isReducedMotion={isReducedMotion}
+        assetBasePath={assetBasePath}
         {...props}
       >
         {children}
@@ -540,6 +556,7 @@ function DialogContent({
         {hasTape && (
           <MediaDecoration
             asset="sticker-9"
+            assetBasePath={assetBasePath}
             responsive={false}
             className={cn(
               'pointer-events-none absolute top-0 z-30 inline-grid select-none',
@@ -571,7 +588,7 @@ function DialogContent({
             className="absolute top-[30%] right-0 translate-x-1/2 -translate-y-1/2"
             style={{ zIndex: DIALOG_Z_INDEX.close }}
           >
-            <DialogPrimitive.Close render={<WaveButton />} />
+            <DialogPrimitive.Close render={<WaveButton aria-label={closeLabel} />} />
           </div>
         )}
       </DialogPrimitive.Popup>

@@ -6,10 +6,11 @@ export type WaveButtonVariant = 'yellow' | 'white' | 'ghost'
 export type WaveButtonSize = 'md' | 'lg'
 export type WaveButtonAnimation = 'morph' | 'none'
 
-export interface WaveButtonProps extends Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  'children'
-> {
+type WaveButtonAccessibleName =
+  | { 'aria-label': string; 'aria-labelledby'?: never }
+  | { 'aria-label'?: never; 'aria-labelledby': string }
+
+export interface WaveButtonOwnProps {
   /** Visual variant — controls background color */
   variant?: WaveButtonVariant
   /** Button size */
@@ -20,6 +21,13 @@ export interface WaveButtonProps extends Omit<
   animation?: WaveButtonAnimation
   ref?: React.Ref<HTMLButtonElement>
 }
+
+export type WaveButtonProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'aria-label' | 'aria-labelledby' | 'children'
+> &
+  WaveButtonOwnProps &
+  WaveButtonAccessibleName
 
 const VARIANT_CLASS: Record<WaveButtonVariant, string> = {
   yellow: styles.yellow,

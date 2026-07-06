@@ -1,10 +1,11 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import type { SplatoonAssetBasePath } from './assets'
 import { CardSlot } from './card-slot'
 import { MediaDecoration } from './media-decoration'
 import type { TapeImageVariant } from './tape-assets'
-import type { SplatoonColorValue } from './theme-tokens'
+import type { SplatoonColorValue } from './tokens'
 import { WideTornPaper } from './wide-torn-paper'
 import styles from './torn-card.module.css'
 
@@ -46,6 +47,8 @@ export interface TornCardProps extends Omit<React.ComponentProps<'div'>, 'ref'> 
   showSticker?: boolean
   /** Tape position at card edge */
   tapePosition?: 'top-right' | 'bottom-center'
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -80,6 +83,7 @@ export function TornCard({
   showTape = true,
   showSticker,
   tapePosition,
+  assetBasePath,
   children,
   ...props
 }: TornCardProps) {
@@ -109,6 +113,7 @@ export function TornCard({
             <MediaDecoration
               position={resolvedTapePosition}
               asset={config.tapeAsset}
+              assetBasePath={assetBasePath}
               mobilePictureClassName={cn(styles.tape, styles.imgMobile)}
               desktopPictureClassName={cn(styles.tape, styles.imgDesktop)}
             />
@@ -118,6 +123,7 @@ export function TornCard({
             <MediaDecoration
               position="top-right"
               asset={config.stickerAsset}
+              assetBasePath={assetBasePath}
               mobilePictureClassName={styles.imgMobile}
               desktopPictureClassName={styles.imgDesktop}
             />

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { AssetImage } from './asset-image'
-import { squidImageAssets, squidSpriteAssets } from './squid-assets'
+import { createSquidImageAssets, createSquidSpriteAssets } from './squid-assets'
+import type { SplatoonAssetBasePath } from './assets'
 import styles from './loader.module.css'
 
 export type LoaderAnimation = 'glyph' | 'morph' | 'swim'
@@ -15,6 +16,8 @@ export interface LoaderProps extends Omit<React.HTMLAttributes<HTMLSpanElement>,
   size?: string
   /** Accessible status label. */
   label?: string
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLSpanElement>
 }
 
@@ -27,11 +30,14 @@ export function Loader({
   animation = 'glyph',
   size,
   label = 'Loading',
+  assetBasePath,
   className,
   style,
   'aria-label': ariaLabel,
   ...props
 }: LoaderProps) {
+  const squidImageAssets = createSquidImageAssets(assetBasePath)
+  const squidSpriteAssets = createSquidSpriteAssets(assetBasePath)
   const asset = squidImageAssets.loader
   const spriteAsset =
     animation === 'morph'

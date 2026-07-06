@@ -7,84 +7,34 @@
 
 /* Pattern texture overlays — tiled/repeating background images */
 
-.patternBaseBgPattern {
-  background-image: url('/_images/backgrounds/base-bg-pattern.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/base-bg-pattern.jpg') 1x,
-    url('/_images/backgrounds/base-bg-pattern-2x.jpg') 2x
-  );
-}
-
-.patternCamoBlack {
-  background-image: url('/_images/backgrounds/camo-black.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-black.png') 1x,
-    url('/_images/backgrounds/camo-black-2x.png') 2x
-  );
-}
-
-.patternCamoGreen {
-  background-image: url('/_images/backgrounds/camo-green.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-green.png') 1x,
-    url('/_images/backgrounds/camo-green-2x.png') 2x
-  );
-}
-
-.patternCamoPurple {
-  background-image: url('/_images/backgrounds/camo-purple.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-purple.png') 1x,
-    url('/_images/backgrounds/camo-purple-2x.png') 2x
-  );
-}
-
-.patternCamoPurpleRevised {
-  background-image: url('/_images/backgrounds/camo-purple-revised.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-purple-revised.png') 1x,
-    url('/_images/backgrounds/camo-purple-revised-2x.png') 2x
-  );
-}
-
-.patternCamoOrange {
-  background-image: url('/_images/backgrounds/camo-orange.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-orange.png') 1x,
-    url('/_images/backgrounds/camo-orange-2x.png') 2x
-  );
-}
-
-.patternCamoRed {
-  background-image: url('/_images/backgrounds/camo-red.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-red.png') 1x,
-    url('/_images/backgrounds/camo-red-2x.png') 2x
-  );
-}
-
-.patternCamoWhite {
-  background-image: url('/_images/backgrounds/camo-white.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-white.png') 1x,
-    url('/_images/backgrounds/camo-white-2x.png') 2x
-  );
-}
-
-.patternCamoWhiteOutline {
-  background-image: url('/_images/backgrounds/camo-white-outline.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-white-outline.png') 1x,
-    url('/_images/backgrounds/camo-white-outline-2x.png') 2x
-  );
+.patternBaseBgPattern,
+.patternCamoBlack,
+.patternCamoGreen,
+.patternCamoPurple,
+.patternCamoPurpleRevised,
+.patternCamoOrange,
+.patternCamoRed,
+.patternCamoWhite,
+.patternCamoWhiteOutline,
+.patternHardwareBackground,
+.patternOctoBlack,
+.patternOctoRed,
+.patternOctoarrowGreen,
+.patternOctoarrowOrange,
+.patternSquidBlack,
+.patternCirclesGreen,
+.patternChipWhite,
+.patternMonstersBlack,
+.patternGraffiti,
+.patternTapesBlack,
+.patternTapesGreen,
+.patternTapesPattern,
+.patternTapesPurple {
+  background-image: var(--section-pattern-image);
+  background-image: var(--section-pattern-image-set);
 }
 
 .patternHardwareBackground {
-  background-image: url('/_images/backgrounds/hardware-background.png');
-  background-image: image-set(
-    url('/_images/backgrounds/hardware-background.png') 1x,
-    url('/_images/backgrounds/hardware-background-2x.png') 2x
-  );
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: contain;
@@ -92,86 +42,17 @@
 
 @media screen and (min-width: 640px) {
   .patternHardwareBackground {
-    background-image: url('/_images/backgrounds/hardware-background-medium-up.png');
-    background-image: image-set(
-      url('/_images/backgrounds/hardware-background-medium-up.png') 1x,
-      url('/_images/backgrounds/hardware-background-medium-up-2x.png') 2x
-    );
+    background-image: var(--section-pattern-image-medium, var(--section-pattern-image));
+    background-image: var(--section-pattern-image-set-medium, var(--section-pattern-image-set));
   }
 }
 
-.patternOctoBlack {
-  background-image: url('/_images/backgrounds/octo-black.png');
-  background-image: image-set(
-    url('/_images/backgrounds/octo-black.png') 1x,
-    url('/_images/backgrounds/octo-black-2x.png') 2x
-  );
-}
-
-.patternOctoRed {
-  background-image: url('/_images/backgrounds/octo-red.png');
-  background-image: image-set(
-    url('/_images/backgrounds/octo-red.png') 1x,
-    url('/_images/backgrounds/octo-red-2x.png') 2x
-  );
-}
-
-.patternOctoarrowGreen {
-  background-image: url('/_images/backgrounds/octoarrow-green.png');
-  background-image: image-set(
-    url('/_images/backgrounds/octoarrow-green.png') 1x,
-    url('/_images/backgrounds/octoarrow-green-2x.png') 2x
-  );
-}
-
-.patternOctoarrowOrange {
-  background-image: url('/_images/backgrounds/octoarrow-orange.png');
-  background-image: image-set(
-    url('/_images/backgrounds/octoarrow-orange.png') 1x,
-    url('/_images/backgrounds/octoarrow-orange-2x.png') 2x
-  );
-}
-
-.patternSquidBlack {
-  background-image: url('/_images/backgrounds/squid-black.png');
-  background-image: image-set(
-    url('/_images/backgrounds/squid-black.png') 1x,
-    url('/_images/backgrounds/squid-black-2x.png') 2x
-  );
-}
-
-.patternCirclesGreen {
-  background-image: url('/_images/backgrounds/circles-green.png');
-  background-image: image-set(
-    url('/_images/backgrounds/circles-green.png') 1x,
-    url('/_images/backgrounds/circles-green-2x.png') 2x
-  );
-}
-
-.patternChipWhite {
-  background-image: url('/_images/backgrounds/chip-white.png');
-  background-image: image-set(
-    url('/_images/backgrounds/chip-white.png') 1x,
-    url('/_images/backgrounds/chip-white-2x.png') 2x
-  );
-}
-
 .patternMonstersBlack {
-  background-image: url('/_images/backgrounds/monsters-black.png');
-  background-image: image-set(
-    url('/_images/backgrounds/monsters-black.png') 1x,
-    url('/_images/backgrounds/monsters-black-2x.png') 2x
-  );
   background-size: 50%;
 }
 
-/* Cover-style backgrounds (graffiti, salmon run) */
+/* Cover-style backgrounds */
 .patternGraffiti {
-  background-image: url('/_images/backgrounds/graffiti.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/graffiti.jpg') 1x,
-    url('/_images/backgrounds/graffiti-2x.jpg') 2x
-  );
   background-position: 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -179,49 +60,7 @@
 
 @media screen and (min-width: 640px) {
   .patternGraffiti {
-    background-image: url('/_images/backgrounds/graffiti-medium-up.jpg');
-    background-image: image-set(
-      url('/_images/backgrounds/graffiti-medium-up.jpg') 1x,
-      url('/_images/backgrounds/graffiti-medium-up-2x.jpg') 2x
-    );
+    background-image: var(--section-pattern-image-medium, var(--section-pattern-image));
+    background-image: var(--section-pattern-image-set-medium, var(--section-pattern-image-set));
   }
-}
-
-/* Tape-based backgrounds */
-.patternTapesBlack {
-  background-image: url('/_images/backgrounds/tapes-black.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/tapes-black.webp') type('image/webp') 1x,
-    url('/_images/backgrounds/tapes-black.jpg') 1x,
-    url('/_images/backgrounds/tapes-black-2x.webp') type('image/webp') 2x,
-    url('/_images/backgrounds/tapes-black-2x.jpg') 2x
-  );
-}
-
-.patternTapesGreen {
-  background-image: url('/_images/backgrounds/tapes-green.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/tapes-green.webp') type('image/webp') 1x,
-    url('/_images/backgrounds/tapes-green.jpg') 1x,
-    url('/_images/backgrounds/tapes-green-2x.webp') type('image/webp') 2x,
-    url('/_images/backgrounds/tapes-green-2x.jpg') 2x
-  );
-}
-
-.patternTapesPattern {
-  background-image: url('/_images/backgrounds/tapes-pattern.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/tapes-pattern.jpg') 1x,
-    url('/_images/backgrounds/tapes-pattern-2x.jpg') 2x
-  );
-}
-
-.patternTapesPurple {
-  background-image: url('/_images/backgrounds/tapes-purple.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/tapes-purple.webp') type('image/webp') 1x,
-    url('/_images/backgrounds/tapes-purple.jpg') 1x,
-    url('/_images/backgrounds/tapes-purple-2x.webp') type('image/webp') 2x,
-    url('/_images/backgrounds/tapes-purple-2x.jpg') 2x
-  );
 }

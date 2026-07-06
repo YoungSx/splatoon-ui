@@ -3,6 +3,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { splatoonAssetUrl, type SplatoonAssetBasePath } from './assets'
 import paginationStyles from './carousel-pagination.module.css'
 
 interface CarouselContextType {
@@ -470,6 +471,8 @@ export interface CarouselPaginationProps extends Omit<
   'children'
 > {
   labels?: string[]
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   /** Accessible label template for unlabeled pagination buttons. Receives the 1-based slide number. */
   getSlideLabel?: (index: number) => string
   ref?: React.Ref<HTMLUListElement>
@@ -479,7 +482,9 @@ export function CarouselPagination({
   ref,
   className,
   labels,
+  assetBasePath,
   getSlideLabel = (i) => `Go to slide ${i}`,
+  style,
   ...props
 }: CarouselPaginationProps) {
   const { currentIndex, itemCount, goToIndex } = useCarousel()
@@ -489,6 +494,15 @@ export function CarouselPagination({
       ref={ref}
       data-slot="carousel-pagination"
       className={cn(paginationStyles.pagination, className)}
+      style={
+        {
+          '--carousel-pagination-icon-url': splatoonAssetUrl(
+            'svg/icon-pagination.svg',
+            assetBasePath
+          ),
+          ...style,
+        } as React.CSSProperties
+      }
       {...props}
     >
       {Array.from({ length: itemCount }, (_, index) => (
@@ -533,6 +547,8 @@ export interface CarouselImagePaginationProps extends Omit<
   'children'
 > {
   images: CarouselImagePaginationItem[]
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   /** Accessible label for a button when the image has an alt text. */
   getImageLabel?: (alt: string) => string
   /** Accessible label for a button when the image has no alt text. Receives the 1-based slide number. */
@@ -544,8 +560,10 @@ export function CarouselImagePagination({
   ref,
   className,
   images,
+  assetBasePath,
   getImageLabel = (alt) => `Go to ${alt}`,
   getSlideLabel = (i) => `Go to slide ${i}`,
+  style,
   ...props
 }: CarouselImagePaginationProps) {
   const { currentIndex, goToIndex } = useCarousel()
@@ -555,6 +573,19 @@ export function CarouselImagePagination({
       ref={ref}
       data-slot="carousel-image-pagination"
       className={cn(paginationStyles.pagination, className)}
+      style={
+        {
+          '--carousel-pagination-icon-url': splatoonAssetUrl(
+            'svg/icon-pagination.svg',
+            assetBasePath
+          ),
+          '--carousel-pagination-splat-url': splatoonAssetUrl(
+            'svg/pagination-splat.svg',
+            assetBasePath
+          ),
+          ...style,
+        } as React.CSSProperties
+      }
       {...props}
     >
       {images.map((img, index) => (

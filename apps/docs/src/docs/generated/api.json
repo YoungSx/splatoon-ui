@@ -57,6 +57,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
+            },
+            {
               "name": "ref",
               "optional": true,
               "type": "React.Ref<HTMLDivElement>",
@@ -412,50 +419,7 @@
           "kind": "function",
           "type": "export function IconButton(",
           "description": "IconButton — circular icon-only control for arrows and compact commands.",
-          "props": [
-            {
-              "name": "variant",
-              "optional": true,
-              "type": "IconButtonVariant",
-              "defaultValue": "",
-              "description": "Icon button color treatment."
-            },
-            {
-              "name": "size",
-              "optional": true,
-              "type": "IconButtonSize",
-              "defaultValue": "",
-              "description": "Explicit size override. When omitted, variant determines default size."
-            },
-            {
-              "name": "animation",
-              "optional": true,
-              "type": "IconButtonAnimation",
-              "defaultValue": "",
-              "description": "Motion preset applied to the circular shell."
-            },
-            {
-              "name": "direction",
-              "optional": true,
-              "type": "IconButtonDirection",
-              "defaultValue": "",
-              "description": "Built-in arrow direction and squish direction."
-            },
-            {
-              "name": "icon",
-              "optional": true,
-              "type": "React.ReactNode",
-              "defaultValue": "",
-              "description": "Custom icon node. When omitted, direction renders the built-in arrow icon."
-            },
-            {
-              "name": "ref",
-              "optional": true,
-              "type": "React.Ref<HTMLButtonElement>",
-              "defaultValue": "",
-              "description": ""
-            }
-          ]
+          "props": []
         },
         {
           "name": "IconButtonAnimation",
@@ -472,9 +436,16 @@
           "props": []
         },
         {
-          "name": "IconButtonProps",
+          "name": "IconButtonOwnProps",
           "kind": "interface",
-          "type": "export interface IconButtonProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' >",
+          "type": "export interface IconButtonOwnProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonProps",
+          "kind": "type",
+          "type": "export type IconButtonProps = Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'aria-labelledby' | 'children' > & IconButtonOwnProps & IconButtonAccessibleName",
           "description": "",
           "props": []
         },
@@ -506,43 +477,7 @@
           "kind": "function",
           "type": "export function WaveButton(",
           "description": "WaveButton - animated blob-shaped graphical button for compact close/menu actions.",
-          "props": [
-            {
-              "name": "variant",
-              "optional": true,
-              "type": "WaveButtonVariant",
-              "defaultValue": "",
-              "description": "Visual variant — controls background color"
-            },
-            {
-              "name": "size",
-              "optional": true,
-              "type": "WaveButtonSize",
-              "defaultValue": "",
-              "description": "Button size"
-            },
-            {
-              "name": "icon",
-              "optional": true,
-              "type": "React.ReactNode",
-              "defaultValue": "",
-              "description": "Custom icon node. Defaults to the hamburger→X line animation. Pass null for no icon."
-            },
-            {
-              "name": "animation",
-              "optional": true,
-              "type": "WaveButtonAnimation",
-              "defaultValue": "",
-              "description": "Blob border-radius animation"
-            },
-            {
-              "name": "ref",
-              "optional": true,
-              "type": "React.Ref<HTMLButtonElement>",
-              "defaultValue": "",
-              "description": ""
-            }
-          ]
+          "props": []
         },
         {
           "name": "WaveButtonAnimation",
@@ -552,9 +487,16 @@
           "props": []
         },
         {
-          "name": "WaveButtonProps",
+          "name": "WaveButtonOwnProps",
           "kind": "interface",
-          "type": "export interface WaveButtonProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' >",
+          "type": "export interface WaveButtonOwnProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WaveButtonProps",
+          "kind": "type",
+          "type": "export type WaveButtonProps = Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'aria-labelledby' | 'children' > & WaveButtonOwnProps & WaveButtonAccessibleName",
           "description": "",
           "props": []
         },
@@ -663,6 +605,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": "Enable hover tilt animation (staple/paper variant)"
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "ref",
@@ -818,6 +767,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to the parent Card assetBasePath."
+            },
+            {
               "name": "ref",
               "optional": true,
               "type": "React.Ref<HTMLDivElement>",
@@ -946,6 +902,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": "Enable hover tilt animation (default: false)"
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "className",
@@ -1084,6 +1047,13 @@
               "type": "'top-right' | 'bottom-center'",
               "defaultValue": "",
               "description": "Tape position at card edge"
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "ref",
@@ -1370,6 +1340,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
+            },
+            {
               "name": "ref",
               "optional": true,
               "type": "React.Ref<HTMLDivElement>",
@@ -1531,6 +1508,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
+            },
+            {
               "name": "getImageLabel",
               "optional": true,
               "type": "(alt: string) => string",
@@ -1608,6 +1592,13 @@
               "type": "string[]",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "getSlideLabel",
@@ -1745,13 +1736,20 @@
               "type": "React.CSSProperties['aspectRatio'] | false",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             }
           ]
         },
         {
           "name": "FeedCarouselItem",
           "kind": "interface",
-          "type": "export interface FeedCarouselItem extends Pick< StapleCardProps, 'image' | 'title' | 'subtitle' | 'action' | 'surface' | 'showTape' | 'hoverTilt' >",
+          "type": "export interface FeedCarouselItem extends Pick< StapleCardProps, 'image' | 'title' | 'subtitle' | 'action' | 'surface' | 'showTape' | 'hoverTilt' | 'assetBasePath' >",
           "description": "",
           "props": []
         },
@@ -1824,6 +1822,13 @@
               "type": "(item: MarqueeCarouselItem, index: number) => React.ReactNode",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             }
           ]
         },
@@ -1860,6 +1865,13 @@
               "type": "number",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "ref",
@@ -1903,6 +1915,13 @@
               "type": "WeaponsGalleryCarouselItem[]",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             }
           ]
         },
@@ -2150,6 +2169,13 @@
               "description": ""
             },
             {
+              "name": "closeLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "hasTape",
               "optional": true,
               "type": "boolean",
@@ -2176,6 +2202,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             }
           ]
         },
@@ -2528,6 +2561,13 @@
               "type": "string",
               "defaultValue": "",
               "description": "Accessible status label."
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "ref",
@@ -3469,6 +3509,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
+            },
+            {
               "name": "fillImageHref",
               "optional": true,
               "type": "string",
@@ -3662,8 +3709,8 @@
         },
         {
           "name": "SplatoonControlTrackColor",
-          "kind": "type",
-          "type": "export type SplatoonControlTrackColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple'",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         }
@@ -4161,6 +4208,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "closeLabel",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
             }
           ]
         },
@@ -4442,8 +4496,8 @@
       "exports": [
         {
           "name": "SplatoonControlTrackColor",
-          "kind": "type",
-          "type": "export type SplatoonControlTrackColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple'",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         },
@@ -4480,6 +4534,13 @@
               "type": "boolean",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "fillImageHref",
@@ -4758,6 +4819,13 @@
               "type": "TabsListVariant",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "color",
@@ -5049,8 +5117,8 @@
         },
         {
           "name": "SplatoonColorValue",
-          "kind": "type",
-          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         }
@@ -5089,6 +5157,13 @@
               "type": "SectionPattern",
               "defaultValue": "",
               "description": "Optional pattern texture overlay"
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "backgroundClassName",
@@ -5169,6 +5244,13 @@
               "type": "BannerDividerTape[]",
               "defaultValue": "",
               "description": "Explicit tape layers. Use two or three layers for the current Splatoon-style divider patterns."
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "animate",
@@ -5289,8 +5371,8 @@
         },
         {
           "name": "SplatoonColorValue",
-          "kind": "type",
-          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
+          "kind": "re-export",
+          "type": "re-export",
           "description": "",
           "props": []
         }
@@ -5432,6 +5514,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
+            },
+            {
               "name": "overlapTop",
               "optional": true,
               "type": "boolean",
@@ -5547,6 +5636,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
+            },
+            {
               "name": "ref",
               "optional": true,
               "type": "React.Ref<HTMLDivElement>",
@@ -5585,6 +5681,13 @@
               "description": ""
             },
             {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
+            },
+            {
               "name": "ref",
               "optional": true,
               "type": "React.Ref<HTMLDivElement>",
@@ -5619,6 +5722,13 @@
               "type": "'top-left' | 'top-right' | 'center' | 'bottom-left' | 'bottom-right' | 'news' | 'event'",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "assetBasePath",
+              "optional": true,
+              "type": "SplatoonAssetBasePath",
+              "defaultValue": "",
+              "description": "Base URL for packaged Splatoon UI image assets. Defaults to \"/_images\"."
             },
             {
               "name": "ref",

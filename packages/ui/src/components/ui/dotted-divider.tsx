@@ -3,9 +3,9 @@ import * as React from 'react'
 import { resolveSplatoonColorValue } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
 import styles from './dotted-divider.module.css'
-import type { SplatoonColorValue } from './theme-tokens'
+import type { SplatoonColorValue } from './tokens'
 
-export type { SplatoonColorValue } from './theme-tokens'
+export type { SplatoonColorValue } from './tokens'
 export type DottedDividerOrientation = 'horizontal' | 'vertical'
 
 export interface DottedDividerProps extends Omit<

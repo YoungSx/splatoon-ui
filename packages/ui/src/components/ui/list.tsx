@@ -4,10 +4,10 @@ import { resolveSplatoonColorValue, splatoonColorVars } from '@/lib/splatoon-col
 import { cn } from '@/lib/utils'
 import { DottedDivider } from './dotted-divider'
 import styles from './list.module.css'
-import type { SplatoonColorValue } from './theme-tokens'
+import type { SplatoonColorValue } from './tokens'
 
 export type ListVariant = 'ordered'
-export type { SplatoonColorValue } from './theme-tokens'
+export type { SplatoonColorValue } from './tokens'
 
 export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start' | 'ref'> {
   variant?: ListVariant

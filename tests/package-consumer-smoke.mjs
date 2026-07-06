@@ -52,8 +52,16 @@ if (forbiddenFiles.length > 0) {
 }
 
 const requiredPackedFiles = [
+  'dist/client.js',
+  'dist/client.d.ts',
   'dist/server.js',
   'dist/server.d.ts',
+  'dist/assets.js',
+  'dist/assets.d.ts',
+  'dist/tokens.js',
+  'dist/tokens.d.ts',
+  'dist/types.js',
+  'dist/types.d.ts',
   'dist/styles.css',
   'README.md',
   'README_ZH.md',
@@ -113,7 +121,9 @@ fs.mkdirSync(path.join(consumerDir, 'src'), { recursive: true })
 fs.writeFileSync(
   path.join(consumerDir, 'src', 'app.tsx'),
   `import 'splatoon-ui/styles.css'
+import { Button as RootButton } from 'splatoon-ui'
 import { Alert, AlertDescription, AlertTitle } from 'splatoon-ui/alert'
+import { resolveSplatoonAssetPath } from 'splatoon-ui/assets'
 import { Badge } from 'splatoon-ui/badge'
 import { BannerDivider } from 'splatoon-ui/banner-divider'
 import { Button } from 'splatoon-ui/button'
@@ -142,12 +152,27 @@ import { StapleCard, StapleCardDescription, StapleCardTitle } from 'splatoon-ui/
 import { Staple, Tape } from 'splatoon-ui/tape'
 import { TapeTitle } from 'splatoon-ui/tape-title'
 import { TornCard, TornCardDescription, TornCardTitle } from 'splatoon-ui/torn-card'
+import { splatoonColorVars } from 'splatoon-ui/tokens'
+import type { PrimitiveChangeDetails } from 'splatoon-ui/types'
 import { WaveButton } from 'splatoon-ui/wave-button'
 import { WaveCanvas } from 'splatoon-ui/wave-canvas'
 
+const consumerAssetBasePath = '/splatoon-assets'
+const resolvedAssetPath = resolveSplatoonAssetPath(
+  'backgrounds/camo-green.png',
+  consumerAssetBasePath
+)
+
+function readPrimitiveReason(details: PrimitiveChangeDetails) {
+  return details.reason
+}
+
 export function App() {
+  void resolvedAssetPath
+
   return (
     <main>
+      <RootButton style={{ color: splatoonColorVars.blue }}>Root entry</RootButton>
       <Alert>
         <AlertTitle>Demo</AlertTitle>
         <AlertDescription>Package consumer smoke test.</AlertDescription>
@@ -176,7 +201,13 @@ export function App() {
           <SelectItem value="cards">Cards</SelectItem>
         </SelectContent>
       </Select>
-      <SegmentedControl defaultValue="turf">
+      <SegmentedControl
+        defaultValue="turf"
+        assetBasePath={consumerAssetBasePath}
+        onValueChange={(_, details) => {
+          readPrimitiveReason(details)
+        }}
+      >
         <SegmentedControlItem value="turf">Turf</SegmentedControlItem>
         <SegmentedControlItem value="ranked">Ranked</SegmentedControlItem>
       </SegmentedControl>
@@ -188,15 +219,21 @@ export function App() {
         <SheetTriggerButton>Open sheet</SheetTriggerButton>
         <SheetContent>Consumer sheet</SheetContent>
       </Sheet>
-      <Loader animation="morph" size="2rem" label="Loading" />
+      <Loader
+        animation="morph"
+        size="2rem"
+        label="Loading"
+        assetBasePath={consumerAssetBasePath}
+      />
       <List>
         <ListItem>Queue</ListItem>
         <ListItem showDivider={false}>Ready</ListItem>
       </List>
-      <Section as="div" pattern="chip-white">
+      <Section as="div" pattern="chip-white" assetBasePath={consumerAssetBasePath}>
         Consumer section
       </Section>
       <BannerDivider
+        assetBasePath={consumerAssetBasePath}
         tapes={[
           { variant: 'design1', rotate: -2 },
           { variant: 'yellow', rotate: 2, offsetY: 14 },
@@ -204,25 +241,28 @@ export function App() {
         layout="spacer"
       />
       <DottedDivider />
-      <TapeTitle color="yellow">Consumer tape title</TapeTitle>
+      <TapeTitle color="yellow" assetBasePath={consumerAssetBasePath}>
+        Consumer tape title
+      </TapeTitle>
       <div style={{ position: 'relative', minHeight: 120 }}>
-        <Tape variant="tape-2" position="top-left" />
-        <Staple position="right" />
+        <Tape variant="tape-2" position="top-left" assetBasePath={consumerAssetBasePath} />
+        <Staple position="right" assetBasePath={consumerAssetBasePath} />
       </div>
       <div style={{ position: 'relative', minHeight: 96 }}>
         <WaveCanvas color="var(--color-blue)" height={64} interactive={false} />
       </div>
       <Badge>Fresh</Badge>
       <SplatoonTitle>Consumer title</SplatoonTitle>
-      <HeadingTape>Consumer heading</HeadingTape>
+      <HeadingTape assetBasePath={consumerAssetBasePath}>Consumer heading</HeadingTape>
       <StapleCard
+        assetBasePath={consumerAssetBasePath}
         image={<div style={{ height: 120, background: 'var(--color-yellow)' }} />}
         variant="b"
       >
         <StapleCardTitle>Featured rotation</StapleCardTitle>
         <StapleCardDescription>Formal package entrypoint smoke test.</StapleCardDescription>
       </StapleCard>
-      <TornCard variant="b">
+      <TornCard variant="b" assetBasePath={consumerAssetBasePath}>
         <TornCardTitle>Public torn card</TornCardTitle>
         <TornCardDescription>Separate package entrypoint smoke test.</TornCardDescription>
       </TornCard>
@@ -234,7 +274,7 @@ export function App() {
           <CarouselItem>Slide one</CarouselItem>
           <CarouselItem>Slide two</CarouselItem>
         </CarouselContent>
-        <CarouselPagination />
+        <CarouselPagination assetBasePath={consumerAssetBasePath} />
       </Carousel>
       <Dialog />
     </main>
@@ -246,11 +286,13 @@ export function App() {
 fs.writeFileSync(
   path.join(consumerDir, 'runtime.mjs'),
   `await import('splatoon-ui')
+await import('splatoon-ui/assets')
 await import('splatoon-ui/badge')
 await import('splatoon-ui/banner-divider')
 await import('splatoon-ui/button')
 await import('splatoon-ui/button-group')
 await import('splatoon-ui/carousel')
+await import('splatoon-ui/client')
 await import('splatoon-ui/dialog')
 await import('splatoon-ui/dotted-divider')
 await import('splatoon-ui/heading-tape')
@@ -269,9 +311,12 @@ await import('splatoon-ui/splatoon-title')
 await import('splatoon-ui/staple-card')
 await import('splatoon-ui/tape')
 await import('splatoon-ui/tape-title')
+await import('splatoon-ui/tokens')
 await import('splatoon-ui/torn-card')
+await import('splatoon-ui/types')
 await import('splatoon-ui/wave-button')
 await import('splatoon-ui/wave-canvas')
+await import('splatoon-ui/server')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `
 )

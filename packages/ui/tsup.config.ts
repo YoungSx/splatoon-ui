@@ -65,16 +65,18 @@ const componentEntries = Object.fromEntries(
   publicUiEntries.map((name) => [name, resolveUiEntry(name)])
 )
 
-const privateSupportEntries = {
-  'primitive-types': 'src/components/ui/primitive-types.ts',
-  'theme-tokens': 'src/components/ui/theme-tokens.ts',
+const supportEntries = {
+  client: 'src/components/ui/client.ts',
+  assets: 'src/components/ui/assets.ts',
+  tokens: 'src/components/ui/tokens.ts',
+  types: 'src/components/ui/types.ts',
 }
 
 export default defineConfig({
   entry: {
     server: 'src/components/ui/server.ts',
+    ...supportEntries,
     ...componentEntries,
-    ...privateSupportEntries,
   },
   bundle: true,
   clean: true,

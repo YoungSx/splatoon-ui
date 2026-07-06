@@ -1,8 +1,9 @@
 import * as React from 'react'
 
-import { newsStapleAssets } from './news-assets'
+import { createNewsStapleAssets } from './news-assets'
 import { TapePicture } from './tape-picture'
 import { cn } from '@/lib/utils'
+import type { SplatoonAssetBasePath } from './assets'
 
 /* ──────────────────────────────────────────────
    Tape — curated tape image assets
@@ -19,6 +20,8 @@ export type TapeVariant =
 export interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   variant?: TapeVariant
   position?: 'top-left' | 'top-right' | 'center' | 'bottom-left' | 'bottom-right' | 'news' | 'event'
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -27,6 +30,7 @@ function Tape({
   className,
   variant = 'tape-1',
   position = 'top-left',
+  assetBasePath,
   children,
   ...props
 }: TapeProps) {
@@ -59,7 +63,11 @@ function Tape({
       )}
       {...props}
     >
-      <TapePicture asset={variant} className="drop-shadow-[1px_2px_1.5px_rgba(0,0,0,0.28)]" />
+      <TapePicture
+        asset={variant}
+        assetBasePath={assetBasePath}
+        className="drop-shadow-[1px_2px_1.5px_rgba(0,0,0,0.28)]"
+      />
       {children}
     </div>
   )
@@ -70,10 +78,13 @@ function Tape({
    ────────────────────────────────────────────── */
 export interface StapleProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   position?: 'left' | 'right' | 'top' | 'bottom'
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
-function Staple({ ref, className, position = 'left', ...props }: StapleProps) {
+function Staple({ ref, className, position = 'left', assetBasePath, ...props }: StapleProps) {
+  const newsStapleAssets = createNewsStapleAssets(assetBasePath)
   const asset = position === 'left' ? newsStapleAssets.left : newsStapleAssets.right
 
   // Check if custom positioning classes are passed

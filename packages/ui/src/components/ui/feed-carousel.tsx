@@ -17,12 +17,13 @@ import {
 } from '@/components/ui/card-stack-carousel'
 import { StapleCard, type StapleCardProps } from '@/components/ui/staple-card'
 import { cn } from '@/lib/utils'
+import type { SplatoonAssetBasePath } from './assets'
 
 const DEFAULT_FEED_CAROUSEL_MEDIA_ASPECT_RATIO = '558 / 313'
 
 export interface FeedCarouselItem extends Pick<
   StapleCardProps,
-  'image' | 'title' | 'subtitle' | 'action' | 'surface' | 'showTape' | 'hoverTilt'
+  'image' | 'title' | 'subtitle' | 'action' | 'surface' | 'showTape' | 'hoverTilt' | 'assetBasePath'
 > {
   id: React.Key
   cardClassName?: string
@@ -31,12 +32,15 @@ export interface FeedCarouselItem extends Pick<
 export interface FeedCarouselProps extends Omit<CarouselProps, 'children'> {
   items: FeedCarouselItem[]
   mediaAspectRatio?: React.CSSProperties['aspectRatio'] | false
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
 }
 
 export function FeedCarousel({
   items,
   className,
   mediaAspectRatio = DEFAULT_FEED_CAROUSEL_MEDIA_ASPECT_RATIO,
+  assetBasePath,
   ...props
 }: FeedCarouselProps) {
   return (
@@ -67,13 +71,14 @@ export function FeedCarousel({
                   surface={item.surface}
                   showTape={item.showTape}
                   hoverTilt={item.hoverTilt}
+                  assetBasePath={item.assetBasePath ?? assetBasePath}
                 />
               </CardStackCarouselItem>
             ))}
           </CardStackCarouselContent>
           <CardStackCarouselPrevious />
           <CardStackCarouselNext />
-          <CarouselPagination />
+          <CarouselPagination assetBasePath={assetBasePath} />
         </CardStackCarouselScene>
       </Carousel>
     </CarouselBleedBoundary>

@@ -9,7 +9,7 @@ import type {
   PrimitiveChangeDetails,
   PrimitiveCheckedRenderState,
   PrimitiveRender,
-} from './primitive-types'
+} from './types'
 
 export interface CheckboxProps extends Omit<
   React.HTMLAttributes<HTMLElement>,

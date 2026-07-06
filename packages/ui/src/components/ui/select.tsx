@@ -14,7 +14,7 @@ import type {
   PrimitivePopupOffset,
   PrimitivePopupSide,
   PrimitiveRender,
-} from './primitive-types'
+} from './types'
 
 export type SelectValueType<
   Value,

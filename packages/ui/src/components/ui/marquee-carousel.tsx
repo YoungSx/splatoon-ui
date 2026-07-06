@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/carousel-core'
 import { GalleryControls } from './gallery-controls'
 import { PhotoFrame } from './photo-frame'
+import type { SplatoonAssetBasePath } from './assets'
 import baseStyles from './gallery-base.module.css'
 import styles from './marquee-carousel.module.css'
 
@@ -31,6 +32,8 @@ export interface MarqueeCarouselProps extends Omit<CarouselProps, 'children'> {
   items: MarqueeCarouselItem[]
   pagination?: React.ReactNode
   renderItem?: (item: MarqueeCarouselItem, index: number) => React.ReactNode
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
 }
 
 export function MarqueeCarousel({
@@ -38,6 +41,7 @@ export function MarqueeCarousel({
   className,
   pagination,
   renderItem,
+  assetBasePath,
   ...props
 }: MarqueeCarouselProps) {
   return (
@@ -53,14 +57,19 @@ export function MarqueeCarousel({
               renderItem ? (
                 renderItem(item, index)
               ) : (
-                <MarqueeGalleryItem key={item.id} data-index={index} item={item} />
+                <MarqueeGalleryItem
+                  key={item.id}
+                  data-index={index}
+                  item={item}
+                  assetBasePath={assetBasePath}
+                />
               )
             )}
           </CarouselContent>
         </CarouselSwipeArea>
       </CarouselViewport>
       <GalleryControls />
-      {pagination ?? <CarouselPagination />}
+      {pagination ?? <CarouselPagination assetBasePath={assetBasePath} />}
     </Carousel>
   )
 }
@@ -68,6 +77,8 @@ export function MarqueeCarousel({
 export interface MarqueeGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: MarqueeCarouselItem
   'data-index'?: number
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -76,6 +87,7 @@ export function MarqueeGalleryItem({
   className,
   item,
   'data-index': index = 0,
+  assetBasePath,
   ...props
 }: MarqueeGalleryItemProps) {
   const { isActive } = useCarouselItemState(index)
@@ -92,6 +104,7 @@ export function MarqueeGalleryItem({
         variant="b"
         src={item.image}
         alt={item.alt || ''}
+        assetBasePath={assetBasePath}
         className={cn(baseStyles.galleryFrame, styles.photoFrame)}
       />
     </FadeCarouselItem>

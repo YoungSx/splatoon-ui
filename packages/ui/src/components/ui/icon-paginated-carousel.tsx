@@ -28,15 +28,22 @@ export interface IconPaginatedCarouselProps extends Omit<
   items: IconPaginatedCarouselItem[]
 }
 
-export function IconPaginatedCarousel({ items, className, ...props }: IconPaginatedCarouselProps) {
+export function IconPaginatedCarousel({
+  items,
+  className,
+  assetBasePath,
+  ...props
+}: IconPaginatedCarouselProps) {
   return (
     <MarqueeCarousel
       {...props}
       items={items}
       className={className}
+      assetBasePath={assetBasePath}
       pagination={
         <CarouselImagePagination
           className={styles.imagePagination}
+          assetBasePath={assetBasePath}
           images={items.map((item) => ({
             src: item.icon,
             alt: item.title,
@@ -49,6 +56,7 @@ export function IconPaginatedCarousel({ items, className, ...props }: IconPagina
           key={item.id}
           data-index={index}
           item={item as IconPaginatedCarouselItem}
+          assetBasePath={assetBasePath}
         />
       )}
     />
@@ -58,6 +66,7 @@ export function IconPaginatedCarousel({ items, className, ...props }: IconPagina
 interface IconPaginatedGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: IconPaginatedCarouselItem
   'data-index'?: number
+  assetBasePath?: IconPaginatedCarouselProps['assetBasePath']
 }
 
 function IconPaginatedGalleryItem({
@@ -65,6 +74,7 @@ function IconPaginatedGalleryItem({
   className,
   item,
   'data-index': index = 0,
+  assetBasePath,
   ...props
 }: IconPaginatedGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
   const { isActive } = useCarouselItemState(index)
@@ -83,6 +93,7 @@ function IconPaginatedGalleryItem({
             variant="d"
             src={item.image}
             alt={item.title}
+            assetBasePath={assetBasePath}
             className={cn(baseStyles.galleryFrame, styles.photoFrame)}
           />
         </GalleryBounce>

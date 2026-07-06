@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { splatoonAssetUrl, type SplatoonAssetBasePath } from './assets'
 import { isTapeImageVariant, type TapeImageVariant } from './tape-assets'
 import { MediaDecoration } from './media-decoration'
 import styles from './photo-frame.module.css'
@@ -17,6 +18,13 @@ interface PhotoTapeAssetConfig {
 
 interface PhotoDecorationAssetConfig {
   asset: TapeImageVariant
+}
+
+type PhotoFrameStyle = React.CSSProperties & {
+  '--end-rotate'?: string
+  '--margin-offset'?: number
+  '--photo-frame-surface-url'?: string
+  '--tape-rotation'?: string
 }
 
 export interface PhotoFrameProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
@@ -42,6 +50,8 @@ export interface PhotoFrameProps extends Omit<React.ComponentProps<'div'>, 'ref'
   nested?: boolean
   /** Fill width (block display) */
   fillWidth?: boolean
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -138,6 +148,7 @@ export function PhotoFrame({
   marginOffset,
   nested = false,
   fillWidth = false,
+  assetBasePath,
   className,
   children,
   style,
@@ -171,15 +182,29 @@ export function PhotoFrame({
           '--end-rotate': resolvedRotation,
           '--tape-rotation': resolvedTapeRotation,
           '--margin-offset': marginOffset ?? 6,
+          '--photo-frame-surface-url': splatoonAssetUrl(
+            'svg/styled-photo-background.svg',
+            assetBasePath
+          ),
           ...style,
-        } as React.CSSProperties
+        } as PhotoFrameStyle
       }
       {...props}
     >
-      {resolvedShowTape && <PhotoTape position={resolvedTapePosition} type={resolvedTapeType} />}
+      {resolvedShowTape && (
+        <PhotoTape
+          position={resolvedTapePosition}
+          type={resolvedTapeType}
+          assetBasePath={assetBasePath}
+        />
+      )}
 
       {resolvedShowSticker && (
-        <PhotoDecoration position={config.decorationPosition} type={config.decorationType} />
+        <PhotoDecoration
+          position={config.decorationPosition}
+          type={config.decorationType}
+          assetBasePath={assetBasePath}
+        />
       )}
 
       {src ? (
@@ -214,6 +239,8 @@ export interface PhotoTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>
   position?: 'center' | 'left' | 'right' | 'bottomCenter' | 'bottomLeft' | 'bottomRight'
   /** Tape type */
   type?: string
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -221,6 +248,7 @@ export function PhotoTape({
   ref,
   position = 'center',
   type = 'tape-2',
+  assetBasePath,
   className,
   ...props
 }: PhotoTapeProps) {
@@ -231,6 +259,7 @@ export function PhotoTape({
     <MediaDecoration
       ref={ref}
       asset={config.asset}
+      assetBasePath={assetBasePath}
       className={cn(styles.tape, TAPE_POSITION[position], className)}
       mobilePictureClassName={styles.tapeMobile}
       desktopPictureClassName={styles.tapeDesktop}
@@ -253,6 +282,8 @@ export interface PhotoDecorationProps extends Omit<React.ComponentProps<'div'>, 
   position?: 'bottomLeft' | 'topRight' | 'bottomRight' | 'center'
   /** Decoration type */
   type?: string
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -260,6 +291,7 @@ export function PhotoDecoration({
   ref,
   position = 'bottomLeft',
   type = 'sticker-9',
+  assetBasePath,
   className,
   ...props
 }: PhotoDecorationProps) {
@@ -271,6 +303,7 @@ export function PhotoDecoration({
     <MediaDecoration
       ref={ref}
       asset={asset}
+      assetBasePath={assetBasePath}
       className={cn(styles.decoration, DECORATION_POSITION[position], className)}
       mobilePictureClassName={styles.decorationMobile}
       desktopPictureClassName={styles.decorationDesktop}

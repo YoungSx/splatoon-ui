@@ -43,10 +43,10 @@
   height: 28px;
   width: 30px;
   background: var(--chaos-black, #0d0d0d);
-  mask-image: url('/_images/svg/icon-pagination.svg');
+  mask-image: var(--carousel-pagination-icon-url);
   mask-size: contain;
   mask-repeat: no-repeat;
-  -webkit-mask-image: url('/_images/svg/icon-pagination.svg');
+  -webkit-mask-image: var(--carousel-pagination-icon-url);
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   opacity: 0.3;
@@ -65,7 +65,7 @@
 }
 
 .imagePaginationButton::before {
-  background-image: url('/_images/svg/pagination-splat.svg');
+  background-image: var(--carousel-pagination-splat-url);
   background-repeat: no-repeat;
   content: '';
   height: 78px;

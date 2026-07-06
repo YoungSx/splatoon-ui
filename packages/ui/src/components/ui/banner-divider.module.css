@@ -57,6 +57,8 @@
 /* Banner strip uses centered absolute positioning without margin-left.
    Positioning is entirely via CSS custom properties (--start-x, --end-x) in .anim transform. */
 .bannerDividerTape {
+  background-image: var(--banner-divider-image);
+  background-image: var(--banner-divider-image-set);
   background-position: 50%;
   background-repeat: repeat-x;
   background-size: auto 100%;
@@ -69,6 +71,8 @@
 
 @media screen and (min-width: 640px) {
   .bannerDividerTape {
+    background-image: var(--banner-divider-image-medium, var(--banner-divider-image));
+    background-image: var(--banner-divider-image-set-medium, var(--banner-divider-image-set));
     height: 65px;
     top: var(--banner-offset-medium, 0);
   }
@@ -83,160 +87,5 @@
 @media screen and (min-width: 1440px) {
   .bannerDividerTape {
     height: 110px;
-  }
-}
-
-/* ── Design patterns ── */
-.banner-divider--design1 {
-  background-image: url('/_images/banners/banner-design1.png');
-  background-image: image-set(
-    url('/_images/banners/banner-design1.png') 1x,
-    url('/_images/banners/banner-design1-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--design1 {
-    background-image: url('/_images/banners/banner-design1-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-design1-medium-up.png') 1x,
-      url('/_images/banners/banner-design1-medium-up-2x.png') 2x
-    );
-  }
-}
-
-.banner-divider--design2 {
-  background-image: url('/_images/banners/banner-design2.png');
-  background-image: image-set(
-    url('/_images/banners/banner-design2.png') 1x,
-    url('/_images/banners/banner-design2-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--design2 {
-    background-image: url('/_images/banners/banner-design2-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-design2-medium-up.png') 1x,
-      url('/_images/banners/banner-design2-medium-up-2x.png') 2x
-    );
-  }
-}
-
-.banner-divider--design3 {
-  background-image: url('/_images/banners/banner-design3.png');
-  background-image: image-set(
-    url('/_images/banners/banner-design3.png') 1x,
-    url('/_images/banners/banner-design3-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--design3 {
-    background-image: url('/_images/banners/banner-design3-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-design3-medium-up.png') 1x,
-      url('/_images/banners/banner-design3-medium-up-2x.png') 2x
-    );
-  }
-}
-
-/* ── Solid color variants ── */
-.banner-divider--yellow {
-  background-image: url('/_images/banners/banner-yellow.png');
-  background-image: image-set(
-    url('/_images/banners/banner-yellow.png') 1x,
-    url('/_images/banners/banner-yellow-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--yellow {
-    background-image: url('/_images/banners/banner-yellow-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-yellow-medium-up.png') 1x,
-      url('/_images/banners/banner-yellow-medium-up-2x.png') 2x
-    );
-  }
-}
-
-.banner-divider--blue {
-  background-image: url('/_images/banners/banner-blue.png');
-  background-image: image-set(
-    url('/_images/banners/banner-blue.png') 1x,
-    url('/_images/banners/banner-blue-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--blue {
-    background-image: url('/_images/banners/banner-blue-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-blue-medium-up.png') 1x,
-      url('/_images/banners/banner-blue-medium-up-2x.png') 2x
-    );
-  }
-}
-
-.banner-divider--green {
-  background-image: url('/_images/banners/banner-green.png');
-  background-image: image-set(
-    url('/_images/banners/banner-green.png') 1x,
-    url('/_images/banners/banner-green-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--green {
-    background-image: url('/_images/banners/banner-green-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-green-medium-up.png') 1x,
-      url('/_images/banners/banner-green-medium-up-2x.png') 2x
-    );
-  }
-}
-
-.banner-divider--purple {
-  background-image: url('/_images/banners/banner-purple.png');
-  background-image: image-set(
-    url('/_images/banners/banner-purple.png') 1x,
-    url('/_images/banners/banner-purple-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--purple {
-    background-image: url('/_images/banners/banner-purple-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-purple-medium-up.png') 1x,
-      url('/_images/banners/banner-purple-medium-up-2x.png') 2x
-    );
-  }
-}
-
-.banner-divider--orange {
-  background-image: url('/_images/banners/banner-orange.png');
-  background-image: image-set(
-    url('/_images/banners/banner-orange.png') 1x,
-    url('/_images/banners/banner-orange-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--orange {
-    background-image: url('/_images/banners/banner-orange-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-orange-medium-up.png') 1x,
-      url('/_images/banners/banner-orange-medium-up-2x.png') 2x
-    );
-  }
-}
-
-.banner-divider--red {
-  background-image: url('/_images/banners/banner-red.png');
-  background-image: image-set(
-    url('/_images/banners/banner-red.png') 1x,
-    url('/_images/banners/banner-red-2x.png') 2x
-  );
-}
-@media screen and (min-width: 640px) {
-  .banner-divider--red {
-    background-image: url('/_images/banners/banner-red-medium-up.png');
-    background-image: image-set(
-      url('/_images/banners/banner-red-medium-up.png') 1x,
-      url('/_images/banners/banner-red-medium-up-2x.png') 2x
-    );
   }
 }

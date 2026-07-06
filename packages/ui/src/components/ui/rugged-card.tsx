@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import type { SplatoonAssetBasePath } from './assets'
 import { DottedDivider } from './dotted-divider'
 import { PhotoFrame } from './photo-frame'
 import { TagHanger } from './tag-hanger'
@@ -129,6 +130,8 @@ export function RuggedCardDescription({ ref, className, ...props }: RuggedCardDe
 export interface RuggedCardImageProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   src?: string
   alt?: string
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   ref?: React.Ref<HTMLDivElement>
 }
 
@@ -137,6 +140,7 @@ export function RuggedCardImage({
   className,
   src,
   alt,
+  assetBasePath,
   children,
   ...props
 }: RuggedCardImageProps) {
@@ -147,7 +151,14 @@ export function RuggedCardImage({
       className={cn('relative flex w-full justify-center py-4', className)}
       {...props}
     >
-      <PhotoFrame src={src} alt={alt} variant="b" rotation="2deg" fillWidth>
+      <PhotoFrame
+        src={src}
+        alt={alt}
+        variant="b"
+        rotation="2deg"
+        fillWidth
+        assetBasePath={assetBasePath}
+      >
         {children}
       </PhotoFrame>
     </div>

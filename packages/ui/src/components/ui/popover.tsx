@@ -17,7 +17,7 @@ import type {
   PrimitivePopupSide,
   PrimitivePortalContainer,
   PrimitiveRender,
-} from './primitive-types'
+} from './types'
 
 const POPOVER_Z_INDEX = uiZIndex.floating
 

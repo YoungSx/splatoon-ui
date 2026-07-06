@@ -4,6 +4,11 @@ import * as React from 'react'
 
 import { useInView } from '@/hooks/use-in-view'
 import { cn } from '@/lib/utils'
+import {
+  splatoonAssetImageSet,
+  splatoonAssetUrl,
+  type SplatoonAssetBasePath,
+} from './assets'
 import inViewStyles from './in-view.module.css'
 import styles from './banner-divider.module.css'
 
@@ -43,6 +48,8 @@ export interface BannerDividerTape {
 export interface BannerDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Explicit tape layers. Use two or three layers for the current Splatoon-style divider patterns. */
   tapes: BannerDividerTape[]
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   /** Enable InView fly-in animation on each tape. */
   animate?: boolean
   /** Root margin for InView IntersectionObserver. */
@@ -71,6 +78,62 @@ function resolveEnterFrom(index: number, enterFrom: BannerDividerEnterFrom | und
   return enterFrom ?? (index % 2 === 0 ? 'left' : 'right')
 }
 
+const BANNER_DIVIDER_ASSET_NAME = {
+  design1: 'banner-design1',
+  design2: 'banner-design2',
+  design3: 'banner-design3',
+  yellow: 'banner-yellow',
+  blue: 'banner-blue',
+  green: 'banner-green',
+  purple: 'banner-purple',
+  orange: 'banner-orange',
+  red: 'banner-red',
+} satisfies Record<BannerDividerVariant, string>
+
+type BannerDividerTapeStyle = React.CSSProperties & {
+  '--banner-divider-image'?: string
+  '--banner-divider-image-set'?: string
+  '--banner-divider-image-medium'?: string
+  '--banner-divider-image-set-medium'?: string
+  '--banner-offset-medium'?: string
+  '--end-rotate'?: string
+  '--end-x'?: string
+  '--end-y'?: string
+  '--start-rotate'?: string
+  '--start-x'?: string
+  '--start-y'?: string
+}
+
+function getBannerDividerAssetStyle(
+  variant: BannerDividerVariant,
+  assetBasePath?: SplatoonAssetBasePath
+) {
+  const assetName = BANNER_DIVIDER_ASSET_NAME[variant]
+  const basePath = `banners/${assetName}.png`
+  const base2xPath = `banners/${assetName}-2x.png`
+  const mediumPath = `banners/${assetName}-medium-up.png`
+  const medium2xPath = `banners/${assetName}-medium-up-2x.png`
+
+  return {
+    '--banner-divider-image': splatoonAssetUrl(basePath, assetBasePath),
+    '--banner-divider-image-set': splatoonAssetImageSet(
+      [
+        { path: basePath },
+        { path: base2xPath, descriptor: '2x' },
+      ],
+      assetBasePath
+    ),
+    '--banner-divider-image-medium': splatoonAssetUrl(mediumPath, assetBasePath),
+    '--banner-divider-image-set-medium': splatoonAssetImageSet(
+      [
+        { path: mediumPath },
+        { path: medium2xPath, descriptor: '2x' },
+      ],
+      assetBasePath
+    ),
+  } satisfies BannerDividerTapeStyle
+}
+
 function BannerDividerTapeLayer({
   variant,
   rotate,
@@ -81,10 +144,12 @@ function BannerDividerTapeLayer({
   isInView,
   animDelay,
   index,
+  assetBasePath,
 }: BannerDividerTape & {
   animate?: boolean
   isInView?: boolean
   index: number
+  assetBasePath?: SplatoonAssetBasePath
 }) {
   const { base, medium } = resolveOffsetY(offsetY)
   const delay = animDelay ?? index
@@ -97,12 +162,13 @@ function BannerDividerTapeLayer({
         animate && inViewStyles.anim,
         animate && isInView && inViewStyles.inView,
         styles.bannerDividerTape,
-        styles[`banner-divider--${variant}`],
         delay > 0 && inViewStyles[`delay${delay}` as keyof typeof inViewStyles],
         className
       )}
+      data-variant={variant}
       style={
         {
+          ...getBannerDividerAssetStyle(variant, assetBasePath),
           top: `${base}px`,
           '--banner-offset-medium': `${medium}px`,
           '--start-x': startX,
@@ -111,7 +177,7 @@ function BannerDividerTapeLayer({
           '--end-y': index === 0 ? '-25%' : '-50%',
           '--start-rotate': '0deg',
           '--end-rotate': `${rotate}deg`,
-        } as React.CSSProperties
+        } as BannerDividerTapeStyle
       }
     />
   )
@@ -120,6 +186,7 @@ function BannerDividerTapeLayer({
 export function BannerDivider({
   ref,
   tapes,
+  assetBasePath,
   animate,
   rootMargin,
   layout = 'overlay',
@@ -163,6 +230,7 @@ export function BannerDivider({
             key={i}
             {...tape}
             animate={animate}
+            assetBasePath={assetBasePath}
             isInView={isInView}
             index={i}
           />

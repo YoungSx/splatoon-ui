@@ -23,14 +23,14 @@
 }
 
 .blackTapeContainer::before {
-  background-image: url('/_images/svg/left-black-tape-container.svg');
+  background-image: var(--black-tape-container-left-url);
   background-position: right top;
   left: 0;
   width: var(--tape-left-width);
 }
 
 .blackTapeContainer::after {
-  background-image: url('/_images/svg/right-black-tape-container.svg');
+  background-image: var(--black-tape-container-right-url);
   background-position: left top;
   right: 0;
   width: var(--tape-right-width);
@@ -47,11 +47,11 @@
 }
 
 .tapeYellow::before {
-  background-image: url('/_images/svg/left-yellow-tape-container.svg');
+  background-image: var(--yellow-tape-container-left-url);
 }
 
 .tapeYellow::after {
-  background-image: url('/_images/svg/right-yellow-tape-container.svg');
+  background-image: var(--yellow-tape-container-right-url);
 }
 
 .noVerticalPadding .blackTapeContainerInner {

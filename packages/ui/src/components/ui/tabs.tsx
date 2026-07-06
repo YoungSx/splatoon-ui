@@ -5,7 +5,11 @@ import { cva } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import type { PrimitiveChangeDetails, PrimitiveRender } from './primitive-types'
+import {
+  splatoonAssetImageSet,
+  type SplatoonAssetBasePath,
+} from './assets'
+import type { PrimitiveChangeDetails, PrimitiveRender } from './types'
 import styles from './tabs.module.css'
 
 const TRAPEZOID_TABS_TEXTURE_SCALE = 1.2
@@ -31,7 +35,9 @@ type TrapezoidTabsStyle = React.CSSProperties & {
 }
 
 type TabsListStyle = React.CSSProperties & {
+  '--active-splat-url'?: string
   '--tabs-decoration-color'?: string
+  '--trapezoid-tabs-bg-image'?: string
 }
 
 const tabsDecorationColorByColor = {
@@ -298,6 +304,8 @@ export interface TabsListProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   activateOnFocus?: boolean
   loopFocus?: boolean
   variant?: TabsListVariant
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   /** Primary active color token. The default decoration color is inferred from the matching Splatoon theme pair. */
   color?: TabsListColor
   /** Override the inferred hover/active decoration color with any CSS color value. */
@@ -309,6 +317,7 @@ export interface TabsListProps extends Omit<React.HTMLAttributes<HTMLDivElement>
 function TabsList({
   className,
   children,
+  assetBasePath,
   decorationColor,
   variant = 'default',
   color = 'blue',
@@ -322,6 +331,22 @@ function TabsList({
   const resolvedDecorationColor =
     decorationColor ?? getTabsDecorationColor(resolvedVariant, resolvedColor)
   const resolvedStyle = {
+    '--active-splat-url': splatoonAssetImageSet(
+      [
+        { path: 'events/active-splat.webp' },
+        { path: 'events/active-splat-2x.webp', descriptor: '2x' },
+      ],
+      assetBasePath
+    ),
+    '--trapezoid-tabs-bg-image': splatoonAssetImageSet(
+      [
+        { path: 'backgrounds/tapes-purple.webp', type: 'image/webp' },
+        { path: 'backgrounds/tapes-purple.jpg' },
+        { path: 'backgrounds/tapes-purple-2x.webp', descriptor: '2x', type: 'image/webp' },
+        { path: 'backgrounds/tapes-purple-2x.jpg', descriptor: '2x' },
+      ],
+      assetBasePath
+    ),
     ...style,
     '--tabs-decoration-color': resolvedDecorationColor,
   } satisfies TabsListStyle

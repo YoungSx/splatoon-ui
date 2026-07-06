@@ -47,7 +47,11 @@ const forbiddenPublicEntrypoints = [
 ]
 const allowedPackageExports = new Set([
   '.',
+  './client',
   './server',
+  './assets',
+  './tokens',
+  './types',
   './styles.css',
   './assets/*',
   './package.json',
@@ -63,11 +67,21 @@ const checks = [
     name: 'package exposes built ESM, declaration, and component entrypoints',
     pass:
       packageJson.type === 'module' &&
-      packageJson.main === './dist/server.js' &&
-      packageJson.module === './dist/server.js' &&
-      packageJson.types === './dist/server.d.ts' &&
-      packageJson.exports?.['.']?.import === './dist/server.js' &&
-      packageJson.exports?.['./client'] === undefined &&
+      packageJson.main === './dist/client.js' &&
+      packageJson.module === './dist/client.js' &&
+      packageJson.types === './dist/client.d.ts' &&
+      packageJson.exports?.['.']?.import === './dist/client.js' &&
+      packageJson.exports?.['.']?.types === './dist/client.d.ts' &&
+      packageJson.exports?.['./client']?.import === './dist/client.js' &&
+      packageJson.exports?.['./client']?.types === './dist/client.d.ts' &&
+      packageJson.exports?.['./server']?.import === './dist/server.js' &&
+      packageJson.exports?.['./server']?.types === './dist/server.d.ts' &&
+      packageJson.exports?.['./assets']?.import === './dist/assets.js' &&
+      packageJson.exports?.['./assets']?.types === './dist/assets.d.ts' &&
+      packageJson.exports?.['./tokens']?.import === './dist/tokens.js' &&
+      packageJson.exports?.['./tokens']?.types === './dist/tokens.d.ts' &&
+      packageJson.exports?.['./types']?.import === './dist/types.js' &&
+      packageJson.exports?.['./types']?.types === './dist/types.d.ts' &&
       packageJson.exports?.['./styles.css'] === './dist/styles.css' &&
       Object.keys(packageJson.exports ?? {}).every((entry) => allowedPackageExports.has(entry)) &&
       publicUiEntries.every((name) => {

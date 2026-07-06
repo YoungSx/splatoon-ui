@@ -30,10 +30,11 @@ interface IconButtonColorPreset {
   color: string
 }
 
-export interface IconButtonProps extends Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  'children'
-> {
+type IconButtonAccessibleName =
+  | { 'aria-label': string; 'aria-labelledby'?: never }
+  | { 'aria-label'?: never; 'aria-labelledby': string }
+
+export interface IconButtonOwnProps {
   /** Icon button color treatment. */
   variant?: IconButtonVariant
   /** Explicit size override. When omitted, variant determines default size. */
@@ -46,6 +47,13 @@ export interface IconButtonProps extends Omit<
   icon?: React.ReactNode
   ref?: React.Ref<HTMLButtonElement>
 }
+
+export type IconButtonProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'aria-label' | 'aria-labelledby' | 'children'
+> &
+  IconButtonOwnProps &
+  IconButtonAccessibleName
 
 // ─── Style maps ─────────────────────────────────────────────────────────────
 

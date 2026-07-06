@@ -84,8 +84,17 @@ const checks = [
     ),
   },
   {
-    name: 'SectionBackground CSS references each new pattern with 1x and 2x image-set assets',
-    pass: newPatternAssets.every((asset) => css.includes(`/_images/backgrounds/${asset}`)),
+    name: 'SectionBackground resolves pattern images through its shared asset table',
+    pass:
+      component.includes('splatoonAssetImageSet') &&
+      component.includes('splatoonAssetUrl') &&
+      component.includes('const PATTERN_ASSETS: Record<Pattern, PatternAssetSet>') &&
+      newPatterns.every(([pattern]) => component.includes(`'${pattern}':`)) &&
+      component.includes("return {\n    fallback: `backgrounds/${name}.${extension}`") &&
+      component.includes("{ path: `backgrounds/${name}-2x.${extension}`, descriptor: '2x' }") &&
+      css.includes('background-image: var(--section-pattern-image);') &&
+      css.includes('background-image: var(--section-pattern-image-set);') &&
+      !css.includes('/_images/backgrounds/'),
   },
   {
     name: 'official tape backgrounds include every available 1x and 2x JPG/WebP asset',
@@ -95,18 +104,14 @@ const checks = [
       !fs.existsSync(path.join(backgroundDir, 'tapes-pattern-2x.webp')),
   },
   {
-    name: 'SectionBackground CSS prefers WebP tape backgrounds with JPG fallback where official assets exist',
+    name: 'SectionBackground asset table prefers WebP tape backgrounds with JPG fallback where official assets exist',
     pass:
       ['black', 'green', 'purple'].every(
         (name) =>
-          css.includes(`tapes-${name}.webp') type('image/webp') 1x`) &&
-          css.includes(`tapes-${name}.jpg') 1x`) &&
-          css.includes(`tapes-${name}-2x.webp') type('image/webp') 2x`) &&
-          css.includes(`tapes-${name}-2x.jpg') 2x`)
+          component.includes(`'tapes-${name}': webpImageSet('tapes-${name}')`)
       ) &&
-      css.includes("tapes-pattern.jpg') 1x") &&
-      css.includes("tapes-pattern-2x.jpg') 2x") &&
-      !css.includes('tapes-pattern.webp'),
+      component.includes("'tapes-pattern': imageSet('tapes-pattern', 'jpg')") &&
+      !component.includes("webpImageSet('tapes-pattern')"),
   },
   {
     name: 'hardware background keeps the official contain/no-repeat responsive treatment',
@@ -115,8 +120,8 @@ const checks = [
       css.includes('background-repeat: no-repeat;') &&
       css.includes('background-size: contain;') &&
       /@media screen and \(min-width:\s*640px\)\s*{[^}]*\.patternHardwareBackground/s.test(css) &&
-      css.includes('hardware-background-medium-up.png') &&
-      css.includes('hardware-background-medium-up-2x.png'),
+      css.includes('var(--section-pattern-image-medium, var(--section-pattern-image))') &&
+      component.includes("'hardware-background': responsiveImageSet('hardware-background', 'png')"),
   },
   {
     name: 'Demo page pairs busy tape and camo backgrounds with readable text contrast',

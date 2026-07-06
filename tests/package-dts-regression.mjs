@@ -7,8 +7,13 @@ const packageRoot = path.join(root, 'packages', 'ui')
 const distRoot = path.join(packageRoot, 'dist')
 const packageJson = JSON.parse(fs.readFileSync(path.join(packageRoot, 'package.json'), 'utf8'))
 
-const supportDeclarationFiles = ['primitive-types.d.ts', 'theme-tokens.d.ts']
-const publicDeclarationFiles = ['server.d.ts', ...publicUiEntries.map((entry) => `${entry}.d.ts`)]
+const supportDeclarationFiles = ['assets.d.ts', 'tokens.d.ts', 'types.d.ts']
+const publicDeclarationFiles = [
+  'client.d.ts',
+  'server.d.ts',
+  ...supportDeclarationFiles,
+  ...publicUiEntries.map((entry) => `${entry}.d.ts`),
+]
 const missingDeclarationFiles = publicDeclarationFiles.filter(
   (fileName) => !fs.existsSync(path.join(distRoot, fileName))
 )
@@ -131,9 +136,12 @@ const checks = [
     pass: missingNamedPropsDeclarationMatches.length === 0,
   },
   {
-    name: 'support declaration files remain private package internals',
+    name: 'support declaration files are explicit public package support entrypoints',
     pass:
       supportDeclarationFiles.every((fileName) => fs.existsSync(path.join(distRoot, fileName))) &&
+      packageJson.exports?.['./assets']?.types === './dist/assets.d.ts' &&
+      packageJson.exports?.['./tokens']?.types === './dist/tokens.d.ts' &&
+      packageJson.exports?.['./types']?.types === './dist/types.d.ts' &&
       packageJson.exports?.['./theme-tokens'] === undefined &&
       packageJson.exports?.['./primitive-types'] === undefined,
   },
@@ -147,8 +155,11 @@ const checks = [
     name: 'server entrypoint only re-exports server-safe stable components',
     pass:
       declarationIncludes('server.d.ts', "from './alert.js'") &&
+      declarationIncludes('server.d.ts', "from './assets.js'") &&
       declarationIncludes('server.d.ts', "from './badge.js'") &&
       declarationIncludes('server.d.ts', "from './input.js'") &&
+      declarationIncludes('server.d.ts', "from './tokens.js'") &&
+      declarationIncludes('server.d.ts', "from './types.js'") &&
       !declarationIncludes('server.d.ts', "from './button") &&
       !declarationIncludes('server.d.ts', "from './dialog"),
   },
@@ -172,8 +183,11 @@ const checks = [
       declarationExports('button-group.d.ts', 'ButtonGroupOrientation') &&
       declarationIncludes(
         'icon-button.d.ts',
-        "interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>"
+        "type IconButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'aria-labelledby' | 'children'> & IconButtonOwnProps & IconButtonAccessibleName;"
       ) &&
+      declarationIncludes('icon-button.d.ts', "type IconButtonAccessibleName = {") &&
+      declarationIncludes('icon-button.d.ts', "'aria-label': string;") &&
+      declarationIncludes('icon-button.d.ts', "'aria-labelledby': string;") &&
       declarationIncludes('icon-button.d.ts', 'ref?: React.Ref<HTMLButtonElement>;') &&
       declarationExports('icon-button.d.ts', 'IconButton') &&
       declarationExports('icon-button.d.ts', 'IconButtonProps') &&
@@ -183,8 +197,11 @@ const checks = [
       declarationExports('icon-button.d.ts', 'IconButtonDirection') &&
       declarationIncludes(
         'wave-button.d.ts',
-        "interface WaveButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>"
+        "type WaveButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'aria-labelledby' | 'children'> & WaveButtonOwnProps & WaveButtonAccessibleName;"
       ) &&
+      declarationIncludes('wave-button.d.ts', "type WaveButtonAccessibleName = {") &&
+      declarationIncludes('wave-button.d.ts', "'aria-label': string;") &&
+      declarationIncludes('wave-button.d.ts', "'aria-labelledby': string;") &&
       declarationIncludes('wave-button.d.ts', 'ref?: React.Ref<HTMLButtonElement>;') &&
       declarationExports('wave-button.d.ts', 'WaveButton') &&
       declarationExports('wave-button.d.ts', 'WaveButtonProps') &&
@@ -342,8 +359,8 @@ const checks = [
         "interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange' | 'value'>"
       ) &&
       declarationExports('tabs.d.ts', 'TabsSwipeMode') &&
-      declarationIncludes('primitive-types.d.ts', 'interface PrimitiveChangeDetails') &&
-      declarationIncludes('primitive-types.d.ts', 'interface PrimitiveOpenChangeDetails'),
+      declarationIncludes('types.d.ts', 'interface PrimitiveChangeDetails') &&
+      declarationIncludes('types.d.ts', 'interface PrimitiveOpenChangeDetails'),
   },
   {
     name: 'stable layout and typography declarations expose narrow visual primitives',

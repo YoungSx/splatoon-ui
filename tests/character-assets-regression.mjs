@@ -63,12 +63,14 @@ const checks = [
     pass: requiredAssets.every(hasValidPngSignature),
   },
   {
-    name: 'character asset registry exposes dimensions and transition mappings',
+    name: 'character asset registry exposes dimensions, transition mappings, and assetBasePath-aware factories',
     pass:
-      registry.includes("const CHARACTER_ASSET_BASE = '/_images/characters'") &&
+      registry.includes("import { resolveSplatoonAssetPath") &&
+      registry.includes('export function createCharacterImageAssets') &&
+      registry.includes('export function createPageTransitionCharacterAssets') &&
       registry.includes('characterImageAssets') &&
       registry.includes('pageTransitionCharacterAssets') &&
-      requiredAssets.every((asset) => registry.includes(`\${CHARACTER_ASSET_BASE}/${asset}`)) &&
+      requiredAssets.every((asset) => registry.includes(`characterAssetSrc('${asset}'`)) &&
       ['width: 421', 'height: 451', 'width: 425', 'height: 461', 'width: 331', 'height: 405'].every(
         (entry) => registry.includes(entry)
       ),

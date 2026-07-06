@@ -16,7 +16,7 @@ import type {
   PrimitiveOpenRenderState,
   PrimitivePortalContainer,
   PrimitiveRender,
-} from './primitive-types'
+} from './types'
 
 const SHEET_Z_INDEX = {
   overlay: uiZIndex.sheetOverlay,
@@ -171,6 +171,7 @@ function SheetPopup({
 export interface SheetContentProps extends SheetPopupBaseProps {
   side?: SheetSide
   showCloseButton?: boolean
+  closeLabel?: string
 }
 
 function SheetContent({
@@ -179,6 +180,7 @@ function SheetContent({
   children,
   side = 'right',
   showCloseButton = true,
+  closeLabel = 'Close',
   ...props
 }: SheetContentProps) {
   return (
@@ -191,7 +193,7 @@ function SheetContent({
         closeButton={
           showCloseButton ? (
             <div className={cn('absolute z-10', CLOSE_BUTTON_CLASS[side])}>
-              <SheetPrimitive.Close render={<WaveButton />} />
+              <SheetPrimitive.Close render={<WaveButton aria-label={closeLabel} />} />
             </div>
           ) : null
         }

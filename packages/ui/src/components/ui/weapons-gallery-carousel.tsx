@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/carousel-core'
 import { GalleryControls } from './gallery-controls'
 import { PhotoFrame } from './photo-frame'
+import type { SplatoonAssetBasePath } from './assets'
 import baseStyles from './gallery-base.module.css'
 import styles from './weapons-gallery-carousel.module.css'
 import type { GalleryItem } from './marquee-carousel'
@@ -25,11 +26,14 @@ export interface WeaponsGalleryCarouselItem extends GalleryItem {
 
 export interface WeaponsGalleryCarouselProps extends Omit<CarouselProps, 'children'> {
   items: WeaponsGalleryCarouselItem[]
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
 }
 
 export function WeaponsGalleryCarousel({
   items,
   className,
+  assetBasePath,
   ...props
 }: WeaponsGalleryCarouselProps) {
   return (
@@ -42,7 +46,12 @@ export function WeaponsGalleryCarousel({
         <CarouselSwipeArea>
           <CarouselContent className={baseStyles.gallery}>
             {items.map((item, index) => (
-              <WeaponsGalleryItem key={item.id} data-index={index} item={item} />
+              <WeaponsGalleryItem
+                key={item.id}
+                data-index={index}
+                item={item}
+                assetBasePath={assetBasePath}
+              />
             ))}
           </CarouselContent>
         </CarouselSwipeArea>
@@ -51,7 +60,7 @@ export function WeaponsGalleryCarousel({
         className={styles.galleryControls}
         wrapButton={(direction, button) => <div>{button}</div>}
       />
-      <CarouselPagination className={styles.galleryPagination} />
+      <CarouselPagination className={styles.galleryPagination} assetBasePath={assetBasePath} />
     </Carousel>
   )
 }
@@ -59,6 +68,7 @@ export function WeaponsGalleryCarousel({
 interface WeaponsGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: WeaponsGalleryCarouselItem
   'data-index'?: number
+  assetBasePath?: SplatoonAssetBasePath
 }
 
 function WeaponsGalleryItem({
@@ -66,6 +76,7 @@ function WeaponsGalleryItem({
   className,
   item,
   'data-index': index = 0,
+  assetBasePath,
   ...props
 }: WeaponsGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
   const { isActive } = useCarouselItemState(index)
@@ -83,6 +94,7 @@ function WeaponsGalleryItem({
           variant="c"
           src={item.image}
           alt={item.title}
+          assetBasePath={assetBasePath}
           className={cn(baseStyles.galleryFrame, styles.photoFrame)}
         />
         <div className={cn(baseStyles.galleryContentFade, styles.galleryContent)}>

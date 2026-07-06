@@ -2,11 +2,13 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 import {
+  getTapeImageAsset,
   tapeImageAssets,
   type TapeAsset,
   type TapeAssetSource,
   type TapeImageVariant,
 } from './tape-assets'
+import type { SplatoonAssetBasePath } from './assets'
 
 /* eslint-disable @next/next/no-img-element -- decorative assets are served through curated <picture> srcSets. */
 
@@ -17,6 +19,7 @@ type ImageProps = Omit<
 
 export interface TapePictureProps extends ImageProps {
   asset: TapeAsset | TapeImageVariant
+  assetBasePath?: SplatoonAssetBasePath
   pictureClassName?: string
   media?: string
   fill?: boolean
@@ -25,13 +28,14 @@ export interface TapePictureProps extends ImageProps {
 
 export interface TapeResponsivePicturesProps extends ImageProps {
   asset: TapeImageVariant
+  assetBasePath?: SplatoonAssetBasePath
   mobilePictureClassName?: string
   desktopPictureClassName?: string
   imageClassName?: string
 }
 
-function resolveTapeAsset(asset: TapeAsset | TapeImageVariant) {
-  return typeof asset === 'string' ? tapeImageAssets[asset] : asset
+function resolveTapeAsset(asset: TapeAsset | TapeImageVariant, assetBasePath?: SplatoonAssetBasePath) {
+  return typeof asset === 'string' ? getTapeImageAsset(asset, assetBasePath) : asset
 }
 
 function TapeImage({
@@ -67,6 +71,7 @@ function TapeImage({
 export function TapePicture({
   ref,
   asset,
+  assetBasePath,
   alt = '',
   className,
   draggable = false,
@@ -75,7 +80,7 @@ export function TapePicture({
   fill = true,
   ...props
 }: TapePictureProps) {
-  const image = resolveTapeAsset(asset)
+  const image = resolveTapeAsset(asset, assetBasePath)
 
   return (
     <picture className={pictureClassName}>
@@ -99,6 +104,7 @@ export function TapePicture({
 
 export function TapeResponsivePictures({
   asset,
+  assetBasePath,
   alt = '',
   className,
   draggable = false,
@@ -107,7 +113,7 @@ export function TapeResponsivePictures({
   imageClassName,
   ...props
 }: TapeResponsivePicturesProps) {
-  const image = tapeImageAssets[asset]
+  const image = assetBasePath ? getTapeImageAsset(asset, assetBasePath) : tapeImageAssets[asset]
   const desktopImage = image.desktop
 
   return (

@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { CardSlot } from './card-slot'
 import { type TapeImageVariant } from './tape-assets'
 import { TapePicture, TapeResponsivePictures } from './tape-picture'
+import type { SplatoonAssetBasePath } from './assets'
 
 export type MediaDecorationPosition =
   | 'top-left'
@@ -18,6 +19,7 @@ export interface MediaDecorationProps extends Omit<
   'children' | 'ref'
 > {
   asset: TapeImageVariant
+  assetBasePath?: SplatoonAssetBasePath
   media?: string
   position?: MediaDecorationPosition
   responsive?: boolean
@@ -30,6 +32,7 @@ export interface MediaDecorationProps extends Omit<
 export function MediaDecoration({
   ref,
   asset,
+  assetBasePath,
   responsive = true,
   media,
   imageClassName,
@@ -43,12 +46,18 @@ export function MediaDecoration({
       {responsive ? (
         <TapeResponsivePictures
           asset={asset}
+          assetBasePath={assetBasePath}
           mobilePictureClassName={mobilePictureClassName}
           desktopPictureClassName={desktopPictureClassName}
           imageClassName={imageClassName}
         />
       ) : (
-        <TapePicture asset={asset} className={imageClassName} media={media} />
+        <TapePicture
+          asset={asset}
+          assetBasePath={assetBasePath}
+          className={imageClassName}
+          media={media}
+        />
       )}
     </CardSlot>
   )

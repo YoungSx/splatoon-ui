@@ -2,9 +2,9 @@ import * as React from 'react'
 
 import { resolveSplatoonColorValue } from '@/lib/splatoon-color-tokens'
 import { cn } from '@/lib/utils'
-import type { SplatoonColorValue } from './theme-tokens'
+import type { SplatoonColorValue } from './tokens'
 
-export type { SplatoonColorValue } from './theme-tokens'
+export type { SplatoonColorValue } from './tokens'
 
 export interface WideTornPaperProps extends Omit<
   React.SVGProps<SVGSVGElement>,

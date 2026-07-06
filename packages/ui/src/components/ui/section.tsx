@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { layoutTokens } from '@/lib/ui-tokens'
 import { cn } from '@/lib/utils'
+import type { SplatoonAssetBasePath } from './assets'
 import { type Pattern as SectionPattern, SectionBackground } from './section-background'
 
 export type { SectionPattern }
@@ -12,6 +13,8 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   headingTape?: React.ReactNode
   /** Optional pattern texture overlay */
   pattern?: SectionPattern
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   /** Background utility class (e.g. "bg-white") */
   backgroundClassName?: string
   /** Text color utility class (e.g. "text-chaos-black") */
@@ -29,6 +32,7 @@ export function Section({
   size = 'md',
   headingTape,
   pattern,
+  assetBasePath,
   backgroundClassName,
   textClassName,
   as = 'section',
@@ -51,6 +55,7 @@ export function Section({
       ref={ref}
       as={as}
       pattern={pattern}
+      assetBasePath={assetBasePath}
       className={cn(
         paddingY,
         'relative z-[var(--z-deco)] pr-[calc(1.5rem+var(--section-side-nav-safe-area,0px))] pl-6',

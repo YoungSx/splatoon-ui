@@ -1,18 +1,27 @@
+import {
+  resolveSplatoonAssetPath,
+  type SplatoonAssetBasePath,
+} from './assets'
+
 export interface NewsImageAsset {
   src: string
   width: number
   height: number
 }
 
-export const newsStapleAssets = {
-  left: {
-    src: '/_images/news/news-staple-left.png',
-    width: 75,
-    height: 48,
-  },
-  right: {
-    src: '/_images/news/news-staple-right.png',
-    width: 45,
-    height: 17,
-  },
-} satisfies Record<string, NewsImageAsset>
+export function createNewsStapleAssets(assetBasePath?: SplatoonAssetBasePath) {
+  return {
+    left: {
+      src: resolveSplatoonAssetPath('news/news-staple-left.png', assetBasePath),
+      width: 75,
+      height: 48,
+    },
+    right: {
+      src: resolveSplatoonAssetPath('news/news-staple-right.png', assetBasePath),
+      width: 45,
+      height: 17,
+    },
+  } satisfies Record<string, NewsImageAsset>
+}
+
+export const newsStapleAssets = createNewsStapleAssets()

@@ -307,8 +307,10 @@ export function CardStackCarouselItem({
 
 interface CardStackCarouselArrowProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
-  'children'
+  'aria-label' | 'aria-labelledby' | 'children'
 > {
+  'aria-label'?: string
+  'aria-labelledby'?: string
   direction: 'previous' | 'next'
   prevLabel?: string
   nextLabel?: string
@@ -323,6 +325,7 @@ function CardStackCarouselArrow({
   onClick,
   style,
   'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
   prevLabel = 'Previous carousel item',
   nextLabel = 'Next carousel item',
   ...props
@@ -330,6 +333,9 @@ function CardStackCarouselArrow({
   const { canGoPrev, goToPrev, canGoNext, goToNext } = useCarousel()
   const isPrev = direction === 'previous'
   const isDisabled = disabled || (isPrev ? !canGoPrev : !canGoNext)
+  const accessibleNameProps = ariaLabelledBy
+    ? ({ 'aria-labelledby': ariaLabelledBy } as const)
+    : ({ 'aria-label': ariaLabel ?? (isPrev ? prevLabel : nextLabel) } as const)
 
   const handleClick = React.useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -359,13 +365,19 @@ function CardStackCarouselArrow({
       <IconButton
         {...(props as Omit<
           React.ComponentPropsWithoutRef<typeof IconButton>,
-          'variant' | 'direction' | 'animation' | 'disabled' | 'onClick'
+          | 'aria-label'
+          | 'aria-labelledby'
+          | 'variant'
+          | 'direction'
+          | 'animation'
+          | 'disabled'
+          | 'onClick'
         >)}
+        {...accessibleNameProps}
         ref={ref}
         variant="carousel"
         direction={isPrev ? 'left' : 'right'}
         animation="squish"
-        aria-label={ariaLabel ?? (isPrev ? prevLabel : nextLabel)}
         disabled={isDisabled}
         onClick={handleClick}
         className={className}

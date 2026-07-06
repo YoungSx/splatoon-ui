@@ -147,11 +147,6 @@
   --ease-in-out: cubic-bezier(0.75, 0, 0.21, 0.99);
   --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
 
-  /* Events tab hover splat */
-  --active-splat-url: image-set(
-    url('/_images/events/active-splat.webp') 1x,
-    url('/_images/events/active-splat-2x.webp') 2x
-  );
 }
 
 /* Hide scrollbar for peek-scroll containers */
@@ -605,80 +600,6 @@
     opacity: 1;
     transform: scale(1);
   }
-}
-
-/* ── Section Background Patterns ── */
-/* These utility classes add a repeating pattern texture on top of the section's background color.
-   The pattern images are semi-transparent PNGs that tile/repeat. */
-
-.pattern-camo-black {
-  background-image: url('/_images/backgrounds/camo-black.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-black.png') 1x,
-    url('/_images/backgrounds/camo-black-2x.png') 2x
-  );
-}
-
-.pattern-camo-green {
-  background-image: url('/_images/backgrounds/camo-green.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-green.png') 1x,
-    url('/_images/backgrounds/camo-green-2x.png') 2x
-  );
-}
-
-.pattern-camo-purple {
-  background-image: url('/_images/backgrounds/camo-purple.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-purple.png') 1x,
-    url('/_images/backgrounds/camo-purple-2x.png') 2x
-  );
-}
-
-.pattern-camo-white {
-  background-image: url('/_images/backgrounds/camo-white.png');
-  background-image: image-set(
-    url('/_images/backgrounds/camo-white.png') 1x,
-    url('/_images/backgrounds/camo-white-2x.png') 2x
-  );
-}
-
-.pattern-chip-white {
-  background-image: url('/_images/backgrounds/chip-white.png');
-  background-image: image-set(
-    url('/_images/backgrounds/chip-white.png') 1x,
-    url('/_images/backgrounds/chip-white-2x.png') 2x
-  );
-}
-
-.pattern-tapes-black {
-  background-image: url('/_images/backgrounds/tapes-black.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/tapes-black.webp') type('image/webp') 1x,
-    url('/_images/backgrounds/tapes-black.jpg') 1x,
-    url('/_images/backgrounds/tapes-black-2x.webp') type('image/webp') 2x,
-    url('/_images/backgrounds/tapes-black-2x.jpg') 2x
-  );
-}
-
-.pattern-tapes-green {
-  background-image: url('/_images/backgrounds/tapes-green.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/tapes-green.webp') type('image/webp') 1x,
-    url('/_images/backgrounds/tapes-green.jpg') 1x,
-    url('/_images/backgrounds/tapes-green-2x.webp') type('image/webp') 2x,
-    url('/_images/backgrounds/tapes-green-2x.jpg') 2x
-  );
-}
-
-.pattern-tapes-purple {
-  background-image: url('/_images/backgrounds/tapes-purple.jpg');
-  background-image: image-set(
-    url('/_images/backgrounds/tapes-purple.webp') type('image/webp') 1x,
-    url('/_images/backgrounds/tapes-purple.jpg') 1x,
-    url('/_images/backgrounds/tapes-purple-2x.webp') type('image/webp') 2x,
-    url('/_images/backgrounds/tapes-purple-2x.jpg') 2x
-  );
 }
 
 /* ── Reduced Motion ── */

@@ -1,9 +1,10 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import { newsStapleAssets } from './news-assets'
+import { createNewsStapleAssets } from './news-assets'
 import { MediaDecoration } from './media-decoration'
 import { PaperSurface } from './paper-surface'
+import type { SplatoonAssetBasePath } from './assets'
 import styles from './staple-card.module.css'
 
 /* ── Variant config ── */
@@ -40,6 +41,8 @@ export interface StapleCardProps extends Omit<React.ComponentProps<'div'>, 'ref'
   showTape?: boolean
   /** Enable hover tilt animation (default: false) */
   hoverTilt?: boolean
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   className?: string
   children?: React.ReactNode
   ref?: React.Ref<HTMLDivElement>
@@ -55,6 +58,7 @@ export function StapleCard({
   surface = 'white',
   showTape,
   hoverTilt = false,
+  assetBasePath,
   className,
   children,
   ...props
@@ -62,6 +66,7 @@ export function StapleCard({
   const config = VARIANT_CONFIG[variant]
   const resolvedShowTape = showTape ?? config.showTape
   const isDark = surface === 'dark'
+  const newsStapleAssets = createNewsStapleAssets(assetBasePath)
 
   return (
     <div
@@ -117,6 +122,7 @@ export function StapleCard({
         </PaperSurface>
         {resolvedShowTape && (
           <MediaDecoration
+            assetBasePath={assetBasePath}
             position="top-left"
             className={styles.tape}
             asset="sticker-9"

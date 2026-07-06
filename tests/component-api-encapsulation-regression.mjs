@@ -144,7 +144,7 @@ const splatoonColorTokens = fs.readFileSync(
   path.join(root, 'packages', 'ui', 'src', 'lib', 'splatoon-color-tokens.ts'),
   'utf8'
 )
-const themeTokens = fs.readFileSync(path.join(componentRoot, 'theme-tokens.ts'), 'utf8')
+const tokens = fs.readFileSync(path.join(componentRoot, 'tokens.ts'), 'utf8')
 const tape = fs.readFileSync(path.join(componentRoot, 'tape.tsx'), 'utf8')
 const tapeTitle = fs.readFileSync(path.join(componentRoot, 'tape-title.tsx'), 'utf8')
 const marquee = fs.readFileSync(path.join(componentRoot, 'marquee.tsx'), 'utf8')
@@ -445,9 +445,7 @@ const checks = [
       cardImage.includes('}: CardImageProps)') &&
       cardImage.includes('data-slot="card-image"') &&
       cardImage.includes("className={cn('relative flex w-full justify-center py-4', className)}") &&
-      cardImage.includes(
-        '<PhotoFrame src={src} alt={alt} variant="b" rotation="2deg" fillWidth>'
-      ) &&
+      cardImage.includes('assetBasePath={resolvedAssetBasePath}') &&
       !cardImage.includes('}: CardImageProps & { ref?:'),
   },
   {
@@ -526,7 +524,7 @@ const checks = [
       paperSurface.includes('export function PaperSurface({\n  ref,') &&
       paperSurface.includes('<div ref={ref}') &&
       tapeTitle.includes('ref?: React.Ref<HTMLDivElement>') &&
-      tapeTitle.includes('export function TapeTitle({ ref,') &&
+      tapeTitle.includes('export function TapeTitle({\n  ref,') &&
       tapeTitle.includes('<div\n      ref={ref}') &&
       blackTapeContainer.includes('ref?: React.Ref<HTMLDivElement>') &&
       blackTapeContainer.includes('export function BlackTapeContainer({\n  ref,') &&
@@ -565,6 +563,11 @@ const checks = [
       !buttonGroup.includes('}: ButtonGroupProps & { ref?:') &&
       !buttonGroup.includes('}: ButtonGroupItemProps & { ref?:') &&
       iconButton.includes('ref?: React.Ref<HTMLButtonElement>') &&
+      iconButton.includes('type IconButtonAccessibleName =') &&
+      iconButton.includes("| { 'aria-label': string; 'aria-labelledby'?: never }") &&
+      iconButton.includes("| { 'aria-label'?: never; 'aria-labelledby': string }") &&
+      iconButton.includes('export type IconButtonProps = Omit<') &&
+      iconButton.includes("'aria-label' | 'aria-labelledby' | 'children'") &&
       iconButton.includes('}: IconButtonProps)') &&
       !iconButton.includes('}: IconButtonProps & { ref?:') &&
       /export interface NavMenuButtonProps\s+extends Omit<\s*React\.ComponentProps<'button'>,\s*'children' \| 'ref'\s*>/.test(
@@ -573,9 +576,11 @@ const checks = [
       navMenuButton.includes('ref?: React.Ref<HTMLButtonElement>') &&
       navMenuButton.includes('}: NavMenuButtonProps)') &&
       waveButton.includes('ref?: React.Ref<HTMLButtonElement>') &&
-      /export interface WaveButtonProps\s+extends Omit<\s*React\.ButtonHTMLAttributes<HTMLButtonElement>,\s*'children'\s*>/.test(
-        waveButton
-      ) &&
+      waveButton.includes('type WaveButtonAccessibleName =') &&
+      waveButton.includes("| { 'aria-label': string; 'aria-labelledby'?: never }") &&
+      waveButton.includes("| { 'aria-label'?: never; 'aria-labelledby': string }") &&
+      waveButton.includes('export type WaveButtonProps = Omit<') &&
+      waveButton.includes("'aria-label' | 'aria-labelledby' | 'children'") &&
       waveButton.includes('}: WaveButtonProps)') &&
       waveButton.includes('data-slot="wave-button"'),
   },
@@ -872,7 +877,7 @@ const checks = [
         'const isDisabled = disabled || (isPrev ? !canGoPrev : !canGoNext)'
       ) &&
       cardStackCarousel.includes(
-        "'variant' | 'direction' | 'animation' | 'disabled' | 'onClick'"
+        "| 'aria-label'\n          | 'aria-labelledby'\n          | 'variant'\n          | 'direction'\n          | 'animation'\n          | 'disabled'\n          | 'onClick'"
       ) &&
       !cardStackCarousel.includes('onClick={isPrev ? goToPrev : goToNext}') &&
       !cardStackCarousel.includes('disabled={isPrev ? !canGoPrev : !canGoNext}'),
@@ -902,7 +907,7 @@ const checks = [
         iconPaginatedCarousel
       ) &&
       !iconPaginatedCarousel.includes('ComponentPropsWithoutRef<') &&
-      /<MarqueeCarousel\s+{\.\.\.props}\s+items={items}\s+className={className}\s+pagination=/.test(
+      /<MarqueeCarousel\s+{\.\.\.props}\s+items={items}\s+className={className}\s+assetBasePath={assetBasePath}\s+pagination=/.test(
         iconPaginatedCarousel
       ),
   },
@@ -1000,8 +1005,8 @@ const checks = [
       sectionBackground.includes('ref?: React.Ref<HTMLElement>') &&
       sectionBackground.includes('export function SectionBackground({\n  ref,') &&
       sectionBackground.includes('if (Tag ===') &&
-      sectionBackground.includes('<section ref={ref}') &&
-      sectionBackground.includes('<div ref={ref as React.Ref<HTMLDivElement>}') &&
+      sectionBackground.includes('<section\n        ref={ref}') &&
+      sectionBackground.includes('<div\n      ref={ref as React.Ref<HTMLDivElement>}') &&
       footer.includes('ref?: React.Ref<HTMLElement>') &&
       footer.includes(
         "export interface FooterProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'>"
@@ -1196,12 +1201,12 @@ const checks = [
     name: 'Reusable color APIs derive from shared Splatoon color tokens instead of legacy aliases',
     pass:
       splatoonColorTokens.includes('export const splatoonColorVars') &&
-      themeTokens.includes('export type SplatoonColorValue') &&
-      themeTokens.includes('export type SplatoonControlTrackColor') &&
-      dottedDivider.includes("from './theme-tokens'") &&
-      list.includes("from './theme-tokens'") &&
-      switchComponent.includes("from './theme-tokens'") &&
-      segmentedControl.includes("from './theme-tokens'") &&
+      tokens.includes('SplatoonColorValue') &&
+      tokens.includes('SplatoonControlTrackColor') &&
+      dottedDivider.includes("from './tokens'") &&
+      list.includes("from './tokens'") &&
+      switchComponent.includes("from './tokens'") &&
+      segmentedControl.includes("from './tokens'") &&
       splatoonColorTokens.includes("yellow: 'var(--color-yellow)'") &&
       splatoonColorTokens.includes("worldPurple: 'var(--color-world-purple)'") &&
       splatoonColorTokens.includes("salmonRunGreen: 'var(--color-salmon-run-green)'") &&

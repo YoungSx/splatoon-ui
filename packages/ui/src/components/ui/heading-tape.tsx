@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
+import { resolveSplatoonAssetPath, type SplatoonAssetBasePath } from './assets'
 import styles from './heading-tape.module.css'
 
 export type HeadingTapeDecorationPosition =
@@ -50,16 +51,16 @@ const defaultDecorations = [
       blockEnd: '17px',
     },
     mobile: {
-      src: '/_images/tape-assets/sticker-8.png',
-      srcSet: '/_images/tape-assets/sticker-8.webp 1x, /_images/tape-assets/sticker-8-2x.webp 2x',
+      src: 'tape-assets/sticker-8.png',
+      srcSet: 'tape-assets/sticker-8.webp 1x, tape-assets/sticker-8-2x.webp 2x',
       width: 198,
       height: 35,
       alt: '',
     },
     desktop: {
-      src: '/_images/tape-assets/sticker-8-medium-up.png',
+      src: 'tape-assets/sticker-8-medium-up.png',
       srcSet:
-        '/_images/tape-assets/sticker-8-medium-up.webp 1x, /_images/tape-assets/sticker-8-medium-up-2x.webp 2x',
+        'tape-assets/sticker-8-medium-up.webp 1x, tape-assets/sticker-8-medium-up-2x.webp 2x',
       width: 406,
       height: 71.5,
       alt: '',
@@ -76,16 +77,16 @@ const defaultDecorations = [
       blockStart: '15px',
     },
     mobile: {
-      src: '/_images/tape-assets/sticker-12.png',
-      srcSet: '/_images/tape-assets/sticker-12.webp 1x, /_images/tape-assets/sticker-12-2x.webp 2x',
+      src: 'tape-assets/sticker-12.png',
+      srcSet: 'tape-assets/sticker-12.webp 1x, tape-assets/sticker-12-2x.webp 2x',
       width: 416,
       height: 58,
       alt: '',
     },
     desktop: {
-      src: '/_images/tape-assets/sticker-12-medium-up.png',
+      src: 'tape-assets/sticker-12-medium-up.png',
       srcSet:
-        '/_images/tape-assets/sticker-12-medium-up.webp 1x, /_images/tape-assets/sticker-12-medium-up-2x.webp 2x',
+        'tape-assets/sticker-12-medium-up.webp 1x, tape-assets/sticker-12-medium-up-2x.webp 2x',
       width: 641,
       height: 89,
       alt: '',
@@ -131,11 +132,50 @@ function getDecorationSafeAreaStyle(decorations: readonly HeadingTapeDecoration[
   ) as React.CSSProperties
 }
 
+function resolveSrcSet(srcSet: string | undefined, assetBasePath?: SplatoonAssetBasePath) {
+  if (!srcSet) return undefined
+
+  return srcSet
+    .split(',')
+    .map((candidate) => {
+      const trimmed = candidate.trim()
+      const [path, ...descriptor] = trimmed.split(/\s+/)
+      return [resolveSplatoonAssetPath(path, assetBasePath), ...descriptor].join(' ')
+    })
+    .join(', ')
+}
+
+function resolveDecorationImage(
+  image: HeadingTapeDecorationImage,
+  assetBasePath?: SplatoonAssetBasePath
+) {
+  return {
+    ...image,
+    src: resolveSplatoonAssetPath(image.src, assetBasePath),
+    srcSet: resolveSrcSet(image.srcSet, assetBasePath),
+  } satisfies HeadingTapeDecorationImage
+}
+
+function resolveDefaultDecorations(
+  decorations: readonly HeadingTapeDecoration[],
+  assetBasePath?: SplatoonAssetBasePath
+) {
+  return decorations.map((decoration) => ({
+    ...decoration,
+    mobile: resolveDecorationImage(decoration.mobile, assetBasePath),
+    desktop: decoration.desktop
+      ? resolveDecorationImage(decoration.desktop, assetBasePath)
+      : undefined,
+  })) satisfies HeadingTapeDecoration[]
+}
+
 export interface HeadingTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   children: React.ReactNode
   className?: string
   decorationSet?: HeadingTapeDecorationSet
   decorations?: HeadingTapeDecoration[] | false
+  /** Base URL for packaged Splatoon UI image assets. Defaults to "/_images". */
+  assetBasePath?: SplatoonAssetBasePath
   overlapTop?: boolean
   marginOffset?: number
   size?: HeadingTapeSize
@@ -206,6 +246,7 @@ export function HeadingTape({
   className,
   decorationSet = 'stickers',
   decorations,
+  assetBasePath,
   overlapTop = false,
   marginOffset = 5,
   size = 'default',
@@ -213,7 +254,11 @@ export function HeadingTape({
   ...props
 }: HeadingTapeProps) {
   const resolvedDecorations =
-    decorations === false ? [] : (decorations ?? decorationSets[decorationSet])
+    decorations === false
+      ? []
+      : decorations
+        ? decorations
+        : resolveDefaultDecorations(decorationSets[decorationSet], assetBasePath)
   const decorationSafeAreaStyle = getDecorationSafeAreaStyle(resolvedDecorations)
 
   return (
