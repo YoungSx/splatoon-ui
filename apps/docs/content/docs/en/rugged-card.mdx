@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'RuggedCard',
+  description: 'Published apparel tag card with hanger silhouette, framed media, and themed foreground colors.',
+  category: 'data-display',
+  example: 'rugged-card',
+}
+
+## Usage
+
+Use RuggedCard for apparel-tag or product-card surfaces that need the hanger silhouette and framed media treatment. Import it from `splatoon-ui/rugged-card` instead of routing through Card.
+
+## Design Notes
+
+- Use `theme` for the color preset.
+- Use `rotation` for the card's intrinsic tilt; consumer `style.transform` remains owned by the outer root.
+- Use `RuggedCardImage` for the framed media treatment that matches the original rugged cards.

@@ -1,0 +1,3 @@
+.visual {
+  transform: rotate(var(--rugged-card-rotation, 0deg));
+}

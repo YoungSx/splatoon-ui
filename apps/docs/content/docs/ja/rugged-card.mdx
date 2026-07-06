@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'RuggedCard',
+  description: 'ハンガーシルエット、フレーム付きメディア、テーマ前景色を持つ公開済みアパレルタグカードです。',
+  category: 'data-display',
+  example: 'rugged-card',
+}
+
+## 使い方
+
+アパレルタグ、ハンガーシルエット、フレーム付きメディア表現が必要なカードには RuggedCard を使います。Card 経由ではなく、`splatoon-ui/rugged-card` から直接インポートします。
+
+## デザインメモ
+
+- `theme` で色プリセットを選びます。
+- `rotation` はコンポーネント自身の傾きに使います。利用側の `style.transform` は外側 root が保持します。
+- 元の rugged カードと同じフレーム付きメディアには `RuggedCardImage` を使います。

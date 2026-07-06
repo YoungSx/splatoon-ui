@@ -4,6 +4,7 @@ import ButtonEn, { metadata as buttonEnMeta } from '../../content/docs/en/button
 import CardEn, { metadata as cardEnMeta } from '../../content/docs/en/card.mdx'
 import StapleCardEn, { metadata as stapleCardEnMeta } from '../../content/docs/en/staple-card.mdx'
 import TornCardEn, { metadata as tornCardEnMeta } from '../../content/docs/en/torn-card.mdx'
+import RuggedCardEn, { metadata as ruggedCardEnMeta } from '../../content/docs/en/rugged-card.mdx'
 import CarouselEn, { metadata as carouselEnMeta } from '../../content/docs/en/carousel.mdx'
 import CheckboxEn, { metadata as checkboxEnMeta } from '../../content/docs/en/checkbox.mdx'
 import DialogEn, { metadata as dialogEnMeta } from '../../content/docs/en/dialog.mdx'
@@ -17,6 +18,7 @@ import ButtonJa, { metadata as buttonJaMeta } from '../../content/docs/ja/button
 import CardJa, { metadata as cardJaMeta } from '../../content/docs/ja/card.mdx'
 import StapleCardJa, { metadata as stapleCardJaMeta } from '../../content/docs/ja/staple-card.mdx'
 import TornCardJa, { metadata as tornCardJaMeta } from '../../content/docs/ja/torn-card.mdx'
+import RuggedCardJa, { metadata as ruggedCardJaMeta } from '../../content/docs/ja/rugged-card.mdx'
 import CarouselJa, { metadata as carouselJaMeta } from '../../content/docs/ja/carousel.mdx'
 import CheckboxJa, { metadata as checkboxJaMeta } from '../../content/docs/ja/checkbox.mdx'
 import DialogJa, { metadata as dialogJaMeta } from '../../content/docs/ja/dialog.mdx'
@@ -30,6 +32,7 @@ import ButtonZh, { metadata as buttonZhMeta } from '../../content/docs/zh/button
 import CardZh, { metadata as cardZhMeta } from '../../content/docs/zh/card.mdx'
 import StapleCardZh, { metadata as stapleCardZhMeta } from '../../content/docs/zh/staple-card.mdx'
 import TornCardZh, { metadata as tornCardZhMeta } from '../../content/docs/zh/torn-card.mdx'
+import RuggedCardZh, { metadata as ruggedCardZhMeta } from '../../content/docs/zh/rugged-card.mdx'
 import CarouselZh, { metadata as carouselZhMeta } from '../../content/docs/zh/carousel.mdx'
 import CheckboxZh, { metadata as checkboxZhMeta } from '../../content/docs/zh/checkbox.mdx'
 import DialogZh, { metadata as dialogZhMeta } from '../../content/docs/zh/dialog.mdx'
@@ -49,6 +52,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     card: { default: CardEn, metadata: cardEnMeta },
     'staple-card': { default: StapleCardEn, metadata: stapleCardEnMeta },
     'torn-card': { default: TornCardEn, metadata: tornCardEnMeta },
+    'rugged-card': { default: RuggedCardEn, metadata: ruggedCardEnMeta },
     carousel: { default: CarouselEn, metadata: carouselEnMeta },
     checkbox: { default: CheckboxEn, metadata: checkboxEnMeta },
     dialog: { default: DialogEn, metadata: dialogEnMeta },
@@ -64,6 +68,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     card: { default: CardZh, metadata: cardZhMeta },
     'staple-card': { default: StapleCardZh, metadata: stapleCardZhMeta },
     'torn-card': { default: TornCardZh, metadata: tornCardZhMeta },
+    'rugged-card': { default: RuggedCardZh, metadata: ruggedCardZhMeta },
     carousel: { default: CarouselZh, metadata: carouselZhMeta },
     checkbox: { default: CheckboxZh, metadata: checkboxZhMeta },
     dialog: { default: DialogZh, metadata: dialogZhMeta },
@@ -79,6 +84,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     card: { default: CardJa, metadata: cardJaMeta },
     'staple-card': { default: StapleCardJa, metadata: stapleCardJaMeta },
     'torn-card': { default: TornCardJa, metadata: tornCardJaMeta },
+    'rugged-card': { default: RuggedCardJa, metadata: ruggedCardJaMeta },
     carousel: { default: CarouselJa, metadata: carouselJaMeta },
     checkbox: { default: CheckboxJa, metadata: checkboxJaMeta },
     dialog: { default: DialogJa, metadata: dialogJaMeta },

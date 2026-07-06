@@ -33,6 +33,7 @@ const photoFrameCss = fs.readFileSync(path.join(componentRoot, 'photo-frame.modu
 const galleryBaseCss = fs.readFileSync(path.join(componentRoot, 'gallery-base.module.css'), 'utf8')
 const cardImage = fs.readFileSync(path.join(componentRoot, 'card-image.tsx'), 'utf8')
 const ruggedCard = fs.readFileSync(path.join(componentRoot, 'rugged-card.tsx'), 'utf8')
+const ruggedCardCss = fs.readFileSync(path.join(componentRoot, 'rugged-card.module.css'), 'utf8')
 const cardStackCarousel = fs.readFileSync(
   path.join(componentRoot, 'card-stack-carousel.tsx'),
   'utf8'
@@ -405,8 +406,9 @@ const checks = [
       progress.includes('splattered = true,\n  style,\n  ...props') &&
       progress.includes('borderColor:') &&
       progress.includes('...style,\n      }}') &&
-      ruggedCard.includes('ruggedBackground,\n  children,\n  style,\n  ...props') &&
-      ruggedCard.includes('style={{ transform: `rotate(${ruggedRotation})`, ...style }') &&
+      ruggedCard.includes('background,\n  children,\n  style,\n  ...props') &&
+      ruggedCard.includes('style={style}') &&
+      !ruggedCard.includes('style={{ transform:') &&
       carouselCore.includes("'data-index': index,\n  style,\n  ...props") &&
       carouselCore.includes('rotateAmount,\n  style,\n  ...props') &&
       carouselCore.includes("'--index-offset': String(offset),\n          ...style,") &&
@@ -1026,6 +1028,14 @@ const checks = [
       tornCardCss.includes('.visual') &&
       tornCardCss.includes('filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.3));') &&
       tornCardCss.includes('transform: rotate(var(--torn-card-rotation, 0deg));'),
+  },
+  {
+    name: 'RuggedCard keeps intrinsic rotation on an inner visual layer',
+    pass:
+      ruggedCard.includes('className={cn(\n          styles.visual,') &&
+      ruggedCard.includes("'--rugged-card-rotation': rotation") &&
+      ruggedCardCss.includes('.visual') &&
+      ruggedCardCss.includes('transform: rotate(var(--rugged-card-rotation, 0deg));'),
   },
   {
     name: 'Paper-style surfaces share PaperSurface instead of rebuilding tear edges',

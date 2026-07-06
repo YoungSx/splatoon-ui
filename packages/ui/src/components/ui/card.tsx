@@ -5,7 +5,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { DottedDivider } from './dotted-divider'
 import { StapleCard } from './staple-card'
-import { RuggedCard, type RuggedTheme } from './rugged-card'
+import { RuggedCard, type RuggedCardTheme } from './rugged-card'
 import { TornCard } from './torn-card'
 import { CardContext, type CardSurface, type CardVariant } from './card-context'
 
@@ -19,7 +19,7 @@ export interface CardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'ti
   /** Card rotation angle (rugged/torn) */
   rotation?: string
   /** Theme preset (rugged only) */
-  ruggedTheme?: RuggedTheme
+  ruggedTheme?: RuggedCardTheme
   /** Custom background ReactNode (rugged/torn) */
   ruggedBackground?: React.ReactNode
   // For staple/paper/torn variant
@@ -81,9 +81,9 @@ function Card({
         <RuggedCard
           ref={ref}
           className={className}
-          ruggedTheme={ruggedTheme}
-          ruggedRotation={rotation}
-          ruggedBackground={ruggedBackground}
+          theme={ruggedTheme}
+          rotation={rotation}
+          background={ruggedBackground}
           {...props}
         >
           {children}

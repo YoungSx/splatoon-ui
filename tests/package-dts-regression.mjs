@@ -219,7 +219,20 @@ const checks = [
       declarationExports('torn-card.d.ts', 'TornCardDescriptionProps') &&
       declarationExports('torn-card.d.ts', 'TornCardSlotProps') &&
       declarationExports('torn-card.d.ts', 'TornCardSlotPosition') &&
-      declarationExports('torn-card.d.ts', 'TornCardVariant'),
+      declarationExports('torn-card.d.ts', 'TornCardVariant') &&
+      declarationIncludes(
+        'rugged-card.d.ts',
+        "interface RuggedCardProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
+      ) &&
+      declarationExports('rugged-card.d.ts', 'RuggedCard') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardProps') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardTheme') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardHeaderProps') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardTitleProps') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardDescriptionProps') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardImageProps') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardContentProps') &&
+      declarationExports('rugged-card.d.ts', 'RuggedCardFooterProps'),
   },
   {
     name: 'stable overlay and tabs declarations keep cancellable details behind local primitive types',

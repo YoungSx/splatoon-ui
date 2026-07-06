@@ -5,6 +5,7 @@ export const publicUiEntries = [
   'card',
   'staple-card',
   'torn-card',
+  'rugged-card',
   'carousel',
   'checkbox',
   'dialog',

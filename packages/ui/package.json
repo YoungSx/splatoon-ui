@@ -78,6 +78,10 @@
       "types": "./dist/torn-card.d.ts",
       "import": "./dist/torn-card.js"
     },
+    "./rugged-card": {
+      "types": "./dist/rugged-card.d.ts",
+      "import": "./dist/rugged-card.js"
+    },
     "./carousel": {
       "types": "./dist/carousel.d.ts",
       "import": "./dist/carousel.js"

@@ -118,6 +118,7 @@ import { Button } from 'splatoon-ui/button'
 import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'splatoon-ui/carousel'
 import { Dialog } from 'splatoon-ui/dialog'
 import { Input } from 'splatoon-ui/input'
+import { RuggedCard, RuggedCardTitle } from 'splatoon-ui/rugged-card'
 import { StapleCard, StapleCardDescription, StapleCardTitle } from 'splatoon-ui/staple-card'
 import { TornCard, TornCardDescription, TornCardTitle } from 'splatoon-ui/torn-card'
 
@@ -141,6 +142,9 @@ export function App() {
         <TornCardTitle>Public torn card</TornCardTitle>
         <TornCardDescription>Separate package entrypoint smoke test.</TornCardDescription>
       </TornCard>
+      <RuggedCard theme="yellow" rotation="-2deg">
+        <RuggedCardTitle>Public rugged card</RuggedCardTitle>
+      </RuggedCard>
       <Carousel aria-label="Consumer carousel">
         <CarouselContent>
           <CarouselItem>Slide one</CarouselItem>
@@ -161,6 +165,7 @@ fs.writeFileSync(
 await import('splatoon-ui/button')
 await import('splatoon-ui/carousel')
 await import('splatoon-ui/dialog')
+await import('splatoon-ui/rugged-card')
 await import('splatoon-ui/staple-card')
 await import('splatoon-ui/torn-card')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })

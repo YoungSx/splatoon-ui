@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'RuggedCard',
+  description: '正式发布的服饰吊牌卡片，包含衣架轮廓、相框媒体和主题前景色。',
+  category: 'data-display',
+  example: 'rugged-card',
+}
+
+## 用法
+
+当卡片需要服饰吊牌、衣架轮廓和相框媒体效果时使用 RuggedCard。请从 `splatoon-ui/rugged-card` 导入，不要通过 Card 绕一层。
+
+## 设计备注
+
+- 使用 `theme` 选择颜色预设。
+- 使用 `rotation` 控制组件自身倾斜；消费者的 `style.transform` 仍由外层 root 持有。
+- 使用 `RuggedCardImage` 保留原 rugged 卡片的相框媒体效果。

@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": ".",
+    "incremental": false,
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["../../packages/ui/src/components/*"],
@@ -15,8 +16,7 @@
       {
         "name": "next"
       }
-    ],
-    "tsBuildInfoFile": "./tsconfig.tsbuildinfo"
+    ]
   },
   "include": [
     "next-env.d.ts",

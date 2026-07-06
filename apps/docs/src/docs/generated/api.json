@@ -357,7 +357,7 @@
             {
               "name": "ruggedTheme",
               "optional": true,
-              "type": "RuggedTheme",
+              "type": "RuggedCardTheme",
               "defaultValue": "",
               "description": "Theme preset (rugged only)"
             },
@@ -945,6 +945,225 @@
           "name": "TornCardVariant",
           "kind": "type",
           "type": "export type TornCardVariant = 'a' | 'b' | 'c'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "rugged-card",
+      "importPath": "splatoon-ui/rugged-card",
+      "primaryExport": "RuggedCard",
+      "sourcePath": "src/components/ui/rugged-card.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "RuggedCard",
+          "kind": "function",
+          "type": "export function RuggedCard(",
+          "description": "",
+          "props": [
+            {
+              "name": "theme",
+              "optional": true,
+              "type": "RuggedCardTheme",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "rotation",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "background",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardContent",
+          "kind": "function",
+          "type": "export function RuggedCardContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardContentProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardContentProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedCardDescription",
+          "kind": "function",
+          "type": "export function RuggedCardDescription(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardDescriptionProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedCardFooter",
+          "kind": "function",
+          "type": "export function RuggedCardFooter(",
+          "description": "",
+          "props": [
+            {
+              "name": "showDivider",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardFooterProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedCardHeader",
+          "kind": "function",
+          "type": "export function RuggedCardHeader(",
+          "description": "",
+          "props": [
+            {
+              "name": "showDivider",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardHeaderProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedCardImage",
+          "kind": "function",
+          "type": "export function RuggedCardImage(",
+          "description": "",
+          "props": [
+            {
+              "name": "src",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alt",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardImageProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardImageProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedCardProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedCardTheme",
+          "kind": "type",
+          "type": "export type RuggedCardTheme = 'yellow' | 'blue' | 'purple' | 'orange' | 'green'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RuggedCardTitle",
+          "kind": "function",
+          "type": "export function RuggedCardTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RuggedCardTitleProps",
+          "kind": "interface",
+          "type": "export interface RuggedCardTitleProps extends Omit<React.ComponentProps<'h2'>, 'ref'>",
           "description": "",
           "props": []
         }
