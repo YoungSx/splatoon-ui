@@ -495,6 +495,86 @@
       ]
     },
     {
+      "slug": "wave-button",
+      "importPath": "splatoon-ui/wave-button",
+      "primaryExport": "WaveButton",
+      "sourcePath": "src/components/ui/wave-button.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "WaveButton",
+          "kind": "function",
+          "type": "export function WaveButton(",
+          "description": "WaveButton - animated blob-shaped graphical button for compact close/menu actions.",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "WaveButtonVariant",
+              "defaultValue": "",
+              "description": "Visual variant — controls background color"
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "WaveButtonSize",
+              "defaultValue": "",
+              "description": "Button size"
+            },
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Custom icon node. Defaults to the hamburger→X line animation. Pass null for no icon."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "WaveButtonAnimation",
+              "defaultValue": "",
+              "description": "Blob border-radius animation"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "WaveButtonAnimation",
+          "kind": "type",
+          "type": "export type WaveButtonAnimation = 'morph' | 'none'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WaveButtonProps",
+          "kind": "interface",
+          "type": "export interface WaveButtonProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WaveButtonSize",
+          "kind": "type",
+          "type": "export type WaveButtonSize = 'md' | 'lg'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "WaveButtonVariant",
+          "kind": "type",
+          "type": "export type WaveButtonVariant = 'yellow' | 'white' | 'ghost'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "card",
       "importPath": "splatoon-ui/card",
       "primaryExport": "Card",

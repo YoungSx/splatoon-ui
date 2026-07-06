@@ -142,6 +142,7 @@ import { StapleCard, StapleCardDescription, StapleCardTitle } from 'splatoon-ui/
 import { Staple, Tape } from 'splatoon-ui/tape'
 import { TapeTitle } from 'splatoon-ui/tape-title'
 import { TornCard, TornCardDescription, TornCardTitle } from 'splatoon-ui/torn-card'
+import { WaveButton } from 'splatoon-ui/wave-button'
 import { WaveCanvas } from 'splatoon-ui/wave-canvas'
 
 export function App() {
@@ -160,6 +161,7 @@ export function App() {
         </ButtonGroupItem>
       </ButtonGroup>
       <IconButton aria-label="Next" variant="carousel" direction="right" />
+      <WaveButton aria-label="Close consumer panel" />
       <Label htmlFor="consumer-input">Player</Label>
       <RadioGroup defaultValue="turf">
         <RadioGroupItem value="turf" />
@@ -268,6 +270,7 @@ await import('splatoon-ui/staple-card')
 await import('splatoon-ui/tape')
 await import('splatoon-ui/tape-title')
 await import('splatoon-ui/torn-card')
+await import('splatoon-ui/wave-button')
 await import('splatoon-ui/wave-canvas')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `

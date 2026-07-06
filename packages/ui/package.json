@@ -74,6 +74,10 @@
       "types": "./dist/icon-button.d.ts",
       "import": "./dist/icon-button.js"
     },
+    "./wave-button": {
+      "types": "./dist/wave-button.d.ts",
+      "import": "./dist/wave-button.js"
+    },
     "./card": {
       "types": "./dist/card.d.ts",
       "import": "./dist/card.js"

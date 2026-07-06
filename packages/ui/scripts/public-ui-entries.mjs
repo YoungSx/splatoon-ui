@@ -4,6 +4,7 @@ export const publicUiEntries = [
   'button',
   'button-group',
   'icon-button',
+  'wave-button',
   'card',
   'staple-card',
   'torn-card',

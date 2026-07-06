@@ -3,6 +3,7 @@ import BadgeEn, { metadata as badgeEnMeta } from '../../content/docs/en/badge.md
 import ButtonEn, { metadata as buttonEnMeta } from '../../content/docs/en/button.mdx'
 import ButtonGroupEn, { metadata as buttonGroupEnMeta } from '../../content/docs/en/button-group.mdx'
 import IconButtonEn, { metadata as iconButtonEnMeta } from '../../content/docs/en/icon-button.mdx'
+import WaveButtonEn, { metadata as waveButtonEnMeta } from '../../content/docs/en/wave-button.mdx'
 import CardEn, { metadata as cardEnMeta } from '../../content/docs/en/card.mdx'
 import StapleCardEn, { metadata as stapleCardEnMeta } from '../../content/docs/en/staple-card.mdx'
 import TornCardEn, { metadata as tornCardEnMeta } from '../../content/docs/en/torn-card.mdx'
@@ -43,6 +44,7 @@ import BadgeJa, { metadata as badgeJaMeta } from '../../content/docs/ja/badge.md
 import ButtonJa, { metadata as buttonJaMeta } from '../../content/docs/ja/button.mdx'
 import ButtonGroupJa, { metadata as buttonGroupJaMeta } from '../../content/docs/ja/button-group.mdx'
 import IconButtonJa, { metadata as iconButtonJaMeta } from '../../content/docs/ja/icon-button.mdx'
+import WaveButtonJa, { metadata as waveButtonJaMeta } from '../../content/docs/ja/wave-button.mdx'
 import CardJa, { metadata as cardJaMeta } from '../../content/docs/ja/card.mdx'
 import StapleCardJa, { metadata as stapleCardJaMeta } from '../../content/docs/ja/staple-card.mdx'
 import TornCardJa, { metadata as tornCardJaMeta } from '../../content/docs/ja/torn-card.mdx'
@@ -83,6 +85,7 @@ import BadgeZh, { metadata as badgeZhMeta } from '../../content/docs/zh/badge.md
 import ButtonZh, { metadata as buttonZhMeta } from '../../content/docs/zh/button.mdx'
 import ButtonGroupZh, { metadata as buttonGroupZhMeta } from '../../content/docs/zh/button-group.mdx'
 import IconButtonZh, { metadata as iconButtonZhMeta } from '../../content/docs/zh/icon-button.mdx'
+import WaveButtonZh, { metadata as waveButtonZhMeta } from '../../content/docs/zh/wave-button.mdx'
 import CardZh, { metadata as cardZhMeta } from '../../content/docs/zh/card.mdx'
 import StapleCardZh, { metadata as stapleCardZhMeta } from '../../content/docs/zh/staple-card.mdx'
 import TornCardZh, { metadata as tornCardZhMeta } from '../../content/docs/zh/torn-card.mdx'
@@ -129,6 +132,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     button: { default: ButtonEn, metadata: buttonEnMeta },
     'button-group': { default: ButtonGroupEn, metadata: buttonGroupEnMeta },
     'icon-button': { default: IconButtonEn, metadata: iconButtonEnMeta },
+    'wave-button': { default: WaveButtonEn, metadata: waveButtonEnMeta },
     card: { default: CardEn, metadata: cardEnMeta },
     'staple-card': { default: StapleCardEn, metadata: stapleCardEnMeta },
     'torn-card': { default: TornCardEn, metadata: tornCardEnMeta },
@@ -163,6 +167,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     button: { default: ButtonZh, metadata: buttonZhMeta },
     'button-group': { default: ButtonGroupZh, metadata: buttonGroupZhMeta },
     'icon-button': { default: IconButtonZh, metadata: iconButtonZhMeta },
+    'wave-button': { default: WaveButtonZh, metadata: waveButtonZhMeta },
     card: { default: CardZh, metadata: cardZhMeta },
     'staple-card': { default: StapleCardZh, metadata: stapleCardZhMeta },
     'torn-card': { default: TornCardZh, metadata: tornCardZhMeta },
@@ -197,6 +202,7 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     button: { default: ButtonJa, metadata: buttonJaMeta },
     'button-group': { default: ButtonGroupJa, metadata: buttonGroupJaMeta },
     'icon-button': { default: IconButtonJa, metadata: iconButtonJaMeta },
+    'wave-button': { default: WaveButtonJa, metadata: waveButtonJaMeta },
     card: { default: CardJa, metadata: cardJaMeta },
     'staple-card': { default: StapleCardJa, metadata: stapleCardJaMeta },
     'torn-card': { default: TornCardJa, metadata: tornCardJaMeta },

@@ -182,6 +182,16 @@ const checks = [
       declarationExports('icon-button.d.ts', 'IconButtonAnimation') &&
       declarationExports('icon-button.d.ts', 'IconButtonDirection') &&
       declarationIncludes(
+        'wave-button.d.ts',
+        "interface WaveButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>"
+      ) &&
+      declarationIncludes('wave-button.d.ts', 'ref?: React.Ref<HTMLButtonElement>;') &&
+      declarationExports('wave-button.d.ts', 'WaveButton') &&
+      declarationExports('wave-button.d.ts', 'WaveButtonProps') &&
+      declarationExports('wave-button.d.ts', 'WaveButtonVariant') &&
+      declarationExports('wave-button.d.ts', 'WaveButtonSize') &&
+      declarationExports('wave-button.d.ts', 'WaveButtonAnimation') &&
+      declarationIncludes(
         'checkbox.d.ts',
         "interface CheckboxProps extends Omit<React.HTMLAttributes<HTMLElement>, 'checked' | 'children' | 'defaultChecked' | 'onChange' | 'value'>"
       ) &&

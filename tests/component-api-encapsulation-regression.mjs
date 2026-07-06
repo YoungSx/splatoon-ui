@@ -573,7 +573,11 @@ const checks = [
       navMenuButton.includes('ref?: React.Ref<HTMLButtonElement>') &&
       navMenuButton.includes('}: NavMenuButtonProps)') &&
       waveButton.includes('ref?: React.Ref<HTMLButtonElement>') &&
-      waveButton.includes('}: WaveButtonProps)'),
+      /export interface WaveButtonProps\s+extends Omit<\s*React\.ButtonHTMLAttributes<HTMLButtonElement>,\s*'children'\s*>/.test(
+        waveButton
+      ) &&
+      waveButton.includes('}: WaveButtonProps)') &&
+      waveButton.includes('data-slot="wave-button"'),
   },
   {
     name: 'Fixed SVG primitives expose refs and do not accept ignored children',

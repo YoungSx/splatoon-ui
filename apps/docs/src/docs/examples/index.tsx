@@ -12,6 +12,7 @@ import { badgeExample } from './badge'
 import { buttonExample } from './button'
 import { buttonGroupExample } from './button-group'
 import { iconButtonExample } from './icon-button'
+import { waveButtonExample } from './wave-button'
 import { cardExample } from './card'
 import { stapleCardExample } from './staple-card'
 import { tornCardExample } from './torn-card'
@@ -65,6 +66,7 @@ export const docsExamples = {
   button: withGeneratedSource(buttonExample),
   'button-group': withGeneratedSource(buttonGroupExample),
   'icon-button': withGeneratedSource(iconButtonExample),
+  'wave-button': withGeneratedSource(waveButtonExample),
   card: withGeneratedSource(cardExample),
   'staple-card': withGeneratedSource(stapleCardExample),
   'torn-card': withGeneratedSource(tornCardExample),

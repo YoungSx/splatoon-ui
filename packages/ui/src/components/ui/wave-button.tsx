@@ -32,7 +32,10 @@ const SIZE_CLASS: Record<WaveButtonSize, string> = {
   lg: styles.lg,
 }
 
-function WaveButton({
+/**
+ * WaveButton - animated blob-shaped graphical button for compact close/menu actions.
+ */
+export function WaveButton({
   ref,
   variant = 'yellow',
   size = 'md',
@@ -46,6 +49,7 @@ function WaveButton({
     <button
       ref={ref}
       type={type}
+      data-slot="wave-button"
       className={cn(
         VARIANT_CLASS[variant],
         SIZE_CLASS[size],
@@ -61,5 +65,3 @@ function WaveButton({
     </button>
   )
 }
-
-export { WaveButton }

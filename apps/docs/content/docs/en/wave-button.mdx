@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'WaveButton',
+  description: 'Blob-shaped graphical button with Splatoon UI color variants and morph motion.',
+  category: 'actions',
+  example: 'wave-button',
+}
+
+## Usage
+
+Use WaveButton for compact graphical actions such as close controls, menu-style triggers, and small custom glyph commands. The component owns the blob shell and does not render text children; pass `icon` when the default line glyph is not the right graphic.
+
+## Design Notes
+
+- Always provide an accessible label with `aria-label`.
+- Use `icon` for a custom graphic node, or `icon={null}` when the blob shape itself is the affordance.
+- Use `animation="none"` when the surrounding surface already has strong motion.

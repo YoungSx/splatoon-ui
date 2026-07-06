@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'WaveButton',
+  description: '带 Splatoon UI 配色和形变动效的 blob 图形按钮。',
+  category: 'actions',
+  example: 'wave-button',
+}
+
+## 用法
+
+WaveButton 用于紧凑的图形操作，例如关闭控件、菜单式触发器和小型自定义图形命令。组件负责 blob 外壳，不渲染文字 children；默认线条图形不合适时传入 `icon`。
+
+## 设计说明
+
+- 始终用 `aria-label` 提供可访问名称。
+- 用 `icon` 传入自定义图形节点；当 blob 形状本身就是操作提示时，可以使用 `icon={null}`。
+- 当周围界面已经有较强动效时，使用 `animation="none"`。

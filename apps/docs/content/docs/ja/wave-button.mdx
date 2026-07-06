@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'WaveButton',
+  description: 'Splatoon UI の配色とモーフ動作を持つ blob 型のグラフィックボタン。',
+  category: 'actions',
+  example: 'wave-button',
+}
+
+## 使い方
+
+WaveButton は、閉じる操作、メニュー風トリガー、小さなカスタムグリフ操作などのコンパクトなグラフィックアクションに使います。blob のシェルはコンポーネントが持ち、テキスト children は描画しません。既定のライン表示が合わない場合は `icon` を渡します。
+
+## デザインノート
+
+- 必ず `aria-label` でアクセシブル名を指定します。
+- カスタムグラフィックは `icon` で渡します。blob 形状だけで操作が伝わる場合は `icon={null}` を使えます。
+- 周囲の画面に強い動きがある場合は `animation="none"` を使います。
