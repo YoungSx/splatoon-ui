@@ -25,7 +25,7 @@ const requiredFiles = [
   'public/fonts',
   'public/svgs',
   'README.md',
-  'README_EN.md',
+  'README_ZH.md',
   'README_JA.md',
   'LICENSE',
   'NOTICE',

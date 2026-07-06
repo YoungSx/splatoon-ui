@@ -5,7 +5,7 @@ const root = process.cwd()
 const publicDir = path.join(root, 'packages', 'ui', 'public')
 const legacyPublicImagesDir = path.join(publicDir, 'images')
 const readmePath = path.join(root, 'README.md')
-const readmeEnPath = path.join(root, 'README_EN.md')
+const readmeZhPath = path.join(root, 'README_ZH.md')
 const componentSourceFiles = [
   path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'dialog.tsx'),
   path.join(root, 'packages', 'ui', 'src', 'components', 'ui', 'staple-card.tsx'),
@@ -81,7 +81,7 @@ const requiredAssets = [
 ]
 
 const source = componentSourceFiles.map((filePath) => fs.readFileSync(filePath, 'utf8')).join('\n')
-const readmes = [readmePath, readmeEnPath]
+const readmes = [readmePath, readmeZhPath]
   .map((filePath) => fs.readFileSync(filePath, 'utf8'))
   .join('\n')
 const newsAssets = fs.readFileSync(newsAssetsPath, 'utf8')
@@ -140,8 +140,8 @@ const checks = [
     name: 'publishable assets stay in public/_images instead of the legacy public/images tree',
     pass:
       !fs.existsSync(legacyPublicImagesDir) &&
-      readmes.includes('_images/') &&
-      readmes.includes('svg/') &&
+      readmes.includes('public/_images/') &&
+      readmes.includes('public/svgs/') &&
       !readmes.includes('images/svg/'),
   },
   {

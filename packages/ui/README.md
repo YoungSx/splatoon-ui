@@ -1,40 +1,40 @@
 # Splatoon UI
 
-一个基于 Splatoon 视觉风格的 React 组件库，为同人创作者提供开箱即用的 UI 工具。
+A React component library inspired by Splatoon's visual language, providing ready-to-use UI tools for fan creators.
 
-> **本项目与 Nintendo 无任何关联。** Splatoon 是 Nintendo 的注册商标。本项目是粉丝创作（fan-made），仅供非商业的同人社区使用。如涉及侵权，请联系我们，我们将立即处理。
+> **This project is not affiliated with Nintendo in any way.** Splatoon is a registered trademark of Nintendo. This project is fan-made and intended for non-commercial fan community use only. If this project infringes on any rights, please contact us and we will address it immediately.
 
-**[English Version](./README_EN.md) | [日本語版](./README_JA.md)**
+**[中文版 (Chinese Version)](./README_ZH.md) | [日本語版 (Japanese Version)](./README_JA.md)**
 
-## 这是什么
+## About
 
-Splatoon UI 是一套完整的 React 组件库，基于 Splatoon 系列鲜艳、高对比、墨水感的视觉语言做了前端组件化整理。你可以用它快速搭建 Splatoon 风格的同人网站、Wiki、锦标赛页面、粉丝社区等。
+Splatoon UI is a comprehensive React component library shaped around Splatoon's vivid, high-contrast, ink-heavy visual language. Build Splatoon-style fan sites, wikis, tournament pages, and more in minutes.
 
-**核心特色：**
+**Key features:**
 
-- 墨水滴落（drip）动画按钮
-- 撕纸、胶带、钉书针风格的卡片系统
-- WebGL 墨水飞溅过渡效果
-- 基于物理摆锤模型的卡片堆叠轮播
-- 12 种墨水飞溅装饰组件
-- 15 种迷彩/图案背景纹理（支持 Retina）
-- 完整的可访问性支持（`prefers-reduced-motion`、WCAG AA 对比度）
+- Buttons with liquid ink drip animations
+- Card system with torn-paper, tape, and staple variants
+- WebGL ink splash transition effects
+- Physics-driven pendulum card stack carousel
+- 12 ink splat decorative components
+- 15 camouflage and pattern background textures (Retina support)
+- Full accessibility support (`prefers-reduced-motion`, WCAG AA contrast)
 
-## 快速开始
+## Quick Start
 
-### 使用 npm 包
+### Use the package
 
 ```bash
 npm install splatoon-ui
 ```
 
-在应用入口导入一次全局样式：
+Import the global stylesheet once in your app shell:
 
 ```tsx
 import 'splatoon-ui/styles.css'
 ```
 
-默认入口只导出 server-safe 的 stable 组件；交互组件按组件子路径导入：
+Use server-safe primitives from the default entrypoint, and import the full public API by component subpath:
 
 ```tsx
 import { Alert, Badge, Input } from 'splatoon-ui'
@@ -42,140 +42,158 @@ import { Button } from 'splatoon-ui/button'
 import { Dialog } from 'splatoon-ui/dialog'
 ```
 
-Splatoon UI 的样式会引用 `/_images`、`/fonts`、`/svgs` 下的静态资源。部署前，把包内的 `public/_images`、`public/fonts`、`public/svgs` 复制到你的应用 public 根目录。
+Documentation is available at https://dev-ui.s8p.io/en/docs.
 
-`styles.css` 是 Tailwind CSS v4 入口文件；消费方应用需要具备能处理 npm 包 CSS imports 的 Tailwind v4/PostCSS 流程。
+Splatoon UI styles reference static assets from `/_images`, `/fonts`, and `/svgs`. Copy the package `public/_images`, `public/fonts`, and `public/svgs` directories into your app's public root before deploying.
 
-### 本地运行 demo
+The stylesheet is a Tailwind CSS v4 entrypoint. Your app needs a normal Tailwind v4/PostCSS pipeline that can process CSS imports from npm packages.
+
+### Run the demo locally
 
 ```bash
-# 克隆项目
+# Clone the project
 git clone https://github.com/YoungSx/splatoon-ui.git
 cd splatoon-ui
 
-# 安装依赖
+# Install dependencies
 pnpm install
 
-# 启动开发服务器
+# Start dev server
 pnpm dev
 ```
 
-打开 http://localhost:4317 查看效果。
+Open http://localhost:4317 to see it in action.
 
-## 技术栈
+## Tech Stack
 
-| 层级    | 技术                                      |
-| ------- | ----------------------------------------- |
-| 框架    | Next.js 16 (App Router + Turbopack)       |
-| UI 基座 | shadcn/ui + Base UI                       |
-| 样式    | Tailwind CSS v4                           |
-| 动画    | framer-motion + CSS transitions/keyframes |
-| WebGL   | 自定义墨水飞溅着色器                      |
-| 图标    | lucide-react                              |
-| 语言    | TypeScript (strict mode)                  |
-| 包管理  | pnpm                                      |
+| Layer           | Technology                                |
+| --------------- | ----------------------------------------- |
+| Framework       | Next.js 16 (App Router + Turbopack)       |
+| UI Base         | shadcn/ui + Base UI                       |
+| Styling         | Tailwind CSS v4                           |
+| Animation       | framer-motion + CSS transitions/keyframes |
+| WebGL           | Custom ink splash shaders                 |
+| Icons           | lucide-react                              |
+| Language        | TypeScript (strict mode)                  |
+| Package Manager | pnpm                                      |
 
-## Stable 公共组件
+## Public API
 
-当前 npm 公共 API 只包含已完整文档化和示例化的 stable 组件：
+Every published component below has a package subpath, generated API reference, and docs example. The root `splatoon-ui` entrypoint stays server-safe; use subpath imports for client components and richer APIs.
 
-| 组件                        | 说明                                                                                 |
-| --------------------------- | ------------------------------------------------------------------------------------ |
-| `Button`                    | 6 色变体 + drip 动画 + 墨水飞溅装饰                                                  |
-| `Card`                      | 4 种变体：paper（撕纸）、staple（钉书针 + 胶带）、rugged（悬挂标签）、torn（手撕边） |
-| `Dialog`                    | Base UI 封装，WaveButton 关闭按钮 + 全屏墨水飞溅模式                                 |
-| `Tabs`                      | 墨水飞溅 hover + 颜色下划线标签页（default / line 两种变体）                         |
-| `Input / Checkbox / Switch` | 表单控件                                                                             |
-| `Progress`                  | 墨水风格进度条                                                                       |
-| `Alert`                     | 撕纸风格状态提示                                                                     |
-| `Badge`                     | 7 色倾斜标签 + 贴纸变体                                                              |
+| Import path                     | Main exports                                                            | Purpose                                                  |
+| ------------------------------- | ----------------------------------------------------------------------- | -------------------------------------------------------- |
+| `splatoon-ui/alert`             | `Alert`                                                                 | Torn-card status and feedback surface.                   |
+| `splatoon-ui/badge`             | `Badge`                                                                 | Skewed label badge with curated color variants.          |
+| `splatoon-ui/button`            | `Button`                                                                | Ink-styled action button with drip and arrow treatments. |
+| `splatoon-ui/button-group`      | `ButtonGroup`, `ButtonGroupItem`                                        | Segmented button clusters for compact actions.           |
+| `splatoon-ui/icon-button`       | `IconButton`                                                            | Circular icon-only controls and carousel arrows.         |
+| `splatoon-ui/wave-button`       | `WaveButton`                                                            | Blob-shaped graphical trigger with native line glyph.    |
+| `splatoon-ui/card`              | `Card`                                                                  | Generic card surface primitives.                         |
+| `splatoon-ui/staple-card`       | `StapleCard`                                                            | Feed-style card with stapled paper edges and media.      |
+| `splatoon-ui/torn-card`         | `TornCard`                                                              | Torn-paper editorial card surface.                       |
+| `splatoon-ui/rugged-card`       | `RuggedCard`                                                            | Rugged hanging-label card treatment.                     |
+| `splatoon-ui/carousel`          | `Carousel`, `FeedCarousel`, `MarqueeCarousel`, `WeaponsGalleryCarousel` | Carousel primitives and production gallery presets.      |
+| `splatoon-ui/checkbox`          | `Checkbox`                                                              | Ink-styled checkbox control.                             |
+| `splatoon-ui/dialog`            | `Dialog`                                                                | Base UI dialog wrapper with Splatoon UI surfaces.        |
+| `splatoon-ui/input`             | `Input`                                                                 | Text input primitive.                                    |
+| `splatoon-ui/label`             | `Label`                                                                 | Form label primitive.                                    |
+| `splatoon-ui/loader`            | `Loader`                                                                | Squid and morph loading indicators.                      |
+| `splatoon-ui/radio-group`       | `RadioGroup`, `RadioGroupItem`                                          | Radio selection group.                                   |
+| `splatoon-ui/progress`          | `Progress`                                                              | Ink-styled progress indicator.                           |
+| `splatoon-ui/select`            | `Select`                                                                | Select trigger, content, item, and value primitives.     |
+| `splatoon-ui/segmented-control` | `SegmentedControl`                                                      | Toggleable segmented control.                            |
+| `splatoon-ui/popover`           | `Popover`                                                               | Floating content and trigger primitives.                 |
+| `splatoon-ui/sheet`             | `Sheet`                                                                 | Side sheet overlay and trigger primitives.               |
+| `splatoon-ui/switch`            | `Switch`                                                                | Binary switch control.                                   |
+| `splatoon-ui/tabs`              | `Tabs`                                                                  | Tab navigation with ink-styled active states.            |
+| `splatoon-ui/list`              | `List`, `ListItem`                                                      | Styled list display primitives.                          |
+| `splatoon-ui/section`           | `Section`                                                               | Patterned section wrapper.                               |
+| `splatoon-ui/banner-divider`    | `BannerDivider`                                                         | Layered banner divider decoration.                       |
+| `splatoon-ui/dotted-divider`    | `DottedDivider`                                                         | Dotted horizontal or vertical divider.                   |
+| `splatoon-ui/splatoon-title`    | `SplatoonTitle`                                                         | Display title treatment.                                 |
+| `splatoon-ui/heading-tape`      | `HeadingTape`                                                           | Tape-backed heading treatment.                           |
+| `splatoon-ui/tape-title`        | `TapeTitle`                                                             | Compact tape title primitive.                            |
+| `splatoon-ui/tape`              | `Tape`, `Staple`                                                        | Positioned tape and staple decoration assets.            |
+| `splatoon-ui/wave-canvas`       | `WaveCanvas`                                                            | Animated canvas wave strip for section boundaries.       |
 
-## 设计系统
+## Design System
 
-### 颜色
+### Colors
 
-| 名称        | 色值      | 用途            |
-| ----------- | --------- | --------------- |
-| Neon Yellow | `#EAFF3D` | 主品牌色、CTA   |
-| Ink Blue    | `#603BFF` | 副品牌色、hover |
-| Ink Purple  | `#AF50FF` | 强调色          |
-| Ink Green   | `#6AF7CE` | 播放 / 特殊控件 |
-| Ink Orange  | `#FF9750` | 暖色操作        |
-| Ink Red     | `#FF505E` | 破坏性操作      |
-| Chaos Black | `#0D0D0D` | 文本、阴影      |
-| Desert Sand | `#F5F0E8` | 背景            |
+| Name        | Value     | Usage                   |
+| ----------- | --------- | ----------------------- |
+| Neon Yellow | `#EAFF3D` | Primary brand, CTA      |
+| Ink Blue    | `#603BFF` | Secondary brand, hover  |
+| Ink Purple  | `#AF50FF` | Accent                  |
+| Ink Green   | `#6AF7CE` | Play / special controls |
+| Ink Orange  | `#FF9750` | Warm actions            |
+| Ink Red     | `#FF505E` | Destructive actions     |
+| Chaos Black | `#0D0D0D` | Text, shadows           |
+| Desert Sand | `#F5F0E8` | Backgrounds             |
 
-### 字体
+### Typography
 
-| 角色              | 字体             | 用途               |
-| ----------------- | ---------------- | ------------------ |
-| Display / Heading | fooregular       | 英雄标题、章节标题 |
-| Alt               | obviously-narrow | 按钮、分类         |
-| Body              | Montserrat       | 正文               |
+| Role              | Font             | Usage                     |
+| ----------------- | ---------------- | ------------------------- |
+| Display / Heading | fooregular       | Hero and section headings |
+| Alt               | obviously-narrow | Buttons, categories       |
+| Body              | Montserrat       | Body text                 |
 
-### 阴影
+### Shadows
 
-主阴影使用柔和模糊（soft blur），用于 UI 元素的层次感；硬偏移实色（hard offset）仅用于特殊剪贴画风格元素：
+Primary shadows use soft blur for general UI elevation; hard-offset solid colors are reserved for special paper-cutout-style elements:
 
 ```
-# 柔和模糊（主用）
+# Soft blur (primary)
 shadow-soft-splat-sm  →  0 4px 10px rgba(0,0,0,0.14)
 shadow-soft-splat-md  →  0 8px 18px rgba(0,0,0,0.16)
 shadow-soft-splat-lg  →  0 14px 30px rgba(0,0,0,0.18)
 
-# 硬偏移（legacy / 特殊场景）
+# Hard offset (legacy / special cases)
 shadow-solid-sm  →  2px 2px 0px
 shadow-solid     →  4px 4px 0px
 shadow-solid-lg  →  6px 6px 0px
 shadow-solid-xl  →  8px 8px 0px
 ```
 
-## 项目结构
+## Repository Structure
 
 ```
-src/
-  app/                    # Next.js 页面
-  components/ui/          # 86 个组件 + 32 个 CSS Module
-    splats/               # 12 种墨水飞溅装饰组件（TSX）
-    stickers/             # 装饰贴纸
-  config/                 # 导航配置等
-  lib/
-    utils.ts              # 工具函数（cn 等）
-    wobble-math.ts        # 摆锤物理数学
-    drip-math.ts          # 滴落动画数学
-    ink-particle.ts       # 墨水粒子系统
-    physics/              # 卡片堆叠物理引擎
-    shaders/              # WebGL 着色器
-  hooks/                  # 自定义 Hooks（useDripAnimation 等）
-public/
-  _images/                # 背景、胶带素材、截图
-    tape-assets/          # 胶带/贴纸 PNG 素材（含 @2x）
-    svg/                  # 装饰 SVG 素材（撕边背景等）
-  fonts/                  # 字体文件（fooregular、Montserrat 自托管）
-  svgs/                   # 通用 SVG 资源（纸张撕裂、波浪等）
+apps/docs/                 # Next.js docs and demo site
+packages/ui/
+  src/components/ui/       # Public components, internal helpers, and CSS Modules
+  public/_images/          # Publishable image assets
+  public/fonts/            # Self-hosted fonts
+  public/svgs/             # Shared SVG assets
+  scripts/                 # Package build and docs registry helpers
+tests/                     # Regression and release-readiness checks
 ```
 
-## 开发命令
+## Development Commands
 
 ```bash
-pnpm dev              # 启动开发服务器
-pnpm build            # 生产构建
-pnpm start            # 启动生产服务器
-npx tsc --noEmit      # 类型检查
-pnpm reference:crawl  # 从 sitemap 生成官网参考资源 manifest（输出到 scratch/）
-pnpm reference:crawl:all  # 抓取英文 locale 的全部 sitemap 页面
-pnpm reference:crawl:all-locales  # 抓取 sitemap 中全部 locale 页面（独立输出目录）
-pnpm reference:analyze    # 将 manifest 映射为组件资产候选清单
-pnpm reference:analyze:all-locales # 分析全部 locale 的 manifest
-pnpm reference:analyze:videos # 去重并归档官方远程 mp4 候选
+pnpm dev              # Start dev server
+pnpm build            # Production build
+pnpm start            # Start production server
+npx tsc --noEmit      # Type check
+pnpm reference:crawl  # Generate a reference asset manifest from the sitemap (scratch/ output)
+pnpm reference:crawl:all  # Crawl every English-locale sitemap page
+pnpm reference:crawl:all-locales  # Crawl every sitemap page across locales (separate output)
+pnpm reference:analyze    # Map the manifest into component asset candidates
+pnpm reference:analyze:all-locales # Analyze the all-locale manifest
+pnpm reference:analyze:videos # Deduplicate and catalog official remote mp4 candidates
 ```
 
-如需下载 manifest 中的参考资源，使用 `pnpm reference:crawl:download`。下载结果仍在
-`scratch/`，需要人工筛选、重命名和确认用途后再迁入可发布资源目录。
-全 locale 抓取会写入 `scratch/splatoon-reference-all-locales/`，避免覆盖默认英文参考报告。
-视频分析只输出远程候选清单到 scratch，不会把 mp4 二进制复制到可发布目录。
+To download the referenced assets, run `pnpm reference:crawl:download`. Downloads still land
+in `scratch/`; curate, rename, and approve assets before moving anything into publishable
+static directories.
+The all-locale crawl writes to `scratch/splatoon-reference-all-locales/` so it does not
+overwrite the default English reference report.
+Video analysis only writes remote candidates into scratch; it does not copy mp4 binaries into
+publishable static directories.
 
-## 发布 npm 包
+## Package Release
 
 ```bash
 pnpm install
@@ -189,27 +207,27 @@ pnpm publish --access public
 git push --follow-tags
 ```
 
-发布前必须看 `pnpm pack:dry-run` 输出，确认 tarball 只包含 `dist`、`public/_images`、`public/fonts`、`public/svgs`、README 文件、LICENSE、NOTICE 和 package metadata。
+Use `pnpm pack:dry-run` before publishing and check that the tarball only contains `dist`, `public/_images`, `public/fonts`, `public/svgs`, README files, license, notice, and package metadata.
 
-## 许可证
+## License
 
 MIT
 
-## 版权声明
+## Copyright Notice
 
-本项目是 **粉丝创作（fan-made）**，与 Nintendo Co., Ltd. 没有任何关联、授权或背书关系。
+This project is **fan-made** and is not affiliated with, authorized by, or endorsed by Nintendo Co., Ltd.
 
-- **Splatoon** 是 Nintendo 的注册商标
-- 本项目中所有 Splatoon 相关的视觉风格、设计语言和美术元素的版权归 Nintendo 所有
-- 本项目仅使用了公开可访问的网页设计作为视觉参考，不包含任何游戏代码、资源文件或未公开素材
-- 本项目仅供非商业的同人社区使用
+- **Splatoon** is a registered trademark of Nintendo
+- All Splatoon-related visual styles, design language, and artwork are copyright of Nintendo
+- This project only uses publicly accessible web design as visual reference, and does not contain any game code, asset files, or unreleased materials
+- This project is intended for non-commercial fan community use only
 
-**如本项目涉及侵权，请通过 GitHub Issues 联系我们，我们将立即处理。**
-
----
+**If this project infringes on any rights, please contact us via GitHub Issues and we will address it immediately.**
 
 ---
 
-查看 [CREDITS.md](./CREDITS.md) 了解完整素材和工具鸣谢。
+---
 
-_由 Splatoon 同人社区爱好者制作，献给所有热爱 Splatoon 的玩家。_
+See [CREDITS.md](./CREDITS.md) for full attribution of assets and tools.
+
+_Built by Splatoon fans, dedicated to all Splatoon players._

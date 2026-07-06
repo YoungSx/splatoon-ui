@@ -56,7 +56,7 @@ const requiredPackedFiles = [
   'dist/server.d.ts',
   'dist/styles.css',
   'README.md',
-  'README_EN.md',
+  'README_ZH.md',
   'README_JA.md',
   'LICENSE',
   'NOTICE',

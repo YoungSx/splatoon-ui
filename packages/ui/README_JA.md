@@ -4,7 +4,7 @@ Splatoon のビジュアル言語に着想を得た React コンポーネント�
 
 > **本プロジェクトは Nintendo とは一切関係ありません。** Splatoon は Nintendo の登録商標です。本プロジェクトはファンメイドであり、非営利のファンコミュニティ用途を想定しています。権利上の問題がある場合はご連絡ください。速やかに対応します。
 
-**[中文版 (Chinese Version)](./README.md) | [English Version](./README_EN.md)**
+**[中文版 (Chinese Version)](./README_ZH.md) | [English Version](./README.md)**
 
 ## 概要
 
@@ -34,13 +34,15 @@ npm install splatoon-ui
 import 'splatoon-ui/styles.css'
 ```
 
-サーバーセーフな stable コンポーネントはデフォルトエントリーから、インタラクティブなコンポーネントはコンポーネントごとのサブパスから読み込みます。
+サーバーセーフな基本コンポーネントはデフォルトエントリーから、公開 API 全体はコンポーネントごとのサブパスから読み込みます。
 
 ```tsx
 import { Alert, Badge, Input } from 'splatoon-ui'
 import { Button } from 'splatoon-ui/button'
 import { Dialog } from 'splatoon-ui/dialog'
 ```
+
+ドキュメント: https://dev-ui.s8p.io/ja/docs。
 
 Splatoon UI のスタイルは `/_images`、`/fonts`、`/svgs` 配下の静的アセットを参照します。デプロイ前に、パッケージ内の `public/_images`、`public/fonts`、`public/svgs` をアプリ側の public ルートへコピーしてください。
 
@@ -75,20 +77,45 @@ http://localhost:4317 を開くとデモを確認できます。
 | 言語                 | TypeScript (strict mode)                  |
 | パッケージマネージャ | pnpm                                      |
 
-## Stable 公開コンポーネント
+## 公開 API
 
-npm の公開 API は、完全なドキュメントと例を持つ stable コンポーネントだけです。
+以下の公開コンポーネントは、それぞれ package subpath、生成 API リファレンス、ドキュメント例を持ちます。ルート `splatoon-ui` エントリーは server-safe に保ち、クライアントコンポーネントやより広い API は subpath import を使います。
 
-| コンポーネント              | 説明                                                                                  |
-| --------------------------- | ------------------------------------------------------------------------------------- |
-| `Button`                    | 6 色のバリアント、drip アニメーション、インクスプラット装飾                           |
-| `Card`                      | paper、staple、rugged、torn の 4 バリアント                                           |
-| `Dialog`                    | Base UI ラッパー、WaveButton の閉じるボタン、フルスクリーンのインクスプラッシュモード |
-| `Tabs`                      | インクスプラット hover とカラー下線付きタブ                                           |
-| `Input / Checkbox / Switch` | フォームコントロール                                                                  |
-| `Progress`                  | インク風の進捗インジケーター                                                          |
-| `Alert`                     | 破れ紙風のステータス表示                                                              |
-| `Badge`                     | 7 色の斜めラベルとステッカーバリアント                                                |
+| インポート                      | 主な export                                                             | 用途                                                       |
+| ------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `splatoon-ui/alert`             | `Alert`                                                                 | 破れ紙風のステータス・フィードバック面。                   |
+| `splatoon-ui/badge`             | `Badge`                                                                 | 固定配色を持つ斜めラベルバッジ。                           |
+| `splatoon-ui/button`            | `Button`                                                                | drip と arrow 表現を持つインク風アクションボタン。         |
+| `splatoon-ui/button-group`      | `ButtonGroup`, `ButtonGroupItem`                                        | コンパクトなアクションボタングループ。                     |
+| `splatoon-ui/icon-button`       | `IconButton`                                                            | 円形のアイコン専用操作とカルーセル矢印。                   |
+| `splatoon-ui/wave-button`       | `WaveButton`                                                            | ネイティブなライン表示を持つ blob 型グラフィックトリガー。 |
+| `splatoon-ui/card`              | `Card`                                                                  | 汎用カードサーフェス。                                     |
+| `splatoon-ui/staple-card`       | `StapleCard`                                                            | ホチキス留め紙端とメディアを持つフィードカード。           |
+| `splatoon-ui/torn-card`         | `TornCard`                                                              | 破れ紙風のコンテンツカード。                               |
+| `splatoon-ui/rugged-card`       | `RuggedCard`                                                            | ラフな吊り下げラベル風カード。                             |
+| `splatoon-ui/carousel`          | `Carousel`, `FeedCarousel`, `MarqueeCarousel`, `WeaponsGalleryCarousel` | カルーセル基礎部品と本番向け gallery プリセット。          |
+| `splatoon-ui/checkbox`          | `Checkbox`                                                              | インク風チェックボックス。                                 |
+| `splatoon-ui/dialog`            | `Dialog`                                                                | Base UI ベースのダイアログラッパー。                       |
+| `splatoon-ui/input`             | `Input`                                                                 | テキスト入力プリミティブ。                                 |
+| `splatoon-ui/label`             | `Label`                                                                 | フォームラベルプリミティブ。                               |
+| `splatoon-ui/loader`            | `Loader`                                                                | squid と morph のローディング表示。                        |
+| `splatoon-ui/radio-group`       | `RadioGroup`, `RadioGroupItem`                                          | ラジオ選択グループ。                                       |
+| `splatoon-ui/progress`          | `Progress`                                                              | インク風の進捗インジケーター。                             |
+| `splatoon-ui/select`            | `Select`                                                                | select の trigger、content、item、value 部品。             |
+| `splatoon-ui/segmented-control` | `SegmentedControl`                                                      | セグメント切り替えコントロール。                           |
+| `splatoon-ui/popover`           | `Popover`                                                               | フローティング内容とトリガー部品。                         |
+| `splatoon-ui/sheet`             | `Sheet`                                                                 | サイド sheet オーバーレイとトリガー部品。                  |
+| `splatoon-ui/switch`            | `Switch`                                                                | 二値スイッチ。                                             |
+| `splatoon-ui/tabs`              | `Tabs`                                                                  | インク風のアクティブ状態を持つタブナビゲーション。         |
+| `splatoon-ui/list`              | `List`, `ListItem`                                                      | リスト表示プリミティブ。                                   |
+| `splatoon-ui/section`           | `Section`                                                               | パターン背景付きのセクションラッパー。                     |
+| `splatoon-ui/banner-divider`    | `BannerDivider`                                                         | レイヤー化された banner 区切り装飾。                       |
+| `splatoon-ui/dotted-divider`    | `DottedDivider`                                                         | 横・縦の点線区切り。                                       |
+| `splatoon-ui/splatoon-title`    | `SplatoonTitle`                                                         | ディスプレイ用タイトル表現。                               |
+| `splatoon-ui/heading-tape`      | `HeadingTape`                                                           | テープ背景付き見出し。                                     |
+| `splatoon-ui/tape-title`        | `TapeTitle`                                                             | コンパクトなテープタイトル。                               |
+| `splatoon-ui/tape`              | `Tape`, `Staple`                                                        | 配置可能なテープとホチキス留め装飾。                       |
+| `splatoon-ui/wave-canvas`       | `WaveCanvas`                                                            | セクション境界向けのアニメーション canvas 波形。           |
 
 ## デザインシステム
 
@@ -130,29 +157,17 @@ shadow-solid-lg  ->  6px 6px 0px
 shadow-solid-xl  ->  8px 8px 0px
 ```
 
-## プロジェクト構成
+## リポジトリ構成
 
 ```
-src/
-  app/                    # Next.js ページ
-  components/ui/          # 86 個のコンポーネント + 32 個の CSS Modules
-    splats/               # 12 種類のインクスプラット装飾コンポーネント
-    stickers/             # 装飾ステッカー
-  config/                 # ナビゲーション設定など
-  lib/
-    utils.ts              # ユーティリティ
-    wobble-math.ts        # 振り子物理の計算
-    drip-math.ts          # drip アニメーションの計算
-    ink-particle.ts       # インク粒子システム
-    physics/              # カードスタック物理エンジン
-    shaders/              # WebGL シェーダー
-  hooks/                  # カスタム Hooks
-public/
-  _images/                # 背景、テープ素材、スクリーンショット
-    tape-assets/          # テープ・ステッカー PNG 素材
-    svg/                  # 装飾 SVG 素材
-  fonts/                  # セルフホストフォント
-  svgs/                   # 汎用 SVG 素材
+apps/docs/                 # Next.js ドキュメントと demo サイト
+packages/ui/
+  src/components/ui/       # public コンポーネント、内部 helper、CSS Modules
+  public/_images/          # 公開パッケージ用の画像アセット
+  public/fonts/            # セルフホストフォント
+  public/svgs/             # 共有 SVG アセット
+  scripts/                 # パッケージビルドと docs registry helper
+tests/                     # 回帰テストとリリース準備チェック
 ```
 
 ## 開発コマンド
