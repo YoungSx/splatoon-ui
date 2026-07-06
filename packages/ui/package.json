@@ -154,17 +154,13 @@
       "types": "./dist/section.d.ts",
       "import": "./dist/section.js"
     },
+    "./banner-divider": {
+      "types": "./dist/banner-divider.d.ts",
+      "import": "./dist/banner-divider.js"
+    },
     "./dotted-divider": {
       "types": "./dist/dotted-divider.d.ts",
       "import": "./dist/dotted-divider.js"
-    },
-    "./tape-divider": {
-      "types": "./dist/tape-divider.d.ts",
-      "import": "./dist/tape-divider.js"
-    },
-    "./torn-badge": {
-      "types": "./dist/torn-badge.d.ts",
-      "import": "./dist/torn-badge.js"
     },
     "./splatoon-title": {
       "types": "./dist/splatoon-title.d.ts",
@@ -173,6 +169,18 @@
     "./heading-tape": {
       "types": "./dist/heading-tape.d.ts",
       "import": "./dist/heading-tape.js"
+    },
+    "./tape-title": {
+      "types": "./dist/tape-title.d.ts",
+      "import": "./dist/tape-title.js"
+    },
+    "./tape": {
+      "types": "./dist/tape.d.ts",
+      "import": "./dist/tape.js"
+    },
+    "./wave-canvas": {
+      "types": "./dist/wave-canvas.d.ts",
+      "import": "./dist/wave-canvas.js"
     },
     "./styles.css": "./dist/styles.css",
     "./assets/*": "./public/*",

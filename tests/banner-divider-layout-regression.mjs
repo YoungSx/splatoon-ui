@@ -58,7 +58,7 @@ const checks = [
   {
     name: 'BannerDivider visual layer remains absolutely positioned and animated independently',
     pass:
-      component.includes('ref={animate ? ref : undefined}') &&
+      component.includes('ref={animate ? inViewRef : undefined}') &&
       component.includes('animate && isInView && inViewStyles.inView') &&
       component.includes('styles.bannerDividerViewport') &&
       hasDeclaration('.bannerDividerViewport', 'position: absolute;') &&
@@ -109,7 +109,7 @@ const checks = [
       (page.match(/<BannerDivider/g) ?? []).length === 11 &&
       !page.includes('<BannerDivider pattern=') &&
       !page.includes('<BannerDivider color=') &&
-      page.includes("tapes={createTwoTapeDivider('design2', 'blue')}") &&
+      page.includes("tapes={createTwoBannerTapes('design2', 'blue')}") &&
       page.includes('Banner divider: Foundations → Actions') &&
       page.includes('Banner divider: Card Tags → Paper Cards') &&
       page.includes('Banner divider: Motion & Media → Carousels'),

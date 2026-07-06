@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'WaveCanvas',
+  description: 'Animated canvas wave strip for section boundaries and footer edges.',
+  category: 'motion',
+  example: 'wave-canvas',
+}
+
+## Usage
+
+Use WaveCanvas inside a positioned boundary container when a section needs a moving ink or water edge.
+
+## Design Notes
+
+- The canvas is absolutely positioned above its parent with `bottom: 100%`.
+- Set the parent to `position: relative` and reserve enough vertical space for the wave height.
+- Set `interactive={false}` for static or performance-sensitive surfaces.

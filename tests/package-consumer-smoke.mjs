@@ -114,6 +114,8 @@ fs.writeFileSync(
   path.join(consumerDir, 'src', 'app.tsx'),
   `import 'splatoon-ui/styles.css'
 import { Alert, AlertDescription, AlertTitle } from 'splatoon-ui/alert'
+import { Badge } from 'splatoon-ui/badge'
+import { BannerDivider } from 'splatoon-ui/banner-divider'
 import { Button } from 'splatoon-ui/button'
 import { ButtonGroup, ButtonGroupItem } from 'splatoon-ui/button-group'
 import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'splatoon-ui/carousel'
@@ -137,9 +139,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 's
 import { Sheet, SheetContent, SheetTriggerButton } from 'splatoon-ui/sheet'
 import { SplatoonTitle } from 'splatoon-ui/splatoon-title'
 import { StapleCard, StapleCardDescription, StapleCardTitle } from 'splatoon-ui/staple-card'
-import { TapeDivider } from 'splatoon-ui/tape-divider'
+import { Staple, Tape } from 'splatoon-ui/tape'
+import { TapeTitle } from 'splatoon-ui/tape-title'
 import { TornCard, TornCardDescription, TornCardTitle } from 'splatoon-ui/torn-card'
-import { TornBadge } from 'splatoon-ui/torn-badge'
+import { WaveCanvas } from 'splatoon-ui/wave-canvas'
 
 export function App() {
   return (
@@ -191,9 +194,23 @@ export function App() {
       <Section as="div" pattern="chip-white">
         Consumer section
       </Section>
+      <BannerDivider
+        tapes={[
+          { variant: 'design1', rotate: -2 },
+          { variant: 'yellow', rotate: 2, offsetY: 14 },
+        ]}
+        layout="spacer"
+      />
       <DottedDivider />
-      <TapeDivider />
-      <TornBadge>Fresh</TornBadge>
+      <TapeTitle color="yellow">Consumer tape title</TapeTitle>
+      <div style={{ position: 'relative', minHeight: 120 }}>
+        <Tape variant="tape-2" position="top-left" />
+        <Staple position="right" />
+      </div>
+      <div style={{ position: 'relative', minHeight: 96 }}>
+        <WaveCanvas color="var(--color-blue)" height={64} interactive={false} />
+      </div>
+      <Badge>Fresh</Badge>
       <SplatoonTitle>Consumer title</SplatoonTitle>
       <HeadingTape>Consumer heading</HeadingTape>
       <StapleCard
@@ -227,6 +244,8 @@ export function App() {
 fs.writeFileSync(
   path.join(consumerDir, 'runtime.mjs'),
   `await import('splatoon-ui')
+await import('splatoon-ui/badge')
+await import('splatoon-ui/banner-divider')
 await import('splatoon-ui/button')
 await import('splatoon-ui/button-group')
 await import('splatoon-ui/carousel')
@@ -246,9 +265,10 @@ await import('splatoon-ui/select')
 await import('splatoon-ui/sheet')
 await import('splatoon-ui/splatoon-title')
 await import('splatoon-ui/staple-card')
-await import('splatoon-ui/tape-divider')
+await import('splatoon-ui/tape')
+await import('splatoon-ui/tape-title')
 await import('splatoon-ui/torn-card')
-await import('splatoon-ui/torn-badge')
+await import('splatoon-ui/wave-canvas')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `
 )

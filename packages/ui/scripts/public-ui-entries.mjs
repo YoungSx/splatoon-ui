@@ -24,9 +24,11 @@ export const publicUiEntries = [
   'tabs',
   'list',
   'section',
+  'banner-divider',
   'dotted-divider',
-  'tape-divider',
-  'torn-badge',
   'splatoon-title',
   'heading-tape',
+  'tape-title',
+  'tape',
+  'wave-canvas',
 ]

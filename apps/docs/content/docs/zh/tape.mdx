@@ -1,0 +1,15 @@
+export const metadata = {
+  title: 'Tape',
+  description: '胶带和订书钉装饰资产，用于有定位上下文的表面。',
+  category: 'layout',
+  example: 'tape',
+}
+
+## 用法
+
+Tape 和 Staple 放在 relative 容器中，用于覆盖在卡片、图片和编辑型面板上。
+
+## 设计备注
+
+- 根节点是绝对定位，并关闭 pointer-events。
+- 常见卡片角落优先使用预设 position，特殊位置再通过 `className` 调整。

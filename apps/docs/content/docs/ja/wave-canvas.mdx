@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'WaveCanvas',
+  description: 'Section boundary や footer edge に使う animated canvas wave strip です。',
+  category: 'motion',
+  example: 'wave-canvas',
+}
+
+## 使い方
+
+WaveCanvas は positioned boundary container の中で、動く ink や water edge が必要な section に使います。
+
+## 設計メモ
+
+- Canvas は `bottom: 100%` で親要素の上に absolute positioning されます。
+- 親要素には `position: relative` を設定し、wave height 分の余白を確保します。
+- Static surface や performance-sensitive な surface では `interactive={false}` を使います。

@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'BannerDivider',
+  description: '多层 banner 胶带分隔组件，用于带动效的区块边界。',
+  category: 'layout',
+  example: 'banner-divider',
+}
+
+## 用法
+
+BannerDivider 用于页面区块边缘，需要大面积胶带过渡的场景。
+
+## 设计备注
+
+- 参考站点式区块边界优先使用 `layout="overlay"`，不占文档流高度。
+- 只有周围布局需要分隔条占位时才使用 `layout="spacer"`。
+- 通过 `tapes` 数组组合两到三层胶带。

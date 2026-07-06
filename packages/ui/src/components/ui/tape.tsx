@@ -1,14 +1,20 @@
 import * as React from 'react'
 
 import { newsStapleAssets } from './news-assets'
-import { type TapeImageVariant } from './tape-assets'
 import { TapePicture } from './tape-picture'
 import { cn } from '@/lib/utils'
 
 /* ──────────────────────────────────────────────
-   Tape — curated tape/sticker image assets
+   Tape — curated tape image assets
    ────────────────────────────────────────────── */
-export type TapeVariant = TapeImageVariant
+export type TapeVariant =
+  | 'tape-1'
+  | 'tape-2'
+  | 'tape-3'
+  | 'tape-4'
+  | 'tape-5'
+  | 'tape-6'
+  | 'tape-7'
 
 export interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   variant?: TapeVariant

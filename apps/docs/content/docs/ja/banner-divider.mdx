@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'BannerDivider',
+  description: 'Section boundary に使う layered banner tape divider です。',
+  category: 'layout',
+  example: 'banner-divider',
+}
+
+## 使い方
+
+BannerDivider は大きな tape transition が必要な page section の境界に使います。
+
+## 設計メモ
+
+- Reference-style の section edge では、document flow の高さを取らない `layout="overlay"` を使います。
+- 周囲の layout が divider の高さを必要とする場合だけ `layout="spacer"` を使います。
+- `tapes` array で 2 から 3 層の tape を組み合わせます。

@@ -29,11 +29,13 @@ export const docsComponentSlugs = [
   'tabs',
   'list',
   'section',
+  'banner-divider',
   'dotted-divider',
-  'tape-divider',
-  'torn-badge',
   'splatoon-title',
   'heading-tape',
+  'tape-title',
+  'tape',
+  'wave-canvas',
 ] as const
 
 export type DocsComponentSlug = (typeof docsComponentSlugs)[number]
@@ -163,11 +165,13 @@ const categoryBySlug = {
   tabs: 'navigation',
   list: 'data-display',
   section: 'layout',
+  'banner-divider': 'layout',
   'dotted-divider': 'layout',
-  'tape-divider': 'layout',
-  'torn-badge': 'data-display',
   'splatoon-title': 'typography',
   'heading-tape': 'typography',
+  'tape-title': 'typography',
+  tape: 'layout',
+  'wave-canvas': 'motion',
 } satisfies Record<DocsComponentSlug, DocsCategoryId>
 
 export function isDocsLocale(value: string): value is DocsLocale {

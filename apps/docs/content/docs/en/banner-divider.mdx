@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'BannerDivider',
+  description: 'Layered banner tape divider for animated section boundaries.',
+  category: 'layout',
+  example: 'banner-divider',
+}
+
+## Usage
+
+Use BannerDivider across page section edges when the boundary needs a large tape transition.
+
+## Design Notes
+
+- Keep `layout="overlay"` for reference-style section edges that should not reserve document flow space.
+- Use `layout="spacer"` only when surrounding layout needs the divider to occupy height.
+- Compose two or three tape layers through the `tapes` array.

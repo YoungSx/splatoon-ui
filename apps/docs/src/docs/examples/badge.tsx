@@ -24,7 +24,7 @@ export const badgeExample: DocsExampleDefinitionInput<BadgeExampleProps> = {
       type: 'select',
       prop: 'color',
       label: 'Color',
-      options: ['yellow', 'blue', 'green', 'red', 'orange', 'purple', 'monochrome'],
+      options: ['yellow', 'blue', 'green', 'red', 'purple', 'monochrome'],
       defaultValue: 'yellow',
     },
     { type: 'text', prop: 'label', label: 'Label', defaultValue: 'Fresh' },

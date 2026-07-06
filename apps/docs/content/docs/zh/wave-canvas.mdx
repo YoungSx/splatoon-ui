@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'WaveCanvas',
+  description: 'Canvas 波浪动效条，用于区块边界和页脚边缘。',
+  category: 'motion',
+  example: 'wave-canvas',
+}
+
+## 用法
+
+WaveCanvas 放在有定位上下文的边界容器中，用于绘制移动的墨水或水面边缘。
+
+## 设计备注
+
+- canvas 会以 `bottom: 100%` 绝对定位到父级上方。
+- 父级需要 `position: relative`，并为波浪高度预留足够垂直空间。
+- 静态或性能敏感表面可以设置 `interactive={false}`。

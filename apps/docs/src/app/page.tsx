@@ -129,7 +129,7 @@ function createDemoEmbed(label: string) {
 
 const demoVideoEmbed = createDemoEmbed('Splatoon UI')
 
-function createTwoTapeDivider(
+function createTwoBannerTapes(
   pattern: BannerDividerVariant,
   color: BannerDividerVariant
 ): [BannerDividerTape, BannerDividerTape] {
@@ -703,7 +703,7 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Trailer → Foundations */}
-          <BannerDivider tapes={createTwoTapeDivider('design1', 'yellow')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design1', 'yellow')} animate />
 
           {/* ────────────────────────────────────────────────────────
          02 — Foundations
@@ -795,7 +795,7 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Foundations → Actions */}
-          <BannerDivider tapes={createTwoTapeDivider('design2', 'blue')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design2', 'blue')} animate />
 
           {/* ────────────────────────────────────────────────────────
          03 — Actions
@@ -1102,7 +1102,7 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Actions → Forms & Controls */}
-          <BannerDivider tapes={createTwoTapeDivider('design2', 'green')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design2', 'green')} animate />
 
           {/* ────────────────────────────────────────────────────────
          04 — Forms & Controls
@@ -1398,7 +1398,7 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Forms & Controls → Navigation */}
-          <BannerDivider tapes={createTwoTapeDivider('design2', 'blue')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design2', 'blue')} animate />
 
           {/* ────────────────────────────────────────────────────────
          05 — Navigation
@@ -1526,7 +1526,7 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Navigation → Feedback & Overlays */}
-          <BannerDivider tapes={createTwoTapeDivider('design1', 'purple')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design1', 'purple')} animate />
 
           {/* ────────────────────────────────────────────────────────
          06 — Feedback & Overlays
@@ -1837,7 +1837,7 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Card Tags → Paper Cards */}
-          <BannerDivider tapes={createTwoTapeDivider('design1', 'purple')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design1', 'purple')} animate />
 
           {/* ────────────────────────────────────────────────────────
 	         Cards & Surfaces — Paper Cards
@@ -1962,7 +1962,7 @@ export default function Home() {
           </Section>
 
           {/* Cards & Surfaces continued: Card Grid */}
-          <BannerDivider tapes={createTwoTapeDivider('design2', 'purple')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design2', 'purple')} animate />
 
           {/* ────────────────────────────────────────────────────────
          Cards & Surfaces — Card Grid
@@ -2109,7 +2109,7 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Cards & Surfaces → Motion & Media */}
-          <BannerDivider tapes={createTwoTapeDivider('design1', 'green')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design1', 'green')} animate />
 
           {/* ────────────────────────────────────────────────────────
          08 — Motion & Media
@@ -2227,12 +2227,12 @@ export default function Home() {
           </Section>
 
           {/* Banner divider: Motion primitives → Page Transition */}
-          <BannerDivider tapes={createTwoTapeDivider('design2', 'yellow')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design2', 'yellow')} animate />
 
           <PageTransitionDemo t={t.pageTransition} />
 
           {/* Banner divider: Motion & Media → Carousels */}
-          <BannerDivider tapes={createTwoTapeDivider('design3', 'yellow')} animate />
+          <BannerDivider tapes={createTwoBannerTapes('design3', 'yellow')} animate />
 
           {/* ────────────────────────────────────────────────────────
          Motion & Media — Carousels

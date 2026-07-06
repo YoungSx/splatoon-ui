@@ -146,7 +146,6 @@ const splatoonColorTokens = fs.readFileSync(
 )
 const themeTokens = fs.readFileSync(path.join(componentRoot, 'theme-tokens.ts'), 'utf8')
 const tape = fs.readFileSync(path.join(componentRoot, 'tape.tsx'), 'utf8')
-const tapeDivider = fs.readFileSync(path.join(componentRoot, 'tape-divider.tsx'), 'utf8')
 const tapeTitle = fs.readFileSync(path.join(componentRoot, 'tape-title.tsx'), 'utf8')
 const marquee = fs.readFileSync(path.join(componentRoot, 'marquee.tsx'), 'utf8')
 const paperSurface = fs.readFileSync(path.join(componentRoot, 'paper-surface.tsx'), 'utf8')
@@ -497,11 +496,14 @@ const checks = [
       badgeEntry.includes('ref?: React.Ref<HTMLSpanElement>') &&
       badgeEntry.includes('function Badge({ ref, color =') &&
       badgeEntry.includes('<TornBadge ref={ref}') &&
+      tornBadge.includes("type TornBadgeColor = 'yellow'") &&
+      !tornBadge.includes('export type TornBadgeColor') &&
       tornBadge.includes(
-        "export interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>"
+        "interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>"
       ) &&
+      !tornBadge.includes('export interface TornBadgeProps') &&
       tornBadge.includes('ref?: React.Ref<HTMLSpanElement>') &&
-      tornBadge.includes('function TornBadge({\n  ref,') &&
+      tornBadge.includes('export function TornBadge({\n  ref,') &&
       tornBadge.includes('<span\n      ref={ref}') &&
       tape.includes(
         "export interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
@@ -727,7 +729,13 @@ const checks = [
     name: 'Published component API does not expose private implementation helpers',
     pass:
       packageJson.exports?.['./trigger-button'] === undefined &&
+      packageJson.exports?.['./tape-divider'] === undefined &&
+      packageJson.exports?.['./torn-badge'] === undefined &&
       !publicUiEntries.includes('trigger-button') &&
+      !publicUiEntries.includes('tape-divider') &&
+      !publicUiEntries.includes('torn-badge') &&
+      badgeEntry.includes('export type BadgeColor =') &&
+      !badgeEntry.includes('export type { TornBadgeColor }') &&
       !/export\s+const\s+buttonVariants\b/.test(button) &&
       !button.includes('VariantProps<typeof buttonVariants>') &&
       !/export\s+(const|type|interface)\s+CardContext\b/.test(card) &&
@@ -1141,12 +1149,6 @@ const checks = [
       loader.includes('export function Loader({\n  ref,') &&
       loader.includes('<span\n      ref={ref}') &&
       loader.includes('role="status"') &&
-      tapeDivider.includes(
-        "export interface TapeDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>"
-      ) &&
-      tapeDivider.includes('ref?: React.Ref<HTMLDivElement>') &&
-      tapeDivider.includes('export function TapeDivider({\n  ref,') &&
-      tapeDivider.includes('<div\n      ref={ref}') &&
       bannerDivider.includes(
         "export interface BannerDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>"
       ) &&

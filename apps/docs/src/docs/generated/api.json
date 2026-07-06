@@ -155,7 +155,7 @@
             {
               "name": "color",
               "optional": true,
-              "type": "TornBadgeColor",
+              "type": "BadgeColor",
               "defaultValue": "",
               "description": "Fill color of the badge. Defaults to `\"yellow\"`."
             },
@@ -169,16 +169,16 @@
           ]
         },
         {
-          "name": "BadgeProps",
-          "kind": "interface",
-          "type": "export interface BadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>",
+          "name": "BadgeColor",
+          "kind": "type",
+          "type": "export type BadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'",
           "description": "",
           "props": []
         },
         {
-          "name": "TornBadgeColor",
-          "kind": "re-export",
-          "type": "re-export",
+          "name": "BadgeProps",
+          "kind": "interface",
+          "type": "export interface BadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -5071,6 +5071,93 @@
       ]
     },
     {
+      "slug": "banner-divider",
+      "importPath": "splatoon-ui/banner-divider",
+      "primaryExport": "BannerDivider",
+      "sourcePath": "src/components/ui/banner-divider.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "BannerDivider",
+          "kind": "function",
+          "type": "export function BannerDivider(",
+          "description": "",
+          "props": [
+            {
+              "name": "tapes",
+              "optional": false,
+              "type": "BannerDividerTape[]",
+              "defaultValue": "",
+              "description": "Explicit tape layers. Use two or three layers for the current Splatoon-style divider patterns."
+            },
+            {
+              "name": "animate",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable InView fly-in animation on each tape."
+            },
+            {
+              "name": "rootMargin",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Root margin for InView IntersectionObserver."
+            },
+            {
+              "name": "layout",
+              "optional": true,
+              "type": "'overlay' | 'spacer'",
+              "defaultValue": "",
+              "description": "Overlay matches the reference behavior: the divider paints across the section edge\nwithout reserving document flow height. Use spacer only when a layout intentionally\nneeds the divider to occupy vertical space."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "BannerDividerEnterFrom",
+          "kind": "type",
+          "type": "export type BannerDividerEnterFrom = 'left' | 'right'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerOffsetY",
+          "kind": "type",
+          "type": "export type BannerDividerOffsetY = | number |",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerProps",
+          "kind": "interface",
+          "type": "export interface BannerDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerTape",
+          "kind": "interface",
+          "type": "export interface BannerDividerTape",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BannerDividerVariant",
+          "kind": "type",
+          "type": "export type BannerDividerVariant = | 'design1' | 'design2' | 'design3' | 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "dotted-divider",
       "importPath": "splatoon-ui/dotted-divider",
       "primaryExport": "DottedDivider",
@@ -5124,110 +5211,6 @@
           "name": "SplatoonColorValue",
           "kind": "type",
           "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
-          "description": "",
-          "props": []
-        }
-      ]
-    },
-    {
-      "slug": "tape-divider",
-      "importPath": "splatoon-ui/tape-divider",
-      "primaryExport": "TapeDivider",
-      "sourcePath": "src/components/ui/tape-divider.tsx",
-      "boundary": "server",
-      "exports": [
-        {
-          "name": "TapeDivider",
-          "kind": "function",
-          "type": "export function TapeDivider(",
-          "description": "",
-          "props": [
-            {
-              "name": "variant",
-              "optional": true,
-              "type": "'primary' | 'double'",
-              "defaultValue": "",
-              "description": "Single tape strip or double (tape-2 + tape-3 stacked)"
-            },
-            {
-              "name": "rotate",
-              "optional": true,
-              "type": "'none' | 'left' | 'right' | 'strong'",
-              "defaultValue": "",
-              "description": "Rotation direction"
-            },
-            {
-              "name": "overlap",
-              "optional": true,
-              "type": "boolean",
-              "defaultValue": "",
-              "description": "Apply negative margin so next section overlaps the tape"
-            },
-            {
-              "name": "ref",
-              "optional": true,
-              "type": "React.Ref<HTMLDivElement>",
-              "defaultValue": "",
-              "description": ""
-            }
-          ]
-        },
-        {
-          "name": "TapeDividerProps",
-          "kind": "interface",
-          "type": "export interface TapeDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>",
-          "description": "",
-          "props": []
-        }
-      ]
-    },
-    {
-      "slug": "torn-badge",
-      "importPath": "splatoon-ui/torn-badge",
-      "primaryExport": "TornBadge",
-      "sourcePath": "src/components/ui/torn-badge.tsx",
-      "boundary": "server",
-      "exports": [
-        {
-          "name": "TornBadge",
-          "kind": "function",
-          "type": "function TornBadge(",
-          "description": "",
-          "props": [
-            {
-              "name": "color",
-              "optional": true,
-              "type": "TornBadgeColor",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
-              "name": "children",
-              "optional": true,
-              "type": "React.ReactNode",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
-              "name": "ref",
-              "optional": true,
-              "type": "React.Ref<HTMLSpanElement>",
-              "defaultValue": "",
-              "description": ""
-            }
-          ]
-        },
-        {
-          "name": "TornBadgeColor",
-          "kind": "type",
-          "type": "export type TornBadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'",
-          "description": "",
-          "props": []
-        },
-        {
-          "name": "TornBadgeProps",
-          "kind": "interface",
-          "type": "export interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>",
           "description": "",
           "props": []
         }
@@ -5451,6 +5434,205 @@
           "name": "HeadingTapeSize",
           "kind": "type",
           "type": "export type HeadingTapeSize = 'default' | 'compact'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tape-title",
+      "importPath": "splatoon-ui/tape-title",
+      "primaryExport": "TapeTitle",
+      "sourcePath": "src/components/ui/tape-title.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TapeTitle",
+          "kind": "function",
+          "type": "export function TapeTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "'black' | 'red' | 'yellow'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TapeTitleProps",
+          "kind": "interface",
+          "type": "export interface TapeTitleProps extends Omit<React.ComponentProps<'div'>, 'color' | 'ref'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tape",
+      "importPath": "splatoon-ui/tape",
+      "primaryExport": "Tape",
+      "sourcePath": "src/components/ui/tape.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Staple",
+          "kind": "function",
+          "type": "function Staple(",
+          "description": "",
+          "props": [
+            {
+              "name": "position",
+              "optional": true,
+              "type": "'left' | 'right' | 'top' | 'bottom'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "StapleProps",
+          "kind": "interface",
+          "type": "export interface StapleProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "Tape",
+          "kind": "function",
+          "type": "function Tape(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "TapeVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "position",
+              "optional": true,
+              "type": "'top-left' | 'top-right' | 'center' | 'bottom-left' | 'bottom-right' | 'news' | 'event'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TapeProps",
+          "kind": "interface",
+          "type": "export interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TapeVariant",
+          "kind": "type",
+          "type": "export type TapeVariant = | 'tape-1' | 'tape-2' | 'tape-3' | 'tape-4' | 'tape-5' | 'tape-6' | 'tape-7'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "wave-canvas",
+      "importPath": "splatoon-ui/wave-canvas",
+      "primaryExport": "WaveCanvas",
+      "sourcePath": "src/components/ui/wave-canvas.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "WaveCanvas",
+          "kind": "function",
+          "type": "function WaveCanvas(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Fill color of the wave"
+            },
+            {
+              "name": "height",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Height of the canvas in px (default 200)"
+            },
+            {
+              "name": "interactive",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Enable mouse interaction (respects prefers-reduced-motion)"
+            },
+            {
+              "name": "numPoints",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Number of wave points (default 20)"
+            },
+            {
+              "name": "elasticity",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Physics elasticity (default 0.0001)"
+            },
+            {
+              "name": "friction",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": "Physics friction (default 0.0025)"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLCanvasElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "WaveCanvasProps",
+          "kind": "interface",
+          "type": "export interface WaveCanvasProps extends Omit< React.ComponentProps<'canvas'>, 'children' | 'color' | 'height' | 'ref' | 'width' >",
           "description": "",
           "props": []
         }

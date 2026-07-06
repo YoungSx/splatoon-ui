@@ -32,11 +32,13 @@ import { switchExample } from './switch'
 import { tabsExample } from './tabs'
 import { listExample } from './list'
 import { sectionExample } from './section'
+import { bannerDividerExample } from './banner-divider'
 import { dottedDividerExample } from './dotted-divider'
-import { tapeDividerExample } from './tape-divider'
-import { tornBadgeExample } from './torn-badge'
 import { splatoonTitleExample } from './splatoon-title'
 import { headingTapeExample } from './heading-tape'
+import { tapeTitleExample } from './tape-title'
+import { tapeExample } from './tape'
+import { waveCanvasExample } from './wave-canvas'
 
 const exampleSources = generatedExampleSources as Record<string, string>
 
@@ -83,11 +85,13 @@ export const docsExamples = {
   tabs: withGeneratedSource(tabsExample),
   list: withGeneratedSource(listExample),
   section: withGeneratedSource(sectionExample),
+  'banner-divider': withGeneratedSource(bannerDividerExample),
   'dotted-divider': withGeneratedSource(dottedDividerExample),
-  'tape-divider': withGeneratedSource(tapeDividerExample),
-  'torn-badge': withGeneratedSource(tornBadgeExample),
   'splatoon-title': withGeneratedSource(splatoonTitleExample),
   'heading-tape': withGeneratedSource(headingTapeExample),
+  'tape-title': withGeneratedSource(tapeTitleExample),
+  tape: withGeneratedSource(tapeExample),
+  'wave-canvas': withGeneratedSource(waveCanvasExample),
 }
 
 export type DocsExampleId = keyof typeof docsExamples

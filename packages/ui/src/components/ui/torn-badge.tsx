@@ -23,9 +23,9 @@ const TORN_BADGE_PATH =
 
 const TORN_BADGE_VIEW_BOX = '0 0 8000 2119'
 
-export type TornBadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'
+type TornBadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'
 
-export interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'> {
+interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'> {
   color?: TornBadgeColor
   children?: React.ReactNode
   ref?: React.Ref<HTMLSpanElement>
@@ -49,7 +49,7 @@ const TEXT_VAR: Record<TornBadgeColor, string> = {
   monochrome: splatoonColorVars.white,
 }
 
-function TornBadge({
+export function TornBadge({
   ref,
   color = 'yellow',
   className,
@@ -77,5 +77,3 @@ function TornBadge({
     </span>
   )
 }
-
-export { TornBadge }

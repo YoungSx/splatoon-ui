@@ -1,0 +1,15 @@
+export const metadata = {
+  title: 'Tape',
+  description: 'Positioned surface に重ねる tape と staple の decoration assets です。',
+  category: 'layout',
+  example: 'tape',
+}
+
+## 使い方
+
+Tape と Staple は relative container の中で、cards、images、editorial panels の上に重ねて使います。
+
+## 設計メモ
+
+- Root は absolute positioning で、pointer-events は無効です。
+- 一般的な card corner には preset position を使い、個別配置は `className` で調整します。

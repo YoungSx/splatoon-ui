@@ -7,14 +7,13 @@
 
 import type * as React from 'react'
 
-import { TornBadge, type TornBadgeColor } from './torn-badge'
+import { TornBadge } from './torn-badge'
 
-// Re-export so consumers can import TornBadgeColor from the badge barrel.
-export type { TornBadgeColor }
+export type BadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'
 
 export interface BadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'> {
   /** Fill color of the badge. Defaults to `"yellow"`. */
-  color?: TornBadgeColor
+  color?: BadgeColor
   ref?: React.Ref<HTMLSpanElement>
 }
 

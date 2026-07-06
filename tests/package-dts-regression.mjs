@@ -104,6 +104,8 @@ const missingNamedPropsDeclarationMatches = publicDeclarations.flatMap(({ fileNa
 const disallowedInternalEntrypoints = [
   './asset-image',
   './icons',
+  './tape-divider',
+  './torn-badge',
   './video-dialog',
 ]
 
@@ -244,6 +246,12 @@ const checks = [
         'badge.d.ts',
         "interface BadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>"
       ) &&
+      declarationIncludes('badge.d.ts', "type BadgeColor = 'yellow'") &&
+      declarationExports('badge.d.ts', 'Badge') &&
+      declarationExports('badge.d.ts', 'BadgeProps') &&
+      declarationExports('badge.d.ts', 'BadgeColor') &&
+      !declarationIncludes('badge.d.ts', 'TornBadgeColor') &&
+      !declarationIncludes('badge.d.ts', "from './torn-badge.js'") &&
       declarationIncludes(
         'card.d.ts',
         "interface CardProps extends Omit<React.ComponentProps<'div'>, 'ref' | 'title'>"
@@ -290,14 +298,7 @@ const checks = [
       declarationExports('list.d.ts', 'List') &&
       declarationExports('list.d.ts', 'ListItem') &&
       declarationExports('list.d.ts', 'ListProps') &&
-      declarationExports('list.d.ts', 'ListItemProps') &&
-      declarationIncludes(
-        'torn-badge.d.ts',
-        "interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>"
-      ) &&
-      declarationExports('torn-badge.d.ts', 'TornBadge') &&
-      declarationExports('torn-badge.d.ts', 'TornBadgeProps') &&
-      declarationExports('torn-badge.d.ts', 'TornBadgeColor'),
+      declarationExports('list.d.ts', 'ListItemProps'),
   },
   {
     name: 'stable overlay and tabs declarations keep cancellable details behind local primitive types',
@@ -345,6 +346,16 @@ const checks = [
       declarationExports('section.d.ts', 'SectionProps') &&
       declarationExports('section.d.ts', 'SectionPattern') &&
       declarationIncludes(
+        'banner-divider.d.ts',
+        "interface BannerDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>"
+      ) &&
+      declarationExports('banner-divider.d.ts', 'BannerDivider') &&
+      declarationExports('banner-divider.d.ts', 'BannerDividerProps') &&
+      declarationExports('banner-divider.d.ts', 'BannerDividerTape') &&
+      declarationExports('banner-divider.d.ts', 'BannerDividerVariant') &&
+      declarationExports('banner-divider.d.ts', 'BannerDividerOffsetY') &&
+      declarationExports('banner-divider.d.ts', 'BannerDividerEnterFrom') &&
+      declarationIncludes(
         'dotted-divider.d.ts',
         "interface DottedDividerProps extends Omit<React.ComponentProps<'div'>, 'children' | 'color' | 'ref'>"
       ) &&
@@ -352,11 +363,22 @@ const checks = [
       declarationExports('dotted-divider.d.ts', 'DottedDividerProps') &&
       declarationExports('dotted-divider.d.ts', 'DottedDividerOrientation') &&
       declarationIncludes(
-        'tape-divider.d.ts',
-        "interface TapeDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>"
+        'tape-title.d.ts',
+        "interface TapeTitleProps extends Omit<React.ComponentProps<'div'>, 'color' | 'ref'>"
       ) &&
-      declarationExports('tape-divider.d.ts', 'TapeDivider') &&
-      declarationExports('tape-divider.d.ts', 'TapeDividerProps') &&
+      declarationExports('tape-title.d.ts', 'TapeTitle') &&
+      declarationExports('tape-title.d.ts', 'TapeTitleProps') &&
+      declarationIncludes(
+        'tape.d.ts',
+        "interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
+      ) &&
+      declarationIncludes('tape.d.ts', "type TapeVariant = 'tape-1'") &&
+      !declarationIncludes('tape.d.ts', 'sticker-') &&
+      declarationExports('tape.d.ts', 'Tape') &&
+      declarationExports('tape.d.ts', 'TapeProps') &&
+      declarationExports('tape.d.ts', 'TapeVariant') &&
+      declarationExports('tape.d.ts', 'Staple') &&
+      declarationExports('tape.d.ts', 'StapleProps') &&
       declarationIncludes(
         'splatoon-title.d.ts',
         "interface SplatoonTitleProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
@@ -388,7 +410,14 @@ const checks = [
       declarationIncludes(
         'progress.d.ts',
         "interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>"
-      ) && declarationIncludes('progress.d.ts', 'ref?: React.Ref<HTMLDivElement>;'),
+      ) &&
+      declarationIncludes('progress.d.ts', 'ref?: React.Ref<HTMLDivElement>;') &&
+      declarationIncludes(
+        'wave-canvas.d.ts',
+        "interface WaveCanvasProps extends Omit<React.ComponentProps<'canvas'>, 'children' | 'color' | 'height' | 'ref' | 'width'>"
+      ) &&
+      declarationExports('wave-canvas.d.ts', 'WaveCanvas') &&
+      declarationExports('wave-canvas.d.ts', 'WaveCanvasProps'),
   },
 ]
 

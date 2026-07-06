@@ -25,15 +25,19 @@ import SwitchEn, { metadata as switchEnMeta } from '../../content/docs/en/switch
 import TabsEn, { metadata as tabsEnMeta } from '../../content/docs/en/tabs.mdx'
 import ListEn, { metadata as listEnMeta } from '../../content/docs/en/list.mdx'
 import SectionEn, { metadata as sectionEnMeta } from '../../content/docs/en/section.mdx'
+import BannerDividerEn, {
+  metadata as bannerDividerEnMeta,
+} from '../../content/docs/en/banner-divider.mdx'
 import DottedDividerEn, {
   metadata as dottedDividerEnMeta,
 } from '../../content/docs/en/dotted-divider.mdx'
-import TapeDividerEn, { metadata as tapeDividerEnMeta } from '../../content/docs/en/tape-divider.mdx'
-import TornBadgeEn, { metadata as tornBadgeEnMeta } from '../../content/docs/en/torn-badge.mdx'
 import SplatoonTitleEn, {
   metadata as splatoonTitleEnMeta,
 } from '../../content/docs/en/splatoon-title.mdx'
 import HeadingTapeEn, { metadata as headingTapeEnMeta } from '../../content/docs/en/heading-tape.mdx'
+import TapeTitleEn, { metadata as tapeTitleEnMeta } from '../../content/docs/en/tape-title.mdx'
+import TapeEn, { metadata as tapeEnMeta } from '../../content/docs/en/tape.mdx'
+import WaveCanvasEn, { metadata as waveCanvasEnMeta } from '../../content/docs/en/wave-canvas.mdx'
 import AlertJa, { metadata as alertJaMeta } from '../../content/docs/ja/alert.mdx'
 import BadgeJa, { metadata as badgeJaMeta } from '../../content/docs/ja/badge.mdx'
 import ButtonJa, { metadata as buttonJaMeta } from '../../content/docs/ja/button.mdx'
@@ -61,15 +65,19 @@ import SwitchJa, { metadata as switchJaMeta } from '../../content/docs/ja/switch
 import TabsJa, { metadata as tabsJaMeta } from '../../content/docs/ja/tabs.mdx'
 import ListJa, { metadata as listJaMeta } from '../../content/docs/ja/list.mdx'
 import SectionJa, { metadata as sectionJaMeta } from '../../content/docs/ja/section.mdx'
+import BannerDividerJa, {
+  metadata as bannerDividerJaMeta,
+} from '../../content/docs/ja/banner-divider.mdx'
 import DottedDividerJa, {
   metadata as dottedDividerJaMeta,
 } from '../../content/docs/ja/dotted-divider.mdx'
-import TapeDividerJa, { metadata as tapeDividerJaMeta } from '../../content/docs/ja/tape-divider.mdx'
-import TornBadgeJa, { metadata as tornBadgeJaMeta } from '../../content/docs/ja/torn-badge.mdx'
 import SplatoonTitleJa, {
   metadata as splatoonTitleJaMeta,
 } from '../../content/docs/ja/splatoon-title.mdx'
 import HeadingTapeJa, { metadata as headingTapeJaMeta } from '../../content/docs/ja/heading-tape.mdx'
+import TapeTitleJa, { metadata as tapeTitleJaMeta } from '../../content/docs/ja/tape-title.mdx'
+import TapeJa, { metadata as tapeJaMeta } from '../../content/docs/ja/tape.mdx'
+import WaveCanvasJa, { metadata as waveCanvasJaMeta } from '../../content/docs/ja/wave-canvas.mdx'
 import AlertZh, { metadata as alertZhMeta } from '../../content/docs/zh/alert.mdx'
 import BadgeZh, { metadata as badgeZhMeta } from '../../content/docs/zh/badge.mdx'
 import ButtonZh, { metadata as buttonZhMeta } from '../../content/docs/zh/button.mdx'
@@ -97,15 +105,19 @@ import SwitchZh, { metadata as switchZhMeta } from '../../content/docs/zh/switch
 import TabsZh, { metadata as tabsZhMeta } from '../../content/docs/zh/tabs.mdx'
 import ListZh, { metadata as listZhMeta } from '../../content/docs/zh/list.mdx'
 import SectionZh, { metadata as sectionZhMeta } from '../../content/docs/zh/section.mdx'
+import BannerDividerZh, {
+  metadata as bannerDividerZhMeta,
+} from '../../content/docs/zh/banner-divider.mdx'
 import DottedDividerZh, {
   metadata as dottedDividerZhMeta,
 } from '../../content/docs/zh/dotted-divider.mdx'
-import TapeDividerZh, { metadata as tapeDividerZhMeta } from '../../content/docs/zh/tape-divider.mdx'
-import TornBadgeZh, { metadata as tornBadgeZhMeta } from '../../content/docs/zh/torn-badge.mdx'
 import SplatoonTitleZh, {
   metadata as splatoonTitleZhMeta,
 } from '../../content/docs/zh/splatoon-title.mdx'
 import HeadingTapeZh, { metadata as headingTapeZhMeta } from '../../content/docs/zh/heading-tape.mdx'
+import TapeTitleZh, { metadata as tapeTitleZhMeta } from '../../content/docs/zh/tape-title.mdx'
+import TapeZh, { metadata as tapeZhMeta } from '../../content/docs/zh/tape.mdx'
+import WaveCanvasZh, { metadata as waveCanvasZhMeta } from '../../content/docs/zh/wave-canvas.mdx'
 
 import type { DocsComponentSlug } from './manifest'
 import type { DocsLocale, DocsMdxModule } from './types'
@@ -137,11 +149,13 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     tabs: { default: TabsEn, metadata: tabsEnMeta },
     list: { default: ListEn, metadata: listEnMeta },
     section: { default: SectionEn, metadata: sectionEnMeta },
+    'banner-divider': { default: BannerDividerEn, metadata: bannerDividerEnMeta },
     'dotted-divider': { default: DottedDividerEn, metadata: dottedDividerEnMeta },
-    'tape-divider': { default: TapeDividerEn, metadata: tapeDividerEnMeta },
-    'torn-badge': { default: TornBadgeEn, metadata: tornBadgeEnMeta },
     'splatoon-title': { default: SplatoonTitleEn, metadata: splatoonTitleEnMeta },
     'heading-tape': { default: HeadingTapeEn, metadata: headingTapeEnMeta },
+    'tape-title': { default: TapeTitleEn, metadata: tapeTitleEnMeta },
+    tape: { default: TapeEn, metadata: tapeEnMeta },
+    'wave-canvas': { default: WaveCanvasEn, metadata: waveCanvasEnMeta },
   },
   zh: {
     alert: { default: AlertZh, metadata: alertZhMeta },
@@ -169,11 +183,13 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     tabs: { default: TabsZh, metadata: tabsZhMeta },
     list: { default: ListZh, metadata: listZhMeta },
     section: { default: SectionZh, metadata: sectionZhMeta },
+    'banner-divider': { default: BannerDividerZh, metadata: bannerDividerZhMeta },
     'dotted-divider': { default: DottedDividerZh, metadata: dottedDividerZhMeta },
-    'tape-divider': { default: TapeDividerZh, metadata: tapeDividerZhMeta },
-    'torn-badge': { default: TornBadgeZh, metadata: tornBadgeZhMeta },
     'splatoon-title': { default: SplatoonTitleZh, metadata: splatoonTitleZhMeta },
     'heading-tape': { default: HeadingTapeZh, metadata: headingTapeZhMeta },
+    'tape-title': { default: TapeTitleZh, metadata: tapeTitleZhMeta },
+    tape: { default: TapeZh, metadata: tapeZhMeta },
+    'wave-canvas': { default: WaveCanvasZh, metadata: waveCanvasZhMeta },
   },
   ja: {
     alert: { default: AlertJa, metadata: alertJaMeta },
@@ -201,11 +217,13 @@ const docsContent: Record<DocsLocale, Partial<Record<DocsComponentSlug, DocsMdxM
     tabs: { default: TabsJa, metadata: tabsJaMeta },
     list: { default: ListJa, metadata: listJaMeta },
     section: { default: SectionJa, metadata: sectionJaMeta },
+    'banner-divider': { default: BannerDividerJa, metadata: bannerDividerJaMeta },
     'dotted-divider': { default: DottedDividerJa, metadata: dottedDividerJaMeta },
-    'tape-divider': { default: TapeDividerJa, metadata: tapeDividerJaMeta },
-    'torn-badge': { default: TornBadgeJa, metadata: tornBadgeJaMeta },
     'splatoon-title': { default: SplatoonTitleJa, metadata: splatoonTitleJaMeta },
     'heading-tape': { default: HeadingTapeJa, metadata: headingTapeJaMeta },
+    'tape-title': { default: TapeTitleJa, metadata: tapeTitleJaMeta },
+    tape: { default: TapeJa, metadata: tapeJaMeta },
+    'wave-canvas': { default: WaveCanvasJa, metadata: waveCanvasJaMeta },
   },
 }
 

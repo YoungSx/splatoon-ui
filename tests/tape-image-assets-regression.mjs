@@ -94,7 +94,9 @@ const checks = [
     name: 'Tape public variants are image-backed instead of hand-drawn SVG fallbacks',
     pass:
       tapeComponent.includes('TapePicture') &&
-      tapeComponent.includes('export type TapeVariant = TapeImageVariant') &&
+      tapeComponent.includes("export type TapeVariant =\n  | 'tape-1'") &&
+      tapeComponent.includes("| 'tape-7'") &&
+      !tapeComponent.includes('type TapeImageVariant') &&
       !tapeComponent.includes('TapeUtilityVariant') &&
       !tapeComponent.includes('renderUtilitySvg') &&
       !tapeComponent.includes('<svg') &&
