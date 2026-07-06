@@ -777,6 +777,180 @@
       ]
     },
     {
+      "slug": "torn-card",
+      "importPath": "splatoon-ui/torn-card",
+      "primaryExport": "TornCard",
+      "sourcePath": "src/components/ui/torn-card.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TornCard",
+          "kind": "function",
+          "type": "export function TornCard(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "TornCardVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "rotation",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "background",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showTape",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Show decorative tape at the top edge (default: true)"
+            },
+            {
+              "name": "showSticker",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Show decorative sticker (default: false)"
+            },
+            {
+              "name": "tapePosition",
+              "optional": true,
+              "type": "'top-right' | 'bottom-center'",
+              "defaultValue": "",
+              "description": "Tape position at card edge"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornCardDescription",
+          "kind": "function",
+          "type": "function TornCardDescription(",
+          "description": "",
+          "props": [
+            {
+              "name": "textColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornCardDescriptionProps",
+          "kind": "interface",
+          "type": "export interface TornCardDescriptionProps extends Omit<React.ComponentProps<'p'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardProps",
+          "kind": "interface",
+          "type": "export interface TornCardProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardSlot",
+          "kind": "function",
+          "type": "export function TornCardSlot(",
+          "description": "",
+          "props": [
+            {
+              "name": "position",
+              "optional": true,
+              "type": "TornCardSlotPosition",
+              "defaultValue": "",
+              "description": "Preset position. Omit for fully custom positioning via style."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornCardSlotPosition",
+          "kind": "type",
+          "type": "export type TornCardSlotPosition = | 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardSlotProps",
+          "kind": "interface",
+          "type": "export interface TornCardSlotProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardTitle",
+          "kind": "function",
+          "type": "function TornCardTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "textColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornCardTitleProps",
+          "kind": "interface",
+          "type": "export interface TornCardTitleProps extends Omit<React.ComponentProps<'h2'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornCardVariant",
+          "kind": "type",
+          "type": "export type TornCardVariant = 'a' | 'b' | 'c'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "carousel",
       "importPath": "splatoon-ui/carousel",
       "primaryExport": "Carousel",

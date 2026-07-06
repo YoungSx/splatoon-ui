@@ -74,6 +74,10 @@
       "types": "./dist/staple-card.d.ts",
       "import": "./dist/staple-card.js"
     },
+    "./torn-card": {
+      "types": "./dist/torn-card.d.ts",
+      "import": "./dist/torn-card.js"
+    },
     "./carousel": {
       "types": "./dist/carousel.d.ts",
       "import": "./dist/carousel.js"

@@ -12,6 +12,7 @@ import { badgeExample } from './badge'
 import { buttonExample } from './button'
 import { cardExample } from './card'
 import { stapleCardExample } from './staple-card'
+import { tornCardExample } from './torn-card'
 import { carouselExample } from './carousel'
 import { checkboxExample } from './checkbox'
 import { dialogExample } from './dialog'
@@ -45,6 +46,7 @@ export const docsExamples = {
   button: withGeneratedSource(buttonExample),
   card: withGeneratedSource(cardExample),
   'staple-card': withGeneratedSource(stapleCardExample),
+  'torn-card': withGeneratedSource(tornCardExample),
   carousel: withGeneratedSource(carouselExample),
   checkbox: withGeneratedSource(checkboxExample),
   dialog: withGeneratedSource(dialogExample),

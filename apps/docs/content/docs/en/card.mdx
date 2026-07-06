@@ -1,16 +1,17 @@
 export const metadata = {
   title: 'Card',
-  description: 'Composable content surface with paper, staple, rugged, and torn variants.',
+  description: 'Neutral composable content surface with header, description, body, and action slots.',
   category: 'data-display',
   example: 'card',
 }
 
 ## Usage
 
-Use Card when content needs a clear surface, title, description, and action area. The subcomponents keep spacing consistent across variants.
+Use Card for neutral content that needs a clear surface, title, description, and action area. Use the dedicated StapleCard and TornCard entrypoints when the visual treatment has its own media, tape, or torn-paper contract.
 
 ## Design Notes
 
-- Use `paper` for neutral content.
-- Use `staple` and `torn` for stronger editorial surfaces.
+- Keep Card content structural: header, body, footer, and actions.
+- Use `splatoon-ui/staple-card` for stapled feed cards.
+- Use `splatoon-ui/torn-card` for torn-paper editorial surfaces.
 - Avoid nesting full cards inside other cards.

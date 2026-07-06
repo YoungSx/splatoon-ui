@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'TornCard',
+  description: 'Published torn-paper card surface for editorial callouts, alerts, and compact feature panels.',
+  category: 'data-display',
+  example: 'torn-card',
+}
+
+## Usage
+
+Use TornCard when the surface is specifically a torn-paper treatment with tape or sticker decoration. Import it from `splatoon-ui/torn-card` instead of selecting a torn variant from Card.
+
+## Design Notes
+
+- Use `variant` for the preset paper rotation, tape asset, and sticker behavior.
+- Override `background` only when the surrounding content needs a stronger semantic color.
+- Compose content with `TornCardTitle`, `TornCardDescription`, and normal children.

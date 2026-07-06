@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'TornCard',
+  description: '編集的なコールアウト、アラート、コンパクトな機能パネル向けの公開済み破れ紙カード面です。',
+  category: 'data-display',
+  example: 'torn-card',
+}
+
+## 使い方
+
+破れ紙、テープ、ステッカー装飾が必要な面には TornCard を使います。Card の torn バリアント経由ではなく、`splatoon-ui/torn-card` から直接インポートします。
+
+## デザインメモ
+
+- `variant` で紙面の回転、テープ素材、ステッカー動作のプリセットを選びます。
+- 周辺コンテンツに強い意味色が必要な場合だけ `background` を上書きします。
+- 内容は `TornCardTitle`、`TornCardDescription`、通常の children を組み合わせます。

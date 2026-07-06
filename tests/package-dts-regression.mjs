@@ -110,7 +110,6 @@ const disallowedInternalEntrypoints = [
   './popover',
   './select',
   './sheet',
-  './torn-card',
   './video-dialog',
 ]
 
@@ -209,7 +208,18 @@ const checks = [
       declarationExports('staple-card.d.ts', 'StapleCardProps') &&
       declarationExports('staple-card.d.ts', 'StapleCardTitleProps') &&
       declarationExports('staple-card.d.ts', 'StapleCardDescriptionProps') &&
-      declarationExports('staple-card.d.ts', 'StapleCardVariant'),
+      declarationExports('staple-card.d.ts', 'StapleCardVariant') &&
+      declarationIncludes(
+        'torn-card.d.ts',
+        "interface TornCardProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
+      ) &&
+      declarationExports('torn-card.d.ts', 'TornCard') &&
+      declarationExports('torn-card.d.ts', 'TornCardProps') &&
+      declarationExports('torn-card.d.ts', 'TornCardTitleProps') &&
+      declarationExports('torn-card.d.ts', 'TornCardDescriptionProps') &&
+      declarationExports('torn-card.d.ts', 'TornCardSlotProps') &&
+      declarationExports('torn-card.d.ts', 'TornCardSlotPosition') &&
+      declarationExports('torn-card.d.ts', 'TornCardVariant'),
   },
   {
     name: 'stable overlay and tabs declarations keep cancellable details behind local primitive types',

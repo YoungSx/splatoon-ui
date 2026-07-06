@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'TornCard',
+  description: '正式发布的撕纸卡片表面，适合编辑化提示、警示和紧凑功能面板。',
+  category: 'data-display',
+  example: 'torn-card',
+}
+
+## 用法
+
+当表面明确需要撕纸、胶带或贴纸装饰时使用 TornCard。请从 `splatoon-ui/torn-card` 导入，不要通过 Card 的 torn 变体绕一层。
+
+## 设计备注
+
+- 使用 `variant` 选择纸张旋转、胶带资源和贴纸行为预设。
+- 只有在语义颜色需要更强表达时才覆盖 `background`。
+- 内容用 `TornCardTitle`、`TornCardDescription` 和普通 children 组合。

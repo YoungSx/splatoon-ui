@@ -1,16 +1,17 @@
 export const metadata = {
   title: 'Card',
-  description: 'paper、staple、rugged、torn バリアントを持つ合成可能なコンテンツ面です。',
+  description: '見出し、説明、本文、アクション領域を持つ中立的な合成可能コンテンツ面です。',
   category: 'data-display',
   example: 'card',
 }
 
 ## 使い方
 
-Card は明確な面、タイトル、説明、アクション領域が必要なコンテンツに使います。サブコンポーネントはバリアント間で余白を揃えます。
+Card は明確な面、タイトル、説明、アクション領域が必要な中立的コンテンツに使います。メディア、テープ、破れ紙の契約を持つ視覚表現には専用の StapleCard と TornCard エントリを使います。
 
 ## デザインメモ
 
-- 中立的な内容には `paper` を使います。
-- 強い編集的な面には `staple` と `torn` を使います。
+- Card の内容は header、body、footer、actions として構造化します。
+- ステープル付きフィードカードには `splatoon-ui/staple-card` を使います。
+- 破れ紙の編集的な面には `splatoon-ui/torn-card` を使います。
 - 完全なカードを別のカード内に入れないようにします。

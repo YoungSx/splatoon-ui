@@ -1,16 +1,17 @@
 export const metadata = {
   title: 'Card',
-  description: '支持 paper、staple、rugged 和 torn 变体的可组合内容表面。',
+  description: '中性的可组合内容表面，包含标题、说明、正文和操作区。',
   category: 'data-display',
   example: 'card',
 }
 
 ## 用法
 
-Card 适合需要明确表面、标题、说明和操作区的内容。子组件会在不同变体间保持一致间距。
+Card 适合需要明确表面、标题、说明和操作区的中性内容。视觉形态本身带有媒体、胶带或撕纸契约时，使用独立的 StapleCard 和 TornCard 入口。
 
 ## 设计备注
 
-- `paper` 用于中性内容。
-- `staple` 和 `torn` 用于更强的编辑化表面。
+- Card 内容保持结构化：header、body、footer 和 actions。
+- 订书钉信息流卡片使用 `splatoon-ui/staple-card`。
+- 撕纸编辑化表面使用 `splatoon-ui/torn-card`。
 - 避免把完整卡片嵌套进另一张卡片。

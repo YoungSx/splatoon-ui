@@ -10,16 +10,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  type CardProps,
 } from 'splatoon-ui/card'
 
-type CardExampleProps = {
-  variant: CardProps['variant']
-}
+type CardExampleProps = Record<string, never>
 
-export function CardExample({ variant }: CardExampleProps) {
+export function CardExample() {
   return (
-    <Card className="max-w-sm" variant={variant}>
+    <Card className="max-w-sm">
       <CardHeader>
         <CardTitle>Battle card</CardTitle>
         <CardDescription>Reusable paper surface for focused content.</CardDescription>
@@ -37,16 +34,8 @@ export function CardExample({ variant }: CardExampleProps) {
 export const cardExample: DocsExampleDefinitionInput<CardExampleProps> = {
   id: 'card',
   title: 'Card',
-  description: 'Switch between card surfaces while preserving the same content.',
-  controls: [
-    {
-      type: 'select',
-      prop: 'variant',
-      label: 'Variant',
-      options: ['paper', 'staple', 'torn', 'rugged'],
-      defaultValue: 'paper',
-    },
-  ],
-  initialProps: { variant: 'paper' },
+  description: 'Compose a neutral content card with header, description, body, and actions.',
+  controls: [],
+  initialProps: {},
   Component: CardExample,
 }
