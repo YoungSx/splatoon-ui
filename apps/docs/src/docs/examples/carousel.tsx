@@ -77,7 +77,6 @@ const feedItems = [
         Read
       </Button>
     ),
-    surface: 'dark' as const,
     hoverTilt: true,
   },
   {
