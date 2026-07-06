@@ -101,6 +101,7 @@ const checks = [
       packageJson.scripts?.['build:package']?.includes('tsup') &&
       packageJson.scripts?.['build:package']?.includes('build-package-styles') &&
       packageJson.scripts?.['pack:dry-run'] === 'npm pack --dry-run' &&
+      workspacePackageJson.scripts?.typecheck === 'pnpm build:package && pnpm -r typecheck' &&
       workspacePackageJson.scripts?.release?.includes('pack:dry-run') &&
       workspacePackageJson.scripts?.release?.includes('test:package-consumer') &&
       workspacePackageJson.scripts?.release?.includes(

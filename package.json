@@ -29,11 +29,11 @@
     "test:docs-visual": "pnpm --filter @splatoon-ui/docs test:docs-visual",
     "test:docs-visual-smoke": "pnpm --filter @splatoon-ui/docs test:docs-visual-smoke",
     "test:package-consumer": "node tests/package-consumer-smoke.mjs",
-    "typecheck": "pnpm -r typecheck",
+    "typecheck": "pnpm build:package && pnpm -r typecheck",
     "changeset": "changeset",
     "version": "changeset version",
     "pack:dry-run": "pnpm --filter splatoon-ui pack:dry-run",
-    "release": "pnpm typecheck && node tests/theme-role-tokens-regression.mjs && node tests/css-modules-transform-regression.mjs && node tests/ui-entrypoints-regression.mjs && node tests/package-publish-regression.mjs && node tests/component-api-encapsulation-regression.mjs && pnpm build:package && node tests/package-dts-regression.mjs && pnpm pack:dry-run && pnpm test:package-consumer"
+    "release": "pnpm typecheck && node tests/theme-role-tokens-regression.mjs && node tests/css-modules-transform-regression.mjs && node tests/ui-entrypoints-regression.mjs && node tests/package-publish-regression.mjs && node tests/component-api-encapsulation-regression.mjs && node tests/package-dts-regression.mjs && pnpm pack:dry-run && pnpm test:package-consumer"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
