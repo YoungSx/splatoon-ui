@@ -66,6 +66,10 @@
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
     },
+    "./icon-button": {
+      "types": "./dist/icon-button.d.ts",
+      "import": "./dist/icon-button.js"
+    },
     "./card": {
       "types": "./dist/card.d.ts",
       "import": "./dist/card.js"
@@ -97,6 +101,10 @@
     "./input": {
       "types": "./dist/input.d.ts",
       "import": "./dist/input.js"
+    },
+    "./loader": {
+      "types": "./dist/loader.d.ts",
+      "import": "./dist/loader.js"
     },
     "./progress": {
       "types": "./dist/progress.d.ts",

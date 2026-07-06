@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'Loader',
+  description: '基于图片资源的 squid 加载符号，支持颜色变体和逐帧 sprite 动画。',
+  category: 'motion',
+  example: 'loader',
+}
+
+## 用法
+
+Loader 用于需要紧凑 Splatoon UI 动效提示的等待状态。组件渲染为 status 元素，内部内容由组件持有，并通过 CSS 单位控制可见尺寸。
+
+## 设计备注
+
+- 为屏幕阅读器保留有意义的默认标签。
+- 空间较小时使用 `animation="glyph"`。
+- 加载区域足够大时使用 `animation="morph"` 或 `animation="swim"` 展示逐帧动效。

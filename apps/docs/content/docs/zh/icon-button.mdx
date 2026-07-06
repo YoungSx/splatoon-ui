@@ -1,0 +1,16 @@
+export const metadata = {
+  title: 'IconButton',
+  description: '圆形纯图标按钮，包含 Splatoon UI 配色变体、方向箭头和动效预设。',
+  category: 'actions',
+  example: 'icon-button',
+}
+
+## 用法
+
+IconButton 用于紧凑的方向控制、轮播导航和纯图标命令。组件负责圆形外壳，可以使用内置方向箭头，也可以传入自定义 `icon` 节点。
+
+## 设计备注
+
+- 始终通过 `aria-label` 提供可访问名称。
+- 大尺寸轮播箭头使用 `variant="carousel"`。
+- 当周围界面已有明显动效时，使用 `animation="none"`。

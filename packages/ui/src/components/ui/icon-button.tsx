@@ -34,11 +34,15 @@ export interface IconButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   'children'
 > {
+  /** Icon button color treatment. */
   variant?: IconButtonVariant
   /** Explicit size override. When omitted, variant determines default size. */
   size?: IconButtonSize
+  /** Motion preset applied to the circular shell. */
   animation?: IconButtonAnimation
+  /** Built-in arrow direction and squish direction. */
   direction?: IconButtonDirection
+  /** Custom icon node. When omitted, direction renders the built-in arrow icon. */
   icon?: React.ReactNode
   ref?: React.Ref<HTMLButtonElement>
 }
@@ -123,8 +127,9 @@ function ArrowIcon({ direction }: { direction: IconButtonDirection }) {
   )
 }
 
-// ─── Component ──────────────────────────────────────────────────────────────
-
+/**
+ * IconButton — circular icon-only control for arrows and compact commands.
+ */
 export function IconButton({
   ref,
   variant = 'primary',
@@ -146,6 +151,7 @@ export function IconButton({
       ref={ref}
       type="button"
       disabled={disabled}
+      data-slot="icon-button"
       data-size={size}
       className={cn(
         styles.shell,

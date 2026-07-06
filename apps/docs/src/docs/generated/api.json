@@ -321,6 +321,100 @@
       ]
     },
     {
+      "slug": "icon-button",
+      "importPath": "splatoon-ui/icon-button",
+      "primaryExport": "IconButton",
+      "sourcePath": "src/components/ui/icon-button.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "IconButton",
+          "kind": "function",
+          "type": "export function IconButton(",
+          "description": "IconButton — circular icon-only control for arrows and compact commands.",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "IconButtonVariant",
+              "defaultValue": "",
+              "description": "Icon button color treatment."
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "IconButtonSize",
+              "defaultValue": "",
+              "description": "Explicit size override. When omitted, variant determines default size."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "IconButtonAnimation",
+              "defaultValue": "",
+              "description": "Motion preset applied to the circular shell."
+            },
+            {
+              "name": "direction",
+              "optional": true,
+              "type": "IconButtonDirection",
+              "defaultValue": "",
+              "description": "Built-in arrow direction and squish direction."
+            },
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Custom icon node. When omitted, direction renders the built-in arrow icon."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "IconButtonAnimation",
+          "kind": "type",
+          "type": "export type IconButtonAnimation = 'squish' | 'pulse' | 'none'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonDirection",
+          "kind": "type",
+          "type": "export type IconButtonDirection = 'left' | 'right' | 'up' | 'down'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonProps",
+          "kind": "interface",
+          "type": "export interface IconButtonProps extends Omit< React.ButtonHTMLAttributes<HTMLButtonElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonSize",
+          "kind": "type",
+          "type": "export type IconButtonSize = 'sm' | 'md' | 'lg'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "IconButtonVariant",
+          "kind": "type",
+          "type": "export type IconButtonVariant = 'carousel' | 'primary' | 'ghost' | 'yellow' | 'outline' | 'accent'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "card",
       "importPath": "splatoon-ui/card",
       "primaryExport": "Card",
@@ -2198,6 +2292,72 @@
           "name": "InputProps",
           "kind": "interface",
           "type": "export interface InputProps extends Omit<React.ComponentProps<'input'>, 'children' | 'ref'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "loader",
+      "importPath": "splatoon-ui/loader",
+      "primaryExport": "Loader",
+      "sourcePath": "src/components/ui/loader.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Loader",
+          "kind": "function",
+          "type": "export function Loader(",
+          "description": "Loader — image-backed animated squid loading glyph.",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "'default' | 'blue' | 'red'",
+              "defaultValue": "",
+              "description": "Loader color variant."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "LoaderAnimation",
+              "defaultValue": "",
+              "description": "Animation source used by the loader."
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Size in CSS units (e.g. '1em', '2rem', '32px')."
+            },
+            {
+              "name": "label",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Accessible status label."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLSpanElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "LoaderAnimation",
+          "kind": "type",
+          "type": "export type LoaderAnimation = 'glyph' | 'morph' | 'swim'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "LoaderProps",
+          "kind": "interface",
+          "type": "export interface LoaderProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'>",
           "description": "",
           "props": []
         }

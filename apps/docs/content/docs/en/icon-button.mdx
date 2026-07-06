@@ -1,0 +1,17 @@
+export const metadata = {
+  title: 'IconButton',
+  description:
+    'Circular icon-only button with Splatoon UI color variants, directional arrows, and motion presets.',
+  category: 'actions',
+  example: 'icon-button',
+}
+
+## Usage
+
+Use IconButton for compact directional controls, carousel navigation, and icon-only commands. The component owns the circular shell and accepts either a built-in directional arrow or a custom `icon` node.
+
+## Design Notes
+
+- Always provide an accessible label with `aria-label`.
+- Use `variant="carousel"` for the oversized carousel arrow treatment.
+- Pass `animation="none"` when the surrounding surface already has strong motion.

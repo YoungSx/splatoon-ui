@@ -10,6 +10,7 @@ import type {
 import { alertExample } from './alert'
 import { badgeExample } from './badge'
 import { buttonExample } from './button'
+import { iconButtonExample } from './icon-button'
 import { cardExample } from './card'
 import { stapleCardExample } from './staple-card'
 import { tornCardExample } from './torn-card'
@@ -18,6 +19,7 @@ import { carouselExample } from './carousel'
 import { checkboxExample } from './checkbox'
 import { dialogExample } from './dialog'
 import { inputExample } from './input'
+import { loaderExample } from './loader'
 import { progressExample } from './progress'
 import { switchExample } from './switch'
 import { tabsExample } from './tabs'
@@ -45,6 +47,7 @@ export const docsExamples = {
   alert: withGeneratedSource(alertExample),
   badge: withGeneratedSource(badgeExample),
   button: withGeneratedSource(buttonExample),
+  'icon-button': withGeneratedSource(iconButtonExample),
   card: withGeneratedSource(cardExample),
   'staple-card': withGeneratedSource(stapleCardExample),
   'torn-card': withGeneratedSource(tornCardExample),
@@ -53,6 +56,7 @@ export const docsExamples = {
   checkbox: withGeneratedSource(checkboxExample),
   dialog: withGeneratedSource(dialogExample),
   input: withGeneratedSource(inputExample),
+  loader: withGeneratedSource(loaderExample),
   progress: withGeneratedSource(progressExample),
   switch: withGeneratedSource(switchExample),
   tabs: withGeneratedSource(tabsExample),

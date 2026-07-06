@@ -1,0 +1,17 @@
+export const metadata = {
+  title: 'IconButton',
+  description:
+    'Splatoon UI の配色バリアント、方向矢印、モーションプリセットを備えた円形アイコンボタンです。',
+  category: 'actions',
+  example: 'icon-button',
+}
+
+## 使い方
+
+IconButton は小さな方向操作、カルーセルナビゲーション、アイコンだけのコマンドに使います。円形シェルはコンポーネントが持ち、組み込みの方向矢印かカスタム `icon` ノードを渡せます。
+
+## 設計メモ
+
+- 必ず `aria-label` でアクセシブル名を指定します。
+- 大きなカルーセル矢印には `variant="carousel"` を使います。
+- 周囲の UI に強い動きがある場合は `animation="none"` を使います。

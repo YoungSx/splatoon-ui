@@ -1,0 +1,17 @@
+export const metadata = {
+  title: 'Loader',
+  description:
+    '画像ベースの squid ローディング記号です。色バリアントとフレーム式 sprite アニメーションに対応します。',
+  category: 'motion',
+  example: 'loader',
+}
+
+## 使い方
+
+Loader はコンパクトな Splatoon UI の動きで待機状態を示すために使います。status 要素として描画され、子要素は受け取らず、表示サイズは CSS 単位で指定します。
+
+## 設計メモ
+
+- スクリーンリーダー向けに意味のあるラベルを保ちます。
+- 小さな領域では `animation="glyph"` を使います。
+- 十分なスペースがある読み込み領域では `animation="morph"` または `animation="swim"` を使います。

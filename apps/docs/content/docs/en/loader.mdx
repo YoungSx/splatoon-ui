@@ -1,0 +1,17 @@
+export const metadata = {
+  title: 'Loader',
+  description:
+    'Image-backed squid loading glyph with color variants and frame-based sprite animations.',
+  category: 'motion',
+  example: 'loader',
+}
+
+## Usage
+
+Use Loader for pending states that need a compact Splatoon UI motion cue. The component renders a status element, keeps children private, and exposes the visible size as a CSS unit.
+
+## Design Notes
+
+- Keep the default label meaningful for screen readers.
+- Use `animation="glyph"` for the smallest surfaces.
+- Use `animation="morph"` or `animation="swim"` when the loading state has enough space to show sprite motion.

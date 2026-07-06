@@ -117,7 +117,9 @@ import { Alert, AlertDescription, AlertTitle } from 'splatoon-ui/alert'
 import { Button } from 'splatoon-ui/button'
 import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'splatoon-ui/carousel'
 import { Dialog } from 'splatoon-ui/dialog'
+import { IconButton } from 'splatoon-ui/icon-button'
 import { Input } from 'splatoon-ui/input'
+import { Loader } from 'splatoon-ui/loader'
 import { RuggedCard, RuggedCardTitle } from 'splatoon-ui/rugged-card'
 import { StapleCard, StapleCardDescription, StapleCardTitle } from 'splatoon-ui/staple-card'
 import { TornCard, TornCardDescription, TornCardTitle } from 'splatoon-ui/torn-card'
@@ -131,6 +133,8 @@ export function App() {
       </Alert>
       <Input value="Inkling" readOnly />
       <Button>Open</Button>
+      <IconButton aria-label="Next" variant="carousel" direction="right" />
+      <Loader animation="morph" size="2rem" label="Loading" />
       <StapleCard
         image={<div style={{ height: 120, background: 'var(--color-yellow)' }} />}
         variant="b"
@@ -165,6 +169,8 @@ fs.writeFileSync(
 await import('splatoon-ui/button')
 await import('splatoon-ui/carousel')
 await import('splatoon-ui/dialog')
+await import('splatoon-ui/icon-button')
+await import('splatoon-ui/loader')
 await import('splatoon-ui/rugged-card')
 await import('splatoon-ui/staple-card')
 await import('splatoon-ui/torn-card')

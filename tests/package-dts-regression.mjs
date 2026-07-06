@@ -165,6 +165,17 @@ const checks = [
       ) &&
       declarationIncludes('button.d.ts', 'ref?: React.Ref<HTMLElement>;') &&
       declarationIncludes(
+        'icon-button.d.ts',
+        "interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>"
+      ) &&
+      declarationIncludes('icon-button.d.ts', 'ref?: React.Ref<HTMLButtonElement>;') &&
+      declarationExports('icon-button.d.ts', 'IconButton') &&
+      declarationExports('icon-button.d.ts', 'IconButtonProps') &&
+      declarationExports('icon-button.d.ts', 'IconButtonVariant') &&
+      declarationExports('icon-button.d.ts', 'IconButtonSize') &&
+      declarationExports('icon-button.d.ts', 'IconButtonAnimation') &&
+      declarationExports('icon-button.d.ts', 'IconButtonDirection') &&
+      declarationIncludes(
         'checkbox.d.ts',
         "interface CheckboxProps extends Omit<React.HTMLAttributes<HTMLElement>, 'checked' | 'children' | 'defaultChecked' | 'onChange' | 'value'>"
       ) &&
@@ -254,8 +265,16 @@ const checks = [
       declarationIncludes('primitive-types.d.ts', 'interface PrimitiveOpenChangeDetails'),
   },
   {
-    name: 'stable progress declaration keeps fixed children ownership',
+    name: 'stable motion and progress declarations keep fixed children ownership',
     pass:
+      declarationIncludes(
+        'loader.d.ts',
+        "interface LoaderProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'>"
+      ) &&
+      declarationIncludes('loader.d.ts', 'ref?: React.Ref<HTMLSpanElement>;') &&
+      declarationExports('loader.d.ts', 'Loader') &&
+      declarationExports('loader.d.ts', 'LoaderProps') &&
+      declarationExports('loader.d.ts', 'LoaderAnimation') &&
       declarationIncludes(
         'progress.d.ts',
         "interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>"
