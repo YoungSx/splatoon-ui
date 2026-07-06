@@ -1,0 +1,15 @@
+export const metadata = {
+  title: 'Label',
+  description: '用于原生控件和 Splatoon UI 输入控件的紧凑表单标签。',
+  category: 'forms',
+  example: 'label',
+}
+
+## 用法
+
+Label 用于命名 input、select、radio、switch 和其他表单控件。
+
+## 设计备注
+
+- 标注单个控件时优先使用 `htmlFor`。
+- 一组控件共享禁用状态时，让父级承载 disabled 状态。

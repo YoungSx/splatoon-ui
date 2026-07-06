@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { layoutTokens } from '@/lib/ui-tokens'
 import { cn } from '@/lib/utils'
-import { type Pattern, SectionBackground } from './section-background'
+import { type Pattern as SectionPattern, SectionBackground } from './section-background'
+
+export type { SectionPattern }
 
 export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   /** Base size — controls vertical padding. `md` = 64px, `lg` = 80px */
@@ -9,7 +11,7 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   /** Pass a HeadingTape element to auto-increase padding for sticker overflow */
   headingTape?: React.ReactNode
   /** Optional pattern texture overlay */
-  pattern?: Pattern
+  pattern?: SectionPattern
   /** Background utility class (e.g. "bg-white") */
   backgroundClassName?: string
   /** Text color utility class (e.g. "text-chaos-black") */

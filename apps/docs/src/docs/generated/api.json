@@ -321,6 +321,86 @@
       ]
     },
     {
+      "slug": "button-group",
+      "importPath": "splatoon-ui/button-group",
+      "primaryExport": "ButtonGroup",
+      "sourcePath": "src/components/ui/button-group.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "ButtonGroup",
+          "kind": "function",
+          "type": "function ButtonGroup(",
+          "description": "",
+          "props": [
+            {
+              "name": "density",
+              "optional": true,
+              "type": "ButtonGroupDensity",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "ButtonGroupOrientation",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ButtonGroupDensity",
+          "kind": "type",
+          "type": "export type ButtonGroupDensity = 'compact' | 'default' | 'spacious'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonGroupItem",
+          "kind": "function",
+          "type": "function ButtonGroupItem(",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonGroupItemProps",
+          "kind": "type",
+          "type": "export type ButtonGroupItemProps = ButtonProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonGroupOrientation",
+          "kind": "type",
+          "type": "export type ButtonGroupOrientation = 'horizontal' | 'vertical'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ButtonGroupProps",
+          "kind": "interface",
+          "type": "export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "icon-button",
       "importPath": "splatoon-ui/icon-button",
       "primaryExport": "IconButton",
@@ -2298,6 +2378,37 @@
       ]
     },
     {
+      "slug": "label",
+      "importPath": "splatoon-ui/label",
+      "primaryExport": "Label",
+      "sourcePath": "src/components/ui/label.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Label",
+          "kind": "function",
+          "type": "function Label(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLLabelElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "LabelProps",
+          "kind": "interface",
+          "type": "export interface LabelProps extends Omit<React.ComponentProps<'label'>, 'ref'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
       "slug": "loader",
       "importPath": "splatoon-ui/loader",
       "primaryExport": "Loader",
@@ -2358,6 +2469,178 @@
           "name": "LoaderProps",
           "kind": "interface",
           "type": "export interface LoaderProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "radio-group",
+      "importPath": "splatoon-ui/radio-group",
+      "primaryExport": "RadioGroup",
+      "sourcePath": "src/components/ui/radio-group.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "RadioGroup",
+          "kind": "function",
+          "type": "function RadioGroup(",
+          "description": "",
+          "props": [
+            {
+              "name": "defaultValue",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "form",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onValueChange",
+              "optional": true,
+              "type": "(value: string, eventDetails: PrimitiveChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RadioGroupItem",
+          "kind": "function",
+          "type": "function RadioGroupItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLElement, PrimitiveCheckedRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": false,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "RadioGroupItemProps",
+          "kind": "interface",
+          "type": "export interface RadioGroupItemProps extends Omit< React.HTMLAttributes<HTMLElement>, 'children' | 'onChange' | 'value' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "RadioGroupProps",
+          "kind": "interface",
+          "type": "export interface RadioGroupProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange' | 'value' >",
           "description": "",
           "props": []
         }
@@ -2466,6 +2749,1605 @@
           "name": "ProgressVariant",
           "kind": "type",
           "type": "export type ProgressVariant = | 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red' | 'black' | 'white'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "select",
+      "importPath": "splatoon-ui/select",
+      "primaryExport": "Select",
+      "sourcePath": "src/components/ui/select.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Select",
+          "kind": "function",
+          "type": "function Select<Value = string, Multiple extends boolean | undefined = false>( props: SelectProps<Value, Multiple> )",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "form",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "autoComplete",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "id",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "multiple",
+              "optional": true,
+              "type": "Multiple",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "highlightItemOnHover",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultOpen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "modal",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "(open: boolean, eventDetails: PrimitiveChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChangeComplete",
+              "optional": true,
+              "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "items",
+              "optional": true,
+              "type": "| { readonly [value: string]: React.ReactNode } | ReadonlyArray<SelectItemRecord<Value>> | ReadonlyArray<SelectItemGroup<Value>>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemToStringLabel",
+              "optional": true,
+              "type": "(itemValue: Value) => string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "itemToStringValue",
+              "optional": true,
+              "type": "(itemValue: Value) => string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "isItemEqualToValue",
+              "optional": true,
+              "type": "(itemValue: Value, value: Value) => boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultValue",
+              "optional": true,
+              "type": "SelectValueType<Value, Multiple> | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "SelectValueType<Value, Multiple> | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onValueChange",
+              "optional": true,
+              "type": "( value: SelectValueType<Value, Multiple> | (Multiple extends true ? never : null), eventDetails: PrimitiveChangeDetails ) => void",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectContent",
+          "kind": "function",
+          "type": "function SelectContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "align",
+              "optional": true,
+              "type": "PrimitivePopupAlign",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "optional": true,
+              "type": "PrimitivePopupSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sideOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignItemWithTrigger",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "finalFocus",
+              "optional": true,
+              "type": "PrimitiveFocusTarget",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showScrollButtons",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectContentProps",
+          "kind": "interface",
+          "type": "export interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectCurrentValue",
+          "kind": "type",
+          "type": "export type SelectCurrentValue< Value, Multiple extends boolean | undefined = false, > = SelectValueType<Value, Multiple> | null",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectGroup",
+          "kind": "function",
+          "type": "function SelectGroup(",
+          "description": "",
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectGroupProps",
+          "kind": "interface",
+          "type": "export interface SelectGroupProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectItem",
+          "kind": "function",
+          "type": "function SelectItem<Value = string>(",
+          "description": "",
+          "props": [
+            {
+              "name": "value",
+              "optional": true,
+              "type": "Value",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "label",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLElement, { disabled: boolean selected: boolean highlighted: boolean } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectItemGroup",
+          "kind": "interface",
+          "type": "export interface SelectItemGroup<Value>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectItemProps",
+          "kind": "interface",
+          "type": "export interface SelectItemProps<Value = string> extends Omit< React.HTMLAttributes<HTMLDivElement>, 'value' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectItemRecord",
+          "kind": "interface",
+          "type": "export interface SelectItemRecord<Value>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectLabel",
+          "kind": "function",
+          "type": "function SelectLabel(",
+          "description": "",
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectLabelProps",
+          "kind": "interface",
+          "type": "export interface SelectLabelProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectProps",
+          "kind": "interface",
+          "type": "export interface SelectProps<Value = string, Multiple extends boolean | undefined = false>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectScrollDownButton",
+          "kind": "function",
+          "type": "function SelectScrollDownButton(",
+          "description": "",
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectScrollDownButtonProps",
+          "kind": "interface",
+          "type": "export interface SelectScrollDownButtonProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectScrollUpButton",
+          "kind": "function",
+          "type": "function SelectScrollUpButton(",
+          "description": "",
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectScrollUpButtonProps",
+          "kind": "interface",
+          "type": "export interface SelectScrollUpButtonProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectSeparator",
+          "kind": "function",
+          "type": "function SelectSeparator(",
+          "description": "",
+          "props": [
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "'horizontal' | 'vertical'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectSeparatorProps",
+          "kind": "interface",
+          "type": "export interface SelectSeparatorProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectTrigger",
+          "kind": "function",
+          "type": "function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>(",
+          "description": "",
+          "props": [
+            {
+              "name": "size",
+              "optional": true,
+              "type": "'sm' | 'default'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLButtonElement, PrimitiveOpenRenderState & { readOnly: boolean popupSide: PrimitivePopupSide | null value: SelectCurrentValue<Value, Multiple> placeholder: boolean } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectTriggerProps",
+          "kind": "interface",
+          "type": "export interface SelectTriggerProps< Value = string, Multiple extends boolean | undefined = false, > extends React.ButtonHTMLAttributes<HTMLButtonElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectValue",
+          "kind": "function",
+          "type": "function SelectValue<Value = string, Multiple extends boolean | undefined = false>(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode | ((value: SelectCurrentValue<Value, Multiple>) => React.ReactNode)",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "placeholder",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender< HTMLSpanElement, { value: SelectCurrentValue<Value, Multiple> placeholder: boolean } >",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLSpanElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectValueProps",
+          "kind": "interface",
+          "type": "export interface SelectValueProps< Value = string, Multiple extends boolean | undefined = false, > extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectValueType",
+          "kind": "type",
+          "type": "export type SelectValueType< Value, Multiple extends boolean | undefined = false, > = Multiple extends true ? Value[] : Value",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "segmented-control",
+      "importPath": "splatoon-ui/segmented-control",
+      "primaryExport": "SegmentedControl",
+      "sourcePath": "src/components/ui/segmented-control.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "SegmentedControl",
+          "kind": "function",
+          "type": "function SegmentedControl(",
+          "description": "",
+          "props": [
+            {
+              "name": "appearance",
+              "optional": true,
+              "type": "SegmentedControlAppearance",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "SegmentedControlColor",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultValue",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "density",
+              "optional": true,
+              "type": "SegmentedControlDensity",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fillImageHref",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "form",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onValueChange",
+              "optional": true,
+              "type": "(value: string, eventDetails: PrimitiveChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "SegmentedControlOrientation",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "style",
+              "optional": true,
+              "type": "React.CSSProperties",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SegmentedControlAppearance",
+          "kind": "type",
+          "type": "export type SegmentedControlAppearance = 'buttons' | 'track'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlColor",
+          "kind": "type",
+          "type": "export type SegmentedControlColor = SplatoonControlTrackColor",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlDensity",
+          "kind": "type",
+          "type": "export type SegmentedControlDensity = 'compact' | 'default' | 'spacious'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlItem",
+          "kind": "function",
+          "type": "function SegmentedControlItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "buttonProps",
+              "optional": true,
+              "type": "Omit<ButtonGroupItemProps, 'children' | 'ref' | 'value'>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "inputRef",
+              "optional": true,
+              "type": "React.Ref<HTMLInputElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "readOnly",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "value",
+              "optional": false,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SegmentedControlItemProps",
+          "kind": "interface",
+          "type": "export interface SegmentedControlItemProps extends Omit< React.HTMLAttributes<HTMLElement>, 'onChange' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlOrientation",
+          "kind": "type",
+          "type": "export type SegmentedControlOrientation = 'horizontal' | 'vertical'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SegmentedControlProps",
+          "kind": "interface",
+          "type": "export interface SegmentedControlProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'color' | 'defaultValue' | 'onChange' | 'value' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonControlTrackColor",
+          "kind": "type",
+          "type": "export type SplatoonControlTrackColor = 'yellow' | 'blue' | 'green' | 'orange' | 'purple'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "popover",
+      "importPath": "splatoon-ui/popover",
+      "primaryExport": "Popover",
+      "sourcePath": "src/components/ui/popover.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Popover",
+          "kind": "function",
+          "type": "function Popover(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultOpen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "modal",
+              "optional": true,
+              "type": "boolean | 'trap-focus'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "(open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChangeComplete",
+              "optional": true,
+              "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "triggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultTriggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverContent",
+          "kind": "function",
+          "type": "function PopoverContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "align",
+              "optional": true,
+              "type": "PrimitivePopupAlign",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "optional": true,
+              "type": "PrimitivePopupSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sideOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "initialFocus",
+              "optional": true,
+              "type": "PrimitiveFocusTarget",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "finalFocus",
+              "optional": true,
+              "type": "PrimitiveFocusTarget",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverContentProps",
+          "kind": "interface",
+          "type": "export interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverDescription",
+          "kind": "function",
+          "type": "function PopoverDescription(",
+          "description": "",
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverDescriptionProps",
+          "kind": "interface",
+          "type": "export interface PopoverDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverHeader",
+          "kind": "function",
+          "type": "function PopoverHeader(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverHeaderProps",
+          "kind": "interface",
+          "type": "export interface PopoverHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverPortal",
+          "kind": "function",
+          "type": "function PopoverPortal(",
+          "description": "",
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "container",
+              "optional": true,
+              "type": "PrimitivePortalContainer",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverPortalProps",
+          "kind": "interface",
+          "type": "export interface PopoverPortalProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverPositioner",
+          "kind": "function",
+          "type": "function PopoverPositioner(",
+          "description": "",
+          "props": [
+            {
+              "name": "align",
+              "optional": true,
+              "type": "PrimitivePopupAlign",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alignOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "side",
+              "optional": true,
+              "type": "PrimitivePopupSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "sideOffset",
+              "optional": true,
+              "type": "PrimitivePopupOffset",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverPositionerProps",
+          "kind": "interface",
+          "type": "export interface PopoverPositionerProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverProps",
+          "kind": "interface",
+          "type": "export interface PopoverProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTitle",
+          "kind": "function",
+          "type": "function PopoverTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverTitleProps",
+          "kind": "interface",
+          "type": "export interface PopoverTitleProps extends React.HTMLAttributes<HTMLHeadingElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTrigger",
+          "kind": "function",
+          "type": "function PopoverTrigger(",
+          "description": "",
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "openOnHover",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "delay",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "closeDelay",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLButtonElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "PopoverTriggerButton",
+          "kind": "function",
+          "type": "function PopoverTriggerButton(props: PopoverTriggerButtonProps)",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTriggerButtonProps",
+          "kind": "type",
+          "type": "export type PopoverTriggerButtonProps = Omit<PopoverTriggerProps, 'children' | 'ref' | 'render'> & Pick< ButtonProps, | 'children' | 'variant' | 'size' | 'theme' | 'hasChevron' | 'color' | 'hoverColor' | 'textColor' | 't",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "PopoverTriggerProps",
+          "kind": "interface",
+          "type": "export interface PopoverTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "sheet",
+      "importPath": "splatoon-ui/sheet",
+      "primaryExport": "Sheet",
+      "sourcePath": "src/components/ui/sheet.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "Sheet",
+          "kind": "function",
+          "type": "function Sheet(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultOpen",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "open",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "modal",
+              "optional": true,
+              "type": "boolean | 'trap-focus'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "disablePointerDismissal",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChange",
+              "optional": true,
+              "type": "(open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "onOpenChangeComplete",
+              "optional": true,
+              "type": "(open: boolean) => void",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "triggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defaultTriggerId",
+              "optional": true,
+              "type": "string | null",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetContent",
+          "kind": "function",
+          "type": "function SheetContent(",
+          "description": "",
+          "props": [
+            {
+              "name": "side",
+              "optional": true,
+              "type": "SheetSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showCloseButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetContentProps",
+          "kind": "interface",
+          "type": "export interface SheetContentProps extends SheetPopupBaseProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetDescription",
+          "kind": "function",
+          "type": "function SheetDescription(",
+          "description": "",
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLParagraphElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetDescriptionProps",
+          "kind": "interface",
+          "type": "export interface SheetDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetFooter",
+          "kind": "function",
+          "type": "function SheetFooter(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetFooterProps",
+          "kind": "interface",
+          "type": "export interface SheetFooterProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetHeader",
+          "kind": "function",
+          "type": "function SheetHeader(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetHeaderProps",
+          "kind": "interface",
+          "type": "export interface SheetHeaderProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetOverlay",
+          "kind": "function",
+          "type": "function SheetOverlay(",
+          "description": "",
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLDivElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetOverlayProps",
+          "kind": "interface",
+          "type": "export interface SheetOverlayProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetPopup",
+          "kind": "function",
+          "type": "function SheetPopup(",
+          "description": "",
+          "props": [
+            {
+              "name": "side",
+              "optional": true,
+              "type": "SheetSide",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "closeButton",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetPopupProps",
+          "kind": "interface",
+          "type": "export interface SheetPopupProps extends SheetPopupBaseProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetPortal",
+          "kind": "function",
+          "type": "function SheetPortal(",
+          "description": "",
+          "props": [
+            {
+              "name": "keepMounted",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "container",
+              "optional": true,
+              "type": "PrimitivePortalContainer",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetPortalProps",
+          "kind": "interface",
+          "type": "export interface SheetPortalProps extends React.HTMLAttributes<HTMLDivElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetProps",
+          "kind": "interface",
+          "type": "export interface SheetProps",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetSide",
+          "kind": "type",
+          "type": "export type SheetSide = 'top' | 'right' | 'bottom' | 'left'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTitle",
+          "kind": "function",
+          "type": "function SheetTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLHeadingElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetTitleProps",
+          "kind": "interface",
+          "type": "export interface SheetTitleProps extends React.HTMLAttributes<HTMLHeadingElement>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTrigger",
+          "kind": "function",
+          "type": "function SheetTrigger(",
+          "description": "",
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "render",
+              "optional": true,
+              "type": "PrimitiveRender<HTMLButtonElement, PrimitiveOpenRenderState>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SheetTriggerButton",
+          "kind": "function",
+          "type": "function SheetTriggerButton(props: SheetTriggerButtonProps)",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTriggerButtonProps",
+          "kind": "type",
+          "type": "export type SheetTriggerButtonProps = Omit<SheetTriggerProps, 'children' | 'ref' | 'render'> & Pick< ButtonProps, | 'children' | 'variant' | 'size' | 'theme' | 'hasChevron' | 'color' | 'hoverColor' | 'textColor' | 'textH",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SheetTriggerProps",
+          "kind": "interface",
+          "type": "export interface SheetTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement>",
           "description": "",
           "props": []
         }
@@ -2966,6 +4848,609 @@
           "name": "TabsValue",
           "kind": "type",
           "type": "export type TabsValue = string | number | null",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "list",
+      "importPath": "splatoon-ui/list",
+      "primaryExport": "List",
+      "sourcePath": "src/components/ui/list.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "List",
+          "kind": "function",
+          "type": "function List(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "ListVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "start",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerColor",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerTextColor",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerHoverColor",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "markerHoverTextColor",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "dividerColor",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLOListElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ListItem",
+          "kind": "function",
+          "type": "function ListItem(",
+          "description": "",
+          "props": [
+            {
+              "name": "showDivider",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLLIElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "ListItemProps",
+          "kind": "interface",
+          "type": "export interface ListItemProps extends Omit<React.ComponentProps<'li'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ListProps",
+          "kind": "interface",
+          "type": "export interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start' | 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "ListVariant",
+          "kind": "type",
+          "type": "export type ListVariant = 'ordered'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonColorValue",
+          "kind": "type",
+          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "section",
+      "importPath": "splatoon-ui/section",
+      "primaryExport": "Section",
+      "sourcePath": "src/components/ui/section.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "Section",
+          "kind": "function",
+          "type": "export function Section(",
+          "description": "",
+          "props": [
+            {
+              "name": "size",
+              "optional": true,
+              "type": "'md' | 'lg'",
+              "defaultValue": "",
+              "description": "Base size — controls vertical padding. `md` = 64px, `lg` = 80px"
+            },
+            {
+              "name": "headingTape",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Pass a HeadingTape element to auto-increase padding for sticker overflow"
+            },
+            {
+              "name": "pattern",
+              "optional": true,
+              "type": "SectionPattern",
+              "defaultValue": "",
+              "description": "Optional pattern texture overlay"
+            },
+            {
+              "name": "backgroundClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Background utility class (e.g. \"bg-white\")"
+            },
+            {
+              "name": "textClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Text color utility class (e.g. \"text-chaos-black\")"
+            },
+            {
+              "name": "as",
+              "optional": true,
+              "type": "'section' | 'div'",
+              "defaultValue": "",
+              "description": "Render as \"section\" or \"div\""
+            },
+            {
+              "name": "bottomOverlayClearance",
+              "optional": true,
+              "type": "'none' | 'banner-divider'",
+              "defaultValue": "",
+              "description": "Reserve content-safe space for decorative overlays painted across the section edge."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "style",
+              "optional": true,
+              "type": "React.CSSProperties",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SectionPattern",
+          "kind": "re-export",
+          "type": "re-export",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SectionProps",
+          "kind": "interface",
+          "type": "export interface SectionProps extends React.HTMLAttributes<HTMLElement>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "dotted-divider",
+      "importPath": "splatoon-ui/dotted-divider",
+      "primaryExport": "DottedDivider",
+      "sourcePath": "src/components/ui/dotted-divider.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "DottedDivider",
+          "kind": "function",
+          "type": "export function DottedDivider(",
+          "description": "",
+          "props": [
+            {
+              "name": "orientation",
+              "optional": true,
+              "type": "DottedDividerOrientation",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "color",
+              "optional": true,
+              "type": "SplatoonColorValue",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "DottedDividerOrientation",
+          "kind": "type",
+          "type": "export type DottedDividerOrientation = 'horizontal' | 'vertical'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "DottedDividerProps",
+          "kind": "interface",
+          "type": "export interface DottedDividerProps extends Omit< React.ComponentProps<'div'>, 'children' | 'color' | 'ref' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonColorValue",
+          "kind": "type",
+          "type": "export type SplatoonColorValue = SplatoonColorToken | (string &",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "tape-divider",
+      "importPath": "splatoon-ui/tape-divider",
+      "primaryExport": "TapeDivider",
+      "sourcePath": "src/components/ui/tape-divider.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TapeDivider",
+          "kind": "function",
+          "type": "export function TapeDivider(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "'primary' | 'double'",
+              "defaultValue": "",
+              "description": "Single tape strip or double (tape-2 + tape-3 stacked)"
+            },
+            {
+              "name": "rotate",
+              "optional": true,
+              "type": "'none' | 'left' | 'right' | 'strong'",
+              "defaultValue": "",
+              "description": "Rotation direction"
+            },
+            {
+              "name": "overlap",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Apply negative margin so next section overlaps the tape"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TapeDividerProps",
+          "kind": "interface",
+          "type": "export interface TapeDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "torn-badge",
+      "importPath": "splatoon-ui/torn-badge",
+      "primaryExport": "TornBadge",
+      "sourcePath": "src/components/ui/torn-badge.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "TornBadge",
+          "kind": "function",
+          "type": "function TornBadge(",
+          "description": "",
+          "props": [
+            {
+              "name": "color",
+              "optional": true,
+              "type": "TornBadgeColor",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLSpanElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TornBadgeColor",
+          "kind": "type",
+          "type": "export type TornBadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TornBadgeProps",
+          "kind": "interface",
+          "type": "export interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "splatoon-title",
+      "importPath": "splatoon-ui/splatoon-title",
+      "primaryExport": "SplatoonTitle",
+      "sourcePath": "src/components/ui/splatoon-title.tsx",
+      "boundary": "client",
+      "exports": [
+        {
+          "name": "SplatoonTitle",
+          "kind": "function",
+          "type": "export function SplatoonTitle(",
+          "description": "",
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "SplatoonTitleVariant",
+              "defaultValue": "",
+              "description": "Title variant"
+            },
+            {
+              "name": "section",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Optional section key used for text fallback labels"
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "SplatoonTitleSize",
+              "defaultValue": "",
+              "description": "Title size"
+            },
+            {
+              "name": "animate",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Animation on mount"
+            },
+            {
+              "name": "image",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Custom image URL (overrides section)"
+            },
+            {
+              "name": "imageHover",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Custom image URL for hover state"
+            },
+            {
+              "name": "children",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Text content (used as fallback or alt text)"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SplatoonTitleProps",
+          "kind": "interface",
+          "type": "export interface SplatoonTitleProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonTitleSize",
+          "kind": "type",
+          "type": "export type SplatoonTitleSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SplatoonTitleVariant",
+          "kind": "type",
+          "type": "export type SplatoonTitleVariant = 'logo' | 'section'",
+          "description": "",
+          "props": []
+        }
+      ]
+    },
+    {
+      "slug": "heading-tape",
+      "importPath": "splatoon-ui/heading-tape",
+      "primaryExport": "HeadingTape",
+      "sourcePath": "src/components/ui/heading-tape.tsx",
+      "boundary": "server",
+      "exports": [
+        {
+          "name": "HeadingTape",
+          "kind": "function",
+          "type": "export function HeadingTape(",
+          "description": "",
+          "props": [
+            {
+              "name": "children",
+              "optional": false,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "className",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "decorationSet",
+              "optional": true,
+              "type": "HeadingTapeDecorationSet",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "decorations",
+              "optional": true,
+              "type": "HeadingTapeDecoration[] | false",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "overlapTop",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "marginOffset",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "HeadingTapeSize",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "HeadingTapeDecoration",
+          "kind": "interface",
+          "type": "export interface HeadingTapeDecoration",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeDecorationImage",
+          "kind": "interface",
+          "type": "export interface HeadingTapeDecorationImage",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeDecorationPosition",
+          "kind": "type",
+          "type": "export type HeadingTapeDecorationPosition = | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeDecorationSafeArea",
+          "kind": "type",
+          "type": "export type HeadingTapeDecorationSafeArea = Partial<Record<HeadingTapeSafeAreaEdge, string>>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeDecorationSet",
+          "kind": "type",
+          "type": "export type HeadingTapeDecorationSet = 'stickers' | 'none'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeProps",
+          "kind": "interface",
+          "type": "export interface HeadingTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeSafeAreaEdge",
+          "kind": "type",
+          "type": "export type HeadingTapeSafeAreaEdge = 'inlineStart' | 'inlineEnd' | 'blockStart' | 'blockEnd'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "HeadingTapeSize",
+          "kind": "type",
+          "type": "export type HeadingTapeSize = 'default' | 'compact'",
           "description": "",
           "props": []
         }

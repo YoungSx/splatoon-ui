@@ -1,0 +1,15 @@
+export const metadata = {
+  title: 'TapeDivider',
+  description: 'primary、double、rotation、overlap を持つ tape-strip divider です。',
+  category: 'layout',
+  example: 'tape-divider',
+}
+
+## 使い方
+
+TapeDivider は Splatoon らしい tape transition が必要な section 間に使います。
+
+## 設計メモ
+
+- 境界を強くしたい場合は `variant="double"` を使います。
+- 隣接 section が負の余白を受け止められる場合だけ overlap を使います。

@@ -115,14 +115,31 @@ fs.writeFileSync(
   `import 'splatoon-ui/styles.css'
 import { Alert, AlertDescription, AlertTitle } from 'splatoon-ui/alert'
 import { Button } from 'splatoon-ui/button'
+import { ButtonGroup, ButtonGroupItem } from 'splatoon-ui/button-group'
 import { Carousel, CarouselContent, CarouselItem, CarouselPagination } from 'splatoon-ui/carousel'
+import { DottedDivider } from 'splatoon-ui/dotted-divider'
 import { Dialog } from 'splatoon-ui/dialog'
+import { HeadingTape } from 'splatoon-ui/heading-tape'
 import { IconButton } from 'splatoon-ui/icon-button'
 import { Input } from 'splatoon-ui/input'
+import { Label } from 'splatoon-ui/label'
+import { List, ListItem } from 'splatoon-ui/list'
 import { Loader } from 'splatoon-ui/loader'
+import { Popover, PopoverContent, PopoverTriggerButton } from 'splatoon-ui/popover'
+import { RadioGroup, RadioGroupItem } from 'splatoon-ui/radio-group'
 import { RuggedCard, RuggedCardTitle } from 'splatoon-ui/rugged-card'
+import { Section } from 'splatoon-ui/section'
+import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from 'splatoon-ui/segmented-control'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'splatoon-ui/select'
+import { Sheet, SheetContent, SheetTriggerButton } from 'splatoon-ui/sheet'
+import { SplatoonTitle } from 'splatoon-ui/splatoon-title'
 import { StapleCard, StapleCardDescription, StapleCardTitle } from 'splatoon-ui/staple-card'
+import { TapeDivider } from 'splatoon-ui/tape-divider'
 import { TornCard, TornCardDescription, TornCardTitle } from 'splatoon-ui/torn-card'
+import { TornBadge } from 'splatoon-ui/torn-badge'
 
 export function App() {
   return (
@@ -133,8 +150,52 @@ export function App() {
       </Alert>
       <Input value="Inkling" readOnly />
       <Button>Open</Button>
+      <ButtonGroup aria-label="Consumer actions">
+        <ButtonGroupItem size="sm">Ready</ButtonGroupItem>
+        <ButtonGroupItem size="sm" variant="blue">
+          Gear
+        </ButtonGroupItem>
+      </ButtonGroup>
       <IconButton aria-label="Next" variant="carousel" direction="right" />
+      <Label htmlFor="consumer-input">Player</Label>
+      <RadioGroup defaultValue="turf">
+        <RadioGroupItem value="turf" />
+        <RadioGroupItem value="ranked" />
+      </RadioGroup>
+      <Select defaultValue="gallery">
+        <SelectTrigger aria-label="Consumer select">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="gallery">Gallery</SelectItem>
+          <SelectItem value="cards">Cards</SelectItem>
+        </SelectContent>
+      </Select>
+      <SegmentedControl defaultValue="turf">
+        <SegmentedControlItem value="turf">Turf</SegmentedControlItem>
+        <SegmentedControlItem value="ranked">Ranked</SegmentedControlItem>
+      </SegmentedControl>
+      <Popover>
+        <PopoverTriggerButton>Info</PopoverTriggerButton>
+        <PopoverContent>Consumer popover</PopoverContent>
+      </Popover>
+      <Sheet>
+        <SheetTriggerButton>Open sheet</SheetTriggerButton>
+        <SheetContent>Consumer sheet</SheetContent>
+      </Sheet>
       <Loader animation="morph" size="2rem" label="Loading" />
+      <List>
+        <ListItem>Queue</ListItem>
+        <ListItem showDivider={false}>Ready</ListItem>
+      </List>
+      <Section as="div" pattern="chip-white">
+        Consumer section
+      </Section>
+      <DottedDivider />
+      <TapeDivider />
+      <TornBadge>Fresh</TornBadge>
+      <SplatoonTitle>Consumer title</SplatoonTitle>
+      <HeadingTape>Consumer heading</HeadingTape>
       <StapleCard
         image={<div style={{ height: 120, background: 'var(--color-yellow)' }} />}
         variant="b"
@@ -167,13 +228,27 @@ fs.writeFileSync(
   path.join(consumerDir, 'runtime.mjs'),
   `await import('splatoon-ui')
 await import('splatoon-ui/button')
+await import('splatoon-ui/button-group')
 await import('splatoon-ui/carousel')
 await import('splatoon-ui/dialog')
+await import('splatoon-ui/dotted-divider')
+await import('splatoon-ui/heading-tape')
 await import('splatoon-ui/icon-button')
+await import('splatoon-ui/label')
+await import('splatoon-ui/list')
 await import('splatoon-ui/loader')
+await import('splatoon-ui/popover')
+await import('splatoon-ui/radio-group')
 await import('splatoon-ui/rugged-card')
+await import('splatoon-ui/section')
+await import('splatoon-ui/segmented-control')
+await import('splatoon-ui/select')
+await import('splatoon-ui/sheet')
+await import('splatoon-ui/splatoon-title')
 await import('splatoon-ui/staple-card')
+await import('splatoon-ui/tape-divider')
 await import('splatoon-ui/torn-card')
+await import('splatoon-ui/torn-badge')
 await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `
 )

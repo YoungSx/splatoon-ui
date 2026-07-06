@@ -103,13 +103,7 @@ const missingNamedPropsDeclarationMatches = publicDeclarations.flatMap(({ fileNa
 
 const disallowedInternalEntrypoints = [
   './asset-image',
-  './button-group',
-  './heading-tape',
   './icons',
-  './label',
-  './popover',
-  './select',
-  './sheet',
   './video-dialog',
 ]
 
@@ -165,6 +159,16 @@ const checks = [
       ) &&
       declarationIncludes('button.d.ts', 'ref?: React.Ref<HTMLElement>;') &&
       declarationIncludes(
+        'button-group.d.ts',
+        'interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement>'
+      ) &&
+      declarationExports('button-group.d.ts', 'ButtonGroup') &&
+      declarationExports('button-group.d.ts', 'ButtonGroupItem') &&
+      declarationExports('button-group.d.ts', 'ButtonGroupProps') &&
+      declarationExports('button-group.d.ts', 'ButtonGroupItemProps') &&
+      declarationExports('button-group.d.ts', 'ButtonGroupDensity') &&
+      declarationExports('button-group.d.ts', 'ButtonGroupOrientation') &&
+      declarationIncludes(
         'icon-button.d.ts',
         "interface IconButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>"
       ) &&
@@ -185,6 +189,41 @@ const checks = [
         "interface InputProps extends Omit<React.ComponentProps<'input'>, 'children' | 'ref'>"
       ) &&
       declarationIncludes('input.d.ts', 'ref?: React.Ref<HTMLInputElement>;') &&
+      declarationIncludes(
+        'label.d.ts',
+        "interface LabelProps extends Omit<React.ComponentProps<'label'>, 'ref'>"
+      ) &&
+      declarationIncludes('label.d.ts', 'ref?: React.Ref<HTMLLabelElement>;') &&
+      declarationExports('label.d.ts', 'Label') &&
+      declarationIncludes(
+        'radio-group.d.ts',
+        "interface RadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'defaultValue' | 'onChange' | 'value'>"
+      ) &&
+      declarationIncludes('radio-group.d.ts', 'ref?: React.Ref<HTMLDivElement>;') &&
+      declarationExports('radio-group.d.ts', 'RadioGroup') &&
+      declarationExports('radio-group.d.ts', 'RadioGroupItem') &&
+      declarationExports('radio-group.d.ts', 'RadioGroupProps') &&
+      declarationExports('radio-group.d.ts', 'RadioGroupItemProps') &&
+      declarationIncludes(
+        'select.d.ts',
+        'interface SelectProps<Value = string, Multiple extends boolean | undefined = false>'
+      ) &&
+      declarationExports('select.d.ts', 'Select') &&
+      declarationExports('select.d.ts', 'SelectTrigger') &&
+      declarationExports('select.d.ts', 'SelectValue') &&
+      declarationExports('select.d.ts', 'SelectContent') &&
+      declarationExports('select.d.ts', 'SelectItem') &&
+      declarationExports('select.d.ts', 'SelectProps') &&
+      declarationExports('select.d.ts', 'SelectValueType') &&
+      declarationIncludes(
+        'segmented-control.d.ts',
+        "interface SegmentedControlProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'color' | 'defaultValue' | 'onChange' | 'value'>"
+      ) &&
+      declarationExports('segmented-control.d.ts', 'SegmentedControl') &&
+      declarationExports('segmented-control.d.ts', 'SegmentedControlItem') &&
+      declarationExports('segmented-control.d.ts', 'SegmentedControlProps') &&
+      declarationExports('segmented-control.d.ts', 'SegmentedControlItemProps') &&
+      declarationExports('segmented-control.d.ts', 'SegmentedControlAppearance') &&
       declarationIncludes(
         'switch.d.ts',
         "interface SwitchProps extends Omit<React.HTMLAttributes<HTMLElement>, 'checked' | 'children' | 'color' | 'defaultChecked' | 'onChange' | 'value'>"
@@ -243,7 +282,22 @@ const checks = [
       declarationExports('rugged-card.d.ts', 'RuggedCardDescriptionProps') &&
       declarationExports('rugged-card.d.ts', 'RuggedCardImageProps') &&
       declarationExports('rugged-card.d.ts', 'RuggedCardContentProps') &&
-      declarationExports('rugged-card.d.ts', 'RuggedCardFooterProps'),
+      declarationExports('rugged-card.d.ts', 'RuggedCardFooterProps') &&
+      declarationIncludes(
+        'list.d.ts',
+        "interface ListProps extends Omit<React.ComponentProps<'ol'>, 'start' | 'ref'>"
+      ) &&
+      declarationExports('list.d.ts', 'List') &&
+      declarationExports('list.d.ts', 'ListItem') &&
+      declarationExports('list.d.ts', 'ListProps') &&
+      declarationExports('list.d.ts', 'ListItemProps') &&
+      declarationIncludes(
+        'torn-badge.d.ts',
+        "interface TornBadgeProps extends Omit<React.ComponentProps<'span'>, 'color' | 'ref'>"
+      ) &&
+      declarationExports('torn-badge.d.ts', 'TornBadge') &&
+      declarationExports('torn-badge.d.ts', 'TornBadgeProps') &&
+      declarationExports('torn-badge.d.ts', 'TornBadgeColor'),
   },
   {
     name: 'stable overlay and tabs declarations keep cancellable details behind local primitive types',
@@ -252,6 +306,22 @@ const checks = [
         'dialog.d.ts',
         'onOpenChange?: (open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void;'
       ) &&
+      declarationIncludes(
+        'popover.d.ts',
+        'onOpenChange?: (open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void;'
+      ) &&
+      declarationExports('popover.d.ts', 'Popover') &&
+      declarationExports('popover.d.ts', 'PopoverTriggerButton') &&
+      declarationExports('popover.d.ts', 'PopoverContent') &&
+      declarationExports('popover.d.ts', 'PopoverProps') &&
+      declarationIncludes(
+        'sheet.d.ts',
+        'onOpenChange?: (open: boolean, eventDetails: PrimitiveOpenChangeDetails) => void;'
+      ) &&
+      declarationExports('sheet.d.ts', 'Sheet') &&
+      declarationExports('sheet.d.ts', 'SheetTriggerButton') &&
+      declarationExports('sheet.d.ts', 'SheetContent') &&
+      declarationExports('sheet.d.ts', 'SheetSide') &&
       declarationIncludes(
         'dialog.d.ts',
         'declare function DialogTrigger({ ref, ...props }: DialogTriggerProps)'
@@ -263,6 +333,46 @@ const checks = [
       declarationExports('tabs.d.ts', 'TabsSwipeMode') &&
       declarationIncludes('primitive-types.d.ts', 'interface PrimitiveChangeDetails') &&
       declarationIncludes('primitive-types.d.ts', 'interface PrimitiveOpenChangeDetails'),
+  },
+  {
+    name: 'stable layout and typography declarations expose narrow visual primitives',
+    pass:
+      declarationIncludes(
+        'section.d.ts',
+        'pattern?: Pattern;'
+      ) &&
+      declarationExports('section.d.ts', 'Section') &&
+      declarationExports('section.d.ts', 'SectionProps') &&
+      declarationExports('section.d.ts', 'SectionPattern') &&
+      declarationIncludes(
+        'dotted-divider.d.ts',
+        "interface DottedDividerProps extends Omit<React.ComponentProps<'div'>, 'children' | 'color' | 'ref'>"
+      ) &&
+      declarationExports('dotted-divider.d.ts', 'DottedDivider') &&
+      declarationExports('dotted-divider.d.ts', 'DottedDividerProps') &&
+      declarationExports('dotted-divider.d.ts', 'DottedDividerOrientation') &&
+      declarationIncludes(
+        'tape-divider.d.ts',
+        "interface TapeDividerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>"
+      ) &&
+      declarationExports('tape-divider.d.ts', 'TapeDivider') &&
+      declarationExports('tape-divider.d.ts', 'TapeDividerProps') &&
+      declarationIncludes(
+        'splatoon-title.d.ts',
+        "interface SplatoonTitleProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
+      ) &&
+      declarationExports('splatoon-title.d.ts', 'SplatoonTitle') &&
+      declarationExports('splatoon-title.d.ts', 'SplatoonTitleProps') &&
+      declarationExports('splatoon-title.d.ts', 'SplatoonTitleSize') &&
+      declarationExports('splatoon-title.d.ts', 'SplatoonTitleVariant') &&
+      declarationIncludes(
+        'heading-tape.d.ts',
+        "interface HeadingTapeProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
+      ) &&
+      declarationExports('heading-tape.d.ts', 'HeadingTape') &&
+      declarationExports('heading-tape.d.ts', 'HeadingTapeProps') &&
+      declarationExports('heading-tape.d.ts', 'HeadingTapeDecoration') &&
+      declarationExports('heading-tape.d.ts', 'HeadingTapeSize'),
   },
   {
     name: 'stable motion and progress declarations keep fixed children ownership',

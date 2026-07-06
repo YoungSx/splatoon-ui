@@ -66,6 +66,10 @@
       "types": "./dist/button.d.ts",
       "import": "./dist/button.js"
     },
+    "./button-group": {
+      "types": "./dist/button-group.d.ts",
+      "import": "./dist/button-group.js"
+    },
     "./icon-button": {
       "types": "./dist/icon-button.d.ts",
       "import": "./dist/icon-button.js"
@@ -102,13 +106,37 @@
       "types": "./dist/input.d.ts",
       "import": "./dist/input.js"
     },
+    "./label": {
+      "types": "./dist/label.d.ts",
+      "import": "./dist/label.js"
+    },
     "./loader": {
       "types": "./dist/loader.d.ts",
       "import": "./dist/loader.js"
     },
+    "./radio-group": {
+      "types": "./dist/radio-group.d.ts",
+      "import": "./dist/radio-group.js"
+    },
     "./progress": {
       "types": "./dist/progress.d.ts",
       "import": "./dist/progress.js"
+    },
+    "./select": {
+      "types": "./dist/select.d.ts",
+      "import": "./dist/select.js"
+    },
+    "./segmented-control": {
+      "types": "./dist/segmented-control.d.ts",
+      "import": "./dist/segmented-control.js"
+    },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "import": "./dist/popover.js"
+    },
+    "./sheet": {
+      "types": "./dist/sheet.d.ts",
+      "import": "./dist/sheet.js"
     },
     "./switch": {
       "types": "./dist/switch.d.ts",
@@ -117,6 +145,34 @@
     "./tabs": {
       "types": "./dist/tabs.d.ts",
       "import": "./dist/tabs.js"
+    },
+    "./list": {
+      "types": "./dist/list.d.ts",
+      "import": "./dist/list.js"
+    },
+    "./section": {
+      "types": "./dist/section.d.ts",
+      "import": "./dist/section.js"
+    },
+    "./dotted-divider": {
+      "types": "./dist/dotted-divider.d.ts",
+      "import": "./dist/dotted-divider.js"
+    },
+    "./tape-divider": {
+      "types": "./dist/tape-divider.d.ts",
+      "import": "./dist/tape-divider.js"
+    },
+    "./torn-badge": {
+      "types": "./dist/torn-badge.d.ts",
+      "import": "./dist/torn-badge.js"
+    },
+    "./splatoon-title": {
+      "types": "./dist/splatoon-title.d.ts",
+      "import": "./dist/splatoon-title.js"
+    },
+    "./heading-tape": {
+      "types": "./dist/heading-tape.d.ts",
+      "import": "./dist/heading-tape.js"
     },
     "./styles.css": "./dist/styles.css",
     "./assets/*": "./public/*",

@@ -1,0 +1,15 @@
+export const metadata = {
+  title: 'Label',
+  description: 'ネイティブコントロールと Splatoon UI 入力に使うコンパクトなフォームラベルです。',
+  category: 'forms',
+  example: 'label',
+}
+
+## 使い方
+
+Label は input、select、radio、switch などのフォームコントロールに名前を付けるために使います。
+
+## 設計メモ
+
+- 単一コントロールには `htmlFor` を優先します。
+- グループ全体の無効状態は親で持たせます。

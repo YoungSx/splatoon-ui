@@ -1,0 +1,15 @@
+export const metadata = {
+  title: 'Section',
+  description: 'size、pattern、background、overlay clearance を扱う layout section primitive です。',
+  category: 'layout',
+  example: 'section',
+}
+
+## 使い方
+
+Section は一貫した余白と公開 pattern でページの帯を構成するために使います。
+
+## 設計メモ
+
+- 主要な領域には `size="lg"` を使います。
+- 装飾 divider が端をまたぐ場合は overlay clearance を確保します。
