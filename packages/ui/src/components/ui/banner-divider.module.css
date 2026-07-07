@@ -54,8 +54,7 @@
 }
 
 /* ── Tape element (animated) ── */
-/* Banner strip uses centered absolute positioning without margin-left.
-   Positioning is entirely via CSS custom properties (--start-x, --end-x) in .anim transform. */
+/* Banner strip is centered in its final state without depending on the animation class. */
 .bannerDividerTape {
   background-image: var(--banner-divider-image);
   background-image: var(--banner-divider-image-set);
@@ -63,8 +62,9 @@
   background-repeat: repeat-x;
   background-size: auto 100%;
   height: 47px;
-  left: 50%;
+  left: calc(50% - 55vw);
   position: absolute;
+  transform: translate(var(--end-x, 0), var(--end-y, 0)) rotate(var(--end-rotate, 0deg));
   width: 110vw;
   z-index: 0;
 }

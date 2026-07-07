@@ -173,7 +173,7 @@ function BannerDividerTapeLayer({
           '--banner-offset-medium': `${medium}px`,
           '--start-x': startX,
           '--start-y': '-50%',
-          '--end-x': '-50%',
+          '--end-x': '0',
           '--end-y': index === 0 ? '-25%' : '-50%',
           '--start-rotate': '0deg',
           '--end-rotate': `${rotate}deg`,

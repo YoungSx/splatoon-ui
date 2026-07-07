@@ -60,6 +60,7 @@ const checks = [
     pass:
       component.includes('ref={animate ? inViewRef : undefined}') &&
       component.includes('animate && isInView && inViewStyles.inView') &&
+      component.includes("'--end-x': '0'") &&
       component.includes('styles.bannerDividerViewport') &&
       hasDeclaration('.bannerDividerViewport', 'position: absolute;') &&
       hasDeclaration(
@@ -67,7 +68,12 @@ const checks = [
         'top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -0.5));'
       ) &&
       hasDeclaration('.bannerDividerViewport', 'overflow-x: clip;') &&
-      hasDeclaration('.bannerDividerViewport', 'overflow-y: visible;'),
+      hasDeclaration('.bannerDividerViewport', 'overflow-y: visible;') &&
+      hasDeclaration('.bannerDividerTape', 'left: calc(50% - 55vw);') &&
+      hasDeclaration(
+        '.bannerDividerTape',
+        'transform: translate(var(--end-x, 0), var(--end-y, 0)) rotate(var(--end-rotate, 0deg));'
+      ),
   },
   {
     name: 'BannerDivider exposes only the tapes API for layer composition',
