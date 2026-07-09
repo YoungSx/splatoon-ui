@@ -67,10 +67,18 @@ const checks = [
         '.bannerDividerViewport',
         'top: var(--banner-divider-anchor-y, calc(var(--banner-divider-height) * -0.5));'
       ) &&
+      hasDeclaration('.bannerDividerViewport', 'inline-size: 100vw;') &&
+      hasDeclaration('.bannerDividerViewport', 'inset-inline-start: 50%;') &&
+      hasDeclaration('.bannerDividerViewport', 'transform: translateX(-50%);') &&
       hasDeclaration('.bannerDividerViewport', 'overflow-x: clip;') &&
       hasDeclaration('.bannerDividerViewport', 'overflow-y: visible;') &&
       hasDeclaration('.bannerDividerTape', 'left: calc(50% - 55vw);') &&
+      component.includes('!animate && styles.bannerDividerTapeStatic') &&
       hasDeclaration(
+        '.bannerDividerTapeStatic',
+        'transform: translate(var(--end-x, 0), var(--end-y, 0)) rotate(var(--end-rotate, 0deg));'
+      ) &&
+      !hasDeclaration(
         '.bannerDividerTape',
         'transform: translate(var(--end-x, 0), var(--end-y, 0)) rotate(var(--end-rotate, 0deg));'
       ),

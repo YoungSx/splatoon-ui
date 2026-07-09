@@ -4,11 +4,7 @@ import * as React from 'react'
 
 import { useInView } from '@/hooks/use-in-view'
 import { cn } from '@/lib/utils'
-import {
-  splatoonAssetImageSet,
-  splatoonAssetUrl,
-  type SplatoonAssetBasePath,
-} from './assets'
+import { splatoonAssetImageSet, splatoonAssetUrl, type SplatoonAssetBasePath } from './assets'
 import inViewStyles from './in-view.module.css'
 import styles from './banner-divider.module.css'
 
@@ -117,18 +113,12 @@ function getBannerDividerAssetStyle(
   return {
     '--banner-divider-image': splatoonAssetUrl(basePath, assetBasePath),
     '--banner-divider-image-set': splatoonAssetImageSet(
-      [
-        { path: basePath },
-        { path: base2xPath, descriptor: '2x' },
-      ],
+      [{ path: basePath }, { path: base2xPath, descriptor: '2x' }],
       assetBasePath
     ),
     '--banner-divider-image-medium': splatoonAssetUrl(mediumPath, assetBasePath),
     '--banner-divider-image-set-medium': splatoonAssetImageSet(
-      [
-        { path: mediumPath },
-        { path: medium2xPath, descriptor: '2x' },
-      ],
+      [{ path: mediumPath }, { path: medium2xPath, descriptor: '2x' }],
       assetBasePath
     ),
   } satisfies BannerDividerTapeStyle
@@ -162,6 +152,7 @@ function BannerDividerTapeLayer({
         animate && inViewStyles.anim,
         animate && isInView && inViewStyles.inView,
         styles.bannerDividerTape,
+        !animate && styles.bannerDividerTapeStatic,
         delay > 0 && inViewStyles[`delay${delay}` as keyof typeof inViewStyles],
         className
       )}
