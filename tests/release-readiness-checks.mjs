@@ -25,6 +25,16 @@ const pagePath = path.join(root, 'apps', 'docs', 'src', 'app', 'page.tsx')
 const component = fs.readFileSync(componentPath, 'utf8')
 const css = fs.readFileSync(cssPath, 'utf8')
 const page = fs.readFileSync(pagePath, 'utf8')
+const headingTapeExample = fs.readFileSync(
+  path.join(root, 'apps', 'docs', 'src', 'docs', 'examples', 'heading-tape.tsx'),
+  'utf8'
+)
+const generatedExampleSource = JSON.parse(
+  fs.readFileSync(
+    path.join(root, 'apps', 'docs', 'src', 'docs', 'generated', 'example-source.json'),
+    'utf8'
+  )
+)
 
 function block(selector) {
   const escapedSelector = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -97,6 +107,15 @@ const checks = [
         'max-inline-size: var(--heading-tape-decoration-max-inline-size, 100%);'
       ) &&
       !css.includes('transform-origin'),
+  },
+  {
+    name: 'HeadingTape docs example gives the query host a real preview width',
+    pass:
+      headingTapeExample.includes('className="grid min-h-40 w-full place-items-center"') &&
+      generatedExampleSource['heading-tape']?.includes(
+        'className="grid min-h-40 w-full place-items-center"'
+      ) &&
+      !headingTapeExample.includes('className="grid min-h-40 place-items-center"'),
   },
   {
     name: 'HeadingTape compact size is opt-in and cannot alter the default path',

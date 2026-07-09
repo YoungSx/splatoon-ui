@@ -19,7 +19,7 @@ export function HeadingTapeExample({
   label,
 }: HeadingTapeExampleProps) {
   return (
-    <div className="grid min-h-40 place-items-center">
+    <div className="grid min-h-40 w-full place-items-center">
       <HeadingTape size={size} decorationSet={decorationSet} overlapTop={overlapTop}>
         {label}
       </HeadingTape>
