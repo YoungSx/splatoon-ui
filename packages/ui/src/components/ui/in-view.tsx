@@ -11,6 +11,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { useInView } from '@/hooks/use-in-view'
+import { composeRefs } from '@/lib/react-refs'
 import styles from './in-view.module.css'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -69,15 +70,6 @@ const DIRECTION_CLASS: Record<InViewDirection, string> = {
   'up-min': styles.upMin,
   down: styles.down,
   pop: styles.pop,
-}
-
-function setRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
-  if (!ref) return
-  if (typeof ref === 'function') {
-    ref(value)
-    return
-  }
-  ;(ref as React.MutableRefObject<T | null>).current = value
 }
 
 function getChildRef(child: InViewElement): React.Ref<HTMLElement> | undefined {
@@ -172,11 +164,10 @@ export function InView({
   const childEventProps = child.props as React.HTMLAttributes<HTMLElement>
   const composedEventProps = mergeChildEventHandlers(childEventProps, props)
   const mergedStyle = mergeChildStyle(child.props.style, style)
-  const mergedRef = (node: HTMLElement | null) => {
-    setRef(observerRef, node)
-    setRef(childRef, node)
-    setRef(forwardedRef, node)
-  }
+  const mergedRef = React.useMemo(
+    () => composeRefs(observerRef, childRef, forwardedRef),
+    [observerRef, childRef, forwardedRef]
+  )
 
   const animClasses = React.useMemo(() => {
     const classes = [styles.anim]
@@ -238,11 +229,10 @@ export function InViewStagger({
   const childEventProps = child.props as React.HTMLAttributes<HTMLElement>
   const composedEventProps = mergeChildEventHandlers(childEventProps, props)
   const mergedStyle = mergeChildStyle(child.props.style, style)
-  const mergedRef = (node: HTMLElement | null) => {
-    setRef(observerRef, node)
-    setRef(childRef, node)
-    setRef(forwardedRef, node)
-  }
+  const mergedRef = React.useMemo(
+    () => composeRefs(observerRef, childRef, forwardedRef),
+    [observerRef, childRef, forwardedRef]
+  )
 
   return React.cloneElement(child, {
     ...props,

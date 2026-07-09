@@ -68,11 +68,16 @@ export interface SelectProps<Value = string, Multiple extends boolean | undefine
   ) => void
 }
 
+function toSelectRootProps<Value, Multiple extends boolean | undefined>(
+  props: SelectProps<Value, Multiple>
+): SelectPrimitive.Root.Props<Value, Multiple> {
+  return props as SelectPrimitive.Root.Props<Value, Multiple>
+}
+
 function Select<Value = string, Multiple extends boolean | undefined = false>(
   props: SelectProps<Value, Multiple>
 ) {
-  const primitiveProps = props as SelectPrimitive.Root.Props<Value, Multiple>
-  return <SelectPrimitive.Root {...primitiveProps} />
+  return <SelectPrimitive.Root {...toSelectRootProps(props)} />
 }
 
 export interface SelectGroupProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -106,6 +111,12 @@ export interface SelectValueProps<
   ref?: React.Ref<HTMLSpanElement>
 }
 
+function toSelectValueProps<Value, Multiple extends boolean | undefined>(
+  props: SelectValueProps<Value, Multiple>
+): SelectPrimitive.Value.Props {
+  return props as SelectPrimitive.Value.Props
+}
+
 function SelectValue<Value = string, Multiple extends boolean | undefined = false>({
   className,
   ...props
@@ -114,7 +125,7 @@ function SelectValue<Value = string, Multiple extends boolean | undefined = fals
     <SelectPrimitive.Value
       data-slot="select-value"
       className={cn('flex min-w-0 flex-1 truncate text-left', className)}
-      {...(props as SelectPrimitive.Value.Props)}
+      {...toSelectValueProps(props)}
     />
   )
 }
@@ -136,6 +147,12 @@ export interface SelectTriggerProps<
   ref?: React.Ref<HTMLButtonElement>
 }
 
+function toSelectTriggerProps<Value, Multiple extends boolean | undefined>(
+  props: SelectTriggerProps<Value, Multiple>
+): SelectPrimitive.Trigger.Props {
+  return props as SelectPrimitive.Trigger.Props
+}
+
 function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>({
   className,
   size = 'default',
@@ -150,7 +167,7 @@ function SelectTrigger<Value = string, Multiple extends boolean | undefined = fa
         "field-cut border-foreground/30 bg-card focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground flex w-full max-w-full min-w-0 items-center justify-between gap-1.5 border-2 py-2 pr-2 pl-2.5 text-sm font-bold tracking-wider whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-8 data-[size=sm]:h-7 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:min-w-0 *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
-      {...(props as SelectPrimitive.Trigger.Props)}
+      {...toSelectTriggerProps(props)}
     >
       {children}
       <SelectPrimitive.Icon

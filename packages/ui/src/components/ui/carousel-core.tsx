@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 
+import { composeRefs } from '@/lib/react-refs'
 import { cn } from '@/lib/utils'
 import { splatoonAssetUrl, type SplatoonAssetBasePath } from './assets'
 import paginationStyles from './carousel-pagination.module.css'
@@ -374,22 +375,7 @@ export function CarouselSwipeArea({
   const { goToNext, goToPrev } = useCarousel()
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const state = React.useRef({ startX: 0, startY: 0, dx: 0, offsetting: false, scrolling: true })
-
-  const setWrapperRef = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      wrapperRef.current = node
-
-      if (typeof ref === 'function') {
-        ref(node)
-        return
-      }
-
-      if (ref) {
-        ;(ref as React.MutableRefObject<HTMLDivElement | null>).current = node
-      }
-    },
-    [ref]
-  )
+  const setWrapperRef = React.useMemo(() => composeRefs(wrapperRef, ref), [ref])
 
   const handleTouchStart = React.useCallback(
     (event: React.TouchEvent<HTMLDivElement>) => {

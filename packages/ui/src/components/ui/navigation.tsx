@@ -23,14 +23,10 @@ export interface NavigationProps {
   showReducedMotionToggle?: boolean
 }
 
-type ReducedMotionChildProps = {
-  isReducedMotion?: boolean
-}
+const NavigationReducedMotionContext = React.createContext(false)
 
-function acceptsReducedMotionProp(
-  child: React.ReactNode
-): child is React.ReactElement<ReducedMotionChildProps> {
-  return React.isValidElement<ReducedMotionChildProps>(child) && 'isReducedMotion' in child.props
+export function useNavigationReducedMotion() {
+  return React.useContext(NavigationReducedMotionContext)
 }
 
 export function Navigation({
@@ -62,14 +58,6 @@ export function Navigation({
       if (frame) window.cancelAnimationFrame(frame)
     }
   }, [])
-
-  // Pass isReducedMotion to NavigationDialog children
-  const enhancedChildren = React.Children.map(children, (child) => {
-    if (acceptsReducedMotionProp(child)) {
-      return React.cloneElement(child, { isReducedMotion })
-    }
-    return child
-  })
 
   return (
     <>
@@ -120,7 +108,9 @@ export function Navigation({
             isCollapsed ? 'top-[35px]' : 'top-[39px]'
           )}
         >
-          {enhancedChildren}
+          <NavigationReducedMotionContext.Provider value={isReducedMotion}>
+            {children}
+          </NavigationReducedMotionContext.Provider>
         </div>
       </header>
     </>

@@ -191,11 +191,7 @@ export function BlobPlayButton({
     // The padding-top:100% creates a 1:1 square based on the parent width.
     //   transform:translate(-50%,-50%); width:100%; height:0; padding-top:100%;
     <div
-      ref={(node) => {
-        // Forward ref
-        if (typeof ref === 'function') ref(node)
-        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node
-      }}
+      ref={ref}
       className={cn('relative', className)}
       style={
         {

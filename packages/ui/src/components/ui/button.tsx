@@ -11,6 +11,7 @@ import {
   type ButtonThemePreset,
   resolveButtonColors,
 } from '@/lib/resolve-button-colors'
+import { composeRefs } from '@/lib/react-refs'
 import { cn } from '@/lib/utils'
 import styles from './button.module.css'
 import type { PrimitiveButtonRenderState, PrimitiveRender } from './types'
@@ -103,21 +104,7 @@ function Button({
   ...props
 }: ButtonProps) {
   const localRef = React.useRef<HTMLElement>(null)
-  const setButtonRef = React.useCallback(
-    (node: HTMLElement | null) => {
-      localRef.current = node
-
-      if (typeof ref === 'function') {
-        ref(node)
-        return
-      }
-
-      if (ref) {
-        ;(ref as React.MutableRefObject<HTMLElement | null>).current = node
-      }
-    },
-    [ref]
-  )
+  const setButtonRef = React.useMemo(() => composeRefs(localRef, ref), [ref])
 
   const dripSizeClasses = {
     default: { padding: 'pt-3 pb-5 px-11', leading: 'leading-[24px]' },

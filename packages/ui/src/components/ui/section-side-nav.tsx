@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { composeRefs } from '@/lib/react-refs'
 import { useElementSize } from '@/hooks/use-element-size'
 import { NavSplat } from './splats/nav-splat'
 import { NavArrowDown } from './icons/nav-arrow-down'
@@ -114,15 +115,7 @@ export function SectionSideNav({
   const [activeSectionIds, setActiveSectionIds] = React.useState<string[]>([])
   const [isVisible, setIsVisible] = React.useState(true)
 
-  // Callback ref — merges forwarded ref with internal ref
-  const sidebarCallbackRef = React.useCallback(
-    (node: HTMLElement | null) => {
-      ;(internalRef as React.MutableRefObject<HTMLElement | null>).current = node
-      if (typeof ref === 'function') ref(node)
-      else if (ref) (ref as React.MutableRefObject<HTMLElement | null>).current = node
-    },
-    [ref]
-  )
+  const sidebarCallbackRef = React.useMemo(() => composeRefs(internalRef, ref), [ref])
 
   // Cancel in-flight scroll animation on unmount
   React.useEffect(() => {

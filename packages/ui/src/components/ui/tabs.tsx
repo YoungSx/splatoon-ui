@@ -5,10 +5,7 @@ import { cva } from 'class-variance-authority'
 import * as React from 'react'
 
 import { cn } from '@/lib/utils'
-import {
-  splatoonAssetImageSet,
-  type SplatoonAssetBasePath,
-} from './assets'
+import { splatoonAssetImageSet, type SplatoonAssetBasePath } from './assets'
 import type { PrimitiveChangeDetails, PrimitiveRender } from './types'
 import styles from './tabs.module.css'
 
@@ -64,14 +61,18 @@ type TabsInteractionContextValue = {
   setValue: (value: TabsValue, event?: Event) => void
 }
 
+type TabsTriggerElement = React.ReactElement<TabsTriggerProps, typeof TabsTrigger>
+
+type TrapezoidTabsTriggerContextValue = {
+  count: number
+  index: number
+}
+
 const TabsListVariantContext = React.createContext<TabsListVariant>('default')
 const TabsInteractionContext = React.createContext<TabsInteractionContextValue | null>(null)
-
-function isStyleableElement(
-  child: React.ReactNode
-): child is React.ReactElement<{ style?: React.CSSProperties }> {
-  return React.isValidElement(child) && child.type !== React.Fragment
-}
+const TrapezoidTabsTriggerContext = React.createContext<TrapezoidTabsTriggerContextValue | null>(
+  null
+)
 
 function useTabsInteraction() {
   const context = React.useContext(TabsInteractionContext)
@@ -128,6 +129,12 @@ function resolveActivationDirection(
   }
 
   return nextIndex > previousIndex ? 'right' : 'left'
+}
+
+function toTabsRootOnValueChange(
+  onValueChange: (value: TabsValue, eventDetails: TabsChangeDetails) => void
+): TabsPrimitive.Root.Props['onValueChange'] {
+  return onValueChange as TabsPrimitive.Root.Props['onValueChange']
 }
 
 export interface TabsProps extends Omit<
@@ -235,9 +242,7 @@ function Tabs({
         data-slot="tabs"
         data-orientation={orientation}
         value={currentValue}
-        onValueChange={
-          commitValue as React.ComponentProps<typeof TabsPrimitive.Root>['onValueChange']
-        }
+        onValueChange={toTabsRootOnValueChange(commitValue)}
         orientation={orientation}
         className={cn('group/tabs flex gap-2 data-horizontal:flex-col', className)}
         {...props}
@@ -272,31 +277,45 @@ const tabsListVariants = cva(
   }
 )
 
-function withTrapezoidTabsTriggerVars(children: React.ReactNode) {
+function isTabsTriggerElement(child: React.ReactNode): child is TabsTriggerElement {
+  return React.isValidElement(child) && child.type === TabsTrigger
+}
+
+function getTrapezoidTabsTriggerStyle(
+  trigger: TrapezoidTabsTriggerContextValue | null
+): TrapezoidTabsStyle | undefined {
+  if (!trigger) return undefined
+
+  const textureSpan = trigger.count * TRAPEZOID_TABS_TEXTURE_SCALE - 1
+  const backgroundX =
+    trigger.count > 1 && textureSpan > 0 ? `${(trigger.index / textureSpan) * 100}%` : '50%'
+
+  return {
+    '--trapezoid-tabs-bg-size-x': `${trigger.count * TRAPEZOID_TABS_TEXTURE_SCALE * 100}%`,
+    '--trapezoid-tabs-bg-x': backgroundX,
+    '--trapezoid-tabs-count': trigger.count,
+    '--trapezoid-tabs-index': trigger.index,
+  }
+}
+
+function withTrapezoidTabsTriggerContext(children: React.ReactNode) {
   const childArray = React.Children.toArray(children)
-  const triggerCount = childArray.filter(isStyleableElement).length
+  const triggerCount = childArray.filter(isTabsTriggerElement).length
   let triggerIndex = 0
 
   return childArray.map((child) => {
-    if (!isStyleableElement(child)) {
+    if (!isTabsTriggerElement(child)) {
       return child
     }
 
     const index = triggerIndex
     triggerIndex += 1
 
-    const textureSpan = triggerCount * TRAPEZOID_TABS_TEXTURE_SCALE - 1
-    const backgroundX =
-      triggerCount > 1 && textureSpan > 0 ? `${(index / textureSpan) * 100}%` : '50%'
-    const style: TrapezoidTabsStyle = {
-      ...child.props.style,
-      '--trapezoid-tabs-bg-size-x': `${triggerCount * TRAPEZOID_TABS_TEXTURE_SCALE * 100}%`,
-      '--trapezoid-tabs-bg-x': backgroundX,
-      '--trapezoid-tabs-count': triggerCount,
-      '--trapezoid-tabs-index': index,
-    }
-
-    return React.cloneElement(child, { style })
+    return (
+      <TrapezoidTabsTriggerContext.Provider key={child.key} value={{ count: triggerCount, index }}>
+        {child}
+      </TrapezoidTabsTriggerContext.Provider>
+    )
   })
 }
 
@@ -327,7 +346,7 @@ function TabsList({
   const resolvedVariant = variant ?? 'default'
   const resolvedColor = color ?? 'blue'
   const resolvedChildren =
-    resolvedVariant === 'trapezoid' ? withTrapezoidTabsTriggerVars(children) : children
+    resolvedVariant === 'trapezoid' ? withTrapezoidTabsTriggerContext(children) : children
   const resolvedDecorationColor =
     decorationColor ?? getTabsDecorationColor(resolvedVariant, resolvedColor)
   const resolvedStyle = {
@@ -370,9 +389,18 @@ function TabsList({
   )
 }
 
-function TabsTrigger({ className, children, nativeButton = true, ...props }: TabsTriggerProps) {
+function TabsTrigger({
+  className,
+  children,
+  nativeButton = true,
+  style,
+  ...props
+}: TabsTriggerProps) {
   const listVariant = React.useContext(TabsListVariantContext)
+  const trapezoidTrigger = React.useContext(TrapezoidTabsTriggerContext)
   const isTrapezoid = listVariant === 'trapezoid'
+  const trapezoidStyle = isTrapezoid ? getTrapezoidTabsTriggerStyle(trapezoidTrigger) : undefined
+  const resolvedStyle = trapezoidStyle ? { ...style, ...trapezoidStyle } : style
 
   return (
     <TabsPrimitive.Tab
@@ -409,6 +437,7 @@ function TabsTrigger({ className, children, nativeButton = true, ...props }: Tab
         className
       )}
       nativeButton={nativeButton}
+      style={resolvedStyle}
       {...props}
     >
       {isTrapezoid ? (

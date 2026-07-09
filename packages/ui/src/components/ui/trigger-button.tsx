@@ -3,21 +3,19 @@
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { composeRefs } from '@/lib/react-refs'
+import type { ButtonColorToken, ButtonSize, ButtonThemePreset, ButtonVariant } from './button'
 
-type ButtonProps = React.ComponentProps<typeof Button>
-
-type TriggerButtonOwnProps = Pick<
-  ButtonProps,
-  | 'children'
-  | 'variant'
-  | 'size'
-  | 'theme'
-  | 'hasChevron'
-  | 'color'
-  | 'hoverColor'
-  | 'textColor'
-  | 'textHoverColor'
->
+interface TriggerButtonVisualProps {
+  children?: React.ReactNode
+  variant?: ButtonVariant
+  size?: ButtonSize
+  theme?: ButtonThemePreset
+  hasChevron?: boolean
+  color?: ButtonColorToken
+  hoverColor?: ButtonColorToken
+  textColor?: ButtonColorToken
+  textHoverColor?: ButtonColorToken
+}
 
 type TriggerButtonRenderProps = React.HTMLAttributes<HTMLButtonElement> & {
   ref?: React.Ref<HTMLButtonElement>
@@ -32,7 +30,7 @@ type TriggerButtonProps<TTrigger extends React.ElementType> = Omit<
   React.ComponentProps<TTrigger>,
   'render' | 'children'
 > &
-  TriggerButtonOwnProps & {
+  TriggerButtonVisualProps & {
     ref?: React.Ref<HTMLButtonElement>
   }
 

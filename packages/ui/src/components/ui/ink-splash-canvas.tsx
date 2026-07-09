@@ -10,6 +10,7 @@
 
 import * as React from 'react'
 import { resolveCSSColor } from '@/lib/utils'
+import { composeRefs } from '@/lib/react-refs'
 import { type GLContext, createShader, createProgram, hexToRgb } from './webgl-utils'
 import { getVertexShaderSource, getFragmentShaderSource } from './ink-splash-shaders'
 import { useBackgroundTexture } from '@/hooks/use-background-texture'
@@ -96,21 +97,7 @@ export function InkSplashCanvas({
   const validRef = React.useRef(false)
   const noiseYRef = React.useRef(0)
 
-  const setContainerRef = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      containerRef.current = node
-
-      if (typeof ref === 'function') {
-        ref(node)
-        return
-      }
-
-      if (ref) {
-        ;(ref as React.MutableRefObject<HTMLDivElement | null>).current = node
-      }
-    },
-    [ref]
-  )
+  const setContainerRef = React.useMemo(() => composeRefs(containerRef, ref), [ref])
 
   React.useEffect(() => {
     onCompleteRef.current = onComplete

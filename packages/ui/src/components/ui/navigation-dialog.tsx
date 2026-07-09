@@ -6,6 +6,7 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 import { cn } from '@/lib/utils'
 import { NavMenuButton } from '@/components/ui/nav-menu-button'
 import inViewStyles from '@/components/ui/in-view.module.css'
+import { useNavigationReducedMotion } from '@/components/ui/navigation'
 import { NavChevron } from './nav-chevron'
 import type { NavLink, LinkRenderProps } from '@/components/ui/navigation-types'
 import type { ContentPhase, CanvasState } from '@/hooks/use-navigation-menu-animation'
@@ -19,7 +20,6 @@ export type BackgroundTransitionProps = {
 }
 
 export type NavigationDialogProps = {
-  isReducedMotion?: boolean
   navLinks: NavLink[]
   highlightColor: string
   cta?: React.ReactNode
@@ -77,7 +77,6 @@ function DefaultNavLink({
 }
 
 export function NavigationDialog({
-  isReducedMotion = false,
   navLinks,
   highlightColor,
   cta,
@@ -90,6 +89,7 @@ export function NavigationDialog({
   navLabel = 'Main site navigation',
   closeLabel = 'Close navigation menu',
 }: NavigationDialogProps) {
+  const isReducedMotion = useNavigationReducedMotion()
   const [activeNavLabel, setActiveNavLabel] = React.useState<string | null>(null)
   const selectedNavKey = useSyncSelectedNavKey(navLinks)
   const {

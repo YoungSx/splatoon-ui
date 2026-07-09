@@ -363,16 +363,7 @@ function CardStackCarouselArrow({
       }}
     >
       <IconButton
-        {...(props as Omit<
-          React.ComponentPropsWithoutRef<typeof IconButton>,
-          | 'aria-label'
-          | 'aria-labelledby'
-          | 'variant'
-          | 'direction'
-          | 'animation'
-          | 'disabled'
-          | 'onClick'
-        >)}
+        {...props}
         {...accessibleNameProps}
         ref={ref}
         variant="carousel"

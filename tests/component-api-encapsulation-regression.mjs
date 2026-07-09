@@ -97,6 +97,8 @@ const headingTape = fs.readFileSync(path.join(componentRoot, 'heading-tape.tsx')
 const eventCallout = fs.readFileSync(path.join(componentRoot, 'event-callout.tsx'), 'utf8')
 const iconButton = fs.readFileSync(path.join(componentRoot, 'icon-button.tsx'), 'utf8')
 const navMenuButton = fs.readFileSync(path.join(componentRoot, 'nav-menu-button.tsx'), 'utf8')
+const navigation = fs.readFileSync(path.join(componentRoot, 'navigation.tsx'), 'utf8')
+const navigationDialog = fs.readFileSync(path.join(componentRoot, 'navigation-dialog.tsx'), 'utf8')
 const blobPlayButton = fs.readFileSync(path.join(componentRoot, 'blob-play-button.tsx'), 'utf8')
 const splatoonTitle = fs.readFileSync(path.join(componentRoot, 'splatoon-title.tsx'), 'utf8')
 const navChevron = fs.readFileSync(path.join(componentRoot, 'nav-chevron.tsx'), 'utf8')
@@ -347,6 +349,10 @@ const checks = [
       carouselCore.includes('onTouchEnd?.(event)') &&
       carouselCore.includes('if (event.defaultPrevented) return') &&
       carouselCore.includes('const shouldNavigate = !event.defaultPrevented') &&
+      carouselCore.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      carouselCore.includes(
+        'const setWrapperRef = React.useMemo(() => composeRefs(wrapperRef, ref), [ref])'
+      ) &&
       carouselCore.includes('ref={setWrapperRef}') &&
       carouselCore.includes('onTouchStart={handleTouchStart}') &&
       carouselCore.includes('onTouchMove={handleTouchMove}') &&
@@ -392,6 +398,10 @@ const checks = [
       inkTrail.includes('ref?: React.Ref<HTMLDivElement>') &&
       inkTrail.includes('initialOpacity = 0.55,\n  zIndex,\n  className,') &&
       inkTrail.includes('}: InkTrailCanvasProps)') &&
+      inkTrail.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      inkTrail.includes(
+        'const mergedRef = React.useMemo(() => composeRefs(containerRef, ref), [ref])'
+      ) &&
       ruggedCard.includes(
         "export interface RuggedCardProps extends Omit<React.ComponentProps<'div'>, 'ref'>"
       ) &&
@@ -560,6 +570,10 @@ const checks = [
     pass:
       button.includes('ref?: React.Ref<HTMLElement>') &&
       button.includes('}: ButtonProps)') &&
+      button.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      button.includes(
+        'const setButtonRef = React.useMemo(() => composeRefs(localRef, ref), [ref])'
+      ) &&
       !button.includes('}: ButtonProps & { ref?:') &&
       buttonGroup.includes('ref?: React.Ref<HTMLDivElement>') &&
       buttonGroup.includes('}: ButtonGroupProps)') &&
@@ -643,7 +657,10 @@ const checks = [
       inkSplashCanvas.includes('ref?: React.Ref<HTMLDivElement>') &&
       inkSplashCanvas.includes('export function InkSplashCanvas({') &&
       inkSplashCanvas.includes('ref,') &&
-      inkSplashCanvas.includes('const setContainerRef = React.useCallback') &&
+      inkSplashCanvas.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      inkSplashCanvas.includes(
+        'const setContainerRef = React.useMemo(() => composeRefs(containerRef, ref), [ref])'
+      ) &&
       inkSplashCanvas.includes('ref={setContainerRef}') &&
       inkSplashCanvas.includes('{...props}'),
   },
@@ -662,9 +679,14 @@ const checks = [
       ) &&
       waveCanvas.includes('ref?: React.Ref<HTMLCanvasElement>') &&
       waveCanvas.includes('}: WaveCanvasProps)') &&
+      waveCanvas.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      waveCanvas.includes(
+        'const setCanvasRef = React.useMemo(() => composeRefs(canvasRef, ref), [ref])'
+      ) &&
       waveCanvas.includes('width={Math.max(1, canvasWidth)}') &&
       waveCanvas.includes('height={height}') &&
-      waveCanvas.includes('ref={setCanvasRef}'),
+      waveCanvas.includes('ref={setCanvasRef}') &&
+      !waveCanvas.includes('as React.MutableRefObject'),
   },
   {
     name: 'Form and selection control exported props include forwarded refs',
@@ -705,7 +727,8 @@ const checks = [
       inView.includes('export interface InViewStaggerProps') &&
       (inView.match(/ref\?: React\.Ref<HTMLElement>/g) ?? []).length >= 3 &&
       (inView.match(/ref: forwardedRef,/g) ?? []).length === 2 &&
-      (inView.match(/setRef\(forwardedRef, node\)/g) ?? []).length === 2 &&
+      inView.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      (inView.match(/composeRefs\(observerRef, childRef, forwardedRef\)/g) ?? []).length === 2 &&
       (inView.match(/ref: mergedRef/g) ?? []).length === 2,
   },
   {
@@ -736,7 +759,26 @@ const checks = [
       ) &&
       sectionSideNav.includes('ref?: React.Ref<HTMLElement>') &&
       sectionSideNav.includes('}: SectionSideNavProps)') &&
+      sectionSideNav.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      sectionSideNav.includes(
+        'const sidebarCallbackRef = React.useMemo(() => composeRefs(internalRef, ref), [ref])'
+      ) &&
       !sectionSideNav.includes('}: SectionSideNavProps & { ref?:'),
+  },
+  {
+    name: 'Navigation shares reduced-motion state through context instead of child prop injection',
+    pass:
+      navigation.includes('const NavigationReducedMotionContext = React.createContext(false)') &&
+      navigation.includes('export function useNavigationReducedMotion()') &&
+      navigation.includes('<NavigationReducedMotionContext.Provider value={isReducedMotion}>') &&
+      navigationDialog.includes(
+        "import { useNavigationReducedMotion } from '@/components/ui/navigation'"
+      ) &&
+      navigationDialog.includes('const isReducedMotion = useNavigationReducedMotion()') &&
+      !navigation.includes('React.cloneElement') &&
+      !navigation.includes('isReducedMotion in child.props') &&
+      !navigationDialog.includes('isReducedMotion?: boolean') &&
+      !navigationDialog.includes('isReducedMotion = false'),
   },
   {
     name: 'Published component API does not expose private implementation helpers',
@@ -833,10 +875,12 @@ const checks = [
       dialog.includes('registerTrigger') &&
       dialog.includes('createTriggerButton') &&
       dialog.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      triggerButton.includes('interface TriggerButtonVisualProps') &&
       triggerButton.includes('useRegisterRef') &&
       triggerButton.includes("import { composeRefs } from '@/lib/react-refs'") &&
       triggerButton.includes('composeRefs(registerRef, triggerRef, ref)') &&
       reactRefs.includes('export function composeRefs') &&
+      !triggerButton.includes('React.ComponentProps<typeof Button>') &&
       !triggerButton.includes('export function mergeRefs') &&
       !triggerButton.includes('no-explicit-any') &&
       !dialog.includes('querySelector<HTMLButtonElement>') &&
@@ -847,7 +891,10 @@ const checks = [
     pass:
       videoDialog.includes('DialogTrigger') &&
       videoDialog.includes('type DialogProps') &&
+      videoDialog.includes("import { composeRefs } from '@/lib/react-refs'") &&
       videoDialog.includes('<DialogTrigger') &&
+      videoDialog.includes('ref={composeRefs(triggerRefCb, ref)}') &&
+      !videoDialog.includes("typeof ref === 'function'") &&
       !videoDialog.includes('DialogPrimitive.Trigger'),
   },
   {
@@ -886,9 +933,13 @@ const checks = [
       cardStackCarousel.includes(
         'const isDisabled = disabled || (isPrev ? !canGoPrev : !canGoNext)'
       ) &&
-      cardStackCarousel.includes(
-        "| 'aria-label'\n          | 'aria-labelledby'\n          | 'variant'\n          | 'direction'\n          | 'animation'\n          | 'disabled'\n          | 'onClick'"
-      ) &&
+      cardStackCarousel.includes('<IconButton\n        {...props}') &&
+      cardStackCarousel.includes('variant="carousel"') &&
+      cardStackCarousel.includes('animation="squish"') &&
+      cardStackCarousel.includes('direction={isPrev ?') &&
+      cardStackCarousel.includes('disabled={isDisabled}') &&
+      cardStackCarousel.includes('onClick={handleClick}') &&
+      !cardStackCarousel.includes('ComponentPropsWithoutRef<typeof IconButton>') &&
       !cardStackCarousel.includes('onClick={isPrev ? goToPrev : goToNext}') &&
       !cardStackCarousel.includes('disabled={isPrev ? !canGoPrev : !canGoNext}'),
   },
@@ -1203,6 +1254,15 @@ const checks = [
       tabs.includes('decorationColor?: string') &&
       tabs.includes('const resolvedDecorationColor =') &&
       tabs.includes('decorationColor ?? getTabsDecorationColor(resolvedVariant, resolvedColor)') &&
+      tabs.includes('function toTabsRootOnValueChange') &&
+      tabs.includes('onValueChange={toTabsRootOnValueChange(commitValue)}') &&
+      tabs.includes('const TrapezoidTabsTriggerContext =') &&
+      tabs.includes('function withTrapezoidTabsTriggerContext') &&
+      tabs.includes('<TrapezoidTabsTriggerContext.Provider') &&
+      tabs.includes('const trapezoidTrigger = React.useContext(TrapezoidTabsTriggerContext)') &&
+      tabs.includes(
+        'const resolvedStyle = trapezoidStyle ? { ...style, ...trapezoidStyle } : style'
+      ) &&
       tabs.includes("'--tabs-decoration-color': resolvedDecorationColor") &&
       tabs.includes('tabsDecorationColorByColor') &&
       tabs.includes("yellow: 'var(--color-blue)'") &&
@@ -1211,7 +1271,9 @@ const checks = [
       tabs.includes("return 'var(--color-blue)'") &&
       tabsCss.includes('background-color: var(--tabs-decoration-color);') &&
       tabsCss.includes('fill: var(--tabs-decoration-color);') &&
-      demoPage.includes('decorationColor="var(--color-blue)"'),
+      demoPage.includes('decorationColor="var(--color-blue)"') &&
+      !tabs.includes('React.cloneElement(child') &&
+      !tabs.includes('React.ComponentProps<typeof TabsPrimitive.Root>'),
   },
   {
     name: 'Reusable color APIs derive from shared Splatoon color tokens instead of legacy aliases',
@@ -1256,6 +1318,12 @@ const checks = [
       select.includes('<SelectPrimitive.List>{children}</SelectPrimitive.List>') &&
       select.includes('showScrollButtons ? <SelectScrollUpButton /> : null') &&
       select.includes('showScrollButtons ? <SelectScrollDownButton /> : null') &&
+      select.includes('function toSelectRootProps') &&
+      select.includes('function toSelectValueProps') &&
+      select.includes('function toSelectTriggerProps') &&
+      select.includes('<SelectPrimitive.Root {...toSelectRootProps(props)} />') &&
+      select.includes('{...toSelectValueProps(props)}') &&
+      select.includes('{...toSelectTriggerProps(props)}') &&
       /export interface SelectScrollUpButtonProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLDivElement>,\s*'children'\s*>/.test(
         select
       ) &&
@@ -1268,6 +1336,7 @@ const checks = [
       select.includes('absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2') &&
       select.includes('viewBox="20 20 280 280"') &&
       select.includes('onOpenChange?: (open: boolean, eventDetails: PrimitiveChangeDetails)') &&
+      !select.includes('{...(props as SelectPrimitive') &&
       !select.includes('PrimitiveOpenChangeDetails'),
   },
   {
@@ -1280,7 +1349,14 @@ const checks = [
       list.includes('DottedDivider') &&
       list.includes('padStart(digits,') &&
       list.includes('Math.max(\n    2,') &&
-      list.includes("'data-list-marker': formatListMarker(markerValue, markerDigits)") &&
+      list.includes(
+        'const ListMarkerContext = React.createContext<string | undefined>(undefined)'
+      ) &&
+      list.includes('<ListMarkerContext.Provider') &&
+      list.includes('value={formatListMarker(markerValue, markerDigits)}') &&
+      list.includes('const markerLabel = React.useContext(ListMarkerContext)') &&
+      list.includes('data-list-marker={markerLabel}') &&
+      !list.includes('React.cloneElement(child') &&
       list.includes('markerHoverColor = splatoonColorVars.green') &&
       list.includes(
         "...(dividerColor ? { '--list-divider-color': resolveSplatoonColorValue(dividerColor) } : null)"

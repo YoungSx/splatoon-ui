@@ -5,6 +5,7 @@ import { cn, resolveCSSColor } from '@/lib/utils'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { useRenderGate } from '@/hooks/use-render-gate'
 import { observeElementResize } from '@/lib/observe-element-resize'
+import { composeRefs } from '@/lib/react-refs'
 
 // ─── Physics constants ──────────────────────────────────────────────────────
 
@@ -64,21 +65,7 @@ function WaveCanvas({
       if (active) scheduleRenderRef.current()
     },
   })
-  const setCanvasRef = React.useCallback(
-    (node: HTMLCanvasElement | null) => {
-      canvasRef.current = node
-
-      if (typeof ref === 'function') {
-        ref(node)
-        return
-      }
-
-      if (ref) {
-        ;(ref as React.MutableRefObject<HTMLCanvasElement | null>).current = node
-      }
-    },
-    [ref]
-  )
+  const setCanvasRef = React.useMemo(() => composeRefs(canvasRef, ref), [ref])
 
   // ── Reduced motion ───────────────────────────────────────────────────────
 

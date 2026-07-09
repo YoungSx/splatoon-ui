@@ -24,6 +24,7 @@ import { usePointerTracker } from '@/hooks/use-pointer-tracker'
 import { useRenderGate } from '@/hooks/use-render-gate'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import { observeElementResize } from '@/lib/observe-element-resize'
+import { composeRefs } from '@/lib/react-refs'
 import { getLocalPoint } from '@/lib/dom-geometry'
 import styles from './ink-trail.module.css'
 
@@ -94,14 +95,7 @@ export function InkTrailCanvas({
 
   // ── Merged ref ────────────────────────────────────────────────────────
 
-  const mergedRef = React.useCallback(
-    (node: HTMLDivElement | null) => {
-      ;(containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node
-      if (typeof ref === 'function') ref(node)
-      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node
-    },
-    [ref]
-  )
+  const mergedRef = React.useMemo(() => composeRefs(containerRef, ref), [ref])
 
   // ── Pointer tracking (always active — no enabled gate) ─────────────────
 

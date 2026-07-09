@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
+import { composeRefs } from '@/lib/react-refs'
 import { Dialog, DialogContent, DialogTrigger, type DialogProps } from '@/components/ui/dialog'
 import { BlobPlayButton } from './blob-play-button'
 import { MediaDecoration } from './media-decoration'
@@ -69,12 +70,7 @@ export function VideoDialogThumbnail({
           <button
             {...rest}
             {...props}
-            ref={(node) => {
-              if (typeof triggerRefCb === 'function') triggerRefCb(node)
-              else if (triggerRefCb) triggerRefCb.current = node
-              if (typeof ref === 'function') ref(node)
-              else if (ref) ref.current = node
-            }}
+            ref={composeRefs(triggerRefCb, ref)}
             type="button"
             className={cn(
               tapeStyles.thumbnailTrigger,
