@@ -140,6 +140,10 @@ const buttonColorResolver = fs.readFileSync(
   path.join(root, 'packages', 'ui', 'src', 'lib', 'resolve-button-colors.ts'),
   'utf8'
 )
+const reactRefs = fs.readFileSync(
+  path.join(root, 'packages', 'ui', 'src', 'lib', 'react-refs.ts'),
+  'utf8'
+)
 const splatoonColorTokens = fs.readFileSync(
   path.join(root, 'packages', 'ui', 'src', 'lib', 'splatoon-color-tokens.ts'),
   'utf8'
@@ -764,6 +768,8 @@ const checks = [
       popover.includes('function PopoverContent({') &&
       popover.includes('}: PopoverContentProps)') &&
       !popover.includes('}: PopoverContentProps & { ref?:') &&
+      dialog.includes('}: DialogContentFullScreenProps)') &&
+      !dialog.includes('}: DialogContentFullScreenProps & { ref?:') &&
       sheet.includes('}: SheetPopupProps)') &&
       sheet.includes('}: SheetContentProps)') &&
       !sheet.includes('}: SheetPopupProps & { ref?:') &&
@@ -826,8 +832,12 @@ const checks = [
     pass:
       dialog.includes('registerTrigger') &&
       dialog.includes('createTriggerButton') &&
+      dialog.includes("import { composeRefs } from '@/lib/react-refs'") &&
       triggerButton.includes('useRegisterRef') &&
-      triggerButton.includes('mergeRefs(registerRef, triggerRef, ref)') &&
+      triggerButton.includes("import { composeRefs } from '@/lib/react-refs'") &&
+      triggerButton.includes('composeRefs(registerRef, triggerRef, ref)') &&
+      reactRefs.includes('export function composeRefs') &&
+      !triggerButton.includes('export function mergeRefs') &&
       !triggerButton.includes('no-explicit-any') &&
       !dialog.includes('querySelector<HTMLButtonElement>') &&
       !dialog.includes('[data-slot="dialog-trigger"]'),
@@ -901,11 +911,17 @@ const checks = [
       !marqueeCarousel.includes('ComponentPropsWithoutRef<typeof Carousel>') &&
       weaponsGalleryCarousel.includes('type CarouselProps') &&
       weaponsGalleryCarousel.includes("extends Omit<CarouselProps, 'children'>") &&
+      weaponsGalleryCarousel.includes('ref?: React.Ref<HTMLDivElement>') &&
+      weaponsGalleryCarousel.includes('}: WeaponsGalleryItemProps)') &&
+      !weaponsGalleryCarousel.includes('}: WeaponsGalleryItemProps & { ref?:') &&
       !weaponsGalleryCarousel.includes('ComponentPropsWithoutRef<typeof Carousel>') &&
       iconPaginatedCarousel.includes('MarqueeCarouselProps') &&
       /extends\s+Omit<\s*MarqueeCarouselProps,\s*'items'\s*\|\s*'pagination'\s*\|\s*'renderItem'\s*>/.test(
         iconPaginatedCarousel
       ) &&
+      iconPaginatedCarousel.includes('ref?: React.Ref<HTMLDivElement>') &&
+      iconPaginatedCarousel.includes('}: IconPaginatedGalleryItemProps)') &&
+      !iconPaginatedCarousel.includes('}: IconPaginatedGalleryItemProps & { ref?:') &&
       !iconPaginatedCarousel.includes('ComponentPropsWithoutRef<') &&
       /<MarqueeCarousel\s+{\.\.\.props}\s+items={items}\s+className={className}\s+assetBasePath={assetBasePath}\s+pagination=/.test(
         iconPaginatedCarousel

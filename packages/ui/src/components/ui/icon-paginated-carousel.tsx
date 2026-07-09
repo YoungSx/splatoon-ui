@@ -67,6 +67,7 @@ interface IconPaginatedGalleryItemProps extends React.HTMLAttributes<HTMLDivElem
   item: IconPaginatedCarouselItem
   'data-index'?: number
   assetBasePath?: IconPaginatedCarouselProps['assetBasePath']
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function IconPaginatedGalleryItem({
@@ -76,7 +77,7 @@ function IconPaginatedGalleryItem({
   'data-index': index = 0,
   assetBasePath,
   ...props
-}: IconPaginatedGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: IconPaginatedGalleryItemProps) {
   const { isActive } = useCarouselItemState(index)
 
   return (

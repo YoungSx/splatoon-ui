@@ -5,7 +5,8 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog'
 
 import { cn } from '@/lib/utils'
 import { Button, type ButtonProps } from '@/components/ui/button'
-import { createTriggerButton, mergeRefs } from '@/components/ui/trigger-button'
+import { createTriggerButton } from '@/components/ui/trigger-button'
+import { composeRefs } from '@/lib/react-refs'
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 import type {
   PrimitiveFocusTarget,
@@ -160,7 +161,7 @@ function DialogTrigger({ ref, ...props }: DialogTriggerProps) {
 
   return (
     <DialogPrimitive.Trigger
-      ref={mergeRefs(registerTrigger, ref)}
+      ref={composeRefs(registerTrigger, ref)}
       data-slot="dialog-trigger"
       {...props}
     />
@@ -266,7 +267,7 @@ function DialogContentFullScreen({
   assetBasePath,
   style,
   ...props
-}: DialogContentFullScreenProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: DialogContentFullScreenProps) {
   const { open, setOpen, triggerRef } = useDialogContext()
 
   const [modalActive, setModalActive] = React.useState(false)
@@ -443,13 +444,7 @@ function DialogContentFullScreen({
           style={{ zIndex: DIALOG_Z_INDEX.content }}
         >
           <div
-            ref={(node) => {
-              contentRef.current = node
-              if (typeof ref === 'function') ref(node as HTMLDivElement)
-              else if (ref)
-                (ref as React.MutableRefObject<HTMLDivElement | null>).current =
-                  node as HTMLDivElement
-            }}
+            ref={composeRefs(contentRef, ref)}
             className={cn(
               'pointer-events-auto relative w-full max-w-[1000px] overflow-visible outline-none',
               className

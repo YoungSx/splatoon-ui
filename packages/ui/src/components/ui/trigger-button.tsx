@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
+import { composeRefs } from '@/lib/react-refs'
 
 type ButtonProps = React.ComponentProps<typeof Button>
 
@@ -34,21 +35,6 @@ type TriggerButtonProps<TTrigger extends React.ElementType> = Omit<
   TriggerButtonOwnProps & {
     ref?: React.Ref<HTMLButtonElement>
   }
-
-export function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
-  if (!ref) return
-  if (typeof ref === 'function') {
-    ref(value)
-    return
-  }
-  ref.current = value
-}
-
-export function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
-  return (value: T | null) => {
-    refs.forEach((ref) => assignRef(ref, value))
-  }
-}
 
 /**
  * Factory: creates a TriggerButton component that renders a Base UI trigger
@@ -91,7 +77,7 @@ export function createTriggerButton<TTrigger extends React.ElementType>(
           return (
             <Button
               {...buttonProps}
-              ref={mergeRefs(registerRef, triggerRef, ref)}
+              ref={composeRefs(registerRef, triggerRef, ref)}
               variant={variant}
               size={size}
               theme={theme}

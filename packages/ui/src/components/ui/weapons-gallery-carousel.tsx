@@ -69,6 +69,7 @@ interface WeaponsGalleryItemProps extends React.HTMLAttributes<HTMLDivElement> {
   item: WeaponsGalleryCarouselItem
   'data-index'?: number
   assetBasePath?: SplatoonAssetBasePath
+  ref?: React.Ref<HTMLDivElement>
 }
 
 function WeaponsGalleryItem({
@@ -78,7 +79,7 @@ function WeaponsGalleryItem({
   'data-index': index = 0,
   assetBasePath,
   ...props
-}: WeaponsGalleryItemProps & { ref?: React.Ref<HTMLDivElement> }) {
+}: WeaponsGalleryItemProps) {
   const { isActive } = useCarouselItemState(index)
 
   return (
