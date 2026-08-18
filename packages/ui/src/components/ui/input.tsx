@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Input as InputPrimitive } from '@base-ui/react/input'
 
 import { cn } from '@/lib/utils'
 
@@ -9,7 +8,7 @@ export interface InputProps extends Omit<React.ComponentProps<'input'>, 'childre
 
 function Input({ ref, className, type, ...props }: InputProps) {
   return (
-    <InputPrimitive
+    <input
       ref={ref}
       type={type}
       data-slot="input"

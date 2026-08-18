@@ -1,14 +1,24 @@
 import * as React from 'react'
 
+import { isCssColor } from '@/lib/css-color'
 import { cn } from '@/lib/utils'
 import type { SplatoonAssetBasePath } from './assets'
 import { TornCard } from './torn-card'
 import type { SplatoonColorValue } from './tokens'
 
 export type AlertVariant = 'default' | 'destructive'
-const AlertVariantContext = React.createContext<AlertVariant>('default')
-const ALERT_DESTRUCTIVE_TITLE_COLOR = 'var(--danger-surface-title)'
-const ALERT_DESTRUCTIVE_DESCRIPTION_COLOR = 'var(--danger-surface-description)'
+
+/**
+ * Variant text colors travel down as custom properties rather than through
+ * React context, which keeps this module usable from Server Components.
+ */
+const ALERT_TITLE_COLOR_VAR = '--alert-title-color'
+const ALERT_DESCRIPTION_COLOR_VAR = '--alert-description-color'
+
+type AlertStyle = React.CSSProperties & {
+  [ALERT_TITLE_COLOR_VAR]?: string
+  [ALERT_DESCRIPTION_COLOR_VAR]?: string
+}
 
 export interface AlertProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   variant?: AlertVariant
@@ -26,21 +36,16 @@ const ALERT_VARIANT_MAP = {
   default: {
     tornVariant: 'b' as const,
     background: undefined,
+    titleColor: 'var(--color-blue)',
+    descriptionColor: 'inherit',
   },
   destructive: {
     tornVariant: 'c' as const,
     background: 'var(--color-red)',
+    titleColor: 'var(--danger-surface-title)',
+    descriptionColor: 'var(--danger-surface-description)',
   },
 } as const
-
-function isCssColor(value: string) {
-  return (
-    value.startsWith('#') ||
-    value.startsWith('rgb') ||
-    value.startsWith('var(') ||
-    value.startsWith('hsl')
-  )
-}
 
 export function Alert({
   ref,
@@ -49,23 +54,28 @@ export function Alert({
   background,
   className,
   children,
+  style,
   ...props
 }: AlertProps) {
   const config = ALERT_VARIANT_MAP[variant]
+  const resolvedStyle: AlertStyle = {
+    [ALERT_TITLE_COLOR_VAR]: config.titleColor,
+    [ALERT_DESCRIPTION_COLOR_VAR]: config.descriptionColor,
+    ...style,
+  }
 
   return (
-    <AlertVariantContext.Provider value={variant}>
-      <TornCard
-        ref={ref}
-        variant={config.tornVariant}
-        showTape={showTape}
-        background={background ?? config.background}
-        className={className}
-        {...props}
-      >
-        {children}
-      </TornCard>
-    </AlertVariantContext.Provider>
+    <TornCard
+      ref={ref}
+      variant={config.tornVariant}
+      showTape={showTape}
+      background={background ?? config.background}
+      className={className}
+      style={resolvedStyle}
+      {...props}
+    >
+      {children}
+    </TornCard>
   )
 }
 
@@ -75,24 +85,17 @@ export interface AlertTitleProps extends Omit<React.ComponentProps<'h2'>, 'ref'>
 }
 
 function AlertTitle({ ref, className, textColor, style, ...props }: AlertTitleProps) {
-  const variant = React.useContext(AlertVariantContext)
-  const resolvedTextColor =
-    textColor ?? (variant === 'destructive' ? ALERT_DESTRUCTIVE_TITLE_COLOR : 'text-blue')
+  const isClassNameColor = textColor !== undefined && !isCssColor(textColor)
+  const color = isClassNameColor
+    ? undefined
+    : (textColor ?? `var(${ALERT_TITLE_COLOR_VAR}, var(--color-blue))`)
 
   return (
     <h2
       ref={ref}
       data-slot="alert-title"
-      className={cn(
-        'splat-heading text-2xl',
-        resolvedTextColor && isCssColor(resolvedTextColor) ? '' : resolvedTextColor,
-        className
-      )}
-      style={
-        resolvedTextColor && isCssColor(resolvedTextColor)
-          ? { color: resolvedTextColor, ...style }
-          : style
-      }
+      className={cn('splat-heading text-2xl', isClassNameColor ? textColor : '', className)}
+      style={color ? { color, ...style } : style}
       {...props}
     />
   )
@@ -104,16 +107,17 @@ export interface AlertDescriptionProps extends Omit<React.ComponentProps<'p'>, '
 }
 
 function AlertDescription({ ref, className, textColor, style, ...props }: AlertDescriptionProps) {
-  const variant = React.useContext(AlertVariantContext)
-  const resolvedTextColor =
-    textColor ?? (variant === 'destructive' ? ALERT_DESTRUCTIVE_DESCRIPTION_COLOR : undefined)
+  const isClassNameColor = textColor !== undefined && !isCssColor(textColor)
+  const color = isClassNameColor
+    ? undefined
+    : (textColor ?? `var(${ALERT_DESCRIPTION_COLOR_VAR}, inherit)`)
 
   return (
     <p
       ref={ref}
       data-slot="alert-description"
-      className={cn('text-sm opacity-90', className)}
-      style={resolvedTextColor ? { color: resolvedTextColor, ...style } : style}
+      className={cn('text-sm opacity-90', isClassNameColor ? textColor : '', className)}
+      style={color ? { color, ...style } : style}
       {...props}
     />
   )

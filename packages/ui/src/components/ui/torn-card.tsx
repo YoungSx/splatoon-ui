@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { isCssColor } from '@/lib/css-color'
 import { cn } from '@/lib/utils'
 import type { SplatoonAssetBasePath } from './assets'
 import { CardSlot } from './card-slot'
@@ -135,15 +136,6 @@ export function TornCard({
         </div>
       </div>
     </div>
-  )
-}
-
-function isCssColor(value: string) {
-  return (
-    value.startsWith('#') ||
-    value.startsWith('rgb') ||
-    value.startsWith('var(') ||
-    value.startsWith('hsl')
   )
 }
 
