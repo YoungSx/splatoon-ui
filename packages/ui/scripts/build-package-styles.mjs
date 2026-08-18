@@ -23,6 +23,32 @@ function inlinePackageCssImports(source) {
   )
 }
 
+/**
+ * Every CSS Module keyframe is renamed to `<scope>_<name>`, so the definitions
+ * and the `animation` references that point at them have to stay in sync. A
+ * scoped name on only one side means the rename missed a spelling, which the
+ * browser would silently ignore as an unknown animation.
+ */
+function assertScopedKeyframesResolve(css) {
+  const defined = new Set(
+    [...css.matchAll(/@(?:-(?:webkit|moz|o|ms)-)?keyframes\s+([A-Za-z_][\w-]*)/g)].map(
+      (match) => match[1]
+    )
+  )
+  const referenced = new Set(
+    [...css.matchAll(/(?:^|;|\{|\n)\s*animation(?:-name)?\s*:([^;{}]+)/gi)].flatMap((match) =>
+      (match[1].match(/[A-Za-z_][\w-]*/g) ?? []).filter((token) => /_[a-f0-9]{7}_/.test(token))
+    )
+  )
+
+  const dangling = [...referenced].filter((name) => !defined.has(name))
+  if (dangling.length > 0) {
+    throw new Error(
+      `Scoped keyframe references without a matching definition: ${dangling.join(', ')}`
+    )
+  }
+}
+
 if (!fs.existsSync(distDir)) {
   throw new Error('dist/ does not exist. Run tsup before building package styles.')
 }
@@ -58,6 +84,8 @@ const outputCss = [
 if (outputCss.includes('shadcn/tailwind.css')) {
   throw new Error('Package stylesheet still contains unresolved shadcn/tailwind.css import.')
 }
+
+assertScopedKeyframesResolve(outputCss)
 
 fs.writeFileSync(outputPath, `${outputCss}\n`)
 
