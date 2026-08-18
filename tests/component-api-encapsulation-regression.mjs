@@ -672,7 +672,7 @@ const checks = [
       ) &&
       input.includes('ref?: React.Ref<HTMLInputElement>') &&
       input.includes('function Input({ ref, className, type, ...props }: InputProps)') &&
-      input.includes('<InputPrimitive') &&
+      input.includes('<input') &&
       input.includes('ref={ref}') &&
       /export interface WaveCanvasProps\s+extends Omit<\s*React\.ComponentProps<'canvas'>,\s*'children' \| 'color' \| 'height' \| 'ref' \| 'width'\s*>/.test(
         waveCanvas
@@ -987,7 +987,7 @@ const checks = [
       ) &&
       alert.includes("tapePosition?: 'top-right' | 'bottom-center'") &&
       alert.includes('export function Alert({\n  ref,') &&
-      alert.includes('<TornCard\n        ref={ref}') &&
+      alert.includes('<TornCard\n      ref={ref}') &&
       alert.includes('export interface AlertTitleProps') &&
       alert.includes('ref?: React.Ref<HTMLHeadingElement>') &&
       alert.includes('function AlertTitle({ ref,') &&

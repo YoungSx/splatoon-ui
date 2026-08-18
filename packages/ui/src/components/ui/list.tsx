@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react'
 
 import { resolveSplatoonColorValue, splatoonColorVars } from '@/lib/splatoon-color-tokens'

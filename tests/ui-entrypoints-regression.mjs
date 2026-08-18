@@ -26,8 +26,33 @@ function firstCodeLine(source) {
   return source.split(/\r?\n/).find((line) => line.trim() && !line.trim().startsWith('//')) ?? ''
 }
 
+// Any React API that is unavailable in the react-server condition, plus
+// browser-only globals. React's server build exports neither hooks nor
+// createContext/useContext, so a module touching these must declare
+// 'use client' or it throws the moment a Server Component imports it.
+const clientOnlyReactApis = [
+  'createContext',
+  'useActionState',
+  'useCallback',
+  'useContext',
+  'useDeferredValue',
+  'useEffect',
+  'useId',
+  'useImperativeHandle',
+  'useInsertionEffect',
+  'useLayoutEffect',
+  'useMemo',
+  'useOptimistic',
+  'useReducer',
+  'useRef',
+  'useState',
+  'useSyncExternalStore',
+  'useTransition',
+]
+
 const clientRuntimePatterns = [
-  /\bReact\.(useEffect|useLayoutEffect|useState|useReducer|useSyncExternalStore)\b/,
+  // Matches both `React.useState(` and a bare `useState(` from a named import.
+  new RegExp(String.raw`\b(?:React\.)?(?:${clientOnlyReactApis.join('|')})\s*[(<]`),
   /\bwindow\./,
   /\bdocument\./,
   /\bIntersectionObserver\b/,
