@@ -161,6 +161,7 @@ const checks = [
       packageJson.exports?.['./client']?.import === './dist/client.js' &&
       packageJson.exports?.['./client']?.types === './dist/client.d.ts' &&
       packageJson.exports?.['./server']?.import === './dist/server.js' &&
+      packageJson.exports?.['./server']?.['react-server'] === './dist/server.js' &&
       packageJson.exports?.['./server']?.types === './dist/server.d.ts' &&
       packageJson.exports?.['./assets']?.import === './dist/assets.js' &&
       packageJson.exports?.['./assets']?.types === './dist/assets.d.ts' &&
