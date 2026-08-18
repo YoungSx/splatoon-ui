@@ -168,7 +168,80 @@ function blockModeForPrelude(prelude) {
   return 'raw'
 }
 
-function transformCssRules(source, scope, classNames, start = 0, end = source.length) {
+/** `@keyframes`, plus any vendor-prefixed spelling of it. */
+const keyframesAtRulePattern = String.raw`@-(?:webkit|moz|o|ms)-keyframes|@keyframes`
+const keyframesDefinitionPattern = new RegExp(
+  String.raw`^(\s*(?:${keyframesAtRulePattern})\s+)([A-Za-z_][\w-]*)`,
+  'i'
+)
+const keyframesBlockPattern = new RegExp(String.raw`^(?:${keyframesAtRulePattern})\b`, 'i')
+
+/**
+ * An `animation` or `animation-name` declaration, split into the property part
+ * and its value. The leading `^|;|{|\n` anchors the property to the start of a
+ * declaration so `animation` inside another value is not mistaken for one.
+ */
+const animationDeclarationPattern = /((?:^|;|{|\n)\s*animation(?:-name)?\s*:)([^;{}]+)/gi
+
+/**
+ * Collects every `@keyframes` name in the file up front, so a reference that
+ * appears before its definition (`animation: fade` in a `@media` block above
+ * `@keyframes fade`) still gets rewritten.
+ */
+function collectKeyframeNames(source, keyframeNames) {
+  let cursor = 0
+
+  while (cursor < source.length) {
+    if (source.startsWith('/*', cursor)) {
+      cursor = consumeComment(source, cursor)
+      continue
+    }
+
+    if (source[cursor] === '"' || source[cursor] === "'") {
+      cursor = consumeString(source, cursor)
+      continue
+    }
+
+    if (source[cursor] === '@') {
+      const name = source.slice(cursor).match(keyframesDefinitionPattern)?.[2]
+      if (name) keyframeNames.add(name)
+    }
+
+    cursor += 1
+  }
+}
+
+/**
+ * Renames the animation in an `@keyframes NAME` prelude to a module-local name.
+ * The prelude still carries whatever whitespace and comments preceded the
+ * at-rule, so the rename is applied to the trimmed part and the trivia is
+ * put back untouched.
+ */
+function scopeKeyframesPrelude(prelude, trimmedPrelude, scope) {
+  const leadingTrivia = prelude.slice(0, prelude.length - trimmedPrelude.length)
+  const scopedAtRule = trimmedPrelude.replace(
+    keyframesDefinitionPattern,
+    (match, prefix, name) => `${prefix}${scope}_${name}`
+  )
+
+  return `${leadingTrivia}${scopedAtRule}`
+}
+
+/** Rewrites keyframe names referenced from an `animation`/`animation-name` value. */
+function scopeKeyframeReferences(value, scope, keyframeNames) {
+  return value.replace(/[A-Za-z_][\w-]*/g, (token) =>
+    keyframeNames.has(token) ? `${scope}_${token}` : token
+  )
+}
+
+function transformCssRules(
+  source,
+  scope,
+  classNames,
+  keyframeNames,
+  start = 0,
+  end = source.length
+) {
   let output = ''
   let segmentStart = start
   let cursor = start
@@ -194,13 +267,41 @@ function transformCssRules(source, scope, classNames, start = 0, end = source.le
     const isAtRule = trimmedPrelude.startsWith('@')
     const blockEnd = findMatchingToken(source, cursor, '{', '}', end)
     const blockMode = blockModeForPrelude(prelude)
+    const isKeyframesBlock =
+      blockMode === 'raw' && isAtRule && keyframesBlockPattern.test(trimmedPrelude)
 
-    output += isAtRule ? prelude : scopeSelector(prelude, scope, classNames)
+    if (isKeyframesBlock) {
+      output += scopeKeyframesPrelude(prelude, trimmedPrelude, scope)
+    } else if (isAtRule) {
+      output += prelude
+    } else {
+      output += scopeSelector(prelude, scope, classNames)
+    }
+
     output += '{'
-    output +=
-      blockMode === 'rules'
-        ? transformCssRules(source, scope, classNames, cursor + 1, blockEnd)
-        : source.slice(cursor + 1, blockEnd)
+
+    let blockContent
+    if (blockMode === 'rules') {
+      blockContent = transformCssRules(
+        source,
+        scope,
+        classNames,
+        keyframeNames,
+        cursor + 1,
+        blockEnd
+      )
+    } else {
+      blockContent = source.slice(cursor + 1, blockEnd)
+      if (!isAtRule && keyframeNames.size > 0) {
+        blockContent = blockContent.replace(
+          animationDeclarationPattern,
+          (match, propPrefix, value) =>
+            `${propPrefix}${scopeKeyframeReferences(value, scope, keyframeNames)}`
+        )
+      }
+    }
+
+    output += blockContent
     output += '}'
 
     cursor = blockEnd < end ? blockEnd + 1 : blockEnd
@@ -220,14 +321,23 @@ export function createCssModuleScope(filePath, root = process.cwd()) {
 
 export function transformCssModule(source, scope) {
   const classNames = new Set()
-  const css = transformCssRules(source, scope, classNames)
+  const keyframeNames = new Set()
+  // Collect keyframe names first so that forward references (animation:
+  // NAME used before @keyframes NAME is defined) are rewritten.
+  collectKeyframeNames(source, keyframeNames)
+  const css = transformCssRules(source, scope, classNames, keyframeNames)
   const classMap = Object.fromEntries(
     [...classNames]
       .sort((left, right) => left.localeCompare(right))
       .map((className) => [className, `${scope}_${className}`])
   )
+  const keyframes = Object.fromEntries(
+    [...keyframeNames]
+      .sort((left, right) => left.localeCompare(right))
+      .map((name) => [name, `${scope}_${name}`])
+  )
 
-  return { classMap, css }
+  return { classMap, keyframes, css }
 }
 
 export function readCssModule(filePath, root = process.cwd()) {
