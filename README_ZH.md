@@ -25,7 +25,7 @@ Splatoon UI 是一套完整的 React 组件库，基于 Splatoon 系列鲜艳、
 ### 使用 npm 包
 
 ```bash
-npm install splatoon-ui
+npm install splatoon-ui tailwindcss@^4 tw-animate-css@^1.4
 ```
 
 在应用入口导入一次全局样式：
@@ -47,6 +47,14 @@ import { Dialog } from 'splatoon-ui/dialog'
 Splatoon UI 的样式会引用 `/_images`、`/fonts`、`/svgs` 下的静态资源。部署前，把包内的 `public/_images`、`public/fonts`、`public/svgs` 复制到你的应用 public 根目录。
 
 `styles.css` 是 Tailwind CSS v4 入口文件；消费方应用需要具备能处理 npm 包 CSS imports 的 Tailwind v4/PostCSS 流程。
+
+如需按组件加载 CSS，请只导入一次共享主题，再导入实际使用的组件样式。不要与聚合的 `styles.css` 同时使用。
+
+```tsx
+import 'splatoon-ui/theme.css'
+import 'splatoon-ui/styles/button.css'
+import 'splatoon-ui/styles/dialog.css'
+```
 
 ### 本地运行 demo
 
