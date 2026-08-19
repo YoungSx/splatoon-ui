@@ -79,7 +79,7 @@ const checks = [
   {
     name: 'squid asset registry centralizes loader and mask metadata',
     pass:
-      registry.includes("const SQUID_ASSET_BASE = '/_images/squid'") &&
+      registry.includes("resolveSplatoonAssetPath('squid/loader_ika.gif', assetBasePath)") &&
       registry.includes('squidImageAssets') &&
       registry.includes('squidSpriteAssets') &&
       registry.includes('loader_ika.gif') &&

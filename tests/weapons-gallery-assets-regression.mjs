@@ -92,7 +92,7 @@ const checks = [
   {
     name: 'weapons asset registry exposes marquee, showcase, shop carousel data, and assetBasePath-aware factories',
     pass:
-      registry.includes("import { resolveSplatoonAssetPath") &&
+      registry.includes('import { resolveSplatoonAssetPath') &&
       registry.includes('export function createWeaponMarqueeItems') &&
       registry.includes('export function createWeaponShowcaseItems') &&
       registry.includes('export function createWeaponShopGalleryItems') &&

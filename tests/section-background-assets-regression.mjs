@@ -90,7 +90,7 @@ const checks = [
       component.includes('splatoonAssetUrl') &&
       component.includes('const PATTERN_ASSETS: Record<Pattern, PatternAssetSet>') &&
       newPatterns.every(([pattern]) => component.includes(`'${pattern}':`)) &&
-      component.includes("return {\n    fallback: `backgrounds/${name}.${extension}`") &&
+      component.includes('return {\n    fallback: `backgrounds/${name}.${extension}`') &&
       component.includes("{ path: `backgrounds/${name}-2x.${extension}`, descriptor: '2x' }") &&
       css.includes('background-image: var(--section-pattern-image);') &&
       css.includes('background-image: var(--section-pattern-image-set);') &&
@@ -106,9 +106,8 @@ const checks = [
   {
     name: 'SectionBackground asset table prefers WebP tape backgrounds with JPG fallback where official assets exist',
     pass:
-      ['black', 'green', 'purple'].every(
-        (name) =>
-          component.includes(`'tapes-${name}': webpImageSet('tapes-${name}')`)
+      ['black', 'green', 'purple'].every((name) =>
+        component.includes(`'tapes-${name}': webpImageSet('tapes-${name}')`)
       ) &&
       component.includes("'tapes-pattern': imageSet('tapes-pattern', 'jpg')") &&
       !component.includes("webpImageSet('tapes-pattern')"),

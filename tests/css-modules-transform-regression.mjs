@@ -149,6 +149,61 @@ for (const forbidden of [
   }
 }
 
+const keyframeFixture = `
+/* A comment before the definition must not prevent the at-rule from being scoped. */
+@-webkit-keyframes morph {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes morph {
+  from { transform: scale(0.9); }
+  to { transform: scale(1); }
+}
+
+.motion {
+  animation: morph 200ms ease;
+  animation-name: morph;
+}
+`
+
+const keyframeResult = transformCssModule(keyframeFixture, 'fixture_ef34567')
+
+for (const expected of [
+  '@-webkit-keyframes fixture_ef34567_morph',
+  '@keyframes fixture_ef34567_morph',
+  'animation: fixture_ef34567_morph 200ms ease',
+  'animation-name: fixture_ef34567_morph',
+]) {
+  if (!keyframeResult.css.includes(expected)) {
+    failures.push(`keyframe transform is missing ${expected}`)
+  }
+}
+
+for (const forbidden of [
+  '@-webkit-keyframes morph',
+  '@keyframes morph',
+  'animation: morph 200ms ease',
+  'animation-name: morph',
+]) {
+  if (keyframeResult.css.includes(forbidden)) {
+    failures.push(`keyframe transform still contains ${forbidden}`)
+  }
+}
+
+const scopedKeyframes = [
+  ...keyframeResult.css.matchAll(/@(?:-webkit-)?keyframes\s+([A-Za-z_][\w-]*)/g),
+].map((match) => match[1])
+const scopedAnimationNames = [
+  ...keyframeResult.css.matchAll(/animation(?:-name)?\s*:\s*([^;{}]+)/g),
+].flatMap((match) => [...match[1].matchAll(/[A-Za-z_][\w-]*/g)].map((match) => match[0]))
+
+for (const animationName of scopedAnimationNames) {
+  if (animationName === 'fixture_ef34567_morph' && !scopedKeyframes.includes(animationName)) {
+    failures.push(`keyframe reference has no matching definition: ${animationName}`)
+  }
+}
+
 if (failures.length > 0) {
   console.error('CSS Modules transform checks failed:')
   for (const failure of failures) console.error(`- ${failure}`)

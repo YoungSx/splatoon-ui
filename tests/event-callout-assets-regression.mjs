@@ -90,7 +90,7 @@ const checks = [
   {
     name: 'event asset registry exposes dimensions and assetBasePath-aware factories',
     pass:
-      registry.includes("import { resolveSplatoonAssetPath") &&
+      registry.includes('import { resolveSplatoonAssetPath') &&
       registry.includes('export function createEventImageAssets') &&
       registry.includes('eventImageAssets') &&
       requiredAssets.every(([asset]) =>

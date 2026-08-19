@@ -47,6 +47,10 @@ const forbiddenFiles = packedFiles.filter((file) =>
   forbiddenPrefixes.some((prefix) => file.startsWith(prefix))
 )
 
+if (packedFiles.includes('dist/internal-styles.css')) {
+  throw new Error('Package tarball contains the workspace-only internal stylesheet.')
+}
+
 if (forbiddenFiles.length > 0) {
   throw new Error(`Package tarball contains forbidden files:\n${forbiddenFiles.join('\n')}`)
 }
@@ -63,12 +67,14 @@ const requiredPackedFiles = [
   'dist/types.js',
   'dist/types.d.ts',
   'dist/styles.css',
+  'dist/theme.css',
   'README.md',
   'README_ZH.md',
   'README_JA.md',
   'LICENSE',
   'NOTICE',
   ...publicUiEntries.flatMap((entry) => [`dist/${entry}.js`, `dist/${entry}.d.ts`]),
+  ...publicUiEntries.map((entry) => `dist/styles/${entry}.css`),
 ]
 
 for (const required of requiredPackedFiles) {
@@ -84,17 +90,53 @@ fs.writeFileSync(
       private: true,
       type: 'module',
       dependencies: {
+        '@tailwindcss/postcss': '^4',
         '@types/react': '^19',
         '@types/react-dom': '^19',
+        postcss: '^8.5.0',
         react: '19.2.4',
         'react-dom': '19.2.4',
         'splatoon-ui': `file:${tarballPath}`,
+        tailwindcss: '^4',
+        'tw-animate-css': '^1.4.0',
         typescript: '^5',
       },
     },
     null,
     2
   )
+)
+
+fs.mkdirSync(path.join(consumerDir, 'src'), { recursive: true })
+
+fs.writeFileSync(
+  path.join(consumerDir, 'src', 'granular.css'),
+  `@import 'splatoon-ui/theme.css';
+@import 'splatoon-ui/styles/button.css';
+`
+)
+
+fs.writeFileSync(
+  path.join(consumerDir, 'compile-granular-css.mjs'),
+  `import fs from 'node:fs'
+import path from 'node:path'
+import postcss from 'postcss'
+import tailwindcss from '@tailwindcss/postcss'
+
+const from = path.resolve('src/granular.css')
+const input = fs.readFileSync(from, 'utf8')
+const result = await postcss([tailwindcss()]).process(input, { from })
+
+if (!/\\.button_[a-f0-9]{7}_/.test(result.css)) {
+  throw new Error('Granular button stylesheet did not emit its scoped component styles.')
+}
+if (/\\.tabs_[a-f0-9]{7}_/.test(result.css)) {
+  throw new Error('Granular button stylesheet emitted unrelated tabs styles.')
+}
+if (/@(?:import|source|theme|utility)\\b/.test(result.css)) {
+  throw new Error('Granular stylesheet still contains unprocessed Tailwind directives.')
+}
+`
 )
 
 fs.writeFileSync(
@@ -117,7 +159,6 @@ fs.writeFileSync(
   )
 )
 
-fs.mkdirSync(path.join(consumerDir, 'src'), { recursive: true })
 fs.writeFileSync(
   path.join(consumerDir, 'src', 'app.tsx'),
   `import 'splatoon-ui/styles.css'
@@ -321,6 +362,16 @@ await import('splatoon-ui/package.json', { with: { type: 'json' } })
 `
 )
 
+fs.writeFileSync(
+  path.join(consumerDir, 'runtime-react-server.mjs'),
+  `const serverEntry = await import('splatoon-ui')
+if (typeof serverEntry.Alert !== 'function' || typeof serverEntry.Badge !== 'function') {
+  throw new Error('react-server root entry did not resolve server-safe exports')
+}
+await import('splatoon-ui/server')
+`
+)
+
 run('npm', ['install', '--silent'], { cwd: consumerDir })
 
 if (fs.existsSync(path.join(consumerDir, 'node_modules', 'shadcn'))) {
@@ -329,5 +380,7 @@ if (fs.existsSync(path.join(consumerDir, 'node_modules', 'shadcn'))) {
 
 run('npx', ['tsc', '--noEmit'], { cwd: consumerDir })
 run('node', ['runtime.mjs'], { cwd: consumerDir })
+run('node', ['--conditions=react-server', 'runtime-react-server.mjs'], { cwd: consumerDir })
+run('node', ['compile-granular-css.mjs'], { cwd: consumerDir })
 
 console.log(`Package consumer smoke passed with ${packInfo.files.length} packed files.`)
