@@ -24,6 +24,31 @@ function inlinePackageCssImports(source) {
 }
 
 /**
+ * `@source` paths resolve relative to the stylesheet that declares them, so the
+ * directive cannot be copied through verbatim.
+ *
+ * In the source tree `globals.css` lives in `src/styles/`, and `../` points at
+ * `src/` — the components whose class names Tailwind has to discover. In the
+ * published file the stylesheet is `dist/styles.css`, where the same `../`
+ * would resolve to the package root and walk `public/` (megabytes of images and
+ * fonts) on every consumer build. The compiled JS in `dist/` is what actually
+ * carries the class name strings, so the published directive is retargeted
+ * there: same class coverage, without the asset tree.
+ */
+function retargetSourceDirective(source) {
+  const sourceDirective = /^@source\s+['"][^'"]*['"];\s*$/m
+
+  if (!sourceDirective.test(source)) {
+    throw new Error(
+      'globals.css no longer declares an @source directive. Tailwind would emit no ' +
+        'utilities for the packaged components; update this build step to match.'
+    )
+  }
+
+  return source.replace(sourceDirective, "@source '.';")
+}
+
+/**
  * Every CSS Module keyframe is renamed to `<scope>_<name>`, so the definitions
  * and the `animation` references that point at them have to stay in sync. A
  * scoped name on only one side means the rename missed a spelling, which the
@@ -68,7 +93,7 @@ const cssOutputs = fs
 
 const outputCss = [
   '/* Splatoon UI global styles */',
-  inlinePackageCssImports(readCss(globalsPath)),
+  retargetSourceDirective(inlinePackageCssImports(readCss(globalsPath))),
   ...walkCssModuleFiles(componentRoot)
     .sort((left, right) => left.localeCompare(right))
     .flatMap((filePath) => [
