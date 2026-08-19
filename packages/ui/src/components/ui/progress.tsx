@@ -1,7 +1,4 @@
-'use client'
-
 import * as React from 'react'
-import * as ProgressPrimitive from '@radix-ui/react-progress'
 
 import { cn } from '@/lib/utils'
 import styles from './progress.module.css'
@@ -58,6 +55,7 @@ function Progress({
   className,
   value = 0,
   max = 100,
+  getValueLabel,
   variant = 'yellow',
   trackVariant = 'dark',
   size = 'default',
@@ -75,10 +73,16 @@ function Progress({
   const height = sizeHeights[size]
 
   return (
-    <ProgressPrimitive.Root
+    <div
       ref={ref}
-      value={clampedValue}
-      max={safeMax}
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={safeMax}
+      aria-valuenow={clampedValue}
+      aria-valuetext={getValueLabel?.(clampedValue, safeMax)}
+      data-state={clampedValue >= safeMax ? 'complete' : 'loading'}
+      data-value={clampedValue}
+      data-max={safeMax}
       className={cn(
         'relative w-full shrink-0 overflow-hidden rounded-full',
         skewed && '-skew-x-12',
@@ -97,7 +101,8 @@ function Progress({
       }}
       {...props}
     >
-      <ProgressPrimitive.Indicator
+      <div
+        aria-hidden="true"
         className="relative h-full w-full origin-left transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={{
           backgroundColor: fillColor,
@@ -129,8 +134,8 @@ function Progress({
           aria-hidden="true"
           className={cn('pointer-events-none absolute inset-0', styles.stripes)}
         />
-      </ProgressPrimitive.Indicator>
-    </ProgressPrimitive.Root>
+      </div>
+    </div>
   )
 }
 
