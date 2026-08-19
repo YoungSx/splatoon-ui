@@ -156,7 +156,7 @@ const checks = [
     name: 'news staple assets are centralized behind the shared asset resolver',
     pass:
       source.includes('createNewsStapleAssets') &&
-      newsAssets.includes("import {\n  resolveSplatoonAssetPath") &&
+      /import \{[\s\S]*?resolveSplatoonAssetPath/.test(newsAssets) &&
       newsAssets.includes("resolveSplatoonAssetPath('news/news-staple-left.png', assetBasePath)") &&
       newsAssets.includes("resolveSplatoonAssetPath('news/news-staple-right.png', assetBasePath)"),
   },

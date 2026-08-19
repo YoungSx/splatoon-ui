@@ -78,6 +78,8 @@ const allowedPackageExports = new Set([
   './tokens',
   './types',
   './styles.css',
+  './theme.css',
+  './styles/*.css',
   './assets/*',
   './package.json',
   ...publicUiEntries.map((entry) => `./${entry}`),
@@ -97,6 +99,8 @@ const checks = [
       packageJson.types === './dist/client.d.ts' &&
       packageJson.exports?.['.']?.import === './dist/client.js' &&
       packageJson.exports?.['.']?.types === './dist/client.d.ts' &&
+      packageJson.exports?.['.']?.['react-server']?.import === './dist/server.js' &&
+      packageJson.exports?.['.']?.['react-server']?.types === './dist/server.d.ts' &&
       packageJson.exports?.['./client']?.import === './dist/client.js' &&
       packageJson.exports?.['./client']?.types === './dist/client.d.ts' &&
       packageJson.exports?.['./server']?.import === './dist/server.js' &&
@@ -108,6 +112,8 @@ const checks = [
       packageJson.exports?.['./types']?.import === './dist/types.js' &&
       packageJson.exports?.['./types']?.types === './dist/types.d.ts' &&
       packageJson.exports?.['./styles.css'] === './dist/styles.css' &&
+      packageJson.exports?.['./theme.css'] === './dist/theme.css' &&
+      packageJson.exports?.['./styles/*.css'] === './dist/styles/*.css' &&
       Object.keys(packageJson.exports ?? {}).every((entry) => allowedPackageExports.has(entry)) &&
       publicUiEntries.every((name) => {
         const entry = packageJson.exports?.[`./${name}`]
@@ -122,13 +128,24 @@ const checks = [
     pass:
       Array.isArray(packageJson.files) &&
       requiredFiles.every((entry) => packageJson.files.includes(entry)) &&
-      forbiddenFiles.every((entry) => !packageJson.files.includes(entry)),
+      forbiddenFiles.every((entry) => !packageJson.files.includes(entry)) &&
+      packageJson.files.includes('!dist/internal-styles.css'),
   },
   {
     name: 'React runtime is declared as a React 19 peer dependency',
     pass:
       packageJson.peerDependencies?.react === '^19.0.0' &&
       packageJson.peerDependencies?.['react-dom'] === '^19.0.0',
+  },
+  {
+    name: 'stylesheet processors are version-aligned peers, not duplicate runtime installs',
+    pass:
+      packageJson.peerDependencies?.tailwindcss === '^4.0.0' &&
+      packageJson.peerDependencies?.['tw-animate-css'] === '^1.4.0' &&
+      packageJson.dependencies?.tailwindcss === undefined &&
+      packageJson.dependencies?.['tw-animate-css'] === undefined &&
+      Boolean(packageJson.devDependencies?.tailwindcss) &&
+      Boolean(packageJson.devDependencies?.['tw-animate-css']),
   },
   {
     name: 'shadcn CLI stays out of published runtime dependencies',
@@ -143,6 +160,7 @@ const checks = [
       workspacePackageJson.scripts?.typecheck === 'pnpm build:package && pnpm -r typecheck' &&
       workspacePackageJson.scripts?.release?.includes('pack:dry-run') &&
       workspacePackageJson.scripts?.release?.includes('test:package-consumer') &&
+      workspacePackageJson.scripts?.release?.includes('docs:check') &&
       // The release gate runs the aggregate suite rather than an inline list of
       // files, so individual checks cannot be dropped by editing this script.
       // tests/registry.mjs owns which checks exist and fails if one is orphaned.

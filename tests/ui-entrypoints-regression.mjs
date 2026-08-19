@@ -101,6 +101,7 @@ const requiredServerExports = [
   './event-assets',
   './event-callout',
   './input',
+  './progress',
   './squid-assets',
   './tokens',
   './types',
@@ -125,6 +126,8 @@ const allowedPackageExports = new Set([
   './tokens',
   './types',
   './styles.css',
+  './theme.css',
+  './styles/*.css',
   './assets/*',
   './package.json',
   ...publicUiEntries.map((name) => `./${name}`),
@@ -158,6 +161,8 @@ const checks = [
     pass:
       packageJson.exports?.['.']?.import === './dist/client.js' &&
       packageJson.exports?.['.']?.types === './dist/client.d.ts' &&
+      packageJson.exports?.['.']?.['react-server']?.import === './dist/server.js' &&
+      packageJson.exports?.['.']?.['react-server']?.types === './dist/server.d.ts' &&
       packageJson.exports?.['./client']?.import === './dist/client.js' &&
       packageJson.exports?.['./client']?.types === './dist/client.d.ts' &&
       packageJson.exports?.['./server']?.import === './dist/server.js' &&

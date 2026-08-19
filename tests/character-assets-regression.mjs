@@ -65,7 +65,7 @@ const checks = [
   {
     name: 'character asset registry exposes dimensions, transition mappings, and assetBasePath-aware factories',
     pass:
-      registry.includes("import { resolveSplatoonAssetPath") &&
+      registry.includes('import { resolveSplatoonAssetPath') &&
       registry.includes('export function createCharacterImageAssets') &&
       registry.includes('export function createPageTransitionCharacterAssets') &&
       registry.includes('characterImageAssets') &&

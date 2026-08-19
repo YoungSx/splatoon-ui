@@ -185,7 +185,7 @@ const checks = [
         'icon-button.d.ts',
         "type IconButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'aria-labelledby' | 'children'> & IconButtonOwnProps & IconButtonAccessibleName;"
       ) &&
-      declarationIncludes('icon-button.d.ts', "type IconButtonAccessibleName = {") &&
+      declarationIncludes('icon-button.d.ts', 'type IconButtonAccessibleName = {') &&
       declarationIncludes('icon-button.d.ts', "'aria-label': string;") &&
       declarationIncludes('icon-button.d.ts', "'aria-labelledby': string;") &&
       declarationIncludes('icon-button.d.ts', 'ref?: React.Ref<HTMLButtonElement>;') &&
@@ -199,7 +199,7 @@ const checks = [
         'wave-button.d.ts',
         "type WaveButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label' | 'aria-labelledby' | 'children'> & WaveButtonOwnProps & WaveButtonAccessibleName;"
       ) &&
-      declarationIncludes('wave-button.d.ts', "type WaveButtonAccessibleName = {") &&
+      declarationIncludes('wave-button.d.ts', 'type WaveButtonAccessibleName = {') &&
       declarationIncludes('wave-button.d.ts', "'aria-label': string;") &&
       declarationIncludes('wave-button.d.ts', "'aria-labelledby': string;") &&
       declarationIncludes('wave-button.d.ts', 'ref?: React.Ref<HTMLButtonElement>;') &&
@@ -365,10 +365,7 @@ const checks = [
   {
     name: 'stable layout and typography declarations expose narrow visual primitives',
     pass:
-      declarationIncludes(
-        'section.d.ts',
-        'pattern?: Pattern;'
-      ) &&
+      declarationIncludes('section.d.ts', 'pattern?: Pattern;') &&
       declarationExports('section.d.ts', 'Section') &&
       declarationExports('section.d.ts', 'SectionProps') &&
       declarationExports('section.d.ts', 'SectionPattern') &&
