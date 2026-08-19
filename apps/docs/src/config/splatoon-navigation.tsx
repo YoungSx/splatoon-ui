@@ -4,7 +4,7 @@
 
 import * as React from 'react'
 import { cn } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
+import { Badge } from 'splatoon-ui/badge'
 import { Splat, type SplatId } from '@/components/ui/splats'
 import { Sticker2Red, Sticker10, Sticker5 } from '@/components/ui/stickers'
 import { NavChevron } from '@/components/ui/nav-chevron'

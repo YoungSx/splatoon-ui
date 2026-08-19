@@ -1,2 +1,6 @@
 @import '../../../../packages/ui/dist/styles.css';
+/* The demo renders internal components (navigation, footer, ink trail) that have
+   no package entrypoint, so their styles are not in the published stylesheet. */
+@import '../../../../packages/ui/dist/internal-styles.css';
 @source '../';
+@source '../../../../packages/ui/src';
