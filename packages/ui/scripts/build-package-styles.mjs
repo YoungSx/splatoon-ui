@@ -174,9 +174,7 @@ function cssModuleOutputName(filePath) {
   return path.basename(filePath).replace(/\.module\.css$/, '.css')
 }
 
-const moduleOutputNames = componentStyleSheets.map(({ filePath }) =>
-  cssModuleOutputName(filePath)
-)
+const moduleOutputNames = componentStyleSheets.map(({ filePath }) => cssModuleOutputName(filePath))
 if (new Set(moduleOutputNames).size !== moduleOutputNames.length) {
   throw new Error('Published CSS Modules must have unique basenames for granular style exports.')
 }
@@ -228,9 +226,7 @@ for (const entryName of publicUiEntries) {
 
   fs.writeFileSync(
     path.join(entryStylesDir, `${entryName}.css`),
-    [`/* Splatoon UI styles for splatoon-ui/${entryName} */`, ...sources, ...imports, ''].join(
-      '\n'
-    )
+    [`/* Splatoon UI styles for splatoon-ui/${entryName} */`, ...sources, ...imports, ''].join('\n')
   )
 }
 

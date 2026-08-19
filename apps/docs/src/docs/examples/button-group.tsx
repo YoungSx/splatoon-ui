@@ -11,11 +11,7 @@ type ButtonGroupExampleProps = {
   fullWidth: boolean
 }
 
-export function ButtonGroupExample({
-  density,
-  orientation,
-  fullWidth,
-}: ButtonGroupExampleProps) {
+export function ButtonGroupExample({ density, orientation, fullWidth }: ButtonGroupExampleProps) {
   return (
     <ButtonGroup
       aria-label="Match actions"

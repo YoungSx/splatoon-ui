@@ -4,13 +4,7 @@ import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
 import { Button } from 'splatoon-ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from 'splatoon-ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'splatoon-ui/card'
 
 type CardExampleProps = Record<string, never>
 
