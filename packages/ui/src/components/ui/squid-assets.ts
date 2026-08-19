@@ -1,7 +1,4 @@
-import {
-  resolveSplatoonAssetPath,
-  type SplatoonAssetBasePath,
-} from './assets'
+import { resolveSplatoonAssetPath, type SplatoonAssetBasePath } from './assets'
 
 export interface SquidImageAsset {
   id: string

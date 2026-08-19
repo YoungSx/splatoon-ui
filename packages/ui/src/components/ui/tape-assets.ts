@@ -1,7 +1,4 @@
-import {
-  resolveSplatoonAssetPath,
-  type SplatoonAssetBasePath,
-} from './assets'
+import { resolveSplatoonAssetPath, type SplatoonAssetBasePath } from './assets'
 
 export interface TapeAssetSource {
   src: string
@@ -44,14 +41,7 @@ function responsiveDefinition(
 }
 
 const tapeImageAssetDefinitions = {
-  'sticker-1': responsiveDefinition(
-    'sticker-1.png',
-    110,
-    110,
-    'sticker-1-medium-up.png',
-    230,
-    230
-  ),
+  'sticker-1': responsiveDefinition('sticker-1.png', 110, 110, 'sticker-1-medium-up.png', 230, 230),
   'sticker-2-red': responsiveDefinition(
     'sticker-2-red.png',
     80,
@@ -60,62 +50,13 @@ const tapeImageAssetDefinitions = {
     137,
     194
   ),
-  'sticker-3': responsiveDefinition(
-    'sticker-3.png',
-    100,
-    65,
-    'sticker-3-medium-up.png',
-    225,
-    146
-  ),
-  'sticker-4': responsiveDefinition(
-    'sticker-4.png',
-    100,
-    56,
-    'sticker-4-medium-up.png',
-    203,
-    113
-  ),
-  'sticker-5': responsiveDefinition(
-    'sticker-5.png',
-    180,
-    62,
-    'sticker-5-medium-up.png',
-    449,
-    154
-  ),
-  'sticker-6': responsiveDefinition(
-    'sticker-6.png',
-    112,
-    98,
-    'sticker-6-medium-up.png',
-    281,
-    247
-  ),
-  'sticker-7': responsiveDefinition(
-    'sticker-7.png',
-    100,
-    63,
-    'sticker-7-medium-up.png',
-    152,
-    95
-  ),
-  'sticker-8': responsiveDefinition(
-    'sticker-8.png',
-    198,
-    35,
-    'sticker-8-medium-up.png',
-    406,
-    72
-  ),
-  'sticker-9': responsiveDefinition(
-    'sticker-9.png',
-    96,
-    31,
-    'sticker-9-medium-up.png',
-    146,
-    48
-  ),
+  'sticker-3': responsiveDefinition('sticker-3.png', 100, 65, 'sticker-3-medium-up.png', 225, 146),
+  'sticker-4': responsiveDefinition('sticker-4.png', 100, 56, 'sticker-4-medium-up.png', 203, 113),
+  'sticker-5': responsiveDefinition('sticker-5.png', 180, 62, 'sticker-5-medium-up.png', 449, 154),
+  'sticker-6': responsiveDefinition('sticker-6.png', 112, 98, 'sticker-6-medium-up.png', 281, 247),
+  'sticker-7': responsiveDefinition('sticker-7.png', 100, 63, 'sticker-7-medium-up.png', 152, 95),
+  'sticker-8': responsiveDefinition('sticker-8.png', 198, 35, 'sticker-8-medium-up.png', 406, 72),
+  'sticker-9': responsiveDefinition('sticker-9.png', 96, 31, 'sticker-9-medium-up.png', 146, 48),
   'sticker-10': responsiveDefinition(
     'sticker-10.png',
     113,

@@ -34,7 +34,10 @@ export interface TapeResponsivePicturesProps extends ImageProps {
   imageClassName?: string
 }
 
-function resolveTapeAsset(asset: TapeAsset | TapeImageVariant, assetBasePath?: SplatoonAssetBasePath) {
+function resolveTapeAsset(
+  asset: TapeAsset | TapeImageVariant,
+  assetBasePath?: SplatoonAssetBasePath
+) {
   return typeof asset === 'string' ? getTapeImageAsset(asset, assetBasePath) : asset
 }
 

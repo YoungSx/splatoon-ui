@@ -8,14 +8,7 @@ import type { SplatoonAssetBasePath } from './assets'
 /* ──────────────────────────────────────────────
    Tape — curated tape image assets
    ────────────────────────────────────────────── */
-export type TapeVariant =
-  | 'tape-1'
-  | 'tape-2'
-  | 'tape-3'
-  | 'tape-4'
-  | 'tape-5'
-  | 'tape-6'
-  | 'tape-7'
+export type TapeVariant = 'tape-1' | 'tape-2' | 'tape-3' | 'tape-4' | 'tape-5' | 'tape-6' | 'tape-7'
 
 export interface TapeProps extends Omit<React.ComponentProps<'div'>, 'ref'> {
   variant?: TapeVariant
