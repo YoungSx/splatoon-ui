@@ -4,26 +4,27 @@ import { existsSync } from 'node:fs'
 import { publicUiEntries } from './scripts/public-ui-entries.mjs'
 import { readCssModule } from './scripts/css-modules.mjs'
 
-type PublicAssetResolver = {
+type CssModuleBuild = {
   onResolve(
     options: { filter: RegExp },
-    callback: (args: { path: string }) => { path: string; external: boolean }
+    callback: (args: { path: string; resolveDir: string }) => {
+      path: string
+      namespace: string
+      pluginData: { cssPath: string }
+    }
   ): void
-}
-
-const preservePublicAssetUrls = {
-  name: 'preserve-public-asset-urls',
-  setup(build: PublicAssetResolver) {
-    build.onResolve({ filter: /^\/(?:_images|fonts|svgs)\// }, (args) => ({
-      path: args.path,
-      external: true,
-    }))
-  },
+  onLoad(
+    options: { filter: RegExp; namespace: string },
+    callback: (args: { path: string; pluginData?: { cssPath?: unknown } }) => {
+      contents: string
+      loader: 'js'
+    }
+  ): void
 }
 
 const cssModuleClassMaps = {
   name: 'css-module-class-maps',
-  setup(build: PublicAssetResolver) {
+  setup(build: CssModuleBuild) {
     build.onResolve({ filter: /\.module\.css$/ }, (args) => ({
       path: `${path.resolve(args.resolveDir, args.path)}.js`,
       namespace: 'splatoon-ui-css-module',
@@ -89,10 +90,9 @@ export default defineConfig({
       noEmit: false,
     },
   },
-  esbuildPlugins: [preservePublicAssetUrls, cssModuleClassMaps],
+  esbuildPlugins: [cssModuleClassMaps],
   external: [
     '@base-ui/react',
-    '@radix-ui/react-progress',
     'class-variance-authority',
     'clsx',
     'framer-motion',
