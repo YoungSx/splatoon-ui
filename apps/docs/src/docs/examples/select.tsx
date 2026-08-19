@@ -3,13 +3,7 @@
 import type { DocsExampleDefinitionInput } from '@/docs/types'
 
 // docs-source-start
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from 'splatoon-ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'splatoon-ui/select'
 
 type SelectExampleProps = {
   value: string

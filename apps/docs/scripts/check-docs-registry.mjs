@@ -14,6 +14,10 @@ const apiPath = path.join(docsRoot, 'src', 'docs', 'generated', 'api.json')
 const apiJson = JSON.parse(fs.readFileSync(apiPath, 'utf8'))
 const exampleSourcePath = path.join(docsRoot, 'src', 'docs', 'generated', 'example-source.json')
 const generatedExampleSources = JSON.parse(fs.readFileSync(exampleSourcePath, 'utf8'))
+const demoSources = [
+  path.join(docsRoot, 'src', 'app', 'page.tsx'),
+  path.join(docsRoot, 'src', 'config', 'splatoon-navigation.tsx'),
+].map((filePath) => fs.readFileSync(filePath, 'utf8'))
 
 function unique(values) {
   return [...new Set(values)]
@@ -101,6 +105,12 @@ const emptyApi = apiJson.entries
 const invalidPrimaryExports = apiJson.entries
   .filter((entry) => !entry.exports.some((apiExport) => apiExport.name === entry.primaryExport))
   .map((entry) => `${entry.slug}: ${entry.primaryExport}`)
+const emptyPrimaryProps = apiJson.entries
+  .filter((entry) => {
+    const primary = entry.exports.find((apiExport) => apiExport.name === entry.primaryExport)
+    return !primary?.props?.length
+  })
+  .map((entry) => `${entry.slug}: ${entry.primaryExport}`)
 const missingGeneratedExampleSources = diff(exampleIds, generatedExampleIds)
 const extraGeneratedExampleSources = diff(generatedExampleIds, exampleIds)
 const emptyGeneratedExampleSources = generatedExampleIds.filter(
@@ -139,6 +149,13 @@ const missingPackageExampleImports = exampleIds.flatMap((exampleId) => {
     ? []
     : [exampleId]
 })
+const publicModulesImportedFromSource = unique(
+  demoSources.flatMap((source) =>
+    [...source.matchAll(/from ['"]@\/components\/ui\/([^'"]+)['"]/g)]
+      .map((match) => match[1])
+      .filter((moduleName) => publicUiEntries.includes(moduleName))
+  )
+)
 
 const failures = [
   missingDocs.length ? `Missing docs slugs: ${missingDocs.join(', ')}` : null,
@@ -153,6 +170,9 @@ const failures = [
   emptyApi.length ? `Generated API entries with no exports: ${emptyApi.join(', ')}` : null,
   invalidPrimaryExports.length
     ? `Invalid primary API exports: ${invalidPrimaryExports.join(', ')}`
+    : null,
+  emptyPrimaryProps.length
+    ? `Primary API exports with no documented props: ${emptyPrimaryProps.join(', ')}`
     : null,
   missingGeneratedExampleSources.length
     ? `Missing generated example sources: ${missingGeneratedExampleSources.join(', ')}`
@@ -173,6 +193,9 @@ const failures = [
     : null,
   missingPackageExampleImports.length
     ? `Docs examples missing package imports: ${missingPackageExampleImports.join(', ')}`
+    : null,
+  publicModulesImportedFromSource.length
+    ? `Demo bypasses public package entrypoints: ${publicModulesImportedFromSource.join(', ')}`
     : null,
   hasPageFile(path.join(docsRoot, 'src', 'app', 'docs'))
     ? 'Legacy /docs route still exists.'

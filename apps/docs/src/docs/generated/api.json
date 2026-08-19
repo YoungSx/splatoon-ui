@@ -419,7 +419,64 @@
           "kind": "function",
           "type": "export function IconButton(",
           "description": "IconButton — circular icon-only control for arrows and compact commands.",
-          "props": []
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "IconButtonVariant",
+              "defaultValue": "",
+              "description": "Icon button color treatment."
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "IconButtonSize",
+              "defaultValue": "",
+              "description": "Explicit size override. When omitted, variant determines default size."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "IconButtonAnimation",
+              "defaultValue": "",
+              "description": "Motion preset applied to the circular shell."
+            },
+            {
+              "name": "direction",
+              "optional": true,
+              "type": "IconButtonDirection",
+              "defaultValue": "",
+              "description": "Built-in arrow direction and squish direction."
+            },
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Custom icon node. When omitted, direction renders the built-in arrow icon."
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "aria-label",
+              "optional": false,
+              "type": "string | never",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "aria-labelledby",
+              "optional": false,
+              "type": "never | string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "IconButtonAnimation",
@@ -477,7 +534,57 @@
           "kind": "function",
           "type": "export function WaveButton(",
           "description": "WaveButton - animated blob-shaped graphical button for compact close/menu actions.",
-          "props": []
+          "props": [
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "WaveButtonVariant",
+              "defaultValue": "",
+              "description": "Visual variant — controls background color"
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "WaveButtonSize",
+              "defaultValue": "",
+              "description": "Button size"
+            },
+            {
+              "name": "icon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Custom icon node. Defaults to the hamburger→X line animation. Pass null for no icon."
+            },
+            {
+              "name": "animation",
+              "optional": true,
+              "type": "WaveButtonAnimation",
+              "defaultValue": "",
+              "description": "Blob border-radius animation"
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "aria-label",
+              "optional": false,
+              "type": "string | never",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "aria-labelledby",
+              "optional": false,
+              "type": "never | string",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "WaveButtonAnimation",
@@ -2441,7 +2548,22 @@
           "kind": "function",
           "type": "function DialogTriggerButton(props: DialogTriggerButtonProps)",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "DialogTriggerButtonProps",
@@ -2771,7 +2893,7 @@
       "importPath": "splatoon-ui/progress",
       "primaryExport": "Progress",
       "sourcePath": "src/components/ui/progress.tsx",
-      "boundary": "client",
+      "boundary": "server",
       "exports": [
         {
           "name": "Progress",
@@ -4093,7 +4215,43 @@
           "kind": "function",
           "type": "function PopoverTriggerButton(props: PopoverTriggerButtonProps)",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "openOnHover",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "delay",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "closeDelay",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "PopoverTriggerButtonProps",
@@ -4469,7 +4627,22 @@
           "kind": "function",
           "type": "function SheetTriggerButton(props: SheetTriggerButtonProps)",
           "description": "",
-          "props": []
+          "props": [
+            {
+              "name": "nativeButton",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLButtonElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
         },
         {
           "name": "SheetTriggerButtonProps",
@@ -5006,7 +5179,7 @@
       "importPath": "splatoon-ui/list",
       "primaryExport": "List",
       "sourcePath": "src/components/ui/list.tsx",
-      "boundary": "server",
+      "boundary": "client",
       "exports": [
         {
           "name": "List",
@@ -5749,7 +5922,7 @@
         {
           "name": "TapeVariant",
           "kind": "type",
-          "type": "export type TapeVariant = | 'tape-1' | 'tape-2' | 'tape-3' | 'tape-4' | 'tape-5' | 'tape-6' | 'tape-7'",
+          "type": "export type TapeVariant = 'tape-1' | 'tape-2' | 'tape-3' | 'tape-4' | 'tape-5' | 'tape-6' | 'tape-7'",
           "description": "",
           "props": []
         }

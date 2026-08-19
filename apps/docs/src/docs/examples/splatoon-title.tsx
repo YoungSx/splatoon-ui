@@ -12,12 +12,7 @@ type SplatoonTitleExampleProps = {
   animate: boolean
 }
 
-export function SplatoonTitleExample({
-  variant,
-  size,
-  label,
-  animate,
-}: SplatoonTitleExampleProps) {
+export function SplatoonTitleExample({ variant, size, label, animate }: SplatoonTitleExampleProps) {
   return (
     <SplatoonTitle key={`${label}-${animate}`} variant={variant} size={size} animate={animate}>
       {label}

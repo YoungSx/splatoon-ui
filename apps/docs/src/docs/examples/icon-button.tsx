@@ -19,12 +19,7 @@ type IconButtonExampleProps = {
   direction: IconButtonDirection
 }
 
-export function IconButtonExample({
-  variant,
-  size,
-  animation,
-  direction,
-}: IconButtonExampleProps) {
+export function IconButtonExample({ variant, size, animation, direction }: IconButtonExampleProps) {
   return (
     <div className="flex flex-wrap items-center justify-center gap-4">
       <IconButton

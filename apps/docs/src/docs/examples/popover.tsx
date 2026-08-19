@@ -27,7 +27,9 @@ export function PopoverExample({ title, side }: PopoverExampleProps) {
       <PopoverContent side={side}>
         <PopoverHeader>
           <PopoverTitle>{title}</PopoverTitle>
-          <PopoverDescription>Contextual information without leaving the current task.</PopoverDescription>
+          <PopoverDescription>
+            Contextual information without leaving the current task.
+          </PopoverDescription>
         </PopoverHeader>
       </PopoverContent>
     </Popover>

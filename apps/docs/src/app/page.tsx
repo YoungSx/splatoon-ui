@@ -87,13 +87,7 @@ import { Checkbox } from 'splatoon-ui/checkbox'
 import { RadioGroup, RadioGroupItem } from 'splatoon-ui/radio-group'
 import { SegmentedControl, SegmentedControlItem } from 'splatoon-ui/segmented-control'
 import { Switch } from 'splatoon-ui/switch'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from 'splatoon-ui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'splatoon-ui/select'
 import {
   Sheet,
   SheetTriggerButton,

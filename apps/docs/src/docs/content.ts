@@ -1,7 +1,9 @@
 import AlertEn, { metadata as alertEnMeta } from '../../content/docs/en/alert.mdx'
 import BadgeEn, { metadata as badgeEnMeta } from '../../content/docs/en/badge.mdx'
 import ButtonEn, { metadata as buttonEnMeta } from '../../content/docs/en/button.mdx'
-import ButtonGroupEn, { metadata as buttonGroupEnMeta } from '../../content/docs/en/button-group.mdx'
+import ButtonGroupEn, {
+  metadata as buttonGroupEnMeta,
+} from '../../content/docs/en/button-group.mdx'
 import IconButtonEn, { metadata as iconButtonEnMeta } from '../../content/docs/en/icon-button.mdx'
 import WaveButtonEn, { metadata as waveButtonEnMeta } from '../../content/docs/en/wave-button.mdx'
 import CardEn, { metadata as cardEnMeta } from '../../content/docs/en/card.mdx'
@@ -35,14 +37,18 @@ import DottedDividerEn, {
 import SplatoonTitleEn, {
   metadata as splatoonTitleEnMeta,
 } from '../../content/docs/en/splatoon-title.mdx'
-import HeadingTapeEn, { metadata as headingTapeEnMeta } from '../../content/docs/en/heading-tape.mdx'
+import HeadingTapeEn, {
+  metadata as headingTapeEnMeta,
+} from '../../content/docs/en/heading-tape.mdx'
 import TapeTitleEn, { metadata as tapeTitleEnMeta } from '../../content/docs/en/tape-title.mdx'
 import TapeEn, { metadata as tapeEnMeta } from '../../content/docs/en/tape.mdx'
 import WaveCanvasEn, { metadata as waveCanvasEnMeta } from '../../content/docs/en/wave-canvas.mdx'
 import AlertJa, { metadata as alertJaMeta } from '../../content/docs/ja/alert.mdx'
 import BadgeJa, { metadata as badgeJaMeta } from '../../content/docs/ja/badge.mdx'
 import ButtonJa, { metadata as buttonJaMeta } from '../../content/docs/ja/button.mdx'
-import ButtonGroupJa, { metadata as buttonGroupJaMeta } from '../../content/docs/ja/button-group.mdx'
+import ButtonGroupJa, {
+  metadata as buttonGroupJaMeta,
+} from '../../content/docs/ja/button-group.mdx'
 import IconButtonJa, { metadata as iconButtonJaMeta } from '../../content/docs/ja/icon-button.mdx'
 import WaveButtonJa, { metadata as waveButtonJaMeta } from '../../content/docs/ja/wave-button.mdx'
 import CardJa, { metadata as cardJaMeta } from '../../content/docs/ja/card.mdx'
@@ -76,14 +82,18 @@ import DottedDividerJa, {
 import SplatoonTitleJa, {
   metadata as splatoonTitleJaMeta,
 } from '../../content/docs/ja/splatoon-title.mdx'
-import HeadingTapeJa, { metadata as headingTapeJaMeta } from '../../content/docs/ja/heading-tape.mdx'
+import HeadingTapeJa, {
+  metadata as headingTapeJaMeta,
+} from '../../content/docs/ja/heading-tape.mdx'
 import TapeTitleJa, { metadata as tapeTitleJaMeta } from '../../content/docs/ja/tape-title.mdx'
 import TapeJa, { metadata as tapeJaMeta } from '../../content/docs/ja/tape.mdx'
 import WaveCanvasJa, { metadata as waveCanvasJaMeta } from '../../content/docs/ja/wave-canvas.mdx'
 import AlertZh, { metadata as alertZhMeta } from '../../content/docs/zh/alert.mdx'
 import BadgeZh, { metadata as badgeZhMeta } from '../../content/docs/zh/badge.mdx'
 import ButtonZh, { metadata as buttonZhMeta } from '../../content/docs/zh/button.mdx'
-import ButtonGroupZh, { metadata as buttonGroupZhMeta } from '../../content/docs/zh/button-group.mdx'
+import ButtonGroupZh, {
+  metadata as buttonGroupZhMeta,
+} from '../../content/docs/zh/button-group.mdx'
 import IconButtonZh, { metadata as iconButtonZhMeta } from '../../content/docs/zh/icon-button.mdx'
 import WaveButtonZh, { metadata as waveButtonZhMeta } from '../../content/docs/zh/wave-button.mdx'
 import CardZh, { metadata as cardZhMeta } from '../../content/docs/zh/card.mdx'
@@ -117,7 +127,9 @@ import DottedDividerZh, {
 import SplatoonTitleZh, {
   metadata as splatoonTitleZhMeta,
 } from '../../content/docs/zh/splatoon-title.mdx'
-import HeadingTapeZh, { metadata as headingTapeZhMeta } from '../../content/docs/zh/heading-tape.mdx'
+import HeadingTapeZh, {
+  metadata as headingTapeZhMeta,
+} from '../../content/docs/zh/heading-tape.mdx'
 import TapeTitleZh, { metadata as tapeTitleZhMeta } from '../../content/docs/zh/tape-title.mdx'
 import TapeZh, { metadata as tapeZhMeta } from '../../content/docs/zh/tape.mdx'
 import WaveCanvasZh, { metadata as waveCanvasZhMeta } from '../../content/docs/zh/wave-canvas.mdx'

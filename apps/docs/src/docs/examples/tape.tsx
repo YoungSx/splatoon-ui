@@ -16,7 +16,7 @@ export function TapeExample({ variant, position, staplePosition }: TapeExamplePr
     <div className="relative min-h-56 w-full max-w-md border-3 border-black bg-white p-8">
       <Tape variant={variant} position={position} />
       <Staple position={staplePosition} />
-      <div className="grid min-h-40 place-items-center border-2 border-dashed border-black/40 bg-yellow/20 p-6 text-center font-black">
+      <div className="bg-yellow/20 grid min-h-40 place-items-center border-2 border-dashed border-black/40 p-6 text-center font-black">
         Pinned decoration layer
       </div>
     </div>

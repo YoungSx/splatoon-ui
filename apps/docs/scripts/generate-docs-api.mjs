@@ -105,16 +105,79 @@ function propFromMember(member, sourceFile) {
   }
 }
 
-function propsFromDeclaration(node, sourceFile) {
+function propsFromTypeNode(typeNode, sourceFile, declarations, seen = new Set()) {
+  if (ts.isParenthesizedTypeNode(typeNode)) {
+    return propsFromTypeNode(typeNode.type, sourceFile, declarations, seen)
+  }
+
+  if (ts.isTypeLiteralNode(typeNode)) {
+    return typeNode.members.map((member) => propFromMember(member, sourceFile)).filter(Boolean)
+  }
+
+  if (ts.isIntersectionTypeNode(typeNode) || ts.isUnionTypeNode(typeNode)) {
+    return typeNode.types.flatMap((part) => propsFromTypeNode(part, sourceFile, declarations, seen))
+  }
+
+  if (ts.isTypeReferenceNode(typeNode)) {
+    const typeName = typeNode.typeName.getText(sourceFile)
+    if (typeName === 'Omit' || typeName === 'Pick' || typeName === 'Partial') {
+      const baseType = typeNode.typeArguments?.[0]
+      if (!baseType) return []
+
+      const props = propsFromTypeNode(baseType, sourceFile, declarations, seen)
+      const names = new Set(
+        (typeNode.typeArguments ?? [])
+          .slice(1)
+          .flatMap((argument) => (ts.isUnionTypeNode(argument) ? argument.types : [argument]))
+          .flatMap((argument) =>
+            ts.isLiteralTypeNode(argument) && ts.isStringLiteral(argument.literal)
+              ? [argument.literal.text]
+              : []
+          )
+      )
+
+      if (typeName === 'Omit') return props.filter((prop) => !names.has(prop.name))
+      if (typeName === 'Pick') return props.filter((prop) => names.has(prop.name))
+      return props.map((prop) => ({ ...prop, optional: true }))
+    }
+
+    const declaration = declarations.get(typeName.split('.').at(-1))
+    if (!declaration || seen.has(declaration)) return []
+    const nextSeen = new Set(seen).add(declaration)
+    return propsFromDeclaration(declaration, declaration.getSourceFile(), declarations, nextSeen)
+  }
+
+  return []
+}
+
+function propsFromDeclaration(node, sourceFile, declarations, seen = new Set()) {
   if (ts.isInterfaceDeclaration(node)) {
     return node.members.map((member) => propFromMember(member, sourceFile)).filter(Boolean)
   }
 
-  if (ts.isTypeAliasDeclaration(node) && ts.isTypeLiteralNode(node.type)) {
-    return node.type.members.map((member) => propFromMember(member, sourceFile)).filter(Boolean)
+  if (ts.isTypeAliasDeclaration(node)) {
+    return propsFromTypeNode(node.type, sourceFile, declarations, seen)
   }
 
   return []
+}
+
+function uniqueProps(props) {
+  const byName = new Map()
+  for (const prop of props) {
+    const existing = byName.get(prop.name)
+    if (!existing) {
+      byName.set(prop.name, prop)
+      continue
+    }
+
+    byName.set(prop.name, {
+      ...existing,
+      optional: existing.optional && prop.optional,
+      type: existing.type === prop.type ? existing.type : `${existing.type} | ${prop.type}`,
+    })
+  }
+  return [...byName.values()]
 }
 
 function addBindingName(name, node, declarations) {
@@ -232,7 +295,7 @@ function createExportRow(name, declaration, declarations, exportedAliases) {
   const propsSourceFile = propsDeclaration?.getSourceFile()
   const props =
     propsDeclaration && propsSourceFile
-      ? propsFromDeclaration(propsDeclaration, propsSourceFile)
+      ? uniqueProps(propsFromDeclaration(propsDeclaration, propsSourceFile, declarations))
       : []
 
   return {
