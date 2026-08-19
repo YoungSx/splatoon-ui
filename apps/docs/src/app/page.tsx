@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import { Button } from '@/components/ui/button'
-import { ButtonGroup, ButtonGroupItem } from '@/components/ui/button-group'
+import { Button } from 'splatoon-ui/button'
+import { ButtonGroup, ButtonGroupItem } from 'splatoon-ui/button-group'
 import {
   Card,
   CardContent,
@@ -11,15 +11,15 @@ import {
   CardHeader,
   CardTitle,
   CardImage,
-} from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { List, ListItem } from '@/components/ui/list'
+} from 'splatoon-ui/card'
+import { Badge } from 'splatoon-ui/badge'
+import { Input } from 'splatoon-ui/input'
+import { Label } from 'splatoon-ui/label'
+import { List, ListItem } from 'splatoon-ui/list'
 
-import { Tabs, TabsContent, TabsList, TabsPanels, TabsTrigger } from '@/components/ui/tabs'
-import { TornCard, TornCardTitle, TornCardDescription } from '@/components/ui/torn-card'
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
+import { Tabs, TabsContent, TabsList, TabsPanels, TabsTrigger } from 'splatoon-ui/tabs'
+import { TornCard, TornCardTitle, TornCardDescription } from 'splatoon-ui/torn-card'
+import { Alert, AlertTitle, AlertDescription } from 'splatoon-ui/alert'
 import { Play } from 'lucide-react'
 import { Navigation } from '@/components/ui/navigation'
 import { NavigationDialog } from '@/components/ui/navigation-dialog'
@@ -33,15 +33,17 @@ import {
 } from '@/config/splatoon-navigation'
 import { InteractiveSplatter, Splat3 } from '@/components/ui/splats'
 import { VideoDialog, VideoDialogThumbnail, VideoDialogContent } from '@/components/ui/video-dialog'
-import { FeedCarousel } from '@/components/ui/feed-carousel'
-import { WeaponsGalleryCarousel } from '@/components/ui/weapons-gallery-carousel'
-import { IconPaginatedCarousel } from '@/components/ui/icon-paginated-carousel'
-import { MarqueeCarousel } from '@/components/ui/marquee-carousel'
+import {
+  FeedCarousel,
+  IconPaginatedCarousel,
+  MarqueeCarousel,
+  WeaponsGalleryCarousel,
+} from 'splatoon-ui/carousel'
 import { BlackTapeContainer } from '@/components/ui/black-tape-container'
-import { StapleCard } from '@/components/ui/staple-card'
-import { HeadingTape } from '@/components/ui/heading-tape'
-import { Section } from '@/components/ui/section'
-import { TapeTitle } from '@/components/ui/tape-title'
+import { StapleCard } from 'splatoon-ui/staple-card'
+import { HeadingTape } from 'splatoon-ui/heading-tape'
+import { Section } from 'splatoon-ui/section'
+import { TapeTitle } from 'splatoon-ui/tape-title'
 import { PageTransition, type PageTransitionHandle } from '@/components/ui/page-transition'
 import {
   SquidMaskTransition,
@@ -53,13 +55,13 @@ import {
   BannerDivider,
   type BannerDividerTape,
   type BannerDividerVariant,
-} from '@/components/ui/banner-divider'
+} from 'splatoon-ui/banner-divider'
 import { InkTrailCanvas } from '@/components/ui/ink-trail'
-import { Loader } from '@/components/ui/loader'
-import { IconButton } from '@/components/ui/icon-button'
+import { Loader } from 'splatoon-ui/loader'
+import { IconButton } from 'splatoon-ui/icon-button'
 import { InView, InViewStagger } from '@/components/ui/in-view'
 import { SectionSideNav } from '@/components/ui/section-side-nav'
-import { Progress } from '@/components/ui/progress'
+import { Progress } from 'splatoon-ui/progress'
 import { Footer } from '@/components/ui/footer'
 import { GitHubMark } from '@/components/ui/github-mark'
 import { AssetImage, type ImageAsset } from '@/components/ui/asset-image'
@@ -80,18 +82,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTriggerButton,
-} from '@/components/ui/dialog'
-import { Checkbox } from '@/components/ui/checkbox'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { SegmentedControl, SegmentedControlItem } from '@/components/ui/segmented-control'
-import { Switch } from '@/components/ui/switch'
+} from 'splatoon-ui/dialog'
+import { Checkbox } from 'splatoon-ui/checkbox'
+import { RadioGroup, RadioGroupItem } from 'splatoon-ui/radio-group'
+import { SegmentedControl, SegmentedControlItem } from 'splatoon-ui/segmented-control'
+import { Switch } from 'splatoon-ui/switch'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from 'splatoon-ui/select'
 import {
   Sheet,
   SheetTriggerButton,
@@ -99,7 +101,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from '@/components/ui/sheet'
+} from 'splatoon-ui/sheet'
 import {
   Popover,
   PopoverContent,
@@ -107,7 +109,7 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverTriggerButton,
-} from '@/components/ui/popover'
+} from 'splatoon-ui/popover'
 import { type Locale, getTranslations } from '@/lib/i18n'
 
 function createDemoEmbed(label: string) {
