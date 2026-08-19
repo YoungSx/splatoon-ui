@@ -25,7 +25,7 @@ Splatoon UI は、Splatoon シリーズらしい鮮やかな配色、高いコ�
 ### npm パッケージとして使う
 
 ```bash
-npm install splatoon-ui
+npm install splatoon-ui tailwindcss@^4 tw-animate-css@^1.4
 ```
 
 アプリのエントリーポイントでグローバルスタイルを一度だけ読み込みます。
@@ -47,6 +47,14 @@ import { Dialog } from 'splatoon-ui/dialog'
 Splatoon UI のスタイルは `/_images`、`/fonts`、`/svgs` 配下の静的アセットを参照します。デプロイ前に、パッケージ内の `public/_images`、`public/fonts`、`public/svgs` をアプリ側の public ルートへコピーしてください。
 
 `styles.css` は Tailwind CSS v4 のエントリーファイルです。利用側のアプリには、npm パッケージ内の CSS import を処理できる通常の Tailwind v4/PostCSS 環境が必要です。
+
+CSS をコンポーネント単位で読み込む場合は、共有テーマを一度だけ import し、使用するコンポーネントのスタイルだけを追加してください。集約版の `styles.css` とは併用しません。
+
+```tsx
+import 'splatoon-ui/theme.css'
+import 'splatoon-ui/styles/button.css'
+import 'splatoon-ui/styles/dialog.css'
+```
 
 ### デモをローカルで動かす
 

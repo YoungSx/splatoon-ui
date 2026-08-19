@@ -25,7 +25,7 @@ Splatoon UI is a comprehensive React component library shaped around Splatoon's 
 ### Use the package
 
 ```bash
-npm install splatoon-ui
+npm install splatoon-ui tailwindcss@^4 tw-animate-css@^1.4
 ```
 
 Import the global stylesheet once in your app shell:
@@ -47,6 +47,14 @@ Documentation is available at https://dev-ui.s8p.io/en/docs.
 Splatoon UI styles reference static assets from `/_images`, `/fonts`, and `/svgs`. Copy the package `public/_images`, `public/fonts`, and `public/svgs` directories into your app's public root before deploying.
 
 The stylesheet is a Tailwind CSS v4 entrypoint. Your app needs a normal Tailwind v4/PostCSS pipeline that can process CSS imports from npm packages.
+
+For granular CSS, import the shared theme once and the styles for each component entry you use. Do not combine these with the aggregate `styles.css` import.
+
+```tsx
+import 'splatoon-ui/theme.css'
+import 'splatoon-ui/styles/button.css'
+import 'splatoon-ui/styles/dialog.css'
+```
 
 ### Run the demo locally
 
