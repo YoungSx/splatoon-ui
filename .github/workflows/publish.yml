@@ -32,17 +32,19 @@ jobs:
       - name: Build package
         run: pnpm build:package
 
-      - name: Set version from tag
+      # The committed version is the source of truth. Writing it here instead
+      # would publish a version that exists in no commit, which is how the
+      # repository ended up on 0.2.0 while v0.2.1 through v0.2.3 were live.
+      - name: Verify version matches tag
+        shell: bash
         working-directory: packages/ui
         run: |
+          set -euo pipefail
           VERSION=${GITHUB_REF_NAME#v}
           CURRENT_VERSION="$(node -p "require('./package.json').version")"
           if [ "${CURRENT_VERSION}" != "${VERSION}" ]; then
-            npm version "$VERSION" --no-git-tag-version --ignore-scripts
-          fi
-          ACTUAL_VERSION="$(node -p "require('./package.json').version")"
-          if [ "${ACTUAL_VERSION}" != "${VERSION}" ]; then
-            echo "package.json version ${ACTUAL_VERSION} does not match tag version ${VERSION}."
+            echo "package.json version ${CURRENT_VERSION} does not match tag version ${VERSION}."
+            echo "Commit the version bump (pnpm changeset version) before tagging."
             exit 1
           fi
 
@@ -50,10 +52,10 @@ jobs:
         run: pnpm typecheck
 
       - name: Regression tests
-        run: |
-          node tests/theme-role-tokens-regression.mjs
-          node tests/ui-entrypoints-regression.mjs
-          node tests/package-publish-regression.mjs
+        run: pnpm test
+
+      - name: Package consumer smoke
+        run: pnpm test:package-consumer
 
       - name: Publish
         shell: bash

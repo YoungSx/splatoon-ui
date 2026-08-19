@@ -1,6 +1,6 @@
 {
   "name": "splatoon-ui",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "A React component library inspired by Splatoon's visual language.",
   "type": "module",
   "license": "MIT",
