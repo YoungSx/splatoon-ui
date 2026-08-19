@@ -146,7 +146,6 @@
   --ease-out: cubic-bezier(0.35, 0.91, 0.3, 0.99);
   --ease-in-out: cubic-bezier(0.75, 0, 0.21, 0.99);
   --ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
-
 }
 
 /* Hide scrollbar for peek-scroll containers */
