@@ -5,11 +5,7 @@ import { Checkbox as CheckboxPrimitive } from '@base-ui/react/checkbox'
 
 import { cn } from '@/lib/utils'
 import { Splat11 } from '@/components/ui/splats/splat-11'
-import type {
-  PrimitiveChangeDetails,
-  PrimitiveCheckedRenderState,
-  PrimitiveRender,
-} from './types'
+import type { PrimitiveChangeDetails, PrimitiveCheckedRenderState, PrimitiveRender } from './types'
 
 export interface CheckboxProps extends Omit<
   React.HTMLAttributes<HTMLElement>,

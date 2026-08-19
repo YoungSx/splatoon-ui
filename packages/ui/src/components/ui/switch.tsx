@@ -8,11 +8,7 @@ import { cn } from '@/lib/utils'
 import styles from './switch.module.css'
 import { resolveSplatoonAssetPath, type SplatoonAssetBasePath } from './assets'
 import { SWITCH_TRACK_DEFAULT_FILL_IMAGE_PATH, SwitchTrack } from './switch-track'
-import type {
-  PrimitiveChangeDetails,
-  PrimitiveCheckedRenderState,
-  PrimitiveRender,
-} from './types'
+import type { PrimitiveChangeDetails, PrimitiveCheckedRenderState, PrimitiveRender } from './types'
 import type { SplatoonControlTrackColor } from './tokens'
 
 export type SwitchSize = 'sm' | 'default' | 'lg'

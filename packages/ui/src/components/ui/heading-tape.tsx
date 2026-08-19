@@ -59,8 +59,7 @@ const defaultDecorations = [
     },
     desktop: {
       src: 'tape-assets/sticker-8-medium-up.png',
-      srcSet:
-        'tape-assets/sticker-8-medium-up.webp 1x, tape-assets/sticker-8-medium-up-2x.webp 2x',
+      srcSet: 'tape-assets/sticker-8-medium-up.webp 1x, tape-assets/sticker-8-medium-up-2x.webp 2x',
       width: 406,
       height: 71.5,
       alt: '',

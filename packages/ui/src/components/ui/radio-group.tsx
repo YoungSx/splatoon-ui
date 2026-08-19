@@ -6,11 +6,7 @@ import { RadioGroup as RadioGroupPrimitive } from '@base-ui/react/radio-group'
 
 import { cn } from '@/lib/utils'
 import { Splat12 } from '@/components/ui/splats/splat-12'
-import type {
-  PrimitiveChangeDetails,
-  PrimitiveCheckedRenderState,
-  PrimitiveRender,
-} from './types'
+import type { PrimitiveChangeDetails, PrimitiveCheckedRenderState, PrimitiveRender } from './types'
 
 export interface RadioGroupProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
