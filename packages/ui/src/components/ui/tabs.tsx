@@ -131,12 +131,6 @@ function resolveActivationDirection(
   return nextIndex > previousIndex ? 'right' : 'left'
 }
 
-function toTabsRootOnValueChange(
-  onValueChange: (value: TabsValue, eventDetails: TabsChangeDetails) => void
-): TabsPrimitive.Root.Props['onValueChange'] {
-  return onValueChange as TabsPrimitive.Root.Props['onValueChange']
-}
-
 export interface TabsProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
   'defaultValue' | 'onChange' | 'value'
@@ -242,7 +236,7 @@ function Tabs({
         data-slot="tabs"
         data-orientation={orientation}
         value={currentValue}
-        onValueChange={toTabsRootOnValueChange(commitValue)}
+        onValueChange={commitValue as TabsPrimitive.Root.Props['onValueChange']}
         orientation={orientation}
         className={cn('group/tabs flex gap-2 data-horizontal:flex-col', className)}
         {...props}
