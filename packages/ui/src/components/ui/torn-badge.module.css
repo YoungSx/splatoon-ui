@@ -49,6 +49,8 @@
   display: block;
 }
 
-.tornBadge:hover .outline {
-  filter: brightness(1.1);
+@media (hover: hover) {
+  .tornBadge:hover .outline {
+    filter: brightness(1.1);
+  }
 }

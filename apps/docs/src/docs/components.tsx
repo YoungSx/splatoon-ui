@@ -82,8 +82,8 @@ export function DocsLayout({
                 href={slug ? `/${targetLocale}/docs/${slug}` : `/${targetLocale}/docs`}
                 className={
                   targetLocale === locale
-                    ? 'bg-chaos-black font-alt rounded px-3 py-2 text-lg font-black text-white'
-                    : 'border-chaos-black font-alt rounded border-2 px-3 py-2 text-lg font-black'
+                    ? 'bg-chaos-black font-alt rounded min-w-11 px-3 py-2 text-center text-lg font-black text-white'
+                    : 'border-chaos-black font-alt rounded min-w-11 border-2 px-3 py-2 text-center text-lg font-black'
                 }
               >
                 {targetLocale.toUpperCase()}
@@ -108,41 +108,69 @@ function DocsSidebar({ locale, activeSlug }: { locale: DocsLocale; activeSlug?: 
     }))
     .filter((group) => group.slugs.length > 0)
 
+  // One nav tree, two presentations: collapsed <details> under lg (the sidebar
+  // would otherwise push ~1500px of links above the article on phones), sticky
+  // aside from lg up. No client JS — native disclosure semantics.
+  const links = grouped.map((group) => (
+    <div key={group.category.id}>
+      <p className="font-alt text-sm font-black text-black/55">{group.category.label[locale]}</p>
+      <div className="mt-2 grid gap-1">
+        {group.slugs.map((slug) => (
+          <Link
+            key={slug}
+            href={`/${locale}/docs/${slug}`}
+            className={
+              activeSlug === slug
+                ? 'bg-yellow px-2 py-1 font-bold text-black'
+                : 'px-2 py-1 text-sm font-semibold text-black/70 hover:bg-black/5'
+            }
+          >
+            {toComponentTitle(slug)}
+          </Link>
+        ))}
+      </div>
+    </div>
+  ))
+
   return (
-    <aside className="lg:sticky lg:top-6 lg:self-start">
-      <nav
-        aria-label="Component navigation"
-        className="border-chaos-black bg-white p-4 shadow-[4px_4px_0_var(--color-green)]"
-      >
-        <Link href={`/${locale}/docs`} className="font-alt text-2xl font-black">
-          {docsCopy[locale].components}
-        </Link>
-        <div className="mt-5 grid gap-4">
-          {grouped.map((group) => (
-            <div key={group.category.id}>
-              <p className="font-alt text-sm font-black text-black/55">
-                {group.category.label[locale]}
-              </p>
-              <div className="mt-2 grid gap-1">
-                {group.slugs.map((slug) => (
-                  <Link
-                    key={slug}
-                    href={`/${locale}/docs/${slug}`}
-                    className={
-                      activeSlug === slug
-                        ? 'bg-yellow px-2 py-1 font-bold text-black'
-                        : 'px-2 py-1 text-sm font-semibold text-black/70 hover:bg-black/5'
-                    }
-                  >
-                    {toComponentTitle(slug)}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </nav>
-    </aside>
+    <>
+      <details className="group lg:hidden">
+        <summary className="border-chaos-black bg-white flex cursor-pointer list-none items-center justify-between p-4 shadow-[4px_4px_0_var(--color-green)] [&::-webkit-details-marker]:hidden">
+          <span className="font-alt text-2xl font-black">{docsCopy[locale].components}</span>
+          <span
+            aria-hidden
+            className="border-chaos-black flex size-9 shrink-0 items-center justify-center border-4"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              className="transition-transform duration-200 ease-out group-open:rotate-45 motion-reduce:transition-none"
+            >
+              <path d="M8 2v12M2 8h12" stroke="currentColor" strokeWidth="3" />
+            </svg>
+          </span>
+        </summary>
+        <nav
+          aria-label="Component navigation"
+          className="border-chaos-black border-t-0 border-4 p-4 shadow-[4px_4px_0_var(--color-green)]"
+        >
+          <div className="grid gap-4">{links}</div>
+        </nav>
+      </details>
+      <aside className="hidden lg:sticky lg:top-6 lg:block lg:self-start">
+        <nav
+          aria-label="Component navigation"
+          className="border-chaos-black bg-white p-4 shadow-[4px_4px_0_var(--color-green)]"
+        >
+          <Link href={`/${locale}/docs`} className="font-alt text-2xl font-black">
+            {docsCopy[locale].components}
+          </Link>
+          <div className="mt-5 grid gap-4">{links}</div>
+        </nav>
+      </aside>
+    </>
   )
 }
 

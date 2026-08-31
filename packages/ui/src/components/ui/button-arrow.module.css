@@ -7,8 +7,10 @@
   text-decoration: none;
 }
 
-.buttonArrow:hover .iconWrap {
-  transform: translateX(10px);
+@media (hover: hover) {
+  .buttonArrow:hover .iconWrap {
+    transform: translateX(10px);
+  }
 }
 
 .iconWrap {

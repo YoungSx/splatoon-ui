@@ -1,6 +1,15 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
+
+// viewport-fit=cover lets the footer respect env(safe-area-inset-*) on
+// notched devices. Zoom stays enabled on purpose — blocking it is an a11y
+// failure, and iOS ignores user-scalable=no anyway.
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 const obviouslyNarrow = localFont({
   src: '../../public/fonts/obviously-narrow-600.woff2',

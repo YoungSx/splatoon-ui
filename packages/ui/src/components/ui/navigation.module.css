@@ -37,7 +37,12 @@
 }
 
 @media (max-width: 640px) {
+  /* Label collapses to an icon on phones; keep the tap target at 44px. */
   .reducedMotion {
+    min-block-size: 44px;
+    min-inline-size: 44px;
+    justify-content: center;
+    padding-block: 0;
     padding-inline: 10px;
   }
 
