@@ -14,7 +14,7 @@
     opacity 0.3s ease,
     visibility 0.3s ease;
   visibility: hidden;
-  z-index: 9;
+  z-index: var(--z-floating, 130);
 }
 
 .sidebar[data-overflow='scroll'] {
@@ -55,6 +55,9 @@
 .item {
   --dimension: 42px;
   --border: 4px;
+  /* Invisible hit-area outset: keeps the visual dot compact while the tap
+     target clears 44px even when the fit-scale shrinks the whole menu. */
+  --hit-outset: 4px;
   background: var(--color-purple, #603bff);
   border: solid var(--border) var(--color-purple, #603bff);
   border-radius: 50%;
@@ -68,12 +71,23 @@
   transition: background-color 0.2s ease;
 }
 
-.item:hover {
-  background: var(--color-black, #000);
+.item::after {
+  border-radius: 50%;
+  content: '';
+  inset: calc(-1 * var(--hit-outset));
+  position: absolute;
 }
 
-.item:hover.itemActive {
-  background: var(--color-purple, #603bff);
+/* Hover tint is decorative: without the guard, touch devices keep the
+   "sticky" tapped state after the finger lifts. */
+@media (hover: hover) {
+  .item:hover {
+    background: var(--color-black, #000);
+  }
+
+  .item:hover.itemActive {
+    background: var(--color-purple, #603bff);
+  }
 }
 
 .itemActive .itemSplat {
@@ -114,6 +128,8 @@
 
 .itemBackToTop {
   --dimension: 34px;
+  /* Smaller visual dot, same 44px tap target as the number items. */
+  --hit-outset: 9px;
 }
 
 .backToTopArrow {
@@ -145,6 +161,7 @@
   .item {
     --dimension: 60px;
     --border: 6px;
+    --hit-outset: 0px;
   }
 
   .itemSplat {
@@ -158,6 +175,7 @@
 
   .itemBackToTop {
     --dimension: 44px;
+    --hit-outset: 0px;
   }
 
   .backToTopArrow {

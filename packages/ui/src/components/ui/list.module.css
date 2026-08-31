@@ -44,9 +44,11 @@
     color 160ms ease;
 }
 
-.item:hover .marker {
-  background: var(--list-marker-hover-color);
-  color: var(--list-marker-hover-text-color);
+@media (hover: hover) {
+  .item:hover .marker {
+    background: var(--list-marker-hover-color);
+    color: var(--list-marker-hover-text-color);
+  }
 }
 
 .body {
@@ -72,9 +74,11 @@
     color 160ms ease;
 }
 
-.item:hover .content {
-  background: var(--color-black);
-  color: var(--color-white);
+@media (hover: hover) {
+  .item:hover .content {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
 }
 
 .divider {

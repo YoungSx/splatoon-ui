@@ -19,8 +19,10 @@
   transition: transform calc(var(--duration-factor) * 0.3s) var(--ease-in-out);
 }
 
-.card.hoverTilt:hover {
-  transform: rotate(2deg);
+@media (hover: hover) {
+  .card.hoverTilt:hover {
+    transform: rotate(2deg);
+  }
 }
 
 .cardSurface {

@@ -9,6 +9,7 @@
   margin: 0 auto;
   max-width: 64rem;
   padding: 3rem 1.5rem 2.5rem;
+  padding-bottom: max(2.5rem, calc(2.5rem + env(safe-area-inset-bottom, 0px)));
   position: relative;
   z-index: 20;
 }
@@ -16,6 +17,7 @@
 @media (min-width: 768px) {
   .inner {
     padding: 4rem 2rem 3rem;
+    padding-bottom: max(3rem, calc(3rem + env(safe-area-inset-bottom, 0px)));
   }
 }
 
@@ -88,8 +90,10 @@
   transition: color 0.15s ease;
 }
 
-.navLink:hover {
-  color: var(--color-yellow, #eaff3d);
+@media (hover: hover) {
+  .navLink:hover {
+    color: var(--color-yellow, #eaff3d);
+  }
 }
 
 .divider {
