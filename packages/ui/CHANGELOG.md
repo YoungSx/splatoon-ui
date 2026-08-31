@@ -1,5 +1,17 @@
 # splatoon-ui
 
+## 0.3.0
+
+### Minor Changes
+
+- Ship granular CSS export maps with a `react-server` condition on the server entrypoint, and rebuild Progress on a native implementation without Radix.
+  - Add granular CSS exports and scope the shipped stylesheet's Tailwind scan to compiled output.
+  - Replace Radix Progress with a native implementation.
+  - Harden drip ink coverage against stale width measurements and keep the drip wave's right boundary vertical past the measured box.
+  - Guard decorative hover behind `(hover: hover)` and hit 44px touch targets.
+  - Satisfy React Compiler ref and mutation rules.
+  - Scope CSS Modules keyframes to their module and make server-safe entries honest under the `react-server` condition.
+
 ## 0.2.3
 
 ### Patch Changes
