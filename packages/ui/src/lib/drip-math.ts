@@ -21,6 +21,13 @@ export const DRIP_MAX_AMPLITUDE = 80
 export const DRIP_PATH_START_Y = -8
 export const DRIP_STEP_SIZE = 30
 export const DRIP_X_JITTER = 4
+/** Extra segments appended beyond the measured right edge. The ink wave must
+ * always overshoot the live box: if the element re-measures late (font swap,
+ * zoom, icon load) or a browser snapshots keyframe var() endpoints at
+ * animation start, a stale width would otherwise expose the base layer as a
+ * vertical strip. The overshoot lies outside the button and is clipped by its
+ * `overflow-hidden`, so it is invisible in the steady state. */
+export const DRIP_OVERSHOOT_STEPS = 1
 
 export interface CreateDripControlPointsOptions {
   bleedX?: number
@@ -63,7 +70,12 @@ export function getDripSegmentCount(
   stepSize: number = DRIP_STEP_SIZE,
   bleedX: number = DRIP_BLEED_X
 ) {
-  return Math.max(1, Math.ceil((clampPositive(width) + bleedX * 2) / stepSize))
+  return Math.max(
+    1,
+    Math.ceil(
+      (clampPositive(width) + bleedX * 2 + stepSize * DRIP_OVERSHOOT_STEPS) / stepSize
+    )
+  )
 }
 
 export function createDripControlPoints({
@@ -133,7 +145,10 @@ export function createDripPath({
     path += `C${formatPathNumber(x1)} ${formatPathNumber(y)},${formatPathNumber(x2)} ${formatPathNumber(y)},${formatPathNumber(x3)} ${formatPathNumber(edgeY)}`
   }
 
-  path += `L${formatPathNumber(endX)} ${formatPathNumber(closeY)}, ${formatPathNumber(startX)} ${formatPathNumber(closeY)}`
+  // Extend the closing edge past the measured box so a stale measurement can
+  // never expose the base layer; the button's `overflow-hidden` clips it.
+  const tailX = endX + stepSize * DRIP_OVERSHOOT_STEPS
+  path += `L${formatPathNumber(tailX)} ${formatPathNumber(closeY)}, ${formatPathNumber(startX)} ${formatPathNumber(closeY)}`
   path += 'Z'
 
   return path

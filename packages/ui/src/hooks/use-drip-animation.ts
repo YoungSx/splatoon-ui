@@ -26,22 +26,25 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
   const pendingDripLeaveTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
   const dripEnterStartedAtRef = React.useRef(0)
 
+  const measure = React.useCallback(() => {
+    const element = buttonRef.current
+    if (!element) return
+
+    const width = Math.ceil(element.offsetWidth)
+    const height = Math.ceil(element.offsetHeight) + 2
+
+    setDimensions((current) =>
+      current.width === width && current.height === height ? current : { width, height }
+    )
+
+    setControlPoints((prev) => createDripControlPoints({ existing: prev, width }))
+  }, [buttonRef])
+
   React.useEffect(() => {
     if (!enabled) return
 
     const element = buttonRef.current
     if (!element) return
-
-    const measure = () => {
-      const width = Math.ceil(element.offsetWidth)
-      const height = Math.ceil(element.offsetHeight) + 2
-
-      setDimensions((current) =>
-        current.width === width && current.height === height ? current : { width, height }
-      )
-
-      setControlPoints((prev) => createDripControlPoints({ existing: prev, width }))
-    }
 
     measure()
     const unobserveResize = observeElementResize(element, measure)
@@ -57,7 +60,7 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
         clearTimeout(pendingDripLeaveTimerRef.current)
       }
     }
-  }, [buttonRef, enabled])
+  }, [buttonRef, enabled, measure])
 
   const dripPaths = React.useMemo(() => {
     if (dimensions.width <= 0 || controlPoints.length === 0) return null
@@ -79,17 +82,22 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
   const startDripEnter = React.useCallback(() => {
     if (!enabled) return
 
+    // Re-measure at animation start: some browsers snapshot keyframe var()
+    // endpoints when the animation begins, so the paths must reflect the live
+    // box at this exact moment, not whatever the last ResizeObserver tick saw.
+    measure()
     if (pendingDripLeaveTimerRef.current) {
       clearTimeout(pendingDripLeaveTimerRef.current)
       pendingDripLeaveTimerRef.current = null
     }
     dripEnterStartedAtRef.current = performance.now()
     setDripAnimationState('entering')
-  }, [enabled])
+  }, [enabled, measure])
 
   const startDripLeave = React.useCallback(() => {
     if (!enabled) return
 
+    measure()
     setDripAnimationState((current) => {
       if (current === 'entering') {
         if (!pendingDripLeaveTimerRef.current) {
@@ -102,6 +110,7 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
           const remainingFillTime = Math.max(0, visualFillDelayMs - elapsedSinceEnter)
           pendingDripLeaveTimerRef.current = setTimeout(() => {
             pendingDripLeaveTimerRef.current = null
+            measure()
             setDripAnimationState('leaving')
           }, remainingFillTime)
         }
@@ -110,7 +119,7 @@ export function useDripAnimation(buttonRef: React.RefObject<HTMLElement | null>,
 
       return current === 'idle' ? current : 'leaving'
     })
-  }, [controlPoints, dimensions.height, enabled])
+  }, [controlPoints, dimensions.height, enabled, measure])
 
   const handleDripAnimationEnd = React.useCallback(() => {
     setDripAnimationState((current) => {

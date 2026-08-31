@@ -132,7 +132,13 @@ const checks = [
     pass: widePaths.every(
       (pathValue) =>
         pathValue.startsWith(`M-${dripMathModule.DRIP_BLEED_X} `) &&
-        pathValue.includes(`L${720 + dripMathModule.DRIP_BLEED_X} `) &&
+        pathValue.includes(
+          `L${
+            720 +
+            dripMathModule.DRIP_BLEED_X +
+            dripMathModule.DRIP_STEP_SIZE * dripMathModule.DRIP_OVERSHOOT_STEPS
+          } `
+        ) &&
         pathValue.includes(`, -${dripMathModule.DRIP_BLEED_X} `)
     ),
   },
