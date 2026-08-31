@@ -11,7 +11,7 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { useInView } from '@/hooks/use-in-view'
-import { composeRefs } from '@/lib/react-refs'
+import { assignRef } from '@/lib/react-refs'
 import styles from './in-view.module.css'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -164,10 +164,14 @@ export function InView({
   const childEventProps = child.props as React.HTMLAttributes<HTMLElement>
   const composedEventProps = mergeChildEventHandlers(childEventProps, props)
   const mergedStyle = mergeChildStyle(child.props.style, style)
-  const mergedRef = React.useMemo(
-    () => composeRefs(observerRef, childRef, forwardedRef),
-    [observerRef, childRef, forwardedRef]
-  )
+  // Inline, not memoized: memo deps would hold ref values, which the React
+  // Compiler forbids, and composeRefs' render-time call would too. Assignments
+  // run when React invokes the ref, never during render.
+  const mergedRef = (value: HTMLElement | null) => {
+    assignRef(observerRef, value)
+    assignRef(childRef, value)
+    assignRef(forwardedRef, value)
+  }
 
   const animClasses = React.useMemo(() => {
     const classes = [styles.anim]
@@ -229,10 +233,11 @@ export function InViewStagger({
   const childEventProps = child.props as React.HTMLAttributes<HTMLElement>
   const composedEventProps = mergeChildEventHandlers(childEventProps, props)
   const mergedStyle = mergeChildStyle(child.props.style, style)
-  const mergedRef = React.useMemo(
-    () => composeRefs(observerRef, childRef, forwardedRef),
-    [observerRef, childRef, forwardedRef]
-  )
+  const mergedRef = (value: HTMLElement | null) => {
+    assignRef(observerRef, value)
+    assignRef(childRef, value)
+    assignRef(forwardedRef, value)
+  }
 
   return React.cloneElement(child, {
     ...props,

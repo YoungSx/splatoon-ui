@@ -727,8 +727,8 @@ const checks = [
       inView.includes('export interface InViewStaggerProps') &&
       (inView.match(/ref\?: React\.Ref<HTMLElement>/g) ?? []).length >= 3 &&
       (inView.match(/ref: forwardedRef,/g) ?? []).length === 2 &&
-      inView.includes("import { composeRefs } from '@/lib/react-refs'") &&
-      (inView.match(/composeRefs\(observerRef, childRef, forwardedRef\)/g) ?? []).length === 2 &&
+      inView.includes("import { assignRef } from '@/lib/react-refs'") &&
+      (inView.match(/assignRef\(observerRef, value\)/g) ?? []).length === 2 &&
       (inView.match(/ref: mergedRef/g) ?? []).length === 2,
   },
   {
@@ -1254,8 +1254,6 @@ const checks = [
       tabs.includes('decorationColor?: string') &&
       tabs.includes('const resolvedDecorationColor =') &&
       tabs.includes('decorationColor ?? getTabsDecorationColor(resolvedVariant, resolvedColor)') &&
-      tabs.includes('function toTabsRootOnValueChange') &&
-      tabs.includes('onValueChange={toTabsRootOnValueChange(commitValue)}') &&
       tabs.includes('const TrapezoidTabsTriggerContext =') &&
       tabs.includes('function withTrapezoidTabsTriggerContext') &&
       tabs.includes('<TrapezoidTabsTriggerContext.Provider') &&

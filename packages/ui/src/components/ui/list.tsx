@@ -66,22 +66,30 @@ function List({
     String(Math.abs(resolvedStart)).length
   )
 
-  let listItemIndex = 0
-  const children = childrenArray.map((child) => {
-    if (!isListItemElement(child)) return child
+  // Single pass with a render-local accumulator: the React Compiler forbids
+  // reassigning an outer `let` from inside a callback, but mutating an
+  // accumulator object created here is fine.
+  const children = childrenArray.reduce<{ nodes: React.ReactNode[]; markerIndex: number }>(
+    (acc, child) => {
+      if (!isListItemElement(child)) {
+        acc.nodes.push(child)
+        return acc
+      }
 
-    const markerValue = resolvedStart + listItemIndex
-    listItemIndex += 1
-
-    return (
-      <ListMarkerContext.Provider
-        key={child.key}
-        value={formatListMarker(markerValue, markerDigits)}
-      >
-        {child}
-      </ListMarkerContext.Provider>
-    )
-  })
+      const markerValue = resolvedStart + acc.markerIndex
+      acc.markerIndex += 1
+      acc.nodes.push(
+        <ListMarkerContext.Provider
+          key={child.key}
+          value={formatListMarker(markerValue, markerDigits)}
+        >
+          {child}
+        </ListMarkerContext.Provider>
+      )
+      return acc
+    },
+    { nodes: [], markerIndex: 0 }
+  ).nodes
 
   const resolvedStyle: ListStyle = {
     '--list-marker-color': resolveSplatoonColorValue(markerColor),
