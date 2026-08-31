@@ -82,8 +82,8 @@ export function DocsLayout({
                 href={slug ? `/${targetLocale}/docs/${slug}` : `/${targetLocale}/docs`}
                 className={
                   targetLocale === locale
-                    ? 'bg-chaos-black font-alt rounded min-w-11 px-3 py-2 text-center text-lg font-black text-white'
-                    : 'border-chaos-black font-alt rounded min-w-11 border-2 px-3 py-2 text-center text-lg font-black'
+                    ? 'bg-chaos-black font-alt min-w-11 rounded px-3 py-2 text-center text-lg font-black text-white'
+                    : 'border-chaos-black font-alt min-w-11 rounded border-2 px-3 py-2 text-center text-lg font-black'
                 }
               >
                 {targetLocale.toUpperCase()}
@@ -135,7 +135,7 @@ function DocsSidebar({ locale, activeSlug }: { locale: DocsLocale; activeSlug?: 
   return (
     <>
       <details className="group lg:hidden">
-        <summary className="border-chaos-black bg-white flex cursor-pointer list-none items-center justify-between p-4 shadow-[4px_4px_0_var(--color-green)] [&::-webkit-details-marker]:hidden">
+        <summary className="border-chaos-black flex cursor-pointer list-none items-center justify-between bg-white p-4 shadow-[4px_4px_0_var(--color-green)] [&::-webkit-details-marker]:hidden">
           <span className="font-alt text-2xl font-black">{docsCopy[locale].components}</span>
           <span
             aria-hidden
@@ -154,7 +154,7 @@ function DocsSidebar({ locale, activeSlug }: { locale: DocsLocale; activeSlug?: 
         </summary>
         <nav
           aria-label="Component navigation"
-          className="border-chaos-black border-t-0 border-4 p-4 shadow-[4px_4px_0_var(--color-green)]"
+          className="border-chaos-black border-4 border-t-0 p-4 shadow-[4px_4px_0_var(--color-green)]"
         >
           <div className="grid gap-4">{links}</div>
         </nav>

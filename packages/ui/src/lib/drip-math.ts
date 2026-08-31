@@ -72,9 +72,7 @@ export function getDripSegmentCount(
 ) {
   return Math.max(
     1,
-    Math.ceil(
-      (clampPositive(width) + bleedX * 2 + stepSize * DRIP_OVERSHOOT_STEPS) / stepSize
-    )
+    Math.ceil((clampPositive(width) + bleedX * 2 + stepSize * DRIP_OVERSHOOT_STEPS) / stepSize)
   )
 }
 
