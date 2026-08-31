@@ -27,7 +27,7 @@ export const DRIP_X_JITTER = 4
  * animation start, a stale width would otherwise expose the base layer as a
  * vertical strip. The overshoot lies outside the button and is clipped by its
  * `overflow-hidden`, so it is invisible in the steady state. */
-export const DRIP_OVERSHOOT_STEPS = 1
+export const DRIP_OVERSHOOT_STEPS = 2
 
 export interface CreateDripControlPointsOptions {
   bleedX?: number
@@ -123,6 +123,11 @@ export function createDripPath({
   const segmentCount = getDripSegmentCount(safeWidth, stepSize, bleedX)
   const startX = -bleedX
   const endX = safeWidth + bleedX
+  // The wave's final segment — and therefore the ink's right boundary — must end
+  // past the measured box. A stale width (font swap, zoom, late re-measure)
+  // otherwise leaves the base layer exposed beyond the wave terminus; the tail
+  // lies outside the button and is clipped by its `overflow-hidden`.
+  const tailX = endX + stepSize * DRIP_OVERSHOOT_STEPS
   const edgeY = stage === 'start' ? DRIP_PATH_START_Y : safeHeight + maxAmplitude
   const closeY = phase === 'leave' ? safeHeight : DRIP_PATH_START_Y
   let path = `M${formatPathNumber(startX)} ${formatPathNumber(edgeY)}`
@@ -135,7 +140,9 @@ export function createDripPath({
       y2: 0,
     }
     const x0 = startX + index * stepSize
-    const x3 = index === segmentCount - 1 ? endX : startX + (index + 1) * stepSize
+    // The last wave segment stretches to the overshoot tail so the ink's right
+    // edge stays vertical at tailX through every interpolated frame.
+    const x3 = index === segmentCount - 1 ? tailX : startX + (index + 1) * stepSize
     const segmentWidth = Math.max(0, x3 - x0)
     const yOffset = stage === 'start' ? 0 : phase === 'leave' ? point.y1 : point.y2
     const x1 = clamp(x0 + segmentWidth * 0.2 + point.x1Jitter, x0, x3)
@@ -145,9 +152,6 @@ export function createDripPath({
     path += `C${formatPathNumber(x1)} ${formatPathNumber(y)},${formatPathNumber(x2)} ${formatPathNumber(y)},${formatPathNumber(x3)} ${formatPathNumber(edgeY)}`
   }
 
-  // Extend the closing edge past the measured box so a stale measurement can
-  // never expose the base layer; the button's `overflow-hidden` clips it.
-  const tailX = endX + stepSize * DRIP_OVERSHOOT_STEPS
   path += `L${formatPathNumber(tailX)} ${formatPathNumber(closeY)}, ${formatPathNumber(startX)} ${formatPathNumber(closeY)}`
   path += 'Z'
 
