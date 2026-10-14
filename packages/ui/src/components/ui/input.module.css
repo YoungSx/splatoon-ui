@@ -1,20 +1,37 @@
-.inputRoot {
-  position: relative;
-  width: 100%;
-}
-
 .inputField {
+  appearance: none;
   width: 100%;
   min-width: 0;
+  height: 2.75rem;
+  border-radius: 7px 11px 8px 12px;
+  background-color: var(--desert-sand, #f4eee0);
+  color: var(--color-chaos-black, #0d0d0d);
+  border: 2.5px solid var(--color-chaos-black, #0d0d0d);
+  box-shadow: 2.5px 2.5px 0px var(--color-chaos-black, #0d0d0d);
+  padding: 0.5rem 0.875rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  outline: none;
   transition:
     transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
     border-color 0.15s ease,
     background-color 0.15s ease;
-  outline: none;
 }
 
-/* Authentic Splatoon 3 Lobby Terminal focus state with tactile press & solid shadow */
+.inputField::placeholder {
+  color: #8c857b;
+  font-weight: 500;
+}
+
+.inputField:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Authentic Splatoon 3 Lobby Terminal focus state with tactile displacement & solid shadow */
 .inputField:focus,
 .inputField:focus-visible {
   outline: none;
@@ -25,65 +42,18 @@
   transform: translate(-1px, -1px);
 }
 
-.invalid {
-  border-color: var(--color-red, #ff585e) !important;
+.inputField[aria-invalid='true'],
+.inputField:invalid {
+  border-color: var(--color-red, #ff585e);
   animation: splat-shake 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
-.invalid:focus,
-.invalid:focus-visible {
+.inputField[aria-invalid='true']:focus,
+.inputField:invalid:focus {
   box-shadow:
     0 0 0 3px var(--color-red, #ff585e),
-    3px 3px 0px var(--color-chaos-black, #0d0d0d) !important;
-  transform: translate(-1px, -1px) !important;
-}
-
-.clearBlobButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: var(--color-chaos-black, #0d0d0d);
-  color: #ffffff;
-  cursor: pointer;
-  transition:
-    transform 0.15s ease,
-    background-color 0.15s ease;
-  border: none;
-  padding: 0;
-}
-
-.clearBlobButton:hover {
-  background-color: var(--color-red, #ff585e);
-  transform: scale(1.1) rotate(-8deg);
-}
-
-.clearBlobButton:active {
-  transform: scale(0.92) rotate(4deg);
-}
-
-.togglePasswordButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  color: inherit;
-  opacity: 0.65;
-  cursor: pointer;
-  transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
-  padding: 2px;
-}
-
-.togglePasswordButton:hover {
-  opacity: 1;
-  transform: scale(1.1);
-}
-
-.togglePasswordButton:active {
-  transform: scale(0.95);
+    3px 3px 0px var(--color-chaos-black, #0d0d0d);
+  transform: translate(-1px, -1px);
 }
 
 @keyframes splat-shake {
@@ -107,12 +77,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .invalid {
+  .inputField[aria-invalid='true'],
+  .inputField:invalid {
     animation: none;
   }
-  .inputField,
-  .clearBlobButton,
-  .togglePasswordButton {
+  .inputField {
     transition: none;
   }
 }
