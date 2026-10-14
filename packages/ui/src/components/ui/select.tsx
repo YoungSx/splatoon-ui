@@ -4,8 +4,8 @@ import * as React from 'react'
 import { Select as SelectPrimitive } from '@base-ui/react/select'
 
 import { cn } from '@/lib/utils'
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
 import { Splat10 } from './splats'
+import styles from './select.module.css'
 import type {
   PrimitiveChangeDetails,
   PrimitiveFocusTarget,
@@ -15,6 +15,51 @@ import type {
   PrimitivePopupSide,
   PrimitiveRender,
 } from './types'
+
+const CHEVRON_PATH =
+  'M0,11.23.12,11l.32-.47.3-.12-.16-.35.18-.49.4-.21L1.09,9l.23-.35.26-.21.32-.21L2,7.84l.2-.38v-.3l.47-.47-.05-.38L3,6.08l-.19-.77,0-.26-.26-.3-.1-.31-.42-.25,0-.38-.32-.23L1.5,3.25l0-.32-.05-.26L1,2.37.94,2,.66,1.76.51,1.41.23,1.08.3.66.14.41,0,.13l.7,0L1,.08l.14.14L1.68,0,2,.12,2.21,0l.66.21.26,0h.42l.33.14L4.3.69l0,.38.29.27.14.4L5,2l.07.37,0,.14L5.48,3l.07.09.42.3.1.33L6,4.07l.24.33.42.25,0,.35.1.4.16.47-.11.42-.21.33L6.41,7,6.2,7.2,6,7.6,6,7.93l-.28.31-.3.3,0,.19-.16.37L5,9.43l-.18.14-.23.33-.21.38.09.42-.3.33,0,.18-.66.24-.39.1-.52.09,0-.09-.5-.09-.46.07-.26.09-.4,0-.39-.07-.45.17L0,11.23Z'
+
+export type SelectChevronDirection = 'down' | 'up' | 'left' | 'right'
+
+export interface SelectChevronProps extends Omit<
+  React.SVGProps<SVGSVGElement>,
+  'children' | 'ref'
+> {
+  direction?: SelectChevronDirection
+  ref?: React.Ref<SVGSVGElement>
+}
+
+const chevronDirectionTransforms: Record<SelectChevronDirection, string> = {
+  down: 'rotate(90 6 6) translate(2.5, 0)',
+  up: 'rotate(-90 6 6) translate(2.5, 0)',
+  left: 'rotate(180 6 6) translate(2.5, 0)',
+  right: 'translate(2.5, 0)',
+}
+
+function SelectChevron({ ref, direction = 'down', className, ...props }: SelectChevronProps) {
+  return (
+    <svg
+      ref={ref}
+      viewBox="0 0 12 12"
+      aria-hidden="true"
+      className={cn('inline-block shrink-0 fill-current', className)}
+      {...props}
+    >
+      <path d={CHEVRON_PATH} transform={chevronDirectionTransforms[direction]} />
+    </svg>
+  )
+}
+
+export type SelectFocusColor = 'yellow' | 'blue' | 'purple' | 'pink' | 'green' | 'orange'
+
+const focusColorMap: Record<SelectFocusColor, string> = {
+  yellow: 'var(--color-yellow, #eaff3d)',
+  blue: 'var(--color-blue, #2b3bf6)',
+  purple: 'var(--color-purple, #6a0dad)',
+  pink: 'var(--color-pink, #ff007f)',
+  green: 'var(--color-green, #00e676)',
+  orange: 'var(--color-orange, #ff6600)',
+}
 
 export type SelectValueType<
   Value,
@@ -135,6 +180,7 @@ export interface SelectTriggerProps<
   Multiple extends boolean | undefined = false,
 > extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'default'
+  focusColor?: SelectFocusColor
   render?: PrimitiveRender<
     HTMLButtonElement,
     PrimitiveOpenRenderState & {
@@ -156,22 +202,38 @@ function toSelectTriggerProps<Value, Multiple extends boolean | undefined>(
 function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>({
   className,
   size = 'default',
+  focusColor = 'yellow',
+  style,
   children,
   ...props
 }: SelectTriggerProps<Value, Multiple>) {
+  const inlineStyle: React.CSSProperties = {
+    '--input-focus-color': focusColorMap[focusColor] ?? focusColor,
+    ...style,
+  } as React.CSSProperties
+
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
       data-size={size}
+      style={inlineStyle}
       className={cn(
-        "field-cut border-foreground/30 bg-card focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-placeholder:text-muted-foreground flex w-full max-w-full min-w-0 items-center justify-between gap-1.5 border-2 py-2 pr-2 pl-2.5 text-sm font-bold tracking-wider whitespace-nowrap transition-colors outline-none select-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-8 data-[size=sm]:h-7 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:min-w-0 *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        styles.trigger,
+        'flex w-full max-w-full min-w-0 items-center justify-between *:data-[slot=select-value]:min-w-0',
         className
       )}
       {...toSelectTriggerProps(props)}
     >
       {children}
       <SelectPrimitive.Icon
-        render={<ChevronDownIcon className="text-muted-foreground pointer-events-none size-4" />}
+        render={
+          <SelectChevron
+            className={cn(
+              styles.chevron,
+              'pointer-events-none size-4 shrink-0 transition-transform duration-200 ease-out data-open:rotate-180 data-[popup-open]:rotate-180 data-[state=open]:rotate-180'
+            )}
+          />
+        }
       />
     </SelectPrimitive.Trigger>
   )
@@ -214,7 +276,8 @@ function SelectContent({
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
           className={cn(
-            'field-cut-popup border-foreground bg-popover text-popover-foreground shadow-soft-splat-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative isolate z-[var(--z-floating)] max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto border-2 data-[align-trigger=true]:animate-none',
+            styles.content,
+            'data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 isolate z-[var(--z-floating)] origin-(--transform-origin) data-[align-trigger=true]:animate-none',
             className
           )}
           {...props}
@@ -237,10 +300,7 @@ function SelectLabel({ className, ...props }: SelectLabelProps) {
   return (
     <SelectPrimitive.GroupLabel
       data-slot="select-label"
-      className={cn(
-        'text-muted-foreground px-1.5 py-1 text-xs font-black tracking-widest',
-        className
-      )}
+      className={cn(styles.label, 'px-1.5 py-1 text-xs font-black tracking-widest', className)}
       {...props}
     />
   )
@@ -269,7 +329,8 @@ function SelectItem<Value = string>({ className, children, ...props }: SelectIte
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground relative flex w-full cursor-default items-center gap-1.5 py-1 pr-10 pl-1.5 text-sm font-bold tracking-wider outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        styles.item,
+        'relative flex w-full cursor-pointer items-center gap-1.5 outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50',
         className
       )}
       {...props}
@@ -279,7 +340,7 @@ function SelectItem<Value = string>({ className, children, ...props }: SelectIte
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
         render={
-          <span className="pointer-events-none absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2 items-center justify-center" />
+          <span className="pointer-events-none absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2 items-center justify-center text-current" />
         }
       >
         <Splat10 className="pointer-events-none size-full" viewBox="20 20 280 280" />
@@ -301,7 +362,7 @@ function SelectSeparator({ className, ...props }: SelectSeparatorProps) {
   return (
     <SelectPrimitive.Separator
       data-slot="select-separator"
-      className={cn('bg-foreground/20 pointer-events-none -mx-1 my-1 h-0.5', className)}
+      className={cn(styles.separator, 'pointer-events-none -mx-1 my-1 h-0.5', className)}
       {...props}
     />
   )
@@ -330,12 +391,13 @@ function SelectScrollUpButton({ className, ...props }: SelectScrollUpButtonProps
     <SelectPrimitive.ScrollUpArrow
       data-slot="select-scroll-up-button"
       className={cn(
-        "bg-popover top-0 z-10 flex w-full cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4",
+        styles.scrollButton,
+        "top-0 z-10 flex w-full cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
     >
-      <ChevronUpIcon />
+      <SelectChevron direction="up" />
     </SelectPrimitive.ScrollUpArrow>
   )
 }
@@ -345,18 +407,20 @@ function SelectScrollDownButton({ className, ...props }: SelectScrollDownButtonP
     <SelectPrimitive.ScrollDownArrow
       data-slot="select-scroll-down-button"
       className={cn(
-        "bg-popover bottom-0 z-10 flex w-full cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4",
+        styles.scrollButton,
+        "bottom-0 z-10 flex w-full cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
     >
-      <ChevronDownIcon />
+      <SelectChevron direction="down" />
     </SelectPrimitive.ScrollDownArrow>
   )
 }
 
 export {
   Select,
+  SelectChevron,
   SelectContent,
   SelectGroup,
   SelectItem,

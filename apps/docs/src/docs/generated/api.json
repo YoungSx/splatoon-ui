@@ -3553,6 +3553,42 @@
           ]
         },
         {
+          "name": "SelectChevron",
+          "kind": "function",
+          "type": "function SelectChevron(",
+          "description": "",
+          "props": [
+            {
+              "name": "direction",
+              "optional": true,
+              "type": "SelectChevronDirection",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectChevronDirection",
+          "kind": "type",
+          "type": "export type SelectChevronDirection = 'down' | 'up' | 'left' | 'right'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectChevronProps",
+          "kind": "interface",
+          "type": "export interface SelectChevronProps extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'ref' >",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SelectContent",
           "kind": "function",
           "type": "function SelectContent(",
@@ -3634,6 +3670,13 @@
           "name": "SelectCurrentValue",
           "kind": "type",
           "type": "export type SelectCurrentValue< Value, Multiple extends boolean | undefined = false, > = SelectValueType<Value, Multiple> | null",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SelectFocusColor",
+          "kind": "type",
+          "type": "export type SelectFocusColor = 'yellow' | 'blue' | 'purple' | 'pink' | 'green' | 'orange'",
           "description": "",
           "props": []
         },
@@ -3884,6 +3927,13 @@
               "name": "size",
               "optional": true,
               "type": "'sm' | 'default'",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "focusColor",
+              "optional": true,
+              "type": "SelectFocusColor",
               "defaultValue": "",
               "description": ""
             },

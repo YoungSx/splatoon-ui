@@ -1,0 +1,215 @@
+.trigger {
+  appearance: none;
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-radius: 7px 11px 8px 12px;
+  background-color: var(--desert-sand, #f4eee0);
+  color: var(--color-chaos-black, #0d0d0d);
+  border: 2.5px solid var(--color-chaos-black, #0d0d0d);
+  box-shadow: 2.5px 2.5px 0px var(--color-chaos-black, #0d0d0d);
+  padding: 0.5rem 0.875rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  outline: none;
+  user-select: none;
+  cursor: pointer;
+  transition:
+    transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.trigger[data-size='sm'] {
+  height: 2.25rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.85rem;
+}
+
+.trigger[data-placeholder],
+.trigger :global([data-slot='select-value'][data-placeholder]) {
+  color: #8c857b;
+  font-weight: 500;
+}
+
+.trigger:disabled,
+.trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Authentic Splatoon 3 Lobby Terminal focus/open state with tactile displacement & solid shadow */
+.trigger:focus,
+.trigger:focus-visible,
+.trigger[data-popup-open],
+.trigger[data-open],
+.trigger[data-state='open'] {
+  outline: none;
+  border-color: var(--color-chaos-black, #0d0d0d);
+  box-shadow:
+    0 0 0 3px var(--input-focus-color, var(--color-yellow, #eaff3d)),
+    3px 3px 0px var(--color-chaos-black, #0d0d0d);
+  transform: translate(-1px, -1px);
+}
+
+.trigger[aria-invalid='true'] {
+  border-color: var(--color-red, #ff585e);
+  animation: splat-shake 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.trigger[aria-invalid='true']:focus,
+.trigger[aria-invalid='true'][data-popup-open],
+.trigger[aria-invalid='true'][data-open] {
+  box-shadow:
+    0 0 0 3px var(--color-red, #ff585e),
+    3px 3px 0px var(--color-chaos-black, #0d0d0d);
+  transform: translate(-1px, -1px);
+}
+
+/* Native Splatoon chevron indicator */
+.chevron {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  pointer-events: none;
+  color: var(--color-chaos-black, #0d0d0d);
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: center;
+}
+
+.trigger[data-popup-open] .chevron,
+.trigger[data-open] .chevron,
+.trigger[data-state='open'] .chevron,
+.chevron[data-popup-open],
+.chevron[data-open],
+.chevron[data-state='open'] {
+  transform: rotate(180deg);
+}
+
+/* Popup content */
+.content {
+  position: relative;
+  border-radius: 8px 11px 9px 13px;
+  background-color: var(--desert-sand, #f4eee0);
+  color: var(--color-chaos-black, #0d0d0d);
+  border: 3px solid var(--color-chaos-black, #0d0d0d);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+  padding: 0.375rem;
+  outline: none;
+  min-width: 9rem;
+  max-height: var(--available-height);
+  width: var(--anchor-width);
+  overflow-x: hidden;
+  overflow-y: auto;
+  transform-origin: var(--transform-origin);
+}
+
+/* Items */
+.item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 5px 8px 6px 7px;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-chaos-black, #0d0d0d);
+  background-color: transparent;
+  outline: none;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease,
+    transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.item:hover,
+.item[data-highlighted] {
+  background-color: var(--color-yellow, #eaff3d);
+  color: var(--color-chaos-black, #0d0d0d);
+  transform: translateX(2px);
+}
+
+.item[data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.label {
+  padding: 0.375rem 0.75rem 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #7a7368;
+}
+
+.separator {
+  height: 2px;
+  margin: 0.25rem -0.25rem;
+  background-color: rgba(13, 13, 13, 0.15);
+  pointer-events: none;
+}
+
+.scrollButton {
+  display: flex;
+  width: 100%;
+  cursor: default;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0;
+  color: var(--color-chaos-black, #0d0d0d);
+  background-color: var(--desert-sand, #f4eee0);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.scrollButton:hover {
+  background-color: var(--color-yellow, #eaff3d);
+}
+
+@keyframes splat-shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0) rotate(-0.5deg);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0) rotate(0.5deg);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-3px, 0, 0) rotate(-1deg);
+  }
+  40%,
+  60% {
+    transform: translate3d(3px, 0, 0) rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trigger[aria-invalid='true'] {
+    animation: none;
+  }
+  .trigger,
+  .chevron,
+  .item {
+    transition: none;
+  }
+}
