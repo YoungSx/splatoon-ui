@@ -206,6 +206,7 @@ function ControlField({
       ) : null}
       {control.type === 'boolean' ? (
         <input
+          suppressHydrationWarning
           type="checkbox"
           className="size-5 accent-black"
           checked={Boolean(value)}
@@ -214,6 +215,7 @@ function ControlField({
       ) : null}
       {control.type === 'text' ? (
         <input
+          suppressHydrationWarning
           className="border-chaos-black w-full min-w-0 border-2 bg-white px-3 py-2 font-mono text-sm"
           value={String(value ?? control.defaultValue)}
           onChange={(event) => onChange(event.target.value)}
@@ -221,6 +223,7 @@ function ControlField({
       ) : null}
       {control.type === 'number' ? (
         <input
+          suppressHydrationWarning
           type="range"
           className="w-full min-w-0"
           min={control.min}

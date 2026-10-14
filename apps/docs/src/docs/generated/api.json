@@ -3119,6 +3119,260 @@
           "type": "export type ProgressVariant = | 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red' | 'black' | 'white'",
           "description": "",
           "props": []
+        },
+        {
+          "name": "TricolorProgress",
+          "kind": "function",
+          "type": "function TricolorProgress(",
+          "description": "",
+          "props": [
+            {
+              "name": "attacker1Value",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defenderValue",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "attacker2Value",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "attacker1Label",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defenderLabel",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "attacker2Label",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "attacker1Variant",
+              "optional": true,
+              "type": "ProgressVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defenderVariant",
+              "optional": true,
+              "type": "ProgressVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "attacker2Variant",
+              "optional": true,
+              "type": "ProgressVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "attacker1Color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "defenderColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "attacker2Color",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "ProgressSize",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "skewed",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showPercentages",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showLabels",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TricolorProgressProps",
+          "kind": "interface",
+          "type": "export interface TricolorProgressProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "TurfWarProgress",
+          "kind": "function",
+          "type": "function TurfWarProgress(",
+          "description": "",
+          "props": [
+            {
+              "name": "alphaValue",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "bravoValue",
+              "optional": true,
+              "type": "number",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alphaLabel",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "bravoLabel",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alphaVariant",
+              "optional": true,
+              "type": "ProgressVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "bravoVariant",
+              "optional": true,
+              "type": "ProgressVariant",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "alphaColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "bravoColor",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "ProgressSize",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "skewed",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "splattered",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showPercentages",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showLabels",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "showDanger",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<HTMLDivElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "TurfWarProgressProps",
+          "kind": "interface",
+          "type": "export interface TurfWarProgressProps extends Omit< React.HTMLAttributes<HTMLDivElement>, 'children' >",
+          "description": "",
+          "props": []
         }
       ]
     },
