@@ -1,16 +1,37 @@
 export const metadata = {
   title: 'Input',
-  description: 'Text field primitive for compact forms and control panels.',
+  description: 'Production-ready text field blending Splatoon street graffiti and in-game lobby terminal aesthetics.',
   category: 'forms',
   example: 'input',
 }
 
 ## Usage
 
-Use Input with Label for named text fields. Keep validation and helper text near the field so repeated form workflows stay scannable.
+`Input` is built for web forms and game UI interactions, faithfully capturing the authentic physical card styling of the *Splatoon 3* Lobby Terminal. It includes prefix/suffix icon slots, one-click clear, password reveal, and invalid shake feedback.
 
-## Design Notes
+```tsx
+import { Input } from 'splatoon-ui/input'
+import { Search } from 'lucide-react'
 
-- Always pair inputs with labels.
-- Reserve placeholder text for examples, not field names.
-- Keep field width tied to the expected input length.
+<Input
+  variant="field-cut"
+  size="default"
+  focusColor="yellow"
+  prefixIcon={<Search />}
+  clearable
+  placeholder="Enter pool keyword..."
+/>
+```
+
+## Design Style (Official Reference)
+
+- **`field-cut` (Default)**: 4-corner asymmetric organic cut (`7px 11px 8px 12px`), faithfully matching the *Splatoon 3* Lobby Terminal Pool Keyword input screen. Includes a 2.5px border, tactile controller focus displacement (`translate(-1px, -1px)`), and a solid black shadow.
+
+> Note: The 4-digit Private Battle passcode uses segmented physical slots and is tracked separately as a dedicated `PinInput` component.
+
+## Features
+
+- **Ink Focus Rings (`focusColor`)**: Supports `yellow`, `blue`, `green`, `purple`, `orange`, and `red` solid ink halos.
+- **One-Click Clear (`clearable`)**: Blob clear button appears when text is entered, supporting both controlled and uncontrolled usage.
+- **Password Toggle (`showPasswordToggle`)**: Automatically enables an eye toggle button for `type="password"`.
+- **Validation Feedback (`invalid` & `errorMessage`)**: Triggers an authentic mechanical `splat-shake` tremor and an alert red error indicator.

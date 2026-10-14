@@ -2586,7 +2586,7 @@
       "importPath": "splatoon-ui/input",
       "primaryExport": "Input",
       "sourcePath": "src/components/ui/input.tsx",
-      "boundary": "server",
+      "boundary": "client",
       "exports": [
         {
           "name": "Input",
@@ -2600,13 +2600,118 @@
               "type": "React.Ref<HTMLInputElement>",
               "defaultValue": "",
               "description": ""
+            },
+            {
+              "name": "variant",
+              "optional": true,
+              "type": "InputVariant",
+              "defaultValue": "",
+              "description": "Visual variant style. Defaults to 'field-cut' matching Splatoon 3 Lobby Terminal."
+            },
+            {
+              "name": "size",
+              "optional": true,
+              "type": "InputSize",
+              "defaultValue": "",
+              "description": "Sizing tier. Defaults to 'default'."
+            },
+            {
+              "name": "focusColor",
+              "optional": true,
+              "type": "InputColor",
+              "defaultValue": "",
+              "description": "Color theme for focus ring & accent highlights. Defaults to 'yellow'."
+            },
+            {
+              "name": "prefixIcon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Left slot for leading icon or label"
+            },
+            {
+              "name": "suffixIcon",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Right slot for trailing icon"
+            },
+            {
+              "name": "clearable",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Whether to show a clear button when input has value. Defaults to false."
+            },
+            {
+              "name": "onClear",
+              "optional": true,
+              "type": "() => void",
+              "defaultValue": "",
+              "description": "Callback fired when clear button is clicked."
+            },
+            {
+              "name": "showPasswordToggle",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "For type=\"password\", automatically toggle password visibility with eye icon."
+            },
+            {
+              "name": "invalid",
+              "optional": true,
+              "type": "boolean",
+              "defaultValue": "",
+              "description": "Whether the field is in an invalid/error state."
+            },
+            {
+              "name": "errorMessage",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Error message displayed below input in an ink alert label."
+            },
+            {
+              "name": "helperText",
+              "optional": true,
+              "type": "React.ReactNode",
+              "defaultValue": "",
+              "description": "Helper text displayed below input."
+            },
+            {
+              "name": "containerClassName",
+              "optional": true,
+              "type": "string",
+              "defaultValue": "",
+              "description": "Container wrapper className if wrapper exists"
             }
           ]
         },
         {
+          "name": "InputColor",
+          "kind": "type",
+          "type": "export type InputColor = 'yellow' | 'blue' | 'green' | 'purple' | 'orange' | 'red'",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "InputProps",
           "kind": "interface",
-          "type": "export interface InputProps extends Omit<React.ComponentProps<'input'>, 'children' | 'ref'>",
+          "type": "export interface InputProps extends Omit<React.ComponentProps<'input'>, 'size' | 'ref'>",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "InputSize",
+          "kind": "type",
+          "type": "export type InputSize = 'sm' | 'default' | 'lg'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "InputVariant",
+          "kind": "type",
+          "type": "export type InputVariant = 'field-cut'",
           "description": "",
           "props": []
         }

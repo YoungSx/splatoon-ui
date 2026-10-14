@@ -1,16 +1,37 @@
 export const metadata = {
   title: 'Input',
-  description: 'コンパクトなフォームと操作パネルのためのテキストフィールド primitive です。',
+  description: 'スプラトゥーンのストリートグラフィティとゲーム内ロビーターミナルを融合させたプロダクション対応テキスト入力フィールド。',
   category: 'forms',
   example: 'input',
 }
 
 ## 使い方
 
-Input は Label と一緒に使います。検証や補助文はフィールドの近くに置き、反復するフォーム作業を読み取りやすくします。
+`Input` は Web フォームやゲーム UI 向けに設計され、『スプラトゥーン 3』のロビーターミナル（Lobby Terminal）の物理カードスタイルを忠実に再現しています。プレフィックス/サフィックスアイコン、ワンクリッククリア、パスワード表示切り替え、バリデーションエラー時のシェイク演出を備えています。
 
-## デザインメモ
+```tsx
+import { Input } from 'splatoon-ui/input'
+import { Search } from 'lucide-react'
 
-- 入力には必ずラベルを付けます。
-- placeholder は例に使い、フィールド名には使いません。
-- 幅は想定する入力長に合わせます。
+<Input
+  variant="field-cut"
+  size="default"
+  focusColor="yellow"
+  prefixIcon={<Search />}
+  clearable
+  placeholder="合流キーワードを入力..."
+/>
+```
+
+## デザインスタイル（公式実機考証）
+
+- **`field-cut`（デフォルト）**：4 角の非対称カッティング（`7px 11px 8px 12px`）を採用し、『スプラトゥーン 3』ロビーターミナルの合流キーワード（Pool Keyword）入力画面を忠実に再現。2.5px ボーダー、コントローラー選択時の立体押し込み動效（`translate(-1px, -1px)`）、ソリッドシャドウを搭載。
+
+> 注意：プライベートマッチ（Private Battle）の 4 桁パスコード入力は独立したスロット構造のため、別コンポーネント `PinInput` として計画されています。
+
+## 主な機能
+
+- **インクフォーカスリング (`focusColor`)**：`yellow`、`blue`、`green`、`purple`、`orange`、`red` のソリッドインク光輪に対応。
+- **ワンクリッククリア (`clearable`)**：文字入力時にインク滴型の削除ボタンが出現し、制御・非制御フォームに対応。
+- **パスワード切り替え (`showPasswordToggle`)**：`type="password"` 時に表示切り替えボタンを自動配置。
+- **エラーフィードバック (`invalid` & `errorMessage`)**：エラー時にメカニカルな `splat-shake` 振動動效とアラート表示を実行。

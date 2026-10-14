@@ -102,6 +102,8 @@
   --color-chaos-black: #0d0d0d;
   --color-black: #0d0d0d;
   --color-white: #ffffff;
+  --color-desert-sand: var(--desert-sand);
+  --color-tape-white: var(--tape-white);
   --color-danger-surface-title: var(--danger-surface-title);
   --color-danger-surface-description: var(--danger-surface-description);
   --color-sidebar-ring: var(--sidebar-ring);
