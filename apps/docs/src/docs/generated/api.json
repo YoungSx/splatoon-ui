@@ -181,6 +181,13 @@
               "description": ""
             },
             {
+              "name": "pin",
+              "optional": true,
+              "type": "BadgePin",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "dot",
               "optional": true,
               "type": "boolean",
@@ -235,6 +242,13 @@
           "name": "BadgeColor",
           "kind": "type",
           "type": "export type BadgeColor = 'yellow' | 'blue' | 'green' | 'red' | 'purple' | 'monochrome'",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "BadgePin",
+          "kind": "type",
+          "type": "export type BadgePin = 'judd' | 'steelhead' | 'cohozuna' | 'big-run' | 'splattershot'",
           "description": "",
           "props": []
         },

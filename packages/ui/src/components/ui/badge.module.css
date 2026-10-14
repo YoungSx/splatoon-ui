@@ -51,30 +51,50 @@
   flex-shrink: 0;
 }
 
-/* Notification Dot */
+/* Official In-Game Alert / Notification Exclamation Bubble */
 .dotBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 9999px;
   flex-shrink: 0;
-  display: inline-block;
   background-color: var(--badge-bg, #ff3800);
+  color: var(--badge-color, #ffffff);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 0 0 1.5px #000000;
+  line-height: 1;
+  user-select: none;
+  transform: rotate(-3deg);
+  transition: transform 0.15s ease-out;
 }
 
 .dotSm {
-  width: 8px;
-  height: 8px;
-  box-shadow: 0 0 0 1.5px #000;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
 }
 
 .dotDefault {
-  width: 11px;
-  height: 11px;
-  box-shadow: 0 0 0 2px #000;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
 }
 
 .dotLg {
-  width: 15px;
-  height: 15px;
-  box-shadow: 0 0 0 2.5px #000;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.dotIcon {
+  width: 65%;
+  height: 65%;
+  display: block;
+  fill: currentColor;
 }
 
 /* Corner Placements when used as an anchor wrapper */
@@ -82,7 +102,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  transform: translate(50%, -50%);
+  transform: translate(50%, -50%) rotate(-3deg);
   z-index: 10;
 }
 
@@ -90,7 +110,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) rotate(-3deg);
   z-index: 10;
 }
 
@@ -98,7 +118,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  transform: translate(50%, 50%);
+  transform: translate(50%, 50%) rotate(-3deg);
   z-index: 10;
 }
 
@@ -106,6 +126,6 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, 50%) rotate(-3deg);
   z-index: 10;
 }
