@@ -1308,7 +1308,7 @@ const checks = [
       !segmentedControlCss.includes(".root[data-color='blue']"),
   },
   {
-    name: 'Select keeps popup height content-driven and selected splat within the item row',
+    name: 'Select keeps popup height content-driven and selected indicator within the item row',
     pass:
       select.includes('alignItemWithTrigger = false') &&
       select.includes('showScrollButtons?: boolean') &&
@@ -1331,8 +1331,8 @@ const checks = [
       /export interface SelectSeparatorProps\s+extends Omit<\s*React\.HTMLAttributes<HTMLDivElement>,\s*'children'\s*>/.test(
         select
       ) &&
-      select.includes('absolute top-1/2 right-1.5 flex size-7 -translate-y-1/2') &&
-      select.includes('viewBox="20 20 280 280"') &&
+      select.includes('absolute top-1/2 right-2 flex size-5.5 -translate-y-1/2') &&
+      select.includes('viewBox="31.6 31.6 438.42 438.42"') &&
       select.includes('onOpenChange?: (open: boolean, eventDetails: PrimitiveChangeDetails)') &&
       !select.includes('{...(props as SelectPrimitive') &&
       !select.includes('PrimitiveOpenChangeDetails'),

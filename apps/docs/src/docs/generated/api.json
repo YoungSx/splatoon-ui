@@ -3488,6 +3488,13 @@
               "description": ""
             },
             {
+              "name": "focusColor",
+              "optional": true,
+              "type": "SelectFocusColor",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
               "name": "onOpenChange",
               "optional": true,
               "type": "(open: boolean, eventDetails: PrimitiveChangeDetails) => void",
@@ -3640,6 +3647,13 @@
               "name": "showScrollButtons",
               "optional": true,
               "type": "boolean",
+              "defaultValue": "",
+              "description": ""
+            },
+            {
+              "name": "focusColor",
+              "optional": true,
+              "type": "SelectFocusColor",
               "defaultValue": "",
               "description": ""
             },
@@ -3816,13 +3830,6 @@
           "description": "",
           "props": [
             {
-              "name": "keepMounted",
-              "optional": true,
-              "type": "boolean",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
               "name": "render",
               "optional": true,
               "type": "PrimitiveRender<HTMLDivElement>",
@@ -3851,13 +3858,6 @@
           "type": "function SelectScrollUpButton(",
           "description": "",
           "props": [
-            {
-              "name": "keepMounted",
-              "optional": true,
-              "type": "boolean",
-              "defaultValue": "",
-              "description": ""
-            },
             {
               "name": "render",
               "optional": true,
@@ -3888,13 +3888,6 @@
           "description": "",
           "props": [
             {
-              "name": "orientation",
-              "optional": true,
-              "type": "'horizontal' | 'vertical'",
-              "defaultValue": "",
-              "description": ""
-            },
-            {
               "name": "render",
               "optional": true,
               "type": "PrimitiveRender<HTMLDivElement>",
@@ -3918,9 +3911,31 @@
           "props": []
         },
         {
+          "name": "SelectSquidIndicator",
+          "kind": "function",
+          "type": "function SelectSquidIndicator(",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SelectSquidIndicatorProps",
+          "kind": "interface",
+          "type": "export interface SelectSquidIndicatorProps extends Omit< React.SVGProps<SVGSVGElement>, 'children' | 'ref' >",
+          "description": "",
+          "props": []
+        },
+        {
           "name": "SelectTrigger",
           "kind": "function",
-          "type": "function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>(",
+          "type": "function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>( props: SelectTriggerProps<Value, Multiple> )",
           "description": "",
           "props": [
             {
@@ -4007,6 +4022,28 @@
           "name": "SelectValueType",
           "kind": "type",
           "type": "export type SelectValueType< Value, Multiple extends boolean | undefined = false, > = Multiple extends true ? Value[] : Value",
+          "description": "",
+          "props": []
+        },
+        {
+          "name": "SquidArrow",
+          "kind": "const",
+          "type": "const SquidArrow = SelectSquidIndicator",
+          "description": "",
+          "props": [
+            {
+              "name": "ref",
+              "optional": true,
+              "type": "React.Ref<SVGSVGElement>",
+              "defaultValue": "",
+              "description": ""
+            }
+          ]
+        },
+        {
+          "name": "SquidArrowProps",
+          "kind": "type",
+          "type": "export type SquidArrowProps = SelectSquidIndicatorProps",
           "description": "",
           "props": []
         }
