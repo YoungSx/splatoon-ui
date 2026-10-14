@@ -237,7 +237,7 @@ function Input({
         {hasPrefix && (
           <span
             className={cn(
-              'pointer-events-none absolute top-1/2 -translate-y-1/2 text-muted-foreground flex items-center justify-center z-10 shrink-0 select-none',
+              'text-muted-foreground pointer-events-none absolute top-1/2 z-10 flex shrink-0 -translate-y-1/2 items-center justify-center select-none',
               activeSize.prefix,
               activeSize.iconBox
             )}
@@ -268,7 +268,7 @@ function Input({
             activeSize.input,
             paddingLeftClass,
             paddingRightClass,
-            'placeholder:text-muted-foreground/60 placeholder:font-normal placeholder:tracking-normal font-medium transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
+            'placeholder:text-muted-foreground/60 font-medium transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:font-normal placeholder:tracking-normal disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
             activeSize.placeholderSize,
             invalid && styles.invalid,
             className
@@ -285,7 +285,7 @@ function Input({
         {suffixItemCount > 0 && (
           <div
             className={cn(
-              'absolute top-1/2 -translate-y-1/2 flex items-center gap-1.5 z-10 shrink-0 select-none',
+              'absolute top-1/2 z-10 flex shrink-0 -translate-y-1/2 items-center gap-1.5 select-none',
               activeSize.suffix
             )}
           >
@@ -307,18 +307,14 @@ function Input({
                 aria-label={passwordVisible ? 'Hide password' : 'Show password'}
                 className={cn(styles.togglePasswordButton, activeSize.iconBox)}
               >
-                {passwordVisible ? (
-                  <EyeOff className="size-full" />
-                ) : (
-                  <Eye className="size-full" />
-                )}
+                {passwordVisible ? <EyeOff className="size-full" /> : <Eye className="size-full" />}
               </button>
             )}
 
             {suffixIcon && (
               <span
                 className={cn(
-                  'text-muted-foreground flex items-center justify-center shrink-0',
+                  'text-muted-foreground flex shrink-0 items-center justify-center',
                   activeSize.iconBox
                 )}
               >
@@ -333,15 +329,15 @@ function Input({
         <div
           id={errorId}
           role="alert"
-          className="mt-1.5 flex items-center gap-1.5 text-xs font-bold text-red animate-in fade-in slide-in-from-top-1"
+          className="text-red animate-in fade-in slide-in-from-top-1 mt-1.5 flex items-center gap-1.5 text-xs font-bold"
         >
-          <span className="inline-block size-1.5 rounded-full bg-red shrink-0" aria-hidden="true" />
+          <span className="bg-red inline-block size-1.5 shrink-0 rounded-full" aria-hidden="true" />
           <span>{errorMessage}</span>
         </div>
       )}
 
       {!invalid && helperText && (
-        <p id={helperId} className="mt-1 text-xs font-medium text-muted-foreground">
+        <p id={helperId} className="text-muted-foreground mt-1 text-xs font-medium">
           {helperText}
         </p>
       )}

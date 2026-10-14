@@ -6,7 +6,8 @@
 .inputField {
   width: 100%;
   min-width: 0;
-  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+  transition:
+    transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
     box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
     border-color 0.15s ease,
     background-color 0.15s ease;
@@ -17,19 +18,23 @@
 .inputField:focus,
 .inputField:focus-visible {
   outline: none;
-  border-color: var(--color-chaos-black, #0D0D0D);
-  box-shadow: 0 0 0 3px var(--input-focus-color, var(--color-yellow, #EAFF3D)), 3px 3px 0px var(--color-chaos-black, #0D0D0D);
+  border-color: var(--color-chaos-black, #0d0d0d);
+  box-shadow:
+    0 0 0 3px var(--input-focus-color, var(--color-yellow, #eaff3d)),
+    3px 3px 0px var(--color-chaos-black, #0d0d0d);
   transform: translate(-1px, -1px);
 }
 
 .invalid {
-  border-color: var(--color-red, #FF585E) !important;
+  border-color: var(--color-red, #ff585e) !important;
   animation: splat-shake 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 .invalid:focus,
 .invalid:focus-visible {
-  box-shadow: 0 0 0 3px var(--color-red, #FF585E), 3px 3px 0px var(--color-chaos-black, #0D0D0D) !important;
+  box-shadow:
+    0 0 0 3px var(--color-red, #ff585e),
+    3px 3px 0px var(--color-chaos-black, #0d0d0d) !important;
   transform: translate(-1px, -1px) !important;
 }
 
@@ -38,16 +43,18 @@
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: var(--color-chaos-black, #0D0D0D);
-  color: #FFFFFF;
+  background-color: var(--color-chaos-black, #0d0d0d);
+  color: #ffffff;
   cursor: pointer;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
   border: none;
   padding: 0;
 }
 
 .clearBlobButton:hover {
-  background-color: var(--color-red, #FF585E);
+  background-color: var(--color-red, #ff585e);
   transform: scale(1.1) rotate(-8deg);
 }
 
@@ -64,7 +71,9 @@
   color: inherit;
   opacity: 0.65;
   cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
   padding: 2px;
 }
 
@@ -78,16 +87,21 @@
 }
 
 @keyframes splat-shake {
-  10%, 90% {
+  10%,
+  90% {
     transform: translate3d(-1px, 0, 0) rotate(-0.5deg);
   }
-  20%, 80% {
+  20%,
+  80% {
     transform: translate3d(2px, 0, 0) rotate(0.5deg);
   }
-  30%, 50%, 70% {
+  30%,
+  50%,
+  70% {
     transform: translate3d(-3px, 0, 0) rotate(-1deg);
   }
-  40%, 60% {
+  40%,
+  60% {
     transform: translate3d(3px, 0, 0) rotate(1deg);
   }
 }

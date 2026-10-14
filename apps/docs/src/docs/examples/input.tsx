@@ -31,10 +31,12 @@ export function InputExample({
   showPasswordToggle,
 }: InputExampleProps) {
   const [value, setValue] = React.useState(initialValue)
+  const [prevInitialValue, setPrevInitialValue] = React.useState(initialValue)
 
-  React.useEffect(() => {
+  if (initialValue !== prevInitialValue) {
+    setPrevInitialValue(initialValue)
     setValue(initialValue)
-  }, [initialValue])
+  }
 
   return (
     <div className="grid w-full max-w-sm gap-2">
@@ -47,13 +49,15 @@ export function InputExample({
         size={size as InputSize}
         focusColor={focusColor as InputColor}
         prefixIcon={withPrefix ? <Search className="size-full" /> : undefined}
-        suffixIcon={withSuffix ? <Sparkles className="size-full text-chaos-yellow" /> : undefined}
+        suffixIcon={withSuffix ? <Sparkles className="text-chaos-yellow size-full" /> : undefined}
         clearable={clearable}
         showPasswordToggle={showPasswordToggle}
         type={showPasswordToggle ? 'password' : 'text'}
         invalid={invalid}
         errorMessage={invalid ? 'Invalid keyword: special characters are not allowed!' : undefined}
-        helperText={!invalid ? 'Supports Japanese, English, and alphanumeric characters.' : undefined}
+        helperText={
+          !invalid ? 'Supports Japanese, English, and alphanumeric characters.' : undefined
+        }
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={showPasswordToggle ? 'Enter 4-digit code' : 'Enter search term...'}
@@ -66,7 +70,8 @@ export function InputExample({
 export const inputExample: DocsExampleDefinitionInput<InputExampleProps> = {
   id: 'input',
   title: 'Input',
-  description: 'Production-ready text field with authentic Splatoon 3 Lobby Terminal field-cut styling.',
+  description:
+    'Production-ready text field with authentic Splatoon 3 Lobby Terminal field-cut styling.',
   controls: [
     {
       type: 'select',
