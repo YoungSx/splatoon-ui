@@ -26,6 +26,7 @@
     "dist",
     "!dist/internal-styles.css",
     "public/_images/backgrounds",
+    "public/_images/badges",
     "public/_images/banners",
     "public/_images/characters",
     "public/_images/events",

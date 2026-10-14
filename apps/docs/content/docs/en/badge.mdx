@@ -1,16 +1,21 @@
 export const metadata = {
   title: 'Badge',
-  description: 'Torn-paper label for status, tags, and compact metadata.',
+  description:
+    'Versatile badge component for status labels, official Splashtag achievement pins, and notification alert indicators.',
   category: 'data-display',
   example: 'badge',
 }
 
 ## Usage
 
-Use Badge for short status labels and category markers. It is intentionally compact, so it works inside cards, toolbars, and dense docs tables.
+`Badge` delivers authentic in-game visual archetypes from Splatoon 3:
+
+- **Torn-paper Badge (default)**: Classic jagged torn-edge paper look supporting 6 vibrant ink color tokens (yellow, blue, green, red, purple, monochrome) for short labels and category markers.
+- **Pin / Splashtag Achievement Badges**: High-fidelity reproduction of in-game Splashtag metal relief pins (1:1 aspect ratio with transparent backgrounds and authentic gold, silver, and bronze metallic rims & specular gloss), supporting official datamined icons or custom graphics.
+- **Notification Dot**: Faithful recreation of in-game lobby and SplatNet 3 alert indicators featuring saturated ink-red notification dots, supporting automated corner placement when wrapping trigger elements.
 
 ## Design Notes
 
-- Keep badge copy to one or two words.
-- Use color to group information, not to encode the only meaning.
-- Pair badges with visible text when the status is important.
+- **Concise Copy**: Keep text labels to one or two words to preserve the punchy Splatoon street aesthetic.
+- **Splashtag Pins**: Achievement pins use 1:1 square dimensions with transparent backgrounds, metallic bevels, and glare highlights matching official Nintendo game assets.
+- **Corner Anchoring**: When using `dot` prop around child elements, the badge anchors automatically to the top-right corner by default (`placement="top-right"`).
