@@ -1,16 +1,37 @@
 export const metadata = {
   title: 'Input',
-  description: '用于紧凑表单和控制面板的文本字段 primitive。',
+  description: '融合 Splatoon 街头涂鸦与游戏内终端风格的生产级文本输入框。',
   category: 'forms',
   example: 'input',
 }
 
 ## 用法
 
-Input 应与 Label 搭配使用。校验和辅助说明应靠近字段，方便重复表单流程快速扫描。
+`Input` 针对前端表单与游戏交互场景进行了全面升级，严谨复刻《Splatoon 3》大厅终端（Lobby Terminal）的实体卡片风格，内置前后缀插槽、一键清空、密码显隐切换及错误状态提示。
 
-## 设计备注
+```tsx
+import { Input } from 'splatoon-ui/input'
+import { Search } from 'lucide-react'
 
-- 输入框必须搭配标签。
-- placeholder 用于示例，不用于字段名。
-- 字段宽度应匹配预期输入长度。
+<Input
+  variant="field-cut"
+  size="default"
+  focusColor="yellow"
+  prefixIcon={<Search />}
+  clearable
+  placeholder="输入组队关键词..."
+/>
+```
+
+## 设计风格（官方实机考据）
+
+- **`field-cut`（默认形态）**：四角非对称有机切割（`7px 11px 8px 12px`），严格还原《Splatoon 3》大厅终端关键词输入（Pool Keyword）界面。包含 2.5px 墨黑边框、手柄聚焦弹跳动效（`translate(-1px, -1px)`）及实体黑色落影。
+
+> 提示：私人对战（Private Match）的 4 位房间密码锁属于分体式插槽形态，已规划为独立的 `PinInput` 组件实现。
+
+## 核心特性
+
+- **聚焦高亮态 (`focusColor`)**：支持 `yellow`、`blue`、`green`、`purple`、`orange`、`red` 实体墨水光晕。
+- **一键清空 (`clearable`)**：输入框有内容时浮现墨水圆滴清除按钮，兼容受控与非受控表单。
+- **密码切换 (`showPasswordToggle`)**：在 `type="password"` 时自动挂载眨眼显隐开关。
+- **校验反馈 (`invalid` & `errorMessage`)**：错误时触发 `splat-shake` 机械震颤动效并展示高亮警报红标签。

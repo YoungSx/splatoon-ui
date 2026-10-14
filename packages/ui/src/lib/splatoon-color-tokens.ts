@@ -10,6 +10,8 @@ export type SplatoonColorToken =
   | 'black'
   | 'trueBlack'
   | 'salmonRunGreen'
+  | 'desertSand'
+  | 'tapeWhite'
 
 export const splatoonColorVars = {
   yellow: 'var(--color-yellow)',
@@ -23,6 +25,8 @@ export const splatoonColorVars = {
   black: 'var(--color-black)',
   trueBlack: 'var(--color-true-black)',
   salmonRunGreen: 'var(--color-salmon-run-green)',
+  desertSand: 'var(--desert-sand)',
+  tapeWhite: 'var(--tape-white)',
 } as const satisfies Record<SplatoonColorToken, string>
 
 export type SplatoonColorValue = SplatoonColorToken | (string & {})

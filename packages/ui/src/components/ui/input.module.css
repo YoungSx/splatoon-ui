@@ -1,0 +1,104 @@
+.inputRoot {
+  position: relative;
+  width: 100%;
+}
+
+.inputField {
+  width: 100%;
+  min-width: 0;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.15s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+  outline: none;
+}
+
+/* Authentic Splatoon 3 Lobby Terminal focus state with tactile press & solid shadow */
+.inputField:focus,
+.inputField:focus-visible {
+  outline: none;
+  border-color: var(--color-chaos-black, #0D0D0D);
+  box-shadow: 0 0 0 3px var(--input-focus-color, var(--color-yellow, #EAFF3D)), 3px 3px 0px var(--color-chaos-black, #0D0D0D);
+  transform: translate(-1px, -1px);
+}
+
+.invalid {
+  border-color: var(--color-red, #FF585E) !important;
+  animation: splat-shake 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.invalid:focus,
+.invalid:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-red, #FF585E), 3px 3px 0px var(--color-chaos-black, #0D0D0D) !important;
+  transform: translate(-1px, -1px) !important;
+}
+
+.clearBlobButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: var(--color-chaos-black, #0D0D0D);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+  border: none;
+  padding: 0;
+}
+
+.clearBlobButton:hover {
+  background-color: var(--color-red, #FF585E);
+  transform: scale(1.1) rotate(-8deg);
+}
+
+.clearBlobButton:active {
+  transform: scale(0.92) rotate(4deg);
+}
+
+.togglePasswordButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: inherit;
+  opacity: 0.65;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  padding: 2px;
+}
+
+.togglePasswordButton:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.togglePasswordButton:active {
+  transform: scale(0.95);
+}
+
+@keyframes splat-shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0) rotate(-0.5deg);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0) rotate(0.5deg);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-3px, 0, 0) rotate(-1deg);
+  }
+  40%, 60% {
+    transform: translate3d(3px, 0, 0) rotate(1deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .invalid {
+    animation: none;
+  }
+  .inputField,
+  .clearBlobButton,
+  .togglePasswordButton {
+    transition: none;
+  }
+}
