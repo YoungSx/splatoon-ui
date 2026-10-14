@@ -1,19 +1,19 @@
 export const metadata = {
   title: 'Input',
-  description: 'Production-ready text field blending Splatoon street graffiti and in-game lobby terminal aesthetics.',
+  description:
+    'Production-ready text field blending Splatoon street graffiti and in-game lobby terminal aesthetics.',
   category: 'forms',
   example: 'input',
 }
 
 ## Usage
 
-`Input` is built for web forms and game UI interactions, faithfully capturing the authentic physical card styling of the *Splatoon 3* Lobby Terminal. It includes prefix/suffix icon slots, one-click clear, password reveal, and invalid shake feedback.
+`Input` is built for web forms and game UI interactions, faithfully capturing the authentic physical card styling of the _Splatoon 3_ Lobby Terminal. It includes prefix/suffix icon slots, one-click clear, password reveal, and invalid shake feedback.
 
 ```tsx
 import { Input } from 'splatoon-ui/input'
 import { Search } from 'lucide-react'
-
-<Input
+;<Input
   variant="field-cut"
   size="default"
   focusColor="yellow"
@@ -25,7 +25,7 @@ import { Search } from 'lucide-react'
 
 ## Design Style (Official Reference)
 
-- **`field-cut` (Default)**: 4-corner asymmetric organic cut (`7px 11px 8px 12px`), faithfully matching the *Splatoon 3* Lobby Terminal Pool Keyword input screen. Includes a 2.5px border, tactile controller focus displacement (`translate(-1px, -1px)`), and a solid black shadow.
+- **`field-cut` (Default)**: 4-corner asymmetric organic cut (`7px 11px 8px 12px`), faithfully matching the _Splatoon 3_ Lobby Terminal Pool Keyword input screen. Includes a 2.5px border, tactile controller focus displacement (`translate(-1px, -1px)`), and a solid black shadow.
 
 > Note: The 4-digit Private Battle passcode uses segmented physical slots and is tracked separately as a dedicated `PinInput` component.
 
