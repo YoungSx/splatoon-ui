@@ -139,7 +139,10 @@
 
 .item:hover,
 .item[data-highlighted] {
-  background-color: var(--select-focus-color, var(--input-focus-color, var(--color-yellow, #eaff3d)));
+  background-color: var(
+    --select-focus-color,
+    var(--input-focus-color, var(--color-yellow, #eaff3d))
+  );
   color: var(--select-focus-text, var(--color-chaos-black, #0d0d0d));
   transform: translateX(2px);
 }
@@ -180,7 +183,10 @@
 }
 
 .scrollButton:hover {
-  background-color: var(--select-focus-color, var(--input-focus-color, var(--color-yellow, #eaff3d)));
+  background-color: var(
+    --select-focus-color,
+    var(--input-focus-color, var(--color-yellow, #eaff3d))
+  );
   color: var(--select-focus-text, var(--color-chaos-black, #0d0d0d));
 }
 
