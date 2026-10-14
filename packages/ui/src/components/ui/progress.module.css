@@ -23,8 +23,27 @@
   }
 }
 
+/* ── Danger Alert Flash ── */
+
+.dangerFlash {
+  animation: danger-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes danger-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.97);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .stripes {
+  .stripes,
+  .dangerFlash {
     animation: none;
   }
 }

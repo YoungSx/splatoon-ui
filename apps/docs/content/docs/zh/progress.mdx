@@ -1,16 +1,38 @@
 export const metadata = {
   title: 'Progress',
-  description: '带 splatter 填充、尺寸和颜色变体的斜切进度条。',
+  description:
+    '《Splatoon 3》风格进度体系：包含通用单向进度条、占地对战对抗条与三色祭典三方对抗条。',
   category: 'feedback',
   example: 'progress',
 }
 
-## 用法
+## 概述
 
-Progress 用于已知完成度。组件会夹紧数值，并保持视觉填充与 Radix progress 语义一致。
+进度体系（Progress System）100% 对齐《Splatoon 3》官方实机视觉，涵盖经典单向进度条、双阵营对抗进度条以及三色祭典对抗条。
+
+## 组件一览
+
+### 1. Progress（经典单向进度条）
+
+保留标志性的 -12° 动态斜切与墨水飞溅（Splatter），底层完全对齐标准 `role="progressbar"` 语义与 ARIA 规范。
+
+### 2. TurfWarProgress（双阵营对战比分条）
+
+依据《Splatoon 3》对战结算称重与回放图谱设计：
+
+- **双向对抗**：左侧 Team Alpha，右侧 Team Bravo。
+- **实机切角**：-12° 动态斜切，中央配有纯黑 3D 立体分割线。
+- **阵营比分**：两端独立显示阵营标签与百分比数值。
+- **DANGER! 警报**：当任一阵营落后（≤35%）时，自动触发实机风格闪烁危险警报。
+
+### 3. TricolorProgress（三色祭典三方对抗条）
+
+依据《Splatoon 3》三色夺宝祭典实机回放图谱打造：
+
+- **三方比例**：进攻方1（左）、防守方（中）、进攻方2（右）三色动态分布。
+- **立体分割**：各阵营间采用 -12° 斜角纯黑立体边框无缝分割。
 
 ## 设计备注
 
-- 尽量使用确定进度值。
-- 轨道需要能从页面背景中辨认。
-- 完成度重要时搭配标签。
+- **实机色彩对齐**：原生支持 Splatoon 经典对抗色组（Yellow/Purple、Cyan/Orange、Pink/Green 等）。
+- **动效减弱适配**：全面适配 `prefers-reduced-motion`，在系统减弱动效时平滑退避为静态高对比度呈现。

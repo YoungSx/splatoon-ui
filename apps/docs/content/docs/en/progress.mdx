@@ -1,16 +1,38 @@
 export const metadata = {
   title: 'Progress',
-  description: 'Skewed progress meter with splattered fill, sizes, and color variants.',
+  description:
+    'Splatoon 3 style progress indicators including classic single meter, Turf War dual-faction bar, and Tricolor Splatfest meter.',
   category: 'feedback',
   example: 'progress',
 }
 
-## Usage
+## Overview
 
-Use Progress for known completion states. The component clamps values and keeps the visual fill aligned with Radix progress semantics.
+The Progress System provides authentic in-game visual components inspired by _Splatoon 3_, including standard single progress meter, Turf War dual-faction confrontation bar, and Tricolor Splatfest meter.
+
+## Components
+
+### 1. Progress (Classic Meter)
+
+Standard single-fill progress meter featuring the signature -12° skew angle, dynamic ink splatter head, and full accessible `role="progressbar"` compliance.
+
+### 2. TurfWarProgress (Dual-Team Confrontation Bar)
+
+Modeled after the official _Splatoon 3_ Judd weigh-in screen and battle replay graph:
+
+- **Dual-Faction Contest**: Left side represents Team Alpha, right side represents Team Bravo.
+- **-12° Angle & 3D Center Divider**: Classic skew with solid black 3D central seam separating both inks.
+- **Dynamic Team Badges & Percentages**: Displays team badges, formatted values, and central `VS` badge.
+- **DANGER! Alert**: Automatically pulses when either side drops below ≤ 35%.
+
+### 3. TricolorProgress (3-Way Splatfest Bar)
+
+Modeled after the official _Splatoon 3_ Tricolor Turf War replay graph:
+
+- **3-Way Proportional Fill**: Attacker 1, Defender, and Attacker 2 segments.
+- **Angled 3D Dividers**: Clean -12° black dividers between each team.
 
 ## Design Notes
 
-- Use determinate values when possible.
-- Keep the track visible against the page background.
-- Pair progress with a label when completion matters.
+- **In-Game Palettes**: Native support for game color pairs (Yellow/Purple, Cyan/Orange, etc.).
+- **Reduced Motion**: Full support for `prefers-reduced-motion` with graceful static fallbacks.
