@@ -1,0 +1,111 @@
+/* Splashtag Pin Badge styles */
+.pinBadge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  user-select: none;
+  flex-shrink: 0;
+  vertical-align: middle;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.pinSm {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.pinDefault {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.pinLg {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.pinImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  image-rendering: -webkit-optimize-contrast;
+  display: block;
+}
+
+/* Wrapper container for anchored badges */
+.anchorWrapper {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Notification Dot */
+.dotBadge {
+  border-radius: 9999px;
+  flex-shrink: 0;
+  display: inline-block;
+  background-color: var(--badge-bg, #ff3800);
+}
+
+.dotSm {
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 0 1.5px #000;
+}
+
+.dotDefault {
+  width: 11px;
+  height: 11px;
+  box-shadow: 0 0 0 2px #000;
+}
+
+.dotLg {
+  width: 15px;
+  height: 15px;
+  box-shadow: 0 0 0 2.5px #000;
+}
+
+/* Corner Placements when used as an anchor wrapper */
+.placeTopRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  z-index: 10;
+}
+
+.placeTopLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.placeBottomRight {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%);
+  z-index: 10;
+}
+
+.placeBottomLeft {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translate(-50%, 50%);
+  z-index: 10;
+}
