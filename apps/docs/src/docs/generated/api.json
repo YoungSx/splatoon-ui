@@ -3935,7 +3935,7 @@
         {
           "name": "SelectTrigger",
           "kind": "function",
-          "type": "function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>( props: SelectTriggerProps<Value, Multiple> )",
+          "type": "function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>(",
           "description": "",
           "props": [
             {

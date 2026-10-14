@@ -108,10 +108,11 @@ const focusTextColorMap: Record<SelectFocusColor, string> = {
 
 interface SelectContextValue {
   focusColor: SelectFocusColor
-  setFocusColor: (color: SelectFocusColor) => void
 }
 
-const SelectContext = React.createContext<SelectContextValue | null>(null)
+const SelectContext = React.createContext<SelectContextValue>({
+  focusColor: 'yellow',
+})
 
 export type SelectValueType<
   Value,
@@ -169,29 +170,19 @@ export interface SelectProps<Value = string, Multiple extends boolean | undefine
 function toSelectRootProps<Value, Multiple extends boolean | undefined>(
   props: SelectProps<Value, Multiple>
 ): SelectPrimitive.Root.Props<Value, Multiple> {
-  const { focusColor: _focusColor, ...rootProps } = props
+  const { focusColor: omittedFocusColor, ...rootProps } = props
+  void omittedFocusColor
   return rootProps as SelectPrimitive.Root.Props<Value, Multiple>
 }
 
 function Select<Value = string, Multiple extends boolean | undefined = false>(
   props: SelectProps<Value, Multiple>
 ) {
-  const [contextFocusColor, setContextFocusColor] = React.useState<SelectFocusColor>(
-    props.focusColor ?? 'yellow'
-  )
-
-  React.useEffect(() => {
-    if (props.focusColor) {
-      setContextFocusColor(props.focusColor)
-    }
-  }, [props.focusColor])
-
   const contextValue = React.useMemo(
     () => ({
-      focusColor: props.focusColor ?? contextFocusColor,
-      setFocusColor: setContextFocusColor,
+      focusColor: props.focusColor ?? 'yellow',
     }),
-    [props.focusColor, contextFocusColor]
+    [props.focusColor]
   )
 
   return (
@@ -272,30 +263,21 @@ export interface SelectTriggerProps<
 function toSelectTriggerProps<Value, Multiple extends boolean | undefined>(
   props: SelectTriggerProps<Value, Multiple>
 ): SelectPrimitive.Trigger.Props {
-  const { focusColor: _focusColor, ...triggerProps } = props
+  const { focusColor: omittedFocusColor, ...triggerProps } = props
+  void omittedFocusColor
   return triggerProps as SelectPrimitive.Trigger.Props
 }
 
-function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>(
-  props: SelectTriggerProps<Value, Multiple>
-) {
+function SelectTrigger<Value = string, Multiple extends boolean | undefined = false>({
+  className,
+  size = 'default',
+  focusColor: focusColorProp,
+  style,
+  children,
+  ...props
+}: SelectTriggerProps<Value, Multiple>) {
   const context = React.useContext(SelectContext)
-  const {
-    className,
-    size = 'default',
-    focusColor: focusColorProp,
-    style,
-    children,
-    ...rest
-  } = props
-
-  const focusColor = focusColorProp ?? context?.focusColor ?? 'yellow'
-
-  React.useEffect(() => {
-    if (focusColorProp && context?.setFocusColor) {
-      context.setFocusColor(focusColorProp)
-    }
-  }, [focusColorProp, context])
+  const focusColor = focusColorProp ?? context.focusColor
 
   const focusColorToken = focusColorMap[focusColor] ?? focusColor
   const focusTextColor = focusTextColorMap[focusColor] ?? 'var(--color-chaos-black, #0d0d0d)'
@@ -361,7 +343,7 @@ function SelectContent({
   ...props
 }: SelectContentProps) {
   const context = React.useContext(SelectContext)
-  const focusColor = focusColorProp ?? context?.focusColor ?? 'yellow'
+  const focusColor = focusColorProp ?? context.focusColor
 
   const focusColorToken = focusColorMap[focusColor] ?? focusColor
   const focusTextColor = focusTextColorMap[focusColor] ?? 'var(--color-chaos-black, #0d0d0d)'
