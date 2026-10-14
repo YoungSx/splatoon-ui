@@ -25,7 +25,12 @@ type SelectExampleProps = {
 export function SelectExample({ value, disabled, focusColor, size }: SelectExampleProps) {
   return (
     <div className="w-full max-w-sm">
-      <Select key={`${value}-${focusColor}-${size}`} defaultValue={value} disabled={disabled}>
+      <Select
+        key={`${value}-${focusColor}-${size}`}
+        defaultValue={value}
+        disabled={disabled}
+        focusColor={focusColor}
+      >
         <SelectTrigger aria-label="Battle mode" focusColor={focusColor} size={size}>
           <SelectValue placeholder="Choose battle mode" />
         </SelectTrigger>
@@ -51,7 +56,7 @@ export const selectExample: DocsExampleDefinitionInput<SelectExampleProps> = {
   id: 'select',
   title: 'Select',
   description:
-    'Lobby Terminal authentic select with cut-edge frame, tactile shadow, Splatoon chevron, and ink splat indicators.',
+    'Lobby Terminal authentic select with cut-edge frame, tactile shadow, Splatoon chevron, and squid arrow indicators.',
   controls: [
     {
       type: 'select',
