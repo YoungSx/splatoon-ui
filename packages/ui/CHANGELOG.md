@@ -1,5 +1,15 @@
 # splatoon-ui
 
+## 0.4.0
+
+### Minor Changes
+
+- Upgrade Input, Select, Progress, and Badge components to authentic Splatoon 3 Lobby Terminal and Battle specifications:
+  - **Input**: Upgrade to authentic Splatoon 3 Lobby Terminal field-cut specification, ensuring void primitive ref contract and React Server Component compatibility.
+  - **Badge**: Refine badge system with authentic splashtag pins (Big Run, Cohozuna, Judd, Steelhead, Splattershot) and upgrade dot indicator to exclamation bubble with pin preset selection.
+  - **Progress**: Add Turf War and Tricolor battle meters with authentic team territory gauges, battle ratios, and animations.
+  - **Select**: Upgrade to authentic Lobby Terminal specification, replace Lucide icons with authentic Splatoon glyphs, and add `SelectSquidIndicator` with focus color propagation.
+
 ## 0.3.0
 
 ### Minor Changes
